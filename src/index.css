@@ -1,0 +1,64 @@
+@import "tailwindcss";
+
+:root {
+  --color-bg: #fdfcf9;
+  --color-surface: #ffffff;
+  --color-text: #1f2430;
+  --color-text-muted: #4b5265;
+  --color-border: #d8d4c8;
+  --color-primary: #2f6f4f;
+  --color-primary-hover: #255a40;
+  --color-accent: #c9622a;
+  --color-danger: #b3261e;
+  --color-focus: #1a56db;
+
+  --font-body: "Lexend", "Atkinson Hyperlegible", system-ui, "Segoe UI", Roboto, sans-serif;
+  --font-dyslexic: "Atkinson Hyperlegible", "Lexend", system-ui, sans-serif;
+}
+
+:root[data-theme="high-contrast"] {
+  --color-bg: #000000;
+  --color-surface: #0a0a0a;
+  --color-text: #ffffff;
+  --color-text-muted: #e5e5e5;
+  --color-border: #ffffff;
+  --color-primary: #ffd60a;
+  --color-primary-hover: #ffe14d;
+  --color-accent: #7cf5ff;
+  --color-focus: #7cf5ff;
+}
+
+html {
+  color-scheme: light;
+}
+
+body {
+  margin: 0;
+  min-height: 100svh;
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-body);
+  font-size: 18px;
+  line-height: 1.6;
+  letter-spacing: 0.01em;
+}
+
+body[data-font="dyslexic"] {
+  font-family: var(--font-dyslexic);
+  letter-spacing: 0.03em;
+  word-spacing: 0.08em;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+:focus-visible {
+  outline: 3px solid var(--color-focus);
+  outline-offset: 2px;
+}
+
+button, input, select, textarea {
+  font-family: inherit;
+  font-size: inherit;
+}
