@@ -11,7 +11,16 @@ import { ProtectedRoute } from './components/ProtectedRoute';
 import AdminDashboard from './pages/admin/AdminDashboard';
 import ParentDashboard from './pages/parent/ParentDashboard';
 import StudentDashboard from './pages/student/StudentDashboard';
-import TeacherDashboard from './pages/teacher/TeacherDashboard';
+import TeacherLayout from './pages/teacher/TeacherLayout';
+import TeacherDashboardPage from './pages/teacher/Dashboard';
+import MyStudents from './pages/teacher/MyStudents';
+import Lessons from './pages/teacher/Lessons';
+import PdfReading from './pages/teacher/PdfReading';
+import Assessments from './pages/teacher/Assessments';
+import LearningPaths from './pages/teacher/LearningPaths';
+import Activities from './pages/teacher/Activities';
+import ProgressReports from './pages/teacher/ProgressReports';
+import TeacherSettings from './pages/teacher/Settings';
 
 export default function App() {
   return (
@@ -50,13 +59,23 @@ export default function App() {
         }
       />
       <Route
-        path="/teacher/*"
+        path="/teacher"
         element={
           <ProtectedRoute role="teacher">
-            <TeacherDashboard />
+            <TeacherLayout />
           </ProtectedRoute>
         }
-      />
+      >
+        <Route index element={<TeacherDashboardPage />} />
+        <Route path="students" element={<MyStudents />} />
+        <Route path="lessons" element={<Lessons />} />
+        <Route path="pdf-reading" element={<PdfReading />} />
+        <Route path="assessments" element={<Assessments />} />
+        <Route path="learning-paths" element={<LearningPaths />} />
+        <Route path="activities" element={<Activities />} />
+        <Route path="progress-reports" element={<ProgressReports />} />
+        <Route path="settings" element={<TeacherSettings />} />
+      </Route>
     </Routes>
   );
 }

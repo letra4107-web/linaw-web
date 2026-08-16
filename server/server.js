@@ -4,6 +4,7 @@ const cors = require('cors');
 
 const authRoutes = require('./routes/auth');
 const adminRoutes = require('./routes/admin');
+const teacherRoutes = require('./routes/teacher');
 
 const app = express();
 
@@ -14,6 +15,7 @@ app.get('/api/health', (req, res) => res.json({ ok: true }));
 
 app.use('/api/auth', authRoutes);
 app.use('/api/admin', adminRoutes);
+app.use('/api/teacher', teacherRoutes);
 
 app.use((req, res) => res.status(404).json({ error: 'Not found' }));
 
