@@ -95,17 +95,6 @@ CREATE POLICY "Teachers read own pdf materials"
 ON public.pdf_materials FOR SELECT TO authenticated
 USING (auth.uid() = teacher_id);
 
-DROP POLICY IF EXISTS "Assigned students read pdf materials" ON public.pdf_materials;
-CREATE POLICY "Assigned students read pdf materials"
-ON public.pdf_materials FOR SELECT TO authenticated
-USING (
-  EXISTS (
-    SELECT 1 FROM public.pdf_assignments a
-    JOIN public.children c ON c.id = a.student_id
-    WHERE a.pdf_material_id = pdf_materials.id AND c.auth_uid = auth.uid()
-  )
-);
-
 DROP POLICY IF EXISTS "pdf_materials service role manage" ON public.pdf_materials;
 CREATE POLICY "pdf_materials service role manage"
 ON public.pdf_materials FOR ALL
@@ -203,6 +192,19 @@ DO $$ BEGIN
     ALTER PUBLICATION supabase_realtime ADD TABLE public.pdf_assignments;
   END IF;
 END$$;
+
+-- Added here (not alongside pdf_materials' other policies above) because it
+-- references pdf_assignments, which must exist first.
+DROP POLICY IF EXISTS "Assigned students read pdf materials" ON public.pdf_materials;
+CREATE POLICY "Assigned students read pdf materials"
+ON public.pdf_materials FOR SELECT TO authenticated
+USING (
+  EXISTS (
+    SELECT 1 FROM public.pdf_assignments a
+    JOIN public.children c ON c.id = a.student_id
+    WHERE a.pdf_material_id = pdf_materials.id AND c.auth_uid = auth.uid()
+  )
+);
 
 -- ---------------------------------------------------------------------------
 -- pdf_reading_attempts  (student records their own speech-vs-text accuracy)
@@ -433,17 +435,6 @@ ON public.learning_path_items FOR ALL TO authenticated
 USING (EXISTS (SELECT 1 FROM public.learning_paths p WHERE p.id = path_id AND p.teacher_id = auth.uid()))
 WITH CHECK (EXISTS (SELECT 1 FROM public.learning_paths p WHERE p.id = path_id AND p.teacher_id = auth.uid()));
 
-DROP POLICY IF EXISTS "Students read assigned path items" ON public.learning_path_items;
-CREATE POLICY "Students read assigned path items"
-ON public.learning_path_items FOR SELECT TO authenticated
-USING (
-  EXISTS (
-    SELECT 1 FROM public.learning_path_assignments pa
-    JOIN public.children c ON c.id = pa.student_id
-    WHERE pa.path_id = learning_path_items.path_id AND c.auth_uid = auth.uid()
-  )
-);
-
 DROP POLICY IF EXISTS "learning_path_items service role" ON public.learning_path_items;
 CREATE POLICY "learning_path_items service role"
 ON public.learning_path_items FOR ALL
@@ -510,5 +501,18 @@ DROP POLICY IF EXISTS "learning_path_assignments service role" ON public.learnin
 CREATE POLICY "learning_path_assignments service role"
 ON public.learning_path_assignments FOR ALL
 USING (auth.role() = 'service_role') WITH CHECK (auth.role() = 'service_role');
+
+-- Added here (not alongside learning_path_items' other policies above) because
+-- it references learning_path_assignments, which must exist first.
+DROP POLICY IF EXISTS "Students read assigned path items" ON public.learning_path_items;
+CREATE POLICY "Students read assigned path items"
+ON public.learning_path_items FOR SELECT TO authenticated
+USING (
+  EXISTS (
+    SELECT 1 FROM public.learning_path_assignments pa
+    JOIN public.children c ON c.id = pa.student_id
+    WHERE pa.path_id = learning_path_items.path_id AND c.auth_uid = auth.uid()
+  )
+);
 
 NOTIFY pgrst, 'reload schema';
