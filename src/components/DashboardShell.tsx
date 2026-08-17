@@ -3,6 +3,7 @@ import { supabase } from '../lib/supabaseClient';
 import { useAuth } from '../lib/auth/AuthContext';
 import { AccessibilityBar } from './a11y/AccessibilityBar';
 import { IconLabel } from './a11y/IconLabel';
+import { NotificationsBell } from './NotificationsBell';
 
 interface DashboardShellProps {
   roleLabel: string;
@@ -22,6 +23,7 @@ export function DashboardShell({ roleLabel, children }: DashboardShellProps) {
           </p>
         </div>
         <div className="flex items-center gap-3">
+          <NotificationsBell />
           <AccessibilityBar />
           <button
             type="button"
