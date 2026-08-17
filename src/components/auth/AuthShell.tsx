@@ -1,7 +1,7 @@
 import { useState, type InputHTMLAttributes, type ReactNode } from 'react';
 import { Link } from 'react-router-dom';
 import { AccessibilityBar } from '../a11y/AccessibilityBar';
-import heroImage from '../../assets/hero.png';
+import lookImage from '../../assets/look.webp';
 
 export function isValidEmail(value: string): boolean {
   return /\S+@\S+\.\S+/.test(value);
@@ -14,56 +14,29 @@ interface AuthShellProps {
   footer?: ReactNode;
 }
 
-const PITCH_POINTS = [
-  { icon: '🗣️', label: 'Sanayan sa pagbigkas, may instant na feedback' },
-  { icon: '🏅', label: 'Badge at XP na nagpapalakas ng loob ng bata' },
-  { icon: '👨‍👩‍👧', label: 'Magkakonekta ang magulang, guro, at bata sa isang lugar' },
-];
-
 export function AuthShell({ title, subtitle, children, footer }: AuthShellProps) {
   return (
     <div className="min-h-screen bg-[var(--color-bg)] text-[var(--color-text)] lg:flex">
-      <div className="relative hidden overflow-hidden bg-gradient-to-br from-[var(--color-hero-from)] via-[var(--color-hero-via)] to-[var(--color-hero-to)] px-10 py-12 text-white shadow-hero lg:flex lg:w-[44%] lg:flex-col lg:justify-between">
+      <div className="relative hidden overflow-hidden text-white shadow-hero lg:flex lg:w-[44%] lg:flex-col">
+        <img src={lookImage} alt="" aria-hidden="true" className="absolute inset-0 h-full w-full object-cover" />
         <div
-          className="pointer-events-none absolute -top-16 -left-16 h-64 w-64 rounded-full bg-white/10 blur-2xl"
-          aria-hidden="true"
-        />
-        <div
-          className="pointer-events-none absolute right-0 bottom-0 h-72 w-72 translate-x-1/4 translate-y-1/4 rounded-full bg-white/10 blur-3xl"
+          className="absolute inset-0 bg-gradient-to-t from-black/45 via-transparent to-black/10"
           aria-hidden="true"
         />
 
-        <Link to="/" className="relative z-10 text-2xl font-bold tracking-tight">
-          LinawLetra
-        </Link>
+        <div className="relative z-10 flex h-full flex-col px-10 py-12">
+          <Link to="/" className="text-2xl font-bold tracking-tight drop-shadow-md">
+            LinawLetra
+          </Link>
 
-        <img
-          src={heroImage}
-          alt=""
-          aria-hidden="true"
-          className="relative z-10 mx-auto -my-4 w-44 -rotate-6 drop-shadow-2xl select-none"
-        />
+          <p className="mt-10 max-w-[15rem] text-2xl leading-snug font-bold drop-shadow-lg sm:text-3xl">
+            Tulong sa pagbasa ng Tagalog, para sa bawat bata.
+          </p>
 
-        <div className="relative z-10 flex flex-col gap-6">
-          <p className="text-3xl leading-snug font-bold">Tulong sa pagbasa ng Tagalog, para sa bawat bata.</p>
-          <ul className="flex flex-col gap-4">
-            {PITCH_POINTS.map((p) => (
-              <li key={p.label} className="flex items-start gap-3 text-white/90">
-                <span
-                  className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-white/15 text-lg"
-                  aria-hidden="true"
-                >
-                  {p.icon}
-                </span>
-                <span className="pt-1.5 text-sm">{p.label}</span>
-              </li>
-            ))}
-          </ul>
+          <p className="mt-auto text-sm text-white/90 drop-shadow-md">
+            Ginawa para sa mga mag-aaral na may dyslexia, Grade 1–6.
+          </p>
         </div>
-
-        <p className="relative z-10 text-sm text-white/70">
-          Ginawa para sa mga mag-aaral na may dyslexia, Grade 1–6.
-        </p>
       </div>
 
       <div className="flex flex-1 flex-col">
