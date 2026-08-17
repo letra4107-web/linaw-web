@@ -206,7 +206,7 @@ export default function Landing() {
             Tatlong simpleng hakbang lang para makasimula.
           </p>
         </div>
-        <div className="grid grid-cols-1 gap-6 sm:grid-cols-3">
+        <div className="grid grid-cols-1 items-start gap-6 sm:grid-cols-3">
           {STEPS.map((s) => (
             <div
               key={s.n}
@@ -229,7 +229,7 @@ export default function Landing() {
         <div className="mb-8 text-center">
           <h2 className="text-2xl sm:text-3xl">Ano ang makukuha ninyo</h2>
         </div>
-        <div className="grid grid-cols-1 gap-6 text-left sm:grid-cols-2">
+        <div className="grid grid-cols-1 items-start gap-6 text-left sm:grid-cols-2">
           {FEATURES.map((f) => (
             <div
               key={f.title}
