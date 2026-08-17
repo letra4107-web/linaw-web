@@ -44,7 +44,7 @@ export default function ResetPassword() {
     <AuthShell title="Gumawa ng bagong password" subtitle="Piliin ang isang malakas na password na hindi mo pa nagamit.">
       <form onSubmit={onSubmit} className="flex flex-col gap-4" noValidate>
         <div>
-          <label htmlFor="password" className="mb-1 block text-sm font-medium">
+          <label htmlFor="password" className="mb-2 block text-base font-medium">
             Bagong Password
           </label>
           <div className="flex flex-col gap-2">
@@ -53,7 +53,7 @@ export default function ResetPassword() {
           </div>
         </div>
         <div>
-          <label htmlFor="confirmPassword" className="mb-1 block text-sm font-medium">
+          <label htmlFor="confirmPassword" className="mb-2 block text-base font-medium">
             Kumpirmahin ang Password
           </label>
           <PasswordInput

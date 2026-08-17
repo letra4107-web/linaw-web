@@ -49,7 +49,7 @@ export default function VerifyEmail() {
     >
       <form onSubmit={onSubmit} className="flex flex-col gap-4" noValidate>
         <div>
-          <label htmlFor="code" className="mb-1 block text-sm font-medium">
+          <label htmlFor="code" className="mb-2 block text-base font-medium">
             Verification code
           </label>
           <input

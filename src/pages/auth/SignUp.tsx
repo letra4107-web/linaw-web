@@ -88,13 +88,13 @@ export default function SignUp() {
     >
       <form onSubmit={onSubmit} className="flex flex-col gap-4" noValidate>
         <div>
-          <label htmlFor="name" className="mb-1 block text-sm font-medium">
+          <label htmlFor="name" className="mb-2 block text-base font-medium">
             Buong Pangalan
           </label>
           <IconInput id="name" icon="🧑" required value={name} onChange={(e) => setName(e.target.value)} />
         </div>
         <div>
-          <label htmlFor="email" className="mb-1 block text-sm font-medium">
+          <label htmlFor="email" className="mb-2 block text-base font-medium">
             Email
           </label>
           <IconInput
@@ -108,7 +108,7 @@ export default function SignUp() {
           />
         </div>
         <div>
-          <label htmlFor="password" className="mb-1 block text-sm font-medium">
+          <label htmlFor="password" className="mb-2 block text-base font-medium">
             Password
           </label>
           <div className="flex flex-col gap-2">
@@ -117,7 +117,7 @@ export default function SignUp() {
           </div>
         </div>
         <div>
-          <label htmlFor="confirmPassword" className="mb-1 block text-sm font-medium">
+          <label htmlFor="confirmPassword" className="mb-2 block text-base font-medium">
             Kumpirmahin ang Password
           </label>
           <PasswordInput

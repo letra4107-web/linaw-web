@@ -50,15 +50,15 @@ export function AuthShell({ title, subtitle, children, footer }: AuthShellProps)
             </Link>
             <AccessibilityBar />
           </header>
-          <main className="mx-auto flex w-full max-w-md flex-1 flex-col justify-center gap-6 px-6 py-12">
+          <main className="mx-auto flex w-full max-w-lg flex-1 flex-col justify-center gap-6 px-6 py-12">
             <div>
-              <h1 className="text-3xl">{title}</h1>
-              {subtitle && <p className="mt-2 text-[var(--color-text-muted)]">{subtitle}</p>}
+              <h1 className="text-4xl">{title}</h1>
+              {subtitle && <p className="mt-3 text-lg text-[var(--color-text-muted)]">{subtitle}</p>}
             </div>
-            <div className="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] p-6 shadow-card sm:p-8">
+            <div className="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] p-8 shadow-card sm:p-10">
               {children}
             </div>
-            {footer && <div className="text-center text-sm text-[var(--color-text-muted)]">{footer}</div>}
+            {footer && <div className="text-center text-base text-[var(--color-text-muted)]">{footer}</div>}
           </main>
         </div>
       </div>
@@ -71,7 +71,7 @@ export function FieldError({ message }: { message?: string }) {
   return (
     <p
       role="alert"
-      className="flex items-start gap-2 rounded-lg border border-[var(--color-danger)]/30 bg-[var(--color-danger-soft)] px-3 py-2 text-sm text-[var(--color-danger)]"
+      className="flex items-start gap-2 rounded-lg border border-[var(--color-danger)]/30 bg-[var(--color-danger-soft)] px-4 py-3 text-base text-[var(--color-danger)]"
     >
       <span aria-hidden="true">⚠️</span>
       <span>{message}</span>
@@ -83,7 +83,7 @@ export function FieldSuccess({ message }: { message: string }) {
   return (
     <p
       role="status"
-      className="flex items-start gap-2 rounded-lg border border-[var(--color-success)]/30 bg-[var(--color-success-soft)] px-3 py-2 text-sm text-[var(--color-success)]"
+      className="flex items-start gap-2 rounded-lg border border-[var(--color-success)]/30 bg-[var(--color-success-soft)] px-4 py-3 text-base text-[var(--color-success)]"
     >
       <span aria-hidden="true">✅</span>
       <span>{message}</span>
@@ -92,10 +92,10 @@ export function FieldSuccess({ message }: { message: string }) {
 }
 
 export const inputClass =
-  'w-full rounded-lg border border-[var(--color-border)] bg-[var(--color-bg)] px-4 py-3 text-base text-[var(--color-text)] transition-colors placeholder:text-[var(--color-text-muted)] focus-visible:border-[var(--color-primary)] focus-visible:bg-[var(--color-surface)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-primary)]/25';
+  'w-full rounded-lg border border-[var(--color-border)] bg-[var(--color-bg)] px-5 py-4 text-lg text-[var(--color-text)] transition-colors placeholder:text-[var(--color-text-muted)] focus-visible:border-[var(--color-primary)] focus-visible:bg-[var(--color-surface)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-primary)]/25';
 
 export const primaryButtonClass =
-  'flex w-full items-center justify-center gap-2 rounded-full bg-[var(--color-primary)] px-4 py-3 text-base font-semibold text-white shadow-card transition-all hover:-translate-y-0.5 hover:bg-[var(--color-primary-hover)] hover:shadow-raised disabled:translate-y-0 disabled:cursor-not-allowed disabled:opacity-60 disabled:shadow-none';
+  'flex w-full items-center justify-center gap-2 rounded-full bg-[var(--color-primary)] px-5 py-4 text-lg font-semibold text-white shadow-card transition-all hover:-translate-y-0.5 hover:bg-[var(--color-primary-hover)] hover:shadow-raised active:scale-95 disabled:translate-y-0 disabled:cursor-not-allowed disabled:opacity-60 disabled:shadow-none';
 
 export function ButtonSpinner() {
   return (
@@ -116,12 +116,12 @@ export function IconInput({ icon, className, ...props }: IconInputProps) {
   return (
     <div className="relative">
       <span
-        className="pointer-events-none absolute top-1/2 left-4 -translate-y-1/2 text-[var(--color-text-muted)]"
+        className="pointer-events-none absolute top-1/2 left-5 -translate-y-1/2 text-lg text-[var(--color-text-muted)]"
         aria-hidden="true"
       >
         {icon}
       </span>
-      <input {...props} className={`${inputClass} pl-11 ${className ?? ''}`} />
+      <input {...props} className={`${inputClass} pl-13 ${className ?? ''}`} />
     </div>
   );
 }
@@ -144,7 +144,7 @@ export function PasswordInput({ id, value, onChange, autoComplete, placeholder }
         required
         value={value}
         onChange={(e) => onChange(e.target.value)}
-        className={`${inputClass} pr-12`}
+        className={`${inputClass} pr-14`}
         autoComplete={autoComplete}
         placeholder={placeholder}
       />
@@ -152,7 +152,7 @@ export function PasswordInput({ id, value, onChange, autoComplete, placeholder }
         type="button"
         onClick={() => setVisible((v) => !v)}
         aria-label={visible ? 'Itago ang password' : 'Ipakita ang password'}
-        className="absolute top-1/2 right-3 -translate-y-1/2 text-[var(--color-text-muted)] hover:text-[var(--color-primary)]"
+        className="absolute top-1/2 right-4 -translate-y-1/2 text-lg text-[var(--color-text-muted)] hover:text-[var(--color-primary)]"
       >
         {visible ? '🙈' : '👁️'}
       </button>

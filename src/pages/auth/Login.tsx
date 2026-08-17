@@ -74,7 +74,7 @@ export default function Login() {
     >
       <form onSubmit={onSubmit} className="flex flex-col gap-4" noValidate>
         <div>
-          <label htmlFor="email" className="mb-1 block text-sm font-medium">
+          <label htmlFor="email" className="mb-2 block text-base font-medium">
             Email
           </label>
           <IconInput
