@@ -3,6 +3,7 @@ import { AccessibilityBar } from '../components/a11y/AccessibilityBar';
 import { TTSButton } from '../components/a11y/TTSButton';
 import { IconLabel } from '../components/a11y/IconLabel';
 import logo from '../assets/Logo.jpg';
+import landBg from '../assets/land.webp';
 
 const FEATURES = [
   {
@@ -86,7 +87,10 @@ const STEPS = [
 
 export default function Landing() {
   return (
-    <div className="min-h-screen bg-[var(--color-bg)] text-[var(--color-text)]">
+    <div
+      className="min-h-screen bg-[var(--color-bg)] text-[var(--color-text)]"
+      style={{ backgroundImage: `url(${landBg})`, backgroundRepeat: 'repeat', backgroundSize: '900px auto' }}
+    >
       <header className="sticky top-0 z-20 border-b border-[var(--color-border)] bg-[var(--color-bg)]/85 backdrop-blur">
         <div className="grid grid-cols-[1fr_auto_1fr] items-center gap-4 px-4 py-2 sm:px-6">
           <img src={logo} alt="LinawLetra" className="h-16 w-auto justify-self-start rounded-lg sm:h-20" />
