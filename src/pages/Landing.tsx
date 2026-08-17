@@ -45,6 +45,39 @@ const STATS = [
   { value: 'AI', label: 'Reading insights' },
 ];
 
+const RESPONSE_POINTS = [
+  {
+    icon: '🎙️',
+    title: 'Real-time na Speech Recognition',
+    text: 'Sinusuri ang bawat binigkas na salita ng bata at inihahambing kaagad sa tamang bigkas.',
+  },
+  {
+    icon: '🧠',
+    title: 'Phoneme Confusion Detection',
+    text: 'Natutukoy ng system kung aling partikular na mga tunog (hal. "r" vs "d") ang paulit-ulit na nahihirapan ang bata.',
+  },
+  {
+    icon: '🔊',
+    title: 'Text-to-Speech',
+    text: 'Naririnig muna ng bata ang tamang bigkas ng salita bago pa man sumubok magbasa nang malakas.',
+  },
+  {
+    icon: '🔤',
+    title: 'Dyslexia-Friendly na Font',
+    text: 'May Lexend font toggle na dinisenyo para mas madaling makilala ang hugis ng bawat letra.',
+  },
+  {
+    icon: '📊',
+    title: 'AI Reading Insights',
+    text: 'Ipinapakita sa magulang at guro ang mga specific na "mahihinang tunog" ng bata para malaman kung saan dapat mag-focus ang extra practice.',
+  },
+  {
+    icon: '📏',
+    title: 'Reading Guide Overlay',
+    text: 'Tumutulong itong mag-focus sa isang linya ng teksto nang hindi naliligaw ang mata sa ibang bahagi ng pahina.',
+  },
+] as const;
+
 const STEPS = [
   { n: '1', icon: '✍️', title: 'Mag-sign up', text: 'Gumawa ng account bilang magulang o guro sa loob ng ilang minuto.' },
   { n: '2', icon: '🧒', title: 'I-enroll ang bata', text: 'Idagdag ang anak o mag-aaral, awtomatikong mase-set ang reading level.' },
@@ -88,7 +121,7 @@ export default function Landing() {
         />
         <main className="relative mx-auto max-w-4xl px-6 py-20 text-center sm:py-28">
           <span className="inline-flex items-center gap-2 rounded-full border border-white/40 bg-white/15 px-4 py-1 text-sm font-medium text-white">
-            Para sa Grade 1–6 · May dyslexia support
+            Para sa Grade 1–6 · Nakatutok sa Phonological Dyslexia
           </span>
           <h1 className="mt-6 text-4xl text-white sm:text-6xl">
             Tulong sa pagbasa ng Tagalog, para sa bawat bata.
@@ -128,6 +161,43 @@ export default function Landing() {
           </div>
         </main>
       </section>
+
+      <main id="phonological-dyslexia" className="mx-auto max-w-4xl px-6 py-20">
+        <div className="grid grid-cols-1 gap-10 lg:grid-cols-[0.9fr_1.1fr]">
+          <div>
+            <span className="inline-flex items-center gap-2 rounded-full border border-[var(--color-border)] bg-[var(--color-primary-soft)] px-4 py-1 text-sm font-medium text-[var(--color-primary)]">
+              Ang aming pokus
+            </span>
+            <h2 className="mt-4 text-2xl sm:text-3xl">Ano ang Phonological Dyslexia?</h2>
+            <p className="mt-4 text-[var(--color-text-muted)]">
+              Isa itong partikular na uri ng dyslexia kung saan nahihirapan ang bata na iugnay ang
+              mga tunog (phonemes) sa mga letra at pantig — kaya mahirap para sa kanila ang
+              pag-decode o pagbasa ng mga bagong salita nang malakas, kahit na naiintindihan nila
+              ang ibig sabihin nito kapag naririnig.
+            </p>
+            <p className="mt-3 text-[var(--color-text-muted)]">
+              Kadalasang nakikita ito sa paghahalo ng magkatunog na letra (tulad ng "d" at "r", o
+              "b" at "p"), at sa mabagal o paulit-ulit na pagsubok bago mabasa nang tama ang isang
+              salita. Dinisenyo ang LinawLetra partikular para dito — hindi generic na "reading
+              app," kundi tool na nakatutok sa phoneme-level na pagsasanay.
+            </p>
+          </div>
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+            {RESPONSE_POINTS.map((r) => (
+              <div
+                key={r.title}
+                className="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] p-4 shadow-card"
+              >
+                <div className="mb-2 text-2xl" aria-hidden="true">
+                  {r.icon}
+                </div>
+                <h3 className="mb-1 text-sm font-semibold">{r.title}</h3>
+                <p className="text-xs text-[var(--color-text-muted)]">{r.text}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </main>
 
       <main id="paano-gumagana" className="mx-auto max-w-4xl px-6 py-20">
         <div className="mb-10 text-center">
@@ -212,6 +282,14 @@ export default function Landing() {
                 Mabilisang Link
               </h3>
               <ul className="flex flex-col gap-2 text-sm">
+                <li>
+                  <a
+                    href="#phonological-dyslexia"
+                    className="hover:text-[var(--color-primary)] hover:underline"
+                  >
+                    Phonological Dyslexia
+                  </a>
+                </li>
                 <li>
                   <a href="#paano-gumagana" className="hover:text-[var(--color-primary)] hover:underline">
                     Paano Gumagana
