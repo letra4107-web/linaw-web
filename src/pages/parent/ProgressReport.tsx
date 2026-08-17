@@ -3,6 +3,8 @@ import { useQuery } from '@tanstack/react-query';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import { supabase } from '../../lib/supabaseClient';
 import { useAuth } from '../../lib/auth/AuthContext';
+import { api } from '../../lib/api';
+import { ReadingInsightsPanel, type ReadingProfile } from '../../components/ReadingInsightsPanel';
 
 interface Child {
   id: string;
@@ -43,6 +45,12 @@ export default function ProgressReport() {
       if (error) throw error;
       return data as PracticeSession[];
     },
+    enabled: Boolean(activeChildId),
+  });
+
+  const { data: readingProfile } = useQuery({
+    queryKey: ['parent-reading-profile', activeChildId],
+    queryFn: () => api<{ profile: ReadingProfile }>(`/parent/children/${activeChildId}/reading-profile`, { auth: true }),
     enabled: Boolean(activeChildId),
   });
 
@@ -116,6 +124,8 @@ export default function ProgressReport() {
           </div>
         </>
       )}
+
+      {readingProfile && <ReadingInsightsPanel profile={readingProfile.profile} />}
     </div>
   );
 }

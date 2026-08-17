@@ -1,6 +1,8 @@
 const express = require('express');
 const { supabaseAdmin } = require('../config/supabase');
 const { requireAuth, requireRole } = require('../middleware/auth');
+const { buildReadingProfile } = require('../services/readingInsights');
+const { loadCompletedContentIds } = require('../services/readingProfileData');
 
 const router = express.Router();
 router.use(requireAuth, requireRole('student'));
@@ -129,6 +131,44 @@ router.post('/learn/module/:moduleId/unequip', async (req, res) => {
     });
     if (error) throw error;
     res.json(data);
+  } catch (err) {
+    handleRpcError(res, err);
+  }
+});
+
+// GET /student/reading-profile
+// Ported from mobile's GET /personalization/profile -- reads directly from
+// the shared Supabase project (pronunciation_practice_sessions,
+// phoneme_confusion, student_content_completions), no dependency on mobile's
+// own backend service.
+router.get('/reading-profile', async (req, res) => {
+  try {
+    const studentId = await resolveStudentId(req.user.id);
+
+    const [sessionsResult, confusionsResult, completions] = await Promise.all([
+      supabaseAdmin
+        .from('pronunciation_practice_sessions')
+        .select('id,word,spoken_text,accuracy_percentage,is_correct,duration_seconds,practice_source,created_at')
+        .eq('student_id', studentId)
+        .order('created_at', { ascending: true })
+        .limit(500),
+      supabaseAdmin
+        .from('phoneme_confusion')
+        .select('confusion_key,target_word,source,created_at')
+        .eq('student_id', studentId)
+        .order('created_at', { ascending: true })
+        .limit(1000),
+      loadCompletedContentIds(supabaseAdmin, studentId),
+    ]);
+    if (sessionsResult.error) throw sessionsResult.error;
+    if (confusionsResult.error) throw confusionsResult.error;
+
+    const profile = buildReadingProfile({
+      sessions: sessionsResult.data || [],
+      confusions: confusionsResult.data || [],
+      completions: completions.map((content_id) => ({ content_id })),
+    });
+    res.json({ profile });
   } catch (err) {
     handleRpcError(res, err);
   }

@@ -3,6 +3,8 @@ const bcrypt = require('bcryptjs');
 const { supabaseAdmin } = require('../config/supabase');
 const { sendMail } = require('../config/mailer');
 const { requireAuth, requireRole } = require('../middleware/auth');
+const { buildReadingProfile } = require('../services/readingInsights');
+const { loadCompletedContentIds } = require('../services/readingProfileData');
 
 const router = express.Router();
 router.use(requireAuth, requireRole('parent'));
@@ -212,6 +214,53 @@ router.post('/children/:id/reading-level', async (req, res) => {
   } catch (err) {
     console.error('[parent/children/:id/reading-level]', err);
     res.status(500).json({ error: err.message || 'Unable to update reading level.' });
+  }
+});
+
+// GET /parent/children/:id/reading-profile
+// Same computation as GET /student/reading-profile, scoped to one of this
+// parent's own children (ownership re-checked here, not just trusted from
+// the URL param).
+router.get('/children/:id/reading-profile', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { data: child, error: childErr } = await supabaseAdmin
+      .from('children')
+      .select('id, name, parent_id')
+      .eq('id', id)
+      .maybeSingle();
+    if (childErr) throw childErr;
+    if (!child || child.parent_id !== req.user.id) {
+      return res.status(404).json({ error: 'Child not found for this parent.' });
+    }
+
+    const [sessionsResult, confusionsResult, completions] = await Promise.all([
+      supabaseAdmin
+        .from('pronunciation_practice_sessions')
+        .select('id,word,spoken_text,accuracy_percentage,is_correct,duration_seconds,practice_source,created_at')
+        .eq('student_id', child.id)
+        .order('created_at', { ascending: true })
+        .limit(500),
+      supabaseAdmin
+        .from('phoneme_confusion')
+        .select('confusion_key,target_word,source,created_at')
+        .eq('student_id', child.id)
+        .order('created_at', { ascending: true })
+        .limit(1000),
+      loadCompletedContentIds(supabaseAdmin, child.id),
+    ]);
+    if (sessionsResult.error) throw sessionsResult.error;
+    if (confusionsResult.error) throw confusionsResult.error;
+
+    const profile = buildReadingProfile({
+      sessions: sessionsResult.data || [],
+      confusions: confusionsResult.data || [],
+      completions: completions.map((content_id) => ({ content_id })),
+    });
+    res.json({ student: { id: child.id, name: child.name }, profile });
+  } catch (err) {
+    console.error('[parent/children/:id/reading-profile]', err);
+    res.status(500).json({ error: err.message || 'Unable to build the reading profile.' });
   }
 });
 

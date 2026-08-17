@@ -1,7 +1,9 @@
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '../../lib/supabaseClient';
 import { useAuth } from '../../lib/auth/AuthContext';
+import { api } from '../../lib/api';
 import { IconLabel } from '../../components/a11y/IconLabel';
+import { ReadingInsightsPanel, type ReadingProfile } from '../../components/ReadingInsightsPanel';
 
 interface ChildRow {
   id: string;
@@ -58,6 +60,12 @@ export default function Profile() {
     enabled: Boolean(child?.id),
   });
 
+  const { data: readingProfile } = useQuery({
+    queryKey: ['student-reading-profile', user?.id],
+    queryFn: () => api<{ profile: ReadingProfile }>('/student/reading-profile', { auth: true }),
+    enabled: Boolean(user),
+  });
+
   const badges: string[] = Array.isArray(progress?.achievements)
     ? progress!.achievements.map((a) => a.id)
     : progress?.achievements
@@ -90,6 +98,8 @@ export default function Profile() {
           </div>
         ))}
       </div>
+
+      {readingProfile && <ReadingInsightsPanel profile={readingProfile.profile} />}
 
       <div>
         <h2 className="mb-3 text-lg font-semibold">Mga Nakuhang Badge</h2>
