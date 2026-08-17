@@ -11,6 +11,10 @@
   --color-accent: #c9622a;
   --color-danger: #b3261e;
   --color-focus: #1a56db;
+  --color-primary-soft: #e3efe7;
+  --color-accent-soft: #fbe8d9;
+  --color-hero-from: #eef6f0;
+  --color-hero-to: #fdfcf9;
 
   --font-body: "Lexend", "Atkinson Hyperlegible", system-ui, "Segoe UI", Roboto, sans-serif;
   --font-dyslexic: "Atkinson Hyperlegible", "Lexend", system-ui, sans-serif;
@@ -26,6 +30,10 @@
   --color-primary-hover: #ffe14d;
   --color-accent: #7cf5ff;
   --color-focus: #7cf5ff;
+  --color-primary-soft: #332b00;
+  --color-accent-soft: #00292b;
+  --color-hero-from: #000000;
+  --color-hero-to: #000000;
 }
 
 html {
