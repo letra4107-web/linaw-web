@@ -7,6 +7,7 @@ import {
   FieldError,
   FieldSuccess,
   IconInput,
+  isValidEmail,
   primaryButtonClass,
 } from '../../components/auth/AuthShell';
 
@@ -21,9 +22,16 @@ export default function ResendVerification() {
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
+
+    const cleanEmail = email.trim().toLowerCase();
+    if (!isValidEmail(cleanEmail)) {
+      setError('Ilagay ang valid na email.');
+      return;
+    }
+
     setSubmitting(true);
     try {
-      const { error: resendError } = await supabase.auth.resend({ type: 'signup', email });
+      const { error: resendError } = await supabase.auth.resend({ type: 'signup', email: cleanEmail });
       if (resendError) throw resendError;
       setSent(true);
     } catch (err) {

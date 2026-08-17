@@ -8,6 +8,7 @@ import {
   FieldError,
   IconInput,
   PasswordInput,
+  isValidEmail,
   primaryButtonClass,
 } from '../../components/auth/AuthShell';
 
@@ -21,22 +22,36 @@ export default function Login() {
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
+
+    const cleanEmail = email.trim().toLowerCase();
+    if (!isValidEmail(cleanEmail)) {
+      setError('Ilagay ang valid na email.');
+      return;
+    }
+    if (!password) {
+      setError('Ilagay ang password.');
+      return;
+    }
+
     setSubmitting(true);
     try {
-      const { data, error: signInError } = await supabase.auth.signInWithPassword({ email, password });
+      const { data, error: signInError } = await supabase.auth.signInWithPassword({
+        email: cleanEmail,
+        password,
+      });
       if (signInError) throw signInError;
       if (!data.user) throw new Error('Hindi makumpleto ang pag-login.');
 
       if (!data.user.email_confirmed_at) {
         // Not yet verified: keep the session so /verify-email can act on it.
-        navigate('/verify-email', { state: { email } });
+        navigate('/verify-email', { state: { email: cleanEmail } });
         return;
       }
 
       // Step up to a second factor before granting a persisted dashboard session.
       await supabase.auth.signOut();
-      await api('/auth/login-otp/send', { method: 'POST', body: { email } });
-      navigate('/verify-login', { state: { email, password } });
+      await api('/auth/login-otp/send', { method: 'POST', body: { email: cleanEmail } });
+      navigate('/verify-login', { state: { email: cleanEmail, password } });
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Hindi matagumpay ang pag-login.');
     } finally {

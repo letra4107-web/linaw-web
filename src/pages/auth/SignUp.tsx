@@ -8,6 +8,7 @@ import {
   IconInput,
   PasswordInput,
   PasswordStrengthMeter,
+  isValidEmail,
   primaryButtonClass,
 } from '../../components/auth/AuthShell';
 
@@ -24,7 +25,7 @@ export default function SignUp() {
 
   const validate = (): string | null => {
     if (name.trim().length < 2) return 'Ilagay ang buong pangalan.';
-    if (!/\S+@\S+\.\S+/.test(email)) return 'Hindi valid ang email.';
+    if (!isValidEmail(email.trim())) return 'Hindi valid ang email.';
     if (password.length < 8) return 'Kailangang 8 characters pataas ang password.';
     if (!/[A-Z]/.test(password) || !/[0-9]/.test(password)) {
       return 'Kailangan ng malaking letra at numero ang password.';
@@ -40,27 +41,31 @@ export default function SignUp() {
       setError(validationError);
       return;
     }
+    // Normalized once here, not on every keystroke, so the input still shows
+    // exactly what the user typed while they're typing it.
+    const cleanName = name.trim();
+    const cleanEmail = email.trim().toLowerCase();
     setError(null);
     setSubmitting(true);
     try {
       const { data, error: signUpError } = await supabase.auth.signUp({
-        email,
+        email: cleanEmail,
         password,
-        options: { data: { role: ROLE, full_name: name } },
+        options: { data: { role: ROLE, full_name: cleanName } },
       });
       if (signUpError) throw signUpError;
       if (!data.user) throw new Error('Hindi nagawa ang account.');
 
       const { error: profileError } = await supabase.from('users').upsert({
         id: data.user.id,
-        email,
-        name,
+        email: cleanEmail,
+        name: cleanName,
         role: ROLE,
         email_verified: false,
       });
       if (profileError) throw profileError;
 
-      navigate('/verify-email', { state: { email } });
+      navigate('/verify-email', { state: { email: cleanEmail } });
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Hindi matagumpay ang pag-sign up.');
     } finally {

@@ -2,6 +2,10 @@ import { useState, type InputHTMLAttributes, type ReactNode } from 'react';
 import { Link } from 'react-router-dom';
 import { AccessibilityBar } from '../a11y/AccessibilityBar';
 
+export function isValidEmail(value: string): boolean {
+  return /\S+@\S+\.\S+/.test(value);
+}
+
 interface AuthShellProps {
   title: string;
   subtitle?: string;

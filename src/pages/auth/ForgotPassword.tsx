@@ -7,6 +7,7 @@ import {
   FieldError,
   FieldSuccess,
   IconInput,
+  isValidEmail,
   primaryButtonClass,
 } from '../../components/auth/AuthShell';
 
@@ -19,9 +20,16 @@ export default function ForgotPassword() {
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
+
+    const cleanEmail = email.trim().toLowerCase();
+    if (!isValidEmail(cleanEmail)) {
+      setError('Ilagay ang valid na email.');
+      return;
+    }
+
     setSubmitting(true);
     try {
-      const { error: resetError } = await supabase.auth.resetPasswordForEmail(email, {
+      const { error: resetError } = await supabase.auth.resetPasswordForEmail(cleanEmail, {
         redirectTo: `${window.location.origin}/reset-password`,
       });
       if (resetError) throw resetError;
