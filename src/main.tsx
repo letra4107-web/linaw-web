@@ -6,6 +6,7 @@ import './index.css';
 import App from './App.tsx';
 import { AuthProvider } from './lib/auth/AuthContext';
 import { AccessibilityProvider } from './lib/a11y/AccessibilityContext';
+import { ReadingGuideOverlay } from './components/a11y/ReadingGuideOverlay';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -20,6 +21,7 @@ createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <QueryClientProvider client={queryClient}>
       <AccessibilityProvider>
+        <ReadingGuideOverlay />
         <BrowserRouter>
           <AuthProvider>
             <App />
