@@ -129,7 +129,7 @@ export default function Landing() {
         </main>
       </section>
 
-      <main className="mx-auto max-w-4xl px-6 py-20">
+      <main id="paano-gumagana" className="mx-auto max-w-4xl px-6 py-20">
         <div className="mb-10 text-center">
           <h2 className="text-2xl sm:text-3xl">Paano gumagana</h2>
           <p className="mx-auto mt-2 max-w-xl text-[var(--color-text-muted)]">
@@ -155,7 +155,7 @@ export default function Landing() {
         </div>
       </main>
 
-      <main className="mx-auto max-w-4xl px-6 pb-20">
+      <main id="ano-ang-makukuha" className="mx-auto max-w-4xl px-6 pb-20">
         <div className="mb-10 text-center">
           <h2 className="text-2xl sm:text-3xl">Ano ang makukuha ninyo</h2>
         </div>
@@ -196,8 +196,64 @@ export default function Landing() {
         </div>
       </section>
 
-      <footer className="border-t border-[var(--color-border)] px-6 py-6 text-center text-sm text-[var(--color-text-muted)]">
-        LinawLetra — AI-assisted na Tagalog reading support para sa mga mag-aaral na may dyslexia.
+      <footer className="border-t border-[var(--color-border)] bg-[var(--color-surface)]">
+        <div className="mx-auto max-w-5xl px-6 py-12">
+          <div className="grid grid-cols-1 gap-10 sm:grid-cols-[1.3fr_1fr_1fr]">
+            <div>
+              <img src={logo} alt="LinawLetra" className="h-14 w-auto rounded-lg" />
+              <p className="mt-4 max-w-xs text-sm text-[var(--color-text-muted)]">
+                AI-assisted na Tagalog reading support para sa mga mag-aaral na may dyslexia, Grade
+                1–6 — kasama ang mga tool para sa magulang, guro, at admin.
+              </p>
+            </div>
+
+            <div>
+              <h3 className="mb-3 text-sm font-semibold tracking-wide text-[var(--color-text-muted)] uppercase">
+                Mabilisang Link
+              </h3>
+              <ul className="flex flex-col gap-2 text-sm">
+                <li>
+                  <a href="#paano-gumagana" className="hover:text-[var(--color-primary)] hover:underline">
+                    Paano Gumagana
+                  </a>
+                </li>
+                <li>
+                  <a href="#ano-ang-makukuha" className="hover:text-[var(--color-primary)] hover:underline">
+                    Mga Tampok
+                  </a>
+                </li>
+                <li>
+                  <Link to="/login" className="hover:text-[var(--color-primary)] hover:underline">
+                    Mag-login
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/signup" className="hover:text-[var(--color-primary)] hover:underline">
+                    Mag-sign up
+                  </Link>
+                </li>
+              </ul>
+            </div>
+
+            <div>
+              <h3 className="mb-3 text-sm font-semibold tracking-wide text-[var(--color-text-muted)] uppercase">
+                Para Kanino
+              </h3>
+              <ul className="flex flex-col gap-2 text-sm text-[var(--color-text-muted)]">
+                {ROLES.map((r) => (
+                  <li key={r.label}>
+                    <IconLabel icon={r.icon} label={r.label} />
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+
+          <div className="mt-10 flex flex-col items-center gap-2 border-t border-[var(--color-border)] pt-6 text-center text-sm text-[var(--color-text-muted)] sm:flex-row sm:justify-between sm:text-left">
+            <p>© {new Date().getFullYear()} LinawLetra. Lahat ng karapatan ay nakalaan.</p>
+            <p>Ginawa nang may pagmamahal para sa mga batang Pilipino.</p>
+          </div>
+        </div>
       </footer>
     </div>
   );
