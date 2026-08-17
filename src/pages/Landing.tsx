@@ -55,9 +55,12 @@ export default function Landing() {
   return (
     <div className="min-h-screen bg-[var(--color-bg)] text-[var(--color-text)]">
       <header className="sticky top-0 z-20 border-b border-[var(--color-border)] bg-[var(--color-bg)]/85 backdrop-blur">
-        <div className="flex items-center justify-between px-4 py-2 sm:px-6">
-          <img src={logo} alt="LinawLetra" className="h-16 w-auto rounded-lg sm:h-20" />
-          <div className="flex items-center gap-4">
+        <div className="grid grid-cols-[1fr_auto_1fr] items-center gap-4 px-4 py-2 sm:px-6">
+          <img src={logo} alt="LinawLetra" className="h-16 w-auto justify-self-start rounded-lg sm:h-20" />
+          <div className="hidden justify-self-center sm:block">
+            <AccessibilityBar />
+          </div>
+          <div className="flex items-center gap-4 justify-self-end">
             <Link
               to="/login"
               className="rounded-full border border-[var(--color-border)] px-4 py-2 text-sm font-medium hover:border-[var(--color-primary)]"
@@ -71,9 +74,6 @@ export default function Landing() {
               Mag-sign up
             </Link>
           </div>
-        </div>
-        <div className="hidden justify-center border-t border-[var(--color-border)] px-4 py-2 sm:flex">
-          <AccessibilityBar />
         </div>
       </header>
 
