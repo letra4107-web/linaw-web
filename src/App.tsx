@@ -19,6 +19,7 @@ import StudentDashboardPage from './pages/student/Dashboard';
 import Learn from './pages/student/Learn';
 import StudentModule from './pages/student/Module';
 import StudentAssessment from './pages/student/Assessment';
+import StudentPdfReading from './pages/student/PdfReading';
 import StudentProfile from './pages/student/Profile';
 import TeacherLayout from './pages/teacher/TeacherLayout';
 import TeacherDashboardPage from './pages/teacher/Dashboard';
@@ -76,6 +77,7 @@ export default function App() {
         <Route path="learn" element={<Learn />} />
         <Route path="learn/module/:moduleId" element={<StudentModule />} />
         <Route path="learn/assessment/:assessmentId" element={<StudentAssessment />} />
+        <Route path="pdf-reading" element={<StudentPdfReading />} />
         <Route path="profile" element={<StudentProfile />} />
       </Route>
       <Route

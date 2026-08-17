@@ -3,11 +3,13 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '../../lib/supabaseClient';
 import { useAuth } from '../../lib/auth/AuthContext';
 import { IconLabel } from '../../components/a11y/IconLabel';
+import { PdfReadingAssistant } from '../../components/PdfReadingAssistant';
 
 interface PdfMaterial {
   id: string;
   title: string;
   file_url: string;
+  extracted_text: string | null;
   grade_level: number | null;
   level: string | null;
   created_at: string;
@@ -19,6 +21,20 @@ interface RosterChild {
   children: { id: string; name: string } | null;
 }
 
+interface AssignmentWithAttempts {
+  id: string;
+  status: string;
+  student_id: string;
+  children: { name: string } | null;
+  pdf_reading_attempts: { accuracy: number; created_at: string }[];
+}
+
+const STATUS_LABEL: Record<string, string> = {
+  assigned: 'Bago',
+  in_progress: 'Ginagawa',
+  completed: 'Tapos na',
+};
+
 export default function PdfReading() {
   const { user } = useAuth();
   const queryClient = useQueryClient();
@@ -28,19 +44,34 @@ export default function PdfReading() {
   const [file, setFile] = useState<File | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [assigningId, setAssigningId] = useState<string | null>(null);
+  const [previewId, setPreviewId] = useState<string | null>(null);
+  const [monitorId, setMonitorId] = useState<string | null>(null);
 
   const { data: materials, isLoading } = useQuery({
     queryKey: ['pdf-materials', user?.id],
     queryFn: async () => {
       const { data, error: err } = await supabase
         .from('pdf_materials')
-        .select('id, title, file_url, grade_level, level, created_at')
+        .select('id, title, file_url, extracted_text, grade_level, level, created_at')
         .eq('teacher_id', user!.id)
         .order('created_at', { ascending: false });
       if (err) throw err;
       return data as PdfMaterial[];
     },
     enabled: Boolean(user),
+  });
+
+  const { data: monitorAssignments } = useQuery({
+    queryKey: ['pdf-monitor', monitorId],
+    queryFn: async () => {
+      const { data, error: err } = await supabase
+        .from('pdf_assignments')
+        .select('id, status, student_id, children(name), pdf_reading_attempts(accuracy, created_at)')
+        .eq('pdf_material_id', monitorId!);
+      if (err) throw err;
+      return data as unknown as AssignmentWithAttempts[];
+    },
+    enabled: Boolean(monitorId),
   });
 
   const { data: roster } = useQuery({
@@ -173,10 +204,24 @@ export default function PdfReading() {
                     Grade {m.grade_level ?? '-'} · {m.level ?? 'Walang level'}
                   </p>
                 </div>
-                <div className="flex gap-2">
+                <div className="flex flex-wrap gap-2">
                   <a href={m.file_url} target="_blank" rel="noreferrer" className="rounded-full border border-[var(--color-border)] px-3 py-1 text-sm">
-                    <IconLabel icon="👁️" label="Tingnan" />
+                    <IconLabel icon="📄" label="Raw PDF" />
                   </a>
+                  <button
+                    type="button"
+                    onClick={() => setPreviewId(previewId === m.id ? null : m.id)}
+                    className="rounded-full border border-[var(--color-border)] px-3 py-1 text-sm hover:border-[var(--color-primary)]"
+                  >
+                    <IconLabel icon="👁️" label="I-preview" />
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setMonitorId(monitorId === m.id ? null : m.id)}
+                    className="rounded-full border border-[var(--color-border)] px-3 py-1 text-sm hover:border-[var(--color-primary)]"
+                  >
+                    <IconLabel icon="📈" label="Monitor" />
+                  </button>
                   <button
                     type="button"
                     onClick={() => setAssigningId(assigningId === m.id ? null : m.id)}
@@ -186,6 +231,36 @@ export default function PdfReading() {
                   </button>
                 </div>
               </div>
+              {previewId === m.id && (
+                <div className="mt-3 border-t border-[var(--color-border)] pt-3">
+                  <PdfReadingAssistant material={m} mode="preview" />
+                </div>
+              )}
+              {monitorId === m.id && (
+                <div className="mt-3 border-t border-[var(--color-border)] pt-3">
+                  <h3 className="mb-2 font-medium">Progreso ng Mag-aaral</h3>
+                  <ul className="flex flex-col gap-2">
+                    {(monitorAssignments ?? []).map((a) => {
+                      const best = a.pdf_reading_attempts.reduce(
+                        (max, at) => Math.max(max, at.accuracy),
+                        0,
+                      );
+                      return (
+                        <li key={a.id} className="flex items-center justify-between text-sm">
+                          <span>{a.children?.name ?? 'Mag-aaral'}</span>
+                          <span className="text-[var(--color-text-muted)]">
+                            {STATUS_LABEL[a.status] ?? a.status} ·{' '}
+                            {a.pdf_reading_attempts.length > 0 ? `Best: ${best}%` : 'Wala pang attempt'}
+                          </span>
+                        </li>
+                      );
+                    })}
+                    {(monitorAssignments ?? []).length === 0 && (
+                      <p className="text-sm text-[var(--color-text-muted)]">Wala pang naka-assign dito.</p>
+                    )}
+                  </ul>
+                </div>
+              )}
               {assigningId === m.id && (
                 <ul className="mt-3 flex flex-wrap gap-2 border-t border-[var(--color-border)] pt-3">
                   {(roster ?? []).map((r) => (

@@ -165,18 +165,18 @@ WITH CHECK (
 DROP POLICY IF EXISTS "Students read own pdf assignments" ON public.pdf_assignments;
 CREATE POLICY "Students read own pdf assignments"
 ON public.pdf_assignments FOR SELECT TO authenticated
-USING (EXISTS (SELECT 1 FROM public.children c WHERE c.id = student_id AND c.auth_uid = auth.uid()));
+USING (EXISTS (SELECT 1 FROM public.children c WHERE c.id = pdf_assignments.student_id AND c.auth_uid = auth.uid()));
 
 DROP POLICY IF EXISTS "Students update own pdf assignment status" ON public.pdf_assignments;
 CREATE POLICY "Students update own pdf assignment status"
 ON public.pdf_assignments FOR UPDATE TO authenticated
-USING (EXISTS (SELECT 1 FROM public.children c WHERE c.id = student_id AND c.auth_uid = auth.uid()))
-WITH CHECK (EXISTS (SELECT 1 FROM public.children c WHERE c.id = student_id AND c.auth_uid = auth.uid()));
+USING (EXISTS (SELECT 1 FROM public.children c WHERE c.id = pdf_assignments.student_id AND c.auth_uid = auth.uid()))
+WITH CHECK (EXISTS (SELECT 1 FROM public.children c WHERE c.id = pdf_assignments.student_id AND c.auth_uid = auth.uid()));
 
 DROP POLICY IF EXISTS "Parents read child pdf assignments" ON public.pdf_assignments;
 CREATE POLICY "Parents read child pdf assignments"
 ON public.pdf_assignments FOR SELECT TO authenticated
-USING (EXISTS (SELECT 1 FROM public.children c WHERE c.id = student_id AND c.parent_id = auth.uid()));
+USING (EXISTS (SELECT 1 FROM public.children c WHERE c.id = pdf_assignments.student_id AND c.parent_id = auth.uid()));
 
 DROP POLICY IF EXISTS "pdf_assignments service role" ON public.pdf_assignments;
 CREATE POLICY "pdf_assignments service role"
@@ -223,12 +223,12 @@ ALTER TABLE public.pdf_reading_attempts ENABLE ROW LEVEL SECURITY;
 DROP POLICY IF EXISTS "Students record own pdf reading attempts" ON public.pdf_reading_attempts;
 CREATE POLICY "Students record own pdf reading attempts"
 ON public.pdf_reading_attempts FOR INSERT TO authenticated
-WITH CHECK (EXISTS (SELECT 1 FROM public.children c WHERE c.id = student_id AND c.auth_uid = auth.uid()));
+WITH CHECK (EXISTS (SELECT 1 FROM public.children c WHERE c.id = pdf_reading_attempts.student_id AND c.auth_uid = auth.uid()));
 
 DROP POLICY IF EXISTS "Students read own pdf reading attempts" ON public.pdf_reading_attempts;
 CREATE POLICY "Students read own pdf reading attempts"
 ON public.pdf_reading_attempts FOR SELECT TO authenticated
-USING (EXISTS (SELECT 1 FROM public.children c WHERE c.id = student_id AND c.auth_uid = auth.uid()));
+USING (EXISTS (SELECT 1 FROM public.children c WHERE c.id = pdf_reading_attempts.student_id AND c.auth_uid = auth.uid()));
 
 DROP POLICY IF EXISTS "Teachers read assigned pdf reading attempts" ON public.pdf_reading_attempts;
 CREATE POLICY "Teachers read assigned pdf reading attempts"
@@ -244,7 +244,7 @@ USING (
 DROP POLICY IF EXISTS "Parents read child pdf reading attempts" ON public.pdf_reading_attempts;
 CREATE POLICY "Parents read child pdf reading attempts"
 ON public.pdf_reading_attempts FOR SELECT TO authenticated
-USING (EXISTS (SELECT 1 FROM public.children c WHERE c.id = student_id AND c.parent_id = auth.uid()));
+USING (EXISTS (SELECT 1 FROM public.children c WHERE c.id = pdf_reading_attempts.student_id AND c.parent_id = auth.uid()));
 
 DROP POLICY IF EXISTS "pdf_reading_attempts service role" ON public.pdf_reading_attempts;
 CREATE POLICY "pdf_reading_attempts service role"
@@ -354,12 +354,12 @@ WITH CHECK (EXISTS (SELECT 1 FROM public.teacher_assessments a WHERE a.id = asse
 DROP POLICY IF EXISTS "Students read own assessment scores" ON public.teacher_assessment_scores;
 CREATE POLICY "Students read own assessment scores"
 ON public.teacher_assessment_scores FOR SELECT TO authenticated
-USING (EXISTS (SELECT 1 FROM public.children c WHERE c.id = student_id AND c.auth_uid = auth.uid()));
+USING (EXISTS (SELECT 1 FROM public.children c WHERE c.id = teacher_assessment_scores.student_id AND c.auth_uid = auth.uid()));
 
 DROP POLICY IF EXISTS "Parents read child assessment scores" ON public.teacher_assessment_scores;
 CREATE POLICY "Parents read child assessment scores"
 ON public.teacher_assessment_scores FOR SELECT TO authenticated
-USING (EXISTS (SELECT 1 FROM public.children c WHERE c.id = student_id AND c.parent_id = auth.uid()));
+USING (EXISTS (SELECT 1 FROM public.children c WHERE c.id = teacher_assessment_scores.student_id AND c.parent_id = auth.uid()));
 
 DROP POLICY IF EXISTS "teacher_assessment_scores service role" ON public.teacher_assessment_scores;
 CREATE POLICY "teacher_assessment_scores service role"
@@ -490,12 +490,12 @@ WITH CHECK (EXISTS (SELECT 1 FROM public.learning_paths p WHERE p.id = path_id A
 DROP POLICY IF EXISTS "Students read own path assignments" ON public.learning_path_assignments;
 CREATE POLICY "Students read own path assignments"
 ON public.learning_path_assignments FOR SELECT TO authenticated
-USING (EXISTS (SELECT 1 FROM public.children c WHERE c.id = student_id AND c.auth_uid = auth.uid()));
+USING (EXISTS (SELECT 1 FROM public.children c WHERE c.id = learning_path_assignments.student_id AND c.auth_uid = auth.uid()));
 
 DROP POLICY IF EXISTS "Parents read child path assignments" ON public.learning_path_assignments;
 CREATE POLICY "Parents read child path assignments"
 ON public.learning_path_assignments FOR SELECT TO authenticated
-USING (EXISTS (SELECT 1 FROM public.children c WHERE c.id = student_id AND c.parent_id = auth.uid()));
+USING (EXISTS (SELECT 1 FROM public.children c WHERE c.id = learning_path_assignments.student_id AND c.parent_id = auth.uid()));
 
 DROP POLICY IF EXISTS "learning_path_assignments service role" ON public.learning_path_assignments;
 CREATE POLICY "learning_path_assignments service role"

@@ -5,6 +5,7 @@ import { IconLabel } from '../../components/a11y/IconLabel';
 const TABS = [
   { to: '/student', end: true, icon: '🏠', label: 'Dashboard' },
   { to: '/student/learn', icon: '📖', label: 'Matuto' },
+  { to: '/student/pdf-reading', icon: '📄', label: 'PDF Reading' },
   { to: '/student/profile', icon: '🙂', label: 'Profile Ko' },
 ];
 
