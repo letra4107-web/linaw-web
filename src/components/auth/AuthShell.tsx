@@ -2,6 +2,7 @@ import { useState, type InputHTMLAttributes, type ReactNode } from 'react';
 import { Link } from 'react-router-dom';
 import { AccessibilityBar } from '../a11y/AccessibilityBar';
 import lookImage from '../../assets/look.webp';
+import bgImage from '../../assets/bg.webp';
 
 export function isValidEmail(value: string): boolean {
   return /\S+@\S+\.\S+/.test(value);
@@ -39,23 +40,27 @@ export function AuthShell({ title, subtitle, children, footer }: AuthShellProps)
         </div>
       </div>
 
-      <div className="flex flex-1 flex-col">
-        <header className="flex items-center justify-between border-b border-[var(--color-border)] px-6 py-4 lg:justify-end">
-          <Link to="/" className="text-xl font-bold text-[var(--color-primary)] lg:hidden">
-            LinawLetra
-          </Link>
-          <AccessibilityBar />
-        </header>
-        <main className="mx-auto flex w-full max-w-md flex-1 flex-col justify-center gap-6 px-6 py-12">
-          <div>
-            <h1 className="text-3xl">{title}</h1>
-            {subtitle && <p className="mt-2 text-[var(--color-text-muted)]">{subtitle}</p>}
-          </div>
-          <div className="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] p-6 shadow-card sm:p-8">
-            {children}
-          </div>
-          {footer && <div className="text-center text-sm text-[var(--color-text-muted)]">{footer}</div>}
-        </main>
+      <div className="relative flex flex-1 flex-col">
+        <img src={bgImage} alt="" aria-hidden="true" className="pointer-events-none absolute inset-0 h-full w-full object-cover" />
+
+        <div className="relative z-10 flex flex-1 flex-col">
+          <header className="flex items-center justify-between border-b border-[var(--color-border)] px-6 py-4 lg:justify-end">
+            <Link to="/" className="text-xl font-bold text-[var(--color-primary)] lg:hidden">
+              LinawLetra
+            </Link>
+            <AccessibilityBar />
+          </header>
+          <main className="mx-auto flex w-full max-w-md flex-1 flex-col justify-center gap-6 px-6 py-12">
+            <div>
+              <h1 className="text-3xl">{title}</h1>
+              {subtitle && <p className="mt-2 text-[var(--color-text-muted)]">{subtitle}</p>}
+            </div>
+            <div className="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] p-6 shadow-card sm:p-8">
+              {children}
+            </div>
+            {footer && <div className="text-center text-sm text-[var(--color-text-muted)]">{footer}</div>}
+          </main>
+        </div>
       </div>
     </div>
   );
