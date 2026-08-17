@@ -58,9 +58,6 @@ export default function Landing() {
         <div className="flex items-center justify-between px-4 py-2 sm:px-6">
           <img src={logo} alt="LinawLetra" className="h-16 w-auto rounded-lg sm:h-20" />
           <div className="flex items-center gap-4">
-            <div className="hidden sm:block">
-              <AccessibilityBar />
-            </div>
             <Link
               to="/login"
               className="rounded-full border border-[var(--color-border)] px-4 py-2 text-sm font-medium hover:border-[var(--color-primary)]"
@@ -74,6 +71,9 @@ export default function Landing() {
               Mag-sign up
             </Link>
           </div>
+        </div>
+        <div className="hidden justify-center border-t border-[var(--color-border)] px-4 py-2 sm:flex">
+          <AccessibilityBar />
         </div>
       </header>
 
