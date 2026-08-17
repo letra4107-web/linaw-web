@@ -8,7 +8,12 @@ import VerifyEmail from './pages/auth/VerifyEmail';
 import VerifyLogin from './pages/auth/VerifyLogin';
 import ResendVerification from './pages/auth/ResendVerification';
 import { ProtectedRoute } from './components/ProtectedRoute';
-import AdminDashboard from './pages/admin/AdminDashboard';
+import AdminLayout from './pages/admin/AdminLayout';
+import AdminDashboardPage from './pages/admin/Dashboard';
+import AdminUsers from './pages/admin/Users';
+import AdminArchived from './pages/admin/Archived';
+import AdminTeachers from './pages/admin/Teachers';
+import AdminAnalytics from './pages/admin/Analytics';
 import ParentLayout from './pages/parent/ParentLayout';
 import ParentDashboardPage from './pages/parent/Dashboard';
 import MyChildren from './pages/parent/MyChildren';
@@ -45,13 +50,19 @@ export default function App() {
       <Route path="/resend-verification" element={<ResendVerification />} />
 
       <Route
-        path="/admin/*"
+        path="/admin"
         element={
           <ProtectedRoute role="admin">
-            <AdminDashboard />
+            <AdminLayout />
           </ProtectedRoute>
         }
-      />
+      >
+        <Route index element={<AdminDashboardPage />} />
+        <Route path="users" element={<AdminUsers />} />
+        <Route path="archived" element={<AdminArchived />} />
+        <Route path="teachers" element={<AdminTeachers />} />
+        <Route path="analytics" element={<AdminAnalytics />} />
+      </Route>
       <Route
         path="/parent"
         element={
