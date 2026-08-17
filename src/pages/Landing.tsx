@@ -351,6 +351,12 @@ export default function Landing() {
                 AI-assisted na Tagalog reading support para sa mga mag-aaral na may dyslexia, Grade
                 1–6 — kasama ang mga tool para sa magulang, guro, at admin.
               </p>
+              <a
+                href="mailto:linawletra@gmail.com"
+                className="mt-4 inline-flex items-center gap-2 text-sm font-medium hover:text-[var(--color-primary)] hover:underline"
+              >
+                <IconLabel icon="✉️" label="linawletra@gmail.com" />
+              </a>
             </div>
 
             <div>
