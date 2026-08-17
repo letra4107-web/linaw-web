@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { AccessibilityBar } from '../components/a11y/AccessibilityBar';
 import { TTSButton } from '../components/a11y/TTSButton';
@@ -30,6 +31,14 @@ const FEATURES = [
     text: 'Nagbibigay ang guro ng aralin, PDF na babasahin, at pagsusulit na angkop sa bawat mag-aaral.',
     tint: 'accent',
   },
+] as const;
+
+const NAV_LINKS = [
+  { label: 'Bahay', href: '/' },
+  { label: 'Tungkol Sa Amin', href: '#phonological-dyslexia' },
+  { label: 'Mga Tampok', href: '#ano-ang-makukuha' },
+  { label: 'Paano Gumagana', href: '#paano-gumagana' },
+  { label: 'Makipag-ugnayan', href: '#contact' },
 ] as const;
 
 const ROLES = [
@@ -86,6 +95,8 @@ const STEPS = [
 ] as const;
 
 export default function Landing() {
+  const [mobileNavOpen, setMobileNavOpen] = useState(false);
+
   return (
     <div
       className="min-h-screen bg-[var(--color-bg)] text-[var(--color-text)]"
@@ -93,24 +104,85 @@ export default function Landing() {
     >
       <header className="sticky top-0 z-20 border-b border-[var(--color-border)] bg-[var(--color-bg)]/85 backdrop-blur">
         <div className="grid grid-cols-[1fr_auto_1fr] items-center gap-4 px-4 py-2 sm:px-6">
-          <img src={logo} alt="LinawLetra" className="h-16 w-auto justify-self-start rounded-lg sm:h-20" />
-          <div className="hidden justify-self-center sm:block">
-            <AccessibilityBar />
-          </div>
-          <div className="flex items-center gap-4 justify-self-end">
+          <Link to="/" className="justify-self-start">
+            <img src={logo} alt="LinawLetra" className="h-16 w-auto rounded-lg sm:h-20" />
+          </Link>
+          <nav className="hidden justify-self-center lg:block" aria-label="Pangunahing navigation">
+            <ul className="flex items-center gap-6 text-sm font-medium">
+              {NAV_LINKS.map((item) =>
+                item.href.startsWith('#') ? (
+                  <li key={item.label}>
+                    <a href={item.href} className="hover:text-[var(--color-primary)]">
+                      {item.label}
+                    </a>
+                  </li>
+                ) : (
+                  <li key={item.label}>
+                    <Link to={item.href} className="hover:text-[var(--color-primary)]">
+                      {item.label}
+                    </Link>
+                  </li>
+                ),
+              )}
+            </ul>
+          </nav>
+          <div className="flex items-center gap-2 justify-self-end sm:gap-4">
+            <button
+              type="button"
+              onClick={() => setMobileNavOpen((v) => !v)}
+              aria-expanded={mobileNavOpen}
+              aria-label={mobileNavOpen ? 'Isara ang menu' : 'Buksan ang menu'}
+              className="rounded-full border border-[var(--color-border)] p-2 text-lg hover:border-[var(--color-primary)] lg:hidden"
+            >
+              {mobileNavOpen ? '✕' : '☰'}
+            </button>
             <Link
               to="/login"
-              className="rounded-full border border-[var(--color-border)] px-4 py-2 text-sm font-medium hover:border-[var(--color-primary)]"
+              className="rounded-full border border-[var(--color-border)] px-3 py-2 text-sm font-medium hover:border-[var(--color-primary)] sm:px-4"
             >
               Mag-login
             </Link>
             <Link
               to="/signup"
-              className="rounded-full bg-[var(--color-primary)] px-4 py-2 text-sm font-semibold text-white shadow-card transition-all hover:-translate-y-0.5 hover:bg-[var(--color-primary-hover)] hover:shadow-raised"
+              className="rounded-full bg-[var(--color-primary)] px-3 py-2 text-sm font-semibold text-white shadow-card transition-all hover:-translate-y-0.5 hover:bg-[var(--color-primary-hover)] hover:shadow-raised sm:px-4"
             >
               Mag-sign up
             </Link>
           </div>
+        </div>
+
+        {mobileNavOpen && (
+          <nav className="border-t border-[var(--color-border)] px-6 py-4 lg:hidden" aria-label="Mobile navigation">
+            <ul className="flex flex-col gap-3 text-sm font-medium">
+              {NAV_LINKS.map((item) =>
+                item.href.startsWith('#') ? (
+                  <li key={item.label}>
+                    <a
+                      href={item.href}
+                      onClick={() => setMobileNavOpen(false)}
+                      className="hover:text-[var(--color-primary)]"
+                    >
+                      {item.label}
+                    </a>
+                  </li>
+                ) : (
+                  <li key={item.label}>
+                    <Link
+                      to={item.href}
+                      onClick={() => setMobileNavOpen(false)}
+                      className="hover:text-[var(--color-primary)]"
+                    >
+                      {item.label}
+                    </Link>
+                  </li>
+                ),
+              )}
+            </ul>
+          </nav>
+        )}
+
+        <div className="hidden justify-center border-t border-[var(--color-border)] px-4 py-2 sm:flex">
+          <AccessibilityBar />
         </div>
       </header>
 
@@ -270,7 +342,7 @@ export default function Landing() {
         </div>
       </section>
 
-      <footer className="border-t border-[var(--color-border)] bg-[var(--color-surface)]">
+      <footer id="contact" className="border-t border-[var(--color-border)] bg-[var(--color-surface)]">
         <div className="mx-auto max-w-6xl px-6 py-12">
           <div className="grid grid-cols-1 gap-10 sm:grid-cols-[1.3fr_1fr_1fr]">
             <div>
