@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import { AccessibilityBar } from '../components/a11y/AccessibilityBar';
 import { TTSButton } from '../components/a11y/TTSButton';
 import { IconLabel } from '../components/a11y/IconLabel';
+import logo from '../assets/Logo.jpg';
 
 const FEATURES = [
   {
@@ -55,7 +56,7 @@ export default function Landing() {
     <div className="min-h-screen bg-[var(--color-bg)] text-[var(--color-text)]">
       <header className="sticky top-0 z-20 border-b border-[var(--color-border)] bg-[var(--color-bg)]/85 backdrop-blur">
         <div className="mx-auto flex max-w-5xl items-center justify-between px-6 py-4">
-          <span className="text-xl font-bold text-[var(--color-primary)]">LinawLetra</span>
+          <img src={logo} alt="LinawLetra" className="h-10 w-auto rounded-lg sm:h-12" />
           <div className="flex items-center gap-4">
             <div className="hidden sm:block">
               <AccessibilityBar />
