@@ -14,7 +14,12 @@ import ParentDashboardPage from './pages/parent/Dashboard';
 import MyChildren from './pages/parent/MyChildren';
 import ProgressReport from './pages/parent/ProgressReport';
 import Schedule from './pages/parent/Schedule';
-import StudentDashboard from './pages/student/StudentDashboard';
+import StudentLayout from './pages/student/StudentLayout';
+import StudentDashboardPage from './pages/student/Dashboard';
+import Learn from './pages/student/Learn';
+import StudentModule from './pages/student/Module';
+import StudentAssessment from './pages/student/Assessment';
+import StudentProfile from './pages/student/Profile';
 import TeacherLayout from './pages/teacher/TeacherLayout';
 import TeacherDashboardPage from './pages/teacher/Dashboard';
 import MyStudents from './pages/teacher/MyStudents';
@@ -60,13 +65,19 @@ export default function App() {
         <Route path="schedule" element={<Schedule />} />
       </Route>
       <Route
-        path="/student/*"
+        path="/student"
         element={
           <ProtectedRoute role="student">
-            <StudentDashboard />
+            <StudentLayout />
           </ProtectedRoute>
         }
-      />
+      >
+        <Route index element={<StudentDashboardPage />} />
+        <Route path="learn" element={<Learn />} />
+        <Route path="learn/module/:moduleId" element={<StudentModule />} />
+        <Route path="learn/assessment/:assessmentId" element={<StudentAssessment />} />
+        <Route path="profile" element={<StudentProfile />} />
+      </Route>
       <Route
         path="/teacher"
         element={

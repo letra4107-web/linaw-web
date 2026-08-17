@@ -1,0 +1,137 @@
+const express = require('express');
+const { supabaseAdmin } = require('../config/supabase');
+const { requireAuth, requireRole } = require('../middleware/auth');
+
+const router = express.Router();
+router.use(requireAuth, requireRole('student'));
+
+// The module-progression RPCs all take p_student_id = children.id, not the
+// auth uid -- every route resolves that mapping first via children.auth_uid.
+async function resolveStudentId(authUid) {
+  const { data, error } = await supabaseAdmin.from('children').select('id').eq('auth_uid', authUid).maybeSingle();
+  if (error) throw error;
+  if (!data) throw Object.assign(new Error('No linked student record for this account.'), { status: 404 });
+  return data.id;
+}
+
+function handleRpcError(res, err) {
+  console.error('[student rpc]', err);
+  const status = err.status || (err.code === '42501' ? 403 : err.code === 'P0002' ? 404 : 500);
+  res.status(status).json({ error: err.message || 'Something went wrong.' });
+}
+
+// GET /student/learn/path
+router.get('/learn/path', async (req, res) => {
+  try {
+    const studentId = await resolveStudentId(req.user.id);
+    const { data, error } = await supabaseAdmin.rpc('get_student_module_path', { p_student_id: studentId });
+    if (error) throw error;
+    res.json(data);
+  } catch (err) {
+    handleRpcError(res, err);
+  }
+});
+
+// GET /student/learn/module/:moduleId
+router.get('/learn/module/:moduleId', async (req, res) => {
+  try {
+    const studentId = await resolveStudentId(req.user.id);
+    const { data, error } = await supabaseAdmin.rpc('get_reading_module_content', {
+      p_student_id: studentId,
+      p_module_id: req.params.moduleId,
+    });
+    if (error) throw error;
+    res.json(data);
+  } catch (err) {
+    handleRpcError(res, err);
+  }
+});
+
+// POST /student/learn/content/:contentId/attempt
+// { accuracy, transcript?, durationSeconds?, isFullSubmission?, source? }
+router.post('/learn/content/:contentId/attempt', async (req, res) => {
+  try {
+    const studentId = await resolveStudentId(req.user.id);
+    const { accuracy, transcript, durationSeconds, isFullSubmission, source } = req.body || {};
+    const { data, error } = await supabaseAdmin.rpc('record_student_content_attempt', {
+      p_student_id: studentId,
+      p_content_id: req.params.contentId,
+      p_accuracy: accuracy,
+      p_transcript: transcript ?? null,
+      p_duration_seconds: durationSeconds ?? null,
+      p_is_full_submission: Boolean(isFullSubmission),
+      p_source: source || 'practice',
+    });
+    if (error) throw error;
+    res.json(data);
+  } catch (err) {
+    handleRpcError(res, err);
+  }
+});
+
+// POST /student/learn/assessment/:assessmentId/start
+router.post('/learn/assessment/:assessmentId/start', async (req, res) => {
+  try {
+    const studentId = await resolveStudentId(req.user.id);
+    const { data, error } = await supabaseAdmin.rpc('start_module_assessment', {
+      p_student_id: studentId,
+      p_assessment_id: req.params.assessmentId,
+    });
+    if (error) throw error;
+    res.json(data);
+  } catch (err) {
+    handleRpcError(res, err);
+  }
+});
+
+// POST /student/learn/assessment/:attemptId/submit  { responses: [{assessment_item_id, content_attempt_id}] }
+router.post('/learn/assessment/:attemptId/submit', async (req, res) => {
+  try {
+    const studentId = await resolveStudentId(req.user.id);
+    const { responses } = req.body || {};
+    const { data, error } = await supabaseAdmin.rpc('submit_module_assessment', {
+      p_student_id: studentId,
+      p_attempt_id: req.params.attemptId,
+      p_responses: responses || [],
+    });
+    if (error) throw error;
+    res.json(data);
+  } catch (err) {
+    handleRpcError(res, err);
+  }
+});
+
+// POST /student/learn/module/:moduleId/equip  { slotNumber? }
+router.post('/learn/module/:moduleId/equip', async (req, res) => {
+  try {
+    const studentId = await resolveStudentId(req.user.id);
+    const { slotNumber } = req.body || {};
+    const { data, error } = await supabaseAdmin.rpc('equip_student_module', {
+      p_student_id: studentId,
+      p_module_id: req.params.moduleId,
+      p_slot_number: slotNumber || 1,
+    });
+    if (error) throw error;
+    res.json(data);
+  } catch (err) {
+    handleRpcError(res, err);
+  }
+});
+
+// POST /student/learn/module/:moduleId/unequip
+router.post('/learn/module/:moduleId/unequip', async (req, res) => {
+  try {
+    const studentId = await resolveStudentId(req.user.id);
+    const { data, error } = await supabaseAdmin.rpc('unequip_student_module', {
+      p_student_id: studentId,
+      p_module_id: req.params.moduleId,
+      p_slot_number: null,
+    });
+    if (error) throw error;
+    res.json(data);
+  } catch (err) {
+    handleRpcError(res, err);
+  }
+});
+
+module.exports = router;
