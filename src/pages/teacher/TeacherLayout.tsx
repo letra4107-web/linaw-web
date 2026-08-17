@@ -11,6 +11,7 @@ const TABS = [
   { to: '/teacher/learning-paths', icon: '🧭', label: 'Landas ng Pagkatuto' },
   { to: '/teacher/activities', icon: '🗂️', label: 'Mga Gawain' },
   { to: '/teacher/progress-reports', icon: '📊', label: 'Ulat ng Progreso' },
+  { to: '/teacher/messages', icon: '✉️', label: 'Mga Mensahe' },
   { to: '/teacher/settings', icon: '⚙️', label: 'Mga Setting' },
 ];
 

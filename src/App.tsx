@@ -19,6 +19,7 @@ import ParentDashboardPage from './pages/parent/Dashboard';
 import MyChildren from './pages/parent/MyChildren';
 import ProgressReport from './pages/parent/ProgressReport';
 import Schedule from './pages/parent/Schedule';
+import ParentMessages from './pages/parent/Messages';
 import StudentLayout from './pages/student/StudentLayout';
 import StudentDashboardPage from './pages/student/Dashboard';
 import Learn from './pages/student/Learn';
@@ -36,6 +37,7 @@ import LearningPaths from './pages/teacher/LearningPaths';
 import Activities from './pages/teacher/Activities';
 import ProgressReports from './pages/teacher/ProgressReports';
 import TeacherSettings from './pages/teacher/Settings';
+import TeacherMessages from './pages/teacher/Messages';
 
 export default function App() {
   return (
@@ -75,6 +77,7 @@ export default function App() {
         <Route path="children" element={<MyChildren />} />
         <Route path="progress" element={<ProgressReport />} />
         <Route path="schedule" element={<Schedule />} />
+        <Route path="messages" element={<ParentMessages />} />
       </Route>
       <Route
         path="/student"
@@ -107,6 +110,7 @@ export default function App() {
         <Route path="learning-paths" element={<LearningPaths />} />
         <Route path="activities" element={<Activities />} />
         <Route path="progress-reports" element={<ProgressReports />} />
+        <Route path="messages" element={<TeacherMessages />} />
         <Route path="settings" element={<TeacherSettings />} />
       </Route>
     </Routes>

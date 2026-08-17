@@ -7,6 +7,7 @@ const TABS = [
   { to: '/parent/children', icon: '👧', label: 'Mga Anak Ko' },
   { to: '/parent/progress', icon: '📊', label: 'Ulat ng Progreso' },
   { to: '/parent/schedule', icon: '🗓️', label: 'Iskedyul' },
+  { to: '/parent/messages', icon: '✉️', label: 'Mga Mensahe' },
 ];
 
 export default function ParentLayout() {
