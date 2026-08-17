@@ -56,15 +56,15 @@ export default function Landing() {
         </div>
       </header>
 
-      <section className="bg-gradient-to-b from-[var(--color-hero-from)] to-[var(--color-hero-to)]">
+      <section className="bg-gradient-to-b from-[var(--color-hero-from)] via-[var(--color-hero-via)] to-[var(--color-hero-to)] shadow-hero">
         <main className="mx-auto max-w-4xl px-6 py-16 text-center sm:py-20">
-          <span className="inline-flex items-center gap-2 rounded-full border border-[var(--color-primary)] bg-[var(--color-primary-soft)] px-4 py-1 text-sm font-medium text-[var(--color-primary)]">
+          <span className="inline-flex items-center gap-2 rounded-full border border-white/40 bg-white/15 px-4 py-1 text-sm font-medium text-white">
             Para sa Grade 1–6 · May dyslexia support
           </span>
-          <h1 className="mt-5 text-4xl font-semibold text-[var(--color-primary)] sm:text-5xl">
+          <h1 className="mt-5 text-4xl text-white sm:text-5xl">
             Tulong sa pagbasa ng Tagalog, para sa bawat bata.
           </h1>
-          <p className="mx-auto mt-4 max-w-2xl text-lg text-[var(--color-text-muted)]">
+          <p className="mx-auto mt-4 max-w-2xl text-lg text-white/85">
             Ginawa ang LinawLetra para sa mga mag-aaral na may dyslexia, mula Grade 1 hanggang
             Grade 6 — kasama ang mga tool para sa magulang, guro, at admin.
           </p>
@@ -72,7 +72,7 @@ export default function Landing() {
             <TTSButton text="Tulong sa pagbasa ng Tagalog, para sa bawat bata. Ginawa ang LinawLetra para sa mga mag-aaral na may dyslexia." />
             <Link
               to="/signup"
-              className="rounded-full bg-[var(--color-primary)] px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-[var(--color-primary-hover)]"
+              className="rounded-full bg-white px-6 py-3 text-base font-medium text-[var(--color-primary)] shadow-sm hover:bg-white/90"
             >
               <IconLabel icon="🚀" label="Magsimula" />
             </Link>

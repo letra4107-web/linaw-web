@@ -1,24 +1,112 @@
 @import "tailwindcss";
 
-:root {
-  --color-bg: #fdfcf9;
-  --color-surface: #ffffff;
-  --color-text: #1f2430;
-  --color-text-muted: #4b5265;
-  --color-border: #d8d4c8;
-  --color-primary: #2f6f4f;
-  --color-primary-hover: #255a40;
-  --color-accent: #c9622a;
-  --color-danger: #b3261e;
-  --color-focus: #1a56db;
-  --color-primary-soft: #e3efe7;
-  --color-accent-soft: #fbe8d9;
-  --color-hero-from: #eef6f0;
-  --color-hero-to: #fdfcf9;
-  --color-guide-mask: rgba(20, 20, 20, 0.45);
+/* ---------------------------------------------------------------------
+ * LinawLetra design tokens, carried over as-is from the mobile app's
+ * src/theme/index.ts (base palette, brand accents, hero gradient, vivid
+ * accents, semantic colors, type/spacing/radius/shadow scale) so the web
+ * build reads as the same product, not a reskin.
+ * --------------------------------------------------------------------- */
+@theme {
+  /* Base palette */
+  --color-brand-cream: #fbf3e2;
+  --color-brand-ink: #3b322c;
+  --color-brand-ink-soft: #5f5044;
+  --color-brand-white: #ffffff;
+  --color-brand-border: #e5e7eb;
 
-  --font-body: "Lexend", "Atkinson Hyperlegible", system-ui, "Segoe UI", Roboto, sans-serif;
-  --font-dyslexic: "Atkinson Hyperlegible", "Lexend", system-ui, sans-serif;
+  /* Brand accents */
+  --color-brand-sun: #e3971a;
+  --color-brand-coral: #e06b4c;
+  --color-brand-sage: #5c8047;
+  --color-brand-lavender: #7c6fcf;
+  --color-brand-lavender-dark: #5f52b0;
+
+  /* Hero gradient (violet -> magenta -> rose) */
+  --color-brand-hero-from: #6d28d9;
+  --color-brand-hero-via: #974cde;
+  --color-brand-hero-to: #9d174d;
+
+  /* Vivid accents: status/category tagging, badges, charts */
+  --color-brand-green: #16a34a;
+  --color-brand-orange: #ea580c;
+  --color-brand-violet: #7c3aed;
+  --color-brand-amber: #f59e0b;
+  --color-brand-teal: #0d9488;
+  --color-brand-navy: #1e3a8a;
+
+  /* Semantic */
+  --color-brand-success: #10b981;
+  --color-brand-warning: #f59e0b;
+  --color-brand-warning-text: #b45309;
+  --color-brand-danger: #ef4444;
+  --color-brand-danger-text: #dc2626;
+
+  /* Legacy/secondary, still present, used less */
+  --color-brand-legacy-primary: #4f46e5;
+  --color-brand-legacy-primary-light: #eef2ff;
+  --color-brand-legacy-text-primary: #111827;
+  --color-brand-legacy-text-secondary: #6b7280;
+
+  /* Typography */
+  --font-display: "Baloo 2", "Segoe UI", sans-serif;
+  --font-sans: "Inter", system-ui, "Segoe UI", Roboto, sans-serif;
+  --font-dyslexic: "Lexend", "Inter", system-ui, sans-serif;
+
+  /* Mobile type-scale floor (web may size up per component) */
+  --text-caption: 11px;
+  --text-small: 12px;
+  --text-body-mobile: 13px;
+  --text-subtitle: 15px;
+  --text-title: 18px;
+  --text-hero: 24px;
+
+  /* Spacing (4px base) */
+  --spacing-xs: 4px;
+  --spacing-sm: 8px;
+  --spacing-md: 12px;
+  --spacing-lg: 16px;
+  --spacing-xl: 20px;
+  --spacing-xxl: 24px;
+
+  /* Corner radius -- pill (999) is the single most-used radius app-wide */
+  --radius-sm: 12px;
+  --radius-md: 18px;
+  --radius-lg: 20px;
+  --radius-xl: 24px;
+  --radius-pill: 999px;
+
+  /* Shadows: card (default elevation), raised (hover/active), hero (banners) */
+  --shadow-card: 0 2px 8px rgba(59, 50, 44, 0.1);
+  --shadow-raised: 0 8px 20px rgba(95, 82, 176, 0.28);
+  --shadow-hero: 0 16px 40px rgba(151, 76, 222, 0.35);
+}
+
+/* ---------------------------------------------------------------------
+ * Runtime semantic tokens -- what components actually consume via
+ * var(--color-*). Light theme is the brand palette above; high-contrast
+ * is a separate accessibility mode that intentionally overrides brand
+ * colors for maximum contrast.
+ * --------------------------------------------------------------------- */
+:root {
+  --color-bg: var(--color-brand-cream);
+  --color-surface: var(--color-brand-white);
+  --color-text: var(--color-brand-ink);
+  --color-text-muted: var(--color-brand-ink-soft);
+  --color-border: var(--color-brand-border);
+  --color-primary: var(--color-brand-lavender-dark);
+  --color-primary-hover: color-mix(in srgb, var(--color-brand-lavender-dark) 82%, black);
+  --color-accent: var(--color-brand-sun);
+  --color-danger: var(--color-brand-danger-text);
+  --color-focus: var(--color-brand-sun);
+  --color-primary-soft: color-mix(in srgb, var(--color-brand-lavender) 16%, white);
+  --color-accent-soft: color-mix(in srgb, var(--color-brand-sun) 16%, white);
+  --color-hero-from: var(--color-brand-hero-from);
+  --color-hero-via: var(--color-brand-hero-via);
+  --color-hero-to: var(--color-brand-hero-to);
+  --color-guide-mask: rgba(59, 50, 44, 0.45);
+
+  --font-body: var(--font-sans);
+  --font-scale: 1;
 }
 
 :root[data-theme="high-contrast"] {
@@ -34,6 +122,7 @@
   --color-primary-soft: #332b00;
   --color-accent-soft: #00292b;
   --color-hero-from: #000000;
+  --color-hero-via: #000000;
   --color-hero-to: #000000;
   --color-guide-mask: rgba(255, 255, 255, 0.18);
 }
@@ -48,7 +137,7 @@ body {
   background: var(--color-bg);
   color: var(--color-text);
   font-family: var(--font-body);
-  font-size: 18px;
+  font-size: calc(18px * var(--font-scale, 1));
   line-height: 1.6;
   letter-spacing: 0.01em;
 }
@@ -57,6 +146,11 @@ body[data-font="dyslexic"] {
   font-family: var(--font-dyslexic);
   letter-spacing: 0.03em;
   word-spacing: 0.08em;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-display);
+  font-weight: 700;
 }
 
 * {
@@ -71,4 +165,9 @@ body[data-font="dyslexic"] {
 button, input, select, textarea {
   font-family: inherit;
   font-size: inherit;
+}
+
+button {
+  font-family: var(--font-display);
+  font-weight: 600;
 }
