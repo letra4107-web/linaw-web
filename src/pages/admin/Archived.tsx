@@ -45,7 +45,7 @@ export default function AdminArchived() {
   return (
     <div className="flex flex-col gap-6">
       <div>
-        <h1 className="text-2xl font-semibold">Archive</h1>
+        <h1 className="text-2xl font-semibold">Arkibo</h1>
         <p className="text-[var(--color-text-muted)]">
           Mga na-archive na account. Maaaring i-restore o permanenteng burahin (hindi na maibabalik).
         </p>

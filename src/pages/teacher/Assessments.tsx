@@ -128,11 +128,11 @@ export default function Assessments() {
         }}
         className="flex flex-col gap-3 rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] p-6"
       >
-        <h2 className="text-lg font-semibold">Bagong Assessment</h2>
+        <h2 className="text-lg font-semibold">Bagong Pagsusulit</h2>
         <input
           value={title}
           onChange={(e) => setTitle(e.target.value)}
-          placeholder="Title"
+          placeholder="Pamagat"
           required
           className="rounded-lg border border-[var(--color-border)] px-4 py-2"
         />
@@ -140,19 +140,19 @@ export default function Assessments() {
           <input
             value={subject}
             onChange={(e) => setSubject(e.target.value)}
-            placeholder="Subject"
+            placeholder="Asignatura"
             className="rounded-lg border border-[var(--color-border)] px-4 py-2"
           />
           <input
             value={gradeLevel}
             onChange={(e) => setGradeLevel(e.target.value)}
-            placeholder="Grade Level"
+            placeholder="Baitang"
             className="rounded-lg border border-[var(--color-border)] px-4 py-2"
           />
           <input
             value={maxScore}
             onChange={(e) => setMaxScore(e.target.value)}
-            placeholder="Max Score"
+            placeholder="Pinakamataas na Marka"
             className="rounded-lg border border-[var(--color-border)] px-4 py-2"
           />
         </div>
@@ -201,7 +201,7 @@ export default function Assessments() {
                             defaultValue={existing?.score ?? ''}
                             onChange={(e) => setScoreDrafts((prev) => ({ ...prev, [draftKey]: e.target.value }))}
                             className="w-24 rounded-lg border border-[var(--color-border)] px-3 py-1"
-                            placeholder="Score"
+                            placeholder="Marka"
                           />
                           <button
                             type="button"

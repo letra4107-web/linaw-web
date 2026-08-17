@@ -70,7 +70,7 @@ export default function Settings() {
   return (
     <div className="flex max-w-lg flex-col gap-8">
       <div>
-        <h1 className="text-2xl font-semibold">Settings</h1>
+        <h1 className="text-2xl font-semibold">Mga Setting</h1>
         <p className="text-[var(--color-text-muted)]">Pamahalaan ang iyong profile at account.</p>
       </div>
 
@@ -83,7 +83,7 @@ export default function Settings() {
         }}
         className="flex flex-col gap-3 rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] p-6"
       >
-        <h2 className="text-lg font-semibold">Profile</h2>
+        <h2 className="text-lg font-semibold">Profile Ko</h2>
         <label htmlFor="name" className="text-sm font-medium">
           Pangalan
         </label>
@@ -124,7 +124,7 @@ export default function Settings() {
       </form>
 
       <div className="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] p-6">
-        <h2 className="mb-3 text-lg font-semibold">Notifications</h2>
+        <h2 className="mb-3 text-lg font-semibold">Mga Abiso</h2>
         <label className="flex items-center gap-3">
           <input
             type="checkbox"

@@ -3,9 +3,9 @@ import { DashboardShell } from '../../components/DashboardShell';
 import { IconLabel } from '../../components/a11y/IconLabel';
 
 const TABS = [
-  { to: '/student', end: true, icon: '🏠', label: 'Dashboard' },
+  { to: '/student', end: true, icon: '🏠', label: 'Bahay' },
   { to: '/student/learn', icon: '📖', label: 'Matuto' },
-  { to: '/student/pdf-reading', icon: '📄', label: 'PDF Reading' },
+  { to: '/student/pdf-reading', icon: '📄', label: 'Pagbasa ng PDF' },
   { to: '/student/profile', icon: '🙂', label: 'Profile Ko' },
 ];
 

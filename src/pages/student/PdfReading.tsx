@@ -44,7 +44,7 @@ export default function PdfReading() {
   return (
     <div className="flex flex-col gap-6">
       <div>
-        <h1 className="text-2xl font-semibold">PDF Reading</h1>
+        <h1 className="text-2xl font-semibold">Pagbasa ng PDF</h1>
         <p className="text-[var(--color-text-muted)]">Basahin nang malakas ang mga PDF na binigay ng iyong guro.</p>
       </div>
 

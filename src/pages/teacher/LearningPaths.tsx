@@ -127,7 +127,7 @@ export default function LearningPaths() {
   return (
     <div className="flex flex-col gap-8">
       <div>
-        <h1 className="text-2xl font-semibold">Learning Paths</h1>
+        <h1 className="text-2xl font-semibold">Landas ng Pagkatuto</h1>
         <p className="text-[var(--color-text-muted)]">
           Bumuo ng sunud-sunod na aralin at i-assign sa mga mag-aaral.
         </p>
@@ -140,11 +140,11 @@ export default function LearningPaths() {
         }}
         className="flex flex-col gap-3 rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] p-6"
       >
-        <h2 className="text-lg font-semibold">Bagong Learning Path</h2>
+        <h2 className="text-lg font-semibold">Bagong Landas ng Pagkatuto</h2>
         <input
           value={title}
           onChange={(e) => setTitle(e.target.value)}
-          placeholder="Title"
+          placeholder="Pamagat"
           required
           className="rounded-lg border border-[var(--color-border)] px-4 py-2"
         />

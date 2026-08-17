@@ -26,7 +26,7 @@ export default function AdminAnalytics() {
   return (
     <div className="flex flex-col gap-8">
       <div>
-        <h1 className="text-2xl font-semibold">Analytics</h1>
+        <h1 className="text-2xl font-semibold">Estadistika</h1>
         <p className="text-[var(--color-text-muted)]">Tunay na datos mula sa buong LinawLetra.</p>
       </div>
 
@@ -45,7 +45,7 @@ export default function AdminAnalytics() {
             </div>
             <div className="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] p-4">
               <p className="text-2xl font-semibold">{data.totals.practiceSessions}</p>
-              <p className="text-sm text-[var(--color-text-muted)]">Practice Sessions</p>
+              <p className="text-sm text-[var(--color-text-muted)]">Mga Pagsasanay</p>
             </div>
             <div className="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] p-4">
               <p className="text-2xl font-semibold">{data.totals.totalXp}</p>
@@ -75,7 +75,7 @@ export default function AdminAnalytics() {
           </div>
 
           <div className="h-72 rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] p-4">
-            <h2 className="mb-2 font-medium">Paggamit — Practice Sessions (bawat buwan)</h2>
+            <h2 className="mb-2 font-medium">Paggamit — Mga Pagsasanay (bawat buwan)</h2>
             {data.usageTrend.length === 0 ? (
               <p className="text-sm text-[var(--color-text-muted)]">Wala pang datos.</p>
             ) : (

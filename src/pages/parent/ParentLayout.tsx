@@ -3,10 +3,10 @@ import { DashboardShell } from '../../components/DashboardShell';
 import { IconLabel } from '../../components/a11y/IconLabel';
 
 const TABS = [
-  { to: '/parent', end: true, icon: '🏠', label: 'Dashboard' },
+  { to: '/parent', end: true, icon: '🏠', label: 'Bahay' },
   { to: '/parent/children', icon: '👧', label: 'Mga Anak Ko' },
-  { to: '/parent/progress', icon: '📊', label: 'Progress Report' },
-  { to: '/parent/schedule', icon: '🗓️', label: 'Schedule' },
+  { to: '/parent/progress', icon: '📊', label: 'Ulat ng Progreso' },
+  { to: '/parent/schedule', icon: '🗓️', label: 'Iskedyul' },
 ];
 
 export default function ParentLayout() {

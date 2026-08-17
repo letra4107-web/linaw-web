@@ -61,7 +61,7 @@ export default function ProgressReports() {
   return (
     <div className="flex flex-col gap-8">
       <div>
-        <h1 className="text-2xl font-semibold">Progress Reports</h1>
+        <h1 className="text-2xl font-semibold">Ulat ng Progreso</h1>
         <p className="text-[var(--color-text-muted)]">
           Batay sa tunay na datos ng bawat mag-aaral sa iyong roster.
         </p>
@@ -89,7 +89,7 @@ export default function ProgressReports() {
             </ResponsiveContainer>
           </div>
           <div className="h-72 rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] p-4">
-            <h2 className="mb-2 font-medium">Average Accuracy (%)</h2>
+            <h2 className="mb-2 font-medium">Karaniwang Accuracy (%)</h2>
             <ResponsiveContainer width="100%" height="90%">
               <BarChart data={chartData}>
                 <CartesianGrid strokeDasharray="3 3" />

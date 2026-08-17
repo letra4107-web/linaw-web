@@ -58,7 +58,7 @@ export default function ProgressReport() {
   return (
     <div className="flex flex-col gap-6">
       <div>
-        <h1 className="text-2xl font-semibold">Progress Report</h1>
+        <h1 className="text-2xl font-semibold">Ulat ng Progreso</h1>
         <p className="text-[var(--color-text-muted)]">Ang pagbabago ng galing sa pagbasa sa paglipas ng panahon.</p>
       </div>
 
@@ -90,7 +90,7 @@ export default function ProgressReport() {
           <div className="grid grid-cols-2 gap-4 sm:grid-cols-3">
             <div className="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] p-4">
               <p className="text-2xl font-semibold text-[var(--color-primary)]">{averageAccuracy}%</p>
-              <p className="text-sm text-[var(--color-text-muted)]">Average Accuracy</p>
+              <p className="text-sm text-[var(--color-text-muted)]">Karaniwang Accuracy</p>
             </div>
             <div className="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] p-4">
               <p className="text-2xl font-semibold text-[var(--color-primary)]">{correctCount}</p>
@@ -103,7 +103,7 @@ export default function ProgressReport() {
           </div>
 
           <div className="h-72 rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] p-4">
-            <h2 className="mb-2 font-medium">Accuracy Over Time</h2>
+            <h2 className="mb-2 font-medium">Accuracy sa Paglipas ng Panahon</h2>
             <ResponsiveContainer width="100%" height="90%">
               <LineChart data={chartData}>
                 <CartesianGrid strokeDasharray="3 3" />

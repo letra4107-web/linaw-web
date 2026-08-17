@@ -122,7 +122,7 @@ export default function MyChildren() {
         />
         <div>
           <label htmlFor="grade" className="mb-1 block text-sm font-medium">
-            Grade Level
+            Baitang
           </label>
           <select
             id="grade"

@@ -42,12 +42,12 @@ export default function Dashboard() {
 
   const cards = [
     { to: '/teacher/students', icon: '🎒', label: 'Mag-aaral Ko', value: rosterCount ?? 0, hint: 'kabuuang mag-aaral' },
-    { to: '/teacher/pdf-reading', icon: '📄', label: 'PDF Reading', value: pendingAssignments ?? 0, hint: 'hindi pa tapos' },
+    { to: '/teacher/pdf-reading', icon: '📄', label: 'Pagbasa ng PDF', value: pendingAssignments ?? 0, hint: 'hindi pa tapos' },
   ];
 
   return (
     <div className="flex flex-col gap-8">
-      <h1 className="text-2xl font-semibold">Teacher Dashboard</h1>
+      <h1 className="text-2xl font-semibold">Buod ng Guro</h1>
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
         {cards.map((c) => (
           <Link
@@ -80,14 +80,14 @@ export default function Dashboard() {
             </Link>{' '}
             o{' '}
             <Link to="/teacher/pdf-reading" className="text-[var(--color-primary)] underline">
-              PDF Reading
+              Pagbasa ng PDF
             </Link>
             .
           </li>
           <li>
             3. Suriin ang{' '}
             <Link to="/teacher/progress-reports" className="text-[var(--color-primary)] underline">
-              Progress Reports
+              Ulat ng Progreso
             </Link>{' '}
             pagkatapos.
           </li>

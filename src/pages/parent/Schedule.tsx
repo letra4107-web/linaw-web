@@ -22,10 +22,10 @@ interface ScheduledActivity {
 }
 
 const ACTIVITY_TYPES = [
-  { value: 'reading_lesson', label: 'Reading Lesson' },
-  { value: 'practice', label: 'Practice' },
-  { value: 'reminder', label: 'Reminder' },
-  { value: 'appointment', label: 'Appointment' },
+  { value: 'reading_lesson', label: 'Aralin sa Pagbasa' },
+  { value: 'practice', label: 'Pagsasanay' },
+  { value: 'reminder', label: 'Paalala' },
+  { value: 'appointment', label: 'Pakikipagkita' },
 ];
 
 export default function Schedule() {
@@ -116,7 +116,7 @@ export default function Schedule() {
   return (
     <div className="flex flex-col gap-8">
       <div>
-        <h1 className="text-2xl font-semibold">Schedule</h1>
+        <h1 className="text-2xl font-semibold">Iskedyul</h1>
         <p className="text-[var(--color-text-muted)]">Mag-iskedyul ng reading session o gawain para sa iyong anak.</p>
       </div>
 
@@ -155,7 +155,7 @@ export default function Schedule() {
         <input
           value={title}
           onChange={(e) => setTitle(e.target.value)}
-          placeholder="Title"
+          placeholder="Pamagat"
           required
           className="rounded-lg border border-[var(--color-border)] px-4 py-2"
         />

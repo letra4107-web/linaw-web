@@ -3,11 +3,11 @@ import { DashboardShell } from '../../components/DashboardShell';
 import { IconLabel } from '../../components/a11y/IconLabel';
 
 const TABS = [
-  { to: '/admin', end: true, icon: '🏠', label: 'Dashboard' },
+  { to: '/admin', end: true, icon: '🏠', label: 'Bahay' },
   { to: '/admin/users', icon: '👥', label: 'Mga User' },
-  { to: '/admin/archived', icon: '🗄️', label: 'Archive' },
+  { to: '/admin/archived', icon: '🗄️', label: 'Arkibo' },
   { to: '/admin/teachers', icon: '🧑‍🏫', label: 'Mga Guro' },
-  { to: '/admin/analytics', icon: '📊', label: 'Analytics' },
+  { to: '/admin/analytics', icon: '📊', label: 'Estadistika' },
 ];
 
 export default function AdminLayout() {

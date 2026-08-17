@@ -136,9 +136,9 @@ export default function PdfReading() {
   return (
     <div className="flex flex-col gap-8">
       <div>
-        <h1 className="text-2xl font-semibold">PDF Reading</h1>
+        <h1 className="text-2xl font-semibold">Pagbasa ng PDF</h1>
         <p className="text-[var(--color-text-muted)]">
-          Mag-upload ng PDF at i-assign sa mga mag-aaral para sa guided reading.
+          Mag-upload ng PDF at i-assign sa mga mag-aaral para sa gabay na pagbasa.
         </p>
       </div>
 
@@ -153,7 +153,7 @@ export default function PdfReading() {
         <input
           value={title}
           onChange={(e) => setTitle(e.target.value)}
-          placeholder="Title"
+          placeholder="Pamagat"
           required
           className="rounded-lg border border-[var(--color-border)] px-4 py-2"
         />
@@ -161,7 +161,7 @@ export default function PdfReading() {
           <input
             value={gradeLevel}
             onChange={(e) => setGradeLevel(e.target.value)}
-            placeholder="Grade Level (hal. 3)"
+            placeholder="Baitang (hal. 3)"
             className="rounded-lg border border-[var(--color-border)] px-4 py-2"
           />
           <select

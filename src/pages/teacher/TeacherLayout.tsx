@@ -3,15 +3,15 @@ import { DashboardShell } from '../../components/DashboardShell';
 import { IconLabel } from '../../components/a11y/IconLabel';
 
 const TABS = [
-  { to: '/teacher', end: true, icon: '🏠', label: 'Dashboard' },
+  { to: '/teacher', end: true, icon: '🏠', label: 'Bahay' },
   { to: '/teacher/students', icon: '🎒', label: 'Mag-aaral Ko' },
   { to: '/teacher/lessons', icon: '📚', label: 'Mga Aralin' },
-  { to: '/teacher/pdf-reading', icon: '📄', label: 'PDF Reading' },
+  { to: '/teacher/pdf-reading', icon: '📄', label: 'Pagbasa ng PDF' },
   { to: '/teacher/assessments', icon: '📝', label: 'Mga Pagsusulit' },
-  { to: '/teacher/learning-paths', icon: '🧭', label: 'Learning Paths' },
+  { to: '/teacher/learning-paths', icon: '🧭', label: 'Landas ng Pagkatuto' },
   { to: '/teacher/activities', icon: '🗂️', label: 'Mga Gawain' },
-  { to: '/teacher/progress-reports', icon: '📊', label: 'Progress Reports' },
-  { to: '/teacher/settings', icon: '⚙️', label: 'Settings' },
+  { to: '/teacher/progress-reports', icon: '📊', label: 'Ulat ng Progreso' },
+  { to: '/teacher/settings', icon: '⚙️', label: 'Mga Setting' },
 ];
 
 export default function TeacherLayout() {

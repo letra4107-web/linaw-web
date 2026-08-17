@@ -18,7 +18,7 @@ interface AnalyticsResponse {
 const CARDS: { key: keyof AnalyticsResponse['totals']; icon: string; label: string }[] = [
   { key: 'users', icon: '👥', label: 'Kabuuang User' },
   { key: 'children', icon: '🧒', label: 'Mga Mag-aaral' },
-  { key: 'practiceSessions', icon: '🎙️', label: 'Practice Sessions' },
+  { key: 'practiceSessions', icon: '🎙️', label: 'Mga Pagsasanay' },
   { key: 'badgeUnlockCount', icon: '🏅', label: 'Nakuhang Badge' },
 ];
 
@@ -31,7 +31,7 @@ export default function AdminDashboard() {
   return (
     <div className="flex flex-col gap-8">
       <div>
-        <h1 className="text-2xl font-semibold">Admin Dashboard</h1>
+        <h1 className="text-2xl font-semibold">Buod ng Admin</h1>
         <p className="mt-1 text-[var(--color-text-muted)]">Buod ng LinawLetra sa lahat ng role.</p>
       </div>
 
@@ -70,7 +70,7 @@ export default function AdminDashboard() {
           Gumawa ng Guro
         </Link>
         <Link to="/admin/analytics" className="rounded-full border border-[var(--color-border)] px-4 py-2 text-sm hover:border-[var(--color-primary)]">
-          Tingnan ang Analytics
+          Tingnan ang Estadistika
         </Link>
       </div>
     </div>

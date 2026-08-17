@@ -111,7 +111,7 @@ export default function Lessons() {
         <input
           value={title}
           onChange={(e) => setTitle(e.target.value)}
-          placeholder="Title"
+          placeholder="Pamagat"
           required
           className="rounded-lg border border-[var(--color-border)] px-4 py-2"
         />
@@ -125,13 +125,13 @@ export default function Lessons() {
           <input
             value={subject}
             onChange={(e) => setSubject(e.target.value)}
-            placeholder="Subject"
+            placeholder="Asignatura"
             className="rounded-lg border border-[var(--color-border)] px-4 py-2"
           />
           <input
             value={gradeLevel}
             onChange={(e) => setGradeLevel(e.target.value)}
-            placeholder="Grade Level"
+            placeholder="Baitang"
             className="rounded-lg border border-[var(--color-border)] px-4 py-2"
           />
         </div>

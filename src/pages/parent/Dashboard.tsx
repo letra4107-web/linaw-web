@@ -38,7 +38,7 @@ export default function Dashboard() {
 
   return (
     <div className="flex flex-col gap-8">
-      <h1 className="text-2xl font-semibold">Parent Dashboard</h1>
+      <h1 className="text-2xl font-semibold">Buod ng Magulang</h1>
 
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
         <Link

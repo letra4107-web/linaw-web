@@ -93,7 +93,7 @@ export default function AdminTeachers() {
           />
         </div>
         <div>
-          <p className="mb-1 text-sm font-medium">Grade Level</p>
+          <p className="mb-1 text-sm font-medium">Baitang</p>
           <div className="flex flex-wrap gap-2">
             {GRADES.map((g) => (
               <button
