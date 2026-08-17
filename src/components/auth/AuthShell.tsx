@@ -1,6 +1,7 @@
 import { useState, type InputHTMLAttributes, type ReactNode } from 'react';
 import { Link } from 'react-router-dom';
 import { AccessibilityBar } from '../a11y/AccessibilityBar';
+import heroImage from '../../assets/hero.png';
 
 export function isValidEmail(value: string): boolean {
   return /\S+@\S+\.\S+/.test(value);
@@ -35,6 +36,13 @@ export function AuthShell({ title, subtitle, children, footer }: AuthShellProps)
         <Link to="/" className="relative z-10 text-2xl font-bold tracking-tight">
           LinawLetra
         </Link>
+
+        <img
+          src={heroImage}
+          alt=""
+          aria-hidden="true"
+          className="relative z-10 mx-auto -my-4 w-44 -rotate-6 drop-shadow-2xl select-none"
+        />
 
         <div className="relative z-10 flex flex-col gap-6">
           <p className="text-3xl leading-snug font-bold">Tulong sa pagbasa ng Tagalog, para sa bawat bata.</p>
