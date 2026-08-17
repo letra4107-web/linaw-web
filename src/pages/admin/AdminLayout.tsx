@@ -8,6 +8,7 @@ const TABS = [
   { to: '/admin/archived', icon: '🗄️', label: 'Arkibo' },
   { to: '/admin/teachers', icon: '🧑‍🏫', label: 'Mga Guro' },
   { to: '/admin/analytics', icon: '📊', label: 'Estadistika' },
+  { to: '/admin/settings', icon: '⚙️', label: 'Mga Setting' },
 ];
 
 export default function AdminLayout() {

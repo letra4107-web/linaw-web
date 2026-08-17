@@ -14,12 +14,14 @@ import AdminUsers from './pages/admin/Users';
 import AdminArchived from './pages/admin/Archived';
 import AdminTeachers from './pages/admin/Teachers';
 import AdminAnalytics from './pages/admin/Analytics';
+import AdminSettings from './pages/admin/Settings';
 import ParentLayout from './pages/parent/ParentLayout';
 import ParentDashboardPage from './pages/parent/Dashboard';
 import MyChildren from './pages/parent/MyChildren';
 import ProgressReport from './pages/parent/ProgressReport';
 import Schedule from './pages/parent/Schedule';
 import ParentMessages from './pages/parent/Messages';
+import ParentSettings from './pages/parent/Settings';
 import StudentLayout from './pages/student/StudentLayout';
 import StudentDashboardPage from './pages/student/Dashboard';
 import Learn from './pages/student/Learn';
@@ -64,6 +66,7 @@ export default function App() {
         <Route path="archived" element={<AdminArchived />} />
         <Route path="teachers" element={<AdminTeachers />} />
         <Route path="analytics" element={<AdminAnalytics />} />
+        <Route path="settings" element={<AdminSettings />} />
       </Route>
       <Route
         path="/parent"
@@ -78,6 +81,7 @@ export default function App() {
         <Route path="progress" element={<ProgressReport />} />
         <Route path="schedule" element={<Schedule />} />
         <Route path="messages" element={<ParentMessages />} />
+        <Route path="settings" element={<ParentSettings />} />
       </Route>
       <Route
         path="/student"
