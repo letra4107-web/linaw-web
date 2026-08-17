@@ -9,7 +9,11 @@ import VerifyLogin from './pages/auth/VerifyLogin';
 import ResendVerification from './pages/auth/ResendVerification';
 import { ProtectedRoute } from './components/ProtectedRoute';
 import AdminDashboard from './pages/admin/AdminDashboard';
-import ParentDashboard from './pages/parent/ParentDashboard';
+import ParentLayout from './pages/parent/ParentLayout';
+import ParentDashboardPage from './pages/parent/Dashboard';
+import MyChildren from './pages/parent/MyChildren';
+import ProgressReport from './pages/parent/ProgressReport';
+import Schedule from './pages/parent/Schedule';
 import StudentDashboard from './pages/student/StudentDashboard';
 import TeacherLayout from './pages/teacher/TeacherLayout';
 import TeacherDashboardPage from './pages/teacher/Dashboard';
@@ -43,13 +47,18 @@ export default function App() {
         }
       />
       <Route
-        path="/parent/*"
+        path="/parent"
         element={
           <ProtectedRoute role="parent">
-            <ParentDashboard />
+            <ParentLayout />
           </ProtectedRoute>
         }
-      />
+      >
+        <Route index element={<ParentDashboardPage />} />
+        <Route path="children" element={<MyChildren />} />
+        <Route path="progress" element={<ProgressReport />} />
+        <Route path="schedule" element={<Schedule />} />
+      </Route>
       <Route
         path="/student/*"
         element={
