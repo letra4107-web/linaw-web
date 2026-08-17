@@ -134,4 +134,57 @@ router.post('/learn/module/:moduleId/unequip', async (req, res) => {
   }
 });
 
+// POST /student/word-of-day/attempt  { logId, attempts, correct, accuracy, bonusXp }
+// word_of_day_log itself is student-writable directly via RLS (the frontend upserts/updates
+// it straight from the client), but the XP reward is not -- child_progress has no student
+// UPDATE policy on xp (confirmed via live RLS probe), matching this schema's established
+// convention that XP writes are server-trusted, not client-trusted, even though the accuracy
+// score itself is computed client-side (same split used by record_student_content_attempt).
+router.post('/word-of-day/attempt', async (req, res) => {
+  try {
+    const studentId = await resolveStudentId(req.user.id);
+    const { logId, attempts, correct, accuracy, bonusXp } = req.body || {};
+    if (!logId) return res.status(400).json({ error: 'logId is required.' });
+
+    const { data: logRow, error: fetchErr } = await supabaseAdmin
+      .from('word_of_day_log')
+      .select('id, child_id')
+      .eq('id', logId)
+      .maybeSingle();
+    if (fetchErr) throw fetchErr;
+    if (!logRow || logRow.child_id !== studentId) {
+      return res.status(404).json({ error: 'Word of the day entry not found for this student.' });
+    }
+
+    const { error: updErr } = await supabaseAdmin
+      .from('word_of_day_log')
+      .update({
+        attempts: attempts ?? 1,
+        correct: Boolean(correct),
+        accuracy: accuracy ?? null,
+        xp_awarded: correct ? (bonusXp ?? 25) : 0,
+        completed_at: new Date().toISOString(),
+      })
+      .eq('id', logId);
+    if (updErr) throw updErr;
+
+    let newXp = null;
+    if (correct) {
+      const { data: progress, error: progressErr } = await supabaseAdmin
+        .from('child_progress')
+        .select('xp')
+        .eq('child_id', studentId)
+        .maybeSingle();
+      if (progressErr) throw progressErr;
+      newXp = (progress?.xp ?? 0) + (bonusXp ?? 25);
+      const { error: xpErr } = await supabaseAdmin.from('child_progress').update({ xp: newXp }).eq('child_id', studentId);
+      if (xpErr) throw xpErr;
+    }
+
+    res.json({ success: true, xpAwarded: correct ? (bonusXp ?? 25) : 0, newXp });
+  } catch (err) {
+    handleRpcError(res, err);
+  }
+});
+
 module.exports = router;

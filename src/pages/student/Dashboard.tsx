@@ -4,6 +4,7 @@ import { supabase } from '../../lib/supabaseClient';
 import { useAuth } from '../../lib/auth/AuthContext';
 import { IconLabel } from '../../components/a11y/IconLabel';
 import { TTSButton } from '../../components/a11y/TTSButton';
+import { WordOfDayCard } from '../../components/WordOfDayCard';
 
 interface ChildProgress {
   level: string;
@@ -74,6 +75,8 @@ export default function Dashboard() {
           </p>
         </div>
       </div>
+
+      <WordOfDayCard />
 
       <div className="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] p-6">
         <h2 className="mb-2 text-lg font-semibold">Kasalukuyang Antas: {progress?.level ?? '-'}</h2>
