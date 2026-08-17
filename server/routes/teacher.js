@@ -1,4 +1,5 @@
 const express = require('express');
+const crypto = require('crypto');
 const multer = require('multer');
 const pdfParse = require('pdf-parse');
 const { supabaseAdmin } = require('../config/supabase');
@@ -47,6 +48,20 @@ router.post('/pdf', upload.single('file'), async (req, res) => {
       .select()
       .single();
     if (insertErr) throw insertErr;
+
+    // Bridge into mobile's pre-existing (separate) teacher_uploads table so students
+    // see this PDF in the mobile app too, without any mobile app code changes -- mobile's
+    // openUpload() already falls back to Linking.openURL() for any path starting with
+    // "https://", so pointing it at our public reading-materials URL works as-is.
+    const { error: bridgeErr } = await supabaseAdmin.from('teacher_uploads').insert({
+      id: crypto.randomUUID(),
+      uploader_id: req.user.id,
+      path: publicUrlData.publicUrl,
+      content_type: 'application/pdf',
+      size: req.file.size,
+      metadata: { title, completed: false },
+    });
+    if (bridgeErr) console.warn('[teacher/pdf upload] mobile bridge insert failed:', bridgeErr.message);
 
     res.json({ success: true, material });
   } catch (err) {
