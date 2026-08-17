@@ -55,8 +55,8 @@ export default function Landing() {
   return (
     <div className="min-h-screen bg-[var(--color-bg)] text-[var(--color-text)]">
       <header className="sticky top-0 z-20 border-b border-[var(--color-border)] bg-[var(--color-bg)]/85 backdrop-blur">
-        <div className="mx-auto flex max-w-5xl items-center justify-between px-6 py-4">
-          <img src={logo} alt="LinawLetra" className="h-10 w-auto rounded-lg sm:h-12" />
+        <div className="flex items-center justify-between px-4 py-2 sm:px-6">
+          <img src={logo} alt="LinawLetra" className="h-16 w-auto rounded-lg sm:h-20" />
           <div className="flex items-center gap-4">
             <div className="hidden sm:block">
               <AccessibilityBar />
