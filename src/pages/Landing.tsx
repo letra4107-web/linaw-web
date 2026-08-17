@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { AccessibilityBar } from '../components/a11y/AccessibilityBar';
 import { TTSButton } from '../components/a11y/TTSButton';
 import { IconLabel } from '../components/a11y/IconLabel';
+import { ScrollReveal } from '../components/ScrollReveal';
 import logo from '../assets/Logo.jpg';
 import landBg from '../assets/land.webp';
 
@@ -180,10 +180,6 @@ export default function Landing() {
             </ul>
           </nav>
         )}
-
-        <div className="hidden justify-center border-t border-[var(--color-border)] px-4 py-2 sm:flex">
-          <AccessibilityBar />
-        </div>
       </header>
 
       <section className="relative overflow-hidden bg-gradient-to-br from-[var(--color-hero-from)] via-[var(--color-hero-via)] to-[var(--color-hero-to)] shadow-hero">
@@ -196,50 +192,52 @@ export default function Landing() {
           aria-hidden="true"
         />
         <main className="relative mx-auto max-w-6xl px-6 py-14 text-center sm:py-20">
-          <span className="inline-flex items-center gap-2 rounded-full border border-white/40 bg-white/15 px-4 py-1 text-sm font-medium text-white">
-            Para sa Grade 1–6 · Nakatutok sa Phonological Dyslexia
-          </span>
-          <h1 className="mt-6 text-4xl text-white sm:text-6xl">
-            Tulong sa pagbasa ng Tagalog, para sa bawat bata.
-          </h1>
-          <p className="mx-auto mt-5 max-w-2xl text-lg text-white/85">
-            Ginawa ang LinawLetra para sa mga mag-aaral na may dyslexia, mula Grade 1 hanggang
-            Grade 6 — kasama ang mga tool para sa magulang, guro, at admin.
-          </p>
-          <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
-            <TTSButton text="Tulong sa pagbasa ng Tagalog, para sa bawat bata. Ginawa ang LinawLetra para sa mga mag-aaral na may dyslexia." />
-            <Link
-              to="/signup"
-              className="rounded-full bg-white px-6 py-3 text-base font-semibold text-[var(--color-primary)] shadow-card transition-all hover:-translate-y-0.5 hover:bg-white/90 hover:shadow-raised"
-            >
-              <IconLabel icon="🚀" label="Magsimula, libre" />
-            </Link>
-          </div>
-
-          <div className="mt-12 flex flex-wrap items-center justify-center gap-3">
-            {ROLES.map((r) => (
-              <span
-                key={r.label}
-                className="rounded-full border border-white/25 bg-white/10 px-4 py-2 text-sm font-medium text-white backdrop-blur"
+          <ScrollReveal>
+            <span className="inline-flex items-center gap-2 rounded-full border border-white/40 bg-white/15 px-4 py-1 text-sm font-medium text-white">
+              Para sa Grade 1–6 · Nakatutok sa Phonological Dyslexia
+            </span>
+            <h1 className="mt-6 text-4xl text-white sm:text-6xl">
+              Tulong sa pagbasa ng Tagalog, para sa bawat bata.
+            </h1>
+            <p className="mx-auto mt-5 max-w-2xl text-lg text-white/85">
+              Ginawa ang LinawLetra para sa mga mag-aaral na may dyslexia, mula Grade 1 hanggang
+              Grade 6 — kasama ang mga tool para sa magulang, guro, at admin.
+            </p>
+            <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
+              <TTSButton text="Tulong sa pagbasa ng Tagalog, para sa bawat bata. Ginawa ang LinawLetra para sa mga mag-aaral na may dyslexia." />
+              <Link
+                to="/signup"
+                className="rounded-full bg-white px-6 py-3 text-base font-semibold text-[var(--color-primary)] shadow-card transition-all hover:-translate-y-0.5 hover:bg-white/90 hover:shadow-raised"
               >
-                <IconLabel icon={r.icon} label={r.label} />
-              </span>
-            ))}
-          </div>
+                <IconLabel icon="🚀" label="Magsimula, libre" />
+              </Link>
+            </div>
 
-          <div className="mt-14 grid grid-cols-2 gap-6 border-t border-white/20 pt-8 sm:grid-cols-4">
-            {STATS.map((s) => (
-              <div key={s.label}>
-                <p className="text-2xl font-bold text-white sm:text-3xl">{s.value}</p>
-                <p className="mt-1 text-xs text-white/70 sm:text-sm">{s.label}</p>
-              </div>
-            ))}
-          </div>
+            <div className="mt-12 flex flex-wrap items-center justify-center gap-3">
+              {ROLES.map((r) => (
+                <span
+                  key={r.label}
+                  className="rounded-full border border-white/25 bg-white/10 px-4 py-2 text-sm font-medium text-white backdrop-blur"
+                >
+                  <IconLabel icon={r.icon} label={r.label} />
+                </span>
+              ))}
+            </div>
+
+            <div className="mt-14 grid grid-cols-2 gap-6 border-t border-white/20 pt-8 sm:grid-cols-4">
+              {STATS.map((s) => (
+                <div key={s.label}>
+                  <p className="text-2xl font-bold text-white sm:text-3xl">{s.value}</p>
+                  <p className="mt-1 text-xs text-white/70 sm:text-sm">{s.label}</p>
+                </div>
+              ))}
+            </div>
+          </ScrollReveal>
         </main>
       </section>
 
       <main id="phonological-dyslexia" className="mx-auto max-w-6xl px-6 py-14">
-        <div className="grid grid-cols-1 gap-10 lg:grid-cols-[0.9fr_1.1fr]">
+        <ScrollReveal className="grid grid-cols-1 gap-10 lg:grid-cols-[0.9fr_1.1fr]">
           <div>
             <span className="inline-flex items-center gap-2 rounded-full border border-[var(--color-border)] bg-[var(--color-primary-soft)] px-4 py-1 text-sm font-medium text-[var(--color-primary)]">
               Ang aming pokus
@@ -272,63 +270,67 @@ export default function Landing() {
               </div>
             ))}
           </div>
-        </div>
+        </ScrollReveal>
       </main>
 
       <main id="paano-gumagana" className="mx-auto max-w-6xl px-6 py-14">
-        <div className="mb-8 text-center">
-          <h2 className="text-2xl sm:text-3xl">Paano gumagana</h2>
-          <p className="mx-auto mt-2 max-w-xl text-[var(--color-text-muted)]">
-            Tatlong simpleng hakbang lang para makasimula.
-          </p>
-        </div>
-        <div className="grid grid-cols-1 items-start gap-6 sm:grid-cols-3">
-          {STEPS.map((s) => (
-            <div
-              key={s.n}
-              className="relative rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] p-6 text-center shadow-card"
-            >
-              <span className="absolute -top-4 left-1/2 flex h-8 w-8 -translate-x-1/2 items-center justify-center rounded-full bg-[var(--color-primary)] text-sm font-bold text-white shadow-card">
-                {s.n}
-              </span>
-              <div className="mt-3 mb-3 text-3xl" aria-hidden="true">
-                {s.icon}
+        <ScrollReveal>
+          <div className="mb-8 text-center">
+            <h2 className="text-2xl sm:text-3xl">Paano gumagana</h2>
+            <p className="mx-auto mt-2 max-w-xl text-[var(--color-text-muted)]">
+              Tatlong simpleng hakbang lang para makasimula.
+            </p>
+          </div>
+          <div className="grid grid-cols-1 items-start gap-6 sm:grid-cols-3">
+            {STEPS.map((s) => (
+              <div
+                key={s.n}
+                className="relative rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] p-6 text-center shadow-card"
+              >
+                <span className="absolute -top-4 left-1/2 flex h-8 w-8 -translate-x-1/2 items-center justify-center rounded-full bg-[var(--color-primary)] text-sm font-bold text-white shadow-card">
+                  {s.n}
+                </span>
+                <div className="mt-3 mb-3 text-3xl" aria-hidden="true">
+                  {s.icon}
+                </div>
+                <h3 className="mb-2 text-lg font-semibold">{s.title}</h3>
+                <p className="text-sm text-[var(--color-text-muted)]">{s.text}</p>
               </div>
-              <h3 className="mb-2 text-lg font-semibold">{s.title}</h3>
-              <p className="text-sm text-[var(--color-text-muted)]">{s.text}</p>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        </ScrollReveal>
       </main>
 
       <main id="ano-ang-makukuha" className="mx-auto max-w-6xl px-6 pb-14">
-        <div className="mb-8 text-center">
-          <h2 className="text-2xl sm:text-3xl">Ano ang makukuha ninyo</h2>
-        </div>
-        <div className="grid grid-cols-1 items-start gap-6 text-left sm:grid-cols-2 lg:grid-cols-4">
-          {FEATURES.map((f) => (
-            <div
-              key={f.title}
-              className="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] p-6 shadow-card transition-all hover:-translate-y-1 hover:shadow-raised"
-            >
+        <ScrollReveal>
+          <div className="mb-8 text-center">
+            <h2 className="text-2xl sm:text-3xl">Ano ang makukuha ninyo</h2>
+          </div>
+          <div className="grid grid-cols-1 items-start gap-6 text-left sm:grid-cols-2 lg:grid-cols-4">
+            {FEATURES.map((f) => (
               <div
-                className="mb-3 flex h-12 w-12 items-center justify-center rounded-full text-2xl"
-                style={{
-                  background: f.tint === 'primary' ? 'var(--color-primary-soft)' : 'var(--color-accent-soft)',
-                }}
-                aria-hidden="true"
+                key={f.title}
+                className="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] p-6 shadow-card transition-all hover:-translate-y-1 hover:shadow-raised"
               >
-                {f.icon}
+                <div
+                  className="mb-3 flex h-12 w-12 items-center justify-center rounded-full text-2xl"
+                  style={{
+                    background: f.tint === 'primary' ? 'var(--color-primary-soft)' : 'var(--color-accent-soft)',
+                  }}
+                  aria-hidden="true"
+                >
+                  {f.icon}
+                </div>
+                <h3 className="mb-2 text-lg font-semibold">{f.title}</h3>
+                <p className="text-[var(--color-text-muted)]">{f.text}</p>
               </div>
-              <h3 className="mb-2 text-lg font-semibold">{f.title}</h3>
-              <p className="text-[var(--color-text-muted)]">{f.text}</p>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        </ScrollReveal>
       </main>
 
       <section className="relative overflow-hidden bg-gradient-to-br from-[var(--color-hero-from)] via-[var(--color-hero-via)] to-[var(--color-hero-to)]">
-        <div className="mx-auto max-w-3xl px-6 py-12 text-center">
+        <ScrollReveal className="mx-auto max-w-3xl px-6 py-12 text-center">
           <h2 className="text-2xl text-white sm:text-3xl">Handa na bang magsimula?</h2>
           <p className="mx-auto mt-3 max-w-xl text-white/85">
             Sumali sa mga magulang, guro, at mag-aaral na gumagamit na ng LinawLetra araw-araw.
@@ -339,7 +341,7 @@ export default function Landing() {
           >
             <IconLabel icon="🚀" label="Gumawa ng account" />
           </Link>
-        </div>
+        </ScrollReveal>
       </section>
 
       <footer id="contact" className="border-t border-[var(--color-border)] bg-[var(--color-surface)]">
