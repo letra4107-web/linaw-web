@@ -97,6 +97,9 @@
   --color-primary-hover: color-mix(in srgb, var(--color-brand-lavender-dark) 82%, black);
   --color-accent: var(--color-brand-sun);
   --color-danger: var(--color-brand-danger-text);
+  --color-danger-soft: color-mix(in srgb, var(--color-brand-danger-text) 12%, white);
+  --color-success: color-mix(in srgb, var(--color-brand-green) 70%, black);
+  --color-success-soft: color-mix(in srgb, var(--color-brand-success) 14%, white);
   --color-focus: var(--color-brand-sun);
   --color-primary-soft: color-mix(in srgb, var(--color-brand-lavender) 16%, white);
   --color-accent-soft: color-mix(in srgb, var(--color-brand-sun) 16%, white);

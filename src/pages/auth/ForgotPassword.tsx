@@ -1,7 +1,14 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { supabase } from '../../lib/supabaseClient';
-import { AuthShell, FieldError, inputClass, primaryButtonClass } from '../../components/auth/AuthShell';
+import {
+  AuthShell,
+  ButtonSpinner,
+  FieldError,
+  FieldSuccess,
+  IconInput,
+  primaryButtonClass,
+} from '../../components/auth/AuthShell';
 
 export default function ForgotPassword() {
   const [email, setEmail] = useState('');
@@ -32,33 +39,32 @@ export default function ForgotPassword() {
       title="Nakalimutan ang password?"
       subtitle="Magpapadala kami ng link sa pag-reset sa iyong email."
       footer={
-        <Link to="/login" className="text-[var(--color-primary)] underline">
-          Bumalik sa Login
+        <Link to="/login" className="font-medium text-[var(--color-primary)] underline">
+          ← Bumalik sa Login
         </Link>
       }
     >
       {sent ? (
-        <p className="rounded-lg bg-[var(--color-surface)] p-4 text-sm">
-          Kung may account na naka-rehistro sa email na iyon, may link kang matatanggap sa
-          pag-reset ng password.
-        </p>
+        <FieldSuccess message="Kung may account na naka-rehistro sa email na iyon, may link kang matatanggap sa pag-reset ng password." />
       ) : (
         <form onSubmit={onSubmit} className="flex flex-col gap-4" noValidate>
           <div>
             <label htmlFor="email" className="mb-1 block text-sm font-medium">
               Email
             </label>
-            <input
+            <IconInput
               id="email"
+              icon="✉️"
               type="email"
               required
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className={inputClass}
+              autoComplete="email"
             />
           </div>
           <FieldError message={error ?? undefined} />
           <button type="submit" disabled={submitting} className={primaryButtonClass}>
+            {submitting && <ButtonSpinner />}
             {submitting ? 'Ipinapadala...' : 'Ipadala ang reset link'}
           </button>
         </form>

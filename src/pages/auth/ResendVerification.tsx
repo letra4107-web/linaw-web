@@ -1,7 +1,14 @@
 import { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { supabase } from '../../lib/supabaseClient';
-import { AuthShell, FieldError, inputClass, primaryButtonClass } from '../../components/auth/AuthShell';
+import {
+  AuthShell,
+  ButtonSpinner,
+  FieldError,
+  FieldSuccess,
+  IconInput,
+  primaryButtonClass,
+} from '../../components/auth/AuthShell';
 
 export default function ResendVerification() {
   const navigate = useNavigate();
@@ -36,28 +43,26 @@ export default function ResendVerification() {
           <label htmlFor="email" className="mb-1 block text-sm font-medium">
             Email
           </label>
-          <input
+          <IconInput
             id="email"
+            icon="✉️"
             type="email"
             required
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className={inputClass}
+            autoComplete="email"
           />
         </div>
         <FieldError message={error ?? undefined} />
-        {sent && (
-          <p className="text-sm text-[var(--color-primary)]">
-            Naipadala ang bagong code. Suriin ang iyong email.
-          </p>
-        )}
+        {sent && <FieldSuccess message="Naipadala ang bagong code. Suriin ang iyong email." />}
         <button type="submit" disabled={submitting} className={primaryButtonClass}>
+          {submitting && <ButtonSpinner />}
           {submitting ? 'Ipinapadala...' : 'Ipadala ang code'}
         </button>
         <button
           type="button"
           onClick={() => navigate('/verify-email', { state: { email } })}
-          className="text-center text-sm text-[var(--color-primary)] underline"
+          className="text-center text-sm font-medium text-[var(--color-primary)] underline"
         >
           Mayroon na akong code
         </button>

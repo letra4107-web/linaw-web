@@ -1,7 +1,14 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { supabase } from '../../lib/supabaseClient';
-import { AuthShell, FieldError, inputClass, primaryButtonClass } from '../../components/auth/AuthShell';
+import {
+  AuthShell,
+  ButtonSpinner,
+  FieldError,
+  PasswordInput,
+  PasswordStrengthMeter,
+  primaryButtonClass,
+} from '../../components/auth/AuthShell';
 
 export default function ResetPassword() {
   const navigate = useNavigate();
@@ -34,36 +41,31 @@ export default function ResetPassword() {
   };
 
   return (
-    <AuthShell title="Gumawa ng bagong password">
+    <AuthShell title="Gumawa ng bagong password" subtitle="Piliin ang isang malakas na password na hindi mo pa nagamit.">
       <form onSubmit={onSubmit} className="flex flex-col gap-4" noValidate>
         <div>
           <label htmlFor="password" className="mb-1 block text-sm font-medium">
             Bagong Password
           </label>
-          <input
-            id="password"
-            type="password"
-            required
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            className={inputClass}
-          />
+          <div className="flex flex-col gap-2">
+            <PasswordInput id="password" value={password} onChange={setPassword} autoComplete="new-password" />
+            <PasswordStrengthMeter password={password} />
+          </div>
         </div>
         <div>
           <label htmlFor="confirmPassword" className="mb-1 block text-sm font-medium">
             Kumpirmahin ang Password
           </label>
-          <input
+          <PasswordInput
             id="confirmPassword"
-            type="password"
-            required
             value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
-            className={inputClass}
+            onChange={setConfirmPassword}
+            autoComplete="new-password"
           />
         </div>
         <FieldError message={error ?? undefined} />
         <button type="submit" disabled={submitting} className={primaryButtonClass}>
+          {submitting && <ButtonSpinner />}
           {submitting ? 'Sine-save...' : 'I-save ang password'}
         </button>
       </form>

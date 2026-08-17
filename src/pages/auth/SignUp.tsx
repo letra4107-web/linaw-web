@@ -1,9 +1,22 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { supabase } from '../../lib/supabaseClient';
-import { AuthShell, FieldError, inputClass, primaryButtonClass } from '../../components/auth/AuthShell';
+import {
+  AuthShell,
+  ButtonSpinner,
+  FieldError,
+  IconInput,
+  PasswordInput,
+  PasswordStrengthMeter,
+  primaryButtonClass,
+} from '../../components/auth/AuthShell';
 
 type SignUpRole = 'parent' | 'teacher';
+
+const ROLE_OPTIONS: { value: SignUpRole; icon: string; label: string }[] = [
+  { value: 'parent', icon: '👨‍👩‍👧', label: 'Magulang' },
+  { value: 'teacher', icon: '🧑‍🏫', label: 'Guro' },
+];
 
 export default function SignUp() {
   const navigate = useNavigate();
@@ -68,39 +81,53 @@ export default function SignUp() {
       footer={
         <>
           May account ka na?{' '}
-          <Link to="/login" className="text-[var(--color-primary)] underline">
+          <Link to="/login" className="font-medium text-[var(--color-primary)] underline">
             Mag-login
           </Link>
         </>
       }
     >
       <form onSubmit={onSubmit} className="flex flex-col gap-4" noValidate>
-        <fieldset className="flex gap-4">
-          <legend className="mb-1 text-sm font-medium">Ako ay:</legend>
-          {(['parent', 'teacher'] as const).map((r) => (
-            <label key={r} className="flex items-center gap-2 text-sm">
-              <input type="radio" name="role" checked={role === r} onChange={() => setRole(r)} />
-              {r === 'parent' ? 'Magulang' : 'Guro'}
-            </label>
-          ))}
+        <fieldset>
+          <legend className="mb-2 text-sm font-medium">Ako ay:</legend>
+          <div className="grid grid-cols-2 gap-3">
+            {ROLE_OPTIONS.map((r) => (
+              <button
+                key={r.value}
+                type="button"
+                onClick={() => setRole(r.value)}
+                aria-pressed={role === r.value}
+                className={`flex flex-col items-center gap-2 rounded-xl border-2 px-4 py-4 text-sm font-medium transition-colors ${
+                  role === r.value
+                    ? 'border-[var(--color-primary)] bg-[var(--color-primary-soft)] text-[var(--color-primary)]'
+                    : 'border-[var(--color-border)] text-[var(--color-text-muted)] hover:border-[var(--color-primary)]'
+                }`}
+              >
+                <span className="text-2xl" aria-hidden="true">
+                  {r.icon}
+                </span>
+                {r.label}
+              </button>
+            ))}
+          </div>
         </fieldset>
         <div>
           <label htmlFor="name" className="mb-1 block text-sm font-medium">
             Buong Pangalan
           </label>
-          <input id="name" required value={name} onChange={(e) => setName(e.target.value)} className={inputClass} />
+          <IconInput id="name" icon="🧑" required value={name} onChange={(e) => setName(e.target.value)} />
         </div>
         <div>
           <label htmlFor="email" className="mb-1 block text-sm font-medium">
             Email
           </label>
-          <input
+          <IconInput
             id="email"
+            icon="✉️"
             type="email"
             required
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className={inputClass}
             autoComplete="email"
           />
         </div>
@@ -108,32 +135,25 @@ export default function SignUp() {
           <label htmlFor="password" className="mb-1 block text-sm font-medium">
             Password
           </label>
-          <input
-            id="password"
-            type="password"
-            required
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            className={inputClass}
-            autoComplete="new-password"
-          />
+          <div className="flex flex-col gap-2">
+            <PasswordInput id="password" value={password} onChange={setPassword} autoComplete="new-password" />
+            <PasswordStrengthMeter password={password} />
+          </div>
         </div>
         <div>
           <label htmlFor="confirmPassword" className="mb-1 block text-sm font-medium">
             Kumpirmahin ang Password
           </label>
-          <input
+          <PasswordInput
             id="confirmPassword"
-            type="password"
-            required
             value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
-            className={inputClass}
+            onChange={setConfirmPassword}
             autoComplete="new-password"
           />
         </div>
         <FieldError message={error ?? undefined} />
         <button type="submit" disabled={submitting} className={primaryButtonClass}>
+          {submitting && <ButtonSpinner />}
           {submitting ? 'Gumagawa ng account...' : 'Mag-sign up'}
         </button>
       </form>

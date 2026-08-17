@@ -2,7 +2,14 @@ import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { supabase } from '../../lib/supabaseClient';
 import { api } from '../../lib/api';
-import { AuthShell, FieldError, inputClass, primaryButtonClass } from '../../components/auth/AuthShell';
+import {
+  AuthShell,
+  ButtonSpinner,
+  FieldError,
+  IconInput,
+  PasswordInput,
+  primaryButtonClass,
+} from '../../components/auth/AuthShell';
 
 export default function Login() {
   const navigate = useNavigate();
@@ -39,12 +46,12 @@ export default function Login() {
 
   return (
     <AuthShell
-      title="Mag-login"
+      title="Maligayang pagbabalik"
       subtitle="Para sa magulang, guro, mag-aaral, at admin."
       footer={
         <>
           Wala pang account?{' '}
-          <Link to="/signup" className="text-[var(--color-primary)] underline">
+          <Link to="/signup" className="font-medium text-[var(--color-primary)] underline">
             Mag-sign up
           </Link>
         </>
@@ -55,37 +62,32 @@ export default function Login() {
           <label htmlFor="email" className="mb-1 block text-sm font-medium">
             Email
           </label>
-          <input
+          <IconInput
             id="email"
+            icon="✉️"
             type="email"
             required
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className={inputClass}
             autoComplete="email"
           />
         </div>
         <div>
-          <label htmlFor="password" className="mb-1 block text-sm font-medium">
-            Password
-          </label>
-          <input
-            id="password"
-            type="password"
-            required
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            className={inputClass}
-            autoComplete="current-password"
-          />
+          <div className="mb-1 flex items-center justify-between">
+            <label htmlFor="password" className="block text-sm font-medium">
+              Password
+            </label>
+            <Link to="/forgot-password" className="text-xs text-[var(--color-primary)] underline">
+              Nakalimutan?
+            </Link>
+          </div>
+          <PasswordInput id="password" value={password} onChange={setPassword} autoComplete="current-password" />
         </div>
         <FieldError message={error ?? undefined} />
         <button type="submit" disabled={submitting} className={primaryButtonClass}>
+          {submitting && <ButtonSpinner />}
           {submitting ? 'Naglo-login...' : 'Mag-login'}
         </button>
-        <Link to="/forgot-password" className="text-center text-sm text-[var(--color-primary)] underline">
-          Nakalimutan ang password?
-        </Link>
       </form>
     </AuthShell>
   );
