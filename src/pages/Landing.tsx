@@ -53,24 +53,26 @@ const STEPS = [
 export default function Landing() {
   return (
     <div className="min-h-screen bg-[var(--color-bg)] text-[var(--color-text)]">
-      <header className="sticky top-0 z-20 flex items-center justify-between border-b border-[var(--color-border)] bg-[var(--color-bg)]/85 px-6 py-4 backdrop-blur">
-        <span className="text-xl font-bold text-[var(--color-primary)]">LinawLetra</span>
-        <div className="flex items-center gap-4">
-          <div className="hidden sm:block">
-            <AccessibilityBar />
+      <header className="sticky top-0 z-20 border-b border-[var(--color-border)] bg-[var(--color-bg)]/85 backdrop-blur">
+        <div className="mx-auto flex max-w-5xl items-center justify-between px-6 py-4">
+          <span className="text-xl font-bold text-[var(--color-primary)]">LinawLetra</span>
+          <div className="flex items-center gap-4">
+            <div className="hidden sm:block">
+              <AccessibilityBar />
+            </div>
+            <Link
+              to="/login"
+              className="rounded-full border border-[var(--color-border)] px-4 py-2 text-sm font-medium hover:border-[var(--color-primary)]"
+            >
+              Mag-login
+            </Link>
+            <Link
+              to="/signup"
+              className="rounded-full bg-[var(--color-primary)] px-4 py-2 text-sm font-semibold text-white shadow-card transition-all hover:-translate-y-0.5 hover:bg-[var(--color-primary-hover)] hover:shadow-raised"
+            >
+              Mag-sign up
+            </Link>
           </div>
-          <Link
-            to="/login"
-            className="rounded-full border border-[var(--color-border)] px-4 py-2 text-sm font-medium hover:border-[var(--color-primary)]"
-          >
-            Mag-login
-          </Link>
-          <Link
-            to="/signup"
-            className="rounded-full bg-[var(--color-primary)] px-4 py-2 text-sm font-semibold text-white shadow-card transition-all hover:-translate-y-0.5 hover:bg-[var(--color-primary-hover)] hover:shadow-raised"
-          >
-            Mag-sign up
-          </Link>
         </div>
       </header>
 

@@ -60,14 +60,6 @@
   --text-title: 18px;
   --text-hero: 24px;
 
-  /* Spacing (4px base) */
-  --spacing-xs: 4px;
-  --spacing-sm: 8px;
-  --spacing-md: 12px;
-  --spacing-lg: 16px;
-  --spacing-xl: 20px;
-  --spacing-xxl: 24px;
-
   /* Corner radius -- pill (999) is the single most-used radius app-wide */
   --radius-sm: 12px;
   --radius-md: 18px;
