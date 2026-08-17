@@ -11,16 +11,10 @@ import {
   primaryButtonClass,
 } from '../../components/auth/AuthShell';
 
-type SignUpRole = 'parent' | 'teacher';
-
-const ROLE_OPTIONS: { value: SignUpRole; icon: string; label: string }[] = [
-  { value: 'parent', icon: '👨‍👩‍👧', label: 'Magulang' },
-  { value: 'teacher', icon: '🧑‍🏫', label: 'Guro' },
-];
+const ROLE = 'parent' as const;
 
 export default function SignUp() {
   const navigate = useNavigate();
-  const [role, setRole] = useState<SignUpRole>('parent');
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -52,7 +46,7 @@ export default function SignUp() {
       const { data, error: signUpError } = await supabase.auth.signUp({
         email,
         password,
-        options: { data: { role, full_name: name } },
+        options: { data: { role: ROLE, full_name: name } },
       });
       if (signUpError) throw signUpError;
       if (!data.user) throw new Error('Hindi nagawa ang account.');
@@ -61,7 +55,7 @@ export default function SignUp() {
         id: data.user.id,
         email,
         name,
-        role,
+        role: ROLE,
         email_verified: false,
       });
       if (profileError) throw profileError;
@@ -76,8 +70,8 @@ export default function SignUp() {
 
   return (
     <AuthShell
-      title="Gumawa ng account"
-      subtitle="Para sa magulang at guro."
+      title="Gumawa ng account ng magulang"
+      subtitle="Dito mo ie-enroll ang iyong anak — makukuha ng bata ang sariling login sa email mo."
       footer={
         <>
           May account ka na?{' '}
@@ -88,29 +82,6 @@ export default function SignUp() {
       }
     >
       <form onSubmit={onSubmit} className="flex flex-col gap-4" noValidate>
-        <fieldset>
-          <legend className="mb-2 text-sm font-medium">Ako ay:</legend>
-          <div className="grid grid-cols-2 gap-3">
-            {ROLE_OPTIONS.map((r) => (
-              <button
-                key={r.value}
-                type="button"
-                onClick={() => setRole(r.value)}
-                aria-pressed={role === r.value}
-                className={`flex flex-col items-center gap-2 rounded-xl border-2 px-4 py-4 text-sm font-medium transition-colors ${
-                  role === r.value
-                    ? 'border-[var(--color-primary)] bg-[var(--color-primary-soft)] text-[var(--color-primary)]'
-                    : 'border-[var(--color-border)] text-[var(--color-text-muted)] hover:border-[var(--color-primary)]'
-                }`}
-              >
-                <span className="text-2xl" aria-hidden="true">
-                  {r.icon}
-                </span>
-                {r.label}
-              </button>
-            ))}
-          </div>
-        </fieldset>
         <div>
           <label htmlFor="name" className="mb-1 block text-sm font-medium">
             Buong Pangalan
