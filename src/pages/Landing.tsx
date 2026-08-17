@@ -163,7 +163,7 @@ export default function Landing() {
       </section>
 
       <main id="phonological-dyslexia" className="mx-auto max-w-4xl px-6 py-14">
-        <div className="grid grid-cols-1 items-start gap-10 lg:grid-cols-[0.9fr_1.1fr]">
+        <div className="grid grid-cols-1 gap-10 lg:grid-cols-[0.9fr_1.1fr]">
           <div>
             <span className="inline-flex items-center gap-2 rounded-full border border-[var(--color-border)] bg-[var(--color-primary-soft)] px-4 py-1 text-sm font-medium text-[var(--color-primary)]">
               Ang aming pokus
@@ -182,7 +182,7 @@ export default function Landing() {
               app," kundi tool na nakatutok sa phoneme-level na pagsasanay.
             </p>
           </div>
-          <div className="grid grid-cols-1 items-start gap-4 sm:grid-cols-2">
+          <div className="grid grid-cols-1 content-between gap-4 sm:grid-cols-2">
             {RESPONSE_POINTS.map((r) => (
               <div
                 key={r.title}
