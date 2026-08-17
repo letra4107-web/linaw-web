@@ -119,7 +119,7 @@ export default function Landing() {
           className="pointer-events-none absolute right-0 -bottom-32 h-96 w-96 translate-x-1/4 rounded-full bg-white/10 blur-3xl"
           aria-hidden="true"
         />
-        <main className="relative mx-auto max-w-4xl px-6 py-14 text-center sm:py-20">
+        <main className="relative mx-auto max-w-6xl px-6 py-14 text-center sm:py-20">
           <span className="inline-flex items-center gap-2 rounded-full border border-white/40 bg-white/15 px-4 py-1 text-sm font-medium text-white">
             Para sa Grade 1–6 · Nakatutok sa Phonological Dyslexia
           </span>
@@ -162,7 +162,7 @@ export default function Landing() {
         </main>
       </section>
 
-      <main id="phonological-dyslexia" className="mx-auto max-w-4xl px-6 py-14">
+      <main id="phonological-dyslexia" className="mx-auto max-w-6xl px-6 py-14">
         <div className="grid grid-cols-1 gap-10 lg:grid-cols-[0.9fr_1.1fr]">
           <div>
             <span className="inline-flex items-center gap-2 rounded-full border border-[var(--color-border)] bg-[var(--color-primary-soft)] px-4 py-1 text-sm font-medium text-[var(--color-primary)]">
@@ -199,7 +199,7 @@ export default function Landing() {
         </div>
       </main>
 
-      <main id="paano-gumagana" className="mx-auto max-w-4xl px-6 py-14">
+      <main id="paano-gumagana" className="mx-auto max-w-6xl px-6 py-14">
         <div className="mb-8 text-center">
           <h2 className="text-2xl sm:text-3xl">Paano gumagana</h2>
           <p className="mx-auto mt-2 max-w-xl text-[var(--color-text-muted)]">
@@ -225,11 +225,11 @@ export default function Landing() {
         </div>
       </main>
 
-      <main id="ano-ang-makukuha" className="mx-auto max-w-4xl px-6 pb-14">
+      <main id="ano-ang-makukuha" className="mx-auto max-w-6xl px-6 pb-14">
         <div className="mb-8 text-center">
           <h2 className="text-2xl sm:text-3xl">Ano ang makukuha ninyo</h2>
         </div>
-        <div className="grid grid-cols-1 items-start gap-6 text-left sm:grid-cols-2">
+        <div className="grid grid-cols-1 items-start gap-6 text-left sm:grid-cols-2 lg:grid-cols-4">
           {FEATURES.map((f) => (
             <div
               key={f.title}
@@ -267,7 +267,7 @@ export default function Landing() {
       </section>
 
       <footer className="border-t border-[var(--color-border)] bg-[var(--color-surface)]">
-        <div className="mx-auto max-w-5xl px-6 py-12">
+        <div className="mx-auto max-w-6xl px-6 py-12">
           <div className="grid grid-cols-1 gap-10 sm:grid-cols-[1.3fr_1fr_1fr]">
             <div>
               <img src={logo} alt="LinawLetra" className="h-14 w-auto rounded-lg" />
