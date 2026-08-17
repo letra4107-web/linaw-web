@@ -108,17 +108,23 @@ export default function Landing() {
             <img src={logo} alt="LinawLetra" className="h-16 w-auto rounded-lg sm:h-20" />
           </Link>
           <nav className="hidden justify-self-center lg:block" aria-label="Pangunahing navigation">
-            <ul className="flex items-center gap-6 text-sm font-medium">
+            <ul className="flex items-center gap-8 text-lg font-semibold">
               {NAV_LINKS.map((item) =>
                 item.href.startsWith('#') ? (
                   <li key={item.label}>
-                    <a href={item.href} className="hover:text-[var(--color-primary)]">
+                    <a
+                      href={item.href}
+                      className="inline-block transition-transform duration-150 hover:-translate-y-0.5 hover:text-[var(--color-primary)] active:scale-90"
+                    >
                       {item.label}
                     </a>
                   </li>
                 ) : (
                   <li key={item.label}>
-                    <Link to={item.href} className="hover:text-[var(--color-primary)]">
+                    <Link
+                      to={item.href}
+                      className="inline-block transition-transform duration-150 hover:-translate-y-0.5 hover:text-[var(--color-primary)] active:scale-90"
+                    >
                       {item.label}
                     </Link>
                   </li>
@@ -132,19 +138,19 @@ export default function Landing() {
               onClick={() => setMobileNavOpen((v) => !v)}
               aria-expanded={mobileNavOpen}
               aria-label={mobileNavOpen ? 'Isara ang menu' : 'Buksan ang menu'}
-              className="rounded-full border border-[var(--color-border)] p-2 text-lg hover:border-[var(--color-primary)] lg:hidden"
+              className="rounded-full border border-[var(--color-border)] p-2 text-lg transition-transform hover:border-[var(--color-primary)] active:scale-90 lg:hidden"
             >
               {mobileNavOpen ? '✕' : '☰'}
             </button>
             <Link
               to="/login"
-              className="rounded-full border border-[var(--color-border)] px-3 py-2 text-sm font-medium hover:border-[var(--color-primary)] sm:px-4"
+              className="rounded-full border border-[var(--color-border)] px-3 py-2 text-base font-medium transition-transform hover:border-[var(--color-primary)] active:scale-95 sm:px-4"
             >
               Mag-login
             </Link>
             <Link
               to="/signup"
-              className="rounded-full bg-[var(--color-primary)] px-3 py-2 text-sm font-semibold text-white shadow-card transition-all hover:-translate-y-0.5 hover:bg-[var(--color-primary-hover)] hover:shadow-raised sm:px-4"
+              className="rounded-full bg-[var(--color-primary)] px-3 py-2 text-base font-semibold text-white shadow-card transition-all hover:-translate-y-0.5 hover:bg-[var(--color-primary-hover)] hover:shadow-raised active:scale-95 sm:px-4"
             >
               Mag-sign up
             </Link>
@@ -153,14 +159,14 @@ export default function Landing() {
 
         {mobileNavOpen && (
           <nav className="border-t border-[var(--color-border)] px-6 py-4 lg:hidden" aria-label="Mobile navigation">
-            <ul className="flex flex-col gap-3 text-sm font-medium">
+            <ul className="flex flex-col gap-3 text-base font-semibold">
               {NAV_LINKS.map((item) =>
                 item.href.startsWith('#') ? (
                   <li key={item.label}>
                     <a
                       href={item.href}
                       onClick={() => setMobileNavOpen(false)}
-                      className="hover:text-[var(--color-primary)]"
+                      className="inline-block transition-transform duration-150 hover:text-[var(--color-primary)] active:scale-90"
                     >
                       {item.label}
                     </a>
@@ -170,7 +176,7 @@ export default function Landing() {
                     <Link
                       to={item.href}
                       onClick={() => setMobileNavOpen(false)}
-                      className="hover:text-[var(--color-primary)]"
+                      className="inline-block transition-transform duration-150 hover:text-[var(--color-primary)] active:scale-90"
                     >
                       {item.label}
                     </Link>
@@ -207,7 +213,7 @@ export default function Landing() {
               <TTSButton text="Tulong sa pagbasa ng Tagalog, para sa bawat bata. Ginawa ang LinawLetra para sa mga mag-aaral na may dyslexia." />
               <Link
                 to="/signup"
-                className="rounded-full bg-white px-6 py-3 text-base font-semibold text-[var(--color-primary)] shadow-card transition-all hover:-translate-y-0.5 hover:bg-white/90 hover:shadow-raised"
+                className="rounded-full bg-white px-6 py-3 text-base font-semibold text-[var(--color-primary)] shadow-card transition-all hover:-translate-y-0.5 hover:bg-white/90 hover:shadow-raised active:scale-95"
               >
                 <IconLabel icon="🚀" label="Magsimula, libre" />
               </Link>
@@ -337,7 +343,7 @@ export default function Landing() {
           </p>
           <Link
             to="/signup"
-            className="mt-6 inline-flex rounded-full bg-white px-6 py-3 text-base font-semibold text-[var(--color-primary)] shadow-card transition-all hover:-translate-y-0.5 hover:bg-white/90 hover:shadow-raised"
+            className="mt-6 inline-flex rounded-full bg-white px-6 py-3 text-base font-semibold text-[var(--color-primary)] shadow-card transition-all hover:-translate-y-0.5 hover:bg-white/90 hover:shadow-raised active:scale-95"
           >
             <IconLabel icon="🚀" label="Gumawa ng account" />
           </Link>
@@ -355,7 +361,7 @@ export default function Landing() {
               </p>
               <a
                 href="mailto:linawletra@gmail.com"
-                className="mt-4 inline-flex items-center gap-2 text-sm font-medium hover:text-[var(--color-primary)] hover:underline"
+                className="mt-4 inline-flex items-center gap-2 text-sm font-medium transition-transform hover:text-[var(--color-primary)] hover:underline active:scale-95"
               >
                 <IconLabel icon="✉️" label="linawletra@gmail.com" />
               </a>
@@ -369,28 +375,40 @@ export default function Landing() {
                 <li>
                   <a
                     href="#phonological-dyslexia"
-                    className="hover:text-[var(--color-primary)] hover:underline"
+                    className="inline-block transition-transform hover:text-[var(--color-primary)] hover:underline active:scale-95"
                   >
                     Phonological Dyslexia
                   </a>
                 </li>
                 <li>
-                  <a href="#paano-gumagana" className="hover:text-[var(--color-primary)] hover:underline">
+                  <a
+                    href="#paano-gumagana"
+                    className="inline-block transition-transform hover:text-[var(--color-primary)] hover:underline active:scale-95"
+                  >
                     Paano Gumagana
                   </a>
                 </li>
                 <li>
-                  <a href="#ano-ang-makukuha" className="hover:text-[var(--color-primary)] hover:underline">
+                  <a
+                    href="#ano-ang-makukuha"
+                    className="inline-block transition-transform hover:text-[var(--color-primary)] hover:underline active:scale-95"
+                  >
                     Mga Tampok
                   </a>
                 </li>
                 <li>
-                  <Link to="/login" className="hover:text-[var(--color-primary)] hover:underline">
+                  <Link
+                    to="/login"
+                    className="inline-block transition-transform hover:text-[var(--color-primary)] hover:underline active:scale-95"
+                  >
                     Mag-login
                   </Link>
                 </li>
                 <li>
-                  <Link to="/signup" className="hover:text-[var(--color-primary)] hover:underline">
+                  <Link
+                    to="/signup"
+                    className="inline-block transition-transform hover:text-[var(--color-primary)] hover:underline active:scale-95"
+                  >
                     Mag-sign up
                   </Link>
                 </li>
