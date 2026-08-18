@@ -3,10 +3,25 @@ import { Link } from 'react-router-dom';
 import { supabase } from '../../lib/supabaseClient';
 import { useAuth } from '../../lib/auth/AuthContext';
 import { IconLabel } from '../../components/a11y/IconLabel';
-import { cardStyle, CARD_COLORS } from '../../lib/cardStyle';
+import { cardStyle } from '../../lib/cardStyle';
+
+const QUICK_ACTIONS = [
+  { to: '/teacher/lessons', icon: '📚', label: 'Mga Aralin', desc: 'Suriin ang mga aralin', brand: '--color-brand-lavender' },
+  { to: '/teacher/pdf-reading', icon: '📄', label: 'Pagbasa ng PDF', desc: 'Mag-upload at mag-assign', brand: '--color-brand-teal' },
+  { to: '/teacher/assessments', icon: '📝', label: 'Mga Pagsusulit', desc: 'Gumawa at markahan', brand: '--color-brand-sun' },
+  { to: '/teacher/learning-paths', icon: '🧭', label: 'Landas ng Pagkatuto', desc: 'Ayusin ang aralin', brand: '--color-brand-coral' },
+  { to: '/teacher/progress-reports', icon: '📊', label: 'Ulat ng Progreso', desc: 'Tingnan ang pag-unlad', brand: '--color-brand-violet' },
+  { to: '/teacher/messages', icon: '✉️', label: 'Mga Mensahe', desc: 'Makipag-ugnayan sa magulang', brand: '--color-brand-sage' },
+];
+
+const STEPS = [
+  { icon: '🎒', to: '/teacher/students', label: 'Mag-aaral Ko', text: 'Magdagdag ng mag-aaral sa iyong roster.' },
+  { icon: '📚', to: '/teacher/lessons', label: 'Mga Aralin / Pagbasa ng PDF', text: 'Mag-upload ng aralin o PDF na babasahin ng mag-aaral.' },
+  { icon: '📊', to: '/teacher/progress-reports', label: 'Ulat ng Progreso', text: 'Suriin ang pag-unlad pagkatapos ng ilang araw.' },
+];
 
 export default function Dashboard() {
-  const { user } = useAuth();
+  const { user, identity } = useAuth();
 
   const { data: rosterCount } = useQuery({
     queryKey: ['teacher-roster-count', user?.id],
@@ -41,59 +56,91 @@ export default function Dashboard() {
     enabled: Boolean(user),
   });
 
-  const cards = [
-    { to: '/teacher/students', icon: '🎒', label: 'Mag-aaral Ko', value: rosterCount ?? 0, hint: 'kabuuang mag-aaral' },
-    { to: '/teacher/pdf-reading', icon: '📄', label: 'Pagbasa ng PDF', value: pendingAssignments ?? 0, hint: 'hindi pa tapos' },
+  const { data: materialsCount } = useQuery({
+    queryKey: ['teacher-materials-count', user?.id],
+    queryFn: async () => {
+      const { count, error } = await supabase
+        .from('pdf_materials')
+        .select('id', { count: 'exact', head: true })
+        .eq('teacher_id', user!.id);
+      if (error) throw error;
+      return count ?? 0;
+    },
+    enabled: Boolean(user),
+  });
+
+  const stats = [
+    { icon: '🎒', label: 'Mag-aaral Ko', value: rosterCount ?? 0, brand: '--color-brand-lavender' },
+    { icon: '📄', label: 'Mga PDF na Na-upload', value: materialsCount ?? 0, brand: '--color-brand-teal' },
+    { icon: '⏳', label: 'Hindi pa Tapos', value: pendingAssignments ?? 0, brand: '--color-brand-sun' },
   ];
 
   return (
     <div className="flex flex-col gap-8">
-      <h1 className="text-2xl font-semibold">Buod ng Guro</h1>
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-        {cards.map((c, i) => (
-          <Link
-            key={c.to}
-            to={c.to}
-            className="rounded-xl border p-6 hover:border-[var(--color-primary)]"
-            style={cardStyle(CARD_COLORS[i % CARD_COLORS.length])}
-          >
-            <p className="text-3xl font-semibold text-[var(--color-primary)]">{c.value}</p>
-            <p className="mt-1">
-              <IconLabel icon={c.icon} label={c.label} />
-            </p>
-            <p className="text-sm text-[var(--color-text-muted)]">{c.hint}</p>
-          </Link>
+      <div
+        className="overflow-hidden rounded-2xl p-8 text-white shadow-lg"
+        style={{ backgroundImage: 'linear-gradient(135deg, #5c8047, #0d9488)' }}
+      >
+        <h1 className="text-3xl font-bold">
+          <IconLabel icon="🧑‍🏫" label={`Kumusta, ${identity?.displayName ?? 'Guro'}!`} />
+        </h1>
+        <p className="mt-2 text-white/85">Buod ng iyong klase sa LinawLetra.</p>
+      </div>
+
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
+        {stats.map((c) => (
+          <div key={c.label} className="flex flex-col gap-2 rounded-xl border p-5" style={cardStyle(c.brand)}>
+            <span className="text-3xl" aria-hidden="true">
+              {c.icon}
+            </span>
+            <p className="text-2xl font-bold">{c.value}</p>
+            <p className="text-sm font-medium text-[var(--color-text-muted)]">{c.label}</p>
+          </div>
         ))}
       </div>
+
+      <div>
+        <h2 className="mb-3 text-lg font-semibold">Mabilisang Aksyon</h2>
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {QUICK_ACTIONS.map((action) => (
+            <Link
+              key={action.to}
+              to={action.to}
+              className="flex flex-col gap-1 rounded-xl border p-5 transition-all hover:-translate-y-0.5 hover:shadow-card active:scale-95"
+              style={cardStyle(action.brand)}
+            >
+              <span className="text-2xl" aria-hidden="true">
+                {action.icon}
+              </span>
+              <p className="font-semibold">{action.label}</p>
+              <p className="text-sm text-[var(--color-text-muted)]">{action.desc}</p>
+            </Link>
+          ))}
+        </div>
+      </div>
+
       <div className="rounded-xl border p-6" style={cardStyle('--color-brand-sage')}>
-        <h2 className="mb-2 text-lg font-semibold">Susunod na Hakbang</h2>
-        <ul className="flex flex-col gap-2 text-[var(--color-text-muted)]">
-          <li>
-            1. Magdagdag ng mag-aaral sa{' '}
-            <Link to="/teacher/students" className="text-[var(--color-primary)] underline">
-              Mag-aaral Ko
+        <h2 className="mb-4 text-lg font-semibold">Susunod na Hakbang</h2>
+        <div className="flex flex-col gap-3">
+          {STEPS.map((step, i) => (
+            <Link
+              key={step.to}
+              to={step.to}
+              className="flex items-center gap-4 rounded-xl border border-white/60 bg-white/60 px-4 py-3 transition-colors hover:bg-white/90"
+            >
+              <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[var(--color-brand-sage)] text-sm font-bold text-white">
+                {i + 1}
+              </span>
+              <span className="text-xl" aria-hidden="true">
+                {step.icon}
+              </span>
+              <div className="min-w-0">
+                <p className="font-medium">{step.label}</p>
+                <p className="text-sm text-[var(--color-text-muted)]">{step.text}</p>
+              </div>
             </Link>
-            .
-          </li>
-          <li>
-            2. Mag-upload ng aralin sa{' '}
-            <Link to="/teacher/lessons" className="text-[var(--color-primary)] underline">
-              Mga Aralin
-            </Link>{' '}
-            o{' '}
-            <Link to="/teacher/pdf-reading" className="text-[var(--color-primary)] underline">
-              Pagbasa ng PDF
-            </Link>
-            .
-          </li>
-          <li>
-            3. Suriin ang{' '}
-            <Link to="/teacher/progress-reports" className="text-[var(--color-primary)] underline">
-              Ulat ng Progreso
-            </Link>{' '}
-            pagkatapos.
-          </li>
-        </ul>
+          ))}
+        </div>
       </div>
     </div>
   );

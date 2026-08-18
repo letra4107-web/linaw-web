@@ -5,6 +5,7 @@ import { useAuth } from '../../lib/auth/AuthContext';
 import { useAccessibility, type FontScale } from '../../lib/a11y/AccessibilityContext';
 import { DashboardShell } from '../../components/DashboardShell';
 import { IconLabel } from '../../components/a11y/IconLabel';
+import { softSignOut } from '../../lib/auth/softSignOut';
 import logo from '../../assets/Logo.jpg';
 import studentBg from '../../assets/sd.webp';
 import navBg from '../../assets/side.webp';
@@ -90,7 +91,7 @@ function NavItem({ to, end, icon, label, collapsed }: { to: string; end?: boolea
 function ProfileMenu({ collapsed }: { collapsed: boolean }) {
   const [open, setOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
-  const { identity } = useAuth();
+  const { identity, user } = useAuth();
 
   useEffect(() => {
     if (!open) return;
@@ -133,11 +134,25 @@ function ProfileMenu({ collapsed }: { collapsed: boolean }) {
 
           <button
             type="button"
-            onClick={() => supabase.auth.signOut()}
+            onClick={() => {
+              if (user) {
+                softSignOut({
+                  userId: user.id,
+                  role: 'student',
+                  displayName: identity?.displayName ?? 'Mag-aaral',
+                  email: user.email ?? '',
+                });
+              } else {
+                supabase.auth.signOut();
+              }
+            }}
             className="flex w-full items-center gap-2 rounded-lg px-2 py-2 text-sm text-[var(--color-danger)] hover:bg-[var(--color-danger-soft)]"
           >
             <IconLabel icon="🚪" label="Mag-sign out" />
           </button>
+          <p className="mt-2 px-2 text-xs text-[var(--color-text-muted)]">
+            Maaalala ka namin sa susunod na pag-login — tap lang ang iyong larawan.
+          </p>
         </div>
       )}
     </div>

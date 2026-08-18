@@ -24,6 +24,10 @@ export function WordOfDayCard({ streak = 0 }: WordOfDayCardProps) {
   const [lastHeard, setLastHeard] = useState('');
   const [wasWrongAttempt, setWasWrongAttempt] = useState(false);
   const [feedbackMessage, setFeedbackMessage] = useState('');
+  // Only true once an attempt has actually been submitted in this page session -- keeps the
+  // "done" banner from re-speaking/re-confetti-ing a result the student already heard, on a
+  // plain page refresh that lands on an already-completed word.
+  const [justAnswered, setJustAnswered] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [justAwardedXp, setJustAwardedXp] = useState<number | null>(null);
 
@@ -86,6 +90,7 @@ export function WordOfDayCard({ streak = 0 }: WordOfDayCardProps) {
           );
           if (res.isFinal && res.correct) setJustAwardedXp(res.xpAwarded);
           setFeedbackMessage(res.isFinal && res.correct ? randomFrom(CORRECT_MESSAGES) : randomFrom(ENCOURAGE_MESSAGES));
+          setJustAnswered(true);
           if (!res.isFinal) setWasWrongAttempt(true);
           queryClient.invalidateQueries({ queryKey: ['word-of-day'] });
           queryClient.invalidateQueries({ queryKey: ['student-progress'] });
@@ -138,6 +143,7 @@ export function WordOfDayCard({ streak = 0 }: WordOfDayCardProps) {
             speakText={feedbackMessage || fallbackDoneMessage}
             hint="Magaling! Natapos mo na ito, bumalik bukas para sa susunod na salita."
             word={!wordOfDay.correct ? wordOfDay.word : undefined}
+            autoPlay={justAnswered}
           />
         ) : (
           <div className="mt-6 flex flex-col items-center gap-3">

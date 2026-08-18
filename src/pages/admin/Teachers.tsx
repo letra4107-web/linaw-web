@@ -20,7 +20,7 @@ export default function AdminTeachers() {
   const [name, setName] = useState('');
   const [gradeLevels, setGradeLevels] = useState<number[]>([]);
   const [error, setError] = useState<string | null>(null);
-  const [created, setCreated] = useState<{ email: string; temporaryPassword: string } | null>(null);
+  const [created, setCreated] = useState<{ email: string } | null>(null);
 
   const { data, refetch } = useQuery({
     queryKey: ['admin-users', 'teacher', ''],
@@ -29,13 +29,13 @@ export default function AdminTeachers() {
 
   const createTeacher = useMutation({
     mutationFn: () =>
-      api<{ temporaryPassword: string }>('/admin/teachers', {
+      api<{ success: true; teacherId: string }>('/admin/teachers', {
         method: 'POST',
         auth: true,
         body: { email, name, gradeLevels },
       }),
-    onSuccess: (res) => {
-      setCreated({ email, temporaryPassword: res.temporaryPassword });
+    onSuccess: () => {
+      setCreated({ email });
       setEmail('');
       setName('');
       setGradeLevels([]);
@@ -129,10 +129,7 @@ export default function AdminTeachers() {
         <div className="rounded-xl border border-[var(--color-primary)] p-4" style={{ backgroundColor: cardStyle('--color-brand-sage').backgroundColor }}>
           <p className="font-medium">Nagawa ang account para kay {created.email}</p>
           <p className="mt-1 text-sm text-[var(--color-text-muted)]">
-            Pansamantalang password: <span className="font-mono font-semibold">{created.temporaryPassword}</span>
-          </p>
-          <p className="mt-1 text-sm text-[var(--color-text-muted)]">
-            Ibahagi ito sa guro nang ligtas — hindi na ito muling ipapakita.
+            Naipadala na ang pansamantalang password sa email ng guro.
           </p>
         </div>
       )}

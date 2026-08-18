@@ -1,5 +1,6 @@
 const express = require('express');
 const { supabaseAdmin } = require('../config/supabase');
+const { sendMail } = require('../config/mailer');
 const { requireAuth, requireRole } = require('../middleware/auth');
 
 const router = express.Router();
@@ -211,13 +212,37 @@ router.post('/teachers', async (req, res) => {
     });
     if (profileErr) throw profileErr;
 
+    const cleanGradeLevels = Array.isArray(gradeLevels) ? gradeLevels : [];
     const { error: teacherProfileErr } = await supabaseAdmin.from('teacher_profiles').upsert({
       user_id: teacherId,
-      grade_levels: Array.isArray(gradeLevels) ? gradeLevels : [],
+      grade_levels: cleanGradeLevels,
     });
     if (teacherProfileErr) throw teacherProfileErr;
 
-    res.json({ success: true, teacherId, temporaryPassword: password });
+    // Auto-roster: every existing student in the teacher's assigned grade levels is
+    // linked immediately, so "Mag-aaral Ko" is populated without a manual add step.
+    if (cleanGradeLevels.length > 0) {
+      const { data: matchingStudents, error: studentsErr } = await supabaseAdmin
+        .from('children')
+        .select('id')
+        .in('grade_level', cleanGradeLevels);
+      if (studentsErr) throw studentsErr;
+      if (matchingStudents && matchingStudents.length > 0) {
+        const { error: linkErr } = await supabaseAdmin.from('teacher_student_links').upsert(
+          matchingStudents.map((s) => ({ teacher_id: teacherId, student_id: s.id, assigned_by: req.user.id })),
+          { onConflict: 'teacher_id,student_id', ignoreDuplicates: true },
+        );
+        if (linkErr) throw linkErr;
+      }
+    }
+
+    await sendMail({
+      to: email,
+      subject: 'LinawLetra — Naka-gawa na ang Inyong Teacher Account',
+      text: `Magandang araw, ${name}!\n\nNakagawa na ang inyong teacher account sa LinawLetra.\n\nEmail: ${email}\nPassword: ${password}\n\nMangyaring mag-log in at palitan agad ang password para sa seguridad. Itago ang detalyeng ito nang lihim.`,
+    });
+
+    res.json({ success: true, teacherId });
   } catch (err) {
     console.error('[admin/teachers create]', err);
     res.status(500).json({ error: 'Unable to create this teacher account.' });

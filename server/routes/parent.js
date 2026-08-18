@@ -141,6 +141,20 @@ router.post('/children', async (req, res) => {
     });
     if (credentialsErr) throw credentialsErr;
 
+    // Auto-roster: link this new student to every teacher already assigned to this grade level.
+    const { data: matchingTeachers, error: teachersErr } = await supabaseAdmin
+      .from('teacher_profiles')
+      .select('user_id')
+      .contains('grade_levels', [finalGradeLevel]);
+    if (teachersErr) throw teachersErr;
+    if (matchingTeachers && matchingTeachers.length > 0) {
+      const { error: linkErr } = await supabaseAdmin.from('teacher_student_links').upsert(
+        matchingTeachers.map((t) => ({ teacher_id: t.user_id, student_id: childRow.id, assigned_by: parentId })),
+        { onConflict: 'teacher_id,student_id', ignoreDuplicates: true },
+      );
+      if (linkErr) throw linkErr;
+    }
+
     await sendMail({
       to: parentEmail,
       subject: 'LinawLetra — Naka-enroll na ang Inyong Anak',

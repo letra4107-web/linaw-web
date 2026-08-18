@@ -2,6 +2,7 @@ import { createContext, useContext, useEffect, useState, type ReactNode } from '
 import type { Session, User } from '@supabase/supabase-js';
 import { supabase } from '../supabaseClient';
 import { resolveRole, type ResolvedIdentity } from './resolveRole';
+import { api } from '../api';
 
 interface AuthState {
   session: Session | null;
@@ -36,10 +37,17 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       loadIdentity(data.session?.user ?? null).finally(() => setLoading(false));
     });
 
-    const { data: sub } = supabase.auth.onAuthStateChange((_event, nextSession) => {
+    const { data: sub } = supabase.auth.onAuthStateChange((event, nextSession) => {
       setSession(nextSession);
       setLoading(true);
       loadIdentity(nextSession?.user ?? null).finally(() => setLoading(false));
+
+      // Notify the parent on an actual login only -- never on a background token
+      // refresh (fires roughly hourly while the app just sits open) or on the
+      // page-refresh/persisted-session replay, both of which aren't a new login.
+      if (event === 'SIGNED_IN' && nextSession?.user) {
+        api('/student/notify-login', { method: 'POST', auth: true }).catch(() => {});
+      }
     });
 
     return () => {

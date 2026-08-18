@@ -5,7 +5,8 @@ import { supabase } from '../../lib/supabaseClient';
 import { useAuth } from '../../lib/auth/AuthContext';
 import { api } from '../../lib/api';
 import { ReadingInsightsPanel, type ReadingProfile } from '../../components/ReadingInsightsPanel';
-import { cardStyle } from '../../lib/cardStyle';
+import { cardStyle, CARD_COLORS } from '../../lib/cardStyle';
+import { BADGE_CATALOG } from '../../lib/badges';
 
 interface Child {
   id: string;
@@ -16,6 +17,10 @@ interface PracticeSession {
   created_at: string;
   accuracy_percentage: number;
   is_correct: boolean;
+}
+
+interface ChildAchievements {
+  achievements: { id: string; unlockedAt?: string }[] | Record<string, unknown> | null;
 }
 
 export default function ProgressReport() {
@@ -54,6 +59,29 @@ export default function ProgressReport() {
     queryFn: () => api<{ profile: ReadingProfile }>(`/parent/children/${activeChildId}/reading-profile`, { auth: true }),
     enabled: Boolean(activeChildId),
   });
+
+  const { data: childProgress } = useQuery({
+    queryKey: ['parent-child-achievements', activeChildId],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from('child_progress')
+        .select('achievements')
+        .eq('child_id', activeChildId!)
+        .maybeSingle();
+      if (error) throw error;
+      return data as ChildAchievements | null;
+    },
+    enabled: Boolean(activeChildId),
+  });
+
+  const unlockedBadgeIds = new Map<string, string | undefined>(
+    Array.isArray(childProgress?.achievements)
+      ? childProgress!.achievements.map((a) => [a.id, a.unlockedAt])
+      : childProgress?.achievements
+        ? Object.keys(childProgress.achievements).map((id) => [id, undefined])
+        : [],
+  );
+  const earnedBadges = BADGE_CATALOG.filter((b) => unlockedBadgeIds.has(b.id));
 
   const chartData = (sessions ?? []).map((s) => ({
     date: new Date(s.created_at).toLocaleDateString('fil-PH', { month: 'short', day: 'numeric' }),
@@ -124,6 +152,39 @@ export default function ProgressReport() {
             </ResponsiveContainer>
           </div>
         </>
+      )}
+
+      {activeChildId && (
+        <div className="rounded-xl border p-6" style={cardStyle('--color-brand-sun')}>
+          <h2 className="mb-1 text-lg font-semibold">Mga Nakuhang Badge</h2>
+          <p className="mb-4 text-sm text-[var(--color-text-muted)]">
+            {earnedBadges.length} sa {BADGE_CATALOG.length} badge ang nakuha na ng anak mo.
+          </p>
+          {earnedBadges.length === 0 ? (
+            <p className="text-[var(--color-text-muted)]">Wala pang nakukuhang badge.</p>
+          ) : (
+            <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
+              {earnedBadges.map((badge, i) => {
+                const unlockedAt = unlockedBadgeIds.get(badge.id);
+                return (
+                  <div
+                    key={badge.id}
+                    className="flex flex-col items-center gap-2 rounded-xl border p-4 text-center"
+                    style={cardStyle(CARD_COLORS[i % CARD_COLORS.length])}
+                  >
+                    <img src={badge.image} alt={badge.title} className="h-16 w-16 object-contain" />
+                    <p className="text-sm font-medium">{badge.title}</p>
+                    {unlockedAt && (
+                      <p className="text-xs text-[var(--color-text-muted)]">
+                        {new Date(unlockedAt).toLocaleDateString('fil-PH', { year: 'numeric', month: 'long', day: 'numeric' })}
+                      </p>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+          )}
+        </div>
       )}
 
       {readingProfile && <ReadingInsightsPanel profile={readingProfile.profile} />}

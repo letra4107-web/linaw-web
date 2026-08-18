@@ -24,6 +24,51 @@ function handleRpcError(res, err) {
   res.status(status).json({ error: err.message || 'Something went wrong.' });
 }
 
+// POST /student/notify-login -- mirrors mobile's backend/routes/auth.js notify-login:
+// alerts the parent every time their student logs in via web. Called once from the
+// student's AuthContext right after role resolution, not on every token refresh.
+router.post('/notify-login', async (req, res) => {
+  try {
+    const { data: child, error: childErr } = await supabaseAdmin
+      .from('children')
+      .select('id, name, parent_id')
+      .eq('auth_uid', req.user.id)
+      .maybeSingle();
+    if (childErr) throw childErr;
+
+    if (!child?.parent_id) return res.json({ success: true, notified: false });
+
+    const studentName = child.name || 'Mag-aaral';
+    const timestamp = new Date().toLocaleString('fil-PH', {
+      timeZone: 'Asia/Manila',
+      hour: 'numeric',
+      minute: '2-digit',
+      month: 'short',
+      day: 'numeric',
+    });
+    const message = `Nag-login si ${studentName} — ${timestamp}`;
+
+    const { error: insertErr } = await supabaseAdmin.from('notifications').insert({
+      user_id: child.parent_id,
+      parent_id: child.parent_id,
+      student_id: child.id,
+      title: 'Nag-login ang Mag-aaral',
+      body: message,
+      message,
+      type: 'student_login',
+      is_read: false,
+      read: false,
+    });
+    if (insertErr) throw insertErr;
+
+    res.json({ success: true, notified: true });
+  } catch (err) {
+    console.error('[student/notify-login]', err);
+    // Never fatal to the caller -- a missed notification shouldn't look like a failed login.
+    res.status(200).json({ success: false, notified: false });
+  }
+});
+
 // GET /student/learn/path
 router.get('/learn/path', async (req, res) => {
   try {

@@ -15,9 +15,9 @@ const PRIMARY_TABS = [
   { to: '/parent', end: true, icon: '🏠', label: 'Simula' },
   { to: '/parent/progress', icon: '📊', label: 'Progreso' },
   { to: '/parent/schedule', icon: '🗓️', label: 'Kalendaryo' },
-  { to: '/parent/settings', icon: '🙂', label: 'Aking Detalye' },
   { to: '/parent/children', icon: '👧', label: 'Mga Anak Ko' },
   { to: '/parent/messages', icon: '✉️', label: 'Mga Mensahe' },
+  { to: '/parent/settings', icon: '🙂', label: 'Aking Detalye' },
 ];
 
 function navClass(collapsed: boolean) {

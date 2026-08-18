@@ -3,12 +3,20 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '../../lib/supabaseClient';
 import { useAuth } from '../../lib/auth/AuthContext';
 import { cardStyle } from '../../lib/cardStyle';
+import { IconLabel } from '../../components/a11y/IconLabel';
+
+function initialsFor(name: string) {
+  const parts = name.trim().split(/\s+/).filter(Boolean);
+  if (parts.length === 0) return '🧑‍🏫';
+  return (parts[0][0] + (parts[1]?.[0] ?? '')).toUpperCase();
+}
 
 export default function Settings() {
   const { user, identity, refreshIdentity } = useAuth();
   const queryClient = useQueryClient();
   const [name, setName] = useState(identity?.displayName ?? '');
   const [newPassword, setNewPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
   const [profileMsg, setProfileMsg] = useState<string | null>(null);
   const [passwordMsg, setPasswordMsg] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -45,12 +53,16 @@ export default function Settings() {
       if (newPassword.length < 8 || !/[A-Z]/.test(newPassword) || !/[0-9]/.test(newPassword)) {
         throw new Error('Kailangang 8+ characters, may malaking letra at numero.');
       }
+      if (newPassword !== confirmPassword) {
+        throw new Error('Hindi magkatugma ang dalawang password.');
+      }
       const { error: err } = await supabase.auth.updateUser({ password: newPassword });
       if (err) throw err;
     },
     onSuccess: () => {
       setPasswordMsg('Na-update ang password.');
       setNewPassword('');
+      setConfirmPassword('');
       setError(null);
     },
     onError: (err: Error) => setError(err.message),
@@ -68,77 +80,150 @@ export default function Settings() {
     onError: (err: Error) => setError(err.message),
   });
 
+  const passwordChecks = [
+    { label: '8+ characters', met: newPassword.length >= 8 },
+    { label: 'May malaking letra (A-Z)', met: /[A-Z]/.test(newPassword) },
+    { label: 'May numero (0-9)', met: /[0-9]/.test(newPassword) },
+  ];
+
+  const gradeLevels = teacherProfile?.grade_levels ?? [];
+
   return (
-    <div className="flex max-w-lg flex-col gap-8">
-      <div>
-        <h1 className="text-2xl font-semibold">Mga Setting</h1>
-        <p className="text-[var(--color-text-muted)]">Pamahalaan ang iyong profile at account.</p>
+    <div className="flex flex-col gap-8">
+      <div
+        className="flex items-center gap-5 overflow-hidden rounded-2xl p-8 text-white shadow-lg"
+        style={{ backgroundImage: 'linear-gradient(135deg, #5c8047, #0d9488)' }}
+      >
+        <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-full bg-white/20 text-2xl font-bold backdrop-blur">
+          {initialsFor(identity?.displayName ?? 'Guro')}
+        </div>
+        <div className="min-w-0">
+          <h1 className="text-2xl font-bold">{identity?.displayName ?? 'Aking Profile'}</h1>
+          <p className="truncate text-white/85">{user?.email}</p>
+          <span className="mt-1 inline-block rounded-full bg-white/20 px-3 py-0.5 text-xs font-semibold backdrop-blur">
+            <IconLabel icon="🧑‍🏫" label={`Guro · Grade ${gradeLevels.join(', ') || '-'}`} />
+          </span>
+        </div>
       </div>
 
-      {error && <p className="text-sm text-[var(--color-danger)]">{error}</p>}
-
-      <form
-        onSubmit={(e) => {
-          e.preventDefault();
-          updateProfile.mutate();
-        }}
-        className="flex flex-col gap-3 rounded-xl border p-6"
-        style={cardStyle('--color-brand-lavender')}
-      >
-        <h2 className="text-lg font-semibold">Profile Ko</h2>
-        <label htmlFor="name" className="text-sm font-medium">
-          Pangalan
-        </label>
-        <input
-          id="name"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          className="rounded-lg border border-[var(--color-border)] px-4 py-2"
-        />
-        {profileMsg && <p className="text-sm text-[var(--color-primary)]">{profileMsg}</p>}
-        <button type="submit" className="self-start rounded-lg bg-[var(--color-primary)] px-4 py-2 text-white">
-          I-save
-        </button>
-      </form>
-
-      <form
-        onSubmit={(e) => {
-          e.preventDefault();
-          updatePassword.mutate();
-        }}
-        className="flex flex-col gap-3 rounded-xl border p-6"
-        style={cardStyle('--color-brand-coral')}
-      >
-        <h2 className="text-lg font-semibold">Password</h2>
-        <label htmlFor="password" className="text-sm font-medium">
-          Bagong Password
-        </label>
-        <input
-          id="password"
-          type="password"
-          value={newPassword}
-          onChange={(e) => setNewPassword(e.target.value)}
-          className="rounded-lg border border-[var(--color-border)] px-4 py-2"
-        />
-        {passwordMsg && <p className="text-sm text-[var(--color-primary)]">{passwordMsg}</p>}
-        <button type="submit" className="self-start rounded-lg bg-[var(--color-primary)] px-4 py-2 text-white">
-          I-update ang Password
-        </button>
-      </form>
-
-      <div className="rounded-xl border p-6" style={cardStyle('--color-brand-teal')}>
-        <h2 className="mb-3 text-lg font-semibold">Mga Abiso</h2>
-        <label className="flex items-center gap-3">
-          <input
-            type="checkbox"
-            checked={teacherProfile?.notify_by_email ?? true}
-            onChange={(e) => toggleNotify.mutate(e.target.checked)}
-          />
-          Ipadala sa email ang mga update
-        </label>
-        <p className="mt-3 text-sm text-[var(--color-text-muted)]">
-          Naka-assign kang mag-turo sa Grade {(teacherProfile?.grade_levels ?? []).join(', ') || '-'}.
+      {error && (
+        <p className="rounded-lg border border-[var(--color-danger)] bg-[var(--color-danger-soft)] px-4 py-3 text-sm text-[var(--color-danger)]">
+          {error}
         </p>
+      )}
+
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
+        <div className="rounded-2xl border p-6" style={cardStyle('--color-brand-sage')}>
+          <h2 className="mb-4 text-lg font-semibold">
+            <IconLabel icon="✏️" label="Profile Ko" />
+          </h2>
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              updateProfile.mutate();
+            }}
+            className="flex flex-col gap-3"
+          >
+            <label htmlFor="name" className="text-sm font-medium">
+              Pangalan
+            </label>
+            <input
+              id="name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              className="rounded-lg border border-[var(--color-border)] bg-white px-4 py-2.5"
+            />
+            {profileMsg && <p className="text-sm font-medium text-[var(--color-success)]">{profileMsg}</p>}
+            <button
+              type="submit"
+              disabled={updateProfile.isPending}
+              className="self-start rounded-lg bg-[var(--color-brand-sage)] px-5 py-2 font-medium text-white hover:opacity-90 disabled:opacity-60"
+            >
+              {updateProfile.isPending ? 'Sine-save...' : 'I-save'}
+            </button>
+          </form>
+        </div>
+
+        <div className="rounded-2xl border p-6" style={cardStyle('--color-brand-teal')}>
+          <h2 className="mb-4 text-lg font-semibold">
+            <IconLabel icon="🔔" label="Mga Abiso" />
+          </h2>
+          <label className="flex items-center gap-3 rounded-lg border border-white/60 bg-white/60 px-4 py-3">
+            <input
+              type="checkbox"
+              checked={teacherProfile?.notify_by_email ?? true}
+              onChange={(e) => toggleNotify.mutate(e.target.checked)}
+              className="h-4 w-4"
+            />
+            Ipadala sa email ang mga update
+          </label>
+          <p className="mt-4 text-sm text-[var(--color-text-muted)]">
+            Naka-assign kang mag-turo sa <span className="font-medium">Grade {gradeLevels.join(', ') || '-'}</span>.
+            Awtomatikong idinaragdag sa iyong roster ang bawat mag-aaral sa mga grade na ito.
+          </p>
+        </div>
+
+        <div className="rounded-2xl border p-6 lg:col-span-2" style={cardStyle('--color-brand-coral')}>
+          <h2 className="mb-4 text-lg font-semibold">
+            <IconLabel icon="🔒" label="Palitan ang Password" />
+          </h2>
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              updatePassword.mutate();
+            }}
+            className="grid grid-cols-1 gap-4 lg:grid-cols-2"
+          >
+            <div className="flex flex-col gap-3">
+              <label htmlFor="password" className="text-sm font-medium">
+                Bagong Password
+              </label>
+              <input
+                id="password"
+                type="password"
+                value={newPassword}
+                onChange={(e) => setNewPassword(e.target.value)}
+                className="rounded-lg border border-[var(--color-border)] bg-white px-4 py-2.5"
+              />
+              <label htmlFor="confirmPassword" className="text-sm font-medium">
+                Kumpirmahin ang Bagong Password
+              </label>
+              <input
+                id="confirmPassword"
+                type="password"
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+                className="rounded-lg border border-[var(--color-border)] bg-white px-4 py-2.5"
+              />
+            </div>
+            <div className="flex flex-col justify-center gap-2">
+              <p className="text-sm font-medium text-[var(--color-text-muted)]">Kailangan ng password:</p>
+              {passwordChecks.map((c) => (
+                <p
+                  key={c.label}
+                  className={`flex items-center gap-2 text-sm ${c.met ? 'text-[var(--color-success)]' : 'text-[var(--color-text-muted)]'}`}
+                >
+                  <span aria-hidden="true">{c.met ? '✅' : '⬜'}</span> {c.label}
+                </p>
+              ))}
+              {confirmPassword && (
+                <p className={`flex items-center gap-2 text-sm ${newPassword === confirmPassword ? 'text-[var(--color-success)]' : 'text-[var(--color-danger)]'}`}>
+                  <span aria-hidden="true">{newPassword === confirmPassword ? '✅' : '⬜'}</span> Magkatugma ang password
+                </p>
+              )}
+            </div>
+            {passwordMsg && (
+              <p className="text-sm font-medium text-[var(--color-success)] lg:col-span-2">{passwordMsg}</p>
+            )}
+            <button
+              type="submit"
+              disabled={updatePassword.isPending || !newPassword || !confirmPassword}
+              className="self-start rounded-lg bg-[var(--color-brand-coral)] px-5 py-2 font-medium text-white hover:opacity-90 disabled:opacity-60 lg:col-span-2"
+            >
+              {updatePassword.isPending ? 'Ina-update...' : 'I-update ang Password'}
+            </button>
+          </form>
+        </div>
       </div>
     </div>
   );

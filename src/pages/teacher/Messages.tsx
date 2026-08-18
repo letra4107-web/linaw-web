@@ -10,8 +10,16 @@ interface RosterRow {
   children: { id: string; name: string; parent_id: string } | null;
 }
 
+interface ParentOption {
+  parentId: string;
+  label: string;
+  childIds: string[];
+  childNames: string[];
+}
+
 interface SentMessageRow {
   id: string;
+  parent_id: string;
   child_id: string;
   message: string;
   read: boolean;
@@ -22,7 +30,7 @@ interface SentMessageRow {
 export default function TeacherMessages() {
   const { user } = useAuth();
   const queryClient = useQueryClient();
-  const [studentId, setStudentId] = useState('');
+  const [parentId, setParentId] = useState('');
   const [message, setMessage] = useState('');
   const [error, setError] = useState<string | null>(null);
 
@@ -38,12 +46,37 @@ export default function TeacherMessages() {
     enabled: Boolean(user),
   });
 
+  const parentIds = Array.from(new Set((roster ?? []).map((r) => r.children?.parent_id).filter(Boolean))) as string[];
+
+  const { data: parentNames } = useQuery({
+    queryKey: ['teacher-roster-parent-names', parentIds],
+    queryFn: async () => {
+      if (parentIds.length === 0) return {} as Record<string, string>;
+      const { data, error: err } = await supabase.from('users').select('id, name, email').in('id', parentIds);
+      if (err) throw err;
+      const map: Record<string, string> = {};
+      for (const p of data ?? []) map[p.id] = p.name ?? p.email ?? 'Magulang';
+      return map;
+    },
+    enabled: parentIds.length > 0,
+  });
+
+  const parentOptions: ParentOption[] = parentIds.map((pid) => {
+    const children = (roster ?? []).filter((r) => r.children?.parent_id === pid);
+    return {
+      parentId: pid,
+      label: parentNames?.[pid] ?? 'Magulang',
+      childIds: children.map((c) => c.children!.id),
+      childNames: children.map((c) => c.children!.name),
+    };
+  });
+
   const { data: sent, isLoading } = useQuery({
     queryKey: ['teacher-sent-messages', user?.id],
     queryFn: async () => {
       const { data, error: err } = await supabase
         .from('teacher_messages')
-        .select('id, child_id, message, read, created_at, children(name)')
+        .select('id, parent_id, child_id, message, read, created_at, children(name)')
         .eq('teacher_id', user!.id)
         .order('created_at', { ascending: false });
       if (err) throw err;
@@ -54,19 +87,19 @@ export default function TeacherMessages() {
 
   const sendMessage = useMutation({
     mutationFn: async () => {
-      const child = roster?.find((r) => r.student_id === studentId)?.children;
-      if (!child) throw new Error('Pumili muna ng mag-aaral.');
+      const parent = parentOptions.find((p) => p.parentId === parentId);
+      if (!parent || parent.childIds.length === 0) throw new Error('Pumili muna ng magulang.');
       const { error: err } = await supabase.from('teacher_messages').insert({
         teacher_id: user!.id,
-        parent_id: child.parent_id,
-        child_id: child.id,
+        parent_id: parent.parentId,
+        child_id: parent.childIds[0],
         message: message.trim(),
       });
       if (err) throw err;
     },
     onSuccess: () => {
       setMessage('');
-      setStudentId('');
+      setParentId('');
       queryClient.invalidateQueries({ queryKey: ['teacher-sent-messages'] });
     },
     onError: (err: Error) => setError(err.message),
@@ -76,7 +109,7 @@ export default function TeacherMessages() {
     <div className="flex flex-col gap-8">
       <div>
         <h1 className="text-2xl font-semibold">Mga Mensahe</h1>
-        <p className="text-[var(--color-text-muted)]">Magpadala ng mensahe sa magulang ng iyong mag-aaral.</p>
+        <p className="text-[var(--color-text-muted)]">Pumili ng magulang at magpadala ng mensahe — makikita ito agad sa Mga Mensahe ng magulang.</p>
       </div>
 
       <form
@@ -92,19 +125,19 @@ export default function TeacherMessages() {
         className="flex flex-col gap-3 rounded-xl border p-5"
         style={cardStyle('--color-brand-teal')}
       >
-        <label htmlFor="student" className="text-sm font-medium">
-          Mag-aaral
+        <label htmlFor="parent" className="text-sm font-medium">
+          Magulang
         </label>
         <select
-          id="student"
-          value={studentId}
-          onChange={(e) => setStudentId(e.target.value)}
+          id="parent"
+          value={parentId}
+          onChange={(e) => setParentId(e.target.value)}
           className="rounded-lg border border-[var(--color-border)] bg-[var(--color-bg)] px-4 py-2"
         >
-          <option value="">Piliin ang mag-aaral...</option>
-          {(roster ?? []).map((r) => (
-            <option key={r.student_id} value={r.student_id}>
-              {r.children?.name ?? 'Hindi kilala'}
+          <option value="">Piliin ang magulang...</option>
+          {parentOptions.map((p) => (
+            <option key={p.parentId} value={p.parentId}>
+              {p.label} ({p.childNames.join(', ')})
             </option>
           ))}
         </select>
@@ -140,7 +173,8 @@ export default function TeacherMessages() {
           {(sent ?? []).map((m, i) => (
             <li key={m.id} className="rounded-lg border px-4 py-3" style={cardStyle(CARD_COLORS[i % CARD_COLORS.length])}>
               <p className="text-sm font-medium">
-                Kay {m.children?.name ?? 'mag-aaral'} · {m.read ? 'Nabasa na' : 'Hindi pa nababasa'}
+                Kay {parentNames?.[m.parent_id] ?? 'magulang'} (tungkol kay {m.children?.name ?? 'mag-aaral'}) ·{' '}
+                {m.read ? 'Nabasa na' : 'Hindi pa nababasa'}
               </p>
               <p className="mt-1 text-[var(--color-text)]">{m.message}</p>
               <p className="mt-1 text-xs text-[var(--color-text-muted)]">{new Date(m.created_at).toLocaleString('fil-PH')}</p>

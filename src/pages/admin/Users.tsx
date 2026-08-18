@@ -1,8 +1,8 @@
-import { useState } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { api } from '../../lib/api';
 import { IconLabel } from '../../components/a11y/IconLabel';
-import { cardStyle, CARD_COLORS } from '../../lib/cardStyle';
+import { cardStyle } from '../../lib/cardStyle';
 
 interface UserRow {
   id: string;
@@ -17,11 +17,26 @@ interface UserRow {
 
 const ROLES = ['admin', 'teacher', 'parent', 'student'];
 const STATUSES = ['active', 'disabled'];
+const PAGE_SIZE = 10;
+
+function StatusPill({ status }: { status: string }) {
+  const isActive = status === 'active';
+  return (
+    <span
+      className={`inline-flex items-center rounded-full px-3 py-1 text-xs font-semibold capitalize ${
+        isActive ? 'bg-[var(--color-success-soft)] text-[var(--color-success)]' : 'bg-[var(--color-warning)]/20 text-[var(--color-warning-text)]'
+      }`}
+    >
+      {status}
+    </span>
+  );
+}
 
 export default function AdminUsers() {
   const queryClient = useQueryClient();
   const [role, setRole] = useState('');
   const [status, setStatus] = useState('');
+  const [page, setPage] = useState(1);
   const [error, setError] = useState<string | null>(null);
   const [reasonFor, setReasonFor] = useState<string | null>(null);
   const [reason, setReason] = useState('');
@@ -34,6 +49,10 @@ export default function AdminUsers() {
     queryKey: ['admin-users', role, status],
     queryFn: () => api<{ users: UserRow[] }>(`/admin/users?${params.toString()}`, { auth: true }),
   });
+
+  useEffect(() => {
+    setPage(1);
+  }, [role, status]);
 
   const invalidate = () => queryClient.invalidateQueries({ queryKey: ['admin-users'] });
 
@@ -64,6 +83,10 @@ export default function AdminUsers() {
     },
     onError: (err: Error) => setError(err.message),
   });
+
+  const users = data?.users ?? [];
+  const totalPages = Math.max(1, Math.ceil(users.length / PAGE_SIZE));
+  const pageUsers = users.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
 
   return (
     <div className="flex flex-col gap-6">
@@ -102,80 +125,130 @@ export default function AdminUsers() {
       {error && <p className="text-sm text-[var(--color-danger)]">{error}</p>}
       {isLoading && <p>Naglo-load...</p>}
 
-      <div className="flex flex-col gap-3">
-        {(data?.users ?? []).map((u, i) => (
-          <div
-            key={u.id}
-            className="flex flex-col gap-3 rounded-xl border p-4 sm:flex-row sm:items-center sm:justify-between"
-            style={cardStyle(CARD_COLORS[i % CARD_COLORS.length])}
-          >
-            <div>
-              <p className="font-medium">{u.name ?? u.email}</p>
-              <p className="text-sm text-[var(--color-text-muted)]">
-                {u.email} · <span className="capitalize">{u.role}</span> ·{' '}
-                <span className="capitalize">{u.account_status}</span>
-              </p>
-            </div>
-            <div className="flex flex-wrap gap-2">
-              {u.account_status === 'disabled' ? (
-                <button
-                  type="button"
-                  onClick={() => restore.mutate(u.id)}
-                  className="rounded-full border border-[var(--color-border)] px-3 py-1 text-sm hover:border-[var(--color-primary)]"
-                >
-                  <IconLabel icon="↩️" label="I-restore" />
-                </button>
-              ) : (
-                <button
-                  type="button"
-                  onClick={() => setReasonFor(reasonFor === `disable-${u.id}` ? null : `disable-${u.id}`)}
-                  className="rounded-full border border-[var(--color-border)] px-3 py-1 text-sm hover:border-[var(--color-danger)]"
-                >
-                  <IconLabel icon="⛔" label="I-disable" />
-                </button>
+      <div className="overflow-hidden rounded-xl border border-[var(--color-border)]">
+        <div className="overflow-x-auto">
+          <table className="w-full min-w-[720px] border-collapse text-left text-sm">
+            <thead>
+              <tr style={cardStyle('--color-brand-navy', 10, 30)}>
+                <th className="px-4 py-3 font-semibold">Pangalan</th>
+                <th className="px-4 py-3 font-semibold">Email</th>
+                <th className="px-4 py-3 font-semibold">Role</th>
+                <th className="px-4 py-3 font-semibold">Status</th>
+                <th className="px-4 py-3 font-semibold">Aksyon</th>
+              </tr>
+            </thead>
+            <tbody>
+              {pageUsers.map((u, i) => (
+                <Fragment key={u.id}>
+                  <tr className={i % 2 === 0 ? 'bg-[var(--color-surface)]' : 'bg-[var(--color-bg)]'}>
+                    <td className="border-t border-[var(--color-border)] px-4 py-3 font-medium">{u.name ?? '—'}</td>
+                    <td className="border-t border-[var(--color-border)] px-4 py-3 text-[var(--color-text-muted)]">{u.email}</td>
+                    <td className="border-t border-[var(--color-border)] px-4 py-3 capitalize">{u.role}</td>
+                    <td className="border-t border-[var(--color-border)] px-4 py-3">
+                      <StatusPill status={u.account_status} />
+                    </td>
+                    <td className="border-t border-[var(--color-border)] px-4 py-3">
+                      <div className="flex flex-wrap gap-2">
+                        {u.account_status === 'disabled' ? (
+                          <button
+                            type="button"
+                            onClick={() => restore.mutate(u.id)}
+                            className="rounded-full border border-[var(--color-border)] px-3 py-1 text-xs font-semibold hover:border-[var(--color-primary)]"
+                          >
+                            <IconLabel icon="↩️" label="I-restore" />
+                          </button>
+                        ) : (
+                          <button
+                            type="button"
+                            onClick={() => setReasonFor(reasonFor === `disable-${u.id}` ? null : `disable-${u.id}`)}
+                            className="rounded-full bg-[var(--color-warning)] px-3 py-1 text-xs font-semibold text-white shadow-sm transition-transform hover:-translate-y-0.5"
+                          >
+                            <IconLabel icon="⛔" label="I-disable" />
+                          </button>
+                        )}
+                        <button
+                          type="button"
+                          onClick={() => setReasonFor(reasonFor === `archive-${u.id}` ? null : `archive-${u.id}`)}
+                          className="rounded-full bg-[var(--color-danger)] px-3 py-1 text-xs font-semibold text-white shadow-sm transition-transform hover:-translate-y-0.5"
+                        >
+                          <IconLabel icon="🗄️" label="I-archive" />
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                  {(reasonFor === `disable-${u.id}` || reasonFor === `archive-${u.id}`) && (
+                    <tr className={i % 2 === 0 ? 'bg-[var(--color-surface)]' : 'bg-[var(--color-bg)]'}>
+                      <td colSpan={5} className="border-t border-[var(--color-border)] px-4 py-3">
+                        <label className="mb-1 block text-sm font-medium" htmlFor={`reason-${u.id}`}>
+                          Dahilan (opsyonal)
+                        </label>
+                        <div className="flex gap-2">
+                          <input
+                            id={`reason-${u.id}`}
+                            value={reason}
+                            onChange={(e) => setReason(e.target.value)}
+                            className="flex-1 rounded-lg border border-[var(--color-border)] bg-[var(--color-bg)] px-3 py-2 text-sm"
+                            placeholder="Ilagay ang dahilan..."
+                          />
+                          <button
+                            type="button"
+                            onClick={() =>
+                              reasonFor === `disable-${u.id}`
+                                ? disable.mutate({ id: u.id, reason })
+                                : archive.mutate({ id: u.id, reason })
+                            }
+                            className={`rounded-full px-4 py-2 text-sm font-semibold text-white ${
+                              reasonFor === `disable-${u.id}` ? 'bg-[var(--color-warning)]' : 'bg-[var(--color-danger)]'
+                            }`}
+                          >
+                            Kumpirmahin
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  )}
+                </Fragment>
+              ))}
+              {data && users.length === 0 && (
+                <tr>
+                  <td colSpan={5} className="px-4 py-6 text-center text-[var(--color-text-muted)]">
+                    Walang user na tumugma sa filter.
+                  </td>
+                </tr>
               )}
-              <button
-                type="button"
-                onClick={() => setReasonFor(reasonFor === `archive-${u.id}` ? null : `archive-${u.id}`)}
-                className="rounded-full border border-[var(--color-border)] px-3 py-1 text-sm hover:border-[var(--color-danger)]"
-              >
-                <IconLabel icon="🗄️" label="I-archive" />
-              </button>
-            </div>
-
-            {(reasonFor === `disable-${u.id}` || reasonFor === `archive-${u.id}`) && (
-              <div className="flex w-full flex-col gap-2 border-t border-white/60 pt-3 sm:col-span-2">
-                <label className="text-sm font-medium" htmlFor={`reason-${u.id}`}>
-                  Dahilan (opsyonal)
-                </label>
-                <div className="flex gap-2">
-                  <input
-                    id={`reason-${u.id}`}
-                    value={reason}
-                    onChange={(e) => setReason(e.target.value)}
-                    className="flex-1 rounded-lg border border-[var(--color-border)] bg-[var(--color-bg)] px-3 py-2 text-sm"
-                    placeholder="Ilagay ang dahilan..."
-                  />
-                  <button
-                    type="button"
-                    onClick={() =>
-                      reasonFor === `disable-${u.id}`
-                        ? disable.mutate({ id: u.id, reason })
-                        : archive.mutate({ id: u.id, reason })
-                    }
-                    className="rounded-full bg-[var(--color-danger)] px-4 py-2 text-sm text-white"
-                  >
-                    Kumpirmahin
-                  </button>
-                </div>
-              </div>
-            )}
-          </div>
-        ))}
-        {data && data.users.length === 0 && (
-          <p className="text-[var(--color-text-muted)]">Walang user na tumugma sa filter.</p>
-        )}
+            </tbody>
+          </table>
+        </div>
       </div>
+
+      {users.length > 0 && (
+        <div className="flex flex-wrap items-center justify-between gap-3">
+          <p className="text-sm text-[var(--color-text-muted)]">
+            Ipinapakita {(page - 1) * PAGE_SIZE + 1}–{Math.min(page * PAGE_SIZE, users.length)} ng {users.length}
+          </p>
+          <div className="flex items-center gap-2">
+            <button
+              type="button"
+              onClick={() => setPage((p) => Math.max(1, p - 1))}
+              disabled={page === 1}
+              className="rounded-full border border-[var(--color-border)] px-4 py-2 text-sm font-medium hover:border-[var(--color-primary)] disabled:opacity-40"
+            >
+              ← Nakaraan
+            </button>
+            <span className="text-sm font-medium">
+              Pahina {page} ng {totalPages}
+            </span>
+            <button
+              type="button"
+              onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
+              disabled={page === totalPages}
+              className="rounded-full border border-[var(--color-border)] px-4 py-2 text-sm font-medium hover:border-[var(--color-primary)] disabled:opacity-40"
+            >
+              Susunod →
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
