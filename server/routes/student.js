@@ -5,6 +5,8 @@ const { buildReadingProfile } = require('../services/readingInsights');
 const { loadCompletedContentIds } = require('../services/readingProfileData');
 
 const router = express.Router();
+
+const WORD_OF_DAY_MAX_ATTEMPTS = 3;
 router.use(requireAuth, requireRole('student'));
 
 // The module-progression RPCs all take p_student_id = children.id, not the
@@ -196,20 +198,24 @@ router.post('/word-of-day/attempt', async (req, res) => {
       return res.status(404).json({ error: 'Word of the day entry not found for this student.' });
     }
 
-    const { error: updErr } = await supabaseAdmin
-      .from('word_of_day_log')
-      .update({
-        attempts: attempts ?? 1,
-        correct: Boolean(correct),
-        accuracy: accuracy ?? null,
-        xp_awarded: correct ? (bonusXp ?? 25) : 0,
-        completed_at: new Date().toISOString(),
-      })
-      .eq('id', logId);
+    const attemptsCount = attempts ?? 1;
+    const isCorrect = Boolean(correct);
+    // Only end the word-of-the-day once the student nails it exactly, or runs out of the 3
+    // tries -- a partial/near match must not mark it "correct" or stop further attempts early.
+    const isFinal = isCorrect || attemptsCount >= WORD_OF_DAY_MAX_ATTEMPTS;
+
+    const update = { attempts: attemptsCount, accuracy: accuracy ?? null };
+    if (isFinal) {
+      update.correct = isCorrect;
+      update.xp_awarded = isCorrect ? (bonusXp ?? 25) : 0;
+      update.completed_at = new Date().toISOString();
+    }
+
+    const { error: updErr } = await supabaseAdmin.from('word_of_day_log').update(update).eq('id', logId);
     if (updErr) throw updErr;
 
     let newXp = null;
-    if (correct) {
+    if (isFinal && isCorrect) {
       const { data: progress, error: progressErr } = await supabaseAdmin
         .from('child_progress')
         .select('xp')
@@ -221,7 +227,7 @@ router.post('/word-of-day/attempt', async (req, res) => {
       if (xpErr) throw xpErr;
     }
 
-    res.json({ success: true, xpAwarded: correct ? (bonusXp ?? 25) : 0, newXp });
+    res.json({ success: true, isFinal, correct: isFinal ? isCorrect : null, xpAwarded: isFinal && isCorrect ? (bonusXp ?? 25) : 0, newXp });
   } catch (err) {
     handleRpcError(res, err);
   }

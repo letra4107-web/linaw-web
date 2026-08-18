@@ -3,8 +3,11 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { api } from '../../lib/api';
 import { computeAccuracy, isSpeechRecognitionSupported, listenOnce } from '../../lib/speech';
+import { CORRECT_MESSAGES, ENCOURAGE_MESSAGES, randomFrom } from '../../lib/feedbackMessages';
 import { TTSButton } from '../../components/a11y/TTSButton';
+import { PronunciationFeedback } from '../../components/PronunciationFeedback';
 import { IconLabel } from '../../components/a11y/IconLabel';
+import { cardStyle, CARD_COLORS } from '../../lib/cardStyle';
 
 interface ModuleItem {
   module_item_id: string;
@@ -31,9 +34,9 @@ export default function Module() {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const [listeningFor, setListeningFor] = useState<string | null>(null);
-  const [lastResult, setLastResult] = useState<{ contentId: string; transcript: string; accuracy: number } | null>(
-    null,
-  );
+  const [lastResult, setLastResult] = useState<
+    { contentId: string; transcript: string; accuracy: number; correct: boolean; message: string } | null
+  >(null);
   const [error, setError] = useState<string | null>(null);
 
   const { data, isLoading } = useQuery({
@@ -75,7 +78,10 @@ export default function Module() {
       (transcript) => {
         setListeningFor(null);
         const accuracy = computeAccuracy(item.content_text, transcript);
-        setLastResult({ contentId: item.content_id, transcript, accuracy });
+        // Exact match only -- a near-miss must not be marked correct.
+        const correct = accuracy === 100;
+        const message = randomFrom(correct ? CORRECT_MESSAGES : ENCOURAGE_MESSAGES);
+        setLastResult({ contentId: item.content_id, transcript, accuracy, correct, message });
         submitAttempt.mutate({ contentId: item.content_id, transcript, accuracy });
       },
       (message) => {
@@ -100,12 +106,11 @@ export default function Module() {
       {error && <p className="text-[var(--color-danger)]">{error}</p>}
 
       <div className="flex flex-col gap-4">
-        {data.items.map((item) => (
+        {data.items.map((item, i) => (
           <div
             key={item.module_item_id}
-            className={`rounded-xl border p-6 ${
-              item.completed ? 'border-[var(--color-primary)] bg-[var(--color-primary)]/5' : 'border-[var(--color-border)] bg-[var(--color-surface)]'
-            }`}
+            className={`rounded-xl border p-6 ${item.completed ? 'border-[var(--color-primary)] bg-[var(--color-primary)]/5' : ''}`}
+            style={item.completed ? undefined : cardStyle(CARD_COLORS[i % CARD_COLORS.length])}
           >
             <div className="flex items-center justify-between gap-4">
               <p className="text-2xl font-medium">{item.content_text}</p>
@@ -128,18 +133,23 @@ export default function Module() {
                   <IconLabel icon="✅" label="Tapos na" />
                 </span>
               )}
-              {lastResult?.contentId === item.content_id && (
-                <span className="text-sm text-[var(--color-text-muted)]">
-                  Narinig: "{lastResult.transcript}" · {lastResult.accuracy}% tumpak
-                </span>
-              )}
             </div>
+            {lastResult?.contentId === item.content_id && (
+              <PronunciationFeedback
+                className="mt-3"
+                correct={lastResult.correct}
+                message={lastResult.message}
+                detail={`Narinig: "${lastResult.transcript}"`}
+                hint={!lastResult.correct ? 'Ulitin natin, pakinggan mo ang tamang bigkas! 🔊' : undefined}
+                word={!lastResult.correct ? item.content_text : undefined}
+              />
+            )}
           </div>
         ))}
       </div>
 
       {data.module.assessment_id && (
-        <div className="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] p-6">
+        <div className="rounded-xl border p-6" style={cardStyle('--color-brand-violet')}>
           <h2 className="mb-2 text-lg font-semibold">Pagsusulit</h2>
           {allCompleted ? (
             <button

@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '../../lib/supabaseClient';
 import { useAuth } from '../../lib/auth/AuthContext';
+import { cardStyle } from '../../lib/cardStyle';
 
 export default function Settings() {
   const { user, identity, refreshIdentity } = useAuth();
@@ -81,7 +82,8 @@ export default function Settings() {
           e.preventDefault();
           updateProfile.mutate();
         }}
-        className="flex flex-col gap-3 rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] p-6"
+        className="flex flex-col gap-3 rounded-xl border p-6"
+        style={cardStyle('--color-brand-lavender')}
       >
         <h2 className="text-lg font-semibold">Profile Ko</h2>
         <label htmlFor="name" className="text-sm font-medium">
@@ -104,7 +106,8 @@ export default function Settings() {
           e.preventDefault();
           updatePassword.mutate();
         }}
-        className="flex flex-col gap-3 rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] p-6"
+        className="flex flex-col gap-3 rounded-xl border p-6"
+        style={cardStyle('--color-brand-coral')}
       >
         <h2 className="text-lg font-semibold">Password</h2>
         <label htmlFor="password" className="text-sm font-medium">
@@ -123,7 +126,7 @@ export default function Settings() {
         </button>
       </form>
 
-      <div className="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] p-6">
+      <div className="rounded-xl border p-6" style={cardStyle('--color-brand-teal')}>
         <h2 className="mb-3 text-lg font-semibold">Mga Abiso</h2>
         <label className="flex items-center gap-3">
           <input

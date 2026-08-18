@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { api } from '../../lib/api';
 import { IconLabel } from '../../components/a11y/IconLabel';
+import { cardStyle, CARD_COLORS } from '../../lib/cardStyle';
 
 interface ArchivedRow {
   id: string;
@@ -55,10 +56,11 @@ export default function AdminArchived() {
       {isLoading && <p>Naglo-load...</p>}
 
       <div className="flex flex-col gap-3">
-        {(data?.users ?? []).map((u) => (
+        {(data?.users ?? []).map((u, i) => (
           <div
             key={u.id}
-            className="flex flex-col gap-3 rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] p-4 sm:flex-row sm:items-center sm:justify-between"
+            className="flex flex-col gap-3 rounded-xl border p-4 sm:flex-row sm:items-center sm:justify-between"
+            style={cardStyle(CARD_COLORS[i % CARD_COLORS.length])}
           >
             <div>
               <p className="font-medium">{u.name ?? u.email}</p>

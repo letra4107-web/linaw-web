@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { api } from '../../lib/api';
 import { IconLabel } from '../../components/a11y/IconLabel';
+import { cardStyle, CARD_COLORS } from '../../lib/cardStyle';
 
 interface UserRow {
   id: string;
@@ -65,7 +66,8 @@ export default function AdminTeachers() {
           }
           createTeacher.mutate();
         }}
-        className="flex flex-col gap-4 rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] p-5"
+        className="flex flex-col gap-4 rounded-xl border p-5"
+        style={cardStyle('--color-brand-sun')}
       >
         <div>
           <label htmlFor="teacher-name" className="mb-1 block text-sm font-medium">
@@ -124,7 +126,7 @@ export default function AdminTeachers() {
       </form>
 
       {created && (
-        <div className="rounded-xl border border-[var(--color-primary)] bg-[var(--color-surface)] p-4">
+        <div className="rounded-xl border border-[var(--color-primary)] p-4" style={{ backgroundColor: cardStyle('--color-brand-sage').backgroundColor }}>
           <p className="font-medium">Nagawa ang account para kay {created.email}</p>
           <p className="mt-1 text-sm text-[var(--color-text-muted)]">
             Pansamantalang password: <span className="font-mono font-semibold">{created.temporaryPassword}</span>
@@ -138,10 +140,11 @@ export default function AdminTeachers() {
       <div>
         <h2 className="mb-3 text-lg font-semibold">Kasalukuyang mga Guro</h2>
         <ul className="flex flex-col gap-2">
-          {(data?.users ?? []).map((t) => (
+          {(data?.users ?? []).map((t, i) => (
             <li
               key={t.id}
-              className="flex items-center justify-between rounded-lg border border-[var(--color-border)] bg-[var(--color-surface)] px-4 py-3"
+              className="flex items-center justify-between rounded-lg border px-4 py-3"
+              style={cardStyle(CARD_COLORS[i % CARD_COLORS.length])}
             >
               <span>
                 {t.name ?? t.email} · {t.email}

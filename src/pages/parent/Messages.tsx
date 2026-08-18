@@ -1,6 +1,7 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '../../lib/supabaseClient';
 import { useAuth } from '../../lib/auth/AuthContext';
+import { cardStyle } from '../../lib/cardStyle';
 
 interface MessageRow {
   id: string;
@@ -69,9 +70,8 @@ export default function ParentMessages() {
           <li
             key={m.id}
             onClick={() => !m.read && markRead.mutate(m.id)}
-            className={`rounded-xl border border-[var(--color-border)] p-4 ${
-              m.read ? 'bg-[var(--color-surface)]' : 'cursor-pointer bg-[var(--color-primary-soft)]'
-            }`}
+            className={`rounded-xl border p-4 ${m.read ? '' : 'cursor-pointer border-[var(--color-primary)]/40 bg-[var(--color-primary-soft)]'}`}
+            style={m.read ? cardStyle('--color-brand-teal', 8, 25) : undefined}
           >
             <p className="text-sm font-medium">
               {teacherNames?.[m.teacher_id] ?? 'Guro'} — tungkol kay {m.children?.name ?? 'anak mo'}

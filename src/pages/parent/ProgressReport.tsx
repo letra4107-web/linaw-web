@@ -5,6 +5,7 @@ import { supabase } from '../../lib/supabaseClient';
 import { useAuth } from '../../lib/auth/AuthContext';
 import { api } from '../../lib/api';
 import { ReadingInsightsPanel, type ReadingProfile } from '../../components/ReadingInsightsPanel';
+import { cardStyle } from '../../lib/cardStyle';
 
 interface Child {
   id: string;
@@ -96,21 +97,21 @@ export default function ProgressReport() {
       {chartData.length > 0 && (
         <>
           <div className="grid grid-cols-2 gap-4 sm:grid-cols-3">
-            <div className="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] p-4">
+            <div className="rounded-xl border p-4" style={cardStyle('--color-brand-lavender')}>
               <p className="text-2xl font-semibold text-[var(--color-primary)]">{averageAccuracy}%</p>
               <p className="text-sm text-[var(--color-text-muted)]">Karaniwang Accuracy</p>
             </div>
-            <div className="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] p-4">
+            <div className="rounded-xl border p-4" style={cardStyle('--color-brand-sun')}>
               <p className="text-2xl font-semibold text-[var(--color-primary)]">{correctCount}</p>
               <p className="text-sm text-[var(--color-text-muted)]">Tamang Sagot</p>
             </div>
-            <div className="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] p-4">
+            <div className="rounded-xl border p-4" style={cardStyle('--color-brand-sage')}>
               <p className="text-2xl font-semibold text-[var(--color-primary)]">{sessions?.length ?? 0}</p>
               <p className="text-sm text-[var(--color-text-muted)]">Kabuuang Attempts</p>
             </div>
           </div>
 
-          <div className="h-72 rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] p-4">
+          <div className="h-72 rounded-xl border p-4" style={cardStyle('--color-brand-teal')}>
             <h2 className="mb-2 font-medium">Accuracy sa Paglipas ng Panahon</h2>
             <ResponsiveContainer width="100%" height="90%">
               <LineChart data={chartData}>

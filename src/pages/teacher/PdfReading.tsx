@@ -4,6 +4,7 @@ import { supabase } from '../../lib/supabaseClient';
 import { useAuth } from '../../lib/auth/AuthContext';
 import { IconLabel } from '../../components/a11y/IconLabel';
 import { PdfReadingAssistant } from '../../components/PdfReadingAssistant';
+import { cardStyle, CARD_COLORS } from '../../lib/cardStyle';
 
 interface PdfMaterial {
   id: string;
@@ -147,7 +148,8 @@ export default function PdfReading() {
           e.preventDefault();
           upload.mutate();
         }}
-        className="flex flex-col gap-3 rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] p-6"
+        className="flex flex-col gap-3 rounded-xl border p-6"
+        style={cardStyle('--color-brand-teal')}
       >
         <h2 className="text-lg font-semibold">Mag-upload ng PDF</h2>
         <input
@@ -195,8 +197,8 @@ export default function PdfReading() {
         <h2 className="mb-3 text-lg font-semibold">Mga PDF</h2>
         {isLoading && <p>Naglo-load...</p>}
         <ul className="flex flex-col gap-3">
-          {(materials ?? []).map((m) => (
-            <li key={m.id} className="rounded-lg border border-[var(--color-border)] bg-[var(--color-surface)] px-4 py-3">
+          {(materials ?? []).map((m, i) => (
+            <li key={m.id} className="rounded-lg border px-4 py-3" style={cardStyle(CARD_COLORS[i % CARD_COLORS.length])}>
               <div className="flex items-center justify-between">
                 <div>
                   <p className="font-medium">{m.title}</p>
@@ -232,12 +234,12 @@ export default function PdfReading() {
                 </div>
               </div>
               {previewId === m.id && (
-                <div className="mt-3 border-t border-[var(--color-border)] pt-3">
+                <div className="mt-3 border-t border-white/60 pt-3">
                   <PdfReadingAssistant material={m} mode="preview" />
                 </div>
               )}
               {monitorId === m.id && (
-                <div className="mt-3 border-t border-[var(--color-border)] pt-3">
+                <div className="mt-3 border-t border-white/60 pt-3">
                   <h3 className="mb-2 font-medium">Progreso ng Mag-aaral</h3>
                   <ul className="flex flex-col gap-2">
                     {(monitorAssignments ?? []).map((a) => {
@@ -262,7 +264,7 @@ export default function PdfReading() {
                 </div>
               )}
               {assigningId === m.id && (
-                <ul className="mt-3 flex flex-wrap gap-2 border-t border-[var(--color-border)] pt-3">
+                <ul className="mt-3 flex flex-wrap gap-2 border-t border-white/60 pt-3">
                   {(roster ?? []).map((r) => (
                     <li key={r.id}>
                       <button

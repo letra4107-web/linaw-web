@@ -3,6 +3,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '../../lib/supabaseClient';
 import { useAuth } from '../../lib/auth/AuthContext';
 import { IconLabel } from '../../components/a11y/IconLabel';
+import { cardStyle, CARD_COLORS } from '../../lib/cardStyle';
 
 interface RosterRow {
   student_id: string;
@@ -88,7 +89,8 @@ export default function TeacherMessages() {
           }
           sendMessage.mutate();
         }}
-        className="flex flex-col gap-3 rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] p-5"
+        className="flex flex-col gap-3 rounded-xl border p-5"
+        style={cardStyle('--color-brand-teal')}
       >
         <label htmlFor="student" className="text-sm font-medium">
           Mag-aaral
@@ -135,8 +137,8 @@ export default function TeacherMessages() {
         {isLoading && <p>Naglo-load...</p>}
         {sent && sent.length === 0 && <p className="text-[var(--color-text-muted)]">Wala ka pang naipadalang mensahe.</p>}
         <ul className="flex flex-col gap-2">
-          {(sent ?? []).map((m) => (
-            <li key={m.id} className="rounded-lg border border-[var(--color-border)] bg-[var(--color-surface)] px-4 py-3">
+          {(sent ?? []).map((m, i) => (
+            <li key={m.id} className="rounded-lg border px-4 py-3" style={cardStyle(CARD_COLORS[i % CARD_COLORS.length])}>
               <p className="text-sm font-medium">
                 Kay {m.children?.name ?? 'mag-aaral'} · {m.read ? 'Nabasa na' : 'Hindi pa nababasa'}
               </p>

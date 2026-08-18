@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '../../lib/supabaseClient';
 import { useAuth } from '../../lib/auth/AuthContext';
+import { cardStyle, CARD_COLORS } from '../../lib/cardStyle';
 
 interface RosterChild {
   id: string;
@@ -100,7 +101,8 @@ export default function Activities() {
           e.preventDefault();
           createActivity.mutate();
         }}
-        className="flex flex-col gap-3 rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] p-6"
+        className="flex flex-col gap-3 rounded-xl border p-6"
+        style={cardStyle('--color-brand-sun')}
       >
         <h2 className="text-lg font-semibold">Bagong Gawain</h2>
         <select
@@ -157,8 +159,8 @@ export default function Activities() {
       <div>
         {isLoading && <p>Naglo-load...</p>}
         <ul className="flex flex-col gap-2">
-          {(activities ?? []).map((a) => (
-            <li key={a.id} className="rounded-lg border border-[var(--color-border)] bg-[var(--color-surface)] px-4 py-3">
+          {(activities ?? []).map((a, i) => (
+            <li key={a.id} className="rounded-lg border px-4 py-3" style={cardStyle(CARD_COLORS[i % CARD_COLORS.length])}>
               <p className="font-medium">{a.title}</p>
               <p className="text-sm text-[var(--color-text-muted)]">
                 {nameForAuthUid(a.student_id)} · {a.subject ?? 'Walang subject'} · Deadline:{' '}

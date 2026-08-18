@@ -3,6 +3,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '../../lib/supabaseClient';
 import { useAuth } from '../../lib/auth/AuthContext';
 import { IconLabel } from '../../components/a11y/IconLabel';
+import { cardStyle, CARD_COLORS } from '../../lib/cardStyle';
 
 interface Assessment {
   id: string;
@@ -126,7 +127,8 @@ export default function Assessments() {
           e.preventDefault();
           createAssessment.mutate();
         }}
-        className="flex flex-col gap-3 rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] p-6"
+        className="flex flex-col gap-3 rounded-xl border p-6"
+        style={cardStyle('--color-brand-coral')}
       >
         <h2 className="text-lg font-semibold">Bagong Pagsusulit</h2>
         <input
@@ -169,8 +171,8 @@ export default function Assessments() {
       <div>
         {isLoading && <p>Naglo-load...</p>}
         <ul className="flex flex-col gap-3">
-          {(assessments ?? []).map((a) => (
-            <li key={a.id} className="rounded-lg border border-[var(--color-border)] bg-[var(--color-surface)] px-4 py-3">
+          {(assessments ?? []).map((a, i) => (
+            <li key={a.id} className="rounded-lg border px-4 py-3" style={cardStyle(CARD_COLORS[i % CARD_COLORS.length])}>
               <div className="flex items-center justify-between">
                 <div>
                   <p className="font-medium">{a.title}</p>
@@ -187,7 +189,7 @@ export default function Assessments() {
                 </button>
               </div>
               {openAssessmentId === a.id && (
-                <ul className="mt-3 flex flex-col gap-2 border-t border-[var(--color-border)] pt-3">
+                <ul className="mt-3 flex flex-col gap-2 border-t border-white/60 pt-3">
                   {(roster ?? []).map((r) => {
                     const existing = scoreByStudent.get(r.student_id);
                     const draftKey = `${a.id}:${r.student_id}`;

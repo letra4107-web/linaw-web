@@ -3,6 +3,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '../../lib/supabaseClient';
 import { useAuth } from '../../lib/auth/AuthContext';
 import { IconLabel } from '../../components/a11y/IconLabel';
+import { cardStyle, CARD_COLORS } from '../../lib/cardStyle';
 
 interface Lesson {
   id: string;
@@ -105,7 +106,8 @@ export default function Lessons() {
           e.preventDefault();
           createLesson.mutate();
         }}
-        className="flex flex-col gap-3 rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] p-6"
+        className="flex flex-col gap-3 rounded-xl border p-6"
+        style={cardStyle('--color-brand-sun')}
       >
         <h2 className="text-lg font-semibold">Bagong Aralin</h2>
         <input
@@ -154,10 +156,11 @@ export default function Lessons() {
       <div>
         {isLoading && <p>Naglo-load...</p>}
         <ul className="flex flex-col gap-3">
-          {(lessons ?? []).map((lesson) => (
+          {(lessons ?? []).map((lesson, i) => (
             <li
               key={lesson.id}
-              className="flex items-center justify-between rounded-lg border border-[var(--color-border)] bg-[var(--color-surface)] px-4 py-3"
+              className="flex items-center justify-between rounded-lg border px-4 py-3"
+              style={cardStyle(CARD_COLORS[i % CARD_COLORS.length])}
             >
               <div>
                 <p className="font-medium">{lesson.title}</p>

@@ -45,6 +45,7 @@ export default function ResendVerification() {
     <AuthShell
       title="Muling ipadala ang verification code"
       subtitle="Hindi mo kailangang ulitin ang buong sign up."
+      cardColorVar="--color-brand-sun"
     >
       <form onSubmit={onSubmit} className="flex flex-col gap-4" noValidate>
         <div>

@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { supabase } from '../../lib/supabaseClient';
 import { useAuth } from '../../lib/auth/AuthContext';
 import { IconLabel } from '../../components/a11y/IconLabel';
+import { cardStyle, CARD_COLORS } from '../../lib/cardStyle';
 
 export default function Dashboard() {
   const { user } = useAuth();
@@ -49,11 +50,12 @@ export default function Dashboard() {
     <div className="flex flex-col gap-8">
       <h1 className="text-2xl font-semibold">Buod ng Guro</h1>
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-        {cards.map((c) => (
+        {cards.map((c, i) => (
           <Link
             key={c.to}
             to={c.to}
-            className="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] p-6 hover:border-[var(--color-primary)]"
+            className="rounded-xl border p-6 hover:border-[var(--color-primary)]"
+            style={cardStyle(CARD_COLORS[i % CARD_COLORS.length])}
           >
             <p className="text-3xl font-semibold text-[var(--color-primary)]">{c.value}</p>
             <p className="mt-1">
@@ -63,7 +65,7 @@ export default function Dashboard() {
           </Link>
         ))}
       </div>
-      <div className="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] p-6">
+      <div className="rounded-xl border p-6" style={cardStyle('--color-brand-sage')}>
         <h2 className="mb-2 text-lg font-semibold">Susunod na Hakbang</h2>
         <ul className="flex flex-col gap-2 text-[var(--color-text-muted)]">
           <li>

@@ -264,4 +264,79 @@ router.get('/children/:id/reading-profile', async (req, res) => {
   }
 });
 
+const STUDENT_ACCESSIBILITY_DEFAULTS = {
+  dyslexia_font: true,
+  font_size: 'medium',
+  high_contrast: false,
+  reading_guide: false,
+  tts_enabled: true,
+};
+
+const loadOwnedChild = async (childId, parentId) => {
+  const { data: child, error } = await supabaseAdmin
+    .from('children')
+    .select('id, name, parent_id, auth_uid')
+    .eq('id', childId)
+    .maybeSingle();
+  if (error) throw error;
+  if (!child || child.parent_id !== parentId) return null;
+  return child;
+};
+
+// GET /parent/children/:id/settings
+// student_settings RLS only allows a student's own auth session to read/write
+// their row -- there's no parent-facing policy, so this (and the PATCH below)
+// go through the service-role client with ownership re-checked via `children`.
+router.get('/children/:id/settings', async (req, res) => {
+  try {
+    const child = await loadOwnedChild(req.params.id, req.user.id);
+    if (!child) return res.status(404).json({ error: 'Child not found for this parent.' });
+    if (!child.auth_uid) return res.status(409).json({ error: 'Ang batang ito ay wala pang student login.' });
+
+    const { data, error } = await supabaseAdmin
+      .from('student_settings')
+      .select('dyslexia_font, font_size, high_contrast, reading_guide, tts_enabled')
+      .eq('auth_uid', child.auth_uid)
+      .maybeSingle();
+    if (error) throw error;
+    if (data) return res.json({ settings: { ...STUDENT_ACCESSIBILITY_DEFAULTS, ...data } });
+
+    const { data: inserted, error: insertErr } = await supabaseAdmin
+      .from('student_settings')
+      .insert({ auth_uid: child.auth_uid, ...STUDENT_ACCESSIBILITY_DEFAULTS })
+      .select('dyslexia_font, font_size, high_contrast, reading_guide, tts_enabled')
+      .single();
+    if (insertErr) throw insertErr;
+    res.json({ settings: inserted });
+  } catch (err) {
+    console.error('[parent/children/:id/settings get]', err);
+    res.status(500).json({ error: err.message || 'Unable to load accessibility settings.' });
+  }
+});
+
+// PATCH /parent/children/:id/settings  { dyslexia_font?, font_size?, high_contrast?, reading_guide?, tts_enabled? }
+router.patch('/children/:id/settings', async (req, res) => {
+  try {
+    const child = await loadOwnedChild(req.params.id, req.user.id);
+    if (!child) return res.status(404).json({ error: 'Child not found for this parent.' });
+    if (!child.auth_uid) return res.status(409).json({ error: 'Ang batang ito ay wala pang student login.' });
+
+    const patch = {};
+    for (const key of Object.keys(STUDENT_ACCESSIBILITY_DEFAULTS)) {
+      if (req.body?.[key] !== undefined) patch[key] = req.body[key];
+    }
+
+    const { data, error } = await supabaseAdmin
+      .from('student_settings')
+      .upsert({ auth_uid: child.auth_uid, ...patch }, { onConflict: 'auth_uid' })
+      .select('dyslexia_font, font_size, high_contrast, reading_guide, tts_enabled')
+      .single();
+    if (error) throw error;
+    res.json({ settings: data });
+  } catch (err) {
+    console.error('[parent/children/:id/settings patch]', err);
+    res.status(500).json({ error: err.message || 'Unable to update accessibility settings.' });
+  }
+});
+
 module.exports = router;

@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { useQuery, useQueryClient, useMutation } from '@tanstack/react-query';
 import { supabase } from './supabaseClient';
 import { useAuth } from './auth/AuthContext';
+import { api } from './api';
 
 export interface NotificationRow {
   id: string;
@@ -19,28 +20,31 @@ export function useNotifications() {
   const queryClient = useQueryClient();
   const queryKey = ['notifications', user?.id];
 
+  // Notifications can target a user via user_id, parent_id, or (for a
+  // parent's children) student_id/child auth_uid -- RLS only allows a plain
+  // client-side query to see user_id=auth.uid() rows, so this goes through
+  // the backend's service-role-backed union query instead.
   const { data, isLoading } = useQuery({
     queryKey,
     queryFn: async () => {
-      const { data, error } = await supabase
-        .from('notifications')
-        .select('id, title, body, message, type, is_read, read, created_at')
-        .eq('user_id', user!.id)
-        .order('created_at', { ascending: false })
-        .limit(30);
-      if (error) throw error;
-      return data as NotificationRow[];
+      const res = await api<{ notifications: NotificationRow[] }>('/notifications', { auth: true });
+      return res.notifications;
     },
     enabled: Boolean(user),
   });
 
   useEffect(() => {
     if (!user) return;
+    // Channel name must be unique per mount -- in React 18 dev StrictMode
+    // (and on fast route changes) the cleanup's removeChannel() can still be
+    // in flight when the next effect fires, and supabase-js reuses an
+    // existing channel of the same name instead of creating a fresh one,
+    // which throws when .on() is called on an already-subscribed channel.
     const channel = supabase
-      .channel(`notifications-${user.id}`)
+      .channel(`notifications-${user.id}-${Math.random().toString(36).slice(2)}`)
       .on(
         'postgres_changes',
-        { event: '*', schema: 'public', table: 'notifications', filter: `user_id=eq.${user.id}` },
+        { event: '*', schema: 'public', table: 'notifications' },
         () => queryClient.invalidateQueries({ queryKey }),
       )
       .subscribe();
@@ -53,18 +57,14 @@ export function useNotifications() {
 
   const markAsRead = useMutation({
     mutationFn: async (id: string) => {
-      const { error } = await supabase.from('notifications').update({ is_read: true, read: true }).eq('id', id);
-      if (error) throw error;
+      await api(`/notifications/${id}/read`, { method: 'POST', auth: true });
     },
     onSuccess: () => queryClient.invalidateQueries({ queryKey }),
   });
 
   const markAllAsRead = useMutation({
     mutationFn: async () => {
-      const unreadIds = (data ?? []).filter((n) => !n.is_read).map((n) => n.id);
-      if (unreadIds.length === 0) return;
-      const { error } = await supabase.from('notifications').update({ is_read: true, read: true }).in('id', unreadIds);
-      if (error) throw error;
+      await api('/notifications/read-all', { method: 'POST', auth: true });
     },
     onSuccess: () => queryClient.invalidateQueries({ queryKey }),
   });

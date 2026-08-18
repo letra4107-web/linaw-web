@@ -5,6 +5,7 @@ import { api } from '../../lib/api';
 import { computeAccuracy, isSpeechRecognitionSupported, listenOnce } from '../../lib/speech';
 import { TTSButton } from '../../components/a11y/TTSButton';
 import { IconLabel } from '../../components/a11y/IconLabel';
+import { cardStyle, CARD_COLORS } from '../../lib/cardStyle';
 
 interface AssessmentItem {
   assessment_item_id: string;
@@ -129,7 +130,10 @@ export default function Assessment() {
 
   if (result) {
     return (
-      <div className="flex flex-col items-center gap-4 rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] p-10 text-center">
+      <div
+        className="flex flex-col items-center gap-4 rounded-xl border p-10 text-center"
+        style={cardStyle(result.passed ? '--color-brand-sage' : '--color-brand-coral', 14)}
+      >
         <p className="text-5xl">{result.passed ? '🎉' : '💪'}</p>
         <h1 className="text-2xl font-semibold">{result.passed ? 'Magaling!' : 'Malapit ka na!'}</h1>
         <p className="text-[var(--color-text-muted)]">Marka: {result.score}%</p>
@@ -156,9 +160,8 @@ export default function Assessment() {
         return (
           <div
             key={item.assessment_item_id}
-            className={`rounded-xl border p-6 ${
-              isAnswered ? 'border-[var(--color-primary)] bg-[var(--color-primary)]/5' : 'border-[var(--color-border)] bg-[var(--color-surface)]'
-            }`}
+            className={`rounded-xl border p-6 ${isAnswered ? 'border-[var(--color-primary)] bg-[var(--color-primary)]/5' : ''}`}
+            style={isAnswered ? undefined : cardStyle(CARD_COLORS[idx % CARD_COLORS.length])}
           >
             <p className="mb-2 text-sm text-[var(--color-text-muted)]">Tanong {idx + 1}</p>
             <div className="mb-3 flex items-center gap-3">

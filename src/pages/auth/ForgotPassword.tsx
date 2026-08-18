@@ -46,6 +46,7 @@ export default function ForgotPassword() {
     <AuthShell
       title="Nakalimutan ang password?"
       subtitle="Magpapadala kami ng link sa pag-reset sa iyong email."
+      cardColorVar="--color-brand-coral"
       footer={
         <Link to="/login" className="font-medium text-[var(--color-primary)] underline">
           ← Bumalik sa Login

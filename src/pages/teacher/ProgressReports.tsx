@@ -2,6 +2,7 @@ import { useQuery } from '@tanstack/react-query';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import { supabase } from '../../lib/supabaseClient';
 import { useAuth } from '../../lib/auth/AuthContext';
+import { cardStyle } from '../../lib/cardStyle';
 
 interface RosterChild {
   id: string;
@@ -76,7 +77,7 @@ export default function ProgressReports() {
 
       {chartData.length > 0 && (
         <div className="flex flex-col gap-8">
-          <div className="h-72 rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] p-4">
+          <div className="h-72 rounded-xl border p-4" style={cardStyle('--color-brand-lavender')}>
             <h2 className="mb-2 font-medium">XP bawat Mag-aaral</h2>
             <ResponsiveContainer width="100%" height="90%">
               <BarChart data={chartData}>
@@ -88,7 +89,7 @@ export default function ProgressReports() {
               </BarChart>
             </ResponsiveContainer>
           </div>
-          <div className="h-72 rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] p-4">
+          <div className="h-72 rounded-xl border p-4" style={cardStyle('--color-brand-coral')}>
             <h2 className="mb-2 font-medium">Karaniwang Accuracy (%)</h2>
             <ResponsiveContainer width="100%" height="90%">
               <BarChart data={chartData}>

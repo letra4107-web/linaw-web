@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { AccessibilityBar } from '../a11y/AccessibilityBar';
 import lookImage from '../../assets/look.webp';
 import bgImage from '../../assets/bg.webp';
+import { cardStyle } from '../../lib/cardStyle';
 
 export function isValidEmail(value: string): boolean {
   return /\S+@\S+\.\S+/.test(value);
@@ -13,9 +14,18 @@ interface AuthShellProps {
   subtitle?: string;
   children: ReactNode;
   footer?: ReactNode;
+  maxWidthClassName?: string;
+  cardColorVar?: string;
 }
 
-export function AuthShell({ title, subtitle, children, footer }: AuthShellProps) {
+export function AuthShell({
+  title,
+  subtitle,
+  children,
+  footer,
+  maxWidthClassName = 'max-w-lg',
+  cardColorVar = '--color-brand-lavender',
+}: AuthShellProps) {
   return (
     <div className="min-h-screen bg-[var(--color-bg)] text-[var(--color-text)] lg:flex">
       <div className="relative hidden overflow-hidden text-white shadow-hero lg:flex lg:w-[44%] lg:flex-col">
@@ -50,12 +60,12 @@ export function AuthShell({ title, subtitle, children, footer }: AuthShellProps)
             </Link>
             <AccessibilityBar />
           </header>
-          <main className="mx-auto flex w-full max-w-lg flex-1 flex-col justify-center gap-6 px-6 py-12">
-            <div>
+          <main className={`mx-auto flex w-full ${maxWidthClassName} flex-1 flex-col justify-center gap-6 px-6 py-12`}>
+            <div className="text-center">
               <h1 className="text-4xl">{title}</h1>
               {subtitle && <p className="mt-3 text-lg text-[var(--color-text-muted)]">{subtitle}</p>}
             </div>
-            <div className="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] p-8 shadow-card sm:p-10">
+            <div className="rounded-xl border p-8 shadow-card sm:p-10" style={cardStyle(cardColorVar, 8, 30)}>
               {children}
             </div>
             {footer && <div className="text-center text-base text-[var(--color-text-muted)]">{footer}</div>}
@@ -110,9 +120,11 @@ export function ButtonSpinner() {
   );
 }
 
-type IconInputProps = { icon: string } & InputHTMLAttributes<HTMLInputElement>;
+type IconInputProps = { icon: string; invalid?: boolean } & InputHTMLAttributes<HTMLInputElement>;
 
-export function IconInput({ icon, className, ...props }: IconInputProps) {
+const invalidBorderClass = 'border-[var(--color-danger)] focus-visible:border-[var(--color-danger)] focus-visible:ring-[var(--color-danger)]/25';
+
+export function IconInput({ icon, invalid, className, ...props }: IconInputProps) {
   return (
     <div className="relative">
       <span
@@ -121,7 +133,11 @@ export function IconInput({ icon, className, ...props }: IconInputProps) {
       >
         {icon}
       </span>
-      <input {...props} className={`${inputClass} pl-13 ${className ?? ''}`} />
+      <input
+        {...props}
+        aria-invalid={invalid || undefined}
+        className={`${inputClass} pl-13 ${invalid ? invalidBorderClass : ''} ${className ?? ''}`}
+      />
     </div>
   );
 }
@@ -132,19 +148,28 @@ interface PasswordInputProps {
   onChange: (value: string) => void;
   autoComplete?: string;
   placeholder?: string;
+  icon?: string;
+  invalid?: boolean;
 }
 
-export function PasswordInput({ id, value, onChange, autoComplete, placeholder }: PasswordInputProps) {
+export function PasswordInput({ id, value, onChange, autoComplete, placeholder, icon = '🔒', invalid }: PasswordInputProps) {
   const [visible, setVisible] = useState(false);
   return (
     <div className="relative">
+      <span
+        className="pointer-events-none absolute top-1/2 left-5 -translate-y-1/2 text-lg text-[var(--color-text-muted)]"
+        aria-hidden="true"
+      >
+        {icon}
+      </span>
       <input
         id={id}
         type={visible ? 'text' : 'password'}
         required
         value={value}
         onChange={(e) => onChange(e.target.value)}
-        className={`${inputClass} pr-14`}
+        aria-invalid={invalid || undefined}
+        className={`${inputClass} pl-13 pr-14 ${invalid ? invalidBorderClass : ''}`}
         autoComplete={autoComplete}
         placeholder={placeholder}
       />

@@ -5,7 +5,6 @@ import SignUp from './pages/auth/SignUp';
 import ForgotPassword from './pages/auth/ForgotPassword';
 import ResetPassword from './pages/auth/ResetPassword';
 import VerifyEmail from './pages/auth/VerifyEmail';
-import VerifyLogin from './pages/auth/VerifyLogin';
 import ResendVerification from './pages/auth/ResendVerification';
 import { ProtectedRoute } from './components/ProtectedRoute';
 import AdminLayout from './pages/admin/AdminLayout';
@@ -22,13 +21,16 @@ import ProgressReport from './pages/parent/ProgressReport';
 import Schedule from './pages/parent/Schedule';
 import ParentMessages from './pages/parent/Messages';
 import ParentSettings from './pages/parent/Settings';
+import ParentNotifications from './pages/parent/Notifications';
+import ParentAppSettings from './pages/parent/AppSettings';
 import StudentLayout from './pages/student/StudentLayout';
 import StudentDashboardPage from './pages/student/Dashboard';
 import Learn from './pages/student/Learn';
 import StudentModule from './pages/student/Module';
 import StudentAssessment from './pages/student/Assessment';
-import StudentPdfReading from './pages/student/PdfReading';
+import StudentPractice from './pages/student/Practice';
 import StudentProfile from './pages/student/Profile';
+import StudentAchievements from './pages/student/Achievements';
 import TeacherLayout from './pages/teacher/TeacherLayout';
 import TeacherDashboardPage from './pages/teacher/Dashboard';
 import MyStudents from './pages/teacher/MyStudents';
@@ -50,7 +52,6 @@ export default function App() {
       <Route path="/forgot-password" element={<ForgotPassword />} />
       <Route path="/reset-password" element={<ResetPassword />} />
       <Route path="/verify-email" element={<VerifyEmail />} />
-      <Route path="/verify-login" element={<VerifyLogin />} />
       <Route path="/resend-verification" element={<ResendVerification />} />
 
       <Route
@@ -82,6 +83,8 @@ export default function App() {
         <Route path="schedule" element={<Schedule />} />
         <Route path="messages" element={<ParentMessages />} />
         <Route path="settings" element={<ParentSettings />} />
+        <Route path="notifications" element={<ParentNotifications />} />
+        <Route path="app-settings" element={<ParentAppSettings />} />
       </Route>
       <Route
         path="/student"
@@ -95,7 +98,8 @@ export default function App() {
         <Route path="learn" element={<Learn />} />
         <Route path="learn/module/:moduleId" element={<StudentModule />} />
         <Route path="learn/assessment/:assessmentId" element={<StudentAssessment />} />
-        <Route path="pdf-reading" element={<StudentPdfReading />} />
+        <Route path="practice" element={<StudentPractice />} />
+        <Route path="achievements" element={<StudentAchievements />} />
         <Route path="profile" element={<StudentProfile />} />
       </Route>
       <Route

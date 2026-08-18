@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { supabase } from '../../lib/supabaseClient';
-import { api } from '../../lib/api';
+import { dashboardPathForRole, resolveRole } from '../../lib/auth/resolveRole';
 import {
   AuthShell,
   ButtonSpinner,
@@ -12,26 +12,35 @@ import {
   primaryButtonClass,
 } from '../../components/auth/AuthShell';
 
+interface FieldErrors {
+  email?: string;
+  password?: string;
+}
+
 export default function Login() {
   const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [fieldErrors, setFieldErrors] = useState<FieldErrors>({});
   const [error, setError] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
+
+  const validate = (cleanEmail: string): FieldErrors => {
+    const errors: FieldErrors = {};
+    if (!cleanEmail) errors.email = 'Kailangan ang email.';
+    else if (!isValidEmail(cleanEmail)) errors.email = 'Hindi valid ang email.';
+    if (!password) errors.password = 'Kailangan ang password.';
+    return errors;
+  };
 
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
 
     const cleanEmail = email.trim().toLowerCase();
-    if (!isValidEmail(cleanEmail)) {
-      setError('Ilagay ang valid na email.');
-      return;
-    }
-    if (!password) {
-      setError('Ilagay ang password.');
-      return;
-    }
+    const errors = validate(cleanEmail);
+    setFieldErrors(errors);
+    if (Object.keys(errors).length > 0) return;
 
     setSubmitting(true);
     try {
@@ -48,10 +57,8 @@ export default function Login() {
         return;
       }
 
-      // Step up to a second factor before granting a persisted dashboard session.
-      await supabase.auth.signOut();
-      await api('/auth/login-otp/send', { method: 'POST', body: { email: cleanEmail } });
-      navigate('/verify-login', { state: { email: cleanEmail, password } });
+      const identity = await resolveRole(data.user);
+      navigate(identity ? dashboardPathForRole(identity.role) : '/verify-email', { replace: true });
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Hindi matagumpay ang pag-login.');
     } finally {
@@ -62,7 +69,7 @@ export default function Login() {
   return (
     <AuthShell
       title="Maligayang pagbabalik"
-      subtitle="Para sa magulang, guro, mag-aaral, at admin."
+      cardColorVar="--color-brand-lavender"
       footer={
         <>
           Wala pang account?{' '}
@@ -85,18 +92,35 @@ export default function Login() {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             autoComplete="email"
+            invalid={!!fieldErrors.email}
           />
+          {fieldErrors.email && (
+            <div className="mt-2">
+              <FieldError message={fieldErrors.email} />
+            </div>
+          )}
         </div>
         <div>
-          <div className="mb-1 flex items-center justify-between">
-            <label htmlFor="password" className="block text-sm font-medium">
+          <div className="mb-2 flex items-center justify-between">
+            <label htmlFor="password" className="block text-base font-medium">
               Password
             </label>
             <Link to="/forgot-password" className="text-xs text-[var(--color-primary)] underline">
               Nakalimutan?
             </Link>
           </div>
-          <PasswordInput id="password" value={password} onChange={setPassword} autoComplete="current-password" />
+          <PasswordInput
+            id="password"
+            value={password}
+            onChange={setPassword}
+            autoComplete="current-password"
+            invalid={!!fieldErrors.password}
+          />
+          {fieldErrors.password && (
+            <div className="mt-2">
+              <FieldError message={fieldErrors.password} />
+            </div>
+          )}
         </div>
         <FieldError message={error ?? undefined} />
         <button type="submit" disabled={submitting} className={primaryButtonClass}>

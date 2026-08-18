@@ -1,4 +1,5 @@
 import { IconLabel } from './a11y/IconLabel';
+import { cardStyle } from '../lib/cardStyle';
 
 export interface ReadingProfile {
   sessionCount: number;
@@ -14,6 +15,7 @@ export interface ReadingProfile {
   insights: string[];
   needsIntervention: boolean;
   readingJourney: string;
+  completedContentCount: number;
 }
 
 const JOURNEY_LABEL: Record<string, string> = {
@@ -31,7 +33,7 @@ const CONFIDENCE_LABEL: Record<string, string> = {
 export function ReadingInsightsPanel({ profile }: { profile: ReadingProfile }) {
   if (profile.sessionCount === 0) {
     return (
-      <div className="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] p-6">
+      <div className="rounded-xl border p-6" style={cardStyle('--color-brand-violet')}>
         <h2 className="mb-2 text-lg font-semibold">
           <IconLabel icon="🧠" label="Kaalaman sa Pagbasa" />
         </h2>
@@ -41,7 +43,7 @@ export function ReadingInsightsPanel({ profile }: { profile: ReadingProfile }) {
   }
 
   return (
-    <div className="flex flex-col gap-4 rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] p-6">
+    <div className="flex flex-col gap-4 rounded-xl border p-6" style={cardStyle('--color-brand-violet')}>
       <div className="flex items-center justify-between">
         <h2 className="text-lg font-semibold">
           <IconLabel icon="🧠" label="Kaalaman sa Pagbasa" />

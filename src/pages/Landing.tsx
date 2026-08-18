@@ -5,6 +5,7 @@ import { IconLabel } from '../components/a11y/IconLabel';
 import { ScrollReveal } from '../components/ScrollReveal';
 import logo from '../assets/Logo.jpg';
 import landBg from '../assets/land.webp';
+import { cardStyle, CARD_COLORS } from '../lib/cardStyle';
 
 const FEATURES = [
   {
@@ -263,10 +264,11 @@ export default function Landing() {
             </p>
           </div>
           <div className="grid grid-cols-1 content-between gap-4 sm:grid-cols-2">
-            {RESPONSE_POINTS.map((r) => (
+            {RESPONSE_POINTS.map((r, i) => (
               <div
                 key={r.title}
-                className="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] p-4 shadow-card"
+                className="rounded-xl border p-4 shadow-card"
+                style={cardStyle(CARD_COLORS[i % CARD_COLORS.length])}
               >
                 <div className="mb-2 text-2xl" aria-hidden="true">
                   {r.icon}
@@ -288,10 +290,11 @@ export default function Landing() {
             </p>
           </div>
           <div className="grid grid-cols-1 items-start gap-6 sm:grid-cols-3">
-            {STEPS.map((s) => (
+            {STEPS.map((s, i) => (
               <div
                 key={s.n}
-                className="relative rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] p-6 text-center shadow-card"
+                className="relative rounded-xl border p-6 text-center shadow-card"
+                style={cardStyle(CARD_COLORS[i % CARD_COLORS.length])}
               >
                 <span className="absolute -top-4 left-1/2 flex h-8 w-8 -translate-x-1/2 items-center justify-center rounded-full bg-[var(--color-primary)] text-sm font-bold text-white shadow-card">
                   {s.n}
@@ -313,10 +316,11 @@ export default function Landing() {
             <h2 className="text-2xl sm:text-3xl">Ano ang makukuha ninyo</h2>
           </div>
           <div className="grid grid-cols-1 items-start gap-6 text-left sm:grid-cols-2 lg:grid-cols-4">
-            {FEATURES.map((f) => (
+            {FEATURES.map((f, i) => (
               <div
                 key={f.title}
-                className="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] p-6 shadow-card transition-all hover:-translate-y-1 hover:shadow-raised"
+                className="rounded-xl border p-6 shadow-card transition-all hover:-translate-y-1 hover:shadow-raised"
+                style={cardStyle(CARD_COLORS[i % CARD_COLORS.length])}
               >
                 <div
                   className="mb-3 flex h-12 w-12 items-center justify-center rounded-full text-2xl"

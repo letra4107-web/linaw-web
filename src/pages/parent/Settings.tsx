@@ -1,15 +1,107 @@
-import { useState } from 'react';
-import { useMutation } from '@tanstack/react-query';
+import { useRef, useState } from 'react';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { Link } from 'react-router-dom';
 import { supabase } from '../../lib/supabaseClient';
 import { useAuth } from '../../lib/auth/AuthContext';
+import { IconLabel } from '../../components/a11y/IconLabel';
+
+interface Child {
+  id: string;
+  name: string;
+  grade_level: number;
+}
+
+interface ChildProgress {
+  child_id: string;
+  level: string;
+}
+
+interface ParentRow {
+  avatar_url: string | null;
+}
+
+function cardStyle(brandVar: string, tintPct = 10, borderPct = 30) {
+  return {
+    backgroundColor: `color-mix(in srgb, var(${brandVar}) ${tintPct}%, white)`,
+    borderColor: `color-mix(in srgb, var(${brandVar}) ${borderPct}%, white)`,
+  };
+}
+
+function initialsFor(name: string) {
+  const parts = name.trim().split(/\s+/).filter(Boolean);
+  if (parts.length === 0) return '👤';
+  return (parts[0][0] + (parts[1]?.[0] ?? '')).toUpperCase();
+}
 
 export default function Settings() {
   const { user, identity, refreshIdentity } = useAuth();
+  const queryClient = useQueryClient();
+  const fileInputRef = useRef<HTMLInputElement>(null);
   const [name, setName] = useState(identity?.displayName ?? '');
+  const [newEmail, setNewEmail] = useState('');
   const [newPassword, setNewPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
   const [profileMsg, setProfileMsg] = useState<string | null>(null);
+  const [emailMsg, setEmailMsg] = useState<string | null>(null);
   const [passwordMsg, setPasswordMsg] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
+
+  const { data: parentRow } = useQuery({
+    queryKey: ['parent-profile', user?.id],
+    queryFn: async () => {
+      const { data, error: err } = await supabase.from('parents').select('avatar_url').eq('auth_uid', user!.id).maybeSingle();
+      if (err) throw err;
+      return data as ParentRow | null;
+    },
+    enabled: Boolean(user),
+  });
+
+  const uploadAvatar = useMutation({
+    mutationFn: async (file: File) => {
+      const ext = file.name.split('.').pop()?.toLowerCase() || 'jpg';
+      const path = `${user!.id}.${ext}`;
+      const { error: uploadErr } = await supabase.storage
+        .from('avatar')
+        .upload(path, file, { upsert: true, cacheControl: '3600', contentType: file.type || 'image/jpeg' });
+      if (uploadErr) throw uploadErr;
+
+      const { data: pub } = supabase.storage.from('avatar').getPublicUrl(path);
+      const publicUrl = `${pub.publicUrl}?v=${Date.now()}`;
+
+      const { error: upsertErr } = await supabase
+        .from('parents')
+        .upsert({ auth_uid: user!.id, avatar_url: publicUrl }, { onConflict: 'auth_uid' });
+      if (upsertErr) throw upsertErr;
+      return publicUrl;
+    },
+    onSuccess: () => {
+      setError(null);
+      queryClient.invalidateQueries({ queryKey: ['parent-profile', user?.id] });
+    },
+    onError: (err: Error) => setError(err.message),
+  });
+
+  const { data: children } = useQuery({
+    queryKey: ['parent-children', user?.id],
+    queryFn: async () => {
+      const { data, error: err } = await supabase.from('children').select('id, name, grade_level').order('name');
+      if (err) throw err;
+      return data as Child[];
+    },
+    enabled: Boolean(user),
+  });
+
+  const { data: progress } = useQuery({
+    queryKey: ['parent-children-progress', (children ?? []).map((c) => c.id)],
+    queryFn: async () => {
+      const ids = (children ?? []).map((c) => c.id);
+      if (ids.length === 0) return [];
+      const { data, error: err } = await supabase.from('child_progress').select('child_id, level').in('child_id', ids);
+      if (err) throw err;
+      return data as ChildProgress[];
+    },
+    enabled: (children ?? []).length > 0,
+  });
 
   const updateProfile = useMutation({
     mutationFn: async () => {
@@ -24,10 +116,30 @@ export default function Settings() {
     onError: (err: Error) => setError(err.message),
   });
 
+  const updateEmail = useMutation({
+    mutationFn: async () => {
+      const trimmed = newEmail.trim();
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(trimmed)) {
+        throw new Error('Maglagay ng valid na email address.');
+      }
+      const { error: err } = await supabase.auth.updateUser({ email: trimmed });
+      if (err) throw err;
+    },
+    onSuccess: () => {
+      setEmailMsg('Nagpadala kami ng kumpirmasyon sa parehong luma at bagong email — buksan ang link para tapusin ang pagbabago.');
+      setNewEmail('');
+      setError(null);
+    },
+    onError: (err: Error) => setError(err.message),
+  });
+
   const updatePassword = useMutation({
     mutationFn: async () => {
       if (newPassword.length < 8 || !/[A-Z]/.test(newPassword) || !/[0-9]/.test(newPassword)) {
         throw new Error('Kailangang 8+ characters, may malaking letra at numero.');
+      }
+      if (newPassword !== confirmPassword) {
+        throw new Error('Hindi magkatugma ang dalawang password.');
       }
       const { error: err } = await supabase.auth.updateUser({ password: newPassword });
       if (err) throw err;
@@ -35,66 +147,210 @@ export default function Settings() {
     onSuccess: () => {
       setPasswordMsg('Na-update ang password.');
       setNewPassword('');
+      setConfirmPassword('');
       setError(null);
     },
     onError: (err: Error) => setError(err.message),
   });
 
   return (
-    <div className="flex max-w-lg flex-col gap-8">
-      <div>
-        <h1 className="text-2xl font-semibold">Mga Setting</h1>
-        <p className="text-[var(--color-text-muted)]">Pamahalaan ang iyong profile at account.</p>
+    <div className="flex flex-col gap-8">
+      <div
+        className="flex items-center gap-5 rounded-2xl border p-6"
+        style={cardStyle('--color-brand-lavender', 14, 40)}
+      >
+        <input
+          ref={fileInputRef}
+          type="file"
+          accept="image/*"
+          className="hidden"
+          onChange={(e) => {
+            const file = e.target.files?.[0];
+            if (file) uploadAvatar.mutate(file);
+            e.target.value = '';
+          }}
+        />
+        <button
+          type="button"
+          onClick={() => fileInputRef.current?.click()}
+          title="Palitan ang larawan"
+          className="group relative h-16 w-16 shrink-0 overflow-hidden rounded-full text-xl font-semibold text-white"
+          style={{ backgroundColor: 'var(--color-brand-lavender-dark)' }}
+        >
+          {parentRow?.avatar_url ? (
+            <img src={parentRow.avatar_url} alt="" className="h-full w-full object-cover" />
+          ) : (
+            <span className="flex h-full w-full items-center justify-center">
+              {initialsFor(identity?.displayName ?? 'Magulang')}
+            </span>
+          )}
+          <span className="absolute inset-0 flex items-center justify-center bg-black/50 text-xs font-normal opacity-0 transition-opacity group-hover:opacity-100">
+            {uploadAvatar.isPending ? '...' : '📷'}
+          </span>
+        </button>
+        <div className="min-w-0">
+          <h1 className="text-2xl font-semibold">{identity?.displayName ?? 'Aking Profile'}</h1>
+          <p className="truncate text-[var(--color-text-muted)]">{user?.email}</p>
+          <span className="mt-1 inline-block rounded-full bg-[var(--color-brand-lavender-dark)] px-3 py-0.5 text-xs font-medium text-white">
+            Account ng Magulang
+          </span>
+        </div>
       </div>
 
-      {error && <p className="text-sm text-[var(--color-danger)]">{error}</p>}
+      {error && (
+        <p className="rounded-lg border border-[var(--color-danger)] bg-[var(--color-danger-soft)] px-4 py-3 text-sm text-[var(--color-danger)]">
+          {error}
+        </p>
+      )}
 
-      <form
-        onSubmit={(e) => {
-          e.preventDefault();
-          updateProfile.mutate();
-        }}
-        className="flex flex-col gap-3 rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] p-6"
-      >
-        <h2 className="text-lg font-semibold">Profile Ko</h2>
-        <label htmlFor="name" className="text-sm font-medium">
-          Pangalan
-        </label>
-        <input
-          id="name"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          className="rounded-lg border border-[var(--color-border)] px-4 py-2"
-        />
-        {profileMsg && <p className="text-sm text-[var(--color-primary)]">{profileMsg}</p>}
-        <button type="submit" className="self-start rounded-lg bg-[var(--color-primary)] px-4 py-2 text-white">
-          I-save
-        </button>
-      </form>
+      <div className="rounded-2xl border p-6" style={cardStyle('--color-brand-sun')}>
+        <div className="mb-4 flex items-center justify-between">
+          <h2 className="text-lg font-semibold">
+            <IconLabel icon="👧" label="Aking mga Anak" />
+          </h2>
+          <Link
+            to="/parent/children"
+            className="rounded-full bg-[var(--color-brand-sun)] px-4 py-1.5 text-sm font-medium text-white hover:opacity-90"
+          >
+            + Mag-enroll ng Bagong Anak
+          </Link>
+        </div>
+        {children && children.length === 0 && (
+          <p className="text-[var(--color-text-muted)]">
+            Wala ka pang naka-enroll na anak.{' '}
+            <Link to="/parent/children" className="text-[var(--color-primary)] underline">
+              Mag-enroll ngayon
+            </Link>
+            .
+          </p>
+        )}
+        <ul className="flex flex-col gap-2">
+          {(children ?? []).map((c) => (
+            <li
+              key={c.id}
+              className="flex items-center justify-between rounded-xl border border-white/60 bg-white/70 px-4 py-2.5"
+            >
+              <span className="font-medium">{c.name}</span>
+              <span className="text-sm text-[var(--color-text-muted)]">
+                Grade {c.grade_level} · {progress?.find((p) => p.child_id === c.id)?.level ?? '-'}
+              </span>
+            </li>
+          ))}
+        </ul>
+      </div>
 
-      <form
-        onSubmit={(e) => {
-          e.preventDefault();
-          updatePassword.mutate();
-        }}
-        className="flex flex-col gap-3 rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] p-6"
-      >
-        <h2 className="text-lg font-semibold">Password</h2>
-        <label htmlFor="password" className="text-sm font-medium">
-          Bagong Password
-        </label>
-        <input
-          id="password"
-          type="password"
-          value={newPassword}
-          onChange={(e) => setNewPassword(e.target.value)}
-          className="rounded-lg border border-[var(--color-border)] px-4 py-2"
-        />
-        {passwordMsg && <p className="text-sm text-[var(--color-primary)]">{passwordMsg}</p>}
-        <button type="submit" className="self-start rounded-lg bg-[var(--color-primary)] px-4 py-2 text-white">
-          I-update ang Password
-        </button>
-      </form>
+      <div className="rounded-2xl border p-6" style={cardStyle('--color-brand-sage')}>
+        <h2 className="mb-4 text-lg font-semibold">
+          <IconLabel icon="✏️" label="Profile Ko" />
+        </h2>
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            updateProfile.mutate();
+          }}
+          className="flex flex-col gap-3"
+        >
+          <label htmlFor="name" className="text-sm font-medium">
+            Pangalan
+          </label>
+          <input
+            id="name"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            className="rounded-lg border border-[var(--color-border)] bg-white px-4 py-2.5"
+          />
+          {profileMsg && <p className="text-sm font-medium text-[var(--color-success)]">{profileMsg}</p>}
+          <button
+            type="submit"
+            disabled={updateProfile.isPending}
+            className="self-start rounded-lg bg-[var(--color-brand-sage)] px-5 py-2 font-medium text-white hover:opacity-90 disabled:opacity-60"
+          >
+            {updateProfile.isPending ? 'Sine-save...' : 'I-save'}
+          </button>
+        </form>
+      </div>
+
+      <div className="rounded-2xl border p-6" style={cardStyle('--color-brand-teal')}>
+        <h2 className="mb-4 text-lg font-semibold">
+          <IconLabel icon="📧" label="Palitan ang Email" />
+        </h2>
+        <p className="mb-3 text-sm text-[var(--color-text-muted)]">
+          Kasalukuyang email: <span className="font-medium">{user?.email}</span>. Magpapadala kami ng kumpirmasyon
+          link bago ito magbago.
+        </p>
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            updateEmail.mutate();
+          }}
+          className="flex flex-col gap-3"
+        >
+          <label htmlFor="newEmail" className="text-sm font-medium">
+            Bagong Email
+          </label>
+          <input
+            id="newEmail"
+            type="email"
+            value={newEmail}
+            onChange={(e) => setNewEmail(e.target.value)}
+            placeholder="bagong-email@halimbawa.com"
+            className="rounded-lg border border-[var(--color-border)] bg-white px-4 py-2.5"
+          />
+          {emailMsg && <p className="text-sm font-medium text-[var(--color-success)]">{emailMsg}</p>}
+          <button
+            type="submit"
+            disabled={updateEmail.isPending || !newEmail.trim()}
+            className="self-start rounded-lg bg-[var(--color-brand-teal)] px-5 py-2 font-medium text-white hover:opacity-90 disabled:opacity-60"
+          >
+            {updateEmail.isPending ? 'Ipinapadala...' : 'I-update ang Email'}
+          </button>
+        </form>
+      </div>
+
+      <div className="rounded-2xl border p-6" style={cardStyle('--color-brand-coral')}>
+        <h2 className="mb-4 text-lg font-semibold">
+          <IconLabel icon="🔒" label="Palitan ang Password" />
+        </h2>
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            updatePassword.mutate();
+          }}
+          className="flex flex-col gap-3"
+        >
+          <label htmlFor="password" className="text-sm font-medium">
+            Bagong Password
+          </label>
+          <input
+            id="password"
+            type="password"
+            value={newPassword}
+            onChange={(e) => setNewPassword(e.target.value)}
+            className="rounded-lg border border-[var(--color-border)] bg-white px-4 py-2.5"
+          />
+          <label htmlFor="confirmPassword" className="text-sm font-medium">
+            Kumpirmahin ang Bagong Password
+          </label>
+          <input
+            id="confirmPassword"
+            type="password"
+            value={confirmPassword}
+            onChange={(e) => setConfirmPassword(e.target.value)}
+            className="rounded-lg border border-[var(--color-border)] bg-white px-4 py-2.5"
+          />
+          <p className="text-xs text-[var(--color-text-muted)]">
+            8+ characters, may malaking letra (A-Z), at numero (0-9).
+          </p>
+          {passwordMsg && <p className="text-sm font-medium text-[var(--color-success)]">{passwordMsg}</p>}
+          <button
+            type="submit"
+            disabled={updatePassword.isPending || !newPassword || !confirmPassword}
+            className="self-start rounded-lg bg-[var(--color-brand-coral)] px-5 py-2 font-medium text-white hover:opacity-90 disabled:opacity-60"
+          >
+            {updatePassword.isPending ? 'Ina-update...' : 'I-update ang Password'}
+          </button>
+        </form>
+      </div>
     </div>
   );
 }

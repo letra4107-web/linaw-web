@@ -56,6 +56,19 @@ function getRecognitionCtor(): (new () => SpeechRecognition) | undefined {
   return w.SpeechRecognition || w.webkitSpeechRecognition;
 }
 
+const RECOGNITION_ERROR_MESSAGES: Record<string, string> = {
+  'not-allowed': 'Kailangan natin ng microphone permission para makinig. Payagan ito sa settings ng browser.',
+  'service-not-allowed': 'Kailangan natin ng microphone permission para makinig. Payagan ito sa settings ng browser.',
+  'no-speech': 'Walang narinig na boses. Subukan mong bigkasin ulit nang malapit sa mic.',
+  'audio-capture': 'Walang nahanap na microphone sa device na ito.',
+  network: 'May problema sa koneksyon. Subukan ulit.',
+  aborted: 'Naantala ang pakikinig. Subukan ulit.',
+};
+
+function friendlyRecognitionError(code: string): string {
+  return RECOGNITION_ERROR_MESSAGES[code] ?? 'Hindi nagsimula ang pakikinig. Subukan muli.';
+}
+
 export function listenOnce(lang: string, onResult: RecognitionEndedCallback, onError: (message: string) => void) {
   const Ctor = getRecognitionCtor();
   if (!Ctor) {
@@ -72,7 +85,8 @@ export function listenOnce(lang: string, onResult: RecognitionEndedCallback, onE
     onResult(result.transcript);
   };
   recognition.onerror = (event) => {
-    onError((event as unknown as { error?: string }).error || 'Nagkaroon ng error sa pakikinig.');
+    const code = (event as unknown as { error?: string }).error || '';
+    onError(friendlyRecognitionError(code));
   };
 
   recognition.start();

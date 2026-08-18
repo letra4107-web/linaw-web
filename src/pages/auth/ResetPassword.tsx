@@ -41,7 +41,11 @@ export default function ResetPassword() {
   };
 
   return (
-    <AuthShell title="Gumawa ng bagong password" subtitle="Piliin ang isang malakas na password na hindi mo pa nagamit.">
+    <AuthShell
+      title="Gumawa ng bagong password"
+      subtitle="Piliin ang isang malakas na password na hindi mo pa nagamit."
+      cardColorVar="--color-brand-teal"
+    >
       <form onSubmit={onSubmit} className="flex flex-col gap-4" noValidate>
         <div>
           <label htmlFor="password" className="mb-2 block text-base font-medium">

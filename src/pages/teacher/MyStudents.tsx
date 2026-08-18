@@ -3,6 +3,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '../../lib/supabaseClient';
 import { useAuth } from '../../lib/auth/AuthContext';
 import { IconLabel } from '../../components/a11y/IconLabel';
+import { cardStyle, CARD_COLORS } from '../../lib/cardStyle';
 
 interface ChildRow {
   id: string;
@@ -117,10 +118,11 @@ export default function MyStudents() {
         {error && <p className="mt-2 text-sm text-[var(--color-danger)]">{error}</p>}
         {searchResults && searchResults.length > 0 && (
           <ul className="mt-3 flex flex-col gap-2">
-            {searchResults.map((s) => (
+            {searchResults.map((s, i) => (
               <li
                 key={s.id}
-                className="flex items-center justify-between rounded-lg border border-[var(--color-border)] bg-[var(--color-surface)] px-4 py-2"
+                className="flex items-center justify-between rounded-lg border px-4 py-2"
+                style={cardStyle(CARD_COLORS[i % CARD_COLORS.length])}
               >
                 <span>
                   {s.name} · Grade {s.grade_level}
@@ -149,10 +151,11 @@ export default function MyStudents() {
           <p className="text-[var(--color-text-muted)]">Wala ka pang naidagdag na mag-aaral.</p>
         )}
         <ul className="flex flex-col gap-2">
-          {(roster ?? []).map((r) => (
+          {(roster ?? []).map((r, i) => (
             <li
               key={r.id}
-              className="flex items-center justify-between rounded-lg border border-[var(--color-border)] bg-[var(--color-surface)] px-4 py-3"
+              className="flex items-center justify-between rounded-lg border px-4 py-3"
+              style={cardStyle(CARD_COLORS[i % CARD_COLORS.length])}
             >
               <span>
                 {r.children?.name ?? 'Hindi kilala'} · Grade {r.children?.grade_level ?? '-'}

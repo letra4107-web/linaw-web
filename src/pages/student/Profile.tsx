@@ -4,6 +4,8 @@ import { useAuth } from '../../lib/auth/AuthContext';
 import { api } from '../../lib/api';
 import { IconLabel } from '../../components/a11y/IconLabel';
 import { ReadingInsightsPanel, type ReadingProfile } from '../../components/ReadingInsightsPanel';
+import { findBadge } from '../../lib/badges';
+import { cardStyle, CARD_COLORS } from '../../lib/cardStyle';
 
 interface ChildRow {
   id: string;
@@ -89,8 +91,8 @@ export default function Profile() {
           { icon: '🏆', label: 'Pinakamahabang Streak', value: progress?.longest_streak ?? 0 },
           { icon: '🔤', label: 'Mga Salitang Natapos', value: progress?.word_count ?? 0 },
           { icon: '✅', label: 'Mga Gawaing Natapos', value: progress?.activities_completed ?? 0 },
-        ].map((stat) => (
-          <div key={stat.label} className="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] p-4">
+        ].map((stat, i) => (
+          <div key={stat.label} className="rounded-xl border p-4" style={cardStyle(CARD_COLORS[i % CARD_COLORS.length])}>
             <p className="text-2xl font-semibold text-[var(--color-primary)]">{stat.value}</p>
             <p className="mt-1 text-sm">
               <IconLabel icon={stat.icon} label={stat.label} />
@@ -105,14 +107,25 @@ export default function Profile() {
         <h2 className="mb-3 text-lg font-semibold">Mga Nakuhang Badge</h2>
         {badges.length === 0 && <p className="text-[var(--color-text-muted)]">Wala pang nakukuhang badge. Magpatuloy sa pagbasa!</p>}
         <div className="flex flex-wrap gap-3">
-          {badges.map((id) => (
-            <div
-              key={id}
-              className="flex items-center gap-2 rounded-full border border-[var(--color-border)] bg-[var(--color-surface)] px-4 py-2"
-            >
-              <IconLabel icon="🏅" label={badgeLabel(id)} />
-            </div>
-          ))}
+          {badges.map((id, i) => {
+            const badge = findBadge(id);
+            return (
+              <div
+                key={id}
+                className="flex items-center gap-2 rounded-full border py-2 pr-4 pl-2"
+                style={cardStyle(CARD_COLORS[i % CARD_COLORS.length])}
+              >
+                {badge ? (
+                  <>
+                    <img src={badge.image} alt="" className="h-7 w-7 object-contain" />
+                    <span>{badge.title}</span>
+                  </>
+                ) : (
+                  <IconLabel icon="🏅" label={badgeLabel(id)} />
+                )}
+              </div>
+            );
+          })}
         </div>
       </div>
     </div>

@@ -3,6 +3,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '../../lib/supabaseClient';
 import { useAuth } from '../../lib/auth/AuthContext';
 import { IconLabel } from '../../components/a11y/IconLabel';
+import { cardStyle, CARD_COLORS } from '../../lib/cardStyle';
 
 interface LearningPath {
   id: string;
@@ -138,7 +139,8 @@ export default function LearningPaths() {
           e.preventDefault();
           createPath.mutate();
         }}
-        className="flex flex-col gap-3 rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] p-6"
+        className="flex flex-col gap-3 rounded-xl border p-6"
+        style={cardStyle('--color-brand-violet')}
       >
         <h2 className="text-lg font-semibold">Bagong Landas ng Pagkatuto</h2>
         <input
@@ -167,8 +169,8 @@ export default function LearningPaths() {
       <div>
         {isLoading && <p>Naglo-load...</p>}
         <ul className="flex flex-col gap-3">
-          {(paths ?? []).map((p) => (
-            <li key={p.id} className="rounded-lg border border-[var(--color-border)] bg-[var(--color-surface)] px-4 py-3">
+          {(paths ?? []).map((p, i) => (
+            <li key={p.id} className="rounded-lg border px-4 py-3" style={cardStyle(CARD_COLORS[i % CARD_COLORS.length])}>
               <div className="flex items-center justify-between">
                 <div>
                   <p className="font-medium">{p.title}</p>
@@ -183,7 +185,7 @@ export default function LearningPaths() {
                 </button>
               </div>
               {openPathId === p.id && (
-                <div className="mt-4 flex flex-col gap-4 border-t border-[var(--color-border)] pt-4">
+                <div className="mt-4 flex flex-col gap-4 border-t border-white/60 pt-4">
                   <div>
                     <h3 className="mb-2 font-medium">Mga Aralin sa Path na Ito</h3>
                     <ol className="mb-3 list-decimal pl-5">

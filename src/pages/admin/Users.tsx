@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { api } from '../../lib/api';
 import { IconLabel } from '../../components/a11y/IconLabel';
+import { cardStyle, CARD_COLORS } from '../../lib/cardStyle';
 
 interface UserRow {
   id: string;
@@ -102,10 +103,11 @@ export default function AdminUsers() {
       {isLoading && <p>Naglo-load...</p>}
 
       <div className="flex flex-col gap-3">
-        {(data?.users ?? []).map((u) => (
+        {(data?.users ?? []).map((u, i) => (
           <div
             key={u.id}
-            className="flex flex-col gap-3 rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] p-4 sm:flex-row sm:items-center sm:justify-between"
+            className="flex flex-col gap-3 rounded-xl border p-4 sm:flex-row sm:items-center sm:justify-between"
+            style={cardStyle(CARD_COLORS[i % CARD_COLORS.length])}
           >
             <div>
               <p className="font-medium">{u.name ?? u.email}</p>
@@ -142,7 +144,7 @@ export default function AdminUsers() {
             </div>
 
             {(reasonFor === `disable-${u.id}` || reasonFor === `archive-${u.id}`) && (
-              <div className="flex w-full flex-col gap-2 border-t border-[var(--color-border)] pt-3 sm:col-span-2">
+              <div className="flex w-full flex-col gap-2 border-t border-white/60 pt-3 sm:col-span-2">
                 <label className="text-sm font-medium" htmlFor={`reason-${u.id}`}>
                   Dahilan (opsyonal)
                 </label>

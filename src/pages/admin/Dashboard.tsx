@@ -1,6 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { Link } from 'react-router-dom';
 import { api } from '../../lib/api';
+import { cardStyle, CARD_COLORS } from '../../lib/cardStyle';
 
 interface AnalyticsResponse {
   enrollmentTrend: { month: string; count: number }[];
@@ -40,8 +41,8 @@ export default function AdminDashboard() {
       {data && (
         <>
           <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
-            {CARDS.map((c) => (
-              <div key={c.key} className="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] p-4">
+            {CARDS.map((c, i) => (
+              <div key={c.key} className="rounded-xl border p-4" style={cardStyle(CARD_COLORS[i % CARD_COLORS.length])}>
                 <p className="text-2xl" aria-hidden="true">{c.icon}</p>
                 <p className="mt-2 text-2xl font-semibold">{data.totals[c.key]}</p>
                 <p className="text-sm text-[var(--color-text-muted)]">{c.label}</p>
@@ -49,11 +50,11 @@ export default function AdminDashboard() {
             ))}
           </div>
 
-          <div className="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] p-4">
+          <div className="rounded-xl border p-4" style={cardStyle('--color-brand-sage')}>
             <h2 className="mb-3 font-medium">Bilang ng User bawat Role</h2>
             <ul className="flex flex-wrap gap-4">
-              {Object.entries(data.roleCounts).map(([role, count]) => (
-                <li key={role} className="rounded-lg border border-[var(--color-border)] px-4 py-2 text-sm">
+              {Object.entries(data.roleCounts).map(([role, count], i) => (
+                <li key={role} className="rounded-lg border px-4 py-2 text-sm" style={cardStyle(CARD_COLORS[i % CARD_COLORS.length])}>
                   <span className="font-semibold capitalize">{role}</span>: {count}
                 </li>
               ))}

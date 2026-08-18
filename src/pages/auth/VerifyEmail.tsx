@@ -36,6 +36,7 @@ export default function VerifyEmail() {
   return (
     <AuthShell
       title="I-verify ang iyong email"
+      cardColorVar="--color-brand-violet"
       subtitle={
         email
           ? `Ipinadala namin ang code sa ${email}.`
