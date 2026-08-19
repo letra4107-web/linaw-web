@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '../../lib/supabaseClient';
 import { useAuth } from '../../lib/auth/AuthContext';
+import { api } from '../../lib/api';
 import { IconLabel } from '../../components/a11y/IconLabel';
 import { PdfReadingAssistant } from '../../components/PdfReadingAssistant';
 import { PdfDrillReview } from '../../components/teacher/PdfDrillReview';
@@ -15,6 +16,7 @@ interface PdfMaterial {
   grade_level: number | null;
   level: string | null;
   drill_status: string | null;
+  archived_at: string | null;
   created_at: string;
 }
 
@@ -45,6 +47,89 @@ const STATUS_LABEL: Record<string, string> = {
   completed: 'Tapos na',
 };
 
+function IconBadge({ icon, brandVar }: { icon: string; brandVar: string }) {
+  return (
+    <span
+      aria-hidden="true"
+      className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full text-xl shadow-sm"
+      style={{ backgroundColor: `color-mix(in srgb, var(${brandVar}) 22%, white)` }}
+    >
+      {icon}
+    </span>
+  );
+}
+
+function EditForm({ material, onSaved, onCancel }: { material: PdfMaterial; onSaved: () => void; onCancel: () => void }) {
+  const queryClient = useQueryClient();
+  const [title, setTitle] = useState(material.title);
+  const [gradeLevel, setGradeLevel] = useState(material.grade_level ? String(material.grade_level) : '');
+  const [level, setLevel] = useState(material.level ?? '');
+  const [error, setError] = useState<string | null>(null);
+
+  const save = useMutation({
+    mutationFn: () =>
+      api(`/teacher/pdf/${material.id}`, {
+        method: 'PATCH',
+        auth: true,
+        body: { title: title.trim(), gradeLevel: gradeLevel || null, level: level || null },
+      }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['pdf-materials'] });
+      onSaved();
+    },
+    onError: (err: Error) => setError(err.message),
+  });
+
+  return (
+    <div className="flex flex-col gap-3 rounded-xl bg-white/60 p-4">
+      <input
+        value={title}
+        onChange={(e) => setTitle(e.target.value)}
+        placeholder="Pamagat"
+        className="rounded-lg border border-[var(--color-border)] px-4 py-2 text-sm"
+      />
+      <div className="grid grid-cols-2 gap-3">
+        <select
+          value={gradeLevel}
+          onChange={(e) => setGradeLevel(e.target.value)}
+          className="rounded-lg border border-[var(--color-border)] px-4 py-2 text-sm"
+        >
+          <option value="">Baitang</option>
+          {GRADES.map((g) => (
+            <option key={g} value={g}>
+              Grade {g}
+            </option>
+          ))}
+        </select>
+        <select
+          value={level}
+          onChange={(e) => setLevel(e.target.value)}
+          className="rounded-lg border border-[var(--color-border)] px-4 py-2 text-sm"
+        >
+          <option value="">Reading Level</option>
+          <option value="Beginner">Beginner</option>
+          <option value="Intermediate">Intermediate</option>
+          <option value="Advanced">Advanced</option>
+        </select>
+      </div>
+      {error && <p className="text-sm text-[var(--color-danger)]">{error}</p>}
+      <div className="flex gap-2">
+        <button
+          type="button"
+          onClick={() => save.mutate()}
+          disabled={save.isPending || !title.trim()}
+          className="rounded-full bg-[var(--color-primary)] px-4 py-1.5 text-sm text-white disabled:opacity-60"
+        >
+          {save.isPending ? 'Sine-save...' : 'I-save'}
+        </button>
+        <button type="button" onClick={onCancel} className="rounded-full border border-[var(--color-border)] px-4 py-1.5 text-sm">
+          Kanselahin
+        </button>
+      </div>
+    </div>
+  );
+}
+
 export default function PdfReading() {
   const { user } = useAuth();
   const queryClient = useQueryClient();
@@ -57,14 +142,16 @@ export default function PdfReading() {
   const [previewId, setPreviewId] = useState<string | null>(null);
   const [monitorId, setMonitorId] = useState<string | null>(null);
   const [reviewingId, setReviewingId] = useState<string | null>(null);
+  const [editingId, setEditingId] = useState<string | null>(null);
   const [uploadMode, setUploadMode] = useState<'plain' | 'drill'>('plain');
+  const [view, setView] = useState<'active' | 'archived'>('active');
 
   const { data: materials, isLoading } = useQuery({
     queryKey: ['pdf-materials', user?.id],
     queryFn: async () => {
       const { data, error: err } = await supabase
         .from('pdf_materials')
-        .select('id, title, file_url, extracted_text, grade_level, level, drill_status, created_at')
+        .select('id, title, file_url, extracted_text, grade_level, level, drill_status, archived_at, created_at')
         .eq('teacher_id', user!.id)
         .order('created_at', { ascending: false });
       if (err) throw err;
@@ -72,6 +159,10 @@ export default function PdfReading() {
     },
     enabled: Boolean(user),
   });
+
+  const activeMaterials = (materials ?? []).filter((m) => !m.archived_at);
+  const archivedMaterials = (materials ?? []).filter((m) => m.archived_at);
+  const visibleMaterials = view === 'active' ? activeMaterials : archivedMaterials;
 
   const { data: monitorAssignments } = useQuery({
     queryKey: ['pdf-monitor', monitorId],
@@ -148,13 +239,26 @@ export default function PdfReading() {
     onError: (err: Error) => setError(err.message),
   });
 
+  const archive = useMutation({
+    mutationFn: (materialId: string) => api(`/teacher/pdf/${materialId}/archive`, { method: 'POST', auth: true }),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['pdf-materials'] }),
+    onError: (err: Error) => setError(err.message),
+  });
+
+  const unarchive = useMutation({
+    mutationFn: (materialId: string) => api(`/teacher/pdf/${materialId}/unarchive`, { method: 'POST', auth: true }),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['pdf-materials'] }),
+    onError: (err: Error) => setError(err.message),
+  });
+
   return (
     <div className="flex flex-col gap-8">
-      <div>
-        <h1 className="text-2xl font-semibold">Pagbasa ng PDF</h1>
-        <p className="text-[var(--color-text-muted)]">
-          Mag-upload ng PDF at i-assign sa mga mag-aaral para sa gabay na pagbasa.
-        </p>
+      <div className="flex items-center gap-3">
+        <IconBadge icon="📄" brandVar="--color-brand-teal" />
+        <div>
+          <h1 className="text-2xl font-semibold">Pagbasa ng PDF</h1>
+          <p className="text-[var(--color-text-muted)]">Mag-upload ng PDF at i-assign sa mga mag-aaral para sa gabay na pagbasa.</p>
+        </div>
       </div>
 
       <form
@@ -162,33 +266,35 @@ export default function PdfReading() {
           e.preventDefault();
           upload.mutate();
         }}
-        className="flex flex-col gap-3 rounded-xl border p-6"
-        style={cardStyle('--color-brand-teal')}
+        className="flex flex-col gap-4 rounded-2xl border p-6 shadow-card"
+        style={cardStyle('--color-brand-teal', 8, 30)}
       >
         <h2 className="text-lg font-semibold">Mag-upload ng PDF</h2>
-        <div className="flex gap-2">
+
+        <div className="flex gap-1 rounded-full border border-white/70 bg-white/70 p-1">
           <button
             type="button"
             onClick={() => setUploadMode('plain')}
-            className={`rounded-full px-4 py-1.5 text-sm font-medium transition-colors ${
-              uploadMode === 'plain' ? 'bg-[var(--color-primary)] text-white' : 'border border-[var(--color-border)]'
+            className={`flex-1 rounded-full px-4 py-2 text-sm font-medium transition-colors ${
+              uploadMode === 'plain' ? 'bg-[var(--color-primary)] text-white shadow-sm' : 'hover:bg-white'
             }`}
           >
-            Karaniwang PDF
+            <IconLabel icon="📖" label="Karaniwang PDF" />
           </button>
           <button
             type="button"
             onClick={() => setUploadMode('drill')}
-            className={`rounded-full px-4 py-1.5 text-sm font-medium transition-colors ${
-              uploadMode === 'drill' ? 'bg-[var(--color-primary)] text-white' : 'border border-[var(--color-border)]'
+            className={`flex-1 rounded-full px-4 py-2 text-sm font-medium transition-colors ${
+              uploadMode === 'drill' ? 'bg-[var(--color-primary)] text-white shadow-sm' : 'hover:bg-white'
             }`}
           >
-            Pagsasanay sa Pantig
+            <IconLabel icon="🔤" label="Pagsasanay sa Pantig" />
           </button>
         </div>
         {uploadMode === 'drill' && (
-          <p className="text-sm text-[var(--color-text-muted)]">
-            Awtomatikong hahatiin ang PDF sa mga pantig at salita (3-column na format: pantig | salita | larawan). Susuriin mo pa ito bago i-publish.
+          <p className="rounded-lg bg-white/60 px-4 py-2.5 text-sm text-[var(--color-text-muted)]">
+            Awtomatikong hahatiin ang PDF sa mga pantig at salita (3-column na format: pantig | salita | larawan). Susuriin mo pa ito
+            bago i-publish.
           </p>
         )}
         <input
@@ -196,13 +302,13 @@ export default function PdfReading() {
           onChange={(e) => setTitle(e.target.value)}
           placeholder="Pamagat"
           required
-          className="rounded-lg border border-[var(--color-border)] px-4 py-2"
+          className="rounded-lg border border-[var(--color-border)] bg-white/80 px-4 py-2.5"
         />
         <div className="grid grid-cols-2 gap-3">
           <select
             value={gradeLevel}
             onChange={(e) => setGradeLevel(e.target.value)}
-            className="rounded-lg border border-[var(--color-border)] px-4 py-2"
+            className="rounded-lg border border-[var(--color-border)] bg-white/80 px-4 py-2.5"
           >
             <option value="">Baitang</option>
             {GRADES.map((g) => (
@@ -214,7 +320,7 @@ export default function PdfReading() {
           <select
             value={level}
             onChange={(e) => setLevel(e.target.value)}
-            className="rounded-lg border border-[var(--color-border)] px-4 py-2"
+            className="rounded-lg border border-[var(--color-border)] bg-white/80 px-4 py-2.5"
           >
             <option value="">Reading Level</option>
             <option value="Beginner">Beginner</option>
@@ -226,28 +332,67 @@ export default function PdfReading() {
           type="file"
           accept="application/pdf"
           onChange={(e) => setFile(e.target.files?.[0] ?? null)}
-          className="rounded-lg border border-[var(--color-border)] px-4 py-2"
+          className="rounded-lg border border-[var(--color-border)] bg-white/80 px-4 py-2.5"
         />
         {error && <p className="text-sm text-[var(--color-danger)]">{error}</p>}
         <button
           type="submit"
           disabled={upload.isPending}
-          className="self-start rounded-lg bg-[var(--color-primary)] px-4 py-2 text-white disabled:opacity-60"
+          className="self-start rounded-full bg-[var(--color-primary)] px-6 py-2.5 font-medium text-white shadow-card transition-all hover:-translate-y-0.5 hover:bg-[var(--color-primary-hover)] hover:shadow-raised active:scale-95 disabled:translate-y-0 disabled:opacity-60"
         >
           {upload.isPending ? 'Ina-upload...' : 'I-upload'}
         </button>
       </form>
 
       <div>
-        <h2 className="mb-3 text-lg font-semibold">Mga PDF</h2>
+        <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
+          <h2 className="text-lg font-semibold">Mga PDF</h2>
+          <div className="flex gap-1 rounded-full border border-[var(--color-border)] p-1">
+            <button
+              type="button"
+              onClick={() => setView('active')}
+              className={`rounded-full px-4 py-1.5 text-sm font-medium transition-colors ${
+                view === 'active' ? 'bg-[var(--color-primary)] text-white' : 'hover:bg-[var(--color-surface)]'
+              }`}
+            >
+              Aktibo ({activeMaterials.length})
+            </button>
+            <button
+              type="button"
+              onClick={() => setView('archived')}
+              className={`rounded-full px-4 py-1.5 text-sm font-medium transition-colors ${
+                view === 'archived' ? 'bg-[var(--color-primary)] text-white' : 'hover:bg-[var(--color-surface)]'
+              }`}
+            >
+              <IconLabel icon="🗄️" label={`Naka-archive (${archivedMaterials.length})`} />
+            </button>
+          </div>
+        </div>
+
         {isLoading && <p>Naglo-load...</p>}
-        <ul className="flex flex-col gap-3">
-          {(materials ?? []).map((m, i) => (
-            <li key={m.id} className="rounded-lg border px-4 py-3" style={cardStyle(CARD_COLORS[i % CARD_COLORS.length])}>
-              <div className="flex items-center justify-between">
-                <div>
-                  <div className="flex items-center gap-2">
-                    <p className="font-medium">{m.title}</p>
+        {!isLoading && visibleMaterials.length === 0 && (
+          <p className="rounded-2xl border border-dashed border-[var(--color-border)] p-8 text-center text-[var(--color-text-muted)]">
+            {view === 'active' ? 'Wala ka pang na-upload na PDF.' : 'Walang naka-archive na PDF.'}
+          </p>
+        )}
+
+        <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
+          {visibleMaterials.map((m, i) => (
+            <div
+              key={m.id}
+              className="flex flex-col gap-3 rounded-2xl border p-5 shadow-card"
+              style={cardStyle(CARD_COLORS[i % CARD_COLORS.length], 10, 35)}
+            >
+              <div className="flex items-start gap-3">
+                <IconBadge icon={m.drill_status ? '🔤' : '📄'} brandVar={CARD_COLORS[i % CARD_COLORS.length]} />
+                <div className="min-w-0 flex-1">
+                  <div className="flex flex-wrap items-center gap-2">
+                    <p className="truncate font-semibold">{m.title}</p>
+                    {m.archived_at && (
+                      <span className="rounded-full bg-white/70 px-2.5 py-0.5 text-xs font-semibold text-[var(--color-text-muted)]">
+                        <IconLabel icon="🗄️" label="Naka-archive" />
+                      </span>
+                    )}
                     {m.drill_status && (
                       <span
                         className={`rounded-full px-2.5 py-0.5 text-xs font-semibold ${
@@ -264,34 +409,68 @@ export default function PdfReading() {
                     Grade {m.grade_level ?? '-'} · {m.level ?? 'Walang level'}
                   </p>
                 </div>
-                <div className="flex flex-wrap gap-2">
-                  <a href={m.file_url} target="_blank" rel="noreferrer" className="rounded-full border border-[var(--color-border)] px-3 py-1 text-sm">
-                    <IconLabel icon="📄" label="Raw PDF" />
-                  </a>
-                  {m.drill_status ? (
-                    <button
-                      type="button"
-                      onClick={() => setReviewingId(reviewingId === m.id ? null : m.id)}
-                      className="rounded-full border border-[var(--color-border)] px-3 py-1 text-sm hover:border-[var(--color-primary)]"
-                    >
-                      <IconLabel icon="✏️" label="I-review" />
-                    </button>
-                  ) : (
-                    <button
-                      type="button"
-                      onClick={() => setPreviewId(previewId === m.id ? null : m.id)}
-                      className="rounded-full border border-[var(--color-border)] px-3 py-1 text-sm hover:border-[var(--color-primary)]"
-                    >
-                      <IconLabel icon="👁️" label="I-preview" />
-                    </button>
-                  )}
+              </div>
+
+              <div className="flex flex-wrap gap-2">
+                <a
+                  href={m.file_url}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="rounded-full border border-white/70 bg-white/60 px-3 py-1 text-sm hover:border-[var(--color-primary)]"
+                >
+                  <IconLabel icon="📄" label="Raw PDF" />
+                </a>
+                {m.drill_status ? (
                   <button
                     type="button"
-                    onClick={() => setMonitorId(monitorId === m.id ? null : m.id)}
-                    className="rounded-full border border-[var(--color-border)] px-3 py-1 text-sm hover:border-[var(--color-primary)]"
+                    onClick={() => setReviewingId(reviewingId === m.id ? null : m.id)}
+                    className="rounded-full border border-white/70 bg-white/60 px-3 py-1 text-sm hover:border-[var(--color-primary)]"
                   >
-                    <IconLabel icon="📈" label="Monitor" />
+                    <IconLabel icon="🔎" label="I-review" />
                   </button>
+                ) : (
+                  <button
+                    type="button"
+                    onClick={() => setPreviewId(previewId === m.id ? null : m.id)}
+                    className="rounded-full border border-white/70 bg-white/60 px-3 py-1 text-sm hover:border-[var(--color-primary)]"
+                  >
+                    <IconLabel icon="👁️" label="I-preview" />
+                  </button>
+                )}
+                <button
+                  type="button"
+                  onClick={() => setMonitorId(monitorId === m.id ? null : m.id)}
+                  className="rounded-full border border-white/70 bg-white/60 px-3 py-1 text-sm hover:border-[var(--color-primary)]"
+                >
+                  <IconLabel icon="📈" label="Monitor" />
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setEditingId(editingId === m.id ? null : m.id)}
+                  className="rounded-full border border-white/70 bg-white/60 px-3 py-1 text-sm hover:border-[var(--color-primary)]"
+                >
+                  <IconLabel icon="✏️" label="I-edit" />
+                </button>
+                {m.archived_at ? (
+                  <button
+                    type="button"
+                    onClick={() => unarchive.mutate(m.id)}
+                    disabled={unarchive.isPending}
+                    className="rounded-full border border-white/70 bg-white/60 px-3 py-1 text-sm hover:border-[var(--color-primary)] disabled:opacity-60"
+                  >
+                    <IconLabel icon="♻️" label="I-unarchive" />
+                  </button>
+                ) : (
+                  <button
+                    type="button"
+                    onClick={() => archive.mutate(m.id)}
+                    disabled={archive.isPending}
+                    className="rounded-full border border-white/70 bg-white/60 px-3 py-1 text-sm text-[var(--color-danger)] hover:border-[var(--color-danger)] disabled:opacity-60"
+                  >
+                    <IconLabel icon="🗄️" label="I-archive" />
+                  </button>
+                )}
+                {!m.archived_at && (
                   <button
                     type="button"
                     onClick={() => setAssigningId(assigningId === m.id ? null : m.id)}
@@ -299,33 +478,33 @@ export default function PdfReading() {
                   >
                     <IconLabel icon="📮" label="I-assign" />
                   </button>
-                </div>
+                )}
               </div>
+
+              {editingId === m.id && (
+                <EditForm material={m} onSaved={() => setEditingId(null)} onCancel={() => setEditingId(null)} />
+              )}
               {previewId === m.id && (
-                <div className="mt-3 border-t border-white/60 pt-3">
+                <div className="rounded-xl bg-white/60 p-4">
                   <PdfReadingAssistant material={m} mode="preview" />
                 </div>
               )}
               {reviewingId === m.id && (
-                <div className="mt-3 border-t border-white/60 pt-3">
+                <div className="rounded-xl bg-white/60 p-4">
                   <PdfDrillReview materialId={m.id} onPublished={() => setReviewingId(null)} />
                 </div>
               )}
               {monitorId === m.id && (
-                <div className="mt-3 border-t border-white/60 pt-3">
+                <div className="rounded-xl bg-white/60 p-4">
                   <h3 className="mb-2 font-medium">Progreso ng Mag-aaral</h3>
                   <ul className="flex flex-col gap-2">
                     {(monitorAssignments ?? []).map((a) => {
-                      const best = a.pdf_reading_attempts.reduce(
-                        (max, at) => Math.max(max, at.accuracy),
-                        0,
-                      );
+                      const best = a.pdf_reading_attempts.reduce((max, at) => Math.max(max, at.accuracy), 0);
                       return (
                         <li key={a.id} className="flex items-center justify-between text-sm">
                           <span>{a.children?.name ?? 'Mag-aaral'}</span>
                           <span className="text-[var(--color-text-muted)]">
-                            {STATUS_LABEL[a.status] ?? a.status} ·{' '}
-                            {a.pdf_reading_attempts.length > 0 ? `Best: ${best}%` : 'Wala pang attempt'}
+                            {STATUS_LABEL[a.status] ?? a.status} · {a.pdf_reading_attempts.length > 0 ? `Best: ${best}%` : 'Wala pang attempt'}
                           </span>
                         </li>
                       );
@@ -337,28 +516,26 @@ export default function PdfReading() {
                 </div>
               )}
               {assigningId === m.id && (
-                <ul className="mt-3 flex flex-wrap gap-2 border-t border-white/60 pt-3">
+                <ul className="flex flex-wrap gap-2 rounded-xl bg-white/60 p-4">
                   {(roster ?? []).map((r) => (
                     <li key={r.id}>
                       <button
                         type="button"
                         onClick={() => assign.mutate({ materialId: m.id, studentId: r.student_id })}
-                        className="rounded-full border border-[var(--color-border)] px-3 py-1 text-sm hover:border-[var(--color-primary)]"
+                        className="rounded-full border border-white/70 bg-white px-3 py-1 text-sm hover:border-[var(--color-primary)]"
                       >
                         {r.children?.name ?? 'Mag-aaral'}
                       </button>
                     </li>
                   ))}
                   {(roster ?? []).length === 0 && (
-                    <p className="text-sm text-[var(--color-text-muted)]">
-                      Walang mag-aaral sa listahan mo. Pumunta sa "Mag-aaral Ko" muna.
-                    </p>
+                    <p className="text-sm text-[var(--color-text-muted)]">Walang mag-aaral sa listahan mo. Pumunta sa "Mag-aaral Ko" muna.</p>
                   )}
                 </ul>
               )}
-            </li>
+            </div>
           ))}
-        </ul>
+        </div>
       </div>
     </div>
   );

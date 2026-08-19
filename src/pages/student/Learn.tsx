@@ -120,7 +120,10 @@ function PdfTab() {
         .eq('student_id', child.id)
         .order('assigned_at', { ascending: false });
       if (error) throw error;
-      return data as unknown as PdfAssignment[];
+      // RLS hides pdf_materials once a teacher archives it (migration 017), which
+      // leaves the assignment row but with pdf_materials: null -- drop those instead
+      // of rendering a broken/blank card for a PDF that's no longer available.
+      return ((data as unknown as PdfAssignment[]) || []).filter((a) => a.pdf_materials !== null);
     },
     enabled: Boolean(user),
   });

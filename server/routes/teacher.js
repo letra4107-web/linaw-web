@@ -71,6 +71,86 @@ router.post('/pdf', upload.single('file'), async (req, res) => {
   }
 });
 
+async function requireOwnedPdfMaterial(req, res) {
+  const { id } = req.params;
+  const { data: material, error } = await supabaseAdmin
+    .from('pdf_materials')
+    .select('id, teacher_id')
+    .eq('id', id)
+    .maybeSingle();
+  if (error) throw error;
+  if (!material || material.teacher_id !== req.user.id) {
+    res.status(404).json({ error: 'PDF not found.' });
+    return null;
+  }
+  return material;
+}
+
+// PATCH /teacher/pdf/:id  { title, gradeLevel, level } -- edits metadata only,
+// not the file itself (re-upload as a new material for that).
+router.patch('/pdf/:id', async (req, res) => {
+  try {
+    const material = await requireOwnedPdfMaterial(req, res);
+    if (!material) return;
+
+    const { title, gradeLevel, level } = req.body || {};
+    if (!title || !String(title).trim()) return res.status(400).json({ error: 'Title is required.' });
+
+    const { data: updated, error: updateErr } = await supabaseAdmin
+      .from('pdf_materials')
+      .update({
+        title: String(title).trim(),
+        grade_level: gradeLevel ? Number(gradeLevel) : null,
+        level: level || null,
+      })
+      .eq('id', material.id)
+      .select()
+      .single();
+    if (updateErr) throw updateErr;
+
+    res.json({ success: true, material: updated });
+  } catch (err) {
+    console.error('[teacher/pdf edit]', err);
+    res.status(500).json({ error: err.message || 'Unable to save changes.' });
+  }
+});
+
+// POST /teacher/pdf/:id/archive -- hides it from students' assignment lists
+// (see migration 017) without deleting it or any attempt history.
+router.post('/pdf/:id/archive', async (req, res) => {
+  try {
+    const material = await requireOwnedPdfMaterial(req, res);
+    if (!material) return;
+
+    const { error: updateErr } = await supabaseAdmin
+      .from('pdf_materials')
+      .update({ archived_at: new Date().toISOString() })
+      .eq('id', material.id);
+    if (updateErr) throw updateErr;
+
+    res.json({ success: true });
+  } catch (err) {
+    console.error('[teacher/pdf archive]', err);
+    res.status(500).json({ error: err.message || 'Unable to archive this PDF.' });
+  }
+});
+
+// POST /teacher/pdf/:id/unarchive
+router.post('/pdf/:id/unarchive', async (req, res) => {
+  try {
+    const material = await requireOwnedPdfMaterial(req, res);
+    if (!material) return;
+
+    const { error: updateErr } = await supabaseAdmin.from('pdf_materials').update({ archived_at: null }).eq('id', material.id);
+    if (updateErr) throw updateErr;
+
+    res.json({ success: true });
+  } catch (err) {
+    console.error('[teacher/pdf unarchive]', err);
+    res.status(500).json({ error: err.message || 'Unable to unarchive this PDF.' });
+  }
+});
+
 // POST /teacher/pdf-drill  (multipart: file) + fields: title, gradeLevel, level
 // Same upload as /pdf, plus geometric table parsing (see lib/pdfDrillParser.js)
 // into scoreable syllable-drill items. Always lands as drill_status:

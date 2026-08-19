@@ -22,6 +22,12 @@
   <FilesMatch "\.(js|css|png|jpg|jpeg|webp|svg|woff|woff2)$">
     Header set Cache-Control "public, max-age=31536000, immutable"
   </FilesMatch>
+  <!-- favicon.svg/icons.svg are unhashed filenames in public/ (unlike the
+       content-hashed dist/assets/* files above) -- an update to either would
+       get stuck behind the year-long immutable cache forever otherwise. -->
+  <FilesMatch "^(favicon|icons)\.svg$">
+    Header set Cache-Control "no-cache, must-revalidate"
+  </FilesMatch>
 </IfModule>
 
 # Hostinger's LiteSpeed page cache otherwise serves a stale cached index.html
