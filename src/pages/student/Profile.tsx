@@ -3,6 +3,7 @@ import { supabase } from '../../lib/supabaseClient';
 import { useAuth } from '../../lib/auth/AuthContext';
 import { api } from '../../lib/api';
 import { IconLabel } from '../../components/a11y/IconLabel';
+import { TTSSpeedControl } from '../../components/a11y/TTSSpeedControl';
 import { ReadingInsightsPanel, type ReadingProfile } from '../../components/ReadingInsightsPanel';
 import { findBadge } from '../../lib/badges';
 import { cardStyle, CARD_COLORS } from '../../lib/cardStyle';
@@ -102,6 +103,16 @@ export default function Profile() {
       </div>
 
       {readingProfile && <ReadingInsightsPanel profile={readingProfile.profile} />}
+
+      <div>
+        <h2 className="mb-1 text-lg font-semibold">
+          <IconLabel icon="🔊" label="Bilis ng Pagbasa ng Boses" />
+        </h2>
+        <p className="mb-3 text-sm text-[var(--color-text-muted)]">
+          Piliin kung gaano kabilis magbasa nang malakas ang app sa lahat ng bahagi.
+        </p>
+        <TTSSpeedControl />
+      </div>
 
       <div>
         <h2 className="mb-3 text-lg font-semibold">Mga Nakuhang Badge</h2>

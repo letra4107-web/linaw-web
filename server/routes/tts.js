@@ -9,6 +9,10 @@ const GOOGLE_TTS_URL = 'https://texttospeech.googleapis.com/v1/text:synthesize';
 // v1beta1 returns real per-<mark> timepoints, needed for syllable karaoke.
 const GOOGLE_TTS_URL_BETA = 'https://texttospeech.googleapis.com/v1beta1/text:synthesize';
 const KARAOKE_RATE = 0.5;
+// fil-ph-Neural2-A over the older fil-PH-Wavenet-A -- Neural2 is Google's newer, clearer
+// voice tier with better phoneme articulation, which matters more here than for a typical
+// app since this app's readers are decoding by ear. Verified live (2026-08-19) that it still
+// supports SSML <mark> timepointing, so syllable karaoke keeps working on the new voice.
 
 const escapeSsmlText = (text) =>
   String(text)
@@ -44,7 +48,7 @@ router.post('/', async (req, res) => {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         input: { text },
-        voice: { languageCode: 'fil-PH', name: 'fil-PH-Wavenet-A' },
+        voice: { languageCode: 'fil-PH', name: 'fil-ph-Neural2-A' },
         audioConfig: { audioEncoding: 'MP3', speakingRate },
       }),
     });
@@ -98,7 +102,7 @@ router.post('/speak-syllables', async (req, res) => {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         input: { ssml },
-        voice: { languageCode: 'fil-PH', name: 'fil-PH-Wavenet-A' },
+        voice: { languageCode: 'fil-PH', name: 'fil-ph-Neural2-A' },
         audioConfig: { audioEncoding: 'MP3', speakingRate },
         enableTimePointing: ['SSML_MARK'],
       }),

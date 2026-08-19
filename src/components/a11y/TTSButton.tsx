@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { api } from '../../lib/api';
+import { getTtsRate } from '../../lib/ttsSettings';
 import { IconLabel } from './IconLabel';
 
 interface TTSButtonProps {
@@ -8,7 +9,8 @@ interface TTSButtonProps {
   className?: string;
 }
 
-// Cache decoded audio per spoken text so repeat plays (e.g. re-reading the same word) don't re-hit the TTS API.
+// Cache decoded audio per spoken text+rate so repeat plays (e.g. re-reading the same word)
+// don't re-hit the TTS API -- keyed by rate too since the same text sounds different at each speed.
 const audioCache = new Map<string, string>();
 
 function base64ToObjectUrl(base64: string): string {
@@ -19,12 +21,12 @@ function base64ToObjectUrl(base64: string): string {
 }
 
 /** Falls back to the browser's own speech synthesis if the server-side Filipino TTS is unavailable. */
-function speakWithBrowser(text: string, lang: string) {
+function speakWithBrowser(text: string, lang: string, rate: number) {
   if (typeof window === 'undefined' || !('speechSynthesis' in window)) return;
   window.speechSynthesis.cancel();
   const utterance = new SpeechSynthesisUtterance(text);
   utterance.lang = lang;
-  utterance.rate = 0.95;
+  utterance.rate = rate;
   window.speechSynthesis.speak(utterance);
 }
 
@@ -34,7 +36,9 @@ export function TTSButton({ text, lang = 'fil-PH', className }: TTSButtonProps) 
   const [status, setStatus] = useState<'idle' | 'loading' | 'speaking'>('idle');
 
   const speak = async () => {
-    const cached = audioCache.get(text);
+    const rate = getTtsRate();
+    const cacheKey = `${text}::${rate}`;
+    const cached = audioCache.get(cacheKey);
     if (cached) {
       setStatus('speaking');
       const audio = new Audio(cached);
@@ -46,9 +50,9 @@ export function TTSButton({ text, lang = 'fil-PH', className }: TTSButtonProps) 
 
     setStatus('loading');
     try {
-      const res = await api<{ audioContent: string }>('/tts', { method: 'POST', body: { text } });
+      const res = await api<{ audioContent: string }>('/tts', { method: 'POST', body: { text, rate } });
       const url = base64ToObjectUrl(res.audioContent);
-      audioCache.set(text, url);
+      audioCache.set(cacheKey, url);
       setStatus('speaking');
       const audio = new Audio(url);
       audio.onended = () => setStatus('idle');
@@ -56,7 +60,7 @@ export function TTSButton({ text, lang = 'fil-PH', className }: TTSButtonProps) 
       audio.play();
     } catch {
       setStatus('speaking');
-      speakWithBrowser(text, lang);
+      speakWithBrowser(text, lang, rate);
       setStatus('idle');
     }
   };

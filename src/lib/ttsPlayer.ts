@@ -1,4 +1,5 @@
 import { api } from './api';
+import { getTtsRate } from './ttsSettings';
 
 // Lightweight, cache-backed TTS playback used for auto-playing feedback text/pronunciation
 // (e.g. reading the praise message, then the correct word) -- separate from TTSButton's own
@@ -53,8 +54,9 @@ async function resolveAudioUrl(text: string, rate: number): Promise<string | nul
   }
 }
 
-/** Speaks `text` aloud and resolves once playback has finished. `rate` is 0.25-1 (1 = normal speed). */
-export async function playTts(text: string, rate = 1, lang = 'fil-PH'): Promise<void> {
+/** Speaks `text` aloud and resolves once playback has finished. `rate` defaults to the
+ *  student's saved speed preference (see ttsSettings.ts) when not explicitly overridden. */
+export async function playTts(text: string, rate = getTtsRate(), lang = 'fil-PH'): Promise<void> {
   const url = await resolveAudioUrl(text, rate);
   if (url) {
     await playAudioAndWait(url);
@@ -71,7 +73,7 @@ interface TtsQueueItem {
 /** Speaks each item in order, waiting for one to finish before starting the next. */
 export async function playTtsSequence(items: (string | TtsQueueItem)[], lang = 'fil-PH'): Promise<void> {
   for (const item of items) {
-    const { text, rate = 1 } = typeof item === 'string' ? { text: item } : item;
+    const { text, rate = getTtsRate() } = typeof item === 'string' ? { text: item } : item;
     await playTts(text, rate, lang);
   }
 }

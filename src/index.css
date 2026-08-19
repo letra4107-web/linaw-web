@@ -140,10 +140,18 @@ body {
   letter-spacing: 0.01em;
 }
 
+/* Values follow standard dyslexia-friendly typography guidance: line-height
+   1.5-2.0x font size, letter-spacing (tracking) >=0.12em, word-spacing
+   >=0.16em, paragraph spacing >=2x line-height. */
 body[data-font="dyslexic"] {
   font-family: var(--font-dyslexic);
-  letter-spacing: 0.03em;
-  word-spacing: 0.08em;
+  line-height: 1.75;
+  letter-spacing: 0.12em;
+  word-spacing: 0.16em;
+}
+
+body[data-font="dyslexic"] p {
+  margin-bottom: 3.5em;
 }
 
 h1, h2, h3, h4, h5, h6 {
