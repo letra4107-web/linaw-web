@@ -131,28 +131,56 @@ export default function Assessment() {
   if (result) {
     return (
       <div
-        className="flex flex-col items-center gap-4 rounded-xl border p-10 text-center"
-        style={cardStyle(result.passed ? '--color-brand-sage' : '--color-brand-coral', 14)}
+        className="flex flex-col items-center gap-4 overflow-hidden rounded-2xl p-10 text-center text-white shadow-hero"
+        style={{
+          backgroundImage: result.passed
+            ? 'linear-gradient(135deg, var(--color-hero-from), var(--color-hero-via), var(--color-hero-to))'
+            : 'linear-gradient(135deg, var(--color-brand-coral), var(--color-brand-sun))',
+        }}
       >
-        <p className="text-5xl">{result.passed ? '🎉' : '💪'}</p>
-        <h1 className="text-2xl font-semibold">{result.passed ? 'Magaling!' : 'Malapit ka na!'}</h1>
-        <p className="text-[var(--color-text-muted)]">Marka: {result.score}%</p>
+        <p className="text-6xl">{result.passed ? '🏆' : '💪'}</p>
+        <h1 className="text-3xl font-bold">{result.passed ? 'Magaling!' : 'Malapit ka na!'}</h1>
+        <p className="text-5xl font-extrabold">{Math.round(result.score)}%</p>
+        <p className="text-white/85">
+          {result.passed ? 'Kumpleto na ang modyul at bukas na ang susunod.' : `Kailangan ng ${started.pass_percentage}% upang makapasa.`}
+        </p>
         <button
           type="button"
           onClick={() => navigate('/student/learn')}
-          className="rounded-full bg-[var(--color-primary)] px-6 py-3 text-white"
+          className="mt-2 rounded-full bg-white px-6 py-3 font-medium text-[var(--color-primary)] shadow-card transition-all hover:-translate-y-0.5 hover:shadow-raised active:scale-95"
         >
-          Bumalik sa Matuto
+          {result.passed ? 'Tingnan ang Susunod' : 'Bumalik sa Modyul'}
         </button>
       </div>
     );
   }
 
   const allAnswered = started.items.every((item) => answers[item.assessment_item_id]);
+  const answeredCount = started.items.filter((item) => answers[item.assessment_item_id]).length;
 
   return (
     <div className="flex flex-col gap-6">
-      <h1 className="text-2xl font-semibold">Pagsusulit</h1>
+      <div
+        className="overflow-hidden rounded-2xl p-6 text-white shadow-hero sm:p-7"
+        style={{ backgroundImage: 'linear-gradient(135deg, var(--color-hero-from), var(--color-hero-via), var(--color-hero-to))' }}
+      >
+        <p className="text-sm font-semibold tracking-wide text-white/75 uppercase">Pagsusulit</p>
+        <h1 className="mt-1 text-2xl font-bold">
+          Sagutan ang {started.items.length} tanong
+        </h1>
+        <div className="mt-4 flex items-center gap-3">
+          <div className="h-2.5 flex-1 overflow-hidden rounded-full bg-white/25">
+            <div
+              className="h-full rounded-full bg-white transition-[width]"
+              style={{ width: `${(answeredCount / started.items.length) * 100}%` }}
+            />
+          </div>
+          <span className="shrink-0 text-sm font-semibold">
+            {answeredCount}/{started.items.length}
+          </span>
+        </div>
+      </div>
+
       {error && <p className="text-[var(--color-danger)]">{error}</p>}
 
       {started.items.map((item, idx) => {
@@ -160,24 +188,24 @@ export default function Assessment() {
         return (
           <div
             key={item.assessment_item_id}
-            className={`rounded-xl border p-6 ${isAnswered ? 'border-[var(--color-primary)] bg-[var(--color-primary)]/5' : ''}`}
-            style={isAnswered ? undefined : cardStyle(CARD_COLORS[idx % CARD_COLORS.length])}
+            className={`rounded-2xl border p-6 shadow-card ${isAnswered ? 'border-[var(--color-primary)] bg-[var(--color-primary)]/5' : ''}`}
+            style={isAnswered ? undefined : cardStyle(CARD_COLORS[idx % CARD_COLORS.length], 10, 35)}
           >
-            <p className="mb-2 text-sm text-[var(--color-text-muted)]">Tanong {idx + 1}</p>
-            <div className="mb-3 flex items-center gap-3">
+            <p className="mb-2 text-sm font-semibold text-[var(--color-text-muted)]">Tanong {idx + 1} ng {started.items.length}</p>
+            <div className="mb-4 flex items-center gap-3">
               <p className="text-xl font-medium">{item.content_text}</p>
               <TTSButton text={item.content_text} />
             </div>
 
             {item.answer_options ? (
-              <div className="flex flex-col gap-2">
+              <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
                 {item.answer_options.map((opt, i) => (
                   <button
                     key={opt}
                     type="button"
                     disabled={isAnswered}
                     onClick={() => answerMultipleChoice(item, i)}
-                    className="rounded-lg border border-[var(--color-border)] px-4 py-2 text-left hover:border-[var(--color-primary)] disabled:opacity-60"
+                    className="rounded-xl border-2 border-white bg-white/70 px-4 py-3 text-left font-medium transition-all hover:border-[var(--color-primary)] hover:-translate-y-0.5 disabled:opacity-60 disabled:hover:translate-y-0"
                   >
                     {opt}
                   </button>
@@ -188,7 +216,7 @@ export default function Assessment() {
                 type="button"
                 disabled={isAnswered || listeningFor === item.content_id}
                 onClick={() => practiceSpeech(item)}
-                className="rounded-full bg-[var(--color-primary)] px-4 py-2 text-sm text-white disabled:opacity-60"
+                className="rounded-full bg-[var(--color-primary)] px-4 py-2 text-sm text-white shadow-card transition-all hover:-translate-y-0.5 hover:shadow-raised active:scale-95 disabled:translate-y-0 disabled:opacity-60"
               >
                 <IconLabel
                   icon="🎤"
@@ -204,7 +232,7 @@ export default function Assessment() {
         type="button"
         disabled={!allAnswered || submitMutation.isPending}
         onClick={() => submitMutation.mutate()}
-        className="self-start rounded-full bg-[var(--color-accent)] px-6 py-3 text-white disabled:opacity-60"
+        className="self-start rounded-full bg-[var(--color-accent)] px-6 py-3 font-medium text-white shadow-card transition-all hover:-translate-y-0.5 hover:shadow-raised active:scale-95 disabled:translate-y-0 disabled:opacity-60"
       >
         {submitMutation.isPending ? 'Isinusumite...' : 'Isumite ang Pagsusulit'}
       </button>

@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '../lib/supabaseClient';
 import { useAuth } from '../lib/auth/AuthContext';
@@ -7,7 +7,6 @@ import { getOrCreateWordOfDay, MAX_ATTEMPTS, BONUS_XP } from '../lib/wordOfDay';
 import { computeAccuracy, isSpeechRecognitionSupported, listenOnce } from '../lib/speech';
 import { syllabifyWord } from '../lib/syllabify';
 import { CORRECT_MESSAGES, ENCOURAGE_MESSAGES, randomFrom } from '../lib/feedbackMessages';
-import { TTSButton } from './a11y/TTSButton';
 import { SyllableKaraokeText } from './SyllableKaraokeText';
 import { PronunciationFeedback } from './PronunciationFeedback';
 import { IconLabel } from './a11y/IconLabel';
@@ -30,6 +29,15 @@ export function WordOfDayCard({ streak = 0 }: WordOfDayCardProps) {
   const [justAnswered, setJustAnswered] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [justAwardedXp, setJustAwardedXp] = useState<number | null>(null);
+  const [activeSyllable, setActiveSyllable] = useState<number | null>(null);
+  const [karaokeLoading, setKaraokeLoading] = useState(false);
+  const karaokeAudioRef = useRef<HTMLAudioElement | null>(null);
+
+  useEffect(() => {
+    return () => {
+      karaokeAudioRef.current?.pause();
+    };
+  }, []);
 
   const { data: child } = useQuery({
     queryKey: ['student-self', user?.id],
@@ -63,8 +71,54 @@ export function WordOfDayCard({ streak = 0 }: WordOfDayCardProps) {
   );
   const canTry = wordOfDay && !isDone && attemptsUsed < MAX_ATTEMPTS && isSpeechRecognitionSupported();
 
+  const stopKaraoke = () => {
+    karaokeAudioRef.current?.pause();
+    karaokeAudioRef.current = null;
+    setActiveSyllable(null);
+  };
+
+  const playKaraoke = async (rate: number) => {
+    if (!wordOfDay) return;
+    stopKaraoke();
+    setKaraokeLoading(true);
+    setError(null);
+    try {
+      const syllables = syllabifyWord(wordOfDay.word);
+      const res = await api<{ audioContent: string; timepoints: { markName: string; timeSeconds: number }[] }>(
+        '/tts/speak-syllables',
+        { method: 'POST', body: { syllables, rate } },
+      );
+      const bytes = atob(res.audioContent);
+      const buffer = new Uint8Array(bytes.length);
+      for (let i = 0; i < bytes.length; i += 1) buffer[i] = bytes.charCodeAt(i);
+      const url = URL.createObjectURL(new Blob([buffer], { type: 'audio/mpeg' }));
+      const audio = new Audio(url);
+      karaokeAudioRef.current = audio;
+
+      audio.ontimeupdate = () => {
+        let idx: number | null = null;
+        for (let i = 0; i < res.timepoints.length; i += 1) {
+          if (res.timepoints[i].timeSeconds <= audio.currentTime) idx = i;
+        }
+        setActiveSyllable(idx);
+      };
+      audio.onended = () => {
+        setActiveSyllable(null);
+        karaokeAudioRef.current = null;
+        URL.revokeObjectURL(url);
+      };
+
+      setKaraokeLoading(false);
+      audio.play();
+    } catch {
+      setKaraokeLoading(false);
+      setError('Hindi ma-play ang audio ngayon.');
+    }
+  };
+
   const handleTry = () => {
     if (!wordOfDay) return;
+    stopKaraoke();
     setError(null);
     setWasWrongAttempt(false);
     setListening(true);
@@ -131,8 +185,25 @@ export function WordOfDayCard({ streak = 0 }: WordOfDayCardProps) {
         style={{ backgroundColor: 'color-mix(in srgb, var(--color-brand-sun) 10%, white)' }}
       >
         <div className="flex min-h-28 flex-col items-center justify-center gap-4 rounded-2xl bg-white/70 px-6 py-7 text-center shadow-inner">
-          <SyllableKaraokeText syllables={syllabifyWord(wordOfDay.word)} activeIndex={null} colorVar="--color-brand-sun" />
-          <TTSButton text={wordOfDay.word} />
+          <SyllableKaraokeText syllables={syllabifyWord(wordOfDay.word)} activeIndex={activeSyllable} colorVar="--color-brand-sun" />
+          <div className="flex flex-wrap items-center justify-center gap-2">
+            <button
+              type="button"
+              onClick={() => playKaraoke(1)}
+              disabled={karaokeLoading}
+              className="inline-flex items-center gap-2 rounded-full border border-[var(--color-border)] bg-[var(--color-surface)] px-3 py-1.5 text-sm text-[var(--color-text)] hover:border-[var(--color-primary)] disabled:opacity-60"
+            >
+              <IconLabel icon="🔊" label="Basahin nang Malakas" />
+            </button>
+            <button
+              type="button"
+              onClick={() => playKaraoke(0.5)}
+              disabled={karaokeLoading}
+              className="inline-flex items-center gap-2 rounded-full border border-[var(--color-border)] bg-[var(--color-surface)] px-3 py-1.5 text-sm text-[var(--color-text)] hover:border-[var(--color-primary)] disabled:opacity-60"
+            >
+              <IconLabel icon="🐢" label={karaokeLoading ? 'Naglo-load...' : 'Pantig-pantig'} />
+            </button>
+          </div>
         </div>
 
         {isDone ? (

@@ -34,10 +34,10 @@ interface PdfAssignment {
   pdf_materials: { id: string; title: string; extracted_text: string | null; file_url: string; drill_status: string | null } | null;
 }
 
-const STATE_LABEL: Record<ModuleSummary['state'], { icon: string; label: string }> = {
-  locked: { icon: '🔒', label: 'Naka-lock' },
-  unlocked: { icon: '▶️', label: 'Handa nang Simulan' },
-  completed: { icon: '✅', label: 'Tapos na' },
+const STATE_META: Record<ModuleSummary['state'], { icon: string; label: string; textVar: string; bgVar: string; railColor: string }> = {
+  locked: { icon: '🔒', label: 'Naka-lock', textVar: '--color-text-muted', bgVar: '--color-border', railColor: 'var(--color-border)' },
+  unlocked: { icon: '▶️', label: 'Handa Nang Simulan', textVar: '--color-primary', bgVar: '--color-brand-lavender', railColor: 'var(--color-border)' },
+  completed: { icon: '✅', label: 'Tapos na', textVar: '--color-success', bgVar: '--color-success', railColor: 'var(--color-success)' },
 };
 
 const PDF_STATUS_LABEL: Record<string, { icon: string; label: string }> = {
@@ -54,11 +54,15 @@ function ModulesTab() {
     queryFn: () => api<PathResponse>('/student/learn/path', { auth: true }),
   });
 
+  const modules = data?.modules ?? [];
+
   return (
     <div className="flex flex-col gap-6">
-      <p className="text-[var(--color-text-muted)]">
-        {data ? `Kasalukuyang Antas: ${data.effective_level}` : 'Naglo-load...'}
-      </p>
+      {data && (
+        <span className="w-fit rounded-full bg-white/70 px-4 py-1.5 text-sm font-semibold text-[var(--color-primary)] shadow-sm">
+          <IconLabel icon="🎗️" label={`Kasalukuyang Antas: ${data.effective_level}`} />
+        </span>
+      )}
 
       {isLoading && <p>Naglo-load...</p>}
       {error && <p className="text-[var(--color-danger)]">{(error as Error).message}</p>}
@@ -69,34 +73,73 @@ function ModulesTab() {
         </p>
       )}
 
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-        {(data?.modules ?? []).map((m, i) => {
-          const state = STATE_LABEL[m.state];
+      {/* Vertical skill-path: numbered nodes connected by a rail, matching the mobile app's module path design. */}
+      <div className="flex flex-col">
+        {modules.map((m, i) => {
+          const state = STATE_META[m.state];
           const clickable = m.state !== 'locked';
-          const content = (
+          const isLast = i === modules.length - 1;
+          const pct =
+            m.content_item_count > 0 ? Math.round((m.completed_content_item_count / m.content_item_count) * 100) : 0;
+          const prevIncomplete = modules.slice(0, i).find((mm) => mm.state !== 'completed');
+
+          const card = (
             <div
-              className={`rounded-xl border p-6 ${clickable ? 'hover:border-[var(--color-primary)]' : 'opacity-60'}`}
-              style={cardStyle(CARD_COLORS[i % CARD_COLORS.length])}
+              className={`flex-1 rounded-2xl border p-5 shadow-card transition-all ${
+                clickable ? 'hover:-translate-y-0.5 hover:shadow-raised' : 'opacity-70'
+              }`}
+              style={m.state === 'locked' ? { backgroundColor: 'var(--color-surface)', borderColor: 'var(--color-border)' } : cardStyle(CARD_COLORS[i % CARD_COLORS.length], 10, 35)}
             >
-              <p className="text-sm text-[var(--color-text-muted)]">Modyul {m.module_number}</p>
-              <h2 className="mt-1 text-lg font-semibold">{m.title}</h2>
-              <p className="mt-1 text-sm text-[var(--color-text-muted)]">{m.description}</p>
-              <p className="mt-3 text-sm">
-                <IconLabel icon={state.icon} label={state.label} />
-              </p>
-              {m.content_item_count > 0 && (
-                <p className="mt-1 text-sm text-[var(--color-text-muted)]">
-                  {m.completed_content_item_count}/{m.content_item_count} tapos na
-                </p>
+              <div className="flex flex-wrap items-center justify-between gap-2">
+                <span
+                  className="rounded-full px-3 py-1 text-xs font-semibold"
+                  style={{ color: `var(${state.textVar})`, backgroundColor: `color-mix(in srgb, var(${state.bgVar}) 18%, white)` }}
+                >
+                  <IconLabel icon={state.icon} label={state.label} />
+                </span>
+              </div>
+              <h2 className="mt-2 text-lg font-semibold">
+                Modyul {m.module_number}: {m.title}
+              </h2>
+              {m.description && <p className="mt-1 text-sm text-[var(--color-text-muted)]">{m.description}</p>}
+
+              {m.state === 'locked' ? (
+                prevIncomplete && (
+                  <p className="mt-3 text-sm text-[var(--color-text-muted)]">
+                    <IconLabel icon="🔒" label={`Tapusin muna ang Modyul ${prevIncomplete.module_number}`} />
+                  </p>
+                )
+              ) : (
+                m.content_item_count > 0 && (
+                  <div className="mt-3 flex items-center gap-3">
+                    <div className="h-2.5 flex-1 overflow-hidden rounded-full bg-white/70 shadow-inner">
+                      <div
+                        className="h-full rounded-full transition-[width]"
+                        style={{ width: `${pct}%`, backgroundColor: m.state === 'completed' ? 'var(--color-success)' : 'var(--color-primary)' }}
+                      />
+                    </div>
+                    <span className="shrink-0 text-xs font-medium text-[var(--color-text-muted)]">
+                      {m.completed_content_item_count}/{m.content_item_count}
+                    </span>
+                  </div>
+                )
               )}
             </div>
           );
-          return clickable ? (
-            <Link key={m.id} to={`/student/learn/module/${m.id}`}>
-              {content}
-            </Link>
-          ) : (
-            <div key={m.id}>{content}</div>
+
+          return (
+            <div key={m.id} className="flex gap-4">
+              <div className="flex flex-col items-center">
+                <span
+                  className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-sm font-bold text-white shadow-sm"
+                  style={{ backgroundColor: `var(${state.bgVar})` }}
+                >
+                  {m.state === 'completed' ? '✓' : m.module_number}
+                </span>
+                {!isLast && <span className="w-0.5 flex-1 min-h-10" style={{ backgroundColor: state.railColor }} />}
+              </div>
+              <div className="pb-4">{clickable ? <Link to={`/student/learn/module/${m.id}`}>{card}</Link> : card}</div>
+            </div>
           );
         })}
       </div>
