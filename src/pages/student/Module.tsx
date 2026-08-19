@@ -7,6 +7,7 @@ import { CORRECT_MESSAGES, ENCOURAGE_MESSAGES, randomFrom } from '../../lib/feed
 import { TTSButton } from '../../components/a11y/TTSButton';
 import { PronunciationFeedback } from '../../components/PronunciationFeedback';
 import { BadgeUnlockToast } from '../../components/BadgeUnlockToast';
+import { NonsenseWordCheck } from '../../components/NonsenseWordCheck';
 import { IconLabel } from '../../components/a11y/IconLabel';
 import { cardStyle, CARD_COLORS } from '../../lib/cardStyle';
 
@@ -221,6 +222,9 @@ export default function Module() {
           )}
         </div>
       )}
+
+      {allCompleted && <NonsenseWordCheck moduleId={data.module.id} />}
+
       <BadgeUnlockToast badgeIds={newlyUnlockedBadges} onDismiss={() => setNewlyUnlockedBadges([])} />
     </div>
   );

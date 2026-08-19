@@ -4,6 +4,7 @@ const { requireAuth, requireRole } = require('../middleware/auth');
 const { buildReadingProfile } = require('../services/readingInsights');
 const { loadCompletedContentIds } = require('../services/readingProfileData');
 const { checkAndAwardBadges } = require('../lib/badgeEngine');
+const { generateNonsenseWords } = require('../lib/nonsenseWords');
 
 const router = express.Router();
 
@@ -181,6 +182,100 @@ router.post('/learn/assessment/:attemptId/submit', async (req, res) => {
     if (error) throw error;
     const newlyUnlockedBadges = await checkAndAwardBadges(supabaseAdmin, studentId);
     res.json({ ...data, newlyUnlockedBadges });
+  } catch (err) {
+    handleRpcError(res, err);
+  }
+});
+
+// GET /student/learn/module/:moduleId/nonsense-check
+// Phonological-dyslexia-focused decoding check: only meaningful for single-unit
+// (letter/syllable) modules, since it's built by recombining that module's own
+// taught units. Phrase/paragraph modules return available:false.
+router.get('/learn/module/:moduleId/nonsense-check', async (req, res) => {
+  try {
+    const studentId = await resolveStudentId(req.user.id);
+    const { moduleId } = req.params;
+
+    const { data: module, error: moduleErr } = await supabaseAdmin
+      .from('reading_modules')
+      .select('id, instructional_content_type')
+      .eq('id', moduleId)
+      .maybeSingle();
+    if (moduleErr) throw moduleErr;
+    if (!module) return res.status(404).json({ error: 'Module not found.' });
+
+    if (!['phonetic', 'word'].includes(module.instructional_content_type)) {
+      return res.json({ available: false, alreadyCompleted: false, words: [] });
+    }
+
+    const { data: existingCheck, error: existingErr } = await supabaseAdmin
+      .from('student_nonsense_checks')
+      .select('score')
+      .eq('student_id', studentId)
+      .eq('module_id', moduleId)
+      .maybeSingle();
+    if (existingErr) throw existingErr;
+    if (existingCheck) {
+      return res.json({ available: true, alreadyCompleted: true, score: existingCheck.score, words: [] });
+    }
+
+    const words = await generateNonsenseWords(supabaseAdmin, moduleId);
+    if (words.length < 2) return res.json({ available: false, alreadyCompleted: false, words: [] });
+
+    res.json({ available: true, alreadyCompleted: false, words });
+  } catch (err) {
+    handleRpcError(res, err);
+  }
+});
+
+// POST /student/learn/module/:moduleId/nonsense-check/submit  { results: [{word, correct}] }
+// One shot per student+module (enforced by the unique constraint) -- refreshing
+// or replaying can't re-farm XP. XP/badges only apply on the first submission.
+router.post('/learn/module/:moduleId/nonsense-check/submit', async (req, res) => {
+  try {
+    const studentId = await resolveStudentId(req.user.id);
+    const { moduleId } = req.params;
+    const { results } = req.body || {};
+    if (!Array.isArray(results) || results.length === 0) {
+      return res.status(400).json({ error: 'results is required.' });
+    }
+
+    const { data: existingCheck, error: existingErr } = await supabaseAdmin
+      .from('student_nonsense_checks')
+      .select('id, score')
+      .eq('student_id', studentId)
+      .eq('module_id', moduleId)
+      .maybeSingle();
+    if (existingErr) throw existingErr;
+    if (existingCheck) {
+      return res.json({ success: true, alreadyCompleted: true, score: existingCheck.score, xpAwarded: 0, newlyUnlockedBadges: [] });
+    }
+
+    const correctCount = results.filter((r) => r.correct).length;
+    const score = Math.round((correctCount / results.length) * 100);
+    const xpAwarded = correctCount * 15;
+
+    const { error: insertErr } = await supabaseAdmin
+      .from('student_nonsense_checks')
+      .insert({ student_id: studentId, module_id: moduleId, score, xp_awarded: xpAwarded });
+    if (insertErr) throw insertErr;
+
+    let newXp = null;
+    let newlyUnlockedBadges = [];
+    if (xpAwarded > 0) {
+      const { data: progress, error: progressErr } = await supabaseAdmin
+        .from('child_progress')
+        .select('xp')
+        .eq('child_id', studentId)
+        .maybeSingle();
+      if (progressErr) throw progressErr;
+      newXp = (progress?.xp ?? 0) + xpAwarded;
+      const { error: xpErr } = await supabaseAdmin.from('child_progress').update({ xp: newXp }).eq('child_id', studentId);
+      if (xpErr) throw xpErr;
+      newlyUnlockedBadges = await checkAndAwardBadges(supabaseAdmin, studentId);
+    }
+
+    res.json({ success: true, alreadyCompleted: false, score, xpAwarded, newXp, newlyUnlockedBadges });
   } catch (err) {
     handleRpcError(res, err);
   }
