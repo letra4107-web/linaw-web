@@ -188,9 +188,11 @@ router.post('/learn/assessment/:attemptId/submit', async (req, res) => {
 });
 
 // GET /student/learn/module/:moduleId/nonsense-check
-// Phonological-dyslexia-focused decoding check: only meaningful for single-unit
-// (letter/syllable) modules, since it's built by recombining that module's own
-// taught units. Phrase/paragraph modules return available:false.
+// Phonological-dyslexia-focused decoding check, built by recombining that
+// module's own taught units: phonetic/word modules recombine their taught
+// letters/syllables directly; phrase/paragraph modules recombine syllables
+// extracted from their vocabulary instead (see nonsenseWords.js). Only
+// returns available:false if there genuinely aren't enough units to combine.
 router.get('/learn/module/:moduleId/nonsense-check', async (req, res) => {
   try {
     const studentId = await resolveStudentId(req.user.id);
@@ -204,10 +206,6 @@ router.get('/learn/module/:moduleId/nonsense-check', async (req, res) => {
     if (moduleErr) throw moduleErr;
     if (!module) return res.status(404).json({ error: 'Module not found.' });
 
-    if (!['phonetic', 'word'].includes(module.instructional_content_type)) {
-      return res.json({ available: false, alreadyCompleted: false, words: [] });
-    }
-
     const { data: existingCheck, error: existingErr } = await supabaseAdmin
       .from('student_nonsense_checks')
       .select('score')
@@ -219,7 +217,7 @@ router.get('/learn/module/:moduleId/nonsense-check', async (req, res) => {
       return res.json({ available: true, alreadyCompleted: true, score: existingCheck.score, words: [] });
     }
 
-    const words = await generateNonsenseWords(supabaseAdmin, moduleId);
+    const words = await generateNonsenseWords(supabaseAdmin, moduleId, module.instructional_content_type);
     if (words.length < 2) return res.json({ available: false, alreadyCompleted: false, words: [] });
 
     res.json({ available: true, alreadyCompleted: false, words });
