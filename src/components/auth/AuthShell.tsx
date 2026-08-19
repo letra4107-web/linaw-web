@@ -1,6 +1,5 @@
 import { useState, type InputHTMLAttributes, type ReactNode } from 'react';
 import { Link } from 'react-router-dom';
-import { AccessibilityBar } from '../a11y/AccessibilityBar';
 import lookImage from '../../assets/look.webp';
 import bgImage from '../../assets/bg.webp';
 import { cardStyle } from '../../lib/cardStyle';
@@ -54,11 +53,10 @@ export function AuthShell({
         <img src={bgImage} alt="" aria-hidden="true" className="pointer-events-none absolute inset-0 h-full w-full object-cover" />
 
         <div className="relative z-10 flex flex-1 flex-col">
-          <header className="flex items-center justify-between border-b border-[var(--color-border)] px-6 py-4 lg:justify-end">
-            <Link to="/" className="text-xl font-bold text-[var(--color-primary)] lg:hidden">
+          <header className="border-b border-[var(--color-border)] px-6 py-4 lg:hidden">
+            <Link to="/" className="text-xl font-bold text-[var(--color-primary)]">
               LinawLetra
             </Link>
-            <AccessibilityBar />
           </header>
           <main className={`mx-auto flex w-full ${maxWidthClassName} flex-1 flex-col justify-center gap-6 px-6 py-12`}>
             <div className="text-center">
