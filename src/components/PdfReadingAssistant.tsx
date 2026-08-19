@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useMemo, useRef, useState } from 'react';
 import { supabase } from '../lib/supabaseClient';
 import { computeAccuracy, isSpeechRecognitionSupported, listenOnce, normalizeForCompare } from '../lib/speech';
 import { TTSButton } from './a11y/TTSButton';
@@ -29,6 +29,7 @@ export function PdfReadingAssistant({ material, assignmentId, mode, onAttemptRec
   const [error, setError] = useState<string | null>(null);
   const [lastTranscript, setLastTranscript] = useState('');
   const [lastAccuracy, setLastAccuracy] = useState<number | null>(null);
+  const stopListeningRef = useRef<() => void>(() => {});
 
   const text = material.extracted_text?.trim() || '';
   const words = useMemo(() => text.split(/\s+/).filter(Boolean), [text]);
@@ -41,7 +42,7 @@ export function PdfReadingAssistant({ material, assignmentId, mode, onAttemptRec
     }
     setError(null);
     setListening(true);
-    listenOnce(
+    stopListeningRef.current = listenOnce(
       'fil-PH',
       async (transcript) => {
         setListening(false);
@@ -73,6 +74,11 @@ export function PdfReadingAssistant({ material, assignmentId, mode, onAttemptRec
         setError(message);
       },
     );
+  };
+
+  const stopListening = () => {
+    stopListeningRef.current();
+    setListening(false);
   };
 
   const isGood = lastAccuracy !== null && lastAccuracy >= 75;
@@ -162,20 +168,19 @@ export function PdfReadingAssistant({ material, assignmentId, mode, onAttemptRec
         <div className="flex flex-col items-center gap-4 rounded-2xl border p-6" style={cardStyle('--color-brand-sun', 6, 20)}>
           <button
             type="button"
-            onClick={readAloud}
-            disabled={listening}
-            className={`relative flex h-20 w-20 items-center justify-center rounded-full text-3xl text-white shadow-lg transition-transform hover:scale-105 active:scale-95 disabled:opacity-70 ${
+            onClick={listening ? stopListening : readAloud}
+            className={`relative flex h-20 w-20 items-center justify-center rounded-full text-3xl text-white shadow-lg transition-transform hover:scale-105 active:scale-95 ${
               listening ? 'bg-[var(--color-danger)]' : ''
             }`}
             style={!listening ? { backgroundImage: 'linear-gradient(135deg, var(--color-hero-from), var(--color-hero-via))' } : undefined}
           >
             {listening && <span className="absolute inset-0 animate-ping rounded-full bg-[var(--color-danger)]/60" />}
             <span className="relative" aria-hidden="true">
-              🎤
+              {listening ? '⏹️' : '🎤'}
             </span>
           </button>
           <p className="text-sm font-medium text-[var(--color-text-muted)]">
-            {listening ? 'Nakikinig...' : 'Pindutin at basahin nang malakas'}
+            {listening ? 'Nakikinig... (pindutin para ihinto)' : 'Pindutin at basahin nang malakas'}
           </p>
 
           {error && (
