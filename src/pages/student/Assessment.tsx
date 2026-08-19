@@ -3,7 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { useMutation } from '@tanstack/react-query';
 import { api } from '../../lib/api';
 import { computeAccuracy, isSpeechRecognitionSupported, listenOnce } from '../../lib/speech';
-import { playTts, playTtsSequence } from '../../lib/ttsPlayer';
+import { playTtsSequence } from '../../lib/ttsPlayer';
 import { TTSButton } from '../../components/a11y/TTSButton';
 import { BadgeUnlockToast } from '../../components/BadgeUnlockToast';
 import { IconLabel } from '../../components/a11y/IconLabel';
@@ -47,7 +47,6 @@ export default function Assessment() {
   const [listeningFor, setListeningFor] = useState<string | null>(null);
   const [result, setResult] = useState<SubmitResult | null>(null);
   const [readingChoicesFor, setReadingChoicesFor] = useState<string | null>(null);
-  const [playingChoice, setPlayingChoice] = useState<string | null>(null);
   const [newlyUnlockedBadges, setNewlyUnlockedBadges] = useState<string[]>([]);
 
   const startMutation = useMutation({
@@ -121,16 +120,6 @@ export default function Assessment() {
       await playTtsSequence([item.content_text, ...item.answer_options]);
     } finally {
       setReadingChoicesFor(null);
-    }
-  };
-
-  const playChoice = async (text: string) => {
-    if (playingChoice) return;
-    setPlayingChoice(text);
-    try {
-      await playTts(text);
-    } finally {
-      setPlayingChoice(null);
     }
   };
 
@@ -223,10 +212,8 @@ export default function Assessment() {
             className={`rounded-2xl border p-6 shadow-card ${isAnswered ? 'border-[var(--color-primary)] bg-[var(--color-primary)]/5' : ''}`}
             style={isAnswered ? undefined : cardStyle(CARD_COLORS[idx % CARD_COLORS.length], 10, 35)}
           >
-            <p className="mb-2 text-sm font-semibold text-[var(--color-text-muted)]">Tanong {idx + 1} ng {started.items.length}</p>
             <div className="mb-4 flex items-center gap-3">
               <p className="text-xl font-medium">{item.content_text}</p>
-              <TTSButton text={item.content_text} />
             </div>
 
             {item.answer_options ? (
@@ -239,45 +226,38 @@ export default function Assessment() {
                 >
                   <IconLabel
                     icon="🔊"
-                    label={readingChoicesFor === item.assessment_item_id ? 'Binabasa...' : 'Basahin ang mga Pagpipilian'}
+                    label={readingChoicesFor === item.assessment_item_id ? 'Binabasa...' : 'Basahin nang Malakas'}
                   />
                 </button>
                 <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
                   {item.answer_options.map((opt, i) => (
-                    <div key={opt} className="flex items-center gap-2">
-                      <button
-                        type="button"
-                        aria-label={`Pakinggan: ${opt}`}
-                        onClick={() => playChoice(opt)}
-                        disabled={Boolean(playingChoice)}
-                        className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border-2 border-white bg-white/70 text-lg hover:border-[var(--color-primary)] disabled:opacity-60"
-                      >
-                        {playingChoice === opt ? '⏳' : '🔊'}
-                      </button>
-                      <button
-                        type="button"
-                        disabled={isAnswered}
-                        onClick={() => answerMultipleChoice(item, i)}
-                        className="flex-1 rounded-xl border-2 border-white bg-white/70 px-4 py-3 text-left font-medium transition-all hover:border-[var(--color-primary)] hover:-translate-y-0.5 disabled:opacity-60 disabled:hover:translate-y-0"
-                      >
-                        {opt}
-                      </button>
-                    </div>
+                    <button
+                      key={opt}
+                      type="button"
+                      disabled={isAnswered}
+                      onClick={() => answerMultipleChoice(item, i)}
+                      className="flex-1 rounded-xl border-2 border-white bg-white/70 px-4 py-3 text-left font-medium transition-all hover:border-[var(--color-primary)] hover:-translate-y-0.5 disabled:opacity-60 disabled:hover:translate-y-0"
+                    >
+                      {opt}
+                    </button>
                   ))}
                 </div>
               </div>
             ) : (
-              <button
-                type="button"
-                disabled={isAnswered || listeningFor === item.content_id}
-                onClick={() => practiceSpeech(item)}
-                className="rounded-full bg-[var(--color-primary)] px-4 py-2 text-sm text-white shadow-card transition-all hover:-translate-y-0.5 hover:shadow-raised active:scale-95 disabled:translate-y-0 disabled:opacity-60"
-              >
-                <IconLabel
-                  icon="🎤"
-                  label={isAnswered ? 'Nasagot na' : listeningFor === item.content_id ? 'Nakikinig...' : 'Bigkasin'}
-                />
-              </button>
+              <div className="flex flex-wrap items-center gap-3">
+                <TTSButton text={item.content_text} />
+                <button
+                  type="button"
+                  disabled={isAnswered || listeningFor === item.content_id}
+                  onClick={() => practiceSpeech(item)}
+                  className="rounded-full bg-[var(--color-primary)] px-4 py-2 text-sm text-white shadow-card transition-all hover:-translate-y-0.5 hover:shadow-raised active:scale-95 disabled:translate-y-0 disabled:opacity-60"
+                >
+                  <IconLabel
+                    icon="🎤"
+                    label={isAnswered ? 'Nasagot na' : listeningFor === item.content_id ? 'Nakikinig...' : 'Bigkasin'}
+                  />
+                </button>
+              </div>
             )}
           </div>
         );
