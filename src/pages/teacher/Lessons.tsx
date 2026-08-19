@@ -5,6 +5,9 @@ import { useAuth } from '../../lib/auth/AuthContext';
 import { IconLabel } from '../../components/a11y/IconLabel';
 import { cardStyle, CARD_COLORS } from '../../lib/cardStyle';
 
+const SUBJECTS = ['Filipino', 'Ingles', 'Matematika', 'Agham', 'Araling Panlipunan', 'MAPEH'];
+const GRADES = [1, 2, 3, 4, 5, 6];
+
 interface Lesson {
   id: string;
   title: string;
@@ -124,18 +127,30 @@ export default function Lessons() {
           className="rounded-lg border border-[var(--color-border)] px-4 py-2"
         />
         <div className="grid grid-cols-2 gap-3">
-          <input
+          <select
             value={subject}
             onChange={(e) => setSubject(e.target.value)}
-            placeholder="Asignatura"
             className="rounded-lg border border-[var(--color-border)] px-4 py-2"
-          />
-          <input
+          >
+            <option value="">Asignatura</option>
+            {SUBJECTS.map((s) => (
+              <option key={s} value={s}>
+                {s}
+              </option>
+            ))}
+          </select>
+          <select
             value={gradeLevel}
             onChange={(e) => setGradeLevel(e.target.value)}
-            placeholder="Baitang"
             className="rounded-lg border border-[var(--color-border)] px-4 py-2"
-          />
+          >
+            <option value="">Baitang</option>
+            {GRADES.map((g) => (
+              <option key={g} value={g}>
+                Grade {g}
+              </option>
+            ))}
+          </select>
         </div>
         <input
           type="file"

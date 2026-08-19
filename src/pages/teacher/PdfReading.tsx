@@ -23,6 +23,8 @@ const DRILL_STATUS_LABEL: Record<string, string> = {
   published: 'Nai-publish',
 };
 
+const GRADES = [1, 2, 3, 4, 5, 6];
+
 interface RosterChild {
   id: string;
   student_id: string;
@@ -197,12 +199,18 @@ export default function PdfReading() {
           className="rounded-lg border border-[var(--color-border)] px-4 py-2"
         />
         <div className="grid grid-cols-2 gap-3">
-          <input
+          <select
             value={gradeLevel}
             onChange={(e) => setGradeLevel(e.target.value)}
-            placeholder="Baitang (hal. 3)"
             className="rounded-lg border border-[var(--color-border)] px-4 py-2"
-          />
+          >
+            <option value="">Baitang</option>
+            {GRADES.map((g) => (
+              <option key={g} value={g}>
+                Grade {g}
+              </option>
+            ))}
+          </select>
           <select
             value={level}
             onChange={(e) => setLevel(e.target.value)}
