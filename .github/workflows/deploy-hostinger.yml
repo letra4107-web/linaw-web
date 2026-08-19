@@ -4,6 +4,10 @@ on:
   push:
     branches: [main]
 
+concurrency:
+  group: deploy-hostinger
+  cancel-in-progress: true
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -33,6 +37,7 @@ jobs:
           server: ${{ secrets.HOSTINGER_FTP_HOST }}
           username: ${{ secrets.HOSTINGER_FTP_USERNAME }}
           password: ${{ secrets.HOSTINGER_FTP_PASSWORD }}
-          protocol: ftps
+          protocol: ftp
           local-dir: ./dist/
           server-dir: ./
+          log-level: verbose
