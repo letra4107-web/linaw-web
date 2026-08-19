@@ -5,6 +5,7 @@ const { buildReadingProfile } = require('../services/readingInsights');
 const { loadCompletedContentIds } = require('../services/readingProfileData');
 const { checkAndAwardBadges } = require('../lib/badgeEngine');
 const { generateNonsenseWords } = require('../lib/nonsenseWords');
+const { extractChallengeWords } = require('../lib/challengeWords');
 
 const router = express.Router();
 
@@ -274,6 +275,35 @@ router.post('/learn/module/:moduleId/nonsense-check/submit', async (req, res) =>
     }
 
     res.json({ success: true, alreadyCompleted: false, score, xpAwarded, newXp, newlyUnlockedBadges });
+  } catch (err) {
+    handleRpcError(res, err);
+  }
+});
+
+// GET /student/learn/module/:moduleId/challenge-words
+// Decoding warm-up shown before a story-type (paragraph) module: the 3+
+// syllable words straight out of that story's own text. Ungated, no
+// persistence -- purely formative practice, not scored/tracked like the
+// nonsense-word check.
+router.get('/learn/module/:moduleId/challenge-words', async (req, res) => {
+  try {
+    await resolveStudentId(req.user.id);
+    const { moduleId } = req.params;
+
+    const { data: module, error: moduleErr } = await supabaseAdmin
+      .from('reading_modules')
+      .select('id, instructional_content_type')
+      .eq('id', moduleId)
+      .maybeSingle();
+    if (moduleErr) throw moduleErr;
+    if (!module) return res.status(404).json({ error: 'Module not found.' });
+
+    if (module.instructional_content_type !== 'paragraph') {
+      return res.json({ available: false, words: [] });
+    }
+
+    const words = await extractChallengeWords(supabaseAdmin, moduleId);
+    res.json({ available: words.length > 0, words });
   } catch (err) {
     handleRpcError(res, err);
   }

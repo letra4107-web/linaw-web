@@ -8,6 +8,7 @@ import { TTSButton } from '../../components/a11y/TTSButton';
 import { PronunciationFeedback } from '../../components/PronunciationFeedback';
 import { BadgeUnlockToast } from '../../components/BadgeUnlockToast';
 import { NonsenseWordCheck } from '../../components/NonsenseWordCheck';
+import { ChallengeWordsPractice } from '../../components/ChallengeWordsPractice';
 import { IconLabel } from '../../components/a11y/IconLabel';
 import { cardStyle, CARD_COLORS } from '../../lib/cardStyle';
 
@@ -130,6 +131,8 @@ export default function Module() {
       </div>
 
       {error && <p className="text-[var(--color-danger)]">{error}</p>}
+
+      {data.module.instructional_content_type === 'paragraph' && <ChallengeWordsPractice moduleId={data.module.id} />}
 
       {/* Short items (single letters/syllables/words) get a compact tile grid instead of
           a full-width row each -- a full-width flex row around one short letter left most
