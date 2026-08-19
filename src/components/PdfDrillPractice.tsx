@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useMemo, useRef, useState } from 'react';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { api } from '../lib/api';
 import { computeAccuracy, isSpeechRecognitionSupported, listenOnce } from '../lib/speech';
@@ -35,6 +35,7 @@ export function PdfDrillPractice({ assignmentId }: PdfDrillPracticeProps) {
   const [lastHeard, setLastHeard] = useState('');
   const [result, setResult] = useState<{ correct: boolean; message: string; xpAwarded: number } | null>(null);
   const [speechError, setSpeechError] = useState<string | null>(null);
+  const stopListeningRef = useRef<() => void>(() => {});
 
   const { data, isLoading } = useQuery({
     queryKey: ['pdf-drill', assignmentId],
@@ -51,7 +52,7 @@ export function PdfDrillPractice({ assignmentId }: PdfDrillPracticeProps) {
     if (!current) return;
     setSpeechError(null);
     setListening(true);
-    listenOnce(
+    stopListeningRef.current = listenOnce(
       'fil-PH',
       async (transcript) => {
         setListening(false);
@@ -83,6 +84,11 @@ export function PdfDrillPractice({ assignmentId }: PdfDrillPracticeProps) {
         setSpeechError(message);
       },
     );
+  };
+
+  const stopListening = () => {
+    stopListeningRef.current();
+    setListening(false);
   };
 
   const next = () => {
@@ -163,19 +169,18 @@ export function PdfDrillPractice({ assignmentId }: PdfDrillPracticeProps) {
           ) : (
             <button
               type="button"
-              onClick={attempt}
-              disabled={listening}
-              className={`relative flex h-20 w-20 items-center justify-center rounded-full text-3xl text-white shadow-lg transition-transform hover:scale-105 active:scale-95 disabled:opacity-70 ${
+              onClick={listening ? stopListening : attempt}
+              className={`relative flex h-20 w-20 items-center justify-center rounded-full text-3xl text-white shadow-lg transition-transform hover:scale-105 active:scale-95 ${
                 listening ? 'bg-[var(--color-danger)]' : ''
               }`}
               style={!listening ? { backgroundImage: 'linear-gradient(135deg, var(--color-hero-from), var(--color-hero-via))' } : undefined}
             >
               {listening && <span className="absolute inset-0 animate-ping rounded-full bg-[var(--color-danger)]/60" />}
-              <span className="relative">🎤</span>
+              <span className="relative">{listening ? '⏹️' : '🎤'}</span>
             </button>
           )}
           <p className="text-sm font-medium text-[var(--color-text-muted)]">
-            {listening ? 'Nakikinig...' : 'Pindutin ang mic at bigkasin'}
+            {listening ? 'Nakikinig... (pindutin para ihinto)' : 'Pindutin ang mic at bigkasin'}
           </p>
           {speechError && (
             <p className="w-full rounded-xl bg-[var(--color-danger-soft)] px-4 py-2.5 text-center text-sm text-[var(--color-danger)]">
