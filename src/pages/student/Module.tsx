@@ -6,6 +6,7 @@ import { computeAccuracy, isSpeechRecognitionSupported, listenOnce } from '../..
 import { CORRECT_MESSAGES, ENCOURAGE_MESSAGES, randomFrom } from '../../lib/feedbackMessages';
 import { TTSButton } from '../../components/a11y/TTSButton';
 import { PronunciationFeedback } from '../../components/PronunciationFeedback';
+import { BadgeUnlockToast } from '../../components/BadgeUnlockToast';
 import { IconLabel } from '../../components/a11y/IconLabel';
 import { cardStyle, CARD_COLORS } from '../../lib/cardStyle';
 
@@ -38,6 +39,7 @@ export default function Module() {
     { contentId: string; transcript: string; accuracy: number; correct: boolean; message: string } | null
   >(null);
   const [error, setError] = useState<string | null>(null);
+  const [newlyUnlockedBadges, setNewlyUnlockedBadges] = useState<string[]>([]);
 
   const { data, isLoading } = useQuery({
     queryKey: ['student-module', moduleId],
@@ -48,7 +50,7 @@ export default function Module() {
   const submitAttempt = useMutation({
     mutationFn: async ({ contentId, transcript, accuracy }: { contentId: string; transcript: string; accuracy: number }) => {
       const isParagraph = data?.module.instructional_content_type === 'paragraph';
-      await api(`/student/learn/content/${contentId}/attempt`, {
+      const res = await api<{ newlyUnlockedBadges?: string[] }>(`/student/learn/content/${contentId}/attempt`, {
         method: 'POST',
         auth: true,
         body: {
@@ -58,8 +60,10 @@ export default function Module() {
           source: 'practice',
         },
       });
+      return res;
     },
-    onSuccess: () => {
+    onSuccess: (res) => {
+      if (res.newlyUnlockedBadges?.length) setNewlyUnlockedBadges(res.newlyUnlockedBadges);
       queryClient.invalidateQueries({ queryKey: ['student-module', moduleId] });
       queryClient.invalidateQueries({ queryKey: ['student-learn-path'] });
     },
@@ -126,61 +130,80 @@ export default function Module() {
 
       {error && <p className="text-[var(--color-danger)]">{error}</p>}
 
-      <div className="flex flex-col gap-4">
-        {data.items.map((item, i) => {
-          // Each word unlocks only once the one before it is completed -- keeps the
-          // student reading in the module's intended order instead of skipping ahead.
-          const isLocked = i > 0 && !data.items[i - 1].completed;
-          return (
-            <div
-              key={item.module_item_id}
-              className={`rounded-xl border p-6 ${
-                item.completed ? 'border-[var(--color-primary)] bg-[var(--color-primary)]/5' : isLocked ? 'opacity-60' : ''
-              }`}
-              style={item.completed ? undefined : cardStyle(CARD_COLORS[i % CARD_COLORS.length])}
-            >
-              <div className="flex items-center justify-between gap-4">
-                <p className="text-2xl font-medium">{isLocked ? '••••' : item.content_text}</p>
-                {!isLocked && <TTSButton text={item.content_text} />}
-              </div>
-              <div className="mt-4 flex items-center gap-3">
-                {isLocked ? (
-                  <span className="text-sm text-[var(--color-text-muted)]">
-                    <IconLabel icon="🔒" label="Tapusin muna ang nakaraang salita" />
-                  </span>
-                ) : (
-                  <button
-                    type="button"
-                    onClick={() => practice(item)}
-                    disabled={listeningFor === item.content_id}
-                    className="rounded-full bg-[var(--color-primary)] px-4 py-2 text-sm text-white disabled:opacity-60"
-                  >
-                    <IconLabel
-                      icon="🎤"
-                      label={listeningFor === item.content_id ? 'Nakikinig...' : item.completed ? 'Ulitin' : 'Bigkasin'}
+      {/* Short items (single letters/syllables/words) get a compact tile grid instead of
+          a full-width row each -- a full-width flex row around one short letter left most
+          of the card as dead horizontal space. Longer items (phrases/paragraphs) keep the
+          single-column layout since they need the width to read comfortably. */}
+      {(() => {
+        const isCompact = data.module.instructional_content_type === 'phonetic' || data.module.instructional_content_type === 'word';
+        return (
+          <div className={isCompact ? 'grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4' : 'flex flex-col gap-4'}>
+            {data.items.map((item, i) => {
+              // Each word unlocks only once the one before it is completed -- keeps the
+              // student reading in the module's intended order instead of skipping ahead.
+              const isLocked = i > 0 && !data.items[i - 1].completed;
+              return (
+                <div
+                  key={item.module_item_id}
+                  className={`rounded-xl border p-5 ${isCompact ? 'flex flex-col items-center gap-3 text-center' : ''} ${
+                    item.completed ? 'border-[var(--color-primary)] bg-[var(--color-primary)]/5' : isLocked ? 'opacity-60' : ''
+                  }`}
+                  style={item.completed ? undefined : cardStyle(CARD_COLORS[i % CARD_COLORS.length])}
+                >
+                  <div className={isCompact ? 'flex flex-col items-center gap-2' : 'flex items-center justify-between gap-4'}>
+                    <p className={isCompact ? 'text-3xl font-bold' : 'text-2xl font-medium'}>{isLocked ? '••••' : item.content_text}</p>
+                    {!isLocked && <TTSButton text={item.content_text} />}
+                  </div>
+                  <div className={`flex items-center gap-3 ${isCompact ? 'flex-col' : 'mt-4'}`}>
+                    {isLocked ? (
+                      <span className="text-sm text-[var(--color-text-muted)]">
+                        <IconLabel icon="🔒" label="Tapusin muna ang nakaraang salita" />
+                      </span>
+                    ) : (
+                      <button
+                        type="button"
+                        onClick={() => practice(item)}
+                        disabled={listeningFor === item.content_id}
+                        className="rounded-full bg-[var(--color-primary)] px-4 py-2 text-sm text-white disabled:opacity-60"
+                      >
+                        <IconLabel
+                          icon="🎤"
+                          label={listeningFor === item.content_id ? 'Nakikinig...' : item.completed ? 'Ulitin' : 'Bigkasin'}
+                        />
+                      </button>
+                    )}
+                    {item.completed && (
+                      <span className="text-sm text-[var(--color-primary)]">
+                        <IconLabel icon="✅" label="Tapos na" />
+                      </span>
+                    )}
+                  </div>
+                  {!isCompact && !isLocked && lastResult?.contentId === item.content_id && (
+                    <PronunciationFeedback
+                      className="mt-3"
+                      correct={lastResult.correct}
+                      message={lastResult.message}
+                      detail={`Narinig: "${lastResult.transcript}"`}
+                      hint={!lastResult.correct ? 'Ulitin natin, pakinggan mo ang tamang bigkas! 🔊' : undefined}
+                      word={!lastResult.correct ? item.content_text : undefined}
                     />
-                  </button>
-                )}
-                {item.completed && (
-                  <span className="text-sm text-[var(--color-primary)]">
-                    <IconLabel icon="✅" label="Tapos na" />
-                  </span>
-                )}
-              </div>
-              {!isLocked && lastResult?.contentId === item.content_id && (
-                <PronunciationFeedback
-                  className="mt-3"
-                  correct={lastResult.correct}
-                  message={lastResult.message}
-                  detail={`Narinig: "${lastResult.transcript}"`}
-                  hint={!lastResult.correct ? 'Ulitin natin, pakinggan mo ang tamang bigkas! 🔊' : undefined}
-                  word={!lastResult.correct ? item.content_text : undefined}
-                />
-              )}
-            </div>
-          );
-        })}
-      </div>
+                  )}
+                </div>
+              );
+            })}
+          </div>
+        );
+      })()}
+
+      {lastResult && data.items.some((item) => item.content_id === lastResult.contentId) && (
+        <PronunciationFeedback
+          correct={lastResult.correct}
+          message={lastResult.message}
+          detail={`Narinig: "${lastResult.transcript}"`}
+          hint={!lastResult.correct ? 'Ulitin natin, pakinggan mo ang tamang bigkas! 🔊' : undefined}
+          word={!lastResult.correct ? data.items.find((item) => item.content_id === lastResult.contentId)?.content_text : undefined}
+        />
+      )}
 
       {data.module.assessment_id && (
         <div className="rounded-xl border p-6" style={cardStyle('--color-brand-violet')}>
@@ -198,6 +221,7 @@ export default function Module() {
           )}
         </div>
       )}
+      <BadgeUnlockToast badgeIds={newlyUnlockedBadges} onDismiss={() => setNewlyUnlockedBadges([])} />
     </div>
   );
 }

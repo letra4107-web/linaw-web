@@ -3,6 +3,7 @@ const { supabaseAdmin } = require('../config/supabase');
 const { requireAuth, requireRole } = require('../middleware/auth');
 const { buildReadingProfile } = require('../services/readingInsights');
 const { loadCompletedContentIds } = require('../services/readingProfileData');
+const { checkAndAwardBadges } = require('../lib/badgeEngine');
 
 const router = express.Router();
 
@@ -112,11 +113,45 @@ router.post('/learn/content/:contentId/attempt', async (req, res) => {
       p_source: source || 'practice',
     });
     if (error) throw error;
-    res.json(data);
+    const newlyUnlockedBadges = await checkAndAwardBadges(supabaseAdmin, studentId);
+    res.json({ ...data, newlyUnlockedBadges });
   } catch (err) {
     handleRpcError(res, err);
   }
 });
+
+// Shuffles an array in place (Fisher-Yates) using a fresh copy.
+function shuffled(arr) {
+  const copy = [...arr];
+  for (let i = copy.length - 1; i > 0; i -= 1) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [copy[i], copy[j]] = [copy[j], copy[i]];
+  }
+  return copy;
+}
+
+// start_module_assessment never populates answer_options/correct_answer_index for any
+// module in this curriculum today (they're reserved DB columns for a future authored
+// reading-comprehension item type -- confirmed empty for every existing Beginner/
+// Intermediate module). To let the student pick an answer by listening ("babasahin ng
+// system, huhulaan ng bata ang tunog"), synthesize 4-option multiple choice here using
+// the assessment's own other items as the distractor pool -- the same item set the
+// module already teaches, so every option is something the student has practiced.
+// Only applied when the RPC didn't already supply real options, and only when there
+// are enough sibling items to form 3 distinct wrong answers.
+function synthesizeAnswerOptions(items) {
+  return items.map((item) => {
+    if (item.answer_options) return item;
+    const pool = items
+      .filter((other) => other.assessment_item_id !== item.assessment_item_id && other.content_text !== item.content_text)
+      .map((other) => other.content_text);
+    const uniquePool = [...new Set(pool)];
+    if (uniquePool.length < 3) return item;
+    const distractors = shuffled(uniquePool).slice(0, 3);
+    const options = shuffled([item.content_text, ...distractors]);
+    return { ...item, answer_options: options, correct_answer_index: options.indexOf(item.content_text) };
+  });
+}
 
 // POST /student/learn/assessment/:assessmentId/start
 router.post('/learn/assessment/:assessmentId/start', async (req, res) => {
@@ -127,7 +162,7 @@ router.post('/learn/assessment/:assessmentId/start', async (req, res) => {
       p_assessment_id: req.params.assessmentId,
     });
     if (error) throw error;
-    res.json(data);
+    res.json({ ...data, items: synthesizeAnswerOptions(data.items || []) });
   } catch (err) {
     handleRpcError(res, err);
   }
@@ -144,7 +179,8 @@ router.post('/learn/assessment/:attemptId/submit', async (req, res) => {
       p_responses: responses || [],
     });
     if (error) throw error;
-    res.json(data);
+    const newlyUnlockedBadges = await checkAndAwardBadges(supabaseAdmin, studentId);
+    res.json({ ...data, newlyUnlockedBadges });
   } catch (err) {
     handleRpcError(res, err);
   }
@@ -260,19 +296,47 @@ router.post('/word-of-day/attempt', async (req, res) => {
     if (updErr) throw updErr;
 
     let newXp = null;
+    let newStreak = null;
+    let newlyUnlockedBadges = [];
     if (isFinal && isCorrect) {
       const { data: progress, error: progressErr } = await supabaseAdmin
         .from('child_progress')
-        .select('xp')
+        .select('xp, streak, longest_streak, last_practice_date')
         .eq('child_id', studentId)
         .maybeSingle();
       if (progressErr) throw progressErr;
       newXp = (progress?.xp ?? 0) + (bonusXp ?? 25);
-      const { error: xpErr } = await supabaseAdmin.from('child_progress').update({ xp: newXp }).eq('child_id', studentId);
+
+      // Mirrors mobile's complete_word_of_day_attempt streak rule (its migrations
+      // 022/031): already practiced today -> keep streak (min 1); practiced
+      // yesterday -> +1; any bigger gap (or first-ever) -> reset to 1. Streak is
+      // owned exclusively by a correct Word of the Day completion, same as mobile.
+      const today = new Date().toISOString().slice(0, 10);
+      const yesterday = new Date(Date.now() - 86400000).toISOString().slice(0, 10);
+      const prevStreak = progress?.streak ?? 0;
+      if (progress?.last_practice_date === today) newStreak = Math.max(prevStreak, 1);
+      else if (progress?.last_practice_date === yesterday) newStreak = prevStreak + 1;
+      else newStreak = 1;
+      const newLongestStreak = Math.max(progress?.longest_streak ?? 0, newStreak);
+
+      const { error: xpErr } = await supabaseAdmin
+        .from('child_progress')
+        .update({ xp: newXp, streak: newStreak, longest_streak: newLongestStreak, last_practice_date: today })
+        .eq('child_id', studentId);
       if (xpErr) throw xpErr;
+
+      newlyUnlockedBadges = await checkAndAwardBadges(supabaseAdmin, studentId);
     }
 
-    res.json({ success: true, isFinal, correct: isFinal ? isCorrect : null, xpAwarded: isFinal && isCorrect ? (bonusXp ?? 25) : 0, newXp });
+    res.json({
+      success: true,
+      isFinal,
+      correct: isFinal ? isCorrect : null,
+      xpAwarded: isFinal && isCorrect ? (bonusXp ?? 25) : 0,
+      newXp,
+      newStreak,
+      newlyUnlockedBadges,
+    });
   } catch (err) {
     handleRpcError(res, err);
   }
@@ -449,7 +513,9 @@ router.post('/pdf-drill/attempt', async (req, res) => {
       }
     }
 
-    res.json({ success: true, correct: isCorrect, xpAwarded, newXp, drillCompleted: justCompletedDrill });
+    const newlyUnlockedBadges = xpAwarded > 0 ? await checkAndAwardBadges(supabaseAdmin, studentId) : [];
+
+    res.json({ success: true, correct: isCorrect, xpAwarded, newXp, drillCompleted: justCompletedDrill, newlyUnlockedBadges });
   } catch (err) {
     handleRpcError(res, err);
   }

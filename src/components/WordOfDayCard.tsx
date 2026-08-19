@@ -9,6 +9,7 @@ import { syllabifyWord } from '../lib/syllabify';
 import { CORRECT_MESSAGES, ENCOURAGE_MESSAGES, randomFrom } from '../lib/feedbackMessages';
 import { SyllableKaraokeText } from './SyllableKaraokeText';
 import { PronunciationFeedback } from './PronunciationFeedback';
+import { BadgeUnlockToast } from './BadgeUnlockToast';
 import { IconLabel } from './a11y/IconLabel';
 
 interface WordOfDayCardProps {
@@ -29,6 +30,7 @@ export function WordOfDayCard({ streak = 0 }: WordOfDayCardProps) {
   const [justAnswered, setJustAnswered] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [justAwardedXp, setJustAwardedXp] = useState<number | null>(null);
+  const [newlyUnlockedBadges, setNewlyUnlockedBadges] = useState<string[]>([]);
   const [activeSyllable, setActiveSyllable] = useState<number | null>(null);
   const [karaokeLoading, setKaraokeLoading] = useState(false);
   const karaokeAudioRef = useRef<HTMLAudioElement | null>(null);
@@ -134,15 +136,18 @@ export function WordOfDayCard({ streak = 0 }: WordOfDayCardProps) {
         const nextAttempts = attemptsUsed + 1;
 
         try {
-          const res = await api<{ xpAwarded: number; isFinal: boolean; correct: boolean | null }>(
-            '/student/word-of-day/attempt',
-            {
-              method: 'POST',
-              auth: true,
-              body: { logId: wordOfDay.id, attempts: nextAttempts, correct, accuracy, bonusXp: BONUS_XP },
-            },
-          );
+          const res = await api<{
+            xpAwarded: number;
+            isFinal: boolean;
+            correct: boolean | null;
+            newlyUnlockedBadges?: string[];
+          }>('/student/word-of-day/attempt', {
+            method: 'POST',
+            auth: true,
+            body: { logId: wordOfDay.id, attempts: nextAttempts, correct, accuracy, bonusXp: BONUS_XP },
+          });
           if (res.isFinal && res.correct) setJustAwardedXp(res.xpAwarded);
+          if (res.newlyUnlockedBadges?.length) setNewlyUnlockedBadges(res.newlyUnlockedBadges);
           setFeedbackMessage(res.isFinal && res.correct ? randomFrom(CORRECT_MESSAGES) : randomFrom(ENCOURAGE_MESSAGES));
           setJustAnswered(true);
           if (!res.isFinal) setWasWrongAttempt(true);
@@ -277,6 +282,7 @@ export function WordOfDayCard({ streak = 0 }: WordOfDayCardProps) {
         )}
       </div>
       {justAwardedXp !== null && <span className="sr-only">Nakakuha ng {justAwardedXp} XP</span>}
+      <BadgeUnlockToast badgeIds={newlyUnlockedBadges} onDismiss={() => setNewlyUnlockedBadges([])} />
     </div>
   );
 }

@@ -5,6 +5,7 @@ import { api } from '../../lib/api';
 import { computeAccuracy, isSpeechRecognitionSupported, listenOnce } from '../../lib/speech';
 import { playTts, playTtsSequence } from '../../lib/ttsPlayer';
 import { TTSButton } from '../../components/a11y/TTSButton';
+import { BadgeUnlockToast } from '../../components/BadgeUnlockToast';
 import { IconLabel } from '../../components/a11y/IconLabel';
 import { cardStyle, CARD_COLORS } from '../../lib/cardStyle';
 
@@ -47,6 +48,7 @@ export default function Assessment() {
   const [result, setResult] = useState<SubmitResult | null>(null);
   const [readingChoicesFor, setReadingChoicesFor] = useState<string | null>(null);
   const [playingChoice, setPlayingChoice] = useState<string | null>(null);
+  const [newlyUnlockedBadges, setNewlyUnlockedBadges] = useState<string[]>([]);
 
   const startMutation = useMutation({
     mutationFn: () => api<StartResponse>(`/student/learn/assessment/${assessmentId}/start`, { method: 'POST', auth: true }),
@@ -88,12 +90,15 @@ export default function Assessment() {
 
   const submitMutation = useMutation({
     mutationFn: () =>
-      api<SubmitResult>(`/student/learn/assessment/${started!.attempt_id}/submit`, {
+      api<SubmitResult & { newlyUnlockedBadges?: string[] }>(`/student/learn/assessment/${started!.attempt_id}/submit`, {
         method: 'POST',
         auth: true,
         body: { responses: Object.values(answers) },
       }),
-    onSuccess: (data) => setResult(data),
+    onSuccess: (data) => {
+      setResult(data);
+      if (data.newlyUnlockedBadges?.length) setNewlyUnlockedBadges(data.newlyUnlockedBadges);
+    },
     onError: (err: Error) => setError(err.message),
   });
 
@@ -177,6 +182,7 @@ export default function Assessment() {
         >
           {result.passed ? 'Tingnan ang Susunod' : 'Bumalik sa Modyul'}
         </button>
+        <BadgeUnlockToast badgeIds={newlyUnlockedBadges} onDismiss={() => setNewlyUnlockedBadges([])} />
       </div>
     );
   }
