@@ -134,13 +134,78 @@ export default function Module() {
 
       {data.module.instructional_content_type === 'paragraph' && <ChallengeWordsPractice moduleId={data.module.id} />}
 
-      {/* Short items (single letters/syllables/words) get a compact tile grid instead of
-          a full-width row each -- a full-width flex row around one short letter left most
-          of the card as dead horizontal space. Longer items (phrases/paragraphs) keep the
-          single-column layout since they need the width to read comfortably. */}
-      {(() => {
-        const isCompact = data.module.instructional_content_type === 'phonetic' || data.module.instructional_content_type === 'word';
-        return (
+      {/* Story (paragraph) modules get their own storybook-page treatment -- large,
+          relaxed-leading text on a parchment-toned page instead of the dense drill-card
+          layout used for letters/words/phrases, since a story is meant to be read through,
+          not drilled item by item. */}
+      {data.module.instructional_content_type === 'paragraph' ? (
+        <div className="flex flex-col gap-5">
+          {data.items.map((item, i) => {
+            const isLocked = i > 0 && !data.items[i - 1].completed;
+            return (
+              <div
+                key={item.module_item_id}
+                className={`relative overflow-hidden rounded-2xl border-2 p-6 shadow-card sm:p-8 ${
+                  item.completed
+                    ? 'border-[var(--color-success)] bg-[var(--color-success-soft)]'
+                    : isLocked
+                      ? 'border-dashed border-[var(--color-border)] bg-[var(--color-surface)]/60'
+                      : 'border-[var(--color-brand-amber)]/40'
+                }`}
+                style={!item.completed && !isLocked ? { backgroundColor: 'color-mix(in srgb, var(--color-brand-sun) 6%, white)' } : undefined}
+              >
+                <div className="mb-4 flex items-center justify-between">
+                  <span className="rounded-full bg-white/70 px-3 py-1 text-xs font-semibold text-[var(--color-text-muted)]">
+                    <IconLabel icon="📖" label={`Pahina ${i + 1} ng ${data.items.length}`} />
+                  </span>
+                  {item.completed && (
+                    <span className="text-sm font-medium text-[var(--color-success)]">
+                      <IconLabel icon="✅" label="Nabasa na" />
+                    </span>
+                  )}
+                </div>
+
+                {isLocked ? (
+                  <p className="text-center text-[var(--color-text-muted)]">
+                    <IconLabel icon="🔒" label="Tapusin muna ang nakaraang pahina" />
+                  </p>
+                ) : (
+                  <>
+                    <p className="text-xl leading-loose font-medium sm:text-2xl">{item.content_text}</p>
+                    <div className="mt-5 flex flex-wrap items-center gap-3">
+                      <TTSButton text={item.content_text} />
+                      <button
+                        type="button"
+                        onClick={() => practice(item)}
+                        disabled={listeningFor === item.content_id}
+                        className="rounded-full bg-[var(--color-primary)] px-4 py-2 text-sm text-white disabled:opacity-60"
+                      >
+                        <IconLabel
+                          icon="🎤"
+                          label={listeningFor === item.content_id ? 'Nakikinig...' : item.completed ? 'Ulitin' : 'Nabasa ko na'}
+                        />
+                      </button>
+                    </div>
+                    {lastResult?.contentId === item.content_id && (
+                      <PronunciationFeedback
+                        className="mt-4"
+                        correct={lastResult.correct}
+                        message={lastResult.message}
+                        detail={`Narinig: "${lastResult.transcript}"`}
+                        hint={!lastResult.correct ? 'Ulitin natin, pakinggan mo ang tamang bigkas! 🔊' : undefined}
+                        word={!lastResult.correct ? item.content_text : undefined}
+                      />
+                    )}
+                  </>
+                )}
+              </div>
+            );
+          })}
+        </div>
+      ) : (
+        (() => {
+          const isCompact = data.module.instructional_content_type === 'phonetic' || data.module.instructional_content_type === 'word';
+          return (
           <div className={isCompact ? 'grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4' : 'flex flex-col gap-4'}>
             {data.items.map((item, i) => {
               // Each word unlocks only once the one before it is completed -- keeps the
@@ -214,8 +279,9 @@ export default function Module() {
               );
             })}
           </div>
-        );
-      })()}
+          );
+        })()
+      )}
 
       {lastResult && data.items.some((item) => item.content_id === lastResult.contentId) && (
         <PronunciationFeedback
