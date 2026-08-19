@@ -3,6 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { useMutation } from '@tanstack/react-query';
 import { api } from '../../lib/api';
 import { computeAccuracy, isSpeechRecognitionSupported, listenOnce } from '../../lib/speech';
+import { playTts, playTtsSequence } from '../../lib/ttsPlayer';
 import { TTSButton } from '../../components/a11y/TTSButton';
 import { IconLabel } from '../../components/a11y/IconLabel';
 import { cardStyle, CARD_COLORS } from '../../lib/cardStyle';
@@ -44,6 +45,8 @@ export default function Assessment() {
   const [answers, setAnswers] = useState<Record<string, Answered>>({});
   const [listeningFor, setListeningFor] = useState<string | null>(null);
   const [result, setResult] = useState<SubmitResult | null>(null);
+  const [readingChoicesFor, setReadingChoicesFor] = useState<string | null>(null);
+  const [playingChoice, setPlayingChoice] = useState<string | null>(null);
 
   const startMutation = useMutation({
     mutationFn: () => api<StartResponse>(`/student/learn/assessment/${assessmentId}/start`, { method: 'POST', auth: true }),
@@ -101,6 +104,29 @@ export default function Assessment() {
       transcript: item.answer_options?.[selectedIndex] ?? '',
       accuracy: isCorrect ? 100 : 0,
     });
+  };
+
+  // Reads the target sound, then every choice in order -- so a non-reading student can pick
+  // the right answer purely by matching the sound they hear against each spoken choice,
+  // without needing to decode the choice text at all.
+  const readChoices = async (item: AssessmentItem) => {
+    if (!item.answer_options || readingChoicesFor) return;
+    setReadingChoicesFor(item.assessment_item_id);
+    try {
+      await playTtsSequence([item.content_text, ...item.answer_options]);
+    } finally {
+      setReadingChoicesFor(null);
+    }
+  };
+
+  const playChoice = async (text: string) => {
+    if (playingChoice) return;
+    setPlayingChoice(text);
+    try {
+      await playTts(text);
+    } finally {
+      setPlayingChoice(null);
+    }
   };
 
   const practiceSpeech = (item: AssessmentItem) => {
@@ -198,18 +224,41 @@ export default function Assessment() {
             </div>
 
             {item.answer_options ? (
-              <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
-                {item.answer_options.map((opt, i) => (
-                  <button
-                    key={opt}
-                    type="button"
-                    disabled={isAnswered}
-                    onClick={() => answerMultipleChoice(item, i)}
-                    className="rounded-xl border-2 border-white bg-white/70 px-4 py-3 text-left font-medium transition-all hover:border-[var(--color-primary)] hover:-translate-y-0.5 disabled:opacity-60 disabled:hover:translate-y-0"
-                  >
-                    {opt}
-                  </button>
-                ))}
+              <div className="flex flex-col gap-3">
+                <button
+                  type="button"
+                  onClick={() => readChoices(item)}
+                  disabled={readingChoicesFor === item.assessment_item_id}
+                  className="inline-flex w-fit items-center gap-2 rounded-full border border-[var(--color-border)] bg-white/70 px-4 py-1.5 text-sm font-medium hover:border-[var(--color-primary)] disabled:opacity-60"
+                >
+                  <IconLabel
+                    icon="🔊"
+                    label={readingChoicesFor === item.assessment_item_id ? 'Binabasa...' : 'Basahin ang mga Pagpipilian'}
+                  />
+                </button>
+                <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
+                  {item.answer_options.map((opt, i) => (
+                    <div key={opt} className="flex items-center gap-2">
+                      <button
+                        type="button"
+                        aria-label={`Pakinggan: ${opt}`}
+                        onClick={() => playChoice(opt)}
+                        disabled={Boolean(playingChoice)}
+                        className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border-2 border-white bg-white/70 text-lg hover:border-[var(--color-primary)] disabled:opacity-60"
+                      >
+                        {playingChoice === opt ? '⏳' : '🔊'}
+                      </button>
+                      <button
+                        type="button"
+                        disabled={isAnswered}
+                        onClick={() => answerMultipleChoice(item, i)}
+                        className="flex-1 rounded-xl border-2 border-white bg-white/70 px-4 py-3 text-left font-medium transition-all hover:border-[var(--color-primary)] hover:-translate-y-0.5 disabled:opacity-60 disabled:hover:translate-y-0"
+                      >
+                        {opt}
+                      </button>
+                    </div>
+                  ))}
+                </div>
               </div>
             ) : (
               <button
