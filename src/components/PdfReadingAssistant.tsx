@@ -3,6 +3,7 @@ import { supabase } from '../lib/supabaseClient';
 import { computeAccuracy, isSpeechRecognitionSupported, listenOnce, normalizeForCompare } from '../lib/speech';
 import { TTSButton } from './a11y/TTSButton';
 import { IconLabel } from './a11y/IconLabel';
+import { cardStyle } from '../lib/cardStyle';
 
 interface PdfMaterialLike {
   id: string;
@@ -19,6 +20,7 @@ interface PdfReadingAssistantProps {
 }
 
 const FONT_SIZES = ['text-lg', 'text-xl', 'text-2xl', 'text-3xl'];
+const FONT_SIZE_LABELS = ['S', 'M', 'L', 'XL'];
 
 export function PdfReadingAssistant({ material, assignmentId, mode, onAttemptRecorded }: PdfReadingAssistantProps) {
   const [fontSizeIndex, setFontSizeIndex] = useState(1);
@@ -73,49 +75,82 @@ export function PdfReadingAssistant({ material, assignmentId, mode, onAttemptRec
     );
   };
 
+  const isGood = lastAccuracy !== null && lastAccuracy >= 75;
+
   return (
-    <div className="flex flex-col gap-4">
-      <div className="flex flex-wrap items-center gap-2">
-        <button
-          type="button"
-          onClick={() => setFontSizeIndex((i) => Math.max(0, i - 1))}
-          className="rounded-full border border-[var(--color-border)] px-3 py-1 text-sm"
-        >
-          <IconLabel icon="🔽" label="Liitan ang Font" />
-        </button>
-        <button
-          type="button"
-          onClick={() => setFontSizeIndex((i) => Math.min(FONT_SIZES.length - 1, i + 1))}
-          className="rounded-full border border-[var(--color-border)] px-3 py-1 text-sm"
-        >
-          <IconLabel icon="🔼" label="Palakihin ang Font" />
-        </button>
+    <div className="flex flex-col gap-5">
+      <div className="flex flex-wrap items-center gap-3 rounded-2xl border p-3" style={cardStyle('--color-brand-lavender', 8, 25)}>
+        <div className="flex items-center gap-1 rounded-full border border-white/70 bg-white/70 p-1">
+          <button
+            type="button"
+            onClick={() => setFontSizeIndex((i) => Math.max(0, i - 1))}
+            disabled={fontSizeIndex === 0}
+            title="Liitan ang Font"
+            aria-label="Liitan ang Font"
+            className="flex h-8 w-8 items-center justify-center rounded-full text-base hover:bg-white disabled:opacity-30"
+          >
+            A<span className="text-xs">−</span>
+          </button>
+          <span className="w-7 text-center text-xs font-semibold text-[var(--color-text-muted)]">
+            {FONT_SIZE_LABELS[fontSizeIndex]}
+          </span>
+          <button
+            type="button"
+            onClick={() => setFontSizeIndex((i) => Math.min(FONT_SIZES.length - 1, i + 1))}
+            disabled={fontSizeIndex === FONT_SIZES.length - 1}
+            title="Palakihin ang Font"
+            aria-label="Palakihin ang Font"
+            className="flex h-8 w-8 items-center justify-center rounded-full text-base hover:bg-white disabled:opacity-30"
+          >
+            A<span className="text-base">+</span>
+          </button>
+        </div>
+
         <button
           type="button"
           onClick={() => setWideSpacing((v) => !v)}
           aria-pressed={wideSpacing}
-          className="rounded-full border border-[var(--color-border)] px-3 py-1 text-sm"
+          className={`flex items-center gap-1.5 rounded-full border px-4 py-2 text-sm font-medium transition-colors ${
+            wideSpacing
+              ? 'border-[var(--color-primary)] bg-[var(--color-primary)] text-white'
+              : 'border-white/70 bg-white/70 hover:border-[var(--color-primary)]'
+          }`}
         >
           <IconLabel icon="↔️" label={wideSpacing ? 'Normal na Spacing' : 'Mas Malawak na Spacing'} />
         </button>
-        <TTSButton text={text} />
+
+        <TTSButton
+          text={text}
+          className="flex items-center gap-1.5 rounded-full border border-white/70 bg-white/70 px-4 py-2 text-sm font-medium hover:border-[var(--color-primary)]"
+        />
       </div>
 
       {!text && (
-        <p className="text-[var(--color-text-muted)]">Walang na-extract na teksto mula sa PDF na ito.</p>
+        <p className="rounded-xl border p-6 text-center text-[var(--color-text-muted)]" style={cardStyle('--color-brand-coral')}>
+          Walang na-extract na teksto mula sa PDF na ito.
+        </p>
       )}
 
       {text && (
         <p
-          className={`rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] p-6 leading-relaxed ${FONT_SIZES[fontSizeIndex]} ${
+          className={`rounded-2xl border bg-[var(--color-surface)] p-7 shadow-card ${FONT_SIZES[fontSizeIndex]} ${
             wideSpacing ? 'tracking-wide' : ''
           }`}
-          style={wideSpacing ? { lineHeight: 2.2, wordSpacing: '0.3em' } : { lineHeight: 1.8 }}
+          style={{
+            borderColor: 'var(--color-border)',
+            lineHeight: wideSpacing ? 2.2 : 1.9,
+            wordSpacing: wideSpacing ? '0.3em' : undefined,
+          }}
         >
           {words.map((word, i) => {
             const isMatched = spokenWordSet.has(normalizeForCompare(word));
             return (
-              <span key={i} className={isMatched && lastTranscript ? 'bg-[var(--color-primary)]/20 rounded px-0.5' : ''}>
+              <span
+                key={i}
+                className={`rounded px-1 transition-colors ${
+                  isMatched && lastTranscript ? 'bg-[var(--color-success-soft)] text-[var(--color-success)] font-semibold' : ''
+                }`}
+              >
                 {word}{' '}
               </span>
             );
@@ -124,28 +159,57 @@ export function PdfReadingAssistant({ material, assignmentId, mode, onAttemptRec
       )}
 
       {mode === 'student' && text && (
-        <div className="flex flex-col gap-2">
+        <div className="flex flex-col items-center gap-4 rounded-2xl border p-6" style={cardStyle('--color-brand-sun', 6, 20)}>
           <button
             type="button"
             onClick={readAloud}
             disabled={listening}
-            className="self-start rounded-full bg-[var(--color-primary)] px-6 py-3 text-white disabled:opacity-60"
+            className={`relative flex h-20 w-20 items-center justify-center rounded-full text-3xl text-white shadow-lg transition-transform hover:scale-105 active:scale-95 disabled:opacity-70 ${
+              listening ? 'bg-[var(--color-danger)]' : ''
+            }`}
+            style={!listening ? { backgroundImage: 'linear-gradient(135deg, var(--color-hero-from), var(--color-hero-via))' } : undefined}
           >
-            <IconLabel icon="🎤" label={listening ? 'Nakikinig...' : 'Basahin nang Malakas'} />
+            {listening && <span className="absolute inset-0 animate-ping rounded-full bg-[var(--color-danger)]/60" />}
+            <span className="relative" aria-hidden="true">
+              🎤
+            </span>
           </button>
-          {error && <p className="text-sm text-[var(--color-danger)]">{error}</p>}
-          {lastAccuracy !== null && (
-            <p className="text-sm">
-              Huling accuracy: <strong>{lastAccuracy}%</strong>{' '}
-              {lastAccuracy >= 75 ? '🎉 Magaling!' : 'Subukan ulit para lumakas pa.'}
+          <p className="text-sm font-medium text-[var(--color-text-muted)]">
+            {listening ? 'Nakikinig...' : 'Pindutin at basahin nang malakas'}
+          </p>
+
+          {error && (
+            <p className="w-full rounded-xl bg-[var(--color-danger-soft)] px-4 py-2.5 text-center text-sm text-[var(--color-danger)]">
+              {error}
             </p>
+          )}
+
+          {lastAccuracy !== null && (
+            <div
+              className={`w-full rounded-xl px-5 py-4 text-center ${
+                isGood ? 'bg-[var(--color-success-soft)]' : 'bg-[var(--color-accent-soft)]'
+              }`}
+            >
+              <p className={`text-2xl font-bold ${isGood ? 'text-[var(--color-success)]' : 'text-[var(--color-brand-sun)]'}`}>
+                {lastAccuracy}%
+              </p>
+              <div className="mx-auto mt-2 h-2.5 w-full max-w-xs overflow-hidden rounded-full bg-white/70">
+                <div
+                  className={`h-full rounded-full transition-[width] ${isGood ? 'bg-[var(--color-success)]' : 'bg-[var(--color-brand-sun)]'}`}
+                  style={{ width: `${Math.min(100, lastAccuracy)}%` }}
+                />
+              </div>
+              <p className={`mt-2 text-sm font-medium ${isGood ? 'text-[var(--color-success)]' : 'text-[var(--color-brand-sun)]'}`}>
+                {isGood ? '🎉 Magaling! Tapos na ang gawaing ito.' : 'Malapit na! Subukan ulit para lumakas pa.'}
+              </p>
+            </div>
           )}
         </div>
       )}
 
       {mode === 'preview' && (
         <p className="text-sm text-[var(--color-text-muted)]">
-          Preview mode — ipinapakita ang parehong reading assistant na makikita ng mag-aaral.
+          <IconLabel icon="👀" label="Preview mode — ipinapakita ang parehong reading assistant na makikita ng mag-aaral." />
         </p>
       )}
     </div>

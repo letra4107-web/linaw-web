@@ -133,31 +133,42 @@ function PdfTab() {
       {isLoading && <p>Naglo-load...</p>}
 
       {!openAssignmentId && (
-        <ul className="flex flex-col gap-3">
+        <ul className="grid grid-cols-1 gap-4 sm:grid-cols-2">
           {(assignments ?? []).map((a, i) => {
             const status = PDF_STATUS_LABEL[a.status] ?? PDF_STATUS_LABEL.assigned;
             return (
-              <li key={a.id} className="rounded-lg border px-4 py-3" style={cardStyle(CARD_COLORS[i % CARD_COLORS.length])}>
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className="font-medium">{a.pdf_materials?.title}</p>
-                    <p className="text-sm text-[var(--color-text-muted)]">
-                      <IconLabel icon={status.icon} label={status.label} />
-                    </p>
-                  </div>
-                  <button
-                    type="button"
-                    onClick={() => setOpenAssignmentId(a.id)}
-                    className="rounded-full bg-[var(--color-primary)] px-4 py-2 text-sm text-white"
+              <li
+                key={a.id}
+                className="flex flex-col gap-3 rounded-2xl border p-5 shadow-card"
+                style={cardStyle(CARD_COLORS[i % CARD_COLORS.length])}
+              >
+                <div className="flex items-start justify-between gap-2">
+                  <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-white/70 text-xl" aria-hidden="true">
+                    📄
+                  </span>
+                  <span
+                    className={`shrink-0 rounded-full px-3 py-1 text-xs font-semibold ${
+                      a.status === 'completed'
+                        ? 'bg-[var(--color-success-soft)] text-[var(--color-success)]'
+                        : 'bg-white/70 text-[var(--color-text-muted)]'
+                    }`}
                   >
-                    <IconLabel icon="📖" label="Buksan" />
-                  </button>
+                    <IconLabel icon={status.icon} label={status.label} />
+                  </span>
                 </div>
+                <p className="font-semibold">{a.pdf_materials?.title}</p>
+                <button
+                  type="button"
+                  onClick={() => setOpenAssignmentId(a.id)}
+                  className="mt-auto self-start rounded-full bg-[var(--color-primary)] px-5 py-2 text-sm font-medium text-white transition-transform hover:-translate-y-0.5 hover:shadow-raised active:scale-95"
+                >
+                  <IconLabel icon="📖" label="Buksan" />
+                </button>
               </li>
             );
           })}
           {assignments && assignments.length === 0 && (
-            <p className="text-[var(--color-text-muted)]">Wala ka pang naka-assign na PDF.</p>
+            <p className="col-span-full text-[var(--color-text-muted)]">Wala ka pang naka-assign na PDF.</p>
           )}
         </ul>
       )}
@@ -170,11 +181,19 @@ function PdfTab() {
               setOpenAssignmentId(null);
               queryClient.invalidateQueries({ queryKey: ['student-pdf-assignments'] });
             }}
-            className="self-start text-sm text-[var(--color-primary)] underline"
+            className="self-start text-sm font-medium text-[var(--color-primary)] underline"
           >
             ← Bumalik sa listahan
           </button>
-          <h2 className="text-xl font-semibold">{openAssignment.pdf_materials.title}</h2>
+          <div
+            className="overflow-hidden rounded-2xl p-6 text-white shadow-hero sm:p-7"
+            style={{ backgroundImage: 'linear-gradient(135deg, var(--color-hero-from), var(--color-hero-via), var(--color-hero-to))' }}
+          >
+            <p className="text-sm text-white/80">
+              <IconLabel icon="📄" label="Pagbasa ng PDF" />
+            </p>
+            <h2 className="mt-1 text-2xl font-bold">{openAssignment.pdf_materials.title}</h2>
+          </div>
           <PdfReadingAssistant material={openAssignment.pdf_materials} assignmentId={openAssignment.id} mode="student" />
         </div>
       )}
