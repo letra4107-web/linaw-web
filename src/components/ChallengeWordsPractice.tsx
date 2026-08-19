@@ -80,27 +80,34 @@ export function ChallengeWordsPractice({ moduleId }: ChallengeWordsPracticeProps
         </p>
       )}
 
-      <div className="mt-6 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-5">
+      <div className="mt-6 grid grid-cols-[repeat(auto-fill,minmax(180px,1fr))] gap-4">
         {data.words.map((word) => {
           const done = attempted[word];
           return (
             <div
               key={word}
-              className={`flex flex-col items-center gap-3 rounded-2xl border-2 p-5 text-center transition-colors ${
+              className={`flex min-w-0 flex-col items-center gap-3 rounded-2xl border-2 p-5 text-center transition-colors ${
                 done ? 'border-[var(--color-success)] bg-[var(--color-success-soft)]' : 'border-[var(--color-border)] bg-white'
               }`}
             >
-              <p className="text-xl font-bold break-words">{word}</p>
+              <p className="w-full text-xl font-bold break-words">{word}</p>
 
-              <TTSButton text={word} className="inline-flex w-full items-center justify-center gap-2 rounded-full border border-[var(--color-border)] bg-[var(--color-surface)] px-3 py-2 text-sm hover:border-[var(--color-primary)] focus-visible:outline-3 disabled:opacity-60" />
+              <TTSButton
+                text={word}
+                className="inline-flex w-full min-w-0 items-center justify-center gap-2 rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] px-3 py-2 text-center text-sm leading-snug hover:border-[var(--color-primary)] focus-visible:outline-3 disabled:opacity-60"
+              />
 
               <button
                 type="button"
                 onClick={() => attempt(word)}
                 disabled={listeningFor === word}
-                className="w-full rounded-full bg-[var(--color-primary)] px-3 py-2 text-sm font-medium text-white transition-opacity hover:opacity-90 disabled:opacity-60"
+                className="w-full min-w-0 rounded-xl bg-[var(--color-primary)] px-3 py-2 text-sm font-medium whitespace-nowrap text-white transition-opacity hover:opacity-90 disabled:opacity-60"
               >
-                <IconLabel icon="🎤" label={listeningFor === word ? 'Nakikinig...' : done ? 'Ulitin' : 'Bigkasin'} />
+                <IconLabel
+                  icon="🎤"
+                  label={listeningFor === word ? 'Nakikinig...' : done ? 'Ulitin' : 'Bigkasin'}
+                  className="inline-flex w-full items-center justify-center gap-2"
+                />
               </button>
 
               <span className={`text-xs font-medium ${done ? 'text-[var(--color-success)]' : 'text-transparent'}`}>
