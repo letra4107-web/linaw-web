@@ -110,14 +110,13 @@ export default function Assessment() {
     });
   };
 
-  // Reads the target sound, then every choice in order -- so a non-reading student can pick
-  // the right answer purely by matching the sound they hear against each spoken choice,
-  // without needing to decode the choice text at all.
+  // Reads only the target sound -- the choices themselves stay text-only (visible on
+  // their buttons), so the student picks by reading them, not by matching audio.
   const readChoices = async (item: AssessmentItem) => {
     if (!item.answer_options || readingChoicesFor) return;
     setReadingChoicesFor(item.assessment_item_id);
     try {
-      await playTtsSequence([item.content_text, ...item.answer_options]);
+      await playTtsSequence([item.content_text]);
     } finally {
       setReadingChoicesFor(null);
     }
