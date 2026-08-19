@@ -41,3 +41,4 @@ jobs:
           local-dir: ./dist/
           server-dir: ./
           log-level: verbose
+          dangerous-clean-slate: true
