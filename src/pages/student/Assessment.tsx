@@ -212,9 +212,13 @@ export default function Assessment() {
             className={`rounded-2xl border p-6 shadow-card ${isAnswered ? 'border-[var(--color-primary)] bg-[var(--color-primary)]/5' : ''}`}
             style={isAnswered ? undefined : cardStyle(CARD_COLORS[idx % CARD_COLORS.length], 10, 35)}
           >
-            <div className="mb-4 flex items-center gap-3">
-              <p className="text-xl font-medium">{item.content_text}</p>
-            </div>
+            {/* The target text is deliberately hidden for MC items -- showing it would let the
+                student match it visually instead of actually picking the answer by sound. */}
+            {!item.answer_options && (
+              <div className="mb-4 flex items-center gap-3">
+                <p className="text-xl font-medium">{item.content_text}</p>
+              </div>
+            )}
 
             {item.answer_options ? (
               <div className="flex flex-col gap-3">
