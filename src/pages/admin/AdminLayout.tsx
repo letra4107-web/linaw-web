@@ -4,7 +4,10 @@ import { supabase } from '../../lib/supabaseClient';
 import { useAuth } from '../../lib/auth/AuthContext';
 import { IconLabel } from '../../components/a11y/IconLabel';
 import { cardStyle } from '../../lib/cardStyle';
+import { DashboardShell } from '../../components/DashboardShell';
 import logo from '../../assets/Logo.jpg';
+import navBg from '../../assets/ads.webp';
+import adminBg from '../../assets/ad.webp';
 
 const PRIMARY_TABS = [
   { to: '/admin', end: true, icon: '🏠', label: 'Bahay' },
@@ -14,8 +17,6 @@ const PRIMARY_TABS = [
   { to: '/admin/analytics', icon: '📊', label: 'Estadistika' },
   { to: '/admin/settings', icon: '⚙️', label: 'Mga Setting' },
 ];
-
-const SIDEBAR_GRADIENT = 'linear-gradient(180deg, #1e3a8a, #5f52b0)';
 
 function navClass(collapsed: boolean) {
   return ({ isActive }: { isActive: boolean }) =>
@@ -99,11 +100,13 @@ export default function AdminLayout() {
   const [mobileOpen, setMobileOpen] = useState(false);
 
   return (
-    <div className="min-h-screen bg-[var(--color-bg)] text-[var(--color-text)]">
+    <DashboardShell roleLabel="Admin" hideHeader bgImage={adminBg}>
       <div className="flex min-h-screen">
         <aside
-          className={`sticky top-0 hidden h-screen shrink-0 flex-col transition-[width] lg:flex ${collapsed ? 'w-20' : 'w-64'}`}
-          style={{ backgroundImage: SIDEBAR_GRADIENT }}
+          className={`sticky top-0 hidden h-screen shrink-0 flex-col border-r border-[var(--color-border)] transition-[width] lg:flex ${
+            collapsed ? 'w-20' : 'w-64'
+          }`}
+          style={{ backgroundImage: `url(${navBg})`, backgroundRepeat: 'no-repeat', backgroundSize: '100% 100%' }}
         >
           <div className={`flex items-center gap-2 border-b border-white/20 px-3 py-4 ${collapsed ? 'justify-center' : ''}`}>
             {collapsed ? (
@@ -133,25 +136,25 @@ export default function AdminLayout() {
         </aside>
 
         <div className="flex min-w-0 flex-1 flex-col">
-          <div
-            className="flex items-center justify-between px-4 py-3 lg:hidden"
-            style={{ backgroundImage: SIDEBAR_GRADIENT }}
-          >
+          <div className="flex items-center justify-between border-b border-[var(--color-border)] bg-[var(--color-surface)] px-4 py-3 lg:hidden">
             <div className="flex items-center gap-2">
               <img src={logo} alt="LinawLetra" className="h-9 w-9 rounded-lg object-cover" />
-              <span className="text-sm font-bold text-white">Admin Panel</span>
+              <span className="text-sm font-bold">Admin Panel</span>
             </div>
             <button
               type="button"
               onClick={() => setMobileOpen((v) => !v)}
               aria-expanded={mobileOpen}
-              className="rounded-lg border border-white/20 p-2 text-white"
+              className="rounded-lg border border-[var(--color-border)] p-2"
             >
               <IconLabel icon="☰" label="Menu" />
             </button>
           </div>
           {mobileOpen && (
-            <div className="flex flex-col lg:hidden" style={{ backgroundImage: SIDEBAR_GRADIENT }}>
+            <div
+              className="flex flex-col border-b border-[var(--color-border)] lg:hidden"
+              style={{ backgroundImage: `url(${navBg})`, backgroundRepeat: 'no-repeat', backgroundSize: '100% 100%' }}
+            >
               <NavContents collapsed={false} />
             </div>
           )}
@@ -161,6 +164,6 @@ export default function AdminLayout() {
           </main>
         </div>
       </div>
-    </div>
+    </DashboardShell>
   );
 }
