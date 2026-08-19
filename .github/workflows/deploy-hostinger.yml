@@ -39,6 +39,8 @@ jobs:
           set net:max-retries 3
           set net:reconnect-interval-base 5
           set mirror:use-pget-n 1
+          set xfer:temp-file-name off
+          set xfer:make-backup off
           mirror -R --delete --verbose --parallel=1 ./dist/ ./
           bye
           EOF
