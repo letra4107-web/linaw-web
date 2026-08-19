@@ -143,6 +143,24 @@ export default function Module() {
               // Each word unlocks only once the one before it is completed -- keeps the
               // student reading in the module's intended order instead of skipping ahead.
               const isLocked = i > 0 && !data.items[i - 1].completed;
+              // Locked compact tiles get their own much smaller, dashed "coming up next"
+              // treatment instead of reusing the full unlocked card layout with dots
+              // swapped in -- that left a tall card mostly empty. This one is deliberately
+              // low-key so the eye goes to the unlocked/completed tiles instead.
+              if (isCompact && isLocked) {
+                return (
+                  <div
+                    key={item.module_item_id}
+                    className="flex flex-col items-center justify-center gap-1.5 rounded-xl border-2 border-dashed border-[var(--color-border)] bg-[var(--color-surface)]/60 p-4 text-center"
+                  >
+                    <span className="text-2xl" aria-hidden="true">
+                      🔒
+                    </span>
+                    <p className="text-xs text-[var(--color-text-muted)]">Susunod na salita</p>
+                  </div>
+                );
+              }
+
               return (
                 <div
                   key={item.module_item_id}
