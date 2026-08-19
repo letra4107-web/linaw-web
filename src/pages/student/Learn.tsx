@@ -5,6 +5,7 @@ import { supabase } from '../../lib/supabaseClient';
 import { useAuth } from '../../lib/auth/AuthContext';
 import { api } from '../../lib/api';
 import { PdfReadingAssistant } from '../../components/PdfReadingAssistant';
+import { PdfDrillPractice } from '../../components/PdfDrillPractice';
 import { IconLabel } from '../../components/a11y/IconLabel';
 import { cardStyle, CARD_COLORS } from '../../lib/cardStyle';
 
@@ -30,7 +31,7 @@ interface PdfAssignment {
   id: string;
   status: string;
   due_date: string | null;
-  pdf_materials: { id: string; title: string; extracted_text: string | null; file_url: string } | null;
+  pdf_materials: { id: string; title: string; extracted_text: string | null; file_url: string; drill_status: string | null } | null;
 }
 
 const STATE_LABEL: Record<ModuleSummary['state'], { icon: string; label: string }> = {
@@ -115,7 +116,7 @@ function PdfTab() {
       if (!child) return [];
       const { data, error } = await supabase
         .from('pdf_assignments')
-        .select('id, status, due_date, pdf_materials(id, title, extracted_text, file_url)')
+        .select('id, status, due_date, pdf_materials(id, title, extracted_text, file_url, drill_status)')
         .eq('student_id', child.id)
         .order('assigned_at', { ascending: false });
       if (error) throw error;
@@ -194,7 +195,11 @@ function PdfTab() {
             </p>
             <h2 className="mt-1 text-2xl font-bold">{openAssignment.pdf_materials.title}</h2>
           </div>
-          <PdfReadingAssistant material={openAssignment.pdf_materials} assignmentId={openAssignment.id} mode="student" />
+          {openAssignment.pdf_materials.drill_status === 'published' ? (
+            <PdfDrillPractice assignmentId={openAssignment.id} />
+          ) : (
+            <PdfReadingAssistant material={openAssignment.pdf_materials} assignmentId={openAssignment.id} mode="student" />
+          )}
         </div>
       )}
     </div>

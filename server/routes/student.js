@@ -278,4 +278,181 @@ router.post('/word-of-day/attempt', async (req, res) => {
   }
 });
 
+// GET /student/pdf-drill/:assignmentId -- items + which ones this student
+// already completed, so re-opening a drill mid-way resumes correctly.
+router.get('/pdf-drill/:assignmentId', async (req, res) => {
+  try {
+    const studentId = await resolveStudentId(req.user.id);
+    const { assignmentId } = req.params;
+
+    const { data: assignment, error: assignmentErr } = await supabaseAdmin
+      .from('pdf_assignments')
+      .select('id, pdf_material_id, student_id, status')
+      .eq('id', assignmentId)
+      .maybeSingle();
+    if (assignmentErr) throw assignmentErr;
+    if (!assignment || assignment.student_id !== studentId) {
+      return res.status(404).json({ error: 'Assignment not found for this student.' });
+    }
+
+    const { data: material, error: materialErr } = await supabaseAdmin
+      .from('pdf_materials')
+      .select('id, title, drill_status')
+      .eq('id', assignment.pdf_material_id)
+      .maybeSingle();
+    if (materialErr) throw materialErr;
+    if (!material || material.drill_status !== 'published') {
+      return res.status(404).json({ error: 'This PDF is not a published drill.' });
+    }
+
+    const { data: items, error: itemsErr } = await supabaseAdmin
+      .from('pdf_drill_items')
+      .select('id, band_index, item_order, syllable_pattern, word, image_url, xp_value')
+      .eq('pdf_material_id', material.id)
+      .order('item_order', { ascending: true });
+    if (itemsErr) throw itemsErr;
+
+    const { data: completedAttempts, error: attemptsErr } = await supabaseAdmin
+      .from('pdf_reading_attempts')
+      .select('drill_item_id')
+      .eq('student_id', studentId)
+      .eq('correct', true)
+      .in('drill_item_id', (items || []).map((i) => i.id));
+    if (attemptsErr) throw attemptsErr;
+
+    res.json({
+      title: material.title,
+      items: items || [],
+      completedItemIds: (completedAttempts || []).map((a) => a.drill_item_id),
+    });
+  } catch (err) {
+    handleRpcError(res, err);
+  }
+});
+
+// POST /student/pdf-drill/attempt  { assignmentId, drillItemId, transcript, accuracy, correct }
+// Same client-trust split as /word-of-day/attempt: the client computes speech-match
+// accuracy, but the XP write and "already completed" check happen server-side.
+router.post('/pdf-drill/attempt', async (req, res) => {
+  try {
+    const { data: child, error: childErr } = await supabaseAdmin
+      .from('children')
+      .select('id, name, auth_uid, parent_id')
+      .eq('auth_uid', req.user.id)
+      .maybeSingle();
+    if (childErr) throw childErr;
+    if (!child) return res.status(404).json({ error: 'No linked student record for this account.' });
+    const studentId = child.id;
+
+    const { assignmentId, drillItemId, transcript, accuracy, correct } = req.body || {};
+    if (!assignmentId || !drillItemId) {
+      return res.status(400).json({ error: 'assignmentId and drillItemId are required.' });
+    }
+
+    const { data: assignment, error: assignmentErr } = await supabaseAdmin
+      .from('pdf_assignments')
+      .select('id, pdf_material_id, student_id')
+      .eq('id', assignmentId)
+      .maybeSingle();
+    if (assignmentErr) throw assignmentErr;
+    if (!assignment || assignment.student_id !== studentId) {
+      return res.status(404).json({ error: 'Assignment not found for this student.' });
+    }
+
+    const { data: item, error: itemErr } = await supabaseAdmin
+      .from('pdf_drill_items')
+      .select('id, pdf_material_id, xp_value')
+      .eq('id', drillItemId)
+      .maybeSingle();
+    if (itemErr) throw itemErr;
+    if (!item || item.pdf_material_id !== assignment.pdf_material_id) {
+      return res.status(404).json({ error: 'Drill item not found in this assignment.' });
+    }
+
+    const isCorrect = Boolean(correct);
+
+    // Only the first correct attempt on a given item ever pays out -- repeat
+    // correct reads (e.g. the student replays it for practice) earn nothing more.
+    const { data: priorCorrect, error: priorErr } = await supabaseAdmin
+      .from('pdf_reading_attempts')
+      .select('id')
+      .eq('student_id', studentId)
+      .eq('drill_item_id', drillItemId)
+      .eq('correct', true)
+      .maybeSingle();
+    if (priorErr) throw priorErr;
+
+    const xpAwarded = isCorrect && !priorCorrect ? item.xp_value : 0;
+
+    const { error: insertErr } = await supabaseAdmin.from('pdf_reading_attempts').insert({
+      pdf_assignment_id: assignmentId,
+      student_id: studentId,
+      drill_item_id: drillItemId,
+      transcript: transcript || null,
+      accuracy: accuracy ?? null,
+      correct: isCorrect,
+      xp_awarded: xpAwarded,
+    });
+    if (insertErr) throw insertErr;
+
+    let newXp = null;
+    if (xpAwarded > 0) {
+      const { data: progress, error: progressErr } = await supabaseAdmin
+        .from('child_progress')
+        .select('xp')
+        .eq('child_id', studentId)
+        .maybeSingle();
+      if (progressErr) throw progressErr;
+      newXp = (progress?.xp ?? 0) + xpAwarded;
+      const { error: xpErr } = await supabaseAdmin.from('child_progress').update({ xp: newXp }).eq('child_id', studentId);
+      if (xpErr) throw xpErr;
+    }
+
+    // If every item in this drill now has a correct attempt from this student,
+    // mark the assignment completed and notify parent/teacher once.
+    let justCompletedDrill = false;
+    if (xpAwarded > 0) {
+      const { data: allItems, error: allItemsErr } = await supabaseAdmin
+        .from('pdf_drill_items')
+        .select('id')
+        .eq('pdf_material_id', assignment.pdf_material_id);
+      if (allItemsErr) throw allItemsErr;
+
+      const { data: allCorrect, error: allCorrectErr } = await supabaseAdmin
+        .from('pdf_reading_attempts')
+        .select('drill_item_id')
+        .eq('student_id', studentId)
+        .eq('correct', true)
+        .in('drill_item_id', (allItems || []).map((i) => i.id));
+      if (allCorrectErr) throw allCorrectErr;
+
+      const completedIds = new Set((allCorrect || []).map((a) => a.drill_item_id));
+      justCompletedDrill = (allItems || []).length > 0 && (allItems || []).every((i) => completedIds.has(i.id));
+
+      if (justCompletedDrill) {
+        await supabaseAdmin.from('pdf_assignments').update({ status: 'completed' }).eq('id', assignmentId);
+
+        const { data: material } = await supabaseAdmin.from('pdf_materials').select('title').eq('id', assignment.pdf_material_id).maybeSingle();
+        const studentName = child.name || 'Ang mag-aaral';
+        const completionMessage = `Natapos ni ${studentName} ang buong pagsasanay: ${material?.title || ''}`;
+        await supabaseAdmin.from('notifications').insert({
+          user_id: child.auth_uid,
+          student_id: studentId,
+          parent_id: child.parent_id,
+          title: 'Natapos ang Pagsasanay sa Pantig',
+          body: completionMessage,
+          message: completionMessage,
+          type: 'pdf_assignment',
+          is_read: false,
+          read: false,
+        });
+      }
+    }
+
+    res.json({ success: true, correct: isCorrect, xpAwarded, newXp, drillCompleted: justCompletedDrill });
+  } catch (err) {
+    handleRpcError(res, err);
+  }
+});
+
 module.exports = router;

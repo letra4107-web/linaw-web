@@ -4,6 +4,7 @@ import { supabase } from '../../lib/supabaseClient';
 import { useAuth } from '../../lib/auth/AuthContext';
 import { IconLabel } from '../../components/a11y/IconLabel';
 import { PdfReadingAssistant } from '../../components/PdfReadingAssistant';
+import { PdfDrillReview } from '../../components/teacher/PdfDrillReview';
 import { cardStyle, CARD_COLORS } from '../../lib/cardStyle';
 
 interface PdfMaterial {
@@ -13,8 +14,14 @@ interface PdfMaterial {
   extracted_text: string | null;
   grade_level: number | null;
   level: string | null;
+  drill_status: string | null;
   created_at: string;
 }
+
+const DRILL_STATUS_LABEL: Record<string, string> = {
+  pending_review: 'Kailangan ng review',
+  published: 'Nai-publish',
+};
 
 interface RosterChild {
   id: string;
@@ -47,13 +54,15 @@ export default function PdfReading() {
   const [assigningId, setAssigningId] = useState<string | null>(null);
   const [previewId, setPreviewId] = useState<string | null>(null);
   const [monitorId, setMonitorId] = useState<string | null>(null);
+  const [reviewingId, setReviewingId] = useState<string | null>(null);
+  const [uploadMode, setUploadMode] = useState<'plain' | 'drill'>('plain');
 
   const { data: materials, isLoading } = useQuery({
     queryKey: ['pdf-materials', user?.id],
     queryFn: async () => {
       const { data, error: err } = await supabase
         .from('pdf_materials')
-        .select('id, title, file_url, extracted_text, grade_level, level, created_at')
+        .select('id, title, file_url, extracted_text, grade_level, level, drill_status, created_at')
         .eq('teacher_id', user!.id)
         .order('created_at', { ascending: false });
       if (err) throw err;
@@ -102,21 +111,24 @@ export default function PdfReading() {
       if (gradeLevel) formData.append('gradeLevel', gradeLevel);
       if (level) formData.append('level', level);
 
-      const res = await fetch(`${import.meta.env.VITE_API_URL}/teacher/pdf`, {
+      const endpoint = uploadMode === 'drill' ? '/teacher/pdf-drill' : '/teacher/pdf';
+      const res = await fetch(`${import.meta.env.VITE_API_URL}${endpoint}`, {
         method: 'POST',
         headers: { Authorization: `Bearer ${session?.access_token}` },
         body: formData,
       });
       const payload = await res.json();
       if (!res.ok) throw new Error(payload.error || 'Hindi na-upload ang PDF.');
+      return payload as { material: { id: string } };
     },
-    onSuccess: () => {
+    onSuccess: (payload) => {
       setTitle('');
       setGradeLevel('');
       setLevel('');
       setFile(null);
       setError(null);
       queryClient.invalidateQueries({ queryKey: ['pdf-materials'] });
+      if (uploadMode === 'drill' && payload?.material?.id) setReviewingId(payload.material.id);
     },
     onError: (err: Error) => setError(err.message),
   });
@@ -152,6 +164,31 @@ export default function PdfReading() {
         style={cardStyle('--color-brand-teal')}
       >
         <h2 className="text-lg font-semibold">Mag-upload ng PDF</h2>
+        <div className="flex gap-2">
+          <button
+            type="button"
+            onClick={() => setUploadMode('plain')}
+            className={`rounded-full px-4 py-1.5 text-sm font-medium transition-colors ${
+              uploadMode === 'plain' ? 'bg-[var(--color-primary)] text-white' : 'border border-[var(--color-border)]'
+            }`}
+          >
+            Karaniwang PDF
+          </button>
+          <button
+            type="button"
+            onClick={() => setUploadMode('drill')}
+            className={`rounded-full px-4 py-1.5 text-sm font-medium transition-colors ${
+              uploadMode === 'drill' ? 'bg-[var(--color-primary)] text-white' : 'border border-[var(--color-border)]'
+            }`}
+          >
+            Pagsasanay sa Pantig
+          </button>
+        </div>
+        {uploadMode === 'drill' && (
+          <p className="text-sm text-[var(--color-text-muted)]">
+            Awtomatikong hahatiin ang PDF sa mga pantig at salita (3-column na format: pantig | salita | larawan). Susuriin mo pa ito bago i-publish.
+          </p>
+        )}
         <input
           value={title}
           onChange={(e) => setTitle(e.target.value)}
@@ -201,7 +238,20 @@ export default function PdfReading() {
             <li key={m.id} className="rounded-lg border px-4 py-3" style={cardStyle(CARD_COLORS[i % CARD_COLORS.length])}>
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="font-medium">{m.title}</p>
+                  <div className="flex items-center gap-2">
+                    <p className="font-medium">{m.title}</p>
+                    {m.drill_status && (
+                      <span
+                        className={`rounded-full px-2.5 py-0.5 text-xs font-semibold ${
+                          m.drill_status === 'published'
+                            ? 'bg-[var(--color-success-soft)] text-[var(--color-success)]'
+                            : 'bg-[var(--color-danger-soft)] text-[var(--color-danger)]'
+                        }`}
+                      >
+                        {DRILL_STATUS_LABEL[m.drill_status] ?? m.drill_status}
+                      </span>
+                    )}
+                  </div>
                   <p className="text-sm text-[var(--color-text-muted)]">
                     Grade {m.grade_level ?? '-'} · {m.level ?? 'Walang level'}
                   </p>
@@ -210,13 +260,23 @@ export default function PdfReading() {
                   <a href={m.file_url} target="_blank" rel="noreferrer" className="rounded-full border border-[var(--color-border)] px-3 py-1 text-sm">
                     <IconLabel icon="📄" label="Raw PDF" />
                   </a>
-                  <button
-                    type="button"
-                    onClick={() => setPreviewId(previewId === m.id ? null : m.id)}
-                    className="rounded-full border border-[var(--color-border)] px-3 py-1 text-sm hover:border-[var(--color-primary)]"
-                  >
-                    <IconLabel icon="👁️" label="I-preview" />
-                  </button>
+                  {m.drill_status ? (
+                    <button
+                      type="button"
+                      onClick={() => setReviewingId(reviewingId === m.id ? null : m.id)}
+                      className="rounded-full border border-[var(--color-border)] px-3 py-1 text-sm hover:border-[var(--color-primary)]"
+                    >
+                      <IconLabel icon="✏️" label="I-review" />
+                    </button>
+                  ) : (
+                    <button
+                      type="button"
+                      onClick={() => setPreviewId(previewId === m.id ? null : m.id)}
+                      className="rounded-full border border-[var(--color-border)] px-3 py-1 text-sm hover:border-[var(--color-primary)]"
+                    >
+                      <IconLabel icon="👁️" label="I-preview" />
+                    </button>
+                  )}
                   <button
                     type="button"
                     onClick={() => setMonitorId(monitorId === m.id ? null : m.id)}
@@ -236,6 +296,11 @@ export default function PdfReading() {
               {previewId === m.id && (
                 <div className="mt-3 border-t border-white/60 pt-3">
                   <PdfReadingAssistant material={m} mode="preview" />
+                </div>
+              )}
+              {reviewingId === m.id && (
+                <div className="mt-3 border-t border-white/60 pt-3">
+                  <PdfDrillReview materialId={m.id} onPublished={() => setReviewingId(null)} />
                 </div>
               )}
               {monitorId === m.id && (
