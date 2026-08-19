@@ -34,11 +34,7 @@ import StudentAchievements from './pages/student/Achievements';
 import TeacherLayout from './pages/teacher/TeacherLayout';
 import TeacherDashboardPage from './pages/teacher/Dashboard';
 import MyStudents from './pages/teacher/MyStudents';
-import Lessons from './pages/teacher/Lessons';
-import PdfReading from './pages/teacher/PdfReading';
-import Assessments from './pages/teacher/Assessments';
-import LearningPaths from './pages/teacher/LearningPaths';
-import Activities from './pages/teacher/Activities';
+import LessonsHub from './pages/teacher/LessonsHub';
 import ProgressReports from './pages/teacher/ProgressReports';
 import TeacherSettings from './pages/teacher/Settings';
 import TeacherMessages from './pages/teacher/Messages';
@@ -112,11 +108,7 @@ export default function App() {
       >
         <Route index element={<TeacherDashboardPage />} />
         <Route path="students" element={<MyStudents />} />
-        <Route path="lessons" element={<Lessons />} />
-        <Route path="pdf-reading" element={<PdfReading />} />
-        <Route path="assessments" element={<Assessments />} />
-        <Route path="learning-paths" element={<LearningPaths />} />
-        <Route path="activities" element={<Activities />} />
+        <Route path="lessons" element={<LessonsHub />} />
         <Route path="progress-reports" element={<ProgressReports />} />
         <Route path="messages" element={<TeacherMessages />} />
         <Route path="settings" element={<TeacherSettings />} />

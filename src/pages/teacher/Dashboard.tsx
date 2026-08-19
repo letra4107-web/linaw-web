@@ -6,10 +6,10 @@ import { IconLabel } from '../../components/a11y/IconLabel';
 import { cardStyle } from '../../lib/cardStyle';
 
 const QUICK_ACTIONS = [
-  { to: '/teacher/lessons', icon: '📚', label: 'Mga Aralin', desc: 'Suriin ang mga aralin', brand: '--color-brand-lavender' },
-  { to: '/teacher/pdf-reading', icon: '📄', label: 'Pagbasa ng PDF', desc: 'Mag-upload at mag-assign', brand: '--color-brand-teal' },
-  { to: '/teacher/assessments', icon: '📝', label: 'Mga Pagsusulit', desc: 'Gumawa at markahan', brand: '--color-brand-sun' },
-  { to: '/teacher/learning-paths', icon: '🧭', label: 'Landas ng Pagkatuto', desc: 'Ayusin ang aralin', brand: '--color-brand-coral' },
+  { to: '/teacher/lessons?tab=lessons', icon: '📚', label: 'Mga Aralin', desc: 'Suriin ang mga aralin', brand: '--color-brand-lavender' },
+  { to: '/teacher/lessons?tab=pdf', icon: '📄', label: 'Pagbasa ng PDF', desc: 'Mag-upload at mag-assign', brand: '--color-brand-teal' },
+  { to: '/teacher/lessons?tab=assessments', icon: '📝', label: 'Mga Pagsusulit', desc: 'Gumawa at markahan', brand: '--color-brand-sun' },
+  { to: '/teacher/lessons?tab=paths', icon: '🧭', label: 'Landas ng Pagkatuto', desc: 'Ayusin ang aralin', brand: '--color-brand-coral' },
   { to: '/teacher/progress-reports', icon: '📊', label: 'Ulat ng Progreso', desc: 'Tingnan ang pag-unlad', brand: '--color-brand-violet' },
   { to: '/teacher/messages', icon: '✉️', label: 'Mga Mensahe', desc: 'Makipag-ugnayan sa magulang', brand: '--color-brand-sage' },
 ];

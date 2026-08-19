@@ -13,10 +13,6 @@ const PRIMARY_TABS = [
   { to: '/teacher', end: true, icon: '🏠', label: 'Bahay' },
   { to: '/teacher/students', icon: '🎒', label: 'Mag-aaral Ko' },
   { to: '/teacher/lessons', icon: '📚', label: 'Mga Aralin' },
-  { to: '/teacher/pdf-reading', icon: '📄', label: 'Pagbasa ng PDF' },
-  { to: '/teacher/assessments', icon: '📝', label: 'Mga Pagsusulit' },
-  { to: '/teacher/learning-paths', icon: '🧭', label: 'Landas ng Pagkatuto' },
-  { to: '/teacher/activities', icon: '🗂️', label: 'Mga Gawain' },
   { to: '/teacher/progress-reports', icon: '📊', label: 'Ulat ng Progreso' },
   { to: '/teacher/messages', icon: '✉️', label: 'Mga Mensahe' },
 ];
