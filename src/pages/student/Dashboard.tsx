@@ -206,10 +206,14 @@ export default function Dashboard() {
         </svg>
       </div>
 
-      {/* Two boxes — progress front and center, XP/streak/badges as its playful companion */}
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-        {/* Progress box */}
-        <div className="overflow-hidden rounded-2xl border shadow-card" style={cardStyle('--color-brand-lavender', 10, 35)}>
+      {/* Bento row — progress is the wide rectangle (has the most to say), each quick
+          action is a square (icon + one line, nothing more) so the two shapes read as
+          "this needs your attention" vs "tap to jump somewhere" at a glance. */}
+      <div className="grid grid-cols-2 gap-4 lg:grid-cols-5">
+        <div
+          className="col-span-2 overflow-hidden rounded-2xl border shadow-card lg:col-span-2"
+          style={cardStyle('--color-brand-lavender', 10, 35)}
+        >
           <div className="flex h-full flex-col gap-4 p-6 sm:p-7">
             <div className="flex items-center gap-3">
               <IconBadge icon="📖" brandVar="--color-brand-lavender" />
@@ -253,37 +257,23 @@ export default function Dashboard() {
           </div>
         </div>
 
-        {/* Stats box — the numbers moved out of the hero so they get real room to shine */}
-        <div className="overflow-hidden rounded-2xl border shadow-card" style={cardStyle('--color-brand-sun', 10, 35)}>
-          <div className="flex h-full flex-col gap-4 p-6 sm:p-7">
-            <div className="flex items-center gap-3">
-              <IconBadge icon="📊" brandVar="--color-brand-sun" />
-              <h2 className="text-lg font-semibold">Antas Mo Ngayon</h2>
-            </div>
-            <div className="grid flex-1 grid-cols-3 gap-3">
-              {[
-                { icon: '⭐', value: progress?.xp ?? 0, label: 'XP', brandVar: '--color-brand-sun' },
-                { icon: '🔥', value: progress?.streak ?? 0, label: 'Streak', brandVar: '--color-brand-coral' },
-                { icon: '🏅', value: achievementCount, label: 'Parangal', brandVar: '--color-brand-lavender' },
-              ].map((stat) => (
-                <div
-                  key={stat.label}
-                  className="flex flex-col items-center justify-center gap-1 rounded-xl bg-white/70 px-2 py-4 text-center shadow-inner"
-                >
-                  <span
-                    className="flex h-9 w-9 items-center justify-center rounded-full text-lg"
-                    style={{ backgroundColor: `color-mix(in srgb, var(${stat.brandVar}) 25%, white)` }}
-                    aria-hidden="true"
-                  >
-                    {stat.icon}
-                  </span>
-                  <span className="text-xl font-bold">{stat.value}</span>
-                  <span className="text-xs text-[var(--color-text-muted)]">{stat.label}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
+        {QUICK_ACTIONS.map((action) => (
+          <Link
+            key={action.label}
+            to={action.to}
+            style={cardStyle(action.brandVar, 10, 35)}
+            className="group flex aspect-square flex-col items-center justify-center gap-2 rounded-2xl border p-4 text-center shadow-card transition-all hover:-translate-y-1 hover:rotate-1 hover:shadow-raised active:scale-95"
+          >
+            <span
+              className="flex h-12 w-12 items-center justify-center rounded-full text-2xl shadow-sm transition-transform group-hover:scale-110 group-hover:-rotate-6"
+              style={{ backgroundColor: `color-mix(in srgb, var(${action.brandVar}) 25%, white)` }}
+              aria-hidden="true"
+            >
+              {action.icon}
+            </span>
+            <p className="text-sm font-semibold">{action.label}</p>
+          </Link>
+        ))}
       </div>
 
       {/* Encouragement / practice CTA — coral, energetic, one big playful rectangle */}
@@ -305,30 +295,78 @@ export default function Dashboard() {
         </Link>
       </div>
 
+      {/* Word of the day — the day's headline activity, so it gets the full-width rectangle */}
       <WordOfDayCard streak={progress?.streak ?? 0} />
 
-      {/* Quick actions — each its own color, matching the destination it leads to */}
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
-        {QUICK_ACTIONS.map((action) => (
-          <Link
-            key={action.label}
-            to={action.to}
-            style={cardStyle(action.brandVar, 10, 35)}
-            className="group flex flex-col items-center gap-2 rounded-2xl border p-6 text-center shadow-card transition-all hover:-translate-y-1 hover:rotate-1 hover:shadow-raised active:scale-95"
+      {!hasActivity && (
+        <p className="rounded-full bg-[var(--color-success-soft)] px-5 py-3 text-center font-medium text-[var(--color-success)]">
+          🌱 Simulan ang unang pagsasanay ngayon!
+        </p>
+      )}
+
+      {/* Practice mode entry cards — two even rectangles, same shape as the CTA above them */}
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+        <Link
+          to="/student/practice?mode=say"
+          className="group flex items-center gap-4 rounded-2xl border p-5 shadow-card transition-all hover:-translate-y-1 hover:shadow-raised active:scale-95"
+          style={cardStyle('--color-brand-coral', 10, 35)}
+        >
+          <span
+            className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full text-2xl shadow-sm transition-transform group-hover:scale-110"
+            style={{ backgroundColor: 'color-mix(in srgb, var(--color-brand-coral) 25%, white)' }}
+            aria-hidden="true"
           >
-            <span
-              className="flex h-14 w-14 items-center justify-center rounded-full text-3xl shadow-sm transition-transform group-hover:scale-110 group-hover:-rotate-6"
-              style={{ backgroundColor: `color-mix(in srgb, var(${action.brandVar}) 25%, white)` }}
-              aria-hidden="true"
-            >
-              {action.icon}
-            </span>
-            <p className="font-semibold">{action.label}</p>
-          </Link>
-        ))}
+            🎙️
+          </span>
+          <div>
+            <p className="font-semibold">Sabihin ang Salita</p>
+            <p className="text-sm text-[var(--color-text-muted)]">AI na Pagsasanay sa Bigkas</p>
+          </div>
+        </Link>
+        <Link
+          to="/student/practice?mode=listen"
+          className="group flex items-center gap-4 rounded-2xl border p-5 shadow-card transition-all hover:-translate-y-1 hover:shadow-raised active:scale-95"
+          style={cardStyle('--color-brand-lavender', 10, 35)}
+        >
+          <span
+            className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full text-2xl shadow-sm transition-transform group-hover:scale-110"
+            style={{ backgroundColor: 'color-mix(in srgb, var(--color-brand-lavender) 25%, white)' }}
+            aria-hidden="true"
+          >
+            🔊
+          </span>
+          <div>
+            <p className="font-semibold">Pakinggan at Basahin</p>
+            <p className="text-sm text-[var(--color-text-muted)]">Suporta sa Text-to-Speech</p>
+          </div>
+        </Link>
       </div>
 
-      {/* Deadlines + recent activity, side by side on larger screens */}
+      {/* AI-backed recommendation — lavender-dark, only shown once there's enough session data to trust it */}
+      {profile && profile.sessionCount > 0 && (
+        <div className="rounded-2xl border p-6 shadow-card" style={cardStyle('--color-brand-violet', 10, 35)}>
+          <div className="mb-2 flex flex-wrap items-center justify-between gap-2">
+            <div className="flex items-center gap-3">
+              <IconBadge icon="🤖" brandVar="--color-brand-violet" />
+              <h2 className="text-lg font-semibold">Inirekomendang Pagsasanay</h2>
+            </div>
+            <span className="rounded-full bg-white/70 px-3 py-1 text-sm font-semibold text-[var(--color-brand-violet)]">
+              {profile.confidenceScore}% Kumpiyansa
+            </span>
+          </div>
+          <p className="mb-1">{profile.recommendedHomePractice}</p>
+          {recommendedFocus && <p className="text-sm text-[var(--color-text-muted)]">Pokus: {recommendedFocus}</p>}
+          <Link
+            to="/student/practice"
+            className="mt-3 inline-flex items-center rounded-full bg-[var(--color-brand-violet)] px-5 py-2.5 text-sm text-white shadow-card transition-all hover:-translate-y-0.5 hover:shadow-raised active:scale-95"
+          >
+            Simulan ang Pagsasanay
+          </Link>
+        </div>
+      )}
+
+      {/* Deadlines + recent activity — content-length varies (could be 1 line or a list), so
+          these stay as a pair of rectangles rather than being forced into squares. */}
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
         {/* Deadlines — sun/amber, like a calendar */}
         <div className="rounded-2xl border p-6 shadow-card" style={cardStyle('--color-brand-sun', 10, 35)}>
@@ -383,73 +421,6 @@ export default function Dashboard() {
             <p className="text-[var(--color-text-muted)]">Wala ka pang aktibidad. Magsimula ng pagsasanay ngayon!</p>
           )}
         </div>
-      </div>
-
-      {!hasActivity && (
-        <p className="rounded-full bg-[var(--color-success-soft)] px-5 py-3 text-center font-medium text-[var(--color-success)]">
-          🌱 Simulan ang unang pagsasanay ngayon!
-        </p>
-      )}
-
-      {/* AI-backed recommendation — lavender-dark, only shown once there's enough session data to trust it */}
-      {profile && profile.sessionCount > 0 && (
-        <div className="rounded-2xl border p-6 shadow-card" style={cardStyle('--color-brand-violet', 10, 35)}>
-          <div className="mb-2 flex flex-wrap items-center justify-between gap-2">
-            <div className="flex items-center gap-3">
-              <IconBadge icon="🤖" brandVar="--color-brand-violet" />
-              <h2 className="text-lg font-semibold">Inirekomendang Pagsasanay</h2>
-            </div>
-            <span className="rounded-full bg-white/70 px-3 py-1 text-sm font-semibold text-[var(--color-brand-violet)]">
-              {profile.confidenceScore}% Kumpiyansa
-            </span>
-          </div>
-          <p className="mb-1">{profile.recommendedHomePractice}</p>
-          {recommendedFocus && <p className="text-sm text-[var(--color-text-muted)]">Pokus: {recommendedFocus}</p>}
-          <Link
-            to="/student/practice"
-            className="mt-3 inline-flex items-center rounded-full bg-[var(--color-brand-violet)] px-5 py-2.5 text-sm text-white shadow-card transition-all hover:-translate-y-0.5 hover:shadow-raised active:scale-95"
-          >
-            Simulan ang Pagsasanay
-          </Link>
-        </div>
-      )}
-
-      {/* Practice mode entry cards */}
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-        <Link
-          to="/student/practice?mode=say"
-          className="group flex items-center gap-4 rounded-2xl border p-5 shadow-card transition-all hover:-translate-y-1 hover:shadow-raised active:scale-95"
-          style={cardStyle('--color-brand-coral', 10, 35)}
-        >
-          <span
-            className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full text-2xl shadow-sm transition-transform group-hover:scale-110"
-            style={{ backgroundColor: 'color-mix(in srgb, var(--color-brand-coral) 25%, white)' }}
-            aria-hidden="true"
-          >
-            🎙️
-          </span>
-          <div>
-            <p className="font-semibold">Sabihin ang Salita</p>
-            <p className="text-sm text-[var(--color-text-muted)]">AI na Pagsasanay sa Bigkas</p>
-          </div>
-        </Link>
-        <Link
-          to="/student/practice?mode=listen"
-          className="group flex items-center gap-4 rounded-2xl border p-5 shadow-card transition-all hover:-translate-y-1 hover:shadow-raised active:scale-95"
-          style={cardStyle('--color-brand-lavender', 10, 35)}
-        >
-          <span
-            className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full text-2xl shadow-sm transition-transform group-hover:scale-110"
-            style={{ backgroundColor: 'color-mix(in srgb, var(--color-brand-lavender) 25%, white)' }}
-            aria-hidden="true"
-          >
-            🔊
-          </span>
-          <div>
-            <p className="font-semibold">Pakinggan at Basahin</p>
-            <p className="text-sm text-[var(--color-text-muted)]">Suporta sa Text-to-Speech</p>
-          </div>
-        </Link>
       </div>
 
       {/* Reading tip — teal, distinct "helpful info" color */}
