@@ -9,6 +9,14 @@ import { cardStyle } from '../../lib/cardStyle';
 import type { ReadingProfile } from '../../components/ReadingInsightsPanel';
 import owlbook from '../../assets/owlbook.png';
 import spark from '../../assets/spark.png';
+import bookIcon from '../../assets/book.png';
+import micIcon from '../../assets/mic.png';
+import trophyIcon from '../../assets/trophy.png';
+import calendarIcon from '../../assets/calendar.png';
+import speechIcon from '../../assets/speech.png';
+import bulbIcon from '../../assets/bulb.png';
+import confetti from '../../assets/confetti.png';
+import dot from '../../assets/dot.png';
 
 interface ChildProgress {
   xp: number;
@@ -42,19 +50,19 @@ interface PracticeSession {
 }
 
 const QUICK_ACTIONS = [
-  { to: '/student/learn', icon: '📖', label: 'Aralin', brandVar: '--color-brand-lavender' },
-  { to: '/student/practice', icon: '🎙️', label: 'Pagsasanay', brandVar: '--color-brand-coral' },
-  { to: '/student/achievements', icon: '🏅', label: 'Parangal', brandVar: '--color-brand-sun' },
+  { to: '/student/learn', icon: bookIcon, label: 'Aralin', brandVar: '--color-brand-lavender' },
+  { to: '/student/practice', icon: micIcon, label: 'Pagsasanay', brandVar: '--color-brand-coral' },
+  { to: '/student/achievements', icon: trophyIcon, label: 'Parangal', brandVar: '--color-brand-sun' },
 ];
 
-function IconBadge({ icon, brandVar }: { icon: string; brandVar: string }) {
+function IconBadge({ icon, img, brandVar }: { icon?: string; img?: string; brandVar: string }) {
   return (
     <span
       aria-hidden="true"
       className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-xl shadow-sm"
       style={{ backgroundColor: `color-mix(in srgb, var(${brandVar}) 22%, white)` }}
     >
-      {icon}
+      {img ? <img src={img} alt="" className="h-6 w-6 object-contain" /> : icon}
     </span>
   );
 }
@@ -161,6 +169,11 @@ export default function Dashboard() {
             'linear-gradient(135deg, var(--color-hero-from), var(--color-hero-via), var(--color-hero-to))',
         }}
       >
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-0 opacity-10"
+          style={{ backgroundImage: `url(${dot})`, backgroundSize: '220px', backgroundRepeat: 'repeat' }}
+        />
         <div aria-hidden="true" className="pointer-events-none absolute -top-12 -right-10 h-48 w-48 rounded-full bg-white/10" />
         <div aria-hidden="true" className="pointer-events-none absolute -bottom-16 right-28 h-56 w-56 rounded-full bg-white/5" />
         <div aria-hidden="true" className="pointer-events-none absolute top-6 left-1/2 h-24 w-24 rounded-full bg-white/5 sm:left-2/3" />
@@ -218,7 +231,7 @@ export default function Dashboard() {
         >
           <div className="flex h-full flex-col gap-4 p-6 sm:p-7">
             <div className="flex items-center gap-3">
-              <IconBadge icon="📖" brandVar="--color-brand-lavender" />
+              <IconBadge img={bookIcon} brandVar="--color-brand-lavender" />
               <h2 className="text-lg font-semibold">Ipagpatuloy ang Pag-aaral</h2>
             </div>
 
@@ -267,11 +280,11 @@ export default function Dashboard() {
             className="group flex aspect-square flex-col items-center justify-center gap-2 rounded-2xl border p-4 text-center shadow-card transition-all hover:-translate-y-1 hover:rotate-1 hover:shadow-raised active:scale-95"
           >
             <span
-              className="flex h-12 w-12 items-center justify-center rounded-full text-2xl shadow-sm transition-transform group-hover:scale-110 group-hover:-rotate-6"
+              className="flex h-12 w-12 items-center justify-center rounded-full shadow-sm transition-transform group-hover:scale-110 group-hover:-rotate-6"
               style={{ backgroundColor: `color-mix(in srgb, var(${action.brandVar}) 25%, white)` }}
               aria-hidden="true"
             >
-              {action.icon}
+              <img src={action.icon} alt="" className="h-7 w-7 object-contain" />
             </span>
             <p className="text-sm font-semibold">{action.label}</p>
           </Link>
@@ -286,7 +299,7 @@ export default function Dashboard() {
         <img src={spark} alt="" aria-hidden="true" className="pointer-events-none absolute top-3 right-6 h-6 w-6 opacity-50" />
         <span aria-hidden="true" className="pointer-events-none absolute -bottom-4 left-1/3 text-5xl opacity-10">🎙️</span>
         <div className="relative z-10 flex items-center gap-3">
-          <IconBadge icon="🎙️" brandVar="--color-brand-coral" />
+          <IconBadge img={micIcon} brandVar="--color-brand-coral" />
           <p className="font-medium">Bawat pagsasanay ay isang hakbang pasulong!</p>
         </div>
         <Link
@@ -374,7 +387,7 @@ export default function Dashboard() {
         <div className="rounded-2xl border p-6 shadow-card" style={cardStyle('--color-brand-sun', 10, 35)}>
           <div className="mb-3 flex items-center justify-between gap-2">
             <div className="flex items-center gap-3">
-              <IconBadge icon="📅" brandVar="--color-brand-sun" />
+              <IconBadge img={calendarIcon} brandVar="--color-brand-sun" />
               <h2 className="text-lg font-semibold">Deadline</h2>
             </div>
             <Link to="/student/learn" className="text-sm font-medium text-[var(--color-primary)] underline">
@@ -405,7 +418,7 @@ export default function Dashboard() {
         {/* Recent activity — sage, calm reflection */}
         <div className="rounded-2xl border p-6 shadow-card" style={cardStyle('--color-brand-sage', 10, 35)}>
           <div className="mb-3 flex items-center gap-3">
-            <IconBadge icon="🎙️" brandVar="--color-brand-sage" />
+            <IconBadge img={speechIcon} brandVar="--color-brand-sage" />
             <h2 className="text-lg font-semibold">Kamakailang Aktibidad</h2>
           </div>
           {recentSessions && recentSessions.length > 0 ? (
@@ -427,7 +440,7 @@ export default function Dashboard() {
 
       {/* Reading tip — teal, distinct "helpful info" color */}
       <div className="flex items-start gap-3 rounded-2xl border p-6 shadow-card" style={cardStyle('--color-brand-teal', 10, 35)}>
-        <IconBadge icon="💡" brandVar="--color-brand-teal" />
+        <IconBadge img={bulbIcon} brandVar="--color-brand-teal" />
         <div>
           <h2 className="mb-1 font-semibold">Tip sa Pagbasa</h2>
           <p className="text-[var(--color-text-muted)]">
@@ -436,9 +449,12 @@ export default function Dashboard() {
         </div>
       </div>
 
-      <p className="text-center text-lg font-medium text-[var(--color-primary)]">
-        Bawat salitang nababasa mo, lumalakas ka!
-      </p>
+      <div className="relative flex flex-col items-center gap-2">
+        <img src={confetti} alt="" aria-hidden="true" className="pointer-events-none h-10 w-10 object-contain opacity-80" />
+        <p className="text-center text-lg font-medium text-[var(--color-primary)]">
+          Bawat salitang nababasa mo, lumalakas ka!
+        </p>
+      </div>
     </div>
   );
 }
