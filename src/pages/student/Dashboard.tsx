@@ -151,80 +151,158 @@ export default function Dashboard() {
 
   return (
     <div className="flex flex-col gap-6">
-      {/* Hero — greeting + at-a-glance status chips, no raw numbers (matches mobile app's philosophy) */}
+      {/* Hero — greeting + playful sticker stats, mascot, and a wave into the content below */}
       <div
-        className="relative overflow-hidden rounded-3xl p-7 text-white shadow-hero sm:p-10"
+        className="relative overflow-hidden rounded-[2rem] pt-7 pb-12 text-white shadow-hero sm:pt-10 sm:pb-16"
         style={{
           backgroundImage:
             'linear-gradient(135deg, var(--color-hero-from), var(--color-hero-via), var(--color-hero-to))',
         }}
       >
         <div aria-hidden="true" className="pointer-events-none absolute -top-12 -right-10 h-48 w-48 rounded-full bg-white/10" />
-        <div aria-hidden="true" className="pointer-events-none absolute -bottom-20 right-28 h-56 w-56 rounded-full bg-white/5" />
+        <div aria-hidden="true" className="pointer-events-none absolute -bottom-16 right-28 h-56 w-56 rounded-full bg-white/5" />
         <div aria-hidden="true" className="pointer-events-none absolute top-6 left-1/2 h-24 w-24 rounded-full bg-white/5 sm:left-2/3" />
+        <span aria-hidden="true" className="pointer-events-none absolute top-8 right-10 text-2xl opacity-70 sm:right-16">✨</span>
+        <span aria-hidden="true" className="pointer-events-none absolute top-20 right-24 text-lg opacity-50 sm:right-40">⭐</span>
 
-        <div className="relative z-10">
-          <p className="text-sm font-semibold tracking-wide text-white/75 uppercase">Kumusta ka ngayon?</p>
-          <h1 className="mt-1 text-3xl font-bold sm:text-4xl">{firstName}! 👋</h1>
-          <p className="mt-2 text-white/85">Handa ka na bang matuto ngayon?</p>
+        <div className="relative z-10 px-7 sm:px-10">
+          <div className="flex items-start justify-between gap-4">
+            <div>
+              <p className="text-sm font-semibold tracking-wide text-white/75 uppercase">Kumusta ka ngayon?</p>
+              <h1 className="mt-1 text-3xl font-bold sm:text-4xl">{firstName}! 👋</h1>
+              <p className="mt-2 text-white/85">Handa ka na bang matuto ngayon?</p>
+            </div>
+            <span
+              aria-hidden="true"
+              className="hidden h-16 w-16 shrink-0 rotate-6 items-center justify-center rounded-2xl bg-white/15 text-4xl shadow-lg backdrop-blur sm:flex"
+            >
+              🦉
+            </span>
+          </div>
 
           <div className="mt-6 flex flex-wrap gap-3">
             <span className="flex items-center gap-2 rounded-full bg-white/15 px-4 py-2 text-sm font-semibold backdrop-blur">
-              ⭐ {(progress?.xp ?? 0) > 0 ? 'Kumikita ng XP!' : 'Simulan ang XP mo!'}
+              <span className="flex h-6 w-6 items-center justify-center rounded-full bg-white/20">⭐</span>
+              {progress?.xp ?? 0} XP
             </span>
             <span className="flex items-center gap-2 rounded-full bg-white/15 px-4 py-2 text-sm font-semibold backdrop-blur">
-              🔥 {(progress?.streak ?? 0) > 0 ? 'May-init ang streak mo!' : 'Simulan ang streak!'}
+              <span className="flex h-6 w-6 items-center justify-center rounded-full bg-white/20">🔥</span>
+              {progress?.streak ?? 0} araw na streak
             </span>
             <span className="flex items-center gap-2 rounded-full bg-white/15 px-4 py-2 text-sm font-semibold backdrop-blur">
-              🏅 {achievementCount > 0 ? 'May mga parangal ka na!' : 'Kumuha ng unang parangal!'}
+              <span className="flex h-6 w-6 items-center justify-center rounded-full bg-white/20">🏅</span>
+              {achievementCount} parangal
             </span>
+          </div>
+        </div>
+
+        <svg
+          aria-hidden="true"
+          className="pointer-events-none absolute right-0 bottom-0 left-0 h-10 w-full text-[var(--color-bg)] sm:h-14"
+          viewBox="0 0 400 40"
+          preserveAspectRatio="none"
+        >
+          <path d="M0 24C50 8 100 40 150 24S250 8 300 24 400 8 400 24V40H0Z" fill="currentColor" />
+        </svg>
+      </div>
+
+      {/* Two boxes — progress front and center, XP/streak/badges as its playful companion */}
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+        {/* Progress box */}
+        <div className="overflow-hidden rounded-2xl border shadow-card" style={cardStyle('--color-brand-lavender', 10, 35)}>
+          <div className="flex h-full flex-col gap-4 p-6 sm:p-7">
+            <div className="flex items-center gap-3">
+              <IconBadge icon="📖" brandVar="--color-brand-lavender" />
+              <h2 className="text-lg font-semibold">Ipagpatuloy ang Pag-aaral</h2>
+            </div>
+
+            {allCompleted ? (
+              <p className="text-[var(--color-text-muted)]">Tapos na ang mga aralin sa modyul na ito! 🎉</p>
+            ) : currentModule ? (
+              <>
+                <p className="text-sm text-[var(--color-text-muted)]">
+                  Aralin {currentModuleIndex + 1} ng {modules.length} — {currentModule.title}
+                </p>
+                <div className="flex items-center gap-3">
+                  <div className="h-3 flex-1 overflow-hidden rounded-full bg-white/70 shadow-inner">
+                    <div
+                      className="h-full rounded-full transition-[width]"
+                      style={{ width: `${modulePct}%`, backgroundImage: 'linear-gradient(90deg, var(--color-hero-from), var(--color-hero-via))' }}
+                    />
+                  </div>
+                  <span className="text-sm font-semibold text-[var(--color-primary)]">{modulePct}%</span>
+                </div>
+                <Link
+                  to="/student/learn"
+                  className="mt-auto inline-flex w-fit items-center rounded-full bg-[var(--color-primary)] px-6 py-3 font-medium text-white shadow-card transition-all hover:-translate-y-0.5 hover:bg-[var(--color-primary-hover)] hover:shadow-raised active:scale-95"
+                >
+                  Ipagpatuloy
+                </Link>
+              </>
+            ) : (
+              <>
+                <p className="text-[var(--color-text-muted)]">Wala pang binabasang aralin — simulan ang isa!</p>
+                <Link
+                  to="/student/learn"
+                  className="mt-auto inline-flex w-fit items-center rounded-full bg-[var(--color-primary)] px-6 py-3 font-medium text-white shadow-card transition-all hover:-translate-y-0.5 hover:bg-[var(--color-primary-hover)] hover:shadow-raised active:scale-95"
+                >
+                  Simulan
+                </Link>
+              </>
+            )}
+          </div>
+        </div>
+
+        {/* Stats box — the numbers moved out of the hero so they get real room to shine */}
+        <div className="overflow-hidden rounded-2xl border shadow-card" style={cardStyle('--color-brand-sun', 10, 35)}>
+          <div className="flex h-full flex-col gap-4 p-6 sm:p-7">
+            <div className="flex items-center gap-3">
+              <IconBadge icon="📊" brandVar="--color-brand-sun" />
+              <h2 className="text-lg font-semibold">Antas Mo Ngayon</h2>
+            </div>
+            <div className="grid flex-1 grid-cols-3 gap-3">
+              {[
+                { icon: '⭐', value: progress?.xp ?? 0, label: 'XP', brandVar: '--color-brand-sun' },
+                { icon: '🔥', value: progress?.streak ?? 0, label: 'Streak', brandVar: '--color-brand-coral' },
+                { icon: '🏅', value: achievementCount, label: 'Parangal', brandVar: '--color-brand-lavender' },
+              ].map((stat) => (
+                <div
+                  key={stat.label}
+                  className="flex flex-col items-center justify-center gap-1 rounded-xl bg-white/70 px-2 py-4 text-center shadow-inner"
+                >
+                  <span
+                    className="flex h-9 w-9 items-center justify-center rounded-full text-lg"
+                    style={{ backgroundColor: `color-mix(in srgb, var(${stat.brandVar}) 25%, white)` }}
+                    aria-hidden="true"
+                  >
+                    {stat.icon}
+                  </span>
+                  <span className="text-xl font-bold">{stat.value}</span>
+                  <span className="text-xs text-[var(--color-text-muted)]">{stat.label}</span>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </div>
 
-      {/* Continue learning — the primary action, front and center */}
-      <div className="overflow-hidden rounded-2xl border shadow-card" style={cardStyle('--color-brand-lavender', 10, 35)}>
-        <div className="flex flex-col gap-4 p-6 sm:p-7">
-          <div className="flex items-center gap-3">
-            <IconBadge icon="📖" brandVar="--color-brand-lavender" />
-            <h2 className="text-lg font-semibold">Ipagpatuloy ang Pag-aaral</h2>
-          </div>
-
-          {allCompleted ? (
-            <p className="text-[var(--color-text-muted)]">Tapos na ang mga aralin sa modyul na ito! 🎉</p>
-          ) : currentModule ? (
-            <>
-              <p className="text-sm text-[var(--color-text-muted)]">
-                Aralin {currentModuleIndex + 1} ng {modules.length} — {currentModule.title}
-              </p>
-              <div className="flex items-center gap-3">
-                <div className="h-3 flex-1 overflow-hidden rounded-full bg-white/70 shadow-inner">
-                  <div
-                    className="h-full rounded-full transition-[width]"
-                    style={{ width: `${modulePct}%`, backgroundImage: 'linear-gradient(90deg, var(--color-hero-from), var(--color-hero-via))' }}
-                  />
-                </div>
-                <span className="text-sm font-semibold text-[var(--color-primary)]">{modulePct}%</span>
-              </div>
-              <Link
-                to="/student/learn"
-                className="inline-flex w-fit items-center rounded-full bg-[var(--color-primary)] px-6 py-3 font-medium text-white shadow-card transition-all hover:-translate-y-0.5 hover:bg-[var(--color-primary-hover)] hover:shadow-raised active:scale-95"
-              >
-                Ipagpatuloy
-              </Link>
-            </>
-          ) : (
-            <>
-              <p className="text-[var(--color-text-muted)]">Wala pang binabasang aralin — simulan ang isa!</p>
-              <Link
-                to="/student/learn"
-                className="inline-flex w-fit items-center rounded-full bg-[var(--color-primary)] px-6 py-3 font-medium text-white shadow-card transition-all hover:-translate-y-0.5 hover:bg-[var(--color-primary-hover)] hover:shadow-raised active:scale-95"
-              >
-                Simulan
-              </Link>
-            </>
-          )}
+      {/* Encouragement / practice CTA — coral, energetic, one big playful rectangle */}
+      <div
+        className="relative flex flex-wrap items-center justify-between gap-4 overflow-hidden rounded-2xl border p-6 shadow-card sm:p-7"
+        style={cardStyle('--color-brand-coral', 12, 35)}
+      >
+        <span aria-hidden="true" className="pointer-events-none absolute top-3 right-6 text-xl opacity-40">✨</span>
+        <span aria-hidden="true" className="pointer-events-none absolute -bottom-4 left-1/3 text-5xl opacity-10">🎙️</span>
+        <div className="relative z-10 flex items-center gap-3">
+          <IconBadge icon="🎙️" brandVar="--color-brand-coral" />
+          <p className="font-medium">Bawat pagsasanay ay isang hakbang pasulong!</p>
         </div>
+        <Link
+          to="/student/practice"
+          className="relative z-10 inline-flex shrink-0 items-center rounded-full bg-[var(--color-brand-coral)] px-6 py-3 font-medium text-white shadow-card transition-all hover:-translate-y-0.5 hover:shadow-raised active:scale-95"
+        >
+          <IconLabel icon="🎙️" label="Ipagpatuloy ang Pagsasanay" />
+        </Link>
       </div>
 
       <WordOfDayCard streak={progress?.streak ?? 0} />
@@ -236,10 +314,10 @@ export default function Dashboard() {
             key={action.label}
             to={action.to}
             style={cardStyle(action.brandVar, 10, 35)}
-            className="group flex flex-col items-center gap-2 rounded-2xl border p-6 text-center shadow-card transition-all hover:-translate-y-1 hover:shadow-raised active:scale-95"
+            className="group flex flex-col items-center gap-2 rounded-2xl border p-6 text-center shadow-card transition-all hover:-translate-y-1 hover:rotate-1 hover:shadow-raised active:scale-95"
           >
             <span
-              className="flex h-14 w-14 items-center justify-center rounded-full text-3xl shadow-sm transition-transform group-hover:scale-110"
+              className="flex h-14 w-14 items-center justify-center rounded-full text-3xl shadow-sm transition-transform group-hover:scale-110 group-hover:-rotate-6"
               style={{ backgroundColor: `color-mix(in srgb, var(${action.brandVar}) 25%, white)` }}
               aria-hidden="true"
             >
@@ -248,20 +326,6 @@ export default function Dashboard() {
             <p className="font-semibold">{action.label}</p>
           </Link>
         ))}
-      </div>
-
-      {/* Encouragement / practice CTA — coral, energetic */}
-      <div className="flex flex-wrap items-center justify-between gap-4 rounded-2xl border p-6 shadow-card" style={cardStyle('--color-brand-coral', 10, 35)}>
-        <div className="flex items-center gap-3">
-          <IconBadge icon="🎙️" brandVar="--color-brand-coral" />
-          <p className="font-medium">Bawat pagsasanay ay isang hakbang pasulong!</p>
-        </div>
-        <Link
-          to="/student/practice"
-          className="inline-flex shrink-0 items-center rounded-full bg-[var(--color-brand-coral)] px-6 py-3 font-medium text-white shadow-card transition-all hover:-translate-y-0.5 hover:shadow-raised active:scale-95"
-        >
-          <IconLabel icon="🎙️" label="Ipagpatuloy ang Pagsasanay" />
-        </Link>
       </div>
 
       {/* Deadlines + recent activity, side by side on larger screens */}
