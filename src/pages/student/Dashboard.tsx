@@ -8,6 +8,7 @@ import { WordOfDayCard } from '../../components/WordOfDayCard';
 import { cardStyle } from '../../lib/cardStyle';
 import type { ReadingProfile } from '../../components/ReadingInsightsPanel';
 import owlbook from '../../assets/owlbook.png';
+import owlup from '../../assets/owlup.png';
 import spark from '../../assets/spark.png';
 import bookIcon from '../../assets/book.png';
 import micIcon from '../../assets/mic.png';
@@ -184,7 +185,7 @@ export default function Dashboard() {
           <div className="flex items-start justify-between gap-4">
             <div>
               <p className="text-sm font-semibold tracking-wide text-white/75 uppercase">Kumusta ka ngayon?</p>
-              <h1 className="mt-1 text-3xl font-bold sm:text-4xl">{firstName}! 👋</h1>
+              <h1 className="mt-1 text-3xl font-bold sm:text-4xl">{firstName}!</h1>
               <p className="mt-2 text-white/85">Handa ka na bang matuto ngayon?</p>
             </div>
             <span
@@ -197,7 +198,9 @@ export default function Dashboard() {
 
           <div className="mt-6 flex flex-wrap gap-3">
             <span className="flex items-center gap-2 rounded-full bg-white/15 px-4 py-2 text-sm font-semibold backdrop-blur">
-              <span className="flex h-6 w-6 items-center justify-center rounded-full bg-white/20">⭐</span>
+              <span className="flex h-6 w-6 items-center justify-center rounded-full bg-white/20 p-1">
+                <img src={spark} alt="" className="h-full w-full object-contain" />
+              </span>
               {progress?.xp ?? 0} XP
             </span>
             <span className="flex items-center gap-2 rounded-full bg-white/15 px-4 py-2 text-sm font-semibold backdrop-blur">
@@ -205,7 +208,9 @@ export default function Dashboard() {
               {progress?.streak ?? 0} araw na streak
             </span>
             <span className="flex items-center gap-2 rounded-full bg-white/15 px-4 py-2 text-sm font-semibold backdrop-blur">
-              <span className="flex h-6 w-6 items-center justify-center rounded-full bg-white/20">🏅</span>
+              <span className="flex h-6 w-6 items-center justify-center rounded-full bg-white/20 p-1">
+                <img src={trophyIcon} alt="" className="h-full w-full object-contain" />
+              </span>
               {achievementCount} parangal
             </span>
           </div>
@@ -236,7 +241,10 @@ export default function Dashboard() {
             </div>
 
             {allCompleted ? (
-              <p className="text-[var(--color-text-muted)]">Tapos na ang mga aralin sa modyul na ito! 🎉</p>
+              <p className="flex items-center gap-2 text-[var(--color-text-muted)]">
+                Tapos na ang mga aralin sa modyul na ito!
+                <img src={confetti} alt="" aria-hidden="true" className="h-6 w-6 object-contain" />
+              </p>
             ) : currentModule ? (
               <>
                 <p className="text-sm text-[var(--color-text-muted)]">
@@ -297,7 +305,7 @@ export default function Dashboard() {
         style={cardStyle('--color-brand-coral', 12, 35)}
       >
         <img src={spark} alt="" aria-hidden="true" className="pointer-events-none absolute top-3 right-6 h-6 w-6 opacity-50" />
-        <span aria-hidden="true" className="pointer-events-none absolute -bottom-4 left-1/3 text-5xl opacity-10">🎙️</span>
+        <img src={micIcon} alt="" aria-hidden="true" className="pointer-events-none absolute -bottom-4 left-1/3 h-20 w-20 object-contain opacity-10" />
         <div className="relative z-10 flex items-center gap-3">
           <IconBadge img={micIcon} brandVar="--color-brand-coral" />
           <p className="font-medium">Bawat pagsasanay ay isang hakbang pasulong!</p>
@@ -306,7 +314,11 @@ export default function Dashboard() {
           to="/student/practice"
           className="relative z-10 inline-flex shrink-0 items-center rounded-full bg-[var(--color-brand-coral)] px-6 py-3 font-medium text-white shadow-card transition-all hover:-translate-y-0.5 hover:shadow-raised active:scale-95"
         >
-          <IconLabel icon="🎙️" label="Ipagpatuloy ang Pagsasanay" />
+          <IconLabel
+            img={micIcon}
+            label="Ipagpatuloy ang Pagsasanay"
+            className="inline-flex items-center gap-2 [&_img]:rounded-full [&_img]:bg-white/25 [&_img]:p-0.5"
+          />
         </Link>
       </div>
 
@@ -314,8 +326,9 @@ export default function Dashboard() {
       <WordOfDayCard streak={progress?.streak ?? 0} />
 
       {!hasActivity && (
-        <p className="rounded-full bg-[var(--color-success-soft)] px-5 py-3 text-center font-medium text-[var(--color-success)]">
-          🌱 Simulan ang unang pagsasanay ngayon!
+        <p className="flex items-center justify-center gap-2 rounded-full bg-[var(--color-success-soft)] px-5 py-3 text-center font-medium text-[var(--color-success)]">
+          <img src={owlup} alt="" aria-hidden="true" className="h-6 w-6 object-contain" />
+          Simulan ang unang pagsasanay ngayon!
         </p>
       )}
 
@@ -327,11 +340,11 @@ export default function Dashboard() {
           style={cardStyle('--color-brand-coral', 10, 35)}
         >
           <span
-            className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full text-2xl shadow-sm transition-transform group-hover:scale-110"
+            className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full shadow-sm transition-transform group-hover:scale-110"
             style={{ backgroundColor: 'color-mix(in srgb, var(--color-brand-coral) 25%, white)' }}
             aria-hidden="true"
           >
-            🎙️
+            <img src={micIcon} alt="" className="h-7 w-7 object-contain" />
           </span>
           <div>
             <p className="font-semibold">Sabihin ang Salita</p>
@@ -344,11 +357,11 @@ export default function Dashboard() {
           style={cardStyle('--color-brand-lavender', 10, 35)}
         >
           <span
-            className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full text-2xl shadow-sm transition-transform group-hover:scale-110"
+            className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full shadow-sm transition-transform group-hover:scale-110"
             style={{ backgroundColor: 'color-mix(in srgb, var(--color-brand-lavender) 25%, white)' }}
             aria-hidden="true"
           >
-            🔊
+            <img src={speechIcon} alt="" className="h-7 w-7 object-contain" />
           </span>
           <div>
             <p className="font-semibold">Pakinggan at Basahin</p>
@@ -362,7 +375,7 @@ export default function Dashboard() {
         <div className="rounded-2xl border p-6 shadow-card" style={cardStyle('--color-brand-violet', 10, 35)}>
           <div className="mb-2 flex flex-wrap items-center justify-between gap-2">
             <div className="flex items-center gap-3">
-              <IconBadge icon="🤖" brandVar="--color-brand-violet" />
+              <IconBadge img={owlbook} brandVar="--color-brand-violet" />
               <h2 className="text-lg font-semibold">Inirekomendang Pagsasanay</h2>
             </div>
             <span className="rounded-full bg-white/70 px-3 py-1 text-sm font-semibold text-[var(--color-brand-violet)]">
@@ -409,8 +422,9 @@ export default function Dashboard() {
               ))}
             </ul>
           ) : (
-            <p className="text-[var(--color-text-muted)]">
-              🌱 Malinis ang schedule mo ngayon. Magpatuloy sa pagsasanay!
+            <p className="flex items-center gap-2 text-[var(--color-text-muted)]">
+              <img src={owlup} alt="" aria-hidden="true" className="h-6 w-6 object-contain" />
+              Malinis ang schedule mo ngayon. Magpatuloy sa pagsasanay!
             </p>
           )}
         </div>
@@ -425,7 +439,7 @@ export default function Dashboard() {
             <ul className="flex flex-col gap-2">
               {recentSessions.map((s, i) => (
                 <li key={i} className="flex items-center justify-between rounded-lg border border-white bg-white/60 px-4 py-2.5 text-sm">
-                  <IconLabel icon="🎙️" label="Pagsasanay sa Bigkas" />
+                  <IconLabel img={micIcon} label="Pagsasanay sa Bigkas" />
                   <span className="text-[var(--color-text-muted)]">
                     {new Date(s.created_at).toLocaleDateString('fil-PH', { month: 'short', day: 'numeric' })}
                   </span>

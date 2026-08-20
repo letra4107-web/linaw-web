@@ -11,6 +11,9 @@ import { SyllableKaraokeText } from './SyllableKaraokeText';
 import { PronunciationFeedback } from './PronunciationFeedback';
 import { BadgeUnlockToast } from './BadgeUnlockToast';
 import { IconLabel } from './a11y/IconLabel';
+import calendarIcon from '../assets/calendar.png';
+import speechIcon from '../assets/speech.png';
+import micIcon from '../assets/mic.png';
 
 interface WordOfDayCardProps {
   streak?: number;
@@ -174,7 +177,7 @@ export function WordOfDayCard({ streak = 0 }: WordOfDayCardProps) {
       >
         <div className="flex flex-wrap items-center justify-between gap-3">
           <h2 className="text-lg font-bold sm:text-xl">
-            <IconLabel icon="📅" label="Salita Ngayon" />
+            <IconLabel img={calendarIcon} label="Salita Ngayon" />
           </h2>
           {streak > 0 && (
             <span className="flex items-center gap-1.5 rounded-full bg-white/20 px-4 py-1.5 text-sm font-semibold backdrop-blur">
@@ -198,7 +201,7 @@ export function WordOfDayCard({ streak = 0 }: WordOfDayCardProps) {
               disabled={karaokeLoading}
               className="inline-flex items-center gap-2 rounded-full border border-[var(--color-border)] bg-[var(--color-surface)] px-3 py-1.5 text-sm text-[var(--color-text)] hover:border-[var(--color-primary)] disabled:opacity-60"
             >
-              <IconLabel icon="🔊" label="Basahin nang Malakas" />
+              <IconLabel img={speechIcon} label="Basahin nang Malakas" />
             </button>
             <button
               type="button"
@@ -240,7 +243,7 @@ export function WordOfDayCard({ streak = 0 }: WordOfDayCardProps) {
                     style={!listening ? { backgroundImage: 'linear-gradient(135deg, #e3971a, #e06b4c)' } : undefined}
                   >
                     {listening && <span className="absolute inset-0 animate-ping rounded-full bg-[var(--color-danger)]/60" />}
-                    <span className="relative">🎤</span>
+                    <img src={micIcon} alt="" className="relative h-8 w-8 object-contain brightness-0 invert" />
                   </button>
                   <p className="text-sm font-medium text-[var(--color-text-muted)]">
                     {listening ? 'Nakikinig...' : 'Pindutin ang mic at bigkasin'}
@@ -255,7 +258,7 @@ export function WordOfDayCard({ streak = 0 }: WordOfDayCardProps) {
                 correct={false}
                 message={feedbackMessage}
                 detail={`Narinig ko: "${lastHeard}"`}
-                hint="Ulitin natin, pakinggan mo ang tamang bigkas! 🔊"
+                hint="Ulitin natin, pakinggan mo ang tamang bigkas!"
                 word={wordOfDay.word}
               />
             )}
