@@ -91,12 +91,11 @@ function NavItem({ to, end, icon, label, collapsed }: { to: string; end?: boolea
     <NavLink to={to} end={end} title={label} className={navClass(collapsed)}>
       {({ isActive }) => (
         <>
-          <img
-            src={icon}
-            alt=""
-            aria-hidden="true"
-            className={`h-6 w-6 shrink-0 object-contain ${isActive ? 'brightness-0 invert' : ''}`}
-          />
+          <span
+            className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full ${isActive ? 'bg-white/90 shadow-sm' : ''}`}
+          >
+            <img src={icon} alt="" aria-hidden="true" className="h-6 w-6 object-contain" />
+          </span>
           <span className={collapsed ? 'sr-only' : undefined}>{label}</span>
         </>
       )}
