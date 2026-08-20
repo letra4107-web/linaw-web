@@ -12,6 +12,7 @@ import { SyllableKaraokeText } from '../../components/SyllableKaraokeText';
 import { PronunciationFeedback } from '../../components/PronunciationFeedback';
 import { IconLabel } from '../../components/a11y/IconLabel';
 import { cardStyle } from '../../lib/cardStyle';
+import speechIcon from '../../assets/speech.png';
 
 type Mode = 'say' | 'listen';
 
@@ -59,9 +60,8 @@ export default function Practice() {
   );
   const [error, setError] = useState<string | null>(null);
   const [streak, setStreak] = useState(0);
-  const [activeSyllable, setActiveSyllable] = useState<number | null>(null);
-  const [karaokeLoading, setKaraokeLoading] = useState(false);
-  const karaokeAudioRef = useRef<HTMLAudioElement | null>(null);
+  const [speechStatus, setSpeechStatus] = useState<'idle' | 'loading' | 'speaking'>('idle');
+  const speechAudioRef = useRef<HTMLAudioElement | null>(null);
 
   const { data: child } = useQuery({
     queryKey: ['student-self', user?.id],
@@ -103,19 +103,19 @@ export default function Practice() {
 
   useEffect(() => {
     return () => {
-      karaokeAudioRef.current?.pause();
+      speechAudioRef.current?.pause();
     };
   }, []);
 
-  const stopKaraoke = () => {
-    karaokeAudioRef.current?.pause();
-    karaokeAudioRef.current = null;
-    setActiveSyllable(null);
+  const stopSpeech = () => {
+    speechAudioRef.current?.pause();
+    speechAudioRef.current = null;
+    setSpeechStatus('idle');
   };
 
   const nextWord = () => {
     if (!words) return;
-    stopKaraoke();
+    stopSpeech();
     const next = pickRandom(words, current?.id) ?? null;
     setCurrent(next);
     saveCurrentWord(next);
@@ -124,49 +124,44 @@ export default function Practice() {
   };
 
   const switchMode = (next: Mode) => {
-    stopKaraoke();
+    stopSpeech();
     setSearchParams({ mode: next });
     setLastResult(null);
     setError(null);
     setStreak(0);
   };
 
-  const playKaraoke = async (rate: number) => {
+  // Plays the whole word in one continuous TTS call -- same endpoint used everywhere else in
+  // the app. The old syllable-by-syllable karaoke feature synthesized each syllable via a
+  // separate marked-SSML call, which sometimes came out mispronounced (reading like English
+  // instead of Tagalog); reading the full word at once avoids that.
+  const playWord = async () => {
     if (!current) return;
-    stopKaraoke();
-    setKaraokeLoading(true);
+    if (speechStatus === 'speaking') {
+      stopSpeech();
+      return;
+    }
+    setSpeechStatus('loading');
     setError(null);
     try {
-      const syllables = syllabifyWord(current.word);
-      const res = await api<{ audioContent: string; timepoints: { markName: string; timeSeconds: number }[] }>(
-        '/tts/speak-syllables',
-        { method: 'POST', body: { syllables, rate } },
-      );
+      const res = await api<{ audioContent: string }>('/tts', { method: 'POST', body: { text: current.word } });
       const bytes = atob(res.audioContent);
       const buffer = new Uint8Array(bytes.length);
       for (let i = 0; i < bytes.length; i += 1) buffer[i] = bytes.charCodeAt(i);
       const url = URL.createObjectURL(new Blob([buffer], { type: 'audio/mpeg' }));
       const audio = new Audio(url);
-      karaokeAudioRef.current = audio;
-
-      audio.ontimeupdate = () => {
-        let idx: number | null = null;
-        for (let i = 0; i < res.timepoints.length; i += 1) {
-          if (res.timepoints[i].timeSeconds <= audio.currentTime) idx = i;
-        }
-        setActiveSyllable(idx);
-      };
+      speechAudioRef.current = audio;
       audio.onended = () => {
-        setActiveSyllable(null);
-        karaokeAudioRef.current = null;
+        setSpeechStatus('idle');
+        speechAudioRef.current = null;
         URL.revokeObjectURL(url);
       };
-
-      setKaraokeLoading(false);
+      audio.onerror = () => setSpeechStatus('idle');
+      setSpeechStatus('speaking');
       audio.play();
     } catch {
-      setKaraokeLoading(false);
-      setError('Hindi ma-play ang pantig-pantig na audio ngayon.');
+      setSpeechStatus('idle');
+      setError('Hindi ma-play ang audio ngayon.');
     }
   };
 
@@ -266,11 +261,7 @@ export default function Practice() {
               className="flex min-h-32 w-full flex-col items-center justify-center gap-3 rounded-2xl bg-white/70 px-6 py-8 shadow-inner"
             >
               {mode === 'listen' ? (
-                <SyllableKaraokeText
-                  syllables={syllabifyWord(current.word)}
-                  activeIndex={activeSyllable}
-                  colorVar={theme.brand}
-                />
+                <SyllableKaraokeText syllables={syllabifyWord(current.word)} activeIndex={null} colorVar={theme.brand} />
               ) : (
                 <p className="text-5xl font-extrabold tracking-wide" style={{ color: `var(${theme.brand})` }}>
                   {current.word}
@@ -278,24 +269,18 @@ export default function Practice() {
               )}
               <div className="flex flex-wrap items-center justify-center gap-2">
                 {mode === 'listen' ? (
-                  <>
-                    <button
-                      type="button"
-                      onClick={() => playKaraoke(1)}
-                      disabled={karaokeLoading}
-                      className="inline-flex items-center gap-2 rounded-full border border-[var(--color-border)] bg-[var(--color-surface)] px-3 py-1.5 text-sm text-[var(--color-text)] hover:border-[var(--color-primary)] disabled:opacity-60"
-                    >
-                      <IconLabel icon="🔊" label="Basahin nang Malakas" />
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => playKaraoke(0.5)}
-                      disabled={karaokeLoading}
-                      className="inline-flex items-center gap-2 rounded-full border border-[var(--color-border)] bg-[var(--color-surface)] px-3 py-1.5 text-sm text-[var(--color-text)] hover:border-[var(--color-primary)] disabled:opacity-60"
-                    >
-                      <IconLabel icon="🐢" label={karaokeLoading ? 'Naglo-load...' : 'Pantig-pantig'} />
-                    </button>
-                  </>
+                  <button
+                    type="button"
+                    onClick={playWord}
+                    disabled={speechStatus === 'loading'}
+                    className="inline-flex items-center gap-2 rounded-full border border-[var(--color-border)] bg-[var(--color-surface)] px-3 py-1.5 text-sm text-[var(--color-text)] hover:border-[var(--color-primary)] disabled:opacity-60"
+                  >
+                    <IconLabel
+                      icon={speechStatus === 'loading' ? '⏳' : undefined}
+                      img={speechStatus !== 'loading' ? speechIcon : undefined}
+                      label={speechStatus === 'loading' ? 'Naglo-load...' : speechStatus === 'speaking' ? 'Ihinto' : 'Basahin nang Malakas'}
+                    />
+                  </button>
                 ) : (
                   <TTSButton text={current.word} />
                 )}
