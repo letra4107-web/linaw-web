@@ -9,12 +9,17 @@ import { softSignOut } from '../../lib/auth/softSignOut';
 import logo from '../../assets/Logo.jpg';
 import studentBg from '../../assets/sd.webp';
 import navBg from '../../assets/side.webp';
+import homeIcon from '../../assets/home.png';
+import profileIcon from '../../assets/profile.png';
+import menuIcon from '../../assets/menu.png';
+import bookIcon from '../../assets/book.png';
+import trophyIcon from '../../assets/trophy.png';
 import { cardStyle } from '../../lib/cardStyle';
 
 const PRIMARY_TABS = [
-  { to: '/student', end: true, icon: '🏠', label: 'Simula' },
-  { to: '/student/learn', icon: '📖', label: 'Aralin' },
-  { to: '/student/achievements', icon: '🏅', label: 'Parangal' },
+  { to: '/student', end: true, icon: homeIcon, label: 'Simula' },
+  { to: '/student/learn', icon: bookIcon, label: 'Aralin' },
+  { to: '/student/achievements', icon: trophyIcon, label: 'Parangal' },
 ];
 
 interface StudentSettingsRow {
@@ -82,8 +87,17 @@ function navClass(collapsed: boolean) {
 function NavItem({ to, end, icon, label, collapsed }: { to: string; end?: boolean; icon: string; label: string; collapsed: boolean }) {
   return (
     <NavLink to={to} end={end} title={label} className={navClass(collapsed)}>
-      <span aria-hidden="true">{icon}</span>
-      <span className={collapsed ? 'sr-only' : undefined}>{label}</span>
+      {({ isActive }) => (
+        <>
+          <img
+            src={icon}
+            alt=""
+            aria-hidden="true"
+            className={`h-6 w-6 shrink-0 object-contain ${isActive ? 'brightness-0 invert' : ''}`}
+          />
+          <span className={collapsed ? 'sr-only' : undefined}>{label}</span>
+        </>
+      )}
     </NavLink>
   );
 }
@@ -113,7 +127,7 @@ function ProfileMenu({ collapsed }: { collapsed: boolean }) {
           collapsed ? 'justify-center px-0' : ''
         }`}
       >
-        <span aria-hidden="true">🙂</span>
+        <img src={profileIcon} alt="" aria-hidden="true" className="h-6 w-6 shrink-0 object-contain" />
         <span className={collapsed ? 'sr-only' : 'truncate'}>{identity?.displayName ?? 'Aking menu'}</span>
       </button>
 
@@ -127,7 +141,7 @@ function ProfileMenu({ collapsed }: { collapsed: boolean }) {
             onClick={() => setOpen(false)}
             className="flex items-center justify-between rounded-lg px-2 py-2 text-sm hover:bg-white/60"
           >
-            <IconLabel icon="🙂" label="Aking Detalye" />
+            <IconLabel img={profileIcon} label="Aking Detalye" />
           </NavLink>
 
           <div className="my-3 border-t border-white/60" />
@@ -225,7 +239,7 @@ export default function StudentLayout() {
               aria-expanded={mobileOpen}
               className="rounded-lg border border-[var(--color-border)] p-2"
             >
-              <IconLabel icon="☰" label="Menu" />
+              <IconLabel img={menuIcon} label="Menu" />
             </button>
           </div>
           {mobileOpen && (
