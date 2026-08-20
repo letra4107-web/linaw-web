@@ -14,6 +14,8 @@ import profileIcon from '../../assets/profile.png';
 import menuIcon from '../../assets/menu.png';
 import bookIcon from '../../assets/book.png';
 import trophyIcon from '../../assets/trophy.png';
+import logoutIcon from '../../assets/logout.png';
+import owlwave from '../../assets/owlwave.png';
 import { cardStyle } from '../../lib/cardStyle';
 
 const PRIMARY_TABS = [
@@ -162,7 +164,7 @@ function ProfileMenu({ collapsed }: { collapsed: boolean }) {
             }}
             className="flex w-full items-center gap-2 rounded-lg px-2 py-2 text-sm text-[var(--color-danger)] hover:bg-[var(--color-danger-soft)]"
           >
-            <IconLabel icon="🚪" label="Mag-sign out" />
+            <IconLabel img={logoutIcon} label="Mag-sign out" />
           </button>
           <p className="mt-2 px-2 text-xs text-[var(--color-text-muted)]">
             Maaalala ka namin sa susunod na pag-login — tap lang ang iyong larawan.
@@ -180,6 +182,14 @@ function NavContents({ collapsed }: { collapsed: boolean }) {
         {PRIMARY_TABS.map((tab) => (
           <NavItem key={tab.to} to={tab.to} end={tab.end} icon={tab.icon} label={tab.label} collapsed={collapsed} />
         ))}
+        {!collapsed && (
+          <img
+            src={owlwave}
+            alt=""
+            aria-hidden="true"
+            className="mt-auto w-28 self-center object-contain opacity-90"
+          />
+        )}
       </nav>
       <div className="border-t border-[var(--color-border)] p-3">
         <ProfileMenu collapsed={collapsed} />
