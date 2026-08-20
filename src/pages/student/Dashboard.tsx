@@ -7,6 +7,8 @@ import { IconLabel } from '../../components/a11y/IconLabel';
 import { WordOfDayCard } from '../../components/WordOfDayCard';
 import { cardStyle } from '../../lib/cardStyle';
 import type { ReadingProfile } from '../../components/ReadingInsightsPanel';
+import owlbook from '../../assets/owlbook.png';
+import spark from '../../assets/spark.png';
 
 interface ChildProgress {
   xp: number;
@@ -162,8 +164,8 @@ export default function Dashboard() {
         <div aria-hidden="true" className="pointer-events-none absolute -top-12 -right-10 h-48 w-48 rounded-full bg-white/10" />
         <div aria-hidden="true" className="pointer-events-none absolute -bottom-16 right-28 h-56 w-56 rounded-full bg-white/5" />
         <div aria-hidden="true" className="pointer-events-none absolute top-6 left-1/2 h-24 w-24 rounded-full bg-white/5 sm:left-2/3" />
-        <span aria-hidden="true" className="pointer-events-none absolute top-8 right-10 text-2xl opacity-70 sm:right-16">✨</span>
-        <span aria-hidden="true" className="pointer-events-none absolute top-20 right-24 text-lg opacity-50 sm:right-40">⭐</span>
+        <img src={spark} alt="" aria-hidden="true" className="pointer-events-none absolute top-8 right-10 h-8 w-8 opacity-80 sm:right-16" />
+        <img src={spark} alt="" aria-hidden="true" className="pointer-events-none absolute top-24 right-28 h-5 w-5 opacity-60 sm:right-44" />
 
         <div className="relative z-10 px-7 sm:px-10">
           <div className="flex items-start justify-between gap-4">
@@ -174,9 +176,9 @@ export default function Dashboard() {
             </div>
             <span
               aria-hidden="true"
-              className="hidden h-16 w-16 shrink-0 rotate-6 items-center justify-center rounded-2xl bg-white/15 text-4xl shadow-lg backdrop-blur sm:flex"
+              className="hidden h-20 w-20 shrink-0 rotate-6 items-center justify-center rounded-2xl bg-white/15 shadow-lg backdrop-blur sm:flex"
             >
-              🦉
+              <img src={owlbook} alt="" className="h-16 w-16 object-contain" />
             </span>
           </div>
 
@@ -281,7 +283,7 @@ export default function Dashboard() {
         className="relative flex flex-wrap items-center justify-between gap-4 overflow-hidden rounded-2xl border p-6 shadow-card sm:p-7"
         style={cardStyle('--color-brand-coral', 12, 35)}
       >
-        <span aria-hidden="true" className="pointer-events-none absolute top-3 right-6 text-xl opacity-40">✨</span>
+        <img src={spark} alt="" aria-hidden="true" className="pointer-events-none absolute top-3 right-6 h-6 w-6 opacity-50" />
         <span aria-hidden="true" className="pointer-events-none absolute -bottom-4 left-1/3 text-5xl opacity-10">🎙️</span>
         <div className="relative z-10 flex items-center gap-3">
           <IconBadge icon="🎙️" brandVar="--color-brand-coral" />
