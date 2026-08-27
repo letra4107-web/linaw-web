@@ -200,7 +200,7 @@ export default function Dashboard() {
       {/* 1. Header */}
       <section aria-labelledby="dashboard-title" className="flex flex-col gap-5">
         <div
-          className="relative overflow-hidden rounded-[2rem] border border-white/20 px-6 py-7 text-white shadow-hero sm:px-10 sm:py-9"
+          className="relative overflow-hidden rounded-3xl border border-white/20 px-5 py-5 text-white shadow-card sm:px-7 sm:py-6"
           style={{ backgroundImage: 'linear-gradient(135deg, var(--color-hero-from), var(--color-hero-via), var(--color-hero-to))' }}
         >
           <div aria-hidden="true" className="pointer-events-none absolute inset-0 opacity-10" style={{ backgroundImage: `url(${dot})`, backgroundSize: '220px', backgroundRepeat: 'repeat' }} />
@@ -208,35 +208,39 @@ export default function Dashboard() {
           <div aria-hidden="true" className="pointer-events-none absolute -bottom-20 left-1/3 h-56 w-56 rounded-full bg-white/10" />
           <img src={spark} alt="" aria-hidden="true" className="pointer-events-none absolute top-7 right-8 h-8 w-8 opacity-80 sm:right-36" />
 
-          <div className="relative z-10 grid items-center gap-6 sm:grid-cols-[1fr_auto]">
+          <div className="relative z-10 grid items-center gap-3 sm:grid-cols-[1fr_auto]">
             <div className="max-w-2xl">
               <p className="text-sm font-bold tracking-[0.12em] text-white/80 uppercase">Kumusta ka ngayon?</p>
-              <h1 id="dashboard-title" className="mt-1 text-3xl leading-tight font-bold sm:text-5xl">
+              <h1 id="dashboard-title" className="mt-0.5 text-2xl leading-tight font-bold sm:text-3xl">
                 Masayang pag-aaral, {firstName}!
               </h1>
-              <p className="mt-3 max-w-xl text-base leading-relaxed text-white/90 sm:text-lg">
+              <p className="mt-1 max-w-xl text-sm leading-relaxed text-white/90 sm:text-base">
                 Handa ka na bang magbasa, makinig, at matuto ng bagong salita?
               </p>
             </div>
-            <span aria-hidden="true" className="mx-auto flex h-28 w-28 shrink-0 rotate-3 items-center justify-center rounded-[1.75rem] border border-white/20 bg-white/15 shadow-lg backdrop-blur transition-transform hover:rotate-0 sm:h-32 sm:w-32">
-              <img src={owlbook} alt="" className="h-24 w-24 object-contain sm:h-28 sm:w-28" />
+            <span aria-hidden="true" className="absolute right-0 bottom-0 flex h-20 w-20 shrink-0 rotate-3 items-center justify-center rounded-2xl bg-white/10 sm:static sm:h-24 sm:w-24 sm:border sm:border-white/20">
+              <img src={owlbook} alt="" className="h-16 w-16 object-contain sm:h-20 sm:w-20" />
             </span>
-            <div className="flex flex-wrap gap-2.5 sm:col-span-2">
-              <span className="flex min-h-11 items-center gap-2 rounded-full border border-white/15 bg-white/15 px-4 py-2 text-sm font-bold backdrop-blur">
-                <span className="flex h-7 w-7 items-center justify-center rounded-full bg-white/20 p-1"><img src={spark} alt="" className="h-full w-full object-contain" /></span>
+            <div className="flex flex-wrap gap-2 pr-14 sm:col-span-2 sm:pr-0">
+              <span className="flex min-h-9 items-center gap-1.5 rounded-full border border-white/15 bg-white/15 px-3 py-1.5 text-xs font-bold backdrop-blur sm:text-sm">
+                <span className="flex h-5 w-5 items-center justify-center rounded-full bg-white/20 p-0.5"><img src={spark} alt="" className="h-full w-full object-contain" /></span>
                 {progress?.xp ?? 0} XP
               </span>
-              <span className="flex min-h-11 items-center gap-2 rounded-full border border-white/15 bg-white/15 px-4 py-2 text-sm font-bold backdrop-blur">
-                <span className="flex h-7 w-7 items-center justify-center rounded-full bg-white/20" aria-hidden="true">🔥</span>
+              <span className="flex min-h-9 items-center gap-1.5 rounded-full border border-white/15 bg-white/15 px-3 py-1.5 text-xs font-bold backdrop-blur sm:text-sm">
+                <span className="flex h-5 w-5 items-center justify-center rounded-full bg-white/20" aria-hidden="true">🔥</span>
                 {progress?.streak ?? 0} araw na streak
               </span>
-              <span className="flex min-h-11 items-center gap-2 rounded-full border border-white/15 bg-white/15 px-4 py-2 text-sm font-bold backdrop-blur">
-                <span className="flex h-7 w-7 items-center justify-center rounded-full bg-white/20 p-1"><img src={trophyIcon} alt="" className="h-full w-full object-contain" /></span>
+              <span className="flex min-h-9 items-center gap-1.5 rounded-full border border-white/15 bg-white/15 px-3 py-1.5 text-xs font-bold backdrop-blur sm:text-sm">
+                <span className="flex h-5 w-5 items-center justify-center rounded-full bg-white/20 p-0.5"><img src={trophyIcon} alt="" className="h-full w-full object-contain" /></span>
                 {achievementCount} parangal
               </span>
             </div>
           </div>
         </div>
+
+        <section aria-label="Salita Ngayon">
+          <WordOfDayCard streak={progress?.streak ?? 0} />
+        </section>
 
         <div className="grid grid-cols-1 gap-4 lg:grid-cols-[1.35fr_1fr]">
           <div className="overflow-hidden rounded-3xl border shadow-card" style={cardStyle('--color-brand-lavender', 10, 35)}>
@@ -340,11 +344,6 @@ export default function Dashboard() {
             </div>
           </div>
         )}
-      </section>
-
-      {/* 3. Salita Ngayon */}
-      <section aria-label="Salita Ngayon">
-        <WordOfDayCard streak={progress?.streak ?? 0} />
       </section>
 
       {/* Existing supporting tools remain available after the primary flow. */}
