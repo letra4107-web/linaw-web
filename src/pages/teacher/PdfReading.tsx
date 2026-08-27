@@ -252,11 +252,11 @@ export default function PdfReading() {
   });
 
   return (
-    <div className="flex flex-col gap-8">
+    <div className="flex min-w-0 flex-col gap-6">
       <div className="flex items-center gap-3">
         <IconBadge icon="📄" brandVar="--color-brand-teal" />
         <div>
-          <h1 className="text-2xl font-semibold">Pagbasa ng PDF</h1>
+          <h1 className="text-2xl font-bold">Pagbasa ng PDF</h1>
           <p className="text-[var(--color-text-muted)]">Mag-upload ng PDF at i-assign sa mga mag-aaral para sa gabay na pagbasa.</p>
         </div>
       </div>
@@ -266,10 +266,10 @@ export default function PdfReading() {
           e.preventDefault();
           upload.mutate();
         }}
-        className="flex flex-col gap-4 rounded-2xl border p-6 shadow-card"
+        className="flex min-w-0 flex-col gap-4 rounded-3xl border p-5 shadow-card sm:p-6"
         style={cardStyle('--color-brand-teal', 8, 30)}
       >
-        <h2 className="text-lg font-semibold">Mag-upload ng PDF</h2>
+        <div><h2 className="text-xl font-bold">Mag-upload at Gumawa ng Assignment</h2><p className="text-sm text-[var(--color-text-muted)]">Ihanda ang materyal at reading level bago i-assign.</p></div>
 
         <div className="flex gap-1 rounded-full border border-white/70 bg-white/70 p-1">
           <button
@@ -302,13 +302,13 @@ export default function PdfReading() {
           onChange={(e) => setTitle(e.target.value)}
           placeholder="Pamagat"
           required
-          className="rounded-lg border border-[var(--color-border)] bg-white/80 px-4 py-2.5"
+          className="min-h-12 w-full rounded-2xl border border-[var(--color-border)] bg-white/80 px-4"
         />
-        <div className="grid grid-cols-2 gap-3">
+        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
           <select
             value={gradeLevel}
             onChange={(e) => setGradeLevel(e.target.value)}
-            className="rounded-lg border border-[var(--color-border)] bg-white/80 px-4 py-2.5"
+            className="min-h-12 min-w-0 rounded-2xl border border-[var(--color-border)] bg-white/80 px-4"
           >
             <option value="">Baitang</option>
             {GRADES.map((g) => (
@@ -320,7 +320,7 @@ export default function PdfReading() {
           <select
             value={level}
             onChange={(e) => setLevel(e.target.value)}
-            className="rounded-lg border border-[var(--color-border)] bg-white/80 px-4 py-2.5"
+            className="min-h-12 min-w-0 rounded-2xl border border-[var(--color-border)] bg-white/80 px-4"
           >
             <option value="">Reading Level</option>
             <option value="Beginner">Beginner</option>
@@ -332,13 +332,13 @@ export default function PdfReading() {
           type="file"
           accept="application/pdf"
           onChange={(e) => setFile(e.target.files?.[0] ?? null)}
-          className="rounded-lg border border-[var(--color-border)] bg-white/80 px-4 py-2.5"
+          className="min-h-12 w-full min-w-0 rounded-2xl border border-[var(--color-border)] bg-white/80 px-4 py-2"
         />
         {error && <p className="text-sm text-[var(--color-danger)]">{error}</p>}
         <button
           type="submit"
           disabled={upload.isPending}
-          className="self-start rounded-full bg-[var(--color-primary)] px-6 py-2.5 font-medium text-white shadow-card transition-all hover:-translate-y-0.5 hover:bg-[var(--color-primary-hover)] hover:shadow-raised active:scale-95 disabled:translate-y-0 disabled:opacity-60"
+          className="inline-flex min-h-12 items-center self-start rounded-2xl bg-[var(--color-primary)] px-6 font-bold text-white shadow-card transition-all hover:-translate-y-0.5 hover:bg-[var(--color-primary-hover)] hover:shadow-raised active:scale-95 disabled:translate-y-0 disabled:opacity-60"
         >
           {upload.isPending ? 'Ina-upload...' : 'I-upload'}
         </button>
@@ -376,11 +376,11 @@ export default function PdfReading() {
           </p>
         )}
 
-        <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
+        <div className="grid min-w-0 grid-cols-1 gap-4 lg:grid-cols-2">
           {visibleMaterials.map((m, i) => (
             <div
               key={m.id}
-              className="flex flex-col gap-3 rounded-2xl border p-5 shadow-card"
+              className="flex min-w-0 flex-col gap-3 rounded-3xl border p-5 shadow-card transition-all hover:-translate-y-0.5 hover:shadow-raised"
               style={cardStyle(CARD_COLORS[i % CARD_COLORS.length], 10, 35)}
             >
               <div className="flex items-start gap-3">
@@ -501,7 +501,7 @@ export default function PdfReading() {
                     {(monitorAssignments ?? []).map((a) => {
                       const best = a.pdf_reading_attempts.reduce((max, at) => Math.max(max, at.accuracy), 0);
                       return (
-                        <li key={a.id} className="flex items-center justify-between text-sm">
+                        <li key={a.id} className="flex flex-wrap items-center justify-between gap-2 rounded-xl bg-white/55 px-3 py-2 text-sm">
                           <span>{a.children?.name ?? 'Mag-aaral'}</span>
                           <span className="text-[var(--color-text-muted)]">
                             {STATUS_LABEL[a.status] ?? a.status} · {a.pdf_reading_attempts.length > 0 ? `Best: ${best}%` : 'Wala pang attempt'}

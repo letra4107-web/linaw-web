@@ -89,16 +89,17 @@ export default function Settings() {
   const gradeLevels = teacherProfile?.grade_levels ?? [];
 
   return (
-    <div className="flex flex-col gap-8">
+    <div className="flex min-w-0 flex-col gap-6 sm:gap-8">
       <div
-        className="flex items-center gap-5 overflow-hidden rounded-2xl p-8 text-white shadow-lg"
+        className="relative flex flex-col items-center gap-5 overflow-hidden rounded-3xl p-6 text-center text-white shadow-hero sm:flex-row sm:p-8 sm:text-left"
         style={{ backgroundImage: 'linear-gradient(135deg, #5c8047, #0d9488)' }}
       >
-        <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-full bg-white/20 text-2xl font-bold backdrop-blur">
+        <div className="flex h-28 w-28 shrink-0 items-center justify-center rounded-[2rem] border-4 border-white/40 bg-white/20 text-3xl font-bold shadow-lg backdrop-blur">
           {initialsFor(identity?.displayName ?? 'Guro')}
         </div>
-        <div className="min-w-0">
-          <h1 className="text-2xl font-bold">{identity?.displayName ?? 'Aking Profile'}</h1>
+        <div className="min-w-0 flex-1">
+          <p className="text-xs font-bold tracking-[0.12em] text-white/70 uppercase">Teacher profile</p>
+          <h1 className="truncate text-2xl font-bold sm:text-3xl">{identity?.displayName ?? 'Aking Profile'}</h1>
           <p className="truncate text-white/85">{user?.email}</p>
           <span className="mt-1 inline-block rounded-full bg-white/20 px-3 py-0.5 text-xs font-semibold backdrop-blur">
             <IconLabel icon="🧑‍🏫" label={`Guro · Grade ${gradeLevels.join(', ') || '-'}`} />
@@ -107,14 +108,14 @@ export default function Settings() {
       </div>
 
       {error && (
-        <p className="rounded-lg border border-[var(--color-danger)] bg-[var(--color-danger-soft)] px-4 py-3 text-sm text-[var(--color-danger)]">
+        <p className="rounded-2xl border border-[var(--color-danger)] bg-[var(--color-danger-soft)] px-4 py-3 text-sm text-[var(--color-danger)]">
           {error}
         </p>
       )}
 
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
-        <div className="rounded-2xl border p-6" style={cardStyle('--color-brand-sage')}>
-          <h2 className="mb-4 text-lg font-semibold">
+        <div className="rounded-3xl border p-5 shadow-card sm:p-6" style={cardStyle('--color-brand-sage')}>
+          <h2 className="mb-4 text-xl font-bold">
             <IconLabel icon="✏️" label="Profile Ko" />
           </h2>
           <form
@@ -131,21 +132,21 @@ export default function Settings() {
               id="name"
               value={name}
               onChange={(e) => setName(e.target.value)}
-              className="rounded-lg border border-[var(--color-border)] bg-white px-4 py-2.5"
+              className="min-h-12 w-full rounded-2xl border border-[var(--color-border)] bg-white px-4"
             />
             {profileMsg && <p className="text-sm font-medium text-[var(--color-success)]">{profileMsg}</p>}
             <button
               type="submit"
               disabled={updateProfile.isPending}
-              className="self-start rounded-lg bg-[var(--color-brand-sage)] px-5 py-2 font-medium text-white hover:opacity-90 disabled:opacity-60"
+              className="inline-flex min-h-11 items-center self-start rounded-xl bg-[var(--color-brand-sage)] px-5 font-bold text-white hover:opacity-90 disabled:opacity-60"
             >
               {updateProfile.isPending ? 'Sine-save...' : 'I-save'}
             </button>
           </form>
         </div>
 
-        <div className="rounded-2xl border p-6" style={cardStyle('--color-brand-teal')}>
-          <h2 className="mb-4 text-lg font-semibold">
+        <div className="rounded-3xl border p-5 shadow-card sm:p-6" style={cardStyle('--color-brand-teal')}>
+          <h2 className="mb-4 text-xl font-bold">
             <IconLabel icon="🔔" label="Mga Abiso" />
           </h2>
           <label className="flex items-center gap-3 rounded-lg border border-white/60 bg-white/60 px-4 py-3">
@@ -163,8 +164,8 @@ export default function Settings() {
           </p>
         </div>
 
-        <div className="rounded-2xl border p-6 lg:col-span-2" style={cardStyle('--color-brand-coral')}>
-          <h2 className="mb-4 text-lg font-semibold">
+        <div className="rounded-3xl border p-5 shadow-card sm:p-6 lg:col-span-2" style={cardStyle('--color-brand-coral')}>
+          <h2 className="mb-4 text-xl font-bold">
             <IconLabel icon="🔒" label="Palitan ang Password" />
           </h2>
           <form
@@ -183,7 +184,7 @@ export default function Settings() {
                 type="password"
                 value={newPassword}
                 onChange={(e) => setNewPassword(e.target.value)}
-                className="rounded-lg border border-[var(--color-border)] bg-white px-4 py-2.5"
+                className="min-h-12 w-full rounded-2xl border border-[var(--color-border)] bg-white px-4"
               />
               <label htmlFor="confirmPassword" className="text-sm font-medium">
                 Kumpirmahin ang Bagong Password
@@ -193,7 +194,7 @@ export default function Settings() {
                 type="password"
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
-                className="rounded-lg border border-[var(--color-border)] bg-white px-4 py-2.5"
+                className="min-h-12 w-full rounded-2xl border border-[var(--color-border)] bg-white px-4"
               />
             </div>
             <div className="flex flex-col justify-center gap-2">
@@ -218,7 +219,7 @@ export default function Settings() {
             <button
               type="submit"
               disabled={updatePassword.isPending || !newPassword || !confirmPassword}
-              className="self-start rounded-lg bg-[var(--color-brand-coral)] px-5 py-2 font-medium text-white hover:opacity-90 disabled:opacity-60 lg:col-span-2"
+              className="inline-flex min-h-11 items-center self-start rounded-xl bg-[var(--color-brand-coral)] px-5 font-bold text-white hover:opacity-90 disabled:opacity-60 lg:col-span-2"
             >
               {updatePassword.isPending ? 'Ina-update...' : 'I-update ang Password'}
             </button>

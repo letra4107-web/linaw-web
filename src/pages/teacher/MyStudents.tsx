@@ -2,175 +2,45 @@ import { useState } from 'react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '../../lib/supabaseClient';
 import { useAuth } from '../../lib/auth/AuthContext';
-import { IconLabel } from '../../components/a11y/IconLabel';
 import { cardStyle, CARD_COLORS } from '../../lib/cardStyle';
 
-interface ChildRow {
-  id: string;
-  name: string;
-  grade_level: number;
-  username: string;
-}
-
-interface RosterRow {
-  id: string;
-  student_id: string;
-  assigned_at: string;
-  children: ChildRow | null;
-}
+interface ChildRow { id: string; name: string; grade_level: number; username: string; }
+interface RosterRow { id: string; student_id: string; assigned_at: string; children: ChildRow | null; }
+interface StudentProgress { child_id: string; level: string; accuracy_sum: number; total_attempts: number; activities_completed: number; streak: number; }
+interface StudentSession { word: string; accuracy_percentage: number; is_correct: boolean; created_at: string; }
 
 export default function MyStudents() {
   const { user } = useAuth();
   const queryClient = useQueryClient();
   const [search, setSearch] = useState('');
+  const [gradeFilter, setGradeFilter] = useState('all');
+  const [selectedStudentId, setSelectedStudentId] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
-
-  const { data: teacherProfile } = useQuery({
-    queryKey: ['teacher-profile', user?.id],
-    queryFn: async () => {
-      const { data, error: err } = await supabase
-        .from('teacher_profiles')
-        .select('grade_levels')
-        .eq('user_id', user!.id)
-        .maybeSingle();
-      if (err) throw err;
-      return data as { grade_levels: number[] } | null;
-    },
-    enabled: Boolean(user),
-  });
-
+  const { data: teacherProfile } = useQuery({ queryKey: ['teacher-profile', user?.id], queryFn: async () => { const { data, error: err } = await supabase.from('teacher_profiles').select('grade_levels').eq('user_id', user!.id).maybeSingle(); if (err) throw err; return data as { grade_levels: number[] } | null; }, enabled: Boolean(user) });
   const gradeLevels = teacherProfile?.grade_levels ?? [];
-
-  const { data: roster, isLoading: rosterLoading } = useQuery({
-    queryKey: ['teacher-roster', user?.id],
-    queryFn: async () => {
-      const { data, error: err } = await supabase
-        .from('teacher_student_links')
-        .select('id, student_id, assigned_at, children(id, name, grade_level, username)')
-        .order('assigned_at', { ascending: false });
-      if (err) throw err;
-      return data as unknown as RosterRow[];
-    },
-    enabled: Boolean(user),
-  });
-
-  const { data: searchResults } = useQuery({
-    queryKey: ['student-search', search, gradeLevels],
-    queryFn: async () => {
-      if (!search.trim() || gradeLevels.length === 0) return [];
-      const { data, error: err } = await supabase
-        .from('children')
-        .select('id, name, grade_level, username')
-        .in('grade_level', gradeLevels)
-        .ilike('name', `%${search.trim()}%`)
-        .limit(10);
-      if (err) throw err;
-      return data as ChildRow[];
-    },
-    enabled: search.trim().length > 1 && gradeLevels.length > 0,
-  });
-
-  const addToRoster = useMutation({
-    mutationFn: async (studentId: string) => {
-      const { error: err } = await supabase.from('teacher_student_links').insert({
-        teacher_id: user!.id,
-        student_id: studentId,
-        assigned_by: user!.id,
-      });
-      if (err) throw err;
-    },
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['teacher-roster'] }),
-    onError: (err: Error) => setError(err.message),
-  });
-
-  const removeFromRoster = useMutation({
-    mutationFn: async (linkId: string) => {
-      const { error: err } = await supabase.from('teacher_student_links').delete().eq('id', linkId);
-      if (err) throw err;
-    },
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['teacher-roster'] }),
-  });
-
-  const rosteredIds = new Set((roster ?? []).map((r) => r.student_id));
+  const { data: roster, isLoading } = useQuery({ queryKey: ['teacher-roster', user?.id], queryFn: async () => { const { data, error: err } = await supabase.from('teacher_student_links').select('id, student_id, assigned_at, children(id, name, grade_level, username)').order('assigned_at', { ascending: false }); if (err) throw err; return data as unknown as RosterRow[]; }, enabled: Boolean(user) });
+  const rosterIds = (roster ?? []).map((row) => row.student_id);
+  const { data: progress } = useQuery({ queryKey: ['teacher-students-progress', rosterIds], queryFn: async () => { if (!rosterIds.length) return []; const { data, error: err } = await supabase.from('child_progress').select('child_id, level, accuracy_sum, total_attempts, activities_completed, streak').in('child_id', rosterIds); if (err) throw err; return data as StudentProgress[]; }, enabled: rosterIds.length > 0 });
+  const { data: selectedSessions } = useQuery({ queryKey: ['teacher-student-detail-sessions', selectedStudentId], queryFn: async () => { const { data, error: err } = await supabase.from('pronunciation_practice_sessions').select('word, accuracy_percentage, is_correct, created_at').eq('student_id', selectedStudentId!).order('created_at', { ascending: false }).limit(5); if (err) throw err; return data as StudentSession[]; }, enabled: Boolean(selectedStudentId) });
+  const { data: searchResults } = useQuery({ queryKey: ['student-search', search, gradeLevels], queryFn: async () => { if (!search.trim() || !gradeLevels.length) return []; const { data, error: err } = await supabase.from('children').select('id, name, grade_level, username').in('grade_level', gradeLevels).ilike('name', `%${search.trim()}%`).limit(10); if (err) throw err; return data as ChildRow[]; }, enabled: search.trim().length > 1 && gradeLevels.length > 0 });
+  const addToRoster = useMutation({ mutationFn: async (studentId: string) => { const { error: err } = await supabase.from('teacher_student_links').insert({ teacher_id: user!.id, student_id: studentId, assigned_by: user!.id }); if (err) throw err; }, onSuccess: () => queryClient.invalidateQueries({ queryKey: ['teacher-roster'] }), onError: (err: Error) => setError(err.message) });
+  const removeFromRoster = useMutation({ mutationFn: async (linkId: string) => { const { error: err } = await supabase.from('teacher_student_links').delete().eq('id', linkId); if (err) throw err; }, onSuccess: () => queryClient.invalidateQueries({ queryKey: ['teacher-roster'] }) });
+  const rosteredIds = new Set((roster ?? []).map((row) => row.student_id));
+  const progressFor = (id: string) => progress?.find((item) => item.child_id === id);
+  const filteredRoster = (roster ?? []).filter((row) => gradeFilter === 'all' || String(row.children?.grade_level) === gradeFilter);
 
   return (
-    <div className="flex flex-col gap-8">
-      <div>
-        <h1 className="text-2xl font-semibold">Mag-aaral Ko</h1>
-        <p className="text-[var(--color-text-muted)]">
-          {gradeLevels.length > 0
-            ? `Maaari kang maghanap ng mag-aaral sa Grade ${gradeLevels.join(', ')}.`
-            : 'Wala ka pang naka-assign na grade level. Makipag-ugnayan sa admin.'}
-        </p>
-      </div>
+    <div className="flex min-w-0 flex-col gap-6">
+      <header className="flex flex-wrap items-center justify-between gap-4 rounded-3xl border p-5 shadow-card sm:p-6" style={cardStyle('--color-brand-lavender', 8, 28)}><div><p className="text-xs font-bold tracking-[0.12em] text-[var(--color-primary)] uppercase">Class roster</p><h1 className="text-2xl font-bold sm:text-3xl">Mga Mag-aaral</h1><p className="text-sm text-[var(--color-text-muted)]">Hanapin, idagdag, at subaybayan ang iyong mga mag-aaral.</p></div><span className="rounded-2xl bg-white/70 px-4 py-2 text-sm font-bold text-[var(--color-primary)]">{roster?.length ?? 0} assigned</span></header>
 
-      <div>
-        <label htmlFor="search" className="mb-1 block text-sm font-medium">
-          Maghanap ng mag-aaral (pangalan)
-        </label>
-        <input
-          id="search"
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-          className="w-full max-w-md rounded-lg border border-[var(--color-border)] bg-[var(--color-surface)] px-4 py-2"
-          placeholder="Ilagay ang pangalan..."
-        />
-        {error && <p className="mt-2 text-sm text-[var(--color-danger)]">{error}</p>}
-        {searchResults && searchResults.length > 0 && (
-          <ul className="mt-3 flex flex-col gap-2">
-            {searchResults.map((s, i) => (
-              <li
-                key={s.id}
-                className="flex items-center justify-between rounded-lg border px-4 py-2"
-                style={cardStyle(CARD_COLORS[i % CARD_COLORS.length])}
-              >
-                <span>
-                  {s.name} · Grade {s.grade_level}
-                </span>
-                {rosteredIds.has(s.id) ? (
-                  <span className="text-sm text-[var(--color-text-muted)]">Naka-add na</span>
-                ) : (
-                  <button
-                    type="button"
-                    onClick={() => addToRoster.mutate(s.id)}
-                    className="rounded-full bg-[var(--color-primary)] px-3 py-1 text-sm text-white"
-                  >
-                    <IconLabel icon="➕" label="Idagdag" />
-                  </button>
-                )}
-              </li>
-            ))}
-          </ul>
-        )}
-      </div>
+      <section aria-labelledby="search-title" className="rounded-3xl border p-5 shadow-card" style={cardStyle('--color-brand-teal', 7, 26)}><h2 id="search-title" className="font-bold">Magdagdag sa roster</h2><p className="text-xs text-[var(--color-text-muted)]">Maaari kang maghanap sa Grade {gradeLevels.join(', ') || '—'}.</p><div className="relative mt-3"><span className="absolute top-1/2 left-4 -translate-y-1/2 text-[var(--color-text-muted)]">⌕</span><input value={search} onChange={(event) => setSearch(event.target.value)} className="min-h-12 w-full rounded-2xl border border-white/70 bg-white/80 pr-4 pl-11" placeholder="Ilagay ang pangalan ng mag-aaral..." /></div>{error && <p className="mt-2 rounded-xl bg-[var(--color-danger-soft)] p-3 text-sm text-[var(--color-danger)]">{error}</p>}{searchResults && searchResults.length > 0 && <ul className="mt-3 grid grid-cols-1 gap-2 sm:grid-cols-2">{searchResults.map((student) => <li key={student.id} className="flex items-center gap-3 rounded-2xl border border-white/70 bg-white/65 p-3"><span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[var(--color-primary-soft)] font-bold text-[var(--color-primary)]">{student.name.charAt(0)}</span><span className="min-w-0 flex-1"><span className="block truncate font-bold">{student.name}</span><span className="block text-xs text-[var(--color-text-muted)]">Grade {student.grade_level}</span></span>{rosteredIds.has(student.id) ? <span className="text-xs font-bold text-[var(--color-success)]">Nasa roster</span> : <button type="button" onClick={() => addToRoster.mutate(student.id)} className="min-h-10 rounded-xl bg-[var(--color-primary)] px-3 text-sm font-bold text-white">+ Idagdag</button>}</li>)}</ul>}</section>
 
-      <div>
-        <h2 className="mb-3 text-lg font-semibold">Listahan ng Mag-aaral</h2>
-        {rosterLoading && <p>Naglo-load...</p>}
-        {roster && roster.length === 0 && (
-          <p className="text-[var(--color-text-muted)]">Wala ka pang naidagdag na mag-aaral.</p>
-        )}
-        <ul className="flex flex-col gap-2">
-          {(roster ?? []).map((r, i) => (
-            <li
-              key={r.id}
-              className="flex items-center justify-between rounded-lg border px-4 py-3"
-              style={cardStyle(CARD_COLORS[i % CARD_COLORS.length])}
-            >
-              <span>
-                {r.children?.name ?? 'Hindi kilala'} · Grade {r.children?.grade_level ?? '-'}
-              </span>
-              <button
-                type="button"
-                onClick={() => removeFromRoster.mutate(r.id)}
-                className="rounded-full border border-[var(--color-border)] px-3 py-1 text-sm hover:border-[var(--color-danger)]"
-              >
-                <IconLabel icon="🗑️" label="Alisin" />
-              </button>
-            </li>
-          ))}
-        </ul>
-      </div>
+      <section aria-labelledby="roster-title"><div className="mb-4 flex flex-wrap items-end justify-between gap-3"><div><h2 id="roster-title" className="text-xl font-bold">Class List</h2><p className="text-sm text-[var(--color-text-muted)]">Piliin ang card para makita ang mas malinaw na overview.</p></div><label className="text-sm font-bold">Baitang<select value={gradeFilter} onChange={(event) => setGradeFilter(event.target.value)} className="ml-2 min-h-10 rounded-xl border border-[var(--color-border)] bg-white/75 px-3 font-normal"><option value="all">Lahat</option>{gradeLevels.map((grade) => <option key={grade} value={grade}>Grade {grade}</option>)}</select></label></div>
+        {isLoading && <p className="rounded-2xl bg-white/60 p-5">Naglo-load...</p>}
+        {!isLoading && !filteredRoster.length && <p className="rounded-3xl border border-dashed border-[var(--color-border)] bg-white/45 p-8 text-center text-[var(--color-text-muted)]">Wala pang mag-aaral sa view na ito.</p>}
+        <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">{filteredRoster.map((row, index) => { const student = row.children; const item = progressFor(row.student_id); const accuracy = item?.total_attempts ? Math.round(item.accuracy_sum / item.total_attempts) : 0; const expanded = selectedStudentId === row.student_id; const status = item?.total_attempts ? accuracy < 70 ? 'Kailangang tutukan' : accuracy >= 85 ? 'Mahusay' : 'Umuunlad' : 'Wala pang data'; return <article key={row.id} className="min-w-0 overflow-hidden rounded-3xl border shadow-card" style={cardStyle(CARD_COLORS[index % CARD_COLORS.length], 8, 28)}><button type="button" onClick={() => setSelectedStudentId(expanded ? null : row.student_id)} className="flex w-full min-w-0 items-center gap-3 p-5 text-left"><span className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-white/75 text-xl font-bold text-[var(--color-primary)]">{student?.name.charAt(0) ?? '?'}</span><span className="min-w-0 flex-1"><span className="block truncate text-lg font-bold">{student?.name ?? 'Hindi kilala'}</span><span className="block text-sm text-[var(--color-text-muted)]">Grade {student?.grade_level ?? '—'} · {item?.level ?? 'Walang antas'}</span></span><span className={`rounded-full px-2.5 py-1 text-xs font-bold ${status === 'Kailangang tutukan' ? 'bg-[var(--color-danger-soft)] text-[var(--color-danger)]' : status === 'Mahusay' ? 'bg-[var(--color-success-soft)] text-[var(--color-success)]' : 'bg-white/70 text-[var(--color-text-muted)]'}`}>{status}</span></button><div className="grid grid-cols-3 gap-2 px-5 pb-5"><div className="rounded-2xl bg-white/65 p-3"><p className="font-bold">{accuracy || '—'}{accuracy ? '%' : ''}</p><p className="text-[0.68rem] text-[var(--color-text-muted)]">Accuracy</p></div><div className="rounded-2xl bg-white/65 p-3"><p className="font-bold">{item?.activities_completed ?? 0}</p><p className="text-[0.68rem] text-[var(--color-text-muted)]">Activities</p></div><div className="rounded-2xl bg-white/65 p-3"><p className="font-bold">{item?.streak ?? 0}</p><p className="text-[0.68rem] text-[var(--color-text-muted)]">Streak</p></div></div>{expanded && <div className="border-t border-white/70 bg-white/35 p-5"><div className="grid grid-cols-1 gap-3 sm:grid-cols-2"><div className="rounded-2xl bg-white/65 p-4"><p className="text-xs font-bold text-[var(--color-text-muted)]">Performance overview</p><p className="mt-1 text-sm">{item?.total_attempts ? `${item.total_attempts} pronunciation attempts na may ${accuracy}% average accuracy.` : 'Wala pang pronunciation attempt na naitala.'}</p></div><div className="rounded-2xl bg-white/65 p-4"><p className="text-xs font-bold text-[var(--color-text-muted)]">Recommended focus</p><p className="mt-1 text-sm">{accuracy < 70 && item?.total_attempts ? 'Magbigay ng dagdag na guided pronunciation practice.' : 'Ipagpatuloy ang regular na reading practice at monitoring.'}</p></div></div><button type="button" onClick={() => removeFromRoster.mutate(row.id)} className="mt-4 min-h-10 rounded-xl border border-[var(--color-danger)] px-4 text-sm font-bold text-[var(--color-danger)]">Alisin sa roster</button></div>}</article>; })}</div>
+        {selectedStudentId && <div className="mt-5 rounded-3xl border p-5 shadow-card sm:p-6" style={cardStyle('--color-brand-teal', 7, 26)}><h3 className="text-lg font-bold">Recent Pronunciation History</h3>{selectedSessions?.length ? <ul className="mt-3 grid grid-cols-1 gap-2 sm:grid-cols-2">{selectedSessions.map((session, index) => <li key={`${session.created_at}-${index}`} className="flex items-center gap-3 rounded-2xl bg-white/65 p-3"><span className={`flex h-9 w-9 items-center justify-center rounded-xl font-bold ${session.is_correct ? 'bg-[var(--color-success-soft)] text-[var(--color-success)]' : 'bg-[var(--color-warning-soft)] text-[var(--color-warning-text)]'}`}>{session.is_correct ? '✓' : '↻'}</span><div className="min-w-0 flex-1"><p className="truncate font-bold">{session.word}</p><time dateTime={session.created_at} className="text-xs text-[var(--color-text-muted)]">{new Date(session.created_at).toLocaleDateString('fil-PH', { month: 'short', day: 'numeric' })}</time></div><span className="font-bold">{session.accuracy_percentage}%</span></li>)}</ul> : <p className="mt-3 text-sm text-[var(--color-text-muted)]">Wala pang recent pronunciation activity.</p>}</div>}
+      </section>
     </div>
   );
 }

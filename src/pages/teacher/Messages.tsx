@@ -106,11 +106,8 @@ export default function TeacherMessages() {
   });
 
   return (
-    <div className="flex flex-col gap-8">
-      <div>
-        <h1 className="text-2xl font-semibold">Mga Mensahe</h1>
-        <p className="text-[var(--color-text-muted)]">Pumili ng magulang at magpadala ng mensahe — makikita ito agad sa Mga Mensahe ng magulang.</p>
-      </div>
+    <div className="flex min-w-0 flex-col gap-6">
+      <header className="rounded-3xl border p-5 shadow-card sm:p-6" style={cardStyle('--color-brand-sage', 8, 28)}><p className="text-xs font-bold tracking-[0.12em] text-[var(--color-brand-sage)] uppercase">Family communication</p><h1 className="text-2xl font-bold sm:text-3xl">Mga Mensahe</h1><p className="text-sm text-[var(--color-text-muted)]">Magpadala ng malinaw na update sa magulang tungkol sa kanilang anak.</p></header>
 
       <form
         onSubmit={(e) => {
@@ -122,7 +119,7 @@ export default function TeacherMessages() {
           }
           sendMessage.mutate();
         }}
-        className="flex flex-col gap-3 rounded-xl border p-5"
+        className="flex flex-col gap-4 rounded-3xl border p-5 shadow-card sm:p-6"
         style={cardStyle('--color-brand-teal')}
       >
         <label htmlFor="parent" className="text-sm font-medium">
@@ -132,7 +129,7 @@ export default function TeacherMessages() {
           id="parent"
           value={parentId}
           onChange={(e) => setParentId(e.target.value)}
-          className="rounded-lg border border-[var(--color-border)] bg-[var(--color-bg)] px-4 py-2"
+          className="min-h-12 w-full rounded-2xl border border-[var(--color-border)] bg-white/80 px-4"
         >
           <option value="">Piliin ang magulang...</option>
           {parentOptions.map((p) => (
@@ -150,7 +147,7 @@ export default function TeacherMessages() {
           value={message}
           onChange={(e) => setMessage(e.target.value)}
           rows={3}
-          className="rounded-lg border border-[var(--color-border)] bg-[var(--color-bg)] px-4 py-2"
+          className="min-h-28 w-full rounded-2xl border border-[var(--color-border)] bg-white/80 px-4 py-3"
           placeholder="Isulat ang mensahe para sa magulang..."
         />
 
@@ -159,23 +156,22 @@ export default function TeacherMessages() {
         <button
           type="submit"
           disabled={sendMessage.isPending}
-          className="self-start rounded-full bg-[var(--color-primary)] px-5 py-2 text-sm text-white disabled:opacity-60"
+          className="inline-flex min-h-11 items-center self-start rounded-xl bg-[var(--color-primary)] px-5 text-sm font-bold text-white shadow-card disabled:opacity-60"
         >
           <IconLabel icon="✉️" label={sendMessage.isPending ? 'Ipinapadala...' : 'Ipadala'} />
         </button>
       </form>
 
       <div>
-        <h2 className="mb-3 text-lg font-semibold">Naipadalang mga Mensahe</h2>
+        <h2 className="mb-3 text-xl font-bold">Naipadalang mga Mensahe</h2>
         {isLoading && <p>Naglo-load...</p>}
         {sent && sent.length === 0 && <p className="text-[var(--color-text-muted)]">Wala ka pang naipadalang mensahe.</p>}
-        <ul className="flex flex-col gap-2">
+        <ul className="grid grid-cols-1 gap-3 lg:grid-cols-2">
           {(sent ?? []).map((m, i) => (
-            <li key={m.id} className="rounded-lg border px-4 py-3" style={cardStyle(CARD_COLORS[i % CARD_COLORS.length])}>
-              <p className="text-sm font-medium">
-                Kay {parentNames?.[m.parent_id] ?? 'magulang'} (tungkol kay {m.children?.name ?? 'mag-aaral'}) ·{' '}
-                {m.read ? 'Nabasa na' : 'Hindi pa nababasa'}
-              </p>
+            <li key={m.id} className="rounded-3xl border p-4 shadow-card" style={cardStyle(CARD_COLORS[i % CARD_COLORS.length])}>
+              <div className="flex items-start justify-between gap-3"><p className="text-sm font-bold">
+                Kay {parentNames?.[m.parent_id] ?? 'magulang'} · tungkol kay {m.children?.name ?? 'mag-aaral'}
+              </p><span className={`shrink-0 rounded-full px-2.5 py-1 text-xs font-bold ${m.read ? 'bg-[var(--color-success-soft)] text-[var(--color-success)]' : 'bg-white/70 text-[var(--color-text-muted)]'}`}>{m.read ? 'Nabasa' : 'Hindi pa nabasa'}</span></div>
               <p className="mt-1 text-[var(--color-text)]">{m.message}</p>
               <p className="mt-1 text-xs text-[var(--color-text-muted)]">{new Date(m.created_at).toLocaleString('fil-PH')}</p>
             </li>

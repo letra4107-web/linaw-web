@@ -2,6 +2,7 @@ import { useSearchParams } from 'react-router-dom';
 import Lessons from './Lessons';
 import PdfReading from './PdfReading';
 import { IconLabel } from '../../components/a11y/IconLabel';
+import { cardStyle } from '../../lib/cardStyle';
 
 const SUB_TABS = [
   { key: 'lessons', icon: '📚', label: 'Aralin' },
@@ -19,22 +20,25 @@ export default function LessonsHub() {
   const activeTab = (searchParams.get('tab') as TabKey) || 'lessons';
 
   return (
-    <div className="flex flex-col gap-6">
-      <div>
-        <h1 className="text-2xl font-semibold">Mga Aralin</h1>
-        <p className="text-[var(--color-text-muted)]">Lahat ng nilalamang maia-assign sa mga mag-aaral mo — aralin at PDF.</p>
-      </div>
+    <div className="flex min-w-0 flex-col gap-6">
+      <header className="rounded-3xl border p-5 shadow-card sm:p-6" style={cardStyle('--color-brand-sun', 8, 28)}>
+        <p className="text-xs font-bold tracking-[0.12em] text-[var(--color-warning-text)] uppercase">Learning content</p>
+        <h1 className="text-2xl font-bold sm:text-3xl">Mga Aralin at Assignment</h1>
+        <p className="text-sm text-[var(--color-text-muted)]">Gumawa, mag-upload, mag-assign, at subaybayan ang learning materials.</p>
+      </header>
 
-      <div className="flex flex-wrap gap-2 border-b border-[var(--color-border)] pb-3">
+      <div className="grid grid-cols-2 gap-2 rounded-2xl border border-[var(--color-border)] bg-white/55 p-1.5" role="tablist">
         {SUB_TABS.map((tab) => (
           <button
             key={tab.key}
             type="button"
             onClick={() => setSearchParams({ tab: tab.key })}
-            className={`rounded-full px-4 py-2 text-sm font-medium transition-colors ${
+            role="tab"
+            aria-selected={activeTab === tab.key}
+            className={`min-h-12 rounded-xl px-4 py-2 text-sm font-bold transition-all ${
               activeTab === tab.key
-                ? 'bg-[var(--color-primary)] text-white'
-                : 'border border-[var(--color-border)] hover:border-[var(--color-primary)]'
+                ? 'bg-[var(--color-primary)] text-white shadow-card'
+                : 'hover:bg-white/70'
             }`}
           >
             <IconLabel icon={tab.icon} label={tab.label} />

@@ -98,39 +98,35 @@ export default function Lessons() {
   });
 
   return (
-    <div className="flex flex-col gap-8">
-      <div>
-        <h1 className="text-2xl font-semibold">Mga Aralin</h1>
-        <p className="text-[var(--color-text-muted)]">Gumawa, i-edit, o alisin ang mga lesson.</p>
-      </div>
+    <div className="flex min-w-0 flex-col gap-6">
 
       <form
         onSubmit={(e) => {
           e.preventDefault();
           createLesson.mutate();
         }}
-        className="flex flex-col gap-3 rounded-xl border p-6"
+        className="flex flex-col gap-4 rounded-3xl border p-5 shadow-card sm:p-6"
         style={cardStyle('--color-brand-sun')}
       >
-        <h2 className="text-lg font-semibold">Bagong Aralin</h2>
+        <div><h2 className="text-xl font-bold">Gumawa ng Bagong Aralin</h2><p className="text-sm text-[var(--color-text-muted)]">I-upload ang lesson PDF at ilagay ang malinaw na detalye.</p></div>
         <input
           value={title}
           onChange={(e) => setTitle(e.target.value)}
           placeholder="Pamagat"
           required
-          className="rounded-lg border border-[var(--color-border)] px-4 py-2"
+          className="min-h-12 w-full rounded-2xl border border-[var(--color-border)] bg-white/80 px-4"
         />
         <textarea
           value={description}
           onChange={(e) => setDescription(e.target.value)}
           placeholder="Deskripsyon"
-          className="rounded-lg border border-[var(--color-border)] px-4 py-2"
+          className="min-h-24 w-full rounded-2xl border border-[var(--color-border)] bg-white/80 px-4 py-3"
         />
-        <div className="grid grid-cols-2 gap-3">
+        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
           <select
             value={subject}
             onChange={(e) => setSubject(e.target.value)}
-            className="rounded-lg border border-[var(--color-border)] px-4 py-2"
+            className="min-h-12 min-w-0 rounded-2xl border border-[var(--color-border)] bg-white/80 px-4"
           >
             <option value="">Asignatura</option>
             {SUBJECTS.map((s) => (
@@ -142,7 +138,7 @@ export default function Lessons() {
           <select
             value={gradeLevel}
             onChange={(e) => setGradeLevel(e.target.value)}
-            className="rounded-lg border border-[var(--color-border)] px-4 py-2"
+            className="min-h-12 min-w-0 rounded-2xl border border-[var(--color-border)] bg-white/80 px-4"
           >
             <option value="">Baitang</option>
             {GRADES.map((g) => (
@@ -156,54 +152,56 @@ export default function Lessons() {
           type="file"
           accept="application/pdf"
           onChange={(e) => setFile(e.target.files?.[0] ?? null)}
-          className="rounded-lg border border-[var(--color-border)] px-4 py-2"
+          className="min-h-12 w-full min-w-0 rounded-2xl border border-[var(--color-border)] bg-white/80 px-4 py-2"
         />
         {error && <p className="text-sm text-[var(--color-danger)]">{error}</p>}
         <button
           type="submit"
           disabled={createLesson.isPending}
-          className="self-start rounded-lg bg-[var(--color-primary)] px-4 py-2 text-white disabled:opacity-60"
+          className="inline-flex min-h-12 items-center self-start rounded-2xl bg-[var(--color-primary)] px-5 font-bold text-white shadow-card disabled:opacity-60"
         >
           {createLesson.isPending ? 'Nagpo-post...' : 'Gumawa ng Aralin'}
         </button>
       </form>
 
-      <div>
+      <section aria-labelledby="lesson-list-title">
+        <div className="mb-3 flex items-center justify-between"><h2 id="lesson-list-title" className="text-xl font-bold">Lesson Library</h2><span className="text-sm font-bold text-[var(--color-text-muted)]">{lessons?.length ?? 0} aralin</span></div>
         {isLoading && <p>Naglo-load...</p>}
-        <ul className="flex flex-col gap-3">
+        <ul className="grid grid-cols-1 gap-4 lg:grid-cols-2">
           {(lessons ?? []).map((lesson, i) => (
             <li
               key={lesson.id}
-              className="flex items-center justify-between rounded-lg border px-4 py-3"
+              className="flex min-w-0 flex-col gap-4 rounded-3xl border p-5 shadow-card"
               style={cardStyle(CARD_COLORS[i % CARD_COLORS.length])}
             >
-              <div>
-                <p className="font-medium">{lesson.title}</p>
+              <div className="min-w-0">
+                <div className="flex items-start justify-between gap-2"><span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-white/70">▤</span><span className={`rounded-full px-3 py-1 text-xs font-bold ${lesson.is_published ? 'bg-[var(--color-success-soft)] text-[var(--color-success)]' : 'bg-white/70 text-[var(--color-text-muted)]'}`}>{lesson.is_published ? 'Published' : 'Draft'}</span></div>
+                <p className="mt-3 line-clamp-2 text-lg font-bold">{lesson.title}</p>
                 <p className="text-sm text-[var(--color-text-muted)]">
                   {lesson.subject ?? 'Walang subject'} · Grade {lesson.grade_level ?? '-'} ·{' '}
                   {lesson.is_published ? 'Naka-publish' : 'Draft'}
                 </p>
               </div>
-              <div className="flex gap-2">
+              <div className="mt-auto flex flex-wrap gap-2 border-t border-white/70 pt-3">
                 <a
                   href={lesson.pdf_url}
                   target="_blank"
                   rel="noreferrer"
-                  className="rounded-full border border-[var(--color-border)] px-3 py-1 text-sm"
+                  className="min-h-10 rounded-xl border border-white/70 bg-white/65 px-3 text-sm font-bold"
                 >
                   <IconLabel icon="👁️" label="Tingnan" />
                 </a>
                 <button
                   type="button"
                   onClick={() => togglePublish.mutate({ id: lesson.id, isPublished: lesson.is_published })}
-                  className="rounded-full border border-[var(--color-border)] px-3 py-1 text-sm"
+                  className="min-h-10 rounded-xl border border-white/70 bg-white/65 px-3 text-sm font-bold"
                 >
                   <IconLabel icon="🔁" label={lesson.is_published ? 'I-draft' : 'I-publish'} />
                 </button>
                 <button
                   type="button"
                   onClick={() => deleteLesson.mutate(lesson.id)}
-                  className="rounded-full border border-[var(--color-border)] px-3 py-1 text-sm hover:border-[var(--color-danger)]"
+                  className="min-h-10 rounded-xl border border-white/70 bg-white/65 px-3 text-sm font-bold text-[var(--color-danger)] hover:border-[var(--color-danger)]"
                 >
                   <IconLabel icon="🗑️" label="Tanggalin" />
                 </button>
@@ -211,7 +209,7 @@ export default function Lessons() {
             </li>
           ))}
         </ul>
-      </div>
+      </section>
     </div>
   );
 }
