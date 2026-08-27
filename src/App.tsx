@@ -14,6 +14,7 @@ import AdminArchived from './pages/admin/Archived';
 import AdminTeachers from './pages/admin/Teachers';
 import AdminAnalytics from './pages/admin/Analytics';
 import AdminSettings from './pages/admin/Settings';
+import AdminNotifications from './pages/admin/Notifications';
 import ParentLayout from './pages/parent/ParentLayout';
 import ParentDashboardPage from './pages/parent/Dashboard';
 import MyChildren from './pages/parent/MyChildren';
@@ -63,6 +64,7 @@ export default function App() {
         <Route path="archived" element={<AdminArchived />} />
         <Route path="teachers" element={<AdminTeachers />} />
         <Route path="analytics" element={<AdminAnalytics />} />
+        <Route path="notifications" element={<AdminNotifications />} />
         <Route path="settings" element={<AdminSettings />} />
       </Route>
       <Route

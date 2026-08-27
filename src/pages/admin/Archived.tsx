@@ -45,20 +45,20 @@ export default function AdminArchived() {
   }, [page, totalPages]);
 
   return (
-    <div className="flex flex-col gap-6">
-      <div>
-        <h1 className="text-2xl font-semibold">Arkibo</h1>
-        <p className="text-[var(--color-text-muted)]">Mga na-archive na account. Maaaring i-restore anumang oras.</p>
-      </div>
+    <div className="flex min-w-0 flex-col gap-5">
+      <header className="flex flex-wrap items-end justify-between gap-4">
+        <div><p className="text-xs font-extrabold tracking-[.12em] text-[var(--color-primary)] uppercase">Account records</p><h1 className="text-2xl font-extrabold sm:text-3xl">Arkibo</h1><p className="mt-1 text-sm text-[var(--color-text-muted)]">Mga na-archive na account na maaari pang ibalik.</p></div>
+        {data && <div className="rounded-2xl border px-4 py-2 text-center shadow-card" style={cardStyle('--color-brand-coral', 6, 22)}><p className="text-2xl font-extrabold">{rows.length}</p><p className="text-xs font-bold text-[var(--color-text-muted)]">Archived</p></div>}
+      </header>
 
-      {error && <p className="text-sm text-[var(--color-danger)]">{error}</p>}
-      {isLoading && <p>Naglo-load...</p>}
+      {error && <p role="alert" className="rounded-2xl bg-[var(--color-danger-soft)] p-3 text-sm font-bold text-[var(--color-danger)]">{error}</p>}
+      {isLoading && <div className="rounded-3xl border bg-white/45 p-10 text-center text-sm text-[var(--color-text-muted)]">Naglo-load ng arkibo...</div>}
 
-      <div className="overflow-hidden rounded-xl border border-[var(--color-border)]">
+      <div className="hidden overflow-hidden rounded-3xl border border-[var(--color-border)] bg-white/55 shadow-card md:block">
         <div className="overflow-x-auto">
           <table className="w-full min-w-[640px] border-collapse text-left text-sm">
             <thead>
-              <tr style={cardStyle('--color-brand-navy', 10, 30)}>
+              <tr className="bg-[var(--color-brand-navy)] text-white">
                 <th className="px-4 py-3 font-semibold">Pangalan</th>
                 <th className="px-4 py-3 font-semibold">Role</th>
                 <th className="px-4 py-3 font-semibold">Na-archive</th>
@@ -67,8 +67,8 @@ export default function AdminArchived() {
               </tr>
             </thead>
             <tbody>
-              {pageRows.map((u, i) => (
-                <tr key={u.id} className={i % 2 === 0 ? 'bg-[var(--color-surface)]' : 'bg-[var(--color-bg)]'}>
+              {pageRows.map((u) => (
+                <tr key={u.id} className="transition-colors hover:bg-white/70">
                   <td className="border-t border-[var(--color-border)] px-4 py-3">
                     <p className="font-medium">{u.name ?? u.email}</p>
                     <p className="text-xs text-[var(--color-text-muted)]">{u.email}</p>
@@ -84,7 +84,8 @@ export default function AdminArchived() {
                     <button
                       type="button"
                       onClick={() => restore.mutate(u.id)}
-                      className="rounded-full border border-[var(--color-border)] px-3 py-1 text-xs font-semibold hover:border-[var(--color-primary)]"
+                      disabled={restore.isPending}
+                      className="min-h-9 rounded-full border border-[var(--color-success)]/35 bg-[var(--color-success-soft)] px-3 text-xs font-extrabold text-[var(--color-success)] disabled:opacity-50"
                     >
                       <IconLabel icon="↩️" label="I-restore" />
                     </button>
@@ -103,8 +104,12 @@ export default function AdminArchived() {
         </div>
       </div>
 
+      {!isLoading && <div className="grid grid-cols-1 gap-3 md:hidden">{pageRows.map((u) => <article key={u.id} className="rounded-3xl border p-4 shadow-card" style={cardStyle('--color-brand-coral', 4, 18)}><div className="flex min-w-0 items-start gap-3"><span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-white/70">▣</span><div className="min-w-0 flex-1"><h2 className="truncate font-extrabold">{u.name ?? u.email}</h2><p className="truncate text-xs text-[var(--color-text-muted)]">{u.email}</p><span className="mt-2 inline-block rounded-full bg-white/70 px-2.5 py-1 text-xs font-bold capitalize">{u.role}</span></div></div><dl className="my-3 grid grid-cols-2 gap-2 rounded-2xl bg-white/55 p-3 text-xs"><div><dt className="font-bold text-[var(--color-text-muted)]">Na-archive</dt><dd className="mt-1 font-semibold">{u.archived_at ? new Date(u.archived_at).toLocaleDateString('fil-PH') : '—'}</dd></div><div><dt className="font-bold text-[var(--color-text-muted)]">Dahilan</dt><dd className="mt-1 line-clamp-2 font-semibold">{u.archived_reason ?? 'Walang inilagay'}</dd></div></dl><button type="button" onClick={() => restore.mutate(u.id)} disabled={restore.isPending} className="min-h-10 w-full rounded-xl border border-[var(--color-success)]/35 bg-[var(--color-success-soft)] text-sm font-extrabold text-[var(--color-success)] disabled:opacity-50">↩ I-restore ang account</button></article>)}</div>}
+
+      {data && rows.length === 0 && <div className="rounded-3xl border border-dashed border-[var(--color-border)] bg-white/45 p-10 text-center"><p className="text-4xl">▣</p><h2 className="mt-2 text-lg font-extrabold">Walang archived account</h2><p className="mt-1 text-sm text-[var(--color-text-muted)]">Malinis ang iyong archive sa ngayon.</p></div>}
+
       {rows.length > 0 && (
-        <div className="flex flex-wrap items-center justify-between gap-3">
+        <div className="flex flex-col items-center justify-between gap-3 sm:flex-row">
           <p className="text-sm text-[var(--color-text-muted)]">
             Ipinapakita {(page - 1) * PAGE_SIZE + 1}–{Math.min(page * PAGE_SIZE, rows.length)} ng {rows.length}
           </p>

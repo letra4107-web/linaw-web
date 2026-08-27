@@ -1,254 +1,45 @@
 import { Fragment, useEffect, useState } from 'react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { api } from '../../lib/api';
-import { IconLabel } from '../../components/a11y/IconLabel';
 import { cardStyle } from '../../lib/cardStyle';
 
-interface UserRow {
-  id: string;
-  email: string;
-  name: string | null;
-  role: string;
-  account_status: string;
-  is_active: boolean;
-  created_at: string;
-  lastLoginAt: string | null;
-}
-
+interface UserRow { id: string; email: string; name: string | null; role: string; account_status: string; is_active: boolean; created_at: string; lastLoginAt: string | null }
 const ROLES = ['admin', 'teacher', 'parent', 'student'];
 const STATUSES = ['active', 'disabled'];
 const PAGE_SIZE = 10;
+const inputClass = 'min-h-11 rounded-xl border border-[var(--color-border)] bg-white/70 px-3 text-sm outline-none transition focus:border-[var(--color-primary)] focus:ring-2 focus:ring-[var(--color-primary)]/15';
 
-function StatusPill({ status }: { status: string }) {
-  const isActive = status === 'active';
-  return (
-    <span
-      className={`inline-flex items-center rounded-full px-3 py-1 text-xs font-semibold capitalize ${
-        isActive ? 'bg-[var(--color-success-soft)] text-[var(--color-success)]' : 'bg-[var(--color-warning)]/20 text-[var(--color-warning-text)]'
-      }`}
-    >
-      {status}
-    </span>
-  );
-}
+function StatusPill({ status }: { status: string }) { const active = status === 'active'; return <span className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-extrabold capitalize ${active ? 'bg-[var(--color-success-soft)] text-[var(--color-success)]' : 'bg-[var(--color-warning-soft)] text-[var(--color-warning-text)]'}`}><span className={`h-1.5 w-1.5 rounded-full ${active ? 'bg-[var(--color-success)]' : 'bg-[var(--color-warning)]'}`} />{status}</span>; }
+function roleIcon(role: string) { return role === 'teacher' ? '🎓' : role === 'parent' ? '👪' : role === 'student' ? '🧒' : '🛡'; }
+function formatDate(value: string | null) { return value ? new Date(value).toLocaleDateString('fil-PH', { month: 'short', day: 'numeric', year: 'numeric' }) : 'Hindi pa'; }
 
 export default function AdminUsers() {
   const queryClient = useQueryClient();
-  const [role, setRole] = useState('');
-  const [status, setStatus] = useState('');
-  const [page, setPage] = useState(1);
-  const [error, setError] = useState<string | null>(null);
-  const [reasonFor, setReasonFor] = useState<string | null>(null);
-  const [reason, setReason] = useState('');
-
-  const params = new URLSearchParams();
-  if (role) params.set('role', role);
-  if (status) params.set('status', status);
-
-  const { data, isLoading } = useQuery({
-    queryKey: ['admin-users', role, status],
-    queryFn: () => api<{ users: UserRow[] }>(`/admin/users?${params.toString()}`, { auth: true }),
-  });
-
-  useEffect(() => {
-    setPage(1);
-  }, [role, status]);
-
+  const [role, setRole] = useState(''); const [status, setStatus] = useState(''); const [search, setSearch] = useState(''); const [page, setPage] = useState(1);
+  const [error, setError] = useState<string | null>(null); const [reasonFor, setReasonFor] = useState<string | null>(null); const [reason, setReason] = useState('');
+  const params = new URLSearchParams(); if (role) params.set('role', role); if (status) params.set('status', status);
+  const { data, isLoading } = useQuery({ queryKey: ['admin-users', role, status], queryFn: () => api<{ users: UserRow[] }>(`/admin/users?${params.toString()}`, { auth: true }) });
+  useEffect(() => setPage(1), [role, status, search]);
   const invalidate = () => queryClient.invalidateQueries({ queryKey: ['admin-users'] });
+  const disable = useMutation({ mutationFn: (payload: { id: string; reason: string }) => api(`/admin/users/${payload.id}/disable`, { method: 'POST', auth: true, body: { reason: payload.reason } }), onSuccess: () => { invalidate(); setReasonFor(null); setReason(''); }, onError: (err: Error) => setError(err.message) });
+  const restore = useMutation({ mutationFn: (id: string) => api(`/admin/users/${id}/restore`, { method: 'POST', auth: true }), onSuccess: invalidate, onError: (err: Error) => setError(err.message) });
+  const archive = useMutation({ mutationFn: (payload: { id: string; reason: string }) => api(`/admin/users/${payload.id}/archive`, { method: 'POST', auth: true, body: { reason: payload.reason } }), onSuccess: () => { invalidate(); setReasonFor(null); setReason(''); }, onError: (err: Error) => setError(err.message) });
+  const normalized = search.trim().toLowerCase();
+  const users = (data?.users ?? []).filter((user) => !normalized || user.name?.toLowerCase().includes(normalized) || user.email.toLowerCase().includes(normalized));
+  const totalPages = Math.max(1, Math.ceil(users.length / PAGE_SIZE)); const pageUsers = users.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
+  const openReason = (mode: 'disable' | 'archive', id: string) => { const key = `${mode}-${id}`; setReasonFor((current) => current === key ? null : key); setReason(''); setError(null); };
+  const ActionButtons = ({ user }: { user: UserRow }) => <div className="flex flex-wrap gap-2">{user.account_status === 'disabled' ? <button type="button" onClick={() => restore.mutate(user.id)} disabled={restore.isPending} className="min-h-9 rounded-full border border-[var(--color-success)]/40 bg-[var(--color-success-soft)] px-3 text-xs font-extrabold text-[var(--color-success)] disabled:opacity-50">↩ I-restore</button> : <button type="button" onClick={() => openReason('disable', user.id)} className="min-h-9 rounded-full border border-[var(--color-warning)]/40 bg-[var(--color-warning-soft)] px-3 text-xs font-extrabold text-[var(--color-warning-text)]">⛔ I-disable</button>}<button type="button" onClick={() => openReason('archive', user.id)} className="min-h-9 rounded-full border border-[var(--color-danger)]/30 bg-[var(--color-danger-soft)] px-3 text-xs font-extrabold text-[var(--color-danger)]">▣ I-archive</button></div>;
+  const ReasonForm = ({ user }: { user: UserRow }) => reasonFor?.endsWith(user.id) ? <div className="mt-3 rounded-2xl border border-[var(--color-border)] bg-white/65 p-3"><label className="mb-1.5 block text-xs font-bold" htmlFor={`reason-${user.id}`}>Dahilan (opsyonal)</label><div className="flex flex-col gap-2 sm:flex-row"><input id={`reason-${user.id}`} value={reason} onChange={(event) => setReason(event.target.value)} className={`${inputClass} min-w-0 flex-1`} placeholder="Ilagay ang dahilan..." /><button type="button" onClick={() => reasonFor.startsWith('disable-') ? disable.mutate({ id: user.id, reason }) : archive.mutate({ id: user.id, reason })} disabled={disable.isPending || archive.isPending} className="min-h-11 rounded-xl bg-[var(--color-primary)] px-4 text-sm font-extrabold text-white disabled:opacity-50">Kumpirmahin</button></div></div> : null;
 
-  const disable = useMutation({
-    mutationFn: (payload: { id: string; reason: string }) =>
-      api(`/admin/users/${payload.id}/disable`, { method: 'POST', auth: true, body: { reason: payload.reason } }),
-    onSuccess: () => {
-      invalidate();
-      setReasonFor(null);
-      setReason('');
-    },
-    onError: (err: Error) => setError(err.message),
-  });
-
-  const restore = useMutation({
-    mutationFn: (id: string) => api(`/admin/users/${id}/restore`, { method: 'POST', auth: true }),
-    onSuccess: invalidate,
-    onError: (err: Error) => setError(err.message),
-  });
-
-  const archive = useMutation({
-    mutationFn: (payload: { id: string; reason: string }) =>
-      api(`/admin/users/${payload.id}/archive`, { method: 'POST', auth: true, body: { reason: payload.reason } }),
-    onSuccess: () => {
-      invalidate();
-      setReasonFor(null);
-      setReason('');
-    },
-    onError: (err: Error) => setError(err.message),
-  });
-
-  const users = data?.users ?? [];
-  const totalPages = Math.max(1, Math.ceil(users.length / PAGE_SIZE));
-  const pageUsers = users.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
-
-  return (
-    <div className="flex flex-col gap-6">
-      <div>
-        <h1 className="text-2xl font-semibold">Mga User</h1>
-        <p className="text-[var(--color-text-muted)]">Pamahalaan ang mga account sa buong LinawLetra.</p>
-      </div>
-
-      <div className="flex flex-wrap gap-3">
-        <select
-          value={role}
-          onChange={(e) => setRole(e.target.value)}
-          className="rounded-lg border border-[var(--color-border)] bg-[var(--color-surface)] px-3 py-2 text-sm"
-        >
-          <option value="">Lahat ng Role</option>
-          {ROLES.map((r) => (
-            <option key={r} value={r} className="capitalize">
-              {r}
-            </option>
-          ))}
-        </select>
-        <select
-          value={status}
-          onChange={(e) => setStatus(e.target.value)}
-          className="rounded-lg border border-[var(--color-border)] bg-[var(--color-surface)] px-3 py-2 text-sm"
-        >
-          <option value="">Lahat ng Status</option>
-          {STATUSES.map((s) => (
-            <option key={s} value={s} className="capitalize">
-              {s}
-            </option>
-          ))}
-        </select>
-      </div>
-
-      {error && <p className="text-sm text-[var(--color-danger)]">{error}</p>}
-      {isLoading && <p>Naglo-load...</p>}
-
-      <div className="overflow-hidden rounded-xl border border-[var(--color-border)]">
-        <div className="overflow-x-auto">
-          <table className="w-full min-w-[720px] border-collapse text-left text-sm">
-            <thead>
-              <tr style={cardStyle('--color-brand-navy', 10, 30)}>
-                <th className="px-4 py-3 font-semibold">Pangalan</th>
-                <th className="px-4 py-3 font-semibold">Email</th>
-                <th className="px-4 py-3 font-semibold">Role</th>
-                <th className="px-4 py-3 font-semibold">Status</th>
-                <th className="px-4 py-3 font-semibold">Aksyon</th>
-              </tr>
-            </thead>
-            <tbody>
-              {pageUsers.map((u, i) => (
-                <Fragment key={u.id}>
-                  <tr className={i % 2 === 0 ? 'bg-[var(--color-surface)]' : 'bg-[var(--color-bg)]'}>
-                    <td className="border-t border-[var(--color-border)] px-4 py-3 font-medium">{u.name ?? '—'}</td>
-                    <td className="border-t border-[var(--color-border)] px-4 py-3 text-[var(--color-text-muted)]">{u.email}</td>
-                    <td className="border-t border-[var(--color-border)] px-4 py-3 capitalize">{u.role}</td>
-                    <td className="border-t border-[var(--color-border)] px-4 py-3">
-                      <StatusPill status={u.account_status} />
-                    </td>
-                    <td className="border-t border-[var(--color-border)] px-4 py-3">
-                      <div className="flex flex-wrap gap-2">
-                        {u.account_status === 'disabled' ? (
-                          <button
-                            type="button"
-                            onClick={() => restore.mutate(u.id)}
-                            className="rounded-full border border-[var(--color-border)] px-3 py-1 text-xs font-semibold hover:border-[var(--color-primary)]"
-                          >
-                            <IconLabel icon="↩️" label="I-restore" />
-                          </button>
-                        ) : (
-                          <button
-                            type="button"
-                            onClick={() => setReasonFor(reasonFor === `disable-${u.id}` ? null : `disable-${u.id}`)}
-                            className="rounded-full bg-[var(--color-warning)] px-3 py-1 text-xs font-semibold text-white shadow-sm transition-transform hover:-translate-y-0.5"
-                          >
-                            <IconLabel icon="⛔" label="I-disable" />
-                          </button>
-                        )}
-                        <button
-                          type="button"
-                          onClick={() => setReasonFor(reasonFor === `archive-${u.id}` ? null : `archive-${u.id}`)}
-                          className="rounded-full bg-[var(--color-danger)] px-3 py-1 text-xs font-semibold text-white shadow-sm transition-transform hover:-translate-y-0.5"
-                        >
-                          <IconLabel icon="🗄️" label="I-archive" />
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
-                  {(reasonFor === `disable-${u.id}` || reasonFor === `archive-${u.id}`) && (
-                    <tr className={i % 2 === 0 ? 'bg-[var(--color-surface)]' : 'bg-[var(--color-bg)]'}>
-                      <td colSpan={5} className="border-t border-[var(--color-border)] px-4 py-3">
-                        <label className="mb-1 block text-sm font-medium" htmlFor={`reason-${u.id}`}>
-                          Dahilan (opsyonal)
-                        </label>
-                        <div className="flex gap-2">
-                          <input
-                            id={`reason-${u.id}`}
-                            value={reason}
-                            onChange={(e) => setReason(e.target.value)}
-                            className="flex-1 rounded-lg border border-[var(--color-border)] bg-[var(--color-bg)] px-3 py-2 text-sm"
-                            placeholder="Ilagay ang dahilan..."
-                          />
-                          <button
-                            type="button"
-                            onClick={() =>
-                              reasonFor === `disable-${u.id}`
-                                ? disable.mutate({ id: u.id, reason })
-                                : archive.mutate({ id: u.id, reason })
-                            }
-                            className={`rounded-full px-4 py-2 text-sm font-semibold text-white ${
-                              reasonFor === `disable-${u.id}` ? 'bg-[var(--color-warning)]' : 'bg-[var(--color-danger)]'
-                            }`}
-                          >
-                            Kumpirmahin
-                          </button>
-                        </div>
-                      </td>
-                    </tr>
-                  )}
-                </Fragment>
-              ))}
-              {data && users.length === 0 && (
-                <tr>
-                  <td colSpan={5} className="px-4 py-6 text-center text-[var(--color-text-muted)]">
-                    Walang user na tumugma sa filter.
-                  </td>
-                </tr>
-              )}
-            </tbody>
-          </table>
-        </div>
-      </div>
-
-      {users.length > 0 && (
-        <div className="flex flex-wrap items-center justify-between gap-3">
-          <p className="text-sm text-[var(--color-text-muted)]">
-            Ipinapakita {(page - 1) * PAGE_SIZE + 1}–{Math.min(page * PAGE_SIZE, users.length)} ng {users.length}
-          </p>
-          <div className="flex items-center gap-2">
-            <button
-              type="button"
-              onClick={() => setPage((p) => Math.max(1, p - 1))}
-              disabled={page === 1}
-              className="rounded-full border border-[var(--color-border)] px-4 py-2 text-sm font-medium hover:border-[var(--color-primary)] disabled:opacity-40"
-            >
-              ← Nakaraan
-            </button>
-            <span className="text-sm font-medium">
-              Pahina {page} ng {totalPages}
-            </span>
-            <button
-              type="button"
-              onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
-              disabled={page === totalPages}
-              className="rounded-full border border-[var(--color-border)] px-4 py-2 text-sm font-medium hover:border-[var(--color-primary)] disabled:opacity-40"
-            >
-              Susunod →
-            </button>
-          </div>
-        </div>
-      )}
-    </div>
-  );
+  return <div className="flex min-w-0 flex-col gap-5">
+    <header className="flex flex-wrap items-end justify-between gap-4"><div><p className="text-xs font-extrabold tracking-[.12em] text-[var(--color-primary)] uppercase">Accounts</p><h1 className="text-2xl font-extrabold sm:text-3xl">Pamamahala ng Users</h1><p className="mt-1 text-sm text-[var(--color-text-muted)]">Hanapin, salain, at pamahalaan ang tunay na LinawLetra accounts.</p></div>{data && <div className="rounded-2xl border px-4 py-2 text-center shadow-card" style={cardStyle('--color-brand-lavender', 6, 22)}><p className="text-xl font-extrabold">{users.length}</p><p className="text-xs font-bold text-[var(--color-text-muted)]">Resulta</p></div>}</header>
+    <section aria-label="User filters" className="grid grid-cols-1 gap-3 rounded-3xl border p-4 shadow-card sm:grid-cols-2 lg:grid-cols-[minmax(14rem,1fr)_12rem_12rem_auto]" style={cardStyle('--color-brand-sage', 4, 18)}><label className="relative"><span className="sr-only">Maghanap ng user</span><span className="pointer-events-none absolute left-3 top-3 text-sm" aria-hidden="true">⌕</span><input value={search} onChange={(event) => setSearch(event.target.value)} className={`${inputClass} w-full pl-9`} placeholder="Pangalan o email..." /></label><select value={role} onChange={(event) => setRole(event.target.value)} className={inputClass} aria-label="Salain ayon sa role"><option value="">Lahat ng role</option>{ROLES.map((item) => <option key={item} value={item}>{item}</option>)}</select><select value={status} onChange={(event) => setStatus(event.target.value)} className={inputClass} aria-label="Salain ayon sa status"><option value="">Lahat ng status</option>{STATUSES.map((item) => <option key={item} value={item}>{item}</option>)}</select><button type="button" onClick={() => { setSearch(''); setRole(''); setStatus(''); }} className="min-h-11 rounded-xl border border-[var(--color-border)] bg-white/60 px-4 text-sm font-bold hover:border-[var(--color-primary)]">I-reset</button></section>
+    {error && <div role="alert" className="rounded-2xl border border-[var(--color-danger)]/30 bg-[var(--color-danger-soft)] p-3 text-sm font-bold text-[var(--color-danger)]">{error}</div>}
+    {isLoading ? <div className="rounded-3xl border bg-white/45 p-10 text-center"><span className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-[var(--color-border)] border-t-[var(--color-primary)]" /><p className="mt-3 text-sm text-[var(--color-text-muted)]">Naglo-load ng users...</p></div> : <>
+      <div className="hidden overflow-hidden rounded-3xl border border-[var(--color-border)] bg-white/55 shadow-card md:block"><div className="overflow-x-auto"><table className="w-full min-w-[850px] border-collapse text-left text-sm"><thead className="bg-[var(--color-brand-navy)] text-white"><tr><th className="px-5 py-4">User</th><th className="px-4 py-4">Role</th><th className="px-4 py-4">Status</th><th className="px-4 py-4">Huling login</th><th className="px-4 py-4">Aksyon</th></tr></thead><tbody>{pageUsers.map((user) => <Fragment key={user.id}><tr className="border-t border-[var(--color-border)] transition-colors hover:bg-white/70"><td className="px-5 py-4"><div className="flex min-w-0 items-center gap-3"><span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[var(--color-primary-soft)]">{roleIcon(user.role)}</span><span className="min-w-0"><span className="block max-w-64 truncate font-bold">{user.name ?? 'Walang pangalan'}</span><span className="block max-w-64 truncate text-xs text-[var(--color-text-muted)]">{user.email}</span></span></div></td><td className="px-4 py-4 font-semibold capitalize">{user.role}</td><td className="px-4 py-4"><StatusPill status={user.account_status} /></td><td className="px-4 py-4 text-[var(--color-text-muted)]">{formatDate(user.lastLoginAt)}</td><td className="px-4 py-4"><ActionButtons user={user} /></td></tr>{reasonFor?.endsWith(user.id) && <tr className="border-t border-[var(--color-border)] bg-[var(--color-primary-soft)]/30"><td colSpan={5} className="px-5 py-3"><ReasonForm user={user} /></td></tr>}</Fragment>)}</tbody></table></div></div>
+      <div className="grid grid-cols-1 gap-3 md:hidden">{pageUsers.map((user) => <article key={user.id} className="rounded-3xl border p-4 shadow-card" style={cardStyle(user.account_status === 'active' ? '--color-brand-sage' : '--color-brand-sun', 5, 22)}><div className="flex min-w-0 items-start gap-3"><span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-white/70">{roleIcon(user.role)}</span><div className="min-w-0 flex-1"><h2 className="truncate font-extrabold">{user.name ?? 'Walang pangalan'}</h2><p className="truncate text-xs text-[var(--color-text-muted)]">{user.email}</p><div className="mt-2 flex flex-wrap items-center gap-2"><span className="rounded-full bg-white/70 px-2.5 py-1 text-xs font-bold capitalize">{user.role}</span><StatusPill status={user.account_status} /></div></div></div><dl className="my-3 grid grid-cols-2 gap-2 rounded-2xl bg-white/55 p-3 text-xs"><div><dt className="font-bold text-[var(--color-text-muted)]">Ginawa</dt><dd className="mt-1 font-semibold">{formatDate(user.created_at)}</dd></div><div><dt className="font-bold text-[var(--color-text-muted)]">Huling login</dt><dd className="mt-1 font-semibold">{formatDate(user.lastLoginAt)}</dd></div></dl><ActionButtons user={user} /><ReasonForm user={user} /></article>)}</div>
+      {!pageUsers.length && <div className="rounded-3xl border border-dashed border-[var(--color-border)] bg-white/45 p-10 text-center"><p className="text-3xl" aria-hidden="true">⌕</p><h2 className="mt-2 font-extrabold">Walang tumugmang user</h2><p className="mt-1 text-sm text-[var(--color-text-muted)]">Subukang baguhin ang search o filters.</p></div>}
+    </>}
+    {users.length > 0 && <footer className="flex flex-col items-center justify-between gap-3 sm:flex-row"><p className="text-sm font-semibold text-[var(--color-text-muted)]">Ipinapakita {(page - 1) * PAGE_SIZE + 1}–{Math.min(page * PAGE_SIZE, users.length)} ng {users.length}</p><div className="flex items-center gap-2"><button type="button" onClick={() => setPage((value) => Math.max(1, value - 1))} disabled={page === 1} className="min-h-10 rounded-full border border-[var(--color-border)] bg-white/60 px-4 text-sm font-bold disabled:opacity-40">← Nakaraan</button><span className="px-1 text-sm font-bold">{page} / {totalPages}</span><button type="button" onClick={() => setPage((value) => Math.min(totalPages, value + 1))} disabled={page === totalPages} className="min-h-10 rounded-full border border-[var(--color-border)] bg-white/60 px-4 text-sm font-bold disabled:opacity-40">Susunod →</button></div></footer>}
+  </div>;
 }

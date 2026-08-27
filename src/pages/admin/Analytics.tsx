@@ -1,111 +1,31 @@
 import { useQuery } from '@tanstack/react-query';
-import { LineChart, Line, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+import { Area, AreaChart, Bar, BarChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 import { api } from '../../lib/api';
-import { cardStyle, CARD_COLORS } from '../../lib/cardStyle';
+import { cardStyle } from '../../lib/cardStyle';
 
-interface AnalyticsResponse {
-  enrollmentTrend: { month: string; count: number }[];
-  usageTrend: { month: string; count: number }[];
-  roleCounts: Record<string, number>;
-  totals: {
-    children: number;
-    users: number;
-    totalXp: number;
-    badgeUnlockCount: number;
-    practiceSessions: number;
-  };
-}
+interface AnalyticsResponse { enrollmentTrend: { month: string; count: number }[]; usageTrend: { month: string; count: number }[]; roleCounts: Record<string, number>; totals: { children: number; users: number; totalXp: number; badgeUnlockCount: number; practiceSessions: number } }
+const COLORS = ['--color-brand-lavender', '--color-brand-coral', '--color-brand-teal', '--color-brand-sun', '--color-brand-violet'];
+
+function EmptyChart({ label }: { label: string }) { return <div className="flex h-full items-center justify-center rounded-2xl border border-dashed border-[var(--color-border)] bg-white/35 px-4 text-center text-sm text-[var(--color-text-muted)]">Wala pang {label} data.</div>; }
+const chartMargins = { left: -20, right: 10, top: 8, bottom: 0 };
 
 export default function AdminAnalytics() {
-  const { data, isLoading } = useQuery({
-    queryKey: ['admin-analytics'],
-    queryFn: () => api<AnalyticsResponse>('/admin/analytics', { auth: true }),
-  });
-
-  const roleChartData = data ? Object.entries(data.roleCounts).map(([role, count]) => ({ role, count })) : [];
-
-  return (
-    <div className="flex flex-col gap-8">
-      <div>
-        <h1 className="text-2xl font-semibold">Estadistika</h1>
-        <p className="text-[var(--color-text-muted)]">Tunay na datos mula sa buong LinawLetra.</p>
+  const { data, isLoading } = useQuery({ queryKey: ['admin-analytics'], queryFn: () => api<AnalyticsResponse>('/admin/analytics', { auth: true }) });
+  const roleData = data ? Object.entries(data.roleCounts).sort(([, a], [, b]) => b - a).map(([role, count]) => ({ role, count })) : [];
+  const cards = data ? [
+    { icon: '👥', label: 'Users', value: data.totals.users, note: 'Lahat ng account' }, { icon: '🧒', label: 'Mag-aaral', value: data.totals.children, note: 'Enrolled children' },
+    { icon: '🎙', label: 'Pagsasanay', value: data.totals.practiceSessions, note: 'Practice sessions' }, { icon: '★', label: 'Kabuuang XP', value: data.totals.totalXp, note: 'Learning points' },
+    { icon: '🏅', label: 'Mga Badge', value: data.totals.badgeUnlockCount, note: 'Unlocked awards' },
+  ] : [];
+  return <div className="flex min-w-0 flex-col gap-6">
+    <header><p className="text-xs font-extrabold tracking-[.12em] text-[var(--color-primary)] uppercase">System insights</p><h1 className="text-2xl font-extrabold sm:text-3xl">Analytics</h1><p className="mt-1 max-w-2xl text-sm text-[var(--color-text-muted)]">Enrollment, paggamit, learning engagement, at user distribution mula sa kasalukuyang system data.</p></header>
+    {isLoading ? <div className="grid grid-cols-2 gap-3 lg:grid-cols-5">{Array.from({ length: 5 }, (_, index) => <div key={index} className="h-28 animate-pulse rounded-3xl border bg-white/45" />)}</div> : data && <>
+      <section className="grid grid-cols-2 gap-3 lg:grid-cols-5">{cards.map((card, index) => <article key={card.label} className="rounded-3xl border p-4 shadow-card" style={cardStyle(COLORS[index], 7, 25)}><div className="flex items-center justify-between"><span className="flex h-10 w-10 items-center justify-center rounded-2xl bg-white/70 text-lg" aria-hidden="true">{card.icon}</span><span className="h-2.5 w-2.5 rounded-full" style={{ backgroundColor: `var(${COLORS[index]})` }} /></div><p className="mt-3 text-2xl font-extrabold tabular-nums sm:text-3xl">{card.value.toLocaleString()}</p><p className="text-sm font-bold">{card.label}</p><p className="mt-1 text-xs text-[var(--color-text-muted)]">{card.note}</p></article>)}</section>
+      <div className="grid min-w-0 grid-cols-1 gap-5 xl:grid-cols-2">
+        <section className="min-w-0 rounded-3xl border p-4 shadow-card sm:p-6" style={cardStyle('--color-brand-lavender', 5, 22)}><div><p className="text-xs font-bold tracking-wide text-[var(--color-brand-violet)] uppercase">Growth</p><h2 className="text-xl font-extrabold">Enrollment bawat buwan</h2><p className="text-sm text-[var(--color-text-muted)]">Bilang ng mga bagong mag-aaral sa paglipas ng panahon.</p></div><div className="mt-4 h-72">{data.enrollmentTrend.length ? <ResponsiveContainer width="100%" height="100%"><AreaChart data={data.enrollmentTrend} margin={chartMargins}><defs><linearGradient id="adminEnrollment" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stopColor="var(--color-primary)" stopOpacity={0.42} /><stop offset="100%" stopColor="var(--color-primary)" stopOpacity={0.03} /></linearGradient></defs><CartesianGrid strokeDasharray="4 4" vertical={false} stroke="rgba(60,60,100,.12)" /><XAxis dataKey="month" tick={{ fontSize: 11 }} axisLine={false} tickLine={false} /><YAxis allowDecimals={false} tick={{ fontSize: 11 }} axisLine={false} tickLine={false} /><Tooltip contentStyle={{ borderRadius: 14, border: '1px solid var(--color-border)' }} /><Area type="monotone" dataKey="count" name="Enrollees" stroke="var(--color-primary)" strokeWidth={3} fill="url(#adminEnrollment)" /></AreaChart></ResponsiveContainer> : <EmptyChart label="enrollment" />}</div></section>
+        <section className="min-w-0 rounded-3xl border p-4 shadow-card sm:p-6" style={cardStyle('--color-brand-teal', 5, 22)}><div><p className="text-xs font-bold tracking-wide text-[var(--color-brand-teal)] uppercase">Engagement</p><h2 className="text-xl font-extrabold">Practice usage</h2><p className="text-sm text-[var(--color-text-muted)]">Bilang ng pronunciation practice sessions bawat buwan.</p></div><div className="mt-4 h-72">{data.usageTrend.length ? <ResponsiveContainer width="100%" height="100%"><AreaChart data={data.usageTrend} margin={chartMargins}><defs><linearGradient id="adminUsage" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stopColor="var(--color-brand-teal)" stopOpacity={0.42} /><stop offset="100%" stopColor="var(--color-brand-teal)" stopOpacity={0.03} /></linearGradient></defs><CartesianGrid strokeDasharray="4 4" vertical={false} stroke="rgba(60,60,100,.12)" /><XAxis dataKey="month" tick={{ fontSize: 11 }} axisLine={false} tickLine={false} /><YAxis allowDecimals={false} tick={{ fontSize: 11 }} axisLine={false} tickLine={false} /><Tooltip contentStyle={{ borderRadius: 14, border: '1px solid var(--color-border)' }} /><Area type="monotone" dataKey="count" name="Sessions" stroke="var(--color-brand-teal)" strokeWidth={3} fill="url(#adminUsage)" /></AreaChart></ResponsiveContainer> : <EmptyChart label="practice" />}</div></section>
       </div>
-
-      {isLoading && <p>Naglo-load...</p>}
-
-      {data && (
-        <div className="flex flex-col gap-8">
-          <div className="grid grid-cols-2 gap-4 sm:grid-cols-5">
-            <div className="rounded-xl border p-4" style={cardStyle(CARD_COLORS[0])}>
-              <p className="text-2xl font-semibold">{data.totals.users}</p>
-              <p className="text-sm text-[var(--color-text-muted)]">User</p>
-            </div>
-            <div className="rounded-xl border p-4" style={cardStyle(CARD_COLORS[1])}>
-              <p className="text-2xl font-semibold">{data.totals.children}</p>
-              <p className="text-sm text-[var(--color-text-muted)]">Mag-aaral</p>
-            </div>
-            <div className="rounded-xl border p-4" style={cardStyle(CARD_COLORS[2])}>
-              <p className="text-2xl font-semibold">{data.totals.practiceSessions}</p>
-              <p className="text-sm text-[var(--color-text-muted)]">Mga Pagsasanay</p>
-            </div>
-            <div className="rounded-xl border p-4" style={cardStyle(CARD_COLORS[3])}>
-              <p className="text-2xl font-semibold">{data.totals.totalXp}</p>
-              <p className="text-sm text-[var(--color-text-muted)]">Kabuuang XP</p>
-            </div>
-            <div className="rounded-xl border p-4" style={cardStyle(CARD_COLORS[4])}>
-              <p className="text-2xl font-semibold">{data.totals.badgeUnlockCount}</p>
-              <p className="text-sm text-[var(--color-text-muted)]">Nakuhang Badge</p>
-            </div>
-          </div>
-
-          <div className="h-72 rounded-xl border p-4" style={cardStyle('--color-brand-lavender')}>
-            <h2 className="mb-2 font-medium">Enrollment Trend (bawat buwan)</h2>
-            {data.enrollmentTrend.length === 0 ? (
-              <p className="text-sm text-[var(--color-text-muted)]">Wala pang datos.</p>
-            ) : (
-              <ResponsiveContainer width="100%" height="90%">
-                <LineChart data={data.enrollmentTrend}>
-                  <CartesianGrid strokeDasharray="3 3" />
-                  <XAxis dataKey="month" />
-                  <YAxis allowDecimals={false} />
-                  <Tooltip />
-                  <Line type="monotone" dataKey="count" stroke="var(--color-primary)" strokeWidth={2} />
-                </LineChart>
-              </ResponsiveContainer>
-            )}
-          </div>
-
-          <div className="h-72 rounded-xl border p-4" style={cardStyle('--color-brand-teal')}>
-            <h2 className="mb-2 font-medium">Paggamit — Mga Pagsasanay (bawat buwan)</h2>
-            {data.usageTrend.length === 0 ? (
-              <p className="text-sm text-[var(--color-text-muted)]">Wala pang datos.</p>
-            ) : (
-              <ResponsiveContainer width="100%" height="90%">
-                <LineChart data={data.usageTrend}>
-                  <CartesianGrid strokeDasharray="3 3" />
-                  <XAxis dataKey="month" />
-                  <YAxis allowDecimals={false} />
-                  <Tooltip />
-                  <Line type="monotone" dataKey="count" stroke="var(--color-accent)" strokeWidth={2} />
-                </LineChart>
-              </ResponsiveContainer>
-            )}
-          </div>
-
-          <div className="h-72 rounded-xl border p-4" style={cardStyle('--color-brand-violet')}>
-            <h2 className="mb-2 font-medium">Bilang ng User bawat Role</h2>
-            <ResponsiveContainer width="100%" height="90%">
-              <BarChart data={roleChartData}>
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="role" />
-                <YAxis allowDecimals={false} />
-                <Tooltip />
-                <Bar dataKey="count" fill="var(--color-primary)" radius={[6, 6, 0, 0]} />
-              </BarChart>
-            </ResponsiveContainer>
-          </div>
-        </div>
-      )}
-    </div>
-  );
+      <section className="min-w-0 rounded-3xl border p-4 shadow-card sm:p-6" style={cardStyle('--color-brand-sun', 5, 22)}><div className="flex flex-wrap items-start justify-between gap-3"><div><p className="text-xs font-bold tracking-wide text-[var(--color-warning-text)] uppercase">Audience</p><h2 className="text-xl font-extrabold">Users bawat role</h2><p className="text-sm text-[var(--color-text-muted)]">Account distribution sa buong platform.</p></div><span className="rounded-full bg-white/70 px-3 py-1 text-xs font-bold">{data.totals.users.toLocaleString()} total</span></div><div className="mt-4 h-72">{roleData.length ? <ResponsiveContainer width="100%" height="100%"><BarChart data={roleData} margin={chartMargins}><CartesianGrid strokeDasharray="4 4" vertical={false} stroke="rgba(60,60,100,.12)" /><XAxis dataKey="role" tick={{ fontSize: 11 }} axisLine={false} tickLine={false} /><YAxis allowDecimals={false} tick={{ fontSize: 11 }} axisLine={false} tickLine={false} /><Tooltip contentStyle={{ borderRadius: 14, border: '1px solid var(--color-border)' }} /><Bar dataKey="count" name="Users" fill="var(--color-brand-violet)" radius={[10, 10, 0, 0]} maxBarSize={64} /></BarChart></ResponsiveContainer> : <EmptyChart label="role" />}</div></section>
+    </>}
+  </div>;
 }

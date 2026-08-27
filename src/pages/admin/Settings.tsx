@@ -79,35 +79,36 @@ export default function Settings() {
   ];
 
   return (
-    <div className="flex flex-col gap-8">
+    <div className="flex min-w-0 flex-col gap-6">
       <div
-        className="flex items-center gap-5 overflow-hidden rounded-2xl p-8 text-white shadow-lg"
+        className="relative flex min-w-0 flex-col items-start gap-4 overflow-hidden rounded-3xl border border-white/30 p-5 text-white shadow-raised sm:flex-row sm:items-center sm:p-7"
         style={{ backgroundImage: 'linear-gradient(135deg, #1e3a8a, #5f52b0, #7c3aed)' }}
       >
-        <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-full bg-white/20 text-2xl font-bold backdrop-blur">
+        <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl border border-white/25 bg-white/20 text-2xl font-extrabold shadow-card backdrop-blur">
           {initialsFor(identity?.displayName ?? 'Admin')}
         </div>
         <div className="min-w-0">
-          <h1 className="text-2xl font-bold">{identity?.displayName ?? 'Aking Profile'}</h1>
-          <p className="truncate text-white/85">{user?.email}</p>
-          <span className="mt-1 inline-block rounded-full bg-white/20 px-3 py-0.5 text-xs font-semibold backdrop-blur">
+          <p className="text-xs font-extrabold tracking-[.12em] text-white/65 uppercase">Admin profile</p>
+          <h1 className="truncate text-2xl font-extrabold sm:text-3xl">{identity?.displayName ?? 'Aking Profile'}</h1>
+          <p className="truncate text-sm text-white/80">{user?.email}</p>
+          <span className="mt-2 inline-block rounded-full border border-white/20 bg-white/15 px-3 py-1 text-xs font-bold backdrop-blur">
             <IconLabel icon="🛡️" label="Admin Account" />
           </span>
         </div>
       </div>
 
       {error && (
-        <p className="rounded-lg border border-[var(--color-danger)] bg-[var(--color-danger-soft)] px-4 py-3 text-sm text-[var(--color-danger)]">
+        <p role="alert" className="rounded-2xl border border-[var(--color-danger)]/35 bg-[var(--color-danger-soft)] px-4 py-3 text-sm font-bold text-[var(--color-danger)]">
           {error}
         </p>
       )}
 
-      <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
-        <div className="rounded-2xl border p-6" style={cardStyle('--color-brand-sage')}>
-          <h2 className="mb-4 text-lg font-semibold">
+      <div className="grid min-w-0 grid-cols-1 gap-5 lg:grid-cols-2">
+        <div className="rounded-3xl border p-5 shadow-card sm:p-6" style={cardStyle('--color-brand-sage', 6, 24)}>
+          <h2 className="mb-1 text-xl font-extrabold">
             <IconLabel icon="✏️" label="Profile Ko" />
           </h2>
-          <form
+          <p className="mb-4 text-sm text-[var(--color-text-muted)]">Ito ang pangalang makikita sa iyong admin account.</p><form
             onSubmit={(e) => {
               e.preventDefault();
               updateProfile.mutate();
@@ -121,21 +122,21 @@ export default function Settings() {
               id="name"
               value={name}
               onChange={(e) => setName(e.target.value)}
-              className="rounded-lg border border-[var(--color-border)] bg-white px-4 py-2.5"
+              className="min-h-11 rounded-xl border border-[var(--color-border)] bg-white/75 px-4 outline-none focus:border-[var(--color-primary)] focus:ring-2 focus:ring-[var(--color-primary)]/15"
             />
             {profileMsg && <p className="text-sm font-medium text-[var(--color-success)]">{profileMsg}</p>}
             <button
               type="submit"
               disabled={updateProfile.isPending}
-              className="self-start rounded-lg bg-[var(--color-brand-sage)] px-5 py-2 font-medium text-white hover:opacity-90 disabled:opacity-60"
+              className="min-h-11 self-start rounded-xl bg-[var(--color-brand-sage)] px-5 font-extrabold text-white shadow-card hover:opacity-90 disabled:opacity-60"
             >
               {updateProfile.isPending ? 'Sine-save...' : 'I-save'}
             </button>
           </form>
         </div>
 
-        <div className="rounded-2xl border p-6" style={cardStyle('--color-brand-teal')}>
-          <h2 className="mb-4 text-lg font-semibold">
+        <div className="rounded-3xl border p-5 shadow-card sm:p-6" style={cardStyle('--color-brand-teal', 6, 24)}>
+          <h2 className="mb-4 text-xl font-extrabold">
             <IconLabel icon="📧" label="Palitan ang Email" />
           </h2>
           <p className="mb-3 text-sm text-[var(--color-text-muted)]">
@@ -158,24 +159,24 @@ export default function Settings() {
               value={newEmail}
               onChange={(e) => setNewEmail(e.target.value)}
               placeholder="bagong-email@halimbawa.com"
-              className="rounded-lg border border-[var(--color-border)] bg-white px-4 py-2.5"
+              className="min-h-11 rounded-xl border border-[var(--color-border)] bg-white/75 px-4 outline-none focus:border-[var(--color-primary)] focus:ring-2 focus:ring-[var(--color-primary)]/15"
             />
             {emailMsg && <p className="text-sm font-medium text-[var(--color-success)]">{emailMsg}</p>}
             <button
               type="submit"
               disabled={updateEmail.isPending || !newEmail.trim()}
-              className="self-start rounded-lg bg-[var(--color-brand-teal)] px-5 py-2 font-medium text-white hover:opacity-90 disabled:opacity-60"
+              className="min-h-11 self-start rounded-xl bg-[var(--color-brand-teal)] px-5 font-extrabold text-white shadow-card hover:opacity-90 disabled:opacity-60"
             >
               {updateEmail.isPending ? 'Ipinapadala...' : 'I-update ang Email'}
             </button>
           </form>
         </div>
 
-        <div className="rounded-2xl border p-6 lg:col-span-2" style={cardStyle('--color-brand-coral')}>
-          <h2 className="mb-4 text-lg font-semibold">
+        <div className="rounded-3xl border p-5 shadow-card sm:p-6 lg:col-span-2" style={cardStyle('--color-brand-coral', 6, 24)}>
+          <h2 className="mb-1 text-xl font-extrabold">
             <IconLabel icon="🔒" label="Palitan ang Password" />
           </h2>
-          <form
+          <p className="mb-4 text-sm text-[var(--color-text-muted)]">Gumamit ng matibay at natatanging password para sa admin access.</p><form
             onSubmit={(e) => {
               e.preventDefault();
               updatePassword.mutate();
@@ -191,7 +192,7 @@ export default function Settings() {
                 type="password"
                 value={newPassword}
                 onChange={(e) => setNewPassword(e.target.value)}
-                className="rounded-lg border border-[var(--color-border)] bg-white px-4 py-2.5"
+                className="min-h-11 rounded-xl border border-[var(--color-border)] bg-white/75 px-4 outline-none focus:border-[var(--color-primary)] focus:ring-2 focus:ring-[var(--color-primary)]/15"
               />
               <label htmlFor="confirmPassword" className="text-sm font-medium">
                 Kumpirmahin ang Bagong Password
@@ -201,7 +202,7 @@ export default function Settings() {
                 type="password"
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
-                className="rounded-lg border border-[var(--color-border)] bg-white px-4 py-2.5"
+                className="min-h-11 rounded-xl border border-[var(--color-border)] bg-white/75 px-4 outline-none focus:border-[var(--color-primary)] focus:ring-2 focus:ring-[var(--color-primary)]/15"
               />
             </div>
             <div className="flex flex-col justify-center gap-2">
@@ -226,7 +227,7 @@ export default function Settings() {
             <button
               type="submit"
               disabled={updatePassword.isPending || !newPassword || !confirmPassword}
-              className="self-start rounded-lg bg-[var(--color-brand-coral)] px-5 py-2 font-medium text-white hover:opacity-90 disabled:opacity-60 lg:col-span-2"
+              className="min-h-11 self-start rounded-xl bg-[var(--color-brand-coral)] px-5 font-extrabold text-white shadow-card hover:opacity-90 disabled:opacity-60 lg:col-span-2"
             >
               {updatePassword.isPending ? 'Ina-update...' : 'I-update ang Password'}
             </button>
