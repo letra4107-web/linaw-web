@@ -164,35 +164,40 @@ export function WordOfDayCard({ streak = 0 }: WordOfDayCardProps) {
   if (isLoading || !wordOfDay) return null;
 
   return (
-    <div id="salita-ngayon" className="overflow-hidden rounded-2xl shadow-lg">
+    <div id="salita-ngayon" className="overflow-hidden rounded-[2rem] border border-[var(--color-brand-sun)]/30 shadow-hero">
       <div
-        className="p-6 text-white sm:p-8"
+        className="relative overflow-hidden p-6 text-white sm:px-9 sm:py-8"
         style={{ backgroundImage: 'linear-gradient(135deg, #e3971a, #e06b4c)' }}
       >
-        <div className="flex flex-wrap items-center justify-between gap-3">
-          <h2 className="text-lg font-bold sm:text-xl">
-            <IconLabel img={calendarIcon} label="Salita Ngayon" />
-          </h2>
+        <div aria-hidden="true" className="pointer-events-none absolute -top-16 -right-10 h-40 w-40 rounded-full bg-white/10" />
+        <div aria-hidden="true" className="pointer-events-none absolute -bottom-20 left-1/3 h-36 w-36 rounded-full bg-white/10" />
+        <div className="relative flex flex-wrap items-start justify-between gap-4">
+          <div>
+            <p className="text-sm font-bold tracking-[0.12em] text-white/80 uppercase">Gawain para sa araw na ito</p>
+            <h2 className="mt-1 text-2xl font-bold sm:text-3xl">
+              <IconLabel img={calendarIcon} label="Salita Ngayon" />
+            </h2>
+            <p className="mt-2 max-w-xl text-base text-white/90">Makinig muna, saka bigkasin nang malinaw ang salita.</p>
+          </div>
           {streak > 0 && (
-            <span className="flex items-center gap-1.5 rounded-full bg-white/20 px-4 py-1.5 text-sm font-semibold backdrop-blur">
+            <span className="flex min-h-10 items-center gap-1.5 rounded-full border border-white/20 bg-white/20 px-4 py-1.5 text-sm font-bold backdrop-blur">
               🔥 Sunod-sunod!
             </span>
           )}
         </div>
-        <p className="mt-1 text-sm text-white/85">Bigkasin nang malakas ang salita sa ibaba.</p>
       </div>
 
       <div
-        className="p-6 sm:p-8"
+        className="p-5 sm:p-8"
         style={{ backgroundColor: 'color-mix(in srgb, var(--color-brand-sun) 10%, white)' }}
       >
-        <div className="flex min-h-28 flex-col items-center justify-center gap-4 rounded-2xl bg-white/70 px-6 py-7 text-center shadow-inner">
+        <div className="flex min-h-48 flex-col items-center justify-center gap-5 rounded-3xl border border-white bg-white/75 px-5 py-8 text-center shadow-inner sm:px-8">
           <SyllableKaraokeText syllables={syllabifyWord(wordOfDay.word)} activeIndex={null} colorVar="--color-brand-sun" />
           <button
             type="button"
             onClick={playWord}
             disabled={speechStatus === 'loading'}
-            className="inline-flex items-center gap-2 rounded-full border border-[var(--color-border)] bg-[var(--color-surface)] px-3 py-1.5 text-sm text-[var(--color-text)] hover:border-[var(--color-primary)] disabled:opacity-60"
+            className="inline-flex min-h-12 items-center gap-2 rounded-full border-2 border-[var(--color-brand-sun)] bg-[var(--color-surface)] px-5 py-2 text-sm font-bold text-[var(--color-text)] shadow-sm transition-all hover:-translate-y-0.5 hover:shadow-card disabled:opacity-60"
           >
             <IconLabel
               img={speechStatus !== 'loading' ? speechIcon : undefined}
@@ -225,16 +230,17 @@ export function WordOfDayCard({ streak = 0 }: WordOfDayCardProps) {
                     type="button"
                     onClick={handleTry}
                     disabled={listening}
-                    className={`relative flex h-20 w-20 items-center justify-center rounded-full text-3xl text-white shadow-lg transition-transform hover:scale-105 active:scale-95 disabled:opacity-70 ${
+                    className={`relative flex min-h-16 w-full max-w-sm items-center justify-center gap-3 overflow-hidden rounded-2xl px-6 py-3 text-white shadow-lg transition-all hover:-translate-y-0.5 hover:shadow-raised active:scale-[0.98] disabled:opacity-70 ${
                       listening ? 'bg-[var(--color-danger)]' : ''
                     }`}
                     style={!listening ? { backgroundImage: 'linear-gradient(135deg, #e3971a, #e06b4c)' } : undefined}
                   >
                     {listening && <span className="absolute inset-0 animate-ping rounded-full bg-[var(--color-danger)]/60" />}
                     <img src={micIcon} alt="" className="relative h-8 w-8 object-contain brightness-0 invert" />
+                    <span className="relative text-base font-bold">{listening ? 'Nakikinig...' : 'Bigkasin ang salita'}</span>
                   </button>
-                  <p className="text-sm font-medium text-[var(--color-text-muted)]">
-                    {listening ? 'Nakikinig...' : 'Pindutin ang mic at bigkasin'}
+                  <p className="text-center text-sm font-medium text-[var(--color-text-muted)]">
+                    {listening ? 'Magsalita nang malinaw.' : 'Pindutin ang mic kapag handa ka na.'}
                   </p>
                 </>
               )
@@ -259,11 +265,12 @@ export function WordOfDayCard({ streak = 0 }: WordOfDayCardProps) {
               </p>
             )}
 
-            <div className="mt-1 flex items-center gap-2" role="img" aria-label={`${attemptsUsed} sa ${MAX_ATTEMPTS} pagsubok ang nagamit`}>
+            <div className="mt-2 flex items-center gap-3 rounded-full bg-white/60 px-4 py-2" role="img" aria-label={`${attemptsUsed} sa ${MAX_ATTEMPTS} pagsubok ang nagamit`}>
+              <span className="text-xs font-bold text-[var(--color-text-muted)]">Mga pagsubok</span>
               {Array.from({ length: MAX_ATTEMPTS }).map((_, i) => (
                 <span
                   key={i}
-                  className={`h-2.5 w-2.5 rounded-full transition-colors ${
+                  className={`h-3 w-3 rounded-full transition-colors ${
                     i < attemptsUsed ? 'bg-[var(--color-brand-sun)]' : 'border border-[var(--color-border)] bg-white'
                   }`}
                 />
