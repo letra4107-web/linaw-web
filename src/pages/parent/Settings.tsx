@@ -154,9 +154,9 @@ export default function Settings() {
   });
 
   return (
-    <div className="flex flex-col gap-8">
+    <div className="flex min-w-0 flex-col gap-6 sm:gap-8">
       <div
-        className="flex items-center gap-5 rounded-2xl border p-6"
+        className="relative flex flex-col items-center gap-5 overflow-hidden rounded-3xl border p-5 text-center shadow-card sm:flex-row sm:p-7 sm:text-left"
         style={cardStyle('--color-brand-lavender', 14, 40)}
       >
         <input
@@ -174,7 +174,7 @@ export default function Settings() {
           type="button"
           onClick={() => fileInputRef.current?.click()}
           title="Palitan ang larawan"
-          className="group relative h-16 w-16 shrink-0 overflow-hidden rounded-full text-xl font-semibold text-white"
+          className="group relative h-28 w-28 shrink-0 overflow-hidden rounded-[2rem] border-4 border-white/70 text-3xl font-bold text-white shadow-lg"
           style={{ backgroundColor: 'var(--color-brand-lavender-dark)' }}
         >
           {parentRow?.avatar_url ? (
@@ -188,29 +188,30 @@ export default function Settings() {
             {uploadAvatar.isPending ? '...' : '📷'}
           </span>
         </button>
-        <div className="min-w-0">
-          <h1 className="text-2xl font-semibold">{identity?.displayName ?? 'Aking Profile'}</h1>
+        <div className="min-w-0 flex-1">
+          <p className="text-xs font-bold tracking-[0.12em] text-[var(--color-primary)] uppercase">Parent profile</p>
+          <h1 className="truncate text-2xl font-bold sm:text-3xl">{identity?.displayName ?? 'Aking Profile'}</h1>
           <p className="truncate text-[var(--color-text-muted)]">{user?.email}</p>
-          <span className="mt-1 inline-block rounded-full bg-[var(--color-brand-lavender-dark)] px-3 py-0.5 text-xs font-medium text-white">
+          <span className="mt-2 inline-block rounded-full bg-[var(--color-brand-lavender-dark)] px-3 py-1 text-xs font-bold text-white">
             Account ng Magulang
           </span>
         </div>
       </div>
 
       {error && (
-        <p className="rounded-lg border border-[var(--color-danger)] bg-[var(--color-danger-soft)] px-4 py-3 text-sm text-[var(--color-danger)]">
+        <p className="rounded-2xl border border-[var(--color-danger)] bg-[var(--color-danger-soft)] px-4 py-3 text-sm text-[var(--color-danger)]">
           {error}
         </p>
       )}
 
-      <div className="rounded-2xl border p-6" style={cardStyle('--color-brand-sun')}>
-        <div className="mb-4 flex items-center justify-between">
-          <h2 className="text-lg font-semibold">
+      <div className="rounded-3xl border p-5 shadow-card sm:p-6" style={cardStyle('--color-brand-sun')}>
+        <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
+          <h2 className="text-xl font-bold">
             <IconLabel icon="👧" label="Aking mga Anak" />
           </h2>
           <Link
             to="/parent/children"
-            className="rounded-full bg-[var(--color-brand-sun)] px-4 py-1.5 text-sm font-medium text-white hover:opacity-90"
+            className="inline-flex min-h-10 items-center rounded-full bg-[var(--color-brand-sun)] px-4 text-sm font-bold text-white hover:opacity-90"
           >
             + Mag-enroll ng Bagong Anak
           </Link>
@@ -228,7 +229,7 @@ export default function Settings() {
           {(children ?? []).map((c) => (
             <li
               key={c.id}
-              className="flex items-center justify-between rounded-xl border border-white/60 bg-white/70 px-4 py-2.5"
+              className="flex flex-col gap-1 rounded-2xl border border-white/60 bg-white/70 px-4 py-3 sm:flex-row sm:items-center sm:justify-between"
             >
               <span className="font-medium">{c.name}</span>
               <span className="text-sm text-[var(--color-text-muted)]">
@@ -239,8 +240,8 @@ export default function Settings() {
         </ul>
       </div>
 
-      <div className="rounded-2xl border p-6" style={cardStyle('--color-brand-sage')}>
-        <h2 className="mb-4 text-lg font-semibold">
+      <div className="rounded-3xl border p-5 shadow-card sm:p-6" style={cardStyle('--color-brand-sage')}>
+        <h2 className="mb-4 text-xl font-bold">
           <IconLabel icon="✏️" label="Profile Ko" />
         </h2>
         <form
@@ -257,21 +258,21 @@ export default function Settings() {
             id="name"
             value={name}
             onChange={(e) => setName(e.target.value)}
-            className="rounded-lg border border-[var(--color-border)] bg-white px-4 py-2.5"
+            className="min-h-12 w-full rounded-2xl border border-[var(--color-border)] bg-white px-4"
           />
           {profileMsg && <p className="text-sm font-medium text-[var(--color-success)]">{profileMsg}</p>}
           <button
             type="submit"
             disabled={updateProfile.isPending}
-            className="self-start rounded-lg bg-[var(--color-brand-sage)] px-5 py-2 font-medium text-white hover:opacity-90 disabled:opacity-60"
+            className="inline-flex min-h-11 items-center self-start rounded-xl bg-[var(--color-brand-sage)] px-5 font-bold text-white hover:opacity-90 disabled:opacity-60"
           >
             {updateProfile.isPending ? 'Sine-save...' : 'I-save'}
           </button>
         </form>
       </div>
 
-      <div className="rounded-2xl border p-6" style={cardStyle('--color-brand-teal')}>
-        <h2 className="mb-4 text-lg font-semibold">
+      <div className="rounded-3xl border p-5 shadow-card sm:p-6" style={cardStyle('--color-brand-teal')}>
+        <h2 className="mb-4 text-xl font-bold">
           <IconLabel icon="📧" label="Palitan ang Email" />
         </h2>
         <p className="mb-3 text-sm text-[var(--color-text-muted)]">
@@ -294,21 +295,21 @@ export default function Settings() {
             value={newEmail}
             onChange={(e) => setNewEmail(e.target.value)}
             placeholder="bagong-email@halimbawa.com"
-            className="rounded-lg border border-[var(--color-border)] bg-white px-4 py-2.5"
+            className="min-h-12 w-full rounded-2xl border border-[var(--color-border)] bg-white px-4"
           />
           {emailMsg && <p className="text-sm font-medium text-[var(--color-success)]">{emailMsg}</p>}
           <button
             type="submit"
             disabled={updateEmail.isPending || !newEmail.trim()}
-            className="self-start rounded-lg bg-[var(--color-brand-teal)] px-5 py-2 font-medium text-white hover:opacity-90 disabled:opacity-60"
+            className="inline-flex min-h-11 items-center self-start rounded-xl bg-[var(--color-brand-teal)] px-5 font-bold text-white hover:opacity-90 disabled:opacity-60"
           >
             {updateEmail.isPending ? 'Ipinapadala...' : 'I-update ang Email'}
           </button>
         </form>
       </div>
 
-      <div className="rounded-2xl border p-6" style={cardStyle('--color-brand-coral')}>
-        <h2 className="mb-4 text-lg font-semibold">
+      <div className="rounded-3xl border p-5 shadow-card sm:p-6" style={cardStyle('--color-brand-coral')}>
+        <h2 className="mb-4 text-xl font-bold">
           <IconLabel icon="🔒" label="Palitan ang Password" />
         </h2>
         <form
@@ -326,7 +327,7 @@ export default function Settings() {
             type="password"
             value={newPassword}
             onChange={(e) => setNewPassword(e.target.value)}
-            className="rounded-lg border border-[var(--color-border)] bg-white px-4 py-2.5"
+            className="min-h-12 w-full rounded-2xl border border-[var(--color-border)] bg-white px-4"
           />
           <label htmlFor="confirmPassword" className="text-sm font-medium">
             Kumpirmahin ang Bagong Password
@@ -336,7 +337,7 @@ export default function Settings() {
             type="password"
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
-            className="rounded-lg border border-[var(--color-border)] bg-white px-4 py-2.5"
+            className="min-h-12 w-full rounded-2xl border border-[var(--color-border)] bg-white px-4"
           />
           <p className="text-xs text-[var(--color-text-muted)]">
             8+ characters, may malaking letra (A-Z), at numero (0-9).
@@ -345,7 +346,7 @@ export default function Settings() {
           <button
             type="submit"
             disabled={updatePassword.isPending || !newPassword || !confirmPassword}
-            className="self-start rounded-lg bg-[var(--color-brand-coral)] px-5 py-2 font-medium text-white hover:opacity-90 disabled:opacity-60"
+            className="inline-flex min-h-11 items-center self-start rounded-xl bg-[var(--color-brand-coral)] px-5 font-bold text-white hover:opacity-90 disabled:opacity-60"
           >
             {updatePassword.isPending ? 'Ina-update...' : 'I-update ang Password'}
           </button>

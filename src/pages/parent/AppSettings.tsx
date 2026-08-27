@@ -60,19 +60,20 @@ export default function ParentAppSettings() {
   });
 
   return (
-    <div className="flex flex-col gap-8">
-      <div>
-        <h1 className="text-2xl font-semibold">Mga Setting</h1>
-        <p className="text-[var(--color-text-muted)]">Kagustuhan at suporta.</p>
-      </div>
+    <div className="flex min-w-0 flex-col gap-6">
+      <header className="rounded-3xl border p-5 shadow-card sm:p-6" style={cardStyle('--color-brand-lavender', 8, 28)}>
+        <p className="text-xs font-bold tracking-[0.12em] text-[var(--color-primary)] uppercase">Preferences</p>
+        <h1 className="text-2xl font-bold sm:text-3xl">Mga Setting</h1>
+        <p className="text-sm text-[var(--color-text-muted)]">Pamahalaan ang mga abiso, accessibility, at suporta.</p>
+      </header>
 
-      <div className="flex flex-col gap-1 rounded-xl border p-6" style={cardStyle('--color-brand-lavender')}>
-        <h2 className="mb-3 text-lg font-semibold">Kagustuhan sa Abiso</h2>
+      <div className="flex flex-col gap-1 rounded-3xl border p-5 shadow-card sm:p-6" style={cardStyle('--color-brand-lavender')}>
+        <h2 className="mb-3 text-xl font-bold">Kagustuhan sa Abiso</h2>
         {saved &&
           NOTIFICATION_ROWS.map((row, i) => (
             <div
               key={row.key}
-              className={`flex items-center justify-between gap-4 py-3 ${i > 0 ? 'border-t border-white/60' : ''}`}
+              className={`flex items-center justify-between gap-4 py-4 ${i > 0 ? 'border-t border-white/60' : ''}`}
             >
               <div className="flex items-start gap-3">
                 <span className="text-lg" aria-hidden="true">{row.icon}</span>
@@ -90,8 +91,8 @@ export default function ParentAppSettings() {
           ))}
       </div>
 
-      <div className="flex flex-col gap-3 rounded-xl border p-6" style={cardStyle('--color-brand-teal')}>
-        <h2 className="text-lg font-semibold">Accessibility</h2>
+      <div className="flex flex-col gap-3 rounded-3xl border p-5 shadow-card sm:p-6" style={cardStyle('--color-brand-teal')}>
+        <h2 className="text-xl font-bold">Accessibility</h2>
         <p className="text-sm text-[var(--color-text-muted)]">
           Ito ay para sa sarili mong pagbabasa sa web — hiwalay ito sa accessibility ng bawat anak, na naa-ayos mula sa
           "Mga Anak Ko".
@@ -99,8 +100,8 @@ export default function ParentAppSettings() {
         <AccessibilityBar />
       </div>
 
-      <div className="flex flex-col gap-3 rounded-xl border p-6" style={cardStyle('--color-brand-coral')}>
-        <h2 className="text-lg font-semibold">
+      <div className="flex flex-col gap-3 rounded-3xl border p-5 shadow-card sm:p-6" style={cardStyle('--color-brand-coral')}>
+        <h2 className="text-xl font-bold">
           <IconLabel icon="🎧" label="Tulong at Suporta" />
         </h2>
         <a

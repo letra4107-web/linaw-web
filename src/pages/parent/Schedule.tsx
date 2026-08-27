@@ -162,28 +162,29 @@ export default function Schedule() {
     : schedule ?? [];
 
   return (
-    <div className="flex flex-col gap-8">
-      <div>
-        <h1 className="text-2xl font-semibold">Iskedyul</h1>
-        <p className="text-[var(--color-text-muted)]">Mag-iskedyul ng reading session o gawain para sa iyong anak.</p>
-      </div>
+    <div className="flex min-w-0 flex-col gap-6">
+      <header className="rounded-3xl border p-5 shadow-card sm:p-6" style={cardStyle('--color-brand-violet', 8, 30)}>
+        <p className="text-xs font-bold tracking-[0.12em] text-[var(--color-brand-violet)] uppercase">Plano ng pamilya</p>
+        <h1 className="text-2xl font-bold sm:text-3xl">Kalendaryo at Iskedyul</h1>
+        <p className="text-sm text-[var(--color-text-muted)]">Ayusin ang reading sessions, paalala, at mahahalagang gawain.</p>
+      </header>
 
-      <div className="rounded-xl border p-6" style={cardStyle('--color-brand-violet')}>
+      <section aria-label="Kalendaryo" className="min-w-0 rounded-3xl border p-3 shadow-card sm:p-6" style={cardStyle('--color-brand-violet')}>
         <div className="mb-4 flex items-center justify-between">
           <button
             type="button"
             onClick={() => setViewMonth(new Date(viewMonth.getFullYear(), viewMonth.getMonth() - 1, 1))}
-            className="rounded-lg border border-white/60 bg-white/60 px-3 py-1.5 hover:border-[var(--color-primary)]"
+            className="flex h-11 w-11 items-center justify-center rounded-xl border border-white/60 bg-white/70 text-xl hover:border-[var(--color-primary)]"
           >
             ‹
           </button>
-          <h2 className="text-lg font-semibold">
+          <h2 className="text-center text-lg font-bold">
             {MONTH_LABELS[viewMonth.getMonth()]} {viewMonth.getFullYear()}
           </h2>
           <button
             type="button"
             onClick={() => setViewMonth(new Date(viewMonth.getFullYear(), viewMonth.getMonth() + 1, 1))}
-            className="rounded-lg border border-white/60 bg-white/60 px-3 py-1.5 hover:border-[var(--color-primary)]"
+            className="flex h-11 w-11 items-center justify-center rounded-xl border border-white/60 bg-white/70 text-xl hover:border-[var(--color-primary)]"
           >
             ›
           </button>
@@ -209,7 +210,7 @@ export default function Schedule() {
                   setSelectedDate(isSelected ? null : key);
                   setScheduledDate(key);
                 }}
-                className={`flex min-h-16 flex-col items-start gap-1 rounded-lg border p-1.5 text-left transition-colors ${
+                className={`flex min-h-12 min-w-0 flex-col items-start gap-1 rounded-xl border p-1 text-left transition-all sm:min-h-16 sm:p-1.5 ${
                   isSelected
                     ? 'border-[var(--color-primary)] bg-[var(--color-primary-soft)]'
                     : 'border-transparent hover:border-[var(--color-border)]'
@@ -248,12 +249,12 @@ export default function Schedule() {
             </span>
           ))}
         </div>
-      </div>
+      </section>
 
       {selectedDate && (
-        <div className="rounded-xl border border-[var(--color-primary)] bg-[var(--color-primary-soft)] p-4">
-          <div className="flex items-center justify-between">
-            <p className="font-medium">
+        <div className="rounded-2xl border border-[var(--color-primary)] bg-[var(--color-primary-soft)] p-4">
+          <div className="flex flex-wrap items-center justify-between gap-3">
+            <p className="font-bold">
               Mga gawain sa {selectedDate}
               {selectedDayEvents.length === 0 ? ' — wala pang naka-iskedyul' : ` (${selectedDayEvents.length})`}
             </p>
@@ -273,15 +274,15 @@ export default function Schedule() {
           e.preventDefault();
           create.mutate();
         }}
-        className="flex flex-col gap-3 rounded-xl border p-6"
+        className="flex flex-col gap-4 rounded-3xl border p-5 shadow-card sm:p-6"
         style={cardStyle('--color-brand-sage')}
       >
-        <h2 className="text-lg font-semibold">Bagong Iskedyul</h2>
+        <div><h2 className="text-xl font-bold">Bagong Iskedyul</h2><p className="text-sm text-[var(--color-text-muted)]">Punan ang detalye ng gawain para sa iyong anak.</p></div>
         <select
           value={childId}
           onChange={(e) => setChildId(e.target.value)}
           required
-          className="rounded-lg border border-white/60 bg-white/70 px-4 py-2"
+          className="min-h-12 w-full rounded-2xl border border-white/60 bg-white/80 px-4"
         >
           <option value="">Pumili ng anak</option>
           {(children ?? []).map((c) => (
@@ -293,7 +294,7 @@ export default function Schedule() {
         <select
           value={activityType}
           onChange={(e) => setActivityType(e.target.value)}
-          className="rounded-lg border border-white/60 bg-white/70 px-4 py-2"
+          className="min-h-12 w-full rounded-2xl border border-white/60 bg-white/80 px-4"
         >
           {ACTIVITY_TYPES.map((t) => (
             <option key={t.value} value={t.value}>
@@ -306,71 +307,71 @@ export default function Schedule() {
           onChange={(e) => setTitle(e.target.value)}
           placeholder="Pamagat"
           required
-          className="rounded-lg border border-white/60 bg-white/70 px-4 py-2"
+          className="min-h-12 w-full rounded-2xl border border-white/60 bg-white/80 px-4"
         />
         <textarea
           value={description}
           onChange={(e) => setDescription(e.target.value)}
           placeholder="Deskripsyon"
-          className="rounded-lg border border-white/60 bg-white/70 px-4 py-2"
+          className="min-h-24 w-full rounded-2xl border border-white/60 bg-white/80 px-4 py-3"
         />
-        <div className="grid grid-cols-3 gap-3">
+        <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
           <input
             type="date"
             value={scheduledDate}
             onChange={(e) => setScheduledDate(e.target.value)}
             required
-            className="rounded-lg border border-white/60 bg-white/70 px-4 py-2"
+            className="min-h-12 min-w-0 w-full rounded-2xl border border-white/60 bg-white/80 px-3"
           />
           <input
             type="time"
             value={startTime}
             onChange={(e) => setStartTime(e.target.value)}
-            className="rounded-lg border border-white/60 bg-white/70 px-4 py-2"
+            className="min-h-12 min-w-0 w-full rounded-2xl border border-white/60 bg-white/80 px-3"
           />
           <input
             type="time"
             value={endTime}
             onChange={(e) => setEndTime(e.target.value)}
-            className="rounded-lg border border-white/60 bg-white/70 px-4 py-2"
+            className="min-h-12 min-w-0 w-full rounded-2xl border border-white/60 bg-white/80 px-3"
           />
         </div>
         {error && <p className="text-sm text-[var(--color-danger)]">{error}</p>}
         <button
           type="submit"
           disabled={create.isPending}
-          className="self-start rounded-lg bg-[var(--color-primary)] px-4 py-2 text-white disabled:opacity-60"
+          className="inline-flex min-h-12 items-center justify-center self-start rounded-2xl bg-[var(--color-primary)] px-5 font-bold text-white shadow-card disabled:opacity-60"
         >
           {create.isPending ? 'Ginagawa...' : 'Gumawa ng Iskedyul'}
         </button>
       </form>
 
-      <div>
+      <section aria-labelledby="schedule-list-title">
         {isLoading && <p>Naglo-load...</p>}
-        <h2 className="mb-3 text-lg font-semibold">{selectedDate ? `Iskedyul ng ${selectedDate}` : 'Lahat ng Iskedyul'}</h2>
+        <h2 id="schedule-list-title" className="mb-3 text-xl font-bold">{selectedDate ? `Iskedyul ng ${selectedDate}` : 'Lahat ng Iskedyul'}</h2>
         <ul className="flex flex-col gap-3">
           {visibleSchedule.map((s) => (
             <li
               key={s.id}
-              className="rounded-lg border-l-4 px-4 py-3"
+              className="rounded-2xl border border-l-4 px-4 py-4 shadow-card"
               style={{
                 borderLeftColor: `var(${colorFor(s.activity_type)})`,
                 backgroundColor: `color-mix(in srgb, var(${colorFor(s.activity_type)}) 10%, white)`,
               }}
             >
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="font-medium">{s.title}</p>
+              <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                <div className="min-w-0">
+                  <p className="font-bold">{s.title}</p>
                   <p className="text-sm text-[var(--color-text-muted)]">
                     {nameFor(s.child_id)} · {ACTIVITY_TYPES.find((t) => t.value === s.activity_type)?.label} ·{' '}
                     {s.scheduled_date} {s.start_time ? `${s.start_time}–${s.end_time ?? ''}` : ''}
                   </p>
                 </div>
-                <div className="flex items-center gap-2">
+                <div className="flex flex-wrap items-center gap-2">
                   <select
                     value={s.status}
                     onChange={(e) => updateStatus.mutate({ id: s.id, status: e.target.value })}
-                    className="rounded-lg border border-[var(--color-border)] px-2 py-1 text-sm"
+                    className="min-h-10 min-w-0 flex-1 rounded-xl border border-[var(--color-border)] bg-white px-3 text-sm sm:flex-none"
                   >
                     {STATUS_OPTIONS.map((opt) => (
                       <option key={opt.value} value={opt.value}>
@@ -381,7 +382,7 @@ export default function Schedule() {
                   <button
                     type="button"
                     onClick={() => remove.mutate(s.id)}
-                    className="rounded-full border border-[var(--color-border)] px-3 py-1 text-sm hover:border-[var(--color-danger)]"
+                    className="min-h-10 rounded-xl border border-[var(--color-border)] bg-white px-3 text-sm font-bold hover:border-[var(--color-danger)]"
                   >
                     <IconLabel icon="🗑️" label="Tanggalin" />
                   </button>
@@ -395,7 +396,7 @@ export default function Schedule() {
             </p>
           )}
         </ul>
-      </div>
+      </section>
     </div>
   );
 }

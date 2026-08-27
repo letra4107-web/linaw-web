@@ -54,15 +54,16 @@ export default function ParentMessages() {
   });
 
   return (
-    <div className="flex flex-col gap-6">
-      <div>
-        <h1 className="text-2xl font-semibold">Mga Mensahe</h1>
-        <p className="text-[var(--color-text-muted)]">Mga mensahe mula sa mga guro ng iyong mga anak.</p>
-      </div>
+    <div className="flex min-w-0 flex-col gap-6">
+      <header className="rounded-3xl border p-5 shadow-card sm:p-6" style={cardStyle('--color-brand-teal', 8, 28)}>
+        <p className="text-xs font-bold tracking-[0.12em] text-[var(--color-brand-teal)] uppercase">Komunikasyon</p>
+        <h1 className="text-2xl font-bold sm:text-3xl">Mga Mensahe</h1>
+        <p className="text-sm text-[var(--color-text-muted)]">Mga update mula sa mga guro ng iyong mga anak.</p>
+      </header>
 
       {isLoading && <p>Naglo-load...</p>}
       {messages && messages.length === 0 && (
-        <p className="text-[var(--color-text-muted)]">Wala ka pang natatanggap na mensahe.</p>
+        <div className="rounded-3xl border border-dashed border-[var(--color-border)] bg-white/45 p-8 text-center text-[var(--color-text-muted)]">Wala ka pang natatanggap na mensahe.</div>
       )}
 
       <ul className="flex flex-col gap-3">
@@ -70,17 +71,19 @@ export default function ParentMessages() {
           <li
             key={m.id}
             onClick={() => !m.read && markRead.mutate(m.id)}
-            className={`rounded-xl border p-4 ${m.read ? '' : 'cursor-pointer border-[var(--color-primary)]/40 bg-[var(--color-primary-soft)]'}`}
+            className={`relative min-w-0 overflow-hidden rounded-3xl border p-5 shadow-card transition-all hover:-translate-y-0.5 hover:shadow-raised ${m.read ? 'opacity-85' : 'cursor-pointer border-[var(--color-primary)]/40 bg-[var(--color-primary-soft)]'}`}
             style={m.read ? cardStyle('--color-brand-teal', 8, 25) : undefined}
           >
-            <p className="text-sm font-medium">
+            {!m.read && <span className="absolute inset-y-0 left-0 w-1 bg-[var(--color-primary)]" />}
+            <div className="flex items-start gap-3"><span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-white/70" aria-hidden="true">✉</span><div className="min-w-0 flex-1">
+            <p className="text-sm font-bold">
               {teacherNames?.[m.teacher_id] ?? 'Guro'} — tungkol kay {m.children?.name ?? 'anak mo'}
             </p>
-            <p className="mt-1 text-[var(--color-text)]">{m.message}</p>
+            <p className="mt-2 leading-relaxed text-[var(--color-text)]">{m.message}</p>
             <p className="mt-2 text-xs text-[var(--color-text-muted)]">
               {new Date(m.created_at).toLocaleString('fil-PH')}
               {!m.read && ' · Bagong mensahe'}
-            </p>
+            </p></div>{!m.read && <span className="mt-2 h-2.5 w-2.5 shrink-0 rounded-full bg-[var(--color-primary)]" aria-label="Bagong mensahe" />}</div>
           </li>
         ))}
       </ul>
