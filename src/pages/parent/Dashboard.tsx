@@ -7,6 +7,7 @@ import { api } from '../../lib/api';
 import type { ReadingProfile } from '../../components/ReadingInsightsPanel';
 import { cardStyle } from '../../lib/cardStyle';
 import owlbook from '../../assets/owlbook.png';
+import { AppIcon } from '../../components/a11y/AppIcon';
 
 interface Child { id: string; name: string; grade_level: number; }
 interface ChildProgress { child_id: string; level: string; word_count: number; streak: number; }
@@ -153,7 +154,7 @@ export default function Dashboard() {
       </div>
 
       <nav aria-label="Mabilis na aksyon" className="grid grid-cols-1 gap-3 sm:grid-cols-3">
-        {[{ to: '/parent/children', icon: '＋', label: 'Pamahalaan ang mga anak', color: '--color-brand-lavender' }, { to: '/parent/progress', icon: '▥', label: 'Tingnan ang buong ulat', color: '--color-brand-sun' }, { to: '/parent/settings', icon: '☺', label: 'Ayusin ang profile', color: '--color-brand-coral' }].map((action) => <Link key={action.to} to={action.to} className="flex min-h-20 items-center gap-3 rounded-3xl border p-4 font-bold shadow-card transition-all hover:-translate-y-1 hover:shadow-raised" style={cardStyle(action.color)}><span className="flex h-11 w-11 items-center justify-center rounded-2xl bg-white/70 text-xl" aria-hidden="true">{action.icon}</span>{action.label}</Link>)}
+        {[{ to: '/parent/children', icon: '＋', label: 'Pamahalaan ang mga anak', color: '--color-brand-lavender' }, { to: '/parent/progress', icon: '▥', label: 'Tingnan ang buong ulat', color: '--color-brand-sun' }, { to: '/parent/settings', icon: '☺', label: 'Ayusin ang profile', color: '--color-brand-coral' }].map((action) => <Link key={action.to} to={action.to} className="flex min-h-20 items-center gap-3 rounded-3xl border p-4 font-bold shadow-card transition-all hover:-translate-y-1 hover:shadow-raised" style={cardStyle(action.color)}><span className="flex h-11 w-11 items-center justify-center rounded-2xl bg-white/70" aria-hidden="true"><AppIcon name={action.icon} /></span>{action.label}</Link>)}
       </nav>
     </div>
   );

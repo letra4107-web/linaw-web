@@ -3,6 +3,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { api } from '../lib/api';
 import { computeAccuracy, isSpeechRecognitionSupported, listenOnce } from '../lib/speech';
 import { IconLabel } from './a11y/IconLabel';
+import { AppIcon } from './a11y/AppIcon';
 import { BadgeUnlockToast } from './BadgeUnlockToast';
 import { cardStyle } from '../lib/cardStyle';
 
@@ -131,7 +132,7 @@ export function NonsenseWordCheck({ moduleId }: NonsenseWordCheckProps) {
               >
                 <IconLabel icon="🎤" label={listeningFor === word ? 'Nakikinig...' : done ? 'Ulitin' : 'Bigkasin'} />
               </button>
-              {done && <span className="text-xs">{done.correct ? '✅ Tama' : '❌ Ulitin natin'}</span>}
+              {done && <span className="inline-flex items-center gap-1 text-xs"><AppIcon name={done.correct ? '✅' : '❌'} className="h-4 w-4" />{done.correct ? 'Tama' : 'Ulitin natin'}</span>}
             </div>
           );
         })}

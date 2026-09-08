@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { TTSButton } from '../components/a11y/TTSButton';
 import { IconLabel } from '../components/a11y/IconLabel';
+import { AppIcon } from '../components/a11y/AppIcon';
 import { ScrollReveal } from '../components/ScrollReveal';
 import logo from '../assets/Logo.jpg';
 import landBg from '../assets/land.webp';
@@ -135,7 +136,7 @@ export default function Landing() {
               aria-label={mobileNavOpen ? 'Isara ang menu' : 'Buksan ang menu'}
               className="rounded-full border border-[var(--color-border)] p-2 text-lg transition-transform hover:border-[var(--color-primary)] active:scale-90 lg:hidden"
             >
-              {mobileNavOpen ? '✕' : '☰'}
+              <AppIcon name={mobileNavOpen ? '✕' : '☰'} />
             </button>
             <Link
               to="/login"

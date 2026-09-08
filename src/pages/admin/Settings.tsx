@@ -4,6 +4,7 @@ import { supabase } from '../../lib/supabaseClient';
 import { useAuth } from '../../lib/auth/AuthContext';
 import { cardStyle } from '../../lib/cardStyle';
 import { IconLabel } from '../../components/a11y/IconLabel';
+import { AppIcon } from '../../components/a11y/AppIcon';
 
 function initialsFor(name: string) {
   const parts = name.trim().split(/\s+/).filter(Boolean);
@@ -212,12 +213,12 @@ export default function Settings() {
                   key={c.label}
                   className={`flex items-center gap-2 text-sm ${c.met ? 'text-[var(--color-success)]' : 'text-[var(--color-text-muted)]'}`}
                 >
-                  <span aria-hidden="true">{c.met ? '✅' : '⬜'}</span> {c.label}
+                  <AppIcon name={c.met ? '✅' : '⬜'} className="h-4 w-4" /> {c.label}
                 </p>
               ))}
               {confirmPassword && (
                 <p className={`flex items-center gap-2 text-sm ${newPassword === confirmPassword ? 'text-[var(--color-success)]' : 'text-[var(--color-danger)]'}`}>
-                  <span aria-hidden="true">{newPassword === confirmPassword ? '✅' : '⬜'}</span> Magkatugma ang password
+                  <AppIcon name={newPassword === confirmPassword ? '✅' : '⬜'} className="h-4 w-4" /> Magkatugma ang password
                 </p>
               )}
             </div>

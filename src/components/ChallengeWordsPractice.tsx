@@ -3,6 +3,7 @@ import { useQuery } from '@tanstack/react-query';
 import { api } from '../lib/api';
 import { computeAccuracy, isSpeechRecognitionSupported, listenOnce } from '../lib/speech';
 import { IconLabel } from './a11y/IconLabel';
+import { AppIcon } from './a11y/AppIcon';
 import { TTSButton } from './a11y/TTSButton';
 import { cardStyle } from '../lib/cardStyle';
 
@@ -111,7 +112,7 @@ export function ChallengeWordsPractice({ moduleId }: ChallengeWordsPracticeProps
               </button>
 
               <span className={`text-xs font-medium ${done ? 'text-[var(--color-success)]' : 'text-transparent'}`}>
-                ✅ Nasubukan na
+                <span className="inline-flex items-center gap-1"><AppIcon name="✅" className="h-4 w-4" /> Nasubukan na</span>
               </span>
             </div>
           );

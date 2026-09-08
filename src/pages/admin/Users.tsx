@@ -2,6 +2,7 @@ import { Fragment, useEffect, useState } from 'react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { api } from '../../lib/api';
 import { cardStyle } from '../../lib/cardStyle';
+import { AppIcon } from '../../components/a11y/AppIcon';
 
 interface UserRow { id: string; email: string; name: string | null; role: string; account_status: string; is_active: boolean; created_at: string; lastLoginAt: string | null }
 const ROLES = ['admin', 'teacher', 'parent', 'student'];
@@ -10,7 +11,7 @@ const PAGE_SIZE = 10;
 const inputClass = 'min-h-11 rounded-xl border border-[var(--color-border)] bg-white/70 px-3 text-sm outline-none transition focus:border-[var(--color-primary)] focus:ring-2 focus:ring-[var(--color-primary)]/15';
 
 function StatusPill({ status }: { status: string }) { const active = status === 'active'; return <span className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-extrabold capitalize ${active ? 'bg-[var(--color-success-soft)] text-[var(--color-success)]' : 'bg-[var(--color-warning-soft)] text-[var(--color-warning-text)]'}`}><span className={`h-1.5 w-1.5 rounded-full ${active ? 'bg-[var(--color-success)]' : 'bg-[var(--color-warning)]'}`} />{status}</span>; }
-function roleIcon(role: string) { return role === 'teacher' ? '🎓' : role === 'parent' ? '👪' : role === 'student' ? '🧒' : '🛡'; }
+function roleIcon(role: string) { return <AppIcon name={role === 'teacher' ? '🎓' : role === 'parent' ? '👪' : role === 'student' ? '🧒' : '🛡'} className="h-5 w-5" />; }
 function formatDate(value: string | null) { return value ? new Date(value).toLocaleDateString('fil-PH', { month: 'short', day: 'numeric', year: 'numeric' }) : 'Hindi pa'; }
 
 export default function AdminUsers() {

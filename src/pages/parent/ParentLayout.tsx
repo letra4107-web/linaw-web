@@ -94,9 +94,9 @@ function ProfileMenu({ collapsed, mobile = false }: { collapsed: boolean; mobile
             </span>
             <div className="min-w-0"><p className="truncate font-bold">{displayName}</p><p className="truncate text-xs text-[var(--color-text-muted)]">{user?.email}</p></div>
           </div>
-          <NavLink to="/parent/settings" onClick={() => setOpen(false)} role="menuitem" className="flex min-h-11 items-center gap-2 rounded-xl px-3 py-2 text-sm font-bold hover:bg-white/70"><span aria-hidden="true">🙂</span> Aking Detalye</NavLink>
+          <NavLink to="/parent/settings" onClick={() => setOpen(false)} role="menuitem" className="flex min-h-11 items-center gap-2 rounded-xl px-3 py-2 text-sm font-bold hover:bg-white/70"><AppIcon name="☺" className="h-4 w-4" /> Aking Detalye</NavLink>
           <NavLink to="/parent/notifications" onClick={() => setOpen(false)} role="menuitem" className="flex min-h-11 items-center justify-between rounded-xl px-3 py-2 text-sm font-bold hover:bg-white/70"><span className="flex items-center gap-2"><span aria-hidden="true">🔔</span> Mga Abiso</span>{unreadCount > 0 && <span className="rounded-full bg-[var(--color-danger)] px-2 py-0.5 text-xs text-white">{unreadCount}</span>}</NavLink>
-          <NavLink to="/parent/app-settings" onClick={() => setOpen(false)} role="menuitem" className="flex min-h-11 items-center gap-2 rounded-xl px-3 py-2 text-sm font-bold hover:bg-white/70"><span aria-hidden="true">⚙</span> Mga Setting</NavLink>
+          <NavLink to="/parent/app-settings" onClick={() => setOpen(false)} role="menuitem" className="flex min-h-11 items-center gap-2 rounded-xl px-3 py-2 text-sm font-bold hover:bg-white/70"><AppIcon name="⚙" className="h-4 w-4" /> Mga Setting</NavLink>
           <div className="my-2 border-t border-white/70" />
           <button type="button" onClick={() => supabase.auth.signOut()} role="menuitem" className="flex min-h-11 w-full items-center gap-2 rounded-xl px-3 py-2 text-sm font-bold text-[var(--color-danger)] hover:bg-[var(--color-danger-soft)]"><span aria-hidden="true">↪</span> Mag-sign out</button>
         </div>
@@ -138,7 +138,7 @@ export default function ParentLayout() {
             <div className="flex min-w-0 items-center gap-2"><img src={logo} alt="LinawLetra" className="h-10 w-10 shrink-0 rounded-xl object-cover" /><span className="truncate font-bold text-[var(--color-primary)]">LinawLetra</span></div>
             <div className="flex items-center gap-2">
               <ProfileMenu collapsed mobile />
-              <button type="button" onClick={() => setMobileOpen((value) => !value)} aria-expanded={mobileOpen} aria-controls="parent-mobile-nav" className="flex h-12 min-w-12 items-center justify-center rounded-2xl border border-[var(--color-border)] bg-white/75 text-xl font-bold"><span aria-hidden="true">☰</span><span className="sr-only">Menu</span></button>
+              <button type="button" onClick={() => setMobileOpen((value) => !value)} aria-expanded={mobileOpen} aria-controls="parent-mobile-nav" className="flex h-12 min-w-12 items-center justify-center rounded-2xl border border-[var(--color-border)] bg-white/75"><AppIcon name="☰" /><span className="sr-only">Menu</span></button>
             </div>
           </header>
           {mobileOpen && (
