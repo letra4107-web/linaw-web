@@ -22,9 +22,9 @@ export default function LessonsHub() {
   return (
     <div className="flex min-w-0 flex-col gap-6">
       <header className="rounded-3xl border p-5 shadow-card sm:p-6" style={cardStyle('--color-brand-sun', 8, 28)}>
-        <p className="text-xs font-bold tracking-[0.12em] text-[var(--color-warning-text)] uppercase">Learning content</p>
-        <h1 className="text-2xl font-bold sm:text-3xl">Mga Aralin at Assignment</h1>
-        <p className="text-sm text-[var(--color-text-muted)]">Gumawa, mag-upload, mag-assign, at subaybayan ang learning materials.</p>
+        <p className="text-xs font-bold tracking-[0.12em] text-[var(--color-warning-text)] uppercase">Nilalaman sa pagkatuto</p>
+        <h1 className="text-2xl font-bold sm:text-3xl">Mga Aralin at Takdang-gawain</h1>
+        <p className="text-sm text-[var(--color-text-muted)]">Gumawa, mag-upload, magtakda, at subaybayan ang mga materyal sa pagkatuto.</p>
       </header>
 
       <div className="grid grid-cols-2 gap-2 rounded-2xl border border-[var(--color-border)] bg-white/55 p-1.5" role="tablist">

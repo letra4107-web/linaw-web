@@ -1,84 +1,56 @@
 import { Link, useLocation } from 'react-router-dom';
+import { Accessibility, ArrowLeft, Baby, CalendarDays, CheckCircle2, FileText, Mail, ShieldCheck, Trash2, type LucideIcon } from 'lucide-react';
 import logo from '../assets/Logo.jpg';
+import landBg from '../assets/land.webp';
 
 const LAST_REVIEWED = 'Setyembre 1, 2026';
+type PageInfo = { title: string; shortTitle: string; intro: string; icon: LucideIcon; accent: string; sections: { heading: string; body: string }[] };
 
-const CONTENT: Record<string, { title: string; intro: string; sections: { heading: string; body: string }[] }> = {
-  '/privacy': {
-    title: 'Patakaran sa Privacy',
-    intro: 'Ipinapaliwanag dito kung anong impormasyon ang kailangan ng LinawLetra at kung paano ito ginagamit.',
-    sections: [
-      { heading: 'Impormasyong ginagamit', body: 'Maaaring gamitin ang account details, student profile, reading activity, progress, accessibility settings, at teacher-provided learning materials upang maibigay ang serbisyo. Hindi ginagamit ang password o authentication token para sa analytics.' },
-      { heading: 'Layunin', body: 'Ginagamit ang impormasyon para sa authentication, reading practice, progress reports, assignments, account support, seguridad, at pagpapahusay ng serbisyo.' },
-      { heading: 'Pagbabahagi at pag-iingat', body: 'Ang access ay nililimitahan ayon sa tungkulin ng admin, guro, magulang, at mag-aaral. Hindi inilalagay sa product analytics ang raw voice recording o hindi kailangang personal na impormasyon.' },
-      { heading: 'Mga kahilingan', body: 'Para magtanong, humiling ng kopya, pagwawasto, o deletion ng account data, sumulat sa linawletra@gmail.com.' },
-    ],
-  },
-  '/terms': {
-    title: 'Mga Tuntunin ng Serbisyo',
-    intro: 'Mga pangunahing tuntunin para sa ligtas at wastong paggamit ng LinawLetra.',
-    sections: [
-      { heading: 'Wastong paggamit', body: 'Gamitin lamang ang serbisyo para sa lehitimong pag-aaral at pangangasiwa ng account. Huwag subukang pasukin ang account ng iba, abusuhin ang speech service, o mag-upload ng mapaminsalang file.' },
-      { heading: 'Mga account', body: 'Responsibilidad ng account holder na protektahan ang login details at ipaalam agad kung may pinaghihinalaang hindi awtorisadong access.' },
-      { heading: 'Learning support', body: 'Ang LinawLetra ay pantulong sa pag-aaral. Hindi ito kapalit ng propesyonal na pagsusuri, diagnosis, o payong medikal at pang-edukasyon.' },
-      { heading: 'Pagbabago', body: 'Maaaring baguhin ang serbisyo at mga tuntunin upang mapanatili ang seguridad at kalidad. Ang mahahalagang pagbabago ay dapat ipaalam sa mga account holder.' },
-    ],
-  },
-  '/child-data': {
-    title: 'Data ng Bata at Pahintulot ng Magulang',
-    intro: 'Dinisenyo ang LinawLetra para gamitin ng mga bata sa ilalim ng paggabay ng magulang, guardian, o paaralan.',
-    sections: [
-      { heading: 'Pahintulot at pangangasiwa', body: 'Ang magulang, guardian, o awtorisadong paaralan ang dapat gumawa o mag-apruba ng student account at mangasiwa sa paggamit nito.' },
-      { heading: 'Kinokolektang learning data', body: 'Maaaring itala ang reading attempts, accuracy, progress, achievements, assignments, at accessibility preferences para maipakita ang pag-unlad at susunod na pagsasanay.' },
-      { heading: 'Voice data', body: 'Maaaring iproseso ang pagsasalita para sa pronunciation feedback. Hindi dapat gamitin ang raw student voice recording bilang product analytics data.' },
-      { heading: 'Kontrol ng magulang', body: 'Maaaring humiling ang magulang o guardian ng access, correction, o deletion sa pamamagitan ng account settings o pakikipag-ugnayan sa linawletra@gmail.com.' },
-    ],
-  },
-  '/account-deletion': {
-    title: 'Pag-delete ng Account',
-    intro: 'Narito ang paraan para humiling ng ligtas na account at data deletion.',
-    sections: [
-      { heading: 'Paano humiling', body: 'Gamitin ang email na nakakonekta sa account at sumulat sa linawletra@gmail.com na may subject na “Account Deletion Request.” Sabihin kung parent, student, teacher, o admin account ang sakop.' },
-      { heading: 'Pagpapatunay', body: 'Maaaring humingi ng karagdagang verification bago kumilos upang hindi mabura ng ibang tao ang account o student record.' },
-      { heading: 'Saklaw', body: 'Ipapaliwanag kung aling account at learning records ang maaaring burahin at kung may impormasyong kailangang pansamantalang panatilihin para sa seguridad o lehitimong record-keeping.' },
-      { heading: 'Huwag magpadala ng password', body: 'Hindi kailanman kailangan ang iyong password, access token, o service key upang magsumite ng deletion request.' },
-    ],
-  },
-  '/accessibility': {
-    title: 'Pahayag sa Accessibility',
-    intro: 'Layunin ng LinawLetra na maging malinaw, magagamit, at angkop sa iba’t ibang pangangailangan sa pagbasa.',
-    sections: [
-      { heading: 'Mga kasalukuyang tulong', body: 'Kasama sa app ang keyboard focus indicators, text-to-speech, adjustable speech speed, Lexend font option, high-contrast mode, at reading guide.' },
-      { heading: 'Motion at readability', body: 'Iginagalang ng interface ang reduced-motion preference at gumagamit ng malinaw na labels, responsive layouts, at malalaking interactive controls.' },
-      { heading: 'Feedback', body: 'Kung may bahagi na mahirap gamitin gamit ang keyboard, screen reader, zoom, o ibang assistive technology, makipag-ugnayan sa linawletra@gmail.com at ilarawan ang page at problema.' },
-      { heading: 'Patuloy na pagpapabuti', body: 'Regular na sinusuri ang accessibility, ngunit maaaring may natitirang limitasyon. Hindi ito pahayag ng sertipikasyon sa anumang partikular na pamantayan.' },
-    ],
-  },
+const CONTENT: Record<string, PageInfo> = {
+  '/privacy': { title: 'Patakaran sa Privacy', shortTitle: 'Privacy', icon: ShieldCheck, accent: 'var(--color-primary)', intro: 'Ipinapaliwanag dito kung anong impormasyon ang kailangan ng LinawLetra at kung paano ito ginagamit.', sections: [
+    { heading: 'Impormasyong ginagamit', body: 'Maaaring gamitin ang detalye ng account, profile ng mag-aaral, aktibidad sa pagbasa, progreso, accessibility settings, at materyal na ibinigay ng guro upang maibigay ang serbisyo. Hindi ginagamit ang password o authentication token para sa analytics.' },
+    { heading: 'Layunin', body: 'Ginagamit ang impormasyon para sa authentication, reading practice, progress reports, assignments, account support, seguridad, at pagpapahusay ng serbisyo.' },
+    { heading: 'Pagbabahagi at pag-iingat', body: 'Ang access ay nililimitahan ayon sa tungkulin ng admin, guro, magulang, at mag-aaral. Hindi inilalagay sa product analytics ang raw voice recording o hindi kailangang personal na impormasyon.' },
+    { heading: 'Mga kahilingan', body: 'Para magtanong, humiling ng kopya, pagwawasto, o deletion ng account data, sumulat sa linawletra@gmail.com.' },
+  ] },
+  '/terms': { title: 'Mga Tuntunin ng Serbisyo', shortTitle: 'Mga Tuntunin', icon: FileText, accent: 'var(--color-brand-violet)', intro: 'Mga pangunahing tuntunin para sa ligtas at wastong paggamit ng LinawLetra.', sections: [
+    { heading: 'Wastong paggamit', body: 'Gamitin lamang ang serbisyo para sa lehitimong pag-aaral at pangangasiwa ng account. Huwag subukang pasukin ang account ng iba, abusuhin ang speech service, o mag-upload ng mapaminsalang file.' },
+    { heading: 'Mga account', body: 'Responsibilidad ng account holder na protektahan ang login details at ipaalam agad kung may pinaghihinalaang hindi awtorisadong access.' },
+    { heading: 'Learning support', body: 'Ang LinawLetra ay pantulong sa pag-aaral. Hindi ito kapalit ng propesyonal na pagsusuri, diagnosis, o payong medikal at pang-edukasyon.' },
+    { heading: 'Pagbabago', body: 'Maaaring baguhin ang serbisyo at mga tuntunin upang mapanatili ang seguridad at kalidad. Ang mahahalagang pagbabago ay dapat ipaalam sa mga account holder.' },
+  ] },
+  '/child-data': { title: 'Data ng Bata at Pahintulot ng Magulang', shortTitle: 'Data ng Bata', icon: Baby, accent: 'var(--color-brand-teal)', intro: 'Dinisenyo ang LinawLetra para gamitin ng mga bata sa ilalim ng paggabay ng magulang, guardian, o paaralan.', sections: [
+    { heading: 'Pahintulot at pangangasiwa', body: 'Ang magulang, guardian, o awtorisadong paaralan ang dapat gumawa o mag-apruba ng student account at mangasiwa sa paggamit nito.' },
+    { heading: 'Kinokolektang learning data', body: 'Maaaring itala ang reading attempts, accuracy, progress, achievements, assignments, at accessibility preferences para maipakita ang pag-unlad at susunod na pagsasanay.' },
+    { heading: 'Voice data', body: 'Maaaring iproseso ang pagsasalita para sa pronunciation feedback. Hindi dapat gamitin ang raw student voice recording bilang product analytics data.' },
+    { heading: 'Kontrol ng magulang', body: 'Maaaring humiling ang magulang o guardian ng access, correction, o deletion sa pamamagitan ng account settings o pakikipag-ugnayan sa linawletra@gmail.com.' },
+  ] },
+  '/account-deletion': { title: 'Pag-delete ng Account', shortTitle: 'Pag-delete ng Account', icon: Trash2, accent: 'var(--color-brand-coral)', intro: 'Narito ang paraan para humiling ng ligtas na account at data deletion.', sections: [
+    { heading: 'Paano humiling', body: 'Gamitin ang email na nakakonekta sa account at sumulat sa linawletra@gmail.com na may subject na “Account Deletion Request.” Sabihin kung parent, student, teacher, o admin account ang sakop.' },
+    { heading: 'Pagpapatunay', body: 'Maaaring humingi ng karagdagang verification bago kumilos upang hindi mabura ng ibang tao ang account o student record.' },
+    { heading: 'Saklaw', body: 'Ipapaliwanag kung aling account at learning records ang maaaring burahin at kung may impormasyong kailangang pansamantalang panatilihin para sa seguridad o lehitimong record-keeping.' },
+    { heading: 'Huwag magpadala ng password', body: 'Hindi kailanman kailangan ang iyong password, access token, o service key upang magsumite ng deletion request.' },
+  ] },
+  '/accessibility': { title: 'Pahayag sa Accessibility', shortTitle: 'Accessibility', icon: Accessibility, accent: 'var(--color-brand-sage)', intro: 'Layunin ng LinawLetra na maging malinaw, magagamit, at angkop sa iba’t ibang pangangailangan sa pagbasa.', sections: [
+    { heading: 'Mga kasalukuyang tulong', body: 'Kasama sa app ang keyboard focus indicators, text-to-speech, adjustable speech speed, Lexend font option, high-contrast mode, at reading guide.' },
+    { heading: 'Motion at readability', body: 'Iginagalang ng interface ang reduced-motion preference at gumagamit ng malinaw na labels, responsive layouts, at malalaking interactive controls.' },
+    { heading: 'Feedback', body: 'Kung may bahagi na mahirap gamitin gamit ang keyboard, screen reader, zoom, o ibang assistive technology, makipag-ugnayan sa linawletra@gmail.com at ilarawan ang page at problema.' },
+    { heading: 'Patuloy na pagpapabuti', body: 'Regular na sinusuri ang accessibility, ngunit maaaring may natitirang limitasyon. Hindi ito pahayag ng sertipikasyon sa anumang partikular na pamantayan.' },
+  ] },
 };
 
 export default function PublicInfo() {
   const { pathname } = useLocation();
   const page = CONTENT[pathname] ?? CONTENT['/privacy'];
-
-  return (
-    <div className="min-h-screen bg-[var(--color-bg)] text-[var(--color-text)]">
-      <header className="border-b border-[var(--color-border)] bg-[var(--color-surface)]">
-        <div className="mx-auto flex max-w-4xl items-center justify-between gap-4 px-6 py-4">
-          <Link to="/" aria-label="Bumalik sa LinawLetra home"><img src={logo} alt="LinawLetra" className="h-14 w-auto rounded-lg" /></Link>
-          <Link to="/" className="rounded-full border border-[var(--color-border)] px-4 py-2 font-medium hover:border-[var(--color-primary)]">Bumalik sa bahay</Link>
-        </div>
-      </header>
-      <main className="mx-auto max-w-4xl px-6 py-12">
-        <p className="text-sm font-semibold text-[var(--color-primary)]">Huling nirepaso: {LAST_REVIEWED}</p>
-        <h1 className="mt-2 text-3xl sm:text-4xl">{page.title}</h1>
-        <p className="mt-4 text-lg text-[var(--color-text-muted)]">{page.intro}</p>
-        <aside className="mt-6 rounded-2xl border border-[var(--color-warning)]/40 bg-[var(--color-warning-soft)] p-4 text-sm">
-          Draft para sa malinaw na product communication. Iparepaso sa kwalipikadong legal professional bago ituring na final legal text.
-        </aside>
-        <div className="mt-10 space-y-8">
-          {page.sections.map((section) => <section key={section.heading}><h2 className="text-2xl">{section.heading}</h2><p className="mt-2 text-[var(--color-text-muted)]">{section.body}</p></section>)}
-        </div>
-      </main>
-    </div>
-  );
+  const Icon = page.icon;
+  return <div className="min-h-screen bg-[var(--color-bg)] text-[var(--color-text)]" style={{ backgroundImage: `url(${landBg})`, backgroundRepeat: 'repeat', backgroundSize: '900px auto' }}>
+    <header className="sticky top-0 z-30 border-b border-[var(--color-border)] bg-[var(--color-surface)]/90 backdrop-blur"><div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-3 sm:px-6"><Link to="/" aria-label="Bumalik sa LinawLetra home" className="flex items-center gap-3"><img src={logo} alt="LinawLetra" className="h-12 w-auto rounded-xl sm:h-14" /><span className="hidden text-sm font-bold sm:block">LinawLetra</span></Link><Link to="/" className="inline-flex min-h-10 items-center gap-2 rounded-full border border-[var(--color-border)] bg-white/65 px-4 py-2 text-sm font-bold transition-colors hover:border-[var(--color-primary)] hover:bg-white"><ArrowLeft className="h-4 w-4" /> Bumalik sa bahay</Link></div></header>
+    <main className="mx-auto max-w-6xl px-4 py-8 sm:px-6 sm:py-12">
+      <section className="relative overflow-hidden rounded-3xl border border-white/45 bg-gradient-to-br from-[var(--color-hero-from)] via-[var(--color-hero-via)] to-[var(--color-hero-to)] p-6 text-white shadow-hero sm:p-10"><div aria-hidden="true" className="absolute -top-16 -right-10 h-52 w-52 rounded-full bg-white/10" /><div aria-hidden="true" className="absolute -bottom-20 left-1/3 h-44 w-44 rounded-full bg-white/10" /><div className="relative max-w-3xl"><span className="inline-flex h-13 w-13 items-center justify-center rounded-2xl bg-white/18"><Icon className="h-7 w-7" /></span><p className="mt-5 text-xs font-bold tracking-[.16em] text-white/75 uppercase">LinawLetra · Impormasyon</p><h1 className="mt-2 text-3xl font-extrabold sm:text-5xl">{page.title}</h1><p className="mt-4 max-w-2xl text-base leading-relaxed text-white/90 sm:text-lg">{page.intro}</p><p className="mt-6 inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-3 py-2 text-xs font-semibold"><CalendarDays className="h-4 w-4" /> Huling nirepaso: {LAST_REVIEWED}</p></div></section>
+      <div className="mt-7 grid gap-7 lg:grid-cols-[250px_minmax(0,1fr)]"><aside className="self-start rounded-3xl border border-[var(--color-border)] bg-[var(--color-surface)]/85 p-3 shadow-card lg:sticky lg:top-24"><p className="px-3 pt-2 pb-3 text-xs font-extrabold tracking-[.13em] text-[var(--color-text-muted)] uppercase">Mga dokumento</p><nav aria-label="Mga pampublikong dokumento" className="flex gap-1 overflow-x-auto lg:flex-col">{Object.entries(CONTENT).map(([path, item]) => { const NavIcon = item.icon; const selected = path === pathname; return <Link key={path} to={path} aria-current={selected ? 'page' : undefined} className={`inline-flex min-h-11 shrink-0 items-center gap-2 rounded-2xl px-3 py-2 text-sm font-bold transition-colors ${selected ? 'bg-[var(--color-primary)] text-white shadow-card' : 'hover:bg-[var(--color-primary-soft)]'}`}><NavIcon className="h-4 w-4" />{item.shortTitle}</Link>; })}</nav></aside>
+        <div className="space-y-5"><aside className="flex gap-3 rounded-3xl border border-[var(--color-warning)]/35 bg-[var(--color-warning-soft)] p-4 text-sm leading-relaxed shadow-card"><ShieldCheck className="mt-0.5 h-5 w-5 shrink-0 text-[var(--color-warning-text)]" /><p>Draft ito para sa malinaw na product communication. Iparepaso sa kwalipikadong legal professional bago ituring na final legal text.</p></aside><article className="overflow-hidden rounded-3xl border border-[var(--color-border)] bg-[var(--color-surface)]/90 p-5 shadow-card sm:p-8"><div className="mb-7 flex items-center gap-3 border-b border-[var(--color-border)] pb-5"><span className="flex h-11 w-11 items-center justify-center rounded-2xl bg-[var(--color-primary-soft)]" style={{ color: page.accent }}><Icon className="h-5 w-5" /></span><div><h2 className="text-xl font-extrabold">Mahahalagang detalye</h2><p className="text-sm text-[var(--color-text-muted)]">Basahin ang bawat bahagi sa ibaba.</p></div></div><div className="space-y-5">{page.sections.map((section, index) => <section key={section.heading} className="rounded-2xl border border-[var(--color-border)] bg-white/55 p-5 transition-colors hover:bg-white/80"><div className="flex gap-4"><span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[var(--color-primary-soft)] text-sm font-extrabold text-[var(--color-primary)]">{index + 1}</span><div><h3 className="text-lg font-extrabold">{section.heading}</h3><p className="mt-2 leading-relaxed text-[var(--color-text-muted)]">{section.body}</p></div></div></section>)}</div></article><section className="flex flex-col items-start justify-between gap-4 rounded-3xl border border-[var(--color-border)] bg-[var(--color-surface)]/85 p-5 shadow-card sm:flex-row sm:items-center"><div><p className="font-extrabold">May tanong tungkol sa iyong data?</p><p className="mt-1 text-sm text-[var(--color-text-muted)]">Makipag-ugnayan sa LinawLetra support team.</p></div><a href="mailto:linawletra@gmail.com" className="inline-flex min-h-11 items-center gap-2 rounded-full bg-[var(--color-primary)] px-5 py-2 text-sm font-bold text-white shadow-card transition-transform hover:-translate-y-0.5"><Mail className="h-4 w-4" /> Mag-email sa amin</a></section></div>
+      </div>
+    </main>
+    <footer className="border-t border-[var(--color-border)] bg-[var(--color-surface)]/85 px-6 py-7 text-center text-sm text-[var(--color-text-muted)]"><p className="inline-flex items-center gap-2"><CheckCircle2 className="h-4 w-4 text-[var(--color-success)]" /> LinawLetra · Ligtas at malinaw na suporta sa pagbasa</p></footer>
+  </div>;
 }
