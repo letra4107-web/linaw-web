@@ -173,7 +173,7 @@ Test parent enrollment/reset and credential status, every role login, Word of th
 - Migration 026: restore the prior backend code but retain `student_badge_awards` so award history is not lost.
 - Storage/TTS: switch `STORAGE_SIGNED_URLS_ENABLED=false` and redeploy. Buckets are not made private by these migrations. Restore prior Google configuration if TTS alone fails.
 
-The repository does not automatically deploy from CI.
+GitHub Actions can automatically deploy the verified frontend to Hostinger after every push to `main`; see [docs/AUTOMATED_DEPLOYMENT.md](docs/AUTOMATED_DEPLOYMENT.md) for the one-time GitHub Secrets setup. Railway remains responsible for the connected backend's automatic deployment.
 
 ## Security notes
 
