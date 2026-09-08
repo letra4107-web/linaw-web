@@ -1,3 +1,4 @@
+/* oxlint-disable react/only-export-components -- compatibility export used throughout the app */
 import { createContext, useContext, useEffect, useState, type ReactNode } from 'react';
 import type { Session, User } from '@supabase/supabase-js';
 import { supabase } from '../supabaseClient';
@@ -9,6 +10,8 @@ interface AuthState {
   user: User | null;
   identity: ResolvedIdentity | null;
   loading: boolean;
+  error: string | null;
+  retry: () => void;
   refreshIdentity: () => Promise<void>;
 }
 
@@ -18,6 +21,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [session, setSession] = useState<Session | null>(null);
   const [identity, setIdentity] = useState<ResolvedIdentity | null>(null);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [retryCount, setRetryCount] = useState(0);
 
   const loadIdentity = async (user: User | null) => {
     if (!user) {
@@ -31,16 +36,25 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     let mounted = true;
 
-    supabase.auth.getSession().then(({ data }) => {
+    setError(null);
+    supabase.auth.getSession().then(({ data, error: sessionError }) => {
       if (!mounted) return;
+      if (sessionError) throw sessionError;
       setSession(data.session);
-      loadIdentity(data.session?.user ?? null).finally(() => setLoading(false));
+      return loadIdentity(data.session?.user ?? null);
+    }).catch(() => {
+      if (mounted) setError('Hindi ma-load ang account ngayon. Pakisubukan muli.');
+    }).finally(() => {
+      if (mounted) setLoading(false);
     });
 
     const { data: sub } = supabase.auth.onAuthStateChange((event, nextSession) => {
       setSession(nextSession);
       setLoading(true);
-      loadIdentity(nextSession?.user ?? null).finally(() => setLoading(false));
+      setError(null);
+      loadIdentity(nextSession?.user ?? null)
+        .catch(() => setError('Hindi ma-load ang account ngayon. Pakisubukan muli.'))
+        .finally(() => setLoading(false));
 
       // Notify the parent on an actual login only -- never on a background token
       // refresh (fires roughly hourly while the app just sits open) or on the
@@ -54,7 +68,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       mounted = false;
       sub.subscription.unsubscribe();
     };
-  }, []);
+  }, [retryCount]);
 
   const refreshIdentity = async () => {
     await loadIdentity(session?.user ?? null);
@@ -62,7 +76,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   return (
     <AuthContext.Provider
-      value={{ session, user: session?.user ?? null, identity, loading, refreshIdentity }}
+      value={{ session, user: session?.user ?? null, identity, loading, error, retry: () => { setLoading(true); setRetryCount((count) => count + 1); }, refreshIdentity }}
     >
       {children}
     </AuthContext.Provider>

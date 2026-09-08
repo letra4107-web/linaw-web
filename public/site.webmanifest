@@ -1,0 +1,13 @@
+{
+  "name": "LinawLetra",
+  "short_name": "LinawLetra",
+  "description": "Suporta sa pagsasanay sa pagbasa ng Tagalog.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#fbf3e2",
+  "theme_color": "#5f52b0",
+  "icons": [
+    { "src": "/favicon.jpg", "sizes": "512x512", "type": "image/png" },
+    { "src": "/favicon.svg", "sizes": "any", "type": "image/svg+xml" }
+  ]
+}

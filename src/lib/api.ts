@@ -1,6 +1,10 @@
 import { supabase } from './supabaseClient';
 
 const API_URL = import.meta.env.VITE_API_URL;
+const EXPECTED_API_COMPATIBILITY = import.meta.env.VITE_API_COMPATIBILITY_VERSION || '3';
+let compatibilityWarningShown = false;
+
+if (!API_URL) throw new Error('Missing VITE_API_URL in .env');
 
 interface ApiOptions {
   method?: string;
@@ -22,6 +26,15 @@ export async function api<T>(path: string, opts: ApiOptions = {}): Promise<T> {
     headers,
     body: opts.body ? JSON.stringify(opts.body) : undefined,
   });
+
+  const apiCompatibility = res.headers.get('x-api-compatibility-version');
+  if (!compatibilityWarningShown && apiCompatibility !== EXPECTED_API_COMPATIBILITY) {
+    compatibilityWarningShown = true;
+    console.warn('[LinawLetra] Frontend/API compatibility mismatch.', {
+      expected: EXPECTED_API_COMPATIBILITY,
+      received: apiCompatibility || 'missing',
+    });
+  }
 
   const contentType = res.headers.get('content-type') ?? '';
   const payload = contentType.includes('application/json') ? await res.json() : await res.text();

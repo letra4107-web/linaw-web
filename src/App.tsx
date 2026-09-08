@@ -1,120 +1,25 @@
-import { Routes, Route } from 'react-router-dom';
-import Home from './pages/Home';
-import Login from './pages/auth/Login';
-import SignUp from './pages/auth/SignUp';
-import ForgotPassword from './pages/auth/ForgotPassword';
-import ResetPassword from './pages/auth/ResetPassword';
-import VerifyEmail from './pages/auth/VerifyEmail';
-import ResendVerification from './pages/auth/ResendVerification';
-import { ProtectedRoute } from './components/ProtectedRoute';
-import AdminLayout from './pages/admin/AdminLayout';
-import AdminDashboardPage from './pages/admin/Dashboard';
-import AdminUsers from './pages/admin/Users';
-import AdminArchived from './pages/admin/Archived';
-import AdminTeachers from './pages/admin/Teachers';
-import AdminAnalytics from './pages/admin/Analytics';
-import AdminSettings from './pages/admin/Settings';
-import AdminNotifications from './pages/admin/Notifications';
-import ParentLayout from './pages/parent/ParentLayout';
-import ParentDashboardPage from './pages/parent/Dashboard';
-import MyChildren from './pages/parent/MyChildren';
-import ProgressReport from './pages/parent/ProgressReport';
-import Schedule from './pages/parent/Schedule';
-import ParentMessages from './pages/parent/Messages';
-import ParentSettings from './pages/parent/Settings';
-import ParentNotifications from './pages/parent/Notifications';
-import ParentAppSettings from './pages/parent/AppSettings';
-import StudentLayout from './pages/student/StudentLayout';
-import StudentDashboardPage from './pages/student/Dashboard';
-import Learn from './pages/student/Learn';
-import StudentModule from './pages/student/Module';
-import StudentAssessment from './pages/student/Assessment';
-import StudentPractice from './pages/student/Practice';
-import StudentProfile from './pages/student/Profile';
-import StudentAchievements from './pages/student/Achievements';
-import TeacherLayout from './pages/teacher/TeacherLayout';
-import TeacherDashboardPage from './pages/teacher/Dashboard';
-import MyStudents from './pages/teacher/MyStudents';
-import LessonsHub from './pages/teacher/LessonsHub';
-import ProgressReports from './pages/teacher/ProgressReports';
-import TeacherSettings from './pages/teacher/Settings';
-import TeacherMessages from './pages/teacher/Messages';
+import { lazy, Suspense } from 'react';
+import { Route, Routes } from 'react-router-dom';
+import { BrandedStatus } from './components/BrandedStatus';
+
+// Five intentional route bundles avoid both a monolith and dozens of tiny
+// page chunks. A user downloads the public shell plus only their role area.
+const PublicArea = lazy(() => import('./routes/PublicArea'));
+const AdminArea = lazy(() => import('./routes/AdminArea'));
+const ParentArea = lazy(() => import('./routes/ParentArea'));
+const StudentArea = lazy(() => import('./routes/StudentArea'));
+const TeacherArea = lazy(() => import('./routes/TeacherArea'));
 
 export default function App() {
   return (
-    <Routes>
-      <Route path="/" element={<Home />} />
-      <Route path="/login" element={<Login />} />
-      <Route path="/signup" element={<SignUp />} />
-      <Route path="/forgot-password" element={<ForgotPassword />} />
-      <Route path="/reset-password" element={<ResetPassword />} />
-      <Route path="/verify-email" element={<VerifyEmail />} />
-      <Route path="/resend-verification" element={<ResendVerification />} />
-
-      <Route
-        path="/admin"
-        element={
-          <ProtectedRoute role="admin">
-            <AdminLayout />
-          </ProtectedRoute>
-        }
-      >
-        <Route index element={<AdminDashboardPage />} />
-        <Route path="users" element={<AdminUsers />} />
-        <Route path="archived" element={<AdminArchived />} />
-        <Route path="teachers" element={<AdminTeachers />} />
-        <Route path="analytics" element={<AdminAnalytics />} />
-        <Route path="notifications" element={<AdminNotifications />} />
-        <Route path="settings" element={<AdminSettings />} />
-      </Route>
-      <Route
-        path="/parent"
-        element={
-          <ProtectedRoute role="parent">
-            <ParentLayout />
-          </ProtectedRoute>
-        }
-      >
-        <Route index element={<ParentDashboardPage />} />
-        <Route path="children" element={<MyChildren />} />
-        <Route path="progress" element={<ProgressReport />} />
-        <Route path="schedule" element={<Schedule />} />
-        <Route path="messages" element={<ParentMessages />} />
-        <Route path="settings" element={<ParentSettings />} />
-        <Route path="notifications" element={<ParentNotifications />} />
-        <Route path="app-settings" element={<ParentAppSettings />} />
-      </Route>
-      <Route
-        path="/student"
-        element={
-          <ProtectedRoute role="student">
-            <StudentLayout />
-          </ProtectedRoute>
-        }
-      >
-        <Route index element={<StudentDashboardPage />} />
-        <Route path="learn" element={<Learn />} />
-        <Route path="learn/module/:moduleId" element={<StudentModule />} />
-        <Route path="learn/assessment/:assessmentId" element={<StudentAssessment />} />
-        <Route path="practice" element={<StudentPractice />} />
-        <Route path="achievements" element={<StudentAchievements />} />
-        <Route path="profile" element={<StudentProfile />} />
-      </Route>
-      <Route
-        path="/teacher"
-        element={
-          <ProtectedRoute role="teacher">
-            <TeacherLayout />
-          </ProtectedRoute>
-        }
-      >
-        <Route index element={<TeacherDashboardPage />} />
-        <Route path="students" element={<MyStudents />} />
-        <Route path="lessons" element={<LessonsHub />} />
-        <Route path="progress-reports" element={<ProgressReports />} />
-        <Route path="messages" element={<TeacherMessages />} />
-        <Route path="settings" element={<TeacherSettings />} />
-      </Route>
-    </Routes>
+    <Suspense fallback={<BrandedStatus message="Binubuksan ang pahina..." />}>
+      <Routes>
+        <Route path="/admin/*" element={<AdminArea />} />
+        <Route path="/parent/*" element={<ParentArea />} />
+        <Route path="/student/*" element={<StudentArea />} />
+        <Route path="/teacher/*" element={<TeacherArea />} />
+        <Route path="*" element={<PublicArea />} />
+      </Routes>
+    </Suspense>
   );
 }

@@ -22,9 +22,7 @@ export interface WordOfDayLog {
 }
 
 const MAX_ATTEMPTS = 3;
-const BONUS_XP = 25;
-
-export { MAX_ATTEMPTS, BONUS_XP };
+export { MAX_ATTEMPTS };
 
 async function fetchTodayRow(childId: string, date: string): Promise<WordOfDayLog | null> {
   const { data, error } = await supabase

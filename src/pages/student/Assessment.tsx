@@ -8,6 +8,7 @@ import { TTSButton } from '../../components/a11y/TTSButton';
 import { BadgeUnlockToast } from '../../components/BadgeUnlockToast';
 import { IconLabel } from '../../components/a11y/IconLabel';
 import { cardStyle, CARD_COLORS } from '../../lib/cardStyle';
+import { trackEvent } from '../../lib/analytics';
 
 interface AssessmentItem {
   assessment_item_id: string;
@@ -96,6 +97,7 @@ export default function Assessment() {
       }),
     onSuccess: (data) => {
       setResult(data);
+      trackEvent('assessment_completed', { passed: data.passed, score: data.score });
       if (data.newlyUnlockedBadges?.length) setNewlyUnlockedBadges(data.newlyUnlockedBadges);
     },
     onError: (err: Error) => setError(err.message),

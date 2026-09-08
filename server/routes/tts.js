@@ -1,6 +1,6 @@
 const express = require('express');
-
-const router = express.Router();
+const { requireAuth } = require('../middleware/auth');
+const { ttsLimiter } = require('../lib/rateLimiters');
 
 const MAX_TEXT_LENGTH = 500;
 const GOOGLE_TTS_URL = 'https://texttospeech.googleapis.com/v1/text:synthesize';
@@ -9,7 +9,16 @@ const GOOGLE_TTS_URL = 'https://texttospeech.googleapis.com/v1/text:synthesize';
 // app since this app's readers are decoding by ear.
 
 // POST /api/tts  { text }  -> { audioContent: base64 mp3 }
-router.post('/', async (req, res) => {
+function createTtsRouter({
+  authMiddleware = requireAuth,
+  limiter = ttsLimiter,
+  fetchImpl = global.fetch,
+  apiKey = process.env.GOOGLE_TTS_API_KEY,
+} = {}) {
+  const router = express.Router();
+  router.use(authMiddleware);
+  router.use(limiter);
+  router.post('/', async (req, res) => {
   try {
     const { text } = req.body || {};
     const requestedRate = Number(req.body?.rate);
@@ -20,11 +29,17 @@ router.post('/', async (req, res) => {
     if (text.length > MAX_TEXT_LENGTH) {
       return res.status(400).json({ error: `Text is too long (max ${MAX_TEXT_LENGTH} characters).` });
     }
-    if (!process.env.GOOGLE_TTS_API_KEY) {
+    if ([...text].some((character) => {
+      const code = character.charCodeAt(0);
+      return code < 32 && ![9, 10, 13].includes(code);
+    })) {
+      return res.status(400).json({ error: 'Text contains unsupported characters.' });
+    }
+    if (!apiKey) {
       return res.status(500).json({ error: 'TTS is not configured on the server.' });
     }
 
-    const response = await fetch(`${GOOGLE_TTS_URL}?key=${process.env.GOOGLE_TTS_API_KEY}`, {
+    const response = await fetchImpl(`${GOOGLE_TTS_URL}?key=${apiKey}`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -35,8 +50,8 @@ router.post('/', async (req, res) => {
     });
 
     if (!response.ok) {
-      const detail = await response.text();
-      console.error('[tts] Google TTS error', response.status, detail);
+      await response.text();
+      console.error('[tts] provider request failed', { status: response.status, requestId: req.requestId });
       return res.status(502).json({ error: 'Unable to synthesize speech right now.' });
     }
 
@@ -46,6 +61,10 @@ router.post('/', async (req, res) => {
     console.error('[tts]', err);
     res.status(500).json({ error: 'Unable to synthesize speech right now.' });
   }
-});
+  });
+  return router;
+}
 
-module.exports = router;
+module.exports = createTtsRouter();
+module.exports.createTtsRouter = createTtsRouter;
+module.exports.MAX_TEXT_LENGTH = MAX_TEXT_LENGTH;

@@ -5,25 +5,35 @@ const pdfParse = require('pdf-parse');
 const { supabaseAdmin } = require('../config/supabase');
 const { requireAuth, requireRole } = require('../middleware/auth');
 const { parseDrillPdf } = require('../lib/pdfDrillParser');
+const { validatePdfUpload } = require('../lib/pdfValidation');
+const { uploadLimiter } = require('../lib/rateLimiters');
+const { validateUuidParam, isGrade, isBoundedString } = require('../lib/validation');
+const { createMaterialAccessService } = require('../services/materialAccess');
 
 const router = express.Router();
+const materialAccess = createMaterialAccessService(supabaseAdmin);
 router.use(requireAuth, requireRole('teacher', 'admin'));
 
 const upload = multer({
   storage: multer.memoryStorage(),
   limits: { fileSize: 15 * 1024 * 1024 },
   fileFilter: (req, file, cb) => {
-    if (file.mimetype !== 'application/pdf') return cb(new Error('Only PDF files are allowed.'));
+    const extensionIsPdf = /\.pdf$/i.test(file.originalname || '');
+    const mimeIsPdf = ['application/pdf', 'application/x-pdf'].includes(String(file.mimetype).toLowerCase());
+    if (!extensionIsPdf || !mimeIsPdf) return cb(new Error('Only PDF files are allowed.'));
     cb(null, true);
   },
 });
 
 // POST /teacher/pdf  (multipart: file) + fields: title, gradeLevel, level
-router.post('/pdf', upload.single('file'), async (req, res) => {
+router.post('/pdf', uploadLimiter, upload.single('file'), async (req, res) => {
   try {
     if (!req.file) return res.status(400).json({ error: 'No PDF file uploaded.' });
+    const validation = validatePdfUpload(req.file);
+    if (!validation.valid) return res.status(400).json({ error: validation.error });
     const { title, gradeLevel, level } = req.body || {};
-    if (!title) return res.status(400).json({ error: 'Title is required.' });
+    if (!isBoundedString(title, 160, { allowEmpty: false })) return res.status(400).json({ error: 'A valid title is required (maximum 160 characters).' });
+    if (gradeLevel && !isGrade(gradeLevel)) return res.status(400).json({ error: 'Grade level must be 1-6.' });
 
     const parsed = await pdfParse(req.file.buffer).catch(() => ({ text: '' }));
 
@@ -41,7 +51,9 @@ router.post('/pdf', upload.single('file'), async (req, res) => {
         teacher_id: req.user.id,
         title,
         storage_path: storagePath,
+        storage_bucket: 'reading-materials',
         file_url: publicUrlData.publicUrl,
+        legacy_public_url: publicUrlData.publicUrl,
         extracted_text: parsed.text || null,
         grade_level: gradeLevel ? Number(gradeLevel) : null,
         level: level || null,
@@ -58,6 +70,9 @@ router.post('/pdf', upload.single('file'), async (req, res) => {
       id: crypto.randomUUID(),
       uploader_id: req.user.id,
       path: publicUrlData.publicUrl,
+      storage_bucket: 'reading-materials',
+      storage_path: storagePath,
+      legacy_public_url: publicUrlData.publicUrl,
       content_type: 'application/pdf',
       size: req.file.size,
       metadata: { title, completed: false },
@@ -67,7 +82,7 @@ router.post('/pdf', upload.single('file'), async (req, res) => {
     res.json({ success: true, material });
   } catch (err) {
     console.error('[teacher/pdf upload]', err);
-    res.status(500).json({ error: err.message || 'Unable to upload this PDF.' });
+    res.status(500).json({ error: 'Unable to upload this PDF.' });
   }
 });
 
@@ -75,7 +90,7 @@ async function requireOwnedPdfMaterial(req, res) {
   const { id } = req.params;
   const { data: material, error } = await supabaseAdmin
     .from('pdf_materials')
-    .select('id, teacher_id')
+    .select('id, teacher_id, storage_path, file_url')
     .eq('id', id)
     .maybeSingle();
   if (error) throw error;
@@ -86,15 +101,46 @@ async function requireOwnedPdfMaterial(req, res) {
   return material;
 }
 
+// Compatibility abstraction for the future private-bucket migration. Existing
+// viewers can keep using persisted URLs until both web and mobile are migrated.
+router.get('/pdf/:id/access-url', validateUuidParam('id'), async (req, res) => {
+  try {
+    const material = await requireOwnedPdfMaterial(req, res);
+    if (!material) return;
+    res.json(await materialAccess.accessUrl(material));
+  } catch (err) {
+    console.error('[teacher/pdf access-url]', err);
+    res.status(500).json({ error: 'Unable to open this PDF.' });
+  }
+});
+
+router.get('/lessons/:id/access-url', validateUuidParam('id'), async (req, res) => {
+  try {
+    const { data: lesson, error } = await supabaseAdmin
+      .from('lessons')
+      .select('id, teacher_id, pdf_url, storage_bucket, storage_path, legacy_public_url')
+      .eq('id', req.params.id)
+      .maybeSingle();
+    if (error) throw error;
+    if (!lesson || lesson.teacher_id !== req.user.id) return res.status(404).json({ error: 'Lesson not found.' });
+    res.json(await materialAccess.accessUrl(lesson));
+  } catch (err) {
+    console.error('[teacher/lesson access-url]', err);
+    res.status(500).json({ error: 'Unable to open this lesson.' });
+  }
+});
+
 // PATCH /teacher/pdf/:id  { title, gradeLevel, level } -- edits metadata only,
 // not the file itself (re-upload as a new material for that).
-router.patch('/pdf/:id', async (req, res) => {
+router.patch('/pdf/:id', validateUuidParam('id'), async (req, res) => {
   try {
     const material = await requireOwnedPdfMaterial(req, res);
     if (!material) return;
 
     const { title, gradeLevel, level } = req.body || {};
-    if (!title || !String(title).trim()) return res.status(400).json({ error: 'Title is required.' });
+    if (!isBoundedString(title, 160, { allowEmpty: false })) return res.status(400).json({ error: 'A valid title is required (maximum 160 characters).' });
+    if (gradeLevel && !isGrade(gradeLevel)) return res.status(400).json({ error: 'Grade level must be 1-6.' });
+    if (level && !isBoundedString(level, 50)) return res.status(400).json({ error: 'Level is too long.' });
 
     const { data: updated, error: updateErr } = await supabaseAdmin
       .from('pdf_materials')
@@ -111,13 +157,13 @@ router.patch('/pdf/:id', async (req, res) => {
     res.json({ success: true, material: updated });
   } catch (err) {
     console.error('[teacher/pdf edit]', err);
-    res.status(500).json({ error: err.message || 'Unable to save changes.' });
+    res.status(500).json({ error: 'Unable to save changes.' });
   }
 });
 
 // POST /teacher/pdf/:id/archive -- hides it from students' assignment lists
 // (see migration 017) without deleting it or any attempt history.
-router.post('/pdf/:id/archive', async (req, res) => {
+router.post('/pdf/:id/archive', validateUuidParam('id'), async (req, res) => {
   try {
     const material = await requireOwnedPdfMaterial(req, res);
     if (!material) return;
@@ -131,12 +177,12 @@ router.post('/pdf/:id/archive', async (req, res) => {
     res.json({ success: true });
   } catch (err) {
     console.error('[teacher/pdf archive]', err);
-    res.status(500).json({ error: err.message || 'Unable to archive this PDF.' });
+    res.status(500).json({ error: 'Unable to archive this PDF.' });
   }
 });
 
 // POST /teacher/pdf/:id/unarchive
-router.post('/pdf/:id/unarchive', async (req, res) => {
+router.post('/pdf/:id/unarchive', validateUuidParam('id'), async (req, res) => {
   try {
     const material = await requireOwnedPdfMaterial(req, res);
     if (!material) return;
@@ -147,7 +193,7 @@ router.post('/pdf/:id/unarchive', async (req, res) => {
     res.json({ success: true });
   } catch (err) {
     console.error('[teacher/pdf unarchive]', err);
-    res.status(500).json({ error: err.message || 'Unable to unarchive this PDF.' });
+    res.status(500).json({ error: 'Unable to unarchive this PDF.' });
   }
 });
 
@@ -156,11 +202,14 @@ router.post('/pdf/:id/unarchive', async (req, res) => {
 // into scoreable syllable-drill items. Always lands as drill_status:
 // 'pending_review' -- the teacher must review/edit parsed items via
 // PATCH .../items before POST .../publish makes it visible to students.
-router.post('/pdf-drill', upload.single('file'), async (req, res) => {
+router.post('/pdf-drill', uploadLimiter, upload.single('file'), async (req, res) => {
   try {
     if (!req.file) return res.status(400).json({ error: 'No PDF file uploaded.' });
+    const validation = validatePdfUpload(req.file);
+    if (!validation.valid) return res.status(400).json({ error: validation.error });
     const { title, gradeLevel, level } = req.body || {};
-    if (!title) return res.status(400).json({ error: 'Title is required.' });
+    if (!isBoundedString(title, 160, { allowEmpty: false })) return res.status(400).json({ error: 'A valid title is required (maximum 160 characters).' });
+    if (gradeLevel && !isGrade(gradeLevel)) return res.status(400).json({ error: 'Grade level must be 1-6.' });
 
     const { items: parsedItems, skipped } = await parseDrillPdf(req.file.buffer).catch((err) => {
       console.error('[teacher/pdf-drill parse]', err);
@@ -181,7 +230,9 @@ router.post('/pdf-drill', upload.single('file'), async (req, res) => {
         teacher_id: req.user.id,
         title,
         storage_path: storagePath,
+        storage_bucket: 'reading-materials',
         file_url: publicUrlData.publicUrl,
+        legacy_public_url: publicUrlData.publicUrl,
         grade_level: gradeLevel ? Number(gradeLevel) : null,
         level: level || null,
         drill_status: 'pending_review',
@@ -203,7 +254,7 @@ router.post('/pdf-drill', upload.single('file'), async (req, res) => {
     res.json({ success: true, material, items, skippedCount: skipped.length });
   } catch (err) {
     console.error('[teacher/pdf-drill upload]', err);
-    res.status(500).json({ error: err.message || 'Unable to upload this PDF.' });
+    res.status(500).json({ error: 'Unable to upload this PDF.' });
   }
 });
 
@@ -223,7 +274,7 @@ async function requireOwnedDrillMaterial(req, res) {
 }
 
 // GET /teacher/pdf-drill/:materialId/items
-router.get('/pdf-drill/:materialId/items', async (req, res) => {
+router.get('/pdf-drill/:materialId/items', validateUuidParam('materialId'), async (req, res) => {
   try {
     const material = await requireOwnedDrillMaterial(req, res);
     if (!material) return;
@@ -238,22 +289,27 @@ router.get('/pdf-drill/:materialId/items', async (req, res) => {
     res.json({ material, items: items || [] });
   } catch (err) {
     console.error('[teacher/pdf-drill items]', err);
-    res.status(500).json({ error: err.message || 'Unable to load drill items.' });
+    res.status(500).json({ error: 'Unable to load drill items.' });
   }
 });
 
 // PATCH /teacher/pdf-drill/:materialId/items  { items: [{id?, band_index, item_order, syllable_pattern, word, image_url, xp_value}] }
 // Full replace, since the review UI edits/reorders/deletes freely -- simpler and
 // safer than diffing than trying to reconcile individual inserts/updates/deletes.
-router.patch('/pdf-drill/:materialId/items', async (req, res) => {
+router.patch('/pdf-drill/:materialId/items', validateUuidParam('materialId'), async (req, res) => {
   try {
     const material = await requireOwnedDrillMaterial(req, res);
     if (!material) return;
 
     const items = Array.isArray(req.body?.items) ? req.body.items : [];
+    if (items.length > 250) return res.status(400).json({ error: 'A drill may contain at most 250 items.' });
     for (const item of items) {
-      if (!item.syllable_pattern || !item.word) {
+      if (!isBoundedString(item.syllable_pattern, 80, { allowEmpty: false }) || !isBoundedString(item.word, 120, { allowEmpty: false })) {
         return res.status(400).json({ error: 'Every item needs a syllable pattern and a word.' });
+      }
+      if (item.image_url && !isBoundedString(item.image_url, 2048)) return res.status(400).json({ error: 'An image URL is too long.' });
+      if (item.xp_value != null && (!Number.isInteger(Number(item.xp_value)) || Number(item.xp_value) < 0 || Number(item.xp_value) > 100)) {
+        return res.status(400).json({ error: 'Item XP must be an integer from 0 to 100.' });
       }
     }
 
@@ -283,12 +339,12 @@ router.patch('/pdf-drill/:materialId/items', async (req, res) => {
     res.json({ success: true, items: saved });
   } catch (err) {
     console.error('[teacher/pdf-drill save items]', err);
-    res.status(500).json({ error: err.message || 'Unable to save drill items.' });
+    res.status(500).json({ error: 'Unable to save drill items.' });
   }
 });
 
 // POST /teacher/pdf-drill/:materialId/publish
-router.post('/pdf-drill/:materialId/publish', async (req, res) => {
+router.post('/pdf-drill/:materialId/publish', validateUuidParam('materialId'), async (req, res) => {
   try {
     const material = await requireOwnedDrillMaterial(req, res);
     if (!material) return;
@@ -306,7 +362,7 @@ router.post('/pdf-drill/:materialId/publish', async (req, res) => {
     res.json({ success: true });
   } catch (err) {
     console.error('[teacher/pdf-drill publish]', err);
-    res.status(500).json({ error: err.message || 'Unable to publish this drill.' });
+    res.status(500).json({ error: 'Unable to publish this drill.' });
   }
 });
 

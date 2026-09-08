@@ -17,6 +17,8 @@ const queryClient = new QueryClient({
   },
 });
 
+document.documentElement.dataset.appVersion = import.meta.env.VITE_APP_VERSION || 'development';
+
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <QueryClientProvider client={queryClient}>

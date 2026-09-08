@@ -19,6 +19,7 @@ import {
 } from '../../components/auth/AuthShell';
 import { cardStyle, CARD_COLORS } from '../../lib/cardStyle';
 import { IconLabel } from '../../components/a11y/IconLabel';
+import { trackEvent } from '../../lib/analytics';
 
 interface FieldErrors {
   email?: string;
@@ -161,6 +162,7 @@ export default function Login() {
       }
 
       const identity = await resolveRole(data.user);
+      if (identity) trackEvent('login_success', { role: identity.role });
       navigate(identity ? dashboardPathForRole(identity.role) : '/verify-email', { replace: true });
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Hindi matagumpay ang pag-login.');
@@ -186,6 +188,7 @@ export default function Login() {
       }
 
       const identity = await resolveRole(data.user);
+      if (identity) trackEvent('login_success', { role: identity.role, saved_profile: true });
       navigate(identity ? dashboardPathForRole(identity.role) : '/verify-email', { replace: true });
     } catch {
       // A dead/expired refresh token can't be used again -- drop it from the

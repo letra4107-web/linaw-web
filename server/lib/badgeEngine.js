@@ -121,18 +121,12 @@ async function checkAndAwardBadges(supabaseAdmin, studentId) {
     newlyUnlocked.push({ id: CASCADE_ALL_BADGES_ID, xp: CASCADE_ALL_XP });
   }
 
-  const unlockedAt = new Date().toISOString();
-  const mergedAchievements = [...existing, ...newlyUnlocked.map((b) => ({ id: b.id, unlockedAt }))];
-  const bonusXp = newlyUnlocked.reduce((sum, b) => sum + b.xp, 0);
-  const newXp = (progress.xp ?? 0) + bonusXp;
-
-  const { error: updateErr } = await supabaseAdmin
-    .from('child_progress')
-    .update({ achievements: mergedAchievements, xp: newXp })
-    .eq('child_id', studentId);
-  if (updateErr) throw updateErr;
-
-  return newlyUnlocked.map((b) => b.id);
+  const { data, error: awardError } = await supabaseAdmin.rpc('award_student_badges', {
+    p_student_id: studentId,
+    p_awards: newlyUnlocked.map((badge) => ({ id: badge.id, xp: badge.xp })),
+  });
+  if (awardError) throw awardError;
+  return data?.awarded_badge_ids || [];
 }
 
 module.exports = { checkAndAwardBadges };

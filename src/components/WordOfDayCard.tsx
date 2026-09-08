@@ -3,7 +3,7 @@ import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '../lib/supabaseClient';
 import { useAuth } from '../lib/auth/AuthContext';
 import { api } from '../lib/api';
-import { getOrCreateWordOfDay, MAX_ATTEMPTS, BONUS_XP } from '../lib/wordOfDay';
+import { getOrCreateWordOfDay, MAX_ATTEMPTS } from '../lib/wordOfDay';
 import { computeAccuracy, isSpeechRecognitionSupported, listenOnce } from '../lib/speech';
 import { syllabifyWord } from '../lib/syllabify';
 import { CORRECT_MESSAGES, ENCOURAGE_MESSAGES, randomFrom } from '../lib/feedbackMessages';
@@ -71,7 +71,7 @@ export function WordOfDayCard({ streak = 0 }: WordOfDayCardProps) {
   // attempt just happened to pick a message) -- memoized so it doesn't re-roll on re-render.
   const fallbackDoneMessage = useMemo(
     () => (wordOfDay?.correct ? randomFrom(CORRECT_MESSAGES) : randomFrom(ENCOURAGE_MESSAGES)),
-    [wordOfDay?.id, wordOfDay?.correct],
+    [wordOfDay?.correct],
   );
   const canTry = wordOfDay && !isDone && attemptsUsed < MAX_ATTEMPTS && isSpeechRecognitionSupported();
 
@@ -94,7 +94,7 @@ export function WordOfDayCard({ streak = 0 }: WordOfDayCardProps) {
     setSpeechStatus('loading');
     setError(null);
     try {
-      const res = await api<{ audioContent: string }>('/tts', { method: 'POST', body: { text: wordOfDay.word } });
+      const res = await api<{ audioContent: string }>('/tts', { method: 'POST', auth: true, body: { text: wordOfDay.word } });
       const bytes = atob(res.audioContent);
       const buffer = new Uint8Array(bytes.length);
       for (let i = 0; i < bytes.length; i += 1) buffer[i] = bytes.charCodeAt(i);
@@ -141,7 +141,7 @@ export function WordOfDayCard({ streak = 0 }: WordOfDayCardProps) {
           }>('/student/word-of-day/attempt', {
             method: 'POST',
             auth: true,
-            body: { logId: wordOfDay.id, attempts: nextAttempts, correct, accuracy, bonusXp: BONUS_XP },
+            body: { logId: wordOfDay.id, attempts: nextAttempts, correct, accuracy },
           });
           if (res.isFinal && res.correct) setJustAwardedXp(res.xpAwarded);
           if (res.newlyUnlockedBadges?.length) setNewlyUnlockedBadges(res.newlyUnlockedBadges);

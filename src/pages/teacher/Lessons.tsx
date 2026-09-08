@@ -4,6 +4,7 @@ import { supabase } from '../../lib/supabaseClient';
 import { useAuth } from '../../lib/auth/AuthContext';
 import { IconLabel } from '../../components/a11y/IconLabel';
 import { cardStyle, CARD_COLORS } from '../../lib/cardStyle';
+import { openAccessUrl } from '../../lib/openAccessUrl';
 
 const SUBJECTS = ['Filipino', 'Ingles', 'Matematika', 'Agham', 'Araling Panlipunan', 'MAPEH'];
 const GRADES = [1, 2, 3, 4, 5, 6];
@@ -64,6 +65,9 @@ export default function Lessons() {
         subject: subject.trim() || null,
         grade_level: gradeLevel.trim() || null,
         pdf_url: publicUrl.publicUrl,
+        legacy_public_url: publicUrl.publicUrl,
+        storage_bucket: 'lesson-pdfs',
+        storage_path: path,
         file_name: file.name,
         is_published: true,
       });
@@ -183,14 +187,13 @@ export default function Lessons() {
                 </p>
               </div>
               <div className="mt-auto flex flex-wrap gap-2 border-t border-white/70 pt-3">
-                <a
-                  href={lesson.pdf_url}
-                  target="_blank"
-                  rel="noreferrer"
+                <button
+                  type="button"
+                  onClick={() => openAccessUrl(`/teacher/lessons/${lesson.id}/access-url`).catch((err: Error) => setError(err.message))}
                   className="min-h-10 rounded-xl border border-white/70 bg-white/65 px-3 text-sm font-bold"
                 >
                   <IconLabel icon="👁️" label="Tingnan" />
-                </a>
+                </button>
                 <button
                   type="button"
                   onClick={() => togglePublish.mutate({ id: lesson.id, isPublished: lesson.is_published })}

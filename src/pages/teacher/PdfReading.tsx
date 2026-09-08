@@ -7,6 +7,7 @@ import { IconLabel } from '../../components/a11y/IconLabel';
 import { PdfReadingAssistant } from '../../components/PdfReadingAssistant';
 import { PdfDrillReview } from '../../components/teacher/PdfDrillReview';
 import { cardStyle, CARD_COLORS } from '../../lib/cardStyle';
+import { openAccessUrl } from '../../lib/openAccessUrl';
 
 interface PdfMaterial {
   id: string;
@@ -412,14 +413,13 @@ export default function PdfReading() {
               </div>
 
               <div className="flex flex-wrap gap-2">
-                <a
-                  href={m.file_url}
-                  target="_blank"
-                  rel="noreferrer"
+                <button
+                  type="button"
+                  onClick={() => openAccessUrl(`/teacher/pdf/${m.id}/access-url`).catch((err: Error) => setError(err.message))}
                   className="rounded-full border border-white/70 bg-white/60 px-3 py-1 text-sm hover:border-[var(--color-primary)]"
                 >
                   <IconLabel icon="📄" label="Raw PDF" />
-                </a>
+                </button>
                 {m.drill_status ? (
                   <button
                     type="button"

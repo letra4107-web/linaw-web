@@ -2,6 +2,7 @@ import { useRef, useState } from 'react';
 import { api } from '../../lib/api';
 import { getTtsRate } from '../../lib/ttsSettings';
 import { IconLabel } from './IconLabel';
+import { trackEvent } from '../../lib/analytics';
 
 interface TTSButtonProps {
   text: string;
@@ -65,7 +66,7 @@ export function TTSButton({ text, lang = 'fil-PH', className }: TTSButtonProps) 
 
     setStatus('loading');
     try {
-      const res = await api<{ audioContent: string }>('/tts', { method: 'POST', body: { text, rate } });
+      const res = await api<{ audioContent: string }>('/tts', { method: 'POST', auth: true, body: { text, rate } });
       const url = base64ToObjectUrl(res.audioContent);
       audioCache.set(cacheKey, url);
       setStatus('speaking');
@@ -75,6 +76,7 @@ export function TTSButton({ text, lang = 'fil-PH', className }: TTSButtonProps) 
       audio.onerror = () => setStatus('idle');
       audio.play();
     } catch {
+      trackEvent('speech_request_failed', { surface: 'tts_button' });
       setStatus('speaking');
       speakWithBrowser(text, lang, rate);
       setStatus('idle');

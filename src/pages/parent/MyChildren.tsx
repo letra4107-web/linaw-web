@@ -10,6 +10,7 @@ type FontSize = 'small' | 'medium' | 'large';
 interface StudentAccessibility { dyslexia_font: boolean; font_size: FontSize; high_contrast: boolean; reading_guide: boolean; tts_enabled: boolean; }
 interface Child { id: string; name: string; grade_level: number; username: string; }
 interface ChildProgress { child_id: string; level: string; xp: number; streak: number; }
+interface CredentialSecurity { childId: string; status: 'legacy' | 'rotated_pending' | 'secure' | 'fully_retired' | 'missing'; requiresRotation: boolean; }
 
 const FONT_SIZE_OPTIONS: { value: FontSize; label: string }[] = [
   { value: 'small', label: 'Maliit' }, { value: 'medium', label: 'Karaniwan' }, { value: 'large', label: 'Malaki' },
@@ -26,6 +27,7 @@ export default function MyChildren() {
   const [editingId, setEditingId] = useState<string | null>(null);
   const [levelDraft, setLevelDraft] = useState('Beginner');
   const [accessOpenId, setAccessOpenId] = useState<string | null>(null);
+  const [temporaryCredential, setTemporaryCredential] = useState<{ username: string; password: string } | null>(null);
 
   const { data: children, isLoading } = useQuery({
     queryKey: ['parent-children', user?.id],
@@ -37,9 +39,14 @@ export default function MyChildren() {
     queryFn: async () => { const ids = (children ?? []).map((child) => child.id); if (!ids.length) return []; const { data, error: err } = await supabase.from('child_progress').select('child_id, level, xp, streak').in('child_id', ids); if (err) throw err; return data as ChildProgress[]; },
     enabled: (children ?? []).length > 0,
   });
+  const { data: credentialSecurity } = useQuery({
+    queryKey: ['parent-credential-security', user?.id],
+    queryFn: () => api<{ children: CredentialSecurity[] }>('/parent/children/credential-security', { auth: true }),
+    enabled: Boolean(user),
+  });
   const enrollChild = useMutation({
-    mutationFn: () => api<{ success: boolean; username: string; level: string }>('/parent/children', { method: 'POST', auth: true, body: { childName, gradeLevel: Number(gradeLevel) } }),
-    onSuccess: (result) => { setSuccessMsg(`Nai-enroll si ${childName || 'ang bata'} bilang ${result.username} (${result.level} level). Naipadala ang credentials sa iyong email.`); setChildName(''); setGradeLevel('1'); setError(null); queryClient.invalidateQueries({ queryKey: ['parent-children'] }); },
+    mutationFn: () => api<{ success: boolean; username: string; temporaryPassword: string; level: string }>('/parent/children', { method: 'POST', auth: true, body: { childName, gradeLevel: Number(gradeLevel) } }),
+    onSuccess: (result) => { setSuccessMsg(`Nai-enroll si ${childName || 'ang bata'} bilang ${result.username} (${result.level} level).`); setTemporaryCredential({ username: result.username, password: result.temporaryPassword }); setChildName(''); setGradeLevel('1'); setError(null); queryClient.invalidateQueries({ queryKey: ['parent-children'] }); queryClient.invalidateQueries({ queryKey: ['parent-credential-security'] }); },
     onError: (err: Error) => setError(err.message),
   });
   const updateLevel = useMutation({
@@ -55,6 +62,11 @@ export default function MyChildren() {
   const updateAccess = useMutation({
     mutationFn: async (patch: Partial<StudentAccessibility>) => { if (accessOpenId) await api(`/parent/children/${accessOpenId}/settings`, { method: 'PATCH', auth: true, body: patch }); },
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ['child-accessibility', accessOpenId] }),
+    onError: (err: Error) => setError(err.message),
+  });
+  const resetPassword = useMutation({
+    mutationFn: (childId: string) => api<{ username: string; temporaryPassword: string }>(`/parent/children/${childId}/reset-password`, { method: 'POST', auth: true }),
+    onSuccess: (result) => { setTemporaryCredential({ username: result.username, password: result.temporaryPassword }); setError(null); queryClient.invalidateQueries({ queryKey: ['parent-credential-security'] }); },
     onError: (err: Error) => setError(err.message),
   });
   const progressFor = (childId: string) => progress?.find((item) => item.child_id === childId);
@@ -74,6 +86,7 @@ export default function MyChildren() {
           <div className="rounded-2xl bg-white/65 p-3 text-sm"><span className="text-[var(--color-text-muted)]">Awtomatikong reading level:</span> <strong className="text-[var(--color-primary)]">{levelForGrade(Number(gradeLevel))}</strong></div>
           {error && <p className="rounded-xl bg-[var(--color-danger-soft)] p-3 text-sm text-[var(--color-danger)]">{error}</p>}
           {successMsg && <p className="rounded-xl bg-[var(--color-success-soft)] p-3 text-sm text-[var(--color-success)]">{successMsg}</p>}
+          {temporaryCredential && <div role="status" className="rounded-xl border border-[var(--color-warning)]/40 bg-[var(--color-warning-soft)] p-3 text-sm"><p className="font-bold">Isulat ang bagong temporary credential ngayon.</p><p className="mt-1 break-all">Username: <strong>{temporaryCredential.username}</strong></p><p className="break-all">Password: <strong>{temporaryCredential.password}</strong></p><p className="mt-1 text-xs">Hindi na ito maipapakita muli. Naipadala rin ito sa iyong email kung available.</p><button type="button" onClick={() => setTemporaryCredential(null)} className="mt-2 underline">Naitala ko na</button></div>}
           <button type="submit" disabled={enrollChild.isPending} className="inline-flex min-h-12 items-center justify-center rounded-2xl bg-[var(--color-primary)] px-5 font-bold text-white shadow-card transition-all hover:-translate-y-0.5 disabled:opacity-60">{enrollChild.isPending ? 'Ie-enroll...' : '+ I-enroll ang Anak'}</button>
         </form>
 
@@ -85,17 +98,19 @@ export default function MyChildren() {
               const childProgress = progressFor(child.id);
               const levelOpen = editingId === child.id;
               const accessibilityOpen = accessOpenId === child.id;
+              const credential = credentialSecurity?.children.find((item) => item.childId === child.id);
               return (
                 <li key={child.id} className="min-w-0 overflow-hidden rounded-3xl border shadow-card" style={cardStyle(CARD_COLORS[index % CARD_COLORS.length], 9, 30)}>
                   <div className="p-5 sm:p-6">
                     <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
                       <span className="flex h-16 w-16 shrink-0 items-center justify-center rounded-3xl bg-white/75 text-2xl font-bold text-[var(--color-primary)] shadow-sm">{child.name.charAt(0).toUpperCase()}</span>
-                      <div className="min-w-0 flex-1"><h3 className="truncate text-xl font-bold">{child.name}</h3><p className="truncate text-sm text-[var(--color-text-muted)]">@{child.username}</p><div className="mt-2 flex flex-wrap gap-2"><span className="rounded-full bg-white/70 px-3 py-1 text-xs font-bold">Grade {child.grade_level}</span><span className="rounded-full bg-white/70 px-3 py-1 text-xs font-bold">{childProgress?.level ?? '—'}</span></div></div>
+                      <div className="min-w-0 flex-1"><h3 className="truncate text-xl font-bold">{child.name}</h3><p className="truncate text-sm text-[var(--color-text-muted)]">@{child.username}</p><div className="mt-2 flex flex-wrap gap-2"><span className="rounded-full bg-white/70 px-3 py-1 text-xs font-bold">Grade {child.grade_level}</span><span className="rounded-full bg-white/70 px-3 py-1 text-xs font-bold">{childProgress?.level ?? '—'}</span>{credential?.requiresRotation ? <span className="rounded-full bg-[var(--color-warning-soft)] px-3 py-1 text-xs font-bold text-[var(--color-warning-text)]">Password security update required</span> : credential && <span className="rounded-full bg-[var(--color-success-soft)] px-3 py-1 text-xs font-bold text-[var(--color-success)]">Secure password</span>}</div></div>
                       <div className="grid grid-cols-2 gap-2 sm:w-44"><div className="rounded-2xl bg-white/65 p-3 text-center"><p className="text-lg font-bold text-[var(--color-primary)]">{childProgress?.xp ?? 0}</p><p className="text-[0.7rem] text-[var(--color-text-muted)]">XP</p></div><div className="rounded-2xl bg-white/65 p-3 text-center"><p className="text-lg font-bold text-[var(--color-brand-coral)]">{childProgress?.streak ?? 0}</p><p className="text-[0.7rem] text-[var(--color-text-muted)]">Streak</p></div></div>
                     </div>
-                    <div className="mt-4 grid grid-cols-1 gap-2 border-t border-white/70 pt-4 sm:grid-cols-2">
+                    <div className="mt-4 grid grid-cols-1 gap-2 border-t border-white/70 pt-4 sm:grid-cols-3">
                       <button type="button" onClick={() => { setEditingId(levelOpen ? null : child.id); setLevelDraft(childProgress?.level ?? 'Beginner'); }} className={`min-h-11 rounded-2xl border px-4 text-sm font-bold transition-colors ${levelOpen ? 'border-[var(--color-primary)] bg-[var(--color-primary)] text-white' : 'border-white/70 bg-white/65 hover:border-[var(--color-primary)]'}`}>🎚 Baguhin ang Level</button>
                       <button type="button" onClick={() => setAccessOpenId(accessibilityOpen ? null : child.id)} className={`min-h-11 rounded-2xl border px-4 text-sm font-bold transition-colors ${accessibilityOpen ? 'border-[var(--color-primary)] bg-[var(--color-primary)] text-white' : 'border-white/70 bg-white/65 hover:border-[var(--color-primary)]'}`}>♿ Reading Support</button>
+                      <button type="button" onClick={() => { if (window.confirm(`Gumawa ng bagong password para kay ${child.name}? Hindi na gagana ang lumang password.`)) resetPassword.mutate(child.id); }} disabled={resetPassword.isPending} className="min-h-11 rounded-2xl border border-white/70 bg-white/65 px-4 text-sm font-bold hover:border-[var(--color-primary)] disabled:opacity-60">🔑 Bagong Password</button>
                     </div>
                   </div>
 

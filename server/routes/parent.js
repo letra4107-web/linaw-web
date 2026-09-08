@@ -1,13 +1,19 @@
 const express = require('express');
 const bcrypt = require('bcryptjs');
+const crypto = require('crypto');
 const { supabaseAdmin } = require('../config/supabase');
 const { sendMail } = require('../config/mailer');
 const { requireAuth, requireRole } = require('../middleware/auth');
 const { buildReadingProfile } = require('../services/readingInsights');
 const { loadCompletedContentIds } = require('../services/readingProfileData');
+const { createSupabaseAuthorizationService } = require('../services/authorization');
+const { validateUuidParam, isBoundedString } = require('../lib/validation');
+const { credentialLimiter } = require('../lib/rateLimiters');
+const { safeCredentialStatus } = require('../services/credentialSecurity');
 
 const router = express.Router();
 router.use(requireAuth, requireRole('parent'));
+const authorization = createSupabaseAuthorizationService(supabaseAdmin);
 
 // Mirrors mobile's backend/routes/auth.js difficultyFromGrade -- keep these in sync.
 const difficultyFromGrade = (gradeLevel) => {
@@ -42,8 +48,30 @@ const getAvailableStudentUsername = async (name) => {
 };
 
 const STUDENT_PASSWORD_CHARS = 'ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnpqrstuvwxyz23456789';
-const makeStudentPassword = () =>
-  Array.from({ length: 10 }, () => STUDENT_PASSWORD_CHARS[Math.floor(Math.random() * STUDENT_PASSWORD_CHARS.length)]).join('');
+const makeStudentPassword = () => Array.from(
+  { length: 12 },
+  () => STUDENT_PASSWORD_CHARS[crypto.randomInt(STUDENT_PASSWORD_CHARS.length)],
+).join('');
+
+// Safe status only. Credential columns never leave the server.
+router.get('/children/credential-security', async (req, res) => {
+  try {
+    const { data: children, error: childrenError } = await supabaseAdmin.from('children').select('id').eq('parent_id', req.user.id);
+    if (childrenError) throw childrenError;
+    const childIds = (children || []).map((child) => child.id);
+    if (!childIds.length) return res.json({ children: [] });
+    const { data: rows, error } = await supabaseAdmin
+      .from('child_credentials')
+      .select('child_id, plain_password, password_rotated_at, plaintext_retired_at')
+      .in('child_id', childIds);
+    if (error) throw error;
+    const byChild = new Map((rows || []).map((row) => [row.child_id, row]));
+    res.json({ children: childIds.map((childId) => ({ childId, ...safeCredentialStatus(byChild.get(childId)) })) });
+  } catch (err) {
+    console.error('[parent credential-security]', err);
+    res.status(500).json({ error: 'Unable to load password security status.' });
+  }
+});
 
 // POST /parent/children  { childName, gradeLevel }
 router.post('/children', async (req, res) => {
@@ -55,7 +83,7 @@ router.post('/children', async (req, res) => {
     const cleanName = String(childName || '').trim();
     const finalGradeLevel = Number(gradeLevel);
 
-    if (!parentEmail || cleanName.length < 2 || !Number.isInteger(finalGradeLevel) || finalGradeLevel < 1 || finalGradeLevel > 6) {
+    if (!parentEmail || cleanName.length < 2 || cleanName.length > 100 || !Number.isInteger(finalGradeLevel) || finalGradeLevel < 1 || finalGradeLevel > 6) {
       return res.status(400).json({ error: 'Kailangan ng pangalan at grade level (1-6).' });
     }
 
@@ -131,12 +159,14 @@ router.post('/children', async (req, res) => {
       if (overrideErr) throw overrideErr;
     }
 
-    const hashedPassword = await bcrypt.hash(password, 10);
+    const hashedPassword = await bcrypt.hash(password, 12);
     const { error: credentialsErr } = await supabaseAdmin.from('child_credentials').insert({
       child_id: childRow.id,
       username: authEmail,
       hashed_password: hashedPassword,
-      plain_password: password,
+      plain_password: null,
+      password_rotated_at: new Date().toISOString(),
+      plaintext_retired_at: new Date().toISOString(),
       sent_at: new Date().toISOString(),
     });
     if (credentialsErr) throw credentialsErr;
@@ -169,7 +199,7 @@ router.post('/children', async (req, res) => {
       await supabaseAdmin.from('users').delete().eq('id', createdAuthUid);
       await supabaseAdmin.auth.admin.deleteUser(createdAuthUid).catch(() => {});
     }
-    res.status(500).json({ error: err.message || 'Hindi na-enroll ang bata.' });
+    res.status(500).json({ error: 'Hindi na-enroll ang bata.' });
   }
 });
 
@@ -177,7 +207,7 @@ router.post('/children', async (req, res) => {
 // student_reading_level_overrides is SELECT-only for clients (server-owned),
 // so changing a child's placement has to go through here even though it's a
 // parent-initiated action.
-router.post('/children/:id/reading-level', async (req, res) => {
+router.post('/children/:id/reading-level', validateUuidParam('id'), async (req, res) => {
   try {
     const { id } = req.params;
     const { level, reason } = req.body || {};
@@ -185,14 +215,10 @@ router.post('/children/:id/reading-level', async (req, res) => {
     if (!allowed.includes(level)) {
       return res.status(400).json({ error: 'Invalid reading level.' });
     }
+    if (reason != null && !isBoundedString(reason, 500)) return res.status(400).json({ error: 'Reason is too long.' });
 
-    const { data: child, error: childErr } = await supabaseAdmin
-      .from('children')
-      .select('id, parent_id')
-      .eq('id', id)
-      .maybeSingle();
-    if (childErr) throw childErr;
-    if (!child || child.parent_id !== req.user.id) {
+    const child = await authorization.parentChild(req.user.id, id);
+    if (!child) {
       return res.status(403).json({ error: 'Not your child account.' });
     }
 
@@ -227,7 +253,7 @@ router.post('/children/:id/reading-level', async (req, res) => {
     res.json({ success: true });
   } catch (err) {
     console.error('[parent/children/:id/reading-level]', err);
-    res.status(500).json({ error: err.message || 'Unable to update reading level.' });
+    res.status(500).json({ error: 'Unable to update reading level.' });
   }
 });
 
@@ -235,16 +261,11 @@ router.post('/children/:id/reading-level', async (req, res) => {
 // Same computation as GET /student/reading-profile, scoped to one of this
 // parent's own children (ownership re-checked here, not just trusted from
 // the URL param).
-router.get('/children/:id/reading-profile', async (req, res) => {
+router.get('/children/:id/reading-profile', validateUuidParam('id'), async (req, res) => {
   try {
     const { id } = req.params;
-    const { data: child, error: childErr } = await supabaseAdmin
-      .from('children')
-      .select('id, name, parent_id')
-      .eq('id', id)
-      .maybeSingle();
-    if (childErr) throw childErr;
-    if (!child || child.parent_id !== req.user.id) {
+    const child = await authorization.parentChild(req.user.id, id);
+    if (!child) {
       return res.status(404).json({ error: 'Child not found for this parent.' });
     }
 
@@ -274,7 +295,7 @@ router.get('/children/:id/reading-profile', async (req, res) => {
     res.json({ student: { id: child.id, name: child.name }, profile });
   } catch (err) {
     console.error('[parent/children/:id/reading-profile]', err);
-    res.status(500).json({ error: err.message || 'Unable to build the reading profile.' });
+    res.status(500).json({ error: 'Unable to build the reading profile.' });
   }
 });
 
@@ -286,22 +307,13 @@ const STUDENT_ACCESSIBILITY_DEFAULTS = {
   tts_enabled: true,
 };
 
-const loadOwnedChild = async (childId, parentId) => {
-  const { data: child, error } = await supabaseAdmin
-    .from('children')
-    .select('id, name, parent_id, auth_uid')
-    .eq('id', childId)
-    .maybeSingle();
-  if (error) throw error;
-  if (!child || child.parent_id !== parentId) return null;
-  return child;
-};
+const loadOwnedChild = (childId, parentId) => authorization.parentChild(parentId, childId);
 
 // GET /parent/children/:id/settings
 // student_settings RLS only allows a student's own auth session to read/write
 // their row -- there's no parent-facing policy, so this (and the PATCH below)
 // go through the service-role client with ownership re-checked via `children`.
-router.get('/children/:id/settings', async (req, res) => {
+router.get('/children/:id/settings', validateUuidParam('id'), async (req, res) => {
   try {
     const child = await loadOwnedChild(req.params.id, req.user.id);
     if (!child) return res.status(404).json({ error: 'Child not found for this parent.' });
@@ -324,12 +336,12 @@ router.get('/children/:id/settings', async (req, res) => {
     res.json({ settings: inserted });
   } catch (err) {
     console.error('[parent/children/:id/settings get]', err);
-    res.status(500).json({ error: err.message || 'Unable to load accessibility settings.' });
+    res.status(500).json({ error: 'Unable to load accessibility settings.' });
   }
 });
 
 // PATCH /parent/children/:id/settings  { dyslexia_font?, font_size?, high_contrast?, reading_guide?, tts_enabled? }
-router.patch('/children/:id/settings', async (req, res) => {
+router.patch('/children/:id/settings', validateUuidParam('id'), async (req, res) => {
   try {
     const child = await loadOwnedChild(req.params.id, req.user.id);
     if (!child) return res.status(404).json({ error: 'Child not found for this parent.' });
@@ -338,6 +350,13 @@ router.patch('/children/:id/settings', async (req, res) => {
     const patch = {};
     for (const key of Object.keys(STUDENT_ACCESSIBILITY_DEFAULTS)) {
       if (req.body?.[key] !== undefined) patch[key] = req.body[key];
+    }
+    if (!Object.keys(patch).length) return res.status(400).json({ error: 'No recognized settings were provided.' });
+    if (patch.font_size !== undefined && !['small', 'medium', 'large'].includes(patch.font_size)) {
+      return res.status(400).json({ error: 'Invalid font size.' });
+    }
+    for (const key of ['dyslexia_font', 'high_contrast', 'reading_guide', 'tts_enabled']) {
+      if (patch[key] !== undefined && typeof patch[key] !== 'boolean') return res.status(400).json({ error: `Invalid ${key} setting.` });
     }
 
     const { data, error } = await supabaseAdmin
@@ -349,7 +368,43 @@ router.patch('/children/:id/settings', async (req, res) => {
     res.json({ settings: data });
   } catch (err) {
     console.error('[parent/children/:id/settings patch]', err);
-    res.status(500).json({ error: err.message || 'Unable to update accessibility settings.' });
+    res.status(500).json({ error: 'Unable to update accessibility settings.' });
+  }
+});
+
+// A parent may rotate, but never retrieve, an existing student password.
+router.post('/children/:id/reset-password', validateUuidParam('id'), credentialLimiter, async (req, res) => {
+  try {
+    const child = await loadOwnedChild(req.params.id, req.user.id);
+    if (!child?.auth_uid) return res.status(404).json({ error: 'Child account not found.' });
+    const password = makeStudentPassword();
+    const { error: authError } = await supabaseAdmin.auth.admin.updateUserById(child.auth_uid, { password });
+    if (authError) throw authError;
+
+    const now = new Date().toISOString();
+    const hashedPassword = await bcrypt.hash(password, 12);
+    const { error: credentialError } = await supabaseAdmin.from('child_credentials').upsert({
+      child_id: child.id,
+      username: child.username,
+      hashed_password: hashedPassword,
+      plain_password: null,
+      password_rotated_at: now,
+      plaintext_retired_at: now,
+      sent_at: now,
+    }, { onConflict: 'child_id' });
+    if (credentialError) console.error('[parent child credential metadata]', credentialError);
+
+    if (req.user.email && isBoundedString(req.user.email, 254, { allowEmpty: false })) {
+      await sendMail({
+        to: req.user.email,
+        subject: 'LinawLetra — Bagong Student Password',
+        text: `Na-reset ang password ni ${child.name}.\n\nUsername: ${child.username}\nTemporary password: ${password}\n\nMag-login at palitan ito. Hindi mai-retrieve ng LinawLetra ang lumang password.`,
+      }).catch((mailError) => console.error('[parent child reset email]', mailError));
+    }
+    res.json({ success: true, username: child.username, temporaryPassword: password });
+  } catch (err) {
+    console.error('[parent child reset password]', err);
+    res.status(500).json({ error: 'Hindi ma-reset ang student password ngayon.' });
   }
 });
 

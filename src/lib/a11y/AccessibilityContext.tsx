@@ -1,3 +1,4 @@
+/* oxlint-disable react/only-export-components -- provider and its hook form one public module */
 import { createContext, useContext, useEffect, useState, type ReactNode } from 'react';
 
 type FontMode = 'default' | 'dyslexic';

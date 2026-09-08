@@ -1,3 +1,4 @@
+/* oxlint-disable react/only-export-components -- shared auth form API intentionally colocated */
 import { useState, type InputHTMLAttributes, type ReactNode } from 'react';
 import { Link } from 'react-router-dom';
 import lookImage from '../../assets/look.webp';

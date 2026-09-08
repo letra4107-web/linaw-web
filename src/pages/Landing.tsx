@@ -10,26 +10,20 @@ import { cardStyle, CARD_COLORS } from '../lib/cardStyle';
 const FEATURES = [
   {
     icon: '🗣️',
-    title: 'Sanayan sa Pagbasa',
-    text: 'Nagbabasa ang bata nang malakas, at sinusuri kaagad kung tama ang bigkas.',
+    title: 'Mas Madaling Pagsasanay',
+    text: 'Nagbabasa ang bata nang malakas at nakakatanggap ng malinaw na tulong sa bawat pagsubok.',
     tint: 'primary',
   },
   {
-    icon: '🏅',
-    title: 'Mga Badge at Parangal',
-    text: 'Nakakakuha ng badge ang bata sa bawat tagumpay upang lumaki ang tiwala nila sa sarili.',
-    tint: 'accent',
-  },
-  {
     icon: '👨‍👩‍👧',
-    title: 'Para sa Magulang',
-    text: 'Nakikita ng magulang ang progreso ng anak at nagse-schedule ng mga sesyon ng pagbasa.',
+    title: 'Malinaw na Progreso',
+    text: 'Nakikita ng magulang ang reading activity, progreso, at mga bahaging kailangan pang sanayin.',
     tint: 'primary',
   },
   {
     icon: '🧑‍🏫',
-    title: 'Para sa Guro',
-    text: 'Nagbibigay ang guro ng aralin, PDF na babasahin, at pagsusulit na angkop sa bawat mag-aaral.',
+    title: 'Actionable na Insight',
+    text: 'Nakikita ng guro ang learning patterns upang makapili ng mas angkop na aralin at pagsasanay.',
     tint: 'accent',
   },
 ] as const;
@@ -53,7 +47,7 @@ const STATS = [
   { value: 'Grade 1–6', label: 'Saklaw na antas' },
   { value: '4', label: 'Uri ng user' },
   { value: '100%', label: 'Tagalog na UI' },
-  { value: 'AI', label: 'Reading insights' },
+  { value: 'Data', label: 'Reading insights' },
 ];
 
 const RESPONSE_POINTS = [
@@ -79,7 +73,7 @@ const RESPONSE_POINTS = [
   },
   {
     icon: '📊',
-    title: 'AI Reading Insights',
+    title: 'Reading Insights',
     text: 'Ipinapakita sa magulang at guro ang mga specific na "mahihinang tunog" ng bata para malaman kung saan dapat mag-focus ang extra practice.',
   },
   {
@@ -199,7 +193,7 @@ export default function Landing() {
           aria-hidden="true"
         />
         <main className="relative mx-auto max-w-6xl px-6 py-14 text-center sm:py-20">
-          <ScrollReveal>
+          <ScrollReveal immediate>
             <span className="inline-flex items-center gap-2 rounded-full border border-white/40 bg-white/15 px-4 py-1 text-sm font-medium text-white">
               Para sa Grade 1–6 · Nakatutok sa Phonological Dyslexia
             </span>
@@ -216,7 +210,7 @@ export default function Landing() {
                 to="/signup"
                 className="rounded-full bg-white px-6 py-3 text-base font-semibold text-[var(--color-primary)] shadow-card transition-all hover:-translate-y-0.5 hover:bg-white/90 hover:shadow-raised active:scale-95"
               >
-                <IconLabel icon="🚀" label="Magsimula, libre" />
+                <IconLabel icon="🚀" label="Magsimula" />
               </Link>
             </div>
 
@@ -315,7 +309,7 @@ export default function Landing() {
           <div className="mb-8 text-center">
             <h2 className="text-2xl sm:text-3xl">Ano ang makukuha ninyo</h2>
           </div>
-          <div className="grid grid-cols-1 items-start gap-6 text-left sm:grid-cols-2 lg:grid-cols-4">
+          <div className="grid grid-cols-1 items-start gap-6 text-left sm:grid-cols-3">
             {FEATURES.map((f, i) => (
               <div
                 key={f.title}
@@ -343,7 +337,7 @@ export default function Landing() {
         <ScrollReveal className="mx-auto max-w-3xl px-6 py-12 text-center">
           <h2 className="text-2xl text-white sm:text-3xl">Handa na bang magsimula?</h2>
           <p className="mx-auto mt-3 max-w-xl text-white/85">
-            Sumali sa mga magulang, guro, at mag-aaral na gumagamit na ng LinawLetra araw-araw.
+            Gumawa ng account upang simulan ang suportadong pagsasanay sa pagbasa.
           </p>
           <Link
             to="/signup"
@@ -356,11 +350,11 @@ export default function Landing() {
 
       <footer id="contact" className="border-t border-[var(--color-border)] bg-[var(--color-surface)]">
         <div className="mx-auto max-w-6xl px-6 py-12">
-          <div className="grid grid-cols-1 gap-10 sm:grid-cols-[1.3fr_1fr_1fr]">
+          <div className="grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-[1.3fr_1fr_1fr_1fr]">
             <div>
               <img src={logo} alt="LinawLetra" className="h-14 w-auto rounded-lg" />
               <p className="mt-4 max-w-xs text-sm text-[var(--color-text-muted)]">
-                AI-assisted na Tagalog reading support para sa mga mag-aaral na may dyslexia, Grade
+                Tagalog reading support para sa mga mag-aaral na may dyslexia, Grade
                 1–6 — kasama ang mga tool para sa magulang, guro, at admin.
               </p>
               <a
@@ -429,6 +423,19 @@ export default function Landing() {
                     <IconLabel icon={r.icon} label={r.label} />
                   </li>
                 ))}
+              </ul>
+            </div>
+
+            <div>
+              <h3 className="mb-3 text-sm font-semibold tracking-wide text-[var(--color-text-muted)] uppercase">
+                Impormasyon
+              </h3>
+              <ul className="flex flex-col gap-2 text-sm">
+                <li><Link to="/privacy" className="hover:text-[var(--color-primary)] hover:underline">Privacy</Link></li>
+                <li><Link to="/terms" className="hover:text-[var(--color-primary)] hover:underline">Mga Tuntunin</Link></li>
+                <li><Link to="/child-data" className="hover:text-[var(--color-primary)] hover:underline">Data ng Bata</Link></li>
+                <li><Link to="/account-deletion" className="hover:text-[var(--color-primary)] hover:underline">Pag-delete ng Account</Link></li>
+                <li><Link to="/accessibility" className="hover:text-[var(--color-primary)] hover:underline">Accessibility</Link></li>
               </ul>
             </div>
           </div>

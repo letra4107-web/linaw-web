@@ -12,6 +12,7 @@ import {
   isValidEmail,
   primaryButtonClass,
 } from '../../components/auth/AuthShell';
+import { trackEvent } from '../../lib/analytics';
 
 const ROLE = 'parent' as const;
 
@@ -57,6 +58,7 @@ export default function SignUp() {
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
+    trackEvent('signup_started', { role: ROLE });
 
     const cleanEmail = email.trim().toLowerCase();
     const errors = validate(cleanEmail);
@@ -87,6 +89,8 @@ export default function SignUp() {
         email_verified: false,
       });
       if (profileError) throw profileError;
+
+      trackEvent('signup_completed', { role: ROLE });
 
       navigate('/verify-email', { state: { email: cleanEmail } });
     } catch (err) {
@@ -231,8 +235,8 @@ export default function SignUp() {
               className="mt-1 h-5 w-5 shrink-0 rounded border-[var(--color-border)] text-[var(--color-primary)] focus-visible:ring-2 focus-visible:ring-[var(--color-primary)]/25"
             />
             <span className="text-[var(--color-text-muted)]">
-              Sumasang-ayon ako sa <span className="font-medium text-[var(--color-primary)]">Mga Tuntunin at Kundisyon</span>{' '}
-              at sa <span className="font-medium text-[var(--color-primary)]">Patakaran sa Privacy</span>.
+              Sumasang-ayon ako sa <Link to="/terms" className="font-medium text-[var(--color-primary)] underline">Mga Tuntunin at Kundisyon</Link>{' '}
+              at sa <Link to="/privacy" className="font-medium text-[var(--color-primary)] underline">Patakaran sa Privacy</Link>.
             </span>
           </label>
           {fieldErrors.agreedToTerms && (

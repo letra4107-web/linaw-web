@@ -1,13 +1,19 @@
 const express = require('express');
+const crypto = require('crypto');
 const { supabaseAdmin } = require('../config/supabase');
 const { sendMail } = require('../config/mailer');
 const { requireAuth, requireRole } = require('../middleware/auth');
+const { validateUuidParam, isGrade, isBoundedString } = require('../lib/validation');
+const { summarizeCredentialSecurity } = require('../services/credentialSecurity');
+const { storageReadiness } = require('../services/storageMigration');
 
 const router = express.Router();
 router.use(requireAuth, requireRole('admin'));
 
 const BAN_FOREVER = '876000h'; // ~100 years, matches Supabase's convention for an effectively permanent ban
 const BAN_LIFT = 'none';
+const USER_ROLES = new Set(['admin', 'teacher', 'parent', 'student']);
+const ACCOUNT_STATUSES = new Set(['active', 'disabled', 'archived']);
 
 async function notifyUser(userId, title, body, type) {
   await supabaseAdmin.from('notifications').insert({
@@ -25,6 +31,8 @@ async function notifyUser(userId, title, body, type) {
 router.get('/users', async (req, res) => {
   try {
     const { role, status } = req.query;
+    if (role && !USER_ROLES.has(String(role))) return res.status(400).json({ error: 'Invalid role filter.' });
+    if (status && !ACCOUNT_STATUSES.has(String(status))) return res.status(400).json({ error: 'Invalid status filter.' });
     let query = supabaseAdmin
       .from('users')
       .select('id, email, name, role, account_status, is_active, created_at, lastLoginAt')
@@ -59,11 +67,50 @@ router.get('/users/archived', async (req, res) => {
   }
 });
 
+// Aggregate only: never return credential rows, hashes, usernames, or passwords.
+router.get('/credential-security', async (_req, res) => {
+  try {
+    const [{ count, error: childrenError }, { data: rows, error: credentialsError }] = await Promise.all([
+      supabaseAdmin.from('children').select('id', { count: 'exact', head: true }),
+      supabaseAdmin.from('child_credentials').select('child_id, plain_password, password_rotated_at, plaintext_retired_at'),
+    ]);
+    if (childrenError) throw childrenError;
+    if (credentialsError) throw credentialsError;
+    res.json({ credentials: summarizeCredentialSecurity(count || 0, rows || []) });
+  } catch (err) {
+    console.error('[admin/credential-security]', err);
+    res.status(500).json({ error: 'Unable to load credential security status.' });
+  }
+});
+
+router.get('/storage-readiness', async (_req, res) => {
+  try {
+    const [materials, lessons, uploads] = await Promise.all([
+      supabaseAdmin.from('pdf_materials').select('id, storage_path, file_url'),
+      supabaseAdmin.from('lessons').select('id, storage_path, pdf_url'),
+      supabaseAdmin.from('teacher_uploads').select('id, storage_path, path'),
+    ]);
+    for (const result of [materials, lessons, uploads]) if (result.error) throw result.error;
+    res.json({
+      readingMaterials: storageReadiness(materials.data || []),
+      lessons: storageReadiness(lessons.data || []),
+      teacherUploads: storageReadiness(uploads.data || []),
+      signedUrlsEnabled: process.env.STORAGE_SIGNED_URLS_ENABLED === 'true',
+      privateBucketReady: false,
+      note: 'Private buckets remain blocked until mobile access-endpoint migration and a zero/approved public dependency count are verified.',
+    });
+  } catch (err) {
+    console.error('[admin/storage-readiness]', err);
+    res.status(500).json({ error: 'Unable to load storage readiness.' });
+  }
+});
+
 // POST /admin/users/:id/disable  { reason? }
-router.post('/users/:id/disable', async (req, res) => {
+router.post('/users/:id/disable', validateUuidParam('id'), async (req, res) => {
   try {
     const { id } = req.params;
     const { reason } = req.body || {};
+    if (reason != null && !isBoundedString(reason, 500)) return res.status(400).json({ error: 'Reason is too long.' });
 
     const { error: authErr } = await supabaseAdmin.auth.admin.updateUserById(id, {
       ban_duration: BAN_FOREVER,
@@ -91,7 +138,7 @@ router.post('/users/:id/disable', async (req, res) => {
 });
 
 // POST /admin/users/:id/restore
-router.post('/users/:id/restore', async (req, res) => {
+router.post('/users/:id/restore', validateUuidParam('id'), async (req, res) => {
   try {
     const { id } = req.params;
 
@@ -122,10 +169,11 @@ router.post('/users/:id/restore', async (req, res) => {
 });
 
 // POST /admin/users/:id/archive  { reason? }
-router.post('/users/:id/archive', async (req, res) => {
+router.post('/users/:id/archive', validateUuidParam('id'), async (req, res) => {
   try {
     const { id } = req.params;
     const { reason } = req.body || {};
+    if (reason != null && !isBoundedString(reason, 500)) return res.status(400).json({ error: 'Reason is too long.' });
 
     const { error: authErr } = await supabaseAdmin.auth.admin.updateUserById(id, {
       ban_duration: BAN_FOREVER,
@@ -152,7 +200,7 @@ router.post('/users/:id/archive', async (req, res) => {
 });
 
 // DELETE /admin/users/:id  -- hard delete, only permitted once already archived (two-step safety)
-router.delete('/users/:id', async (req, res) => {
+router.delete('/users/:id', validateUuidParam('id'), async (req, res) => {
   try {
     const { id } = req.params;
 
@@ -185,17 +233,25 @@ router.delete('/users/:id', async (req, res) => {
 router.post('/teachers', async (req, res) => {
   try {
     const { email, name, gradeLevels } = req.body || {};
-    if (!email || !name) return res.status(400).json({ error: 'Email and name are required.' });
+    const cleanEmail = String(email || '').trim().toLowerCase();
+    const cleanName = String(name || '').trim();
+    const cleanGradeLevels = Array.isArray(gradeLevels) ? [...new Set(gradeLevels.map(Number))] : [];
+    if (!isBoundedString(cleanName, 100, { allowEmpty: false }) || !/^\S+@\S+\.\S+$/.test(cleanEmail) || cleanEmail.length > 254) {
+      return res.status(400).json({ error: 'A valid email and name are required.' });
+    }
+    if (!cleanGradeLevels.length || cleanGradeLevels.some((grade) => !isGrade(grade))) {
+      return res.status(400).json({ error: 'Choose at least one valid grade from 1 to 6.' });
+    }
 
     const password = Array.from({ length: 12 }, () =>
-      'ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnpqrstuvwxyz23456789'[Math.floor(Math.random() * 57)],
+      'ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnpqrstuvwxyz23456789'[crypto.randomInt(57)],
     ).join('');
 
     const { data: created, error: createErr } = await supabaseAdmin.auth.admin.createUser({
-      email,
+      email: cleanEmail,
       password,
       email_confirm: true,
-      user_metadata: { role: 'teacher', full_name: name },
+      user_metadata: { role: 'teacher', full_name: cleanName },
     });
     if (createErr) throw createErr;
 
@@ -203,8 +259,8 @@ router.post('/teachers', async (req, res) => {
 
     const { error: profileErr } = await supabaseAdmin.from('users').upsert({
       id: teacherId,
-      email,
-      name,
+      email: cleanEmail,
+      name: cleanName,
       role: 'teacher',
       email_verified: true,
       account_status: 'active',
@@ -212,7 +268,6 @@ router.post('/teachers', async (req, res) => {
     });
     if (profileErr) throw profileErr;
 
-    const cleanGradeLevels = Array.isArray(gradeLevels) ? gradeLevels : [];
     const { error: teacherProfileErr } = await supabaseAdmin.from('teacher_profiles').upsert({
       user_id: teacherId,
       grade_levels: cleanGradeLevels,
@@ -237,9 +292,9 @@ router.post('/teachers', async (req, res) => {
     }
 
     await sendMail({
-      to: email,
+      to: cleanEmail,
       subject: 'LinawLetra — Naka-gawa na ang Inyong Teacher Account',
-      text: `Magandang araw, ${name}!\n\nNakagawa na ang inyong teacher account sa LinawLetra.\n\nEmail: ${email}\nPassword: ${password}\n\nMangyaring mag-log in at palitan agad ang password para sa seguridad. Itago ang detalyeng ito nang lihim.`,
+      text: `Magandang araw, ${cleanName}!\n\nNakagawa na ang inyong teacher account sa LinawLetra.\n\nEmail: ${cleanEmail}\nPassword: ${password}\n\nMangyaring mag-log in at palitan agad ang password para sa seguridad. Itago ang detalyeng ito nang lihim.`,
     });
 
     res.json({ success: true, teacherId });

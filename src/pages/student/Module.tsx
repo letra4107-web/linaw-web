@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link, useParams, useNavigate } from 'react-router-dom';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { api } from '../../lib/api';
@@ -11,6 +11,7 @@ import { NonsenseWordCheck } from '../../components/NonsenseWordCheck';
 import { ChallengeWordsPractice } from '../../components/ChallengeWordsPractice';
 import { IconLabel } from '../../components/a11y/IconLabel';
 import { cardStyle, CARD_COLORS } from '../../lib/cardStyle';
+import { trackEvent } from '../../lib/analytics';
 
 interface ModuleItem {
   module_item_id: string;
@@ -43,6 +44,10 @@ export default function Module() {
   const [error, setError] = useState<string | null>(null);
   const [newlyUnlockedBadges, setNewlyUnlockedBadges] = useState<string[]>([]);
 
+  useEffect(() => {
+    if (moduleId) trackEvent('lesson_started', { module_id: moduleId });
+  }, [moduleId]);
+
   const { data, isLoading } = useQuery({
     queryKey: ['student-module', moduleId],
     queryFn: () => api<ModuleContentResponse>(`/student/learn/module/${moduleId}`, { auth: true }),
@@ -68,8 +73,9 @@ export default function Module() {
       if (res.newlyUnlockedBadges?.length) setNewlyUnlockedBadges(res.newlyUnlockedBadges);
       queryClient.invalidateQueries({ queryKey: ['student-module', moduleId] });
       queryClient.invalidateQueries({ queryKey: ['student-learn-path'] });
+      trackEvent('reading_attempt_completed', { surface: 'lesson' });
     },
-    onError: (err: Error) => setError(err.message),
+    onError: (err: Error) => { setError(err.message); trackEvent('reading_attempt_failed', { surface: 'lesson' }); },
   });
 
   const practice = (item: ModuleItem) => {
@@ -79,6 +85,7 @@ export default function Module() {
     }
     setError(null);
     setListeningFor(item.content_id);
+    trackEvent('reading_attempt_started', { surface: 'lesson' });
     listenOnce(
       'fil-PH',
       (transcript) => {
@@ -98,6 +105,10 @@ export default function Module() {
   };
 
   const allCompleted = (data?.items ?? []).length > 0 && (data?.items ?? []).every((i) => i.completed);
+
+  useEffect(() => {
+    if (allCompleted && moduleId) trackEvent('lesson_completed', { module_id: moduleId });
+  }, [allCompleted, moduleId]);
 
   const completedCount = (data?.items ?? []).filter((i) => i.completed).length;
   const totalCount = data?.items.length ?? 0;

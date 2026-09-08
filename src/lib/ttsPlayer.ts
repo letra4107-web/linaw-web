@@ -45,7 +45,7 @@ async function resolveAudioUrl(text: string, rate: number): Promise<string | nul
   const cached = audioCache.get(cacheKey);
   if (cached) return cached;
   try {
-    const res = await api<{ audioContent: string }>('/tts', { method: 'POST', body: { text, rate } });
+    const res = await api<{ audioContent: string }>('/tts', { method: 'POST', auth: true, body: { text, rate } });
     const url = base64ToObjectUrl(res.audioContent);
     audioCache.set(cacheKey, url);
     return url;

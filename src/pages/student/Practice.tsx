@@ -13,6 +13,7 @@ import { PronunciationFeedback } from '../../components/PronunciationFeedback';
 import { IconLabel } from '../../components/a11y/IconLabel';
 import { cardStyle } from '../../lib/cardStyle';
 import speechIcon from '../../assets/speech.png';
+import { trackEvent } from '../../lib/analytics';
 
 type Mode = 'say' | 'listen';
 
@@ -144,7 +145,7 @@ export default function Practice() {
     setSpeechStatus('loading');
     setError(null);
     try {
-      const res = await api<{ audioContent: string }>('/tts', { method: 'POST', body: { text: current.word } });
+      const res = await api<{ audioContent: string }>('/tts', { method: 'POST', auth: true, body: { text: current.word } });
       const bytes = atob(res.audioContent);
       const buffer = new Uint8Array(bytes.length);
       for (let i = 0; i < bytes.length; i += 1) buffer[i] = bytes.charCodeAt(i);
@@ -160,6 +161,7 @@ export default function Practice() {
       setSpeechStatus('speaking');
       audio.play();
     } catch {
+      trackEvent('speech_request_failed', { surface: 'practice' });
       setSpeechStatus('idle');
       setError('Hindi ma-play ang audio ngayon.');
     }
@@ -169,6 +171,7 @@ export default function Practice() {
     if (!current || !child) return;
     setError(null);
     setListening(true);
+    trackEvent('reading_attempt_started', { surface: 'practice', mode });
     listenOnce(
       'fil-PH',
       async (transcript) => {
@@ -189,10 +192,12 @@ export default function Practice() {
           practice_source: 'practice',
         });
         if (insertErr) setError('Nai-save ang resulta pero may isyu sa pag-log.');
+        trackEvent('reading_attempt_completed', { surface: 'practice', mode, correct });
       },
       (message) => {
         setListening(false);
         setError(message);
+        trackEvent('reading_attempt_failed', { surface: 'practice', mode });
       },
     );
   };

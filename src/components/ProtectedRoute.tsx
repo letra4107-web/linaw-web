@@ -2,6 +2,7 @@ import { Navigate } from 'react-router-dom';
 import { useAuth } from '../lib/auth/AuthContext';
 import type { AppRole } from '../lib/auth/resolveRole';
 import { dashboardPathForRole } from '../lib/auth/resolveRole';
+import { BrandedStatus } from './BrandedStatus';
 
 interface ProtectedRouteProps {
   role: AppRole;
@@ -9,15 +10,13 @@ interface ProtectedRouteProps {
 }
 
 export function ProtectedRoute({ role, children }: ProtectedRouteProps) {
-  const { user, identity, loading } = useAuth();
+  const { user, identity, loading, error, retry } = useAuth();
 
   if (loading) {
-    return (
-      <div className="flex min-h-screen items-center justify-center text-lg">
-        Naglo-load...
-      </div>
-    );
+    return <BrandedStatus message="Sinusuri ang iyong account..." />;
   }
+
+  if (error) return <BrandedStatus error={error} onRetry={retry} />;
 
   if (!user) return <Navigate to="/login" replace />;
 
