@@ -9,6 +9,7 @@ import { cardStyle } from '../../lib/cardStyle';
 import logo from '../../assets/Logo.jpg';
 import navBg from '../../assets/pds.webp';
 import parentBg from '../../assets/pd.webp';
+import { AppIcon } from '../../components/a11y/AppIcon';
 
 const PRIMARY_TABS = [
   { to: '/parent', end: true, icon: '⌂', label: 'Simula' },
@@ -30,7 +31,7 @@ function navClass(collapsed: boolean) {
 function NavItem({ to, end, icon, label, collapsed, onNavigate }: { to: string; end?: boolean; icon: string; label: string; collapsed: boolean; onNavigate?: () => void }) {
   return (
     <NavLink to={to} end={end} title={label} className={navClass(collapsed)} onClick={onNavigate}>
-      <span aria-hidden="true" className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-white/15 text-lg transition-transform group-hover:scale-105">{icon}</span>
+      <span aria-hidden="true" className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-white/15 transition-transform group-hover:scale-105"><AppIcon name={icon} className="h-5 w-5" /></span>
       <span className={collapsed ? 'sr-only' : undefined}>{label}</span>
     </NavLink>
   );

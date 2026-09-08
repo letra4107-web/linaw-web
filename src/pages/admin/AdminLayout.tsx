@@ -8,6 +8,7 @@ import { DashboardShell } from '../../components/DashboardShell';
 import logo from '../../assets/Logo.jpg';
 import navBg from '../../assets/ads.webp';
 import adminBg from '../../assets/ad.webp';
+import { AppIcon } from '../../components/a11y/AppIcon';
 
 const PRIMARY_TABS = [
   { to: '/admin', end: true, icon: '⌂', label: 'Dashboard' },
@@ -30,7 +31,7 @@ function NavContents({ collapsed, onNavigate }: { collapsed: boolean; onNavigate
     <nav aria-label="Admin sections" className="flex flex-1 flex-col gap-1 overflow-y-auto px-2.5 py-3">
       {PRIMARY_TABS.map((tab) => (
         <NavLink key={tab.to} to={tab.to} end={tab.end} onClick={onNavigate} title={collapsed ? tab.label : undefined} className={({ isActive }) => `group relative flex min-h-11 items-center gap-3 rounded-xl px-3 text-sm font-bold transition-all ${collapsed ? 'justify-center px-0' : ''} ${isActive ? 'bg-white text-[var(--color-brand-navy)] shadow-card' : 'text-white/85 hover:bg-white/15 hover:text-white'}`}>
-          <span className="flex h-7 w-7 shrink-0 items-center justify-center text-base" aria-hidden="true">{tab.icon}</span>
+          <span className="flex h-7 w-7 shrink-0 items-center justify-center" aria-hidden="true"><AppIcon name={tab.icon} className="h-5 w-5" /></span>
           <span className={collapsed ? 'sr-only' : 'truncate'}>{tab.label}</span>
           {tab.to === '/admin/notifications' && unreadCount > 0 && <span className={`${collapsed ? 'absolute right-1 top-1' : 'ml-auto'} flex h-5 min-w-5 items-center justify-center rounded-full bg-[var(--color-danger)] px-1 text-[0.65rem] text-white`}>{unreadCount > 9 ? '9+' : unreadCount}</span>}
         </NavLink>

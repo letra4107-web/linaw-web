@@ -7,6 +7,7 @@ import { DashboardShell } from '../../components/DashboardShell';
 import logo from '../../assets/Logo.jpg';
 import navBg from '../../assets/tds.webp';
 import teacherBg from '../../assets/td.webp';
+import { AppIcon } from '../../components/a11y/AppIcon';
 
 const PRIMARY_TABS = [
   { to: '/teacher', end: true, icon: '⌂', label: 'Dashboard' },
@@ -20,7 +21,7 @@ function navClass(collapsed: boolean) {
   return ({ isActive }: { isActive: boolean }) => `group flex min-h-12 items-center gap-3 rounded-2xl border px-3 py-2.5 text-sm font-bold transition-all ${collapsed ? 'justify-center px-2' : ''} ${isActive ? 'border-white/25 bg-white text-[var(--color-brand-sage)] shadow-card' : 'border-transparent text-white/90 hover:border-white/15 hover:bg-white/15'}`;
 }
 function NavItem({ to, end, icon, label, collapsed, onNavigate }: { to: string; end?: boolean; icon: string; label: string; collapsed: boolean; onNavigate?: () => void }) {
-  return <NavLink to={to} end={end} title={label} className={navClass(collapsed)} onClick={onNavigate}><span aria-hidden="true" className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-white/15 text-lg transition-transform group-hover:scale-105">{icon}</span><span className={collapsed ? 'sr-only' : undefined}>{label}</span></NavLink>;
+  return <NavLink to={to} end={end} title={label} className={navClass(collapsed)} onClick={onNavigate}><span aria-hidden="true" className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-white/15 transition-transform group-hover:scale-105"><AppIcon name={icon} className="h-5 w-5" /></span><span className={collapsed ? 'sr-only' : undefined}>{label}</span></NavLink>;
 }
 
 function ProfileMenu({ collapsed, mobile = false }: { collapsed: boolean; mobile?: boolean }) {

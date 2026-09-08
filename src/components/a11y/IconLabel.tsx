@@ -1,5 +1,7 @@
+import { AppIcon } from './AppIcon';
+
 interface IconLabelProps {
-  /** Emoji or short glyph. Omit when passing `img` instead. */
+  /** Legacy icon token rendered as a consistent SVG. Omit when passing `img` instead. */
   icon?: string;
   /** Image asset src, used in place of an emoji `icon` when provided. */
   img?: string;
@@ -8,14 +10,14 @@ interface IconLabelProps {
   className?: string;
 }
 
-/** Pairs an icon (emoji, short glyph, or image asset) with a mandatory visible label. */
+/** Pairs an accessible SVG icon (or image asset) with a mandatory visible label. */
 export function IconLabel({ icon, img, label, className }: IconLabelProps) {
   return (
     <span className={className ?? 'inline-flex items-center gap-2'}>
       {img ? (
         <img src={img} alt="" aria-hidden="true" className="h-5 w-5 object-contain" />
       ) : (
-        <span aria-hidden="true">{icon}</span>
+        <AppIcon name={icon} />
       )}
       <span>{label}</span>
     </span>

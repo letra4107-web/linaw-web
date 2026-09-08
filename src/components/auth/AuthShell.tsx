@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import lookImage from '../../assets/look.webp';
 import bgImage from '../../assets/bg.webp';
 import { cardStyle } from '../../lib/cardStyle';
+import { AppIcon } from '../a11y/AppIcon';
 
 export function isValidEmail(value: string): boolean {
   return /\S+@\S+\.\S+/.test(value);
@@ -82,7 +83,7 @@ export function FieldError({ message }: { message?: string }) {
       role="alert"
       className="flex items-start gap-2 rounded-lg border border-[var(--color-danger)]/30 bg-[var(--color-danger-soft)] px-4 py-3 text-base text-[var(--color-danger)]"
     >
-      <span aria-hidden="true">⚠️</span>
+      <AppIcon name="⚠️" className="mt-0.5 h-5 w-5 shrink-0" />
       <span>{message}</span>
     </p>
   );
@@ -94,7 +95,7 @@ export function FieldSuccess({ message }: { message: string }) {
       role="status"
       className="flex items-start gap-2 rounded-lg border border-[var(--color-success)]/30 bg-[var(--color-success-soft)] px-4 py-3 text-base text-[var(--color-success)]"
     >
-      <span aria-hidden="true">✅</span>
+      <AppIcon name="✅" className="mt-0.5 h-5 w-5 shrink-0" />
       <span>{message}</span>
     </p>
   );
@@ -130,7 +131,7 @@ export function IconInput({ icon, invalid, className, ...props }: IconInputProps
         className="pointer-events-none absolute top-1/2 left-5 -translate-y-1/2 text-lg text-[var(--color-text-muted)]"
         aria-hidden="true"
       >
-        {icon}
+        <AppIcon name={icon} className="h-5 w-5" />
       </span>
       <input
         {...props}
@@ -159,7 +160,7 @@ export function PasswordInput({ id, value, onChange, autoComplete, placeholder, 
         className="pointer-events-none absolute top-1/2 left-5 -translate-y-1/2 text-lg text-[var(--color-text-muted)]"
         aria-hidden="true"
       >
-        {icon}
+        <AppIcon name={icon} className="h-5 w-5" />
       </span>
       <input
         id={id}
@@ -178,7 +179,7 @@ export function PasswordInput({ id, value, onChange, autoComplete, placeholder, 
         aria-label={visible ? 'Itago ang password' : 'Ipakita ang password'}
         className="absolute top-1/2 right-4 -translate-y-1/2 text-lg text-[var(--color-text-muted)] hover:text-[var(--color-primary)]"
       >
-        {visible ? '🙈' : '👁️'}
+        <AppIcon name={visible ? '🙈' : '👁️'} className="h-5 w-5" />
       </button>
     </div>
   );

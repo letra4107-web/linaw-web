@@ -1,15 +1,12 @@
 import { useEffect, useState } from 'react';
 
-// Full-page falling-emoji celebration, matching mobile's ConfettiOverlay.tsx emoji pool and
-// ~2.4s duration -- fixed positioning so it covers the whole viewport regardless of where
-// this component is mounted in the tree.
-const EMOJI_POOL = ['🎊', '🎉', '✨', '⭐', '🌟', '🎈', '💛', '💜', '💙', '🟡', '🔵', '🟣'];
+const DEFAULT_PALETTE = ['#7c3aed', '#f97316', '#14b8a6', '#eab308', '#ec4899', '#2563eb'];
 const PARTICLE_COUNT = 24;
 const DURATION_MS = 2400;
 
 interface Particle {
   id: number;
-  emoji: string;
+  color: string;
   left: number;
   fallDuration: number;
   delay: number;
@@ -17,15 +14,15 @@ interface Particle {
 }
 
 interface ConfettiOverlayProps {
-  /** Any value that changes (e.g. a per-attempt token) fires a new confetti burst. Falsy = no burst. */
+  /** Any value that changes fires a new decorative burst. */
   trigger: string | number | null | undefined;
-  emojiPool?: string[];
+  palette?: string[];
 }
 
-function makeParticlesFrom(pool: string[]): Particle[] {
-  return Array.from({ length: PARTICLE_COUNT }, (_, i) => ({
-    id: i,
-    emoji: pool[Math.floor(Math.random() * pool.length)],
+function makeParticlesFrom(palette: string[]): Particle[] {
+  return Array.from({ length: PARTICLE_COUNT }, (_, id) => ({
+    id,
+    color: palette[Math.floor(Math.random() * palette.length)],
     left: Math.random() * 100,
     fallDuration: 1600 + Math.random() * 1200,
     delay: Math.random() * 500,
@@ -33,35 +30,19 @@ function makeParticlesFrom(pool: string[]): Particle[] {
   }));
 }
 
-export function ConfettiOverlay({ trigger, emojiPool = EMOJI_POOL }: ConfettiOverlayProps) {
+/** Geometric, non-text confetti that renders consistently on every platform. */
+export function ConfettiOverlay({ trigger, palette = DEFAULT_PALETTE }: ConfettiOverlayProps) {
   const [particles, setParticles] = useState<Particle[] | null>(null);
 
   useEffect(() => {
     if (!trigger) return;
-    setParticles(makeParticlesFrom(emojiPool));
+    setParticles(makeParticlesFrom(palette));
     const timer = setTimeout(() => setParticles(null), DURATION_MS);
     return () => clearTimeout(timer);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [trigger]);
+  }, [trigger, palette]);
 
   if (!particles) return null;
-
-  return (
-    <div className="pointer-events-none fixed inset-0 z-50 overflow-hidden" aria-hidden="true">
-      {particles.map((p) => (
-        <span
-          key={p.id}
-          className="confetti-piece absolute top-[-40px] text-2xl"
-          style={{
-            left: `${p.left}%`,
-            animationDuration: `${p.fallDuration}ms`,
-            animationDelay: `${p.delay}ms`,
-            transform: `rotate(${p.rotate}deg)`,
-          }}
-        >
-          {p.emoji}
-        </span>
-      ))}
-    </div>
-  );
+  return <div className="pointer-events-none fixed inset-0 z-50 overflow-hidden" aria-hidden="true">
+    {particles.map((particle) => <span key={particle.id} className="confetti-piece absolute top-[-40px] h-3 w-2 rounded-sm shadow-sm" style={{ left: `${particle.left}%`, animationDuration: `${particle.fallDuration}ms`, animationDelay: `${particle.delay}ms`, transform: `rotate(${particle.rotate}deg)`, backgroundColor: particle.color }} />)}
+  </div>;
 }
