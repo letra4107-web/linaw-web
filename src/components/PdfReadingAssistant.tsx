@@ -4,6 +4,7 @@ import { computeAccuracy, isSpeechRecognitionSupported, listenOnce, normalizeFor
 import { TTSButton } from './a11y/TTSButton';
 import { IconLabel } from './a11y/IconLabel';
 import { cardStyle } from '../lib/cardStyle';
+import { PronunciationFeedback } from './PronunciationFeedback';
 
 interface PdfMaterialLike { id: string; title: string; extracted_text: string | null; preview_words?: string[]; estimated_minutes?: number | null; chunk_size?: number | null; }
 interface Props { material: PdfMaterialLike; assignmentId?: string; mode: 'student' | 'preview'; onAttemptRecorded?: (accuracy: number) => void; }
@@ -41,6 +42,7 @@ export function PdfReadingAssistant({ material, assignmentId, mode, onAttemptRec
   const [error, setError] = useState<string | null>(null);
   const [transcript, setTranscript] = useState('');
   const [accuracy, setAccuracy] = useState<number | null>(null);
+  const [feedbackAttempt, setFeedbackAttempt] = useState(0);
   const [submitted, setSubmitted] = useState(false);
   const stopRef = useRef<() => void>(() => {});
   const text = studentStoryText(material.extracted_text?.trim() || '');
@@ -70,7 +72,7 @@ export function PdfReadingAssistant({ material, assignmentId, mode, onAttemptRec
     const { error: insertError } = await supabase.from('pdf_reading_attempts').insert({ pdf_assignment_id: assignmentId, student_id: childId, transcript: spoken, accuracy: score, chunk_index: chunkIndex, chunk_text: current });
     if (insertError) throw insertError;
     await supabase.from('pdf_assignments').update({ status: 'in_progress' }).eq('id', assignmentId);
-    setCompleted((old) => new Set(old).add(chunkIndex)); setTranscript(spoken); setAccuracy(score); onAttemptRecorded?.(score);
+    setCompleted((old) => new Set(old).add(chunkIndex)); setTranscript(spoken); setAccuracy(score); setFeedbackAttempt((attempt) => attempt + 1); onAttemptRecorded?.(score);
   };
   const read = () => {
     if (!isSpeechRecognitionSupported()) { setError('Hindi suportado ng browser mo ang speech recognition. Subukan sa Chrome.'); return; }
@@ -95,7 +97,7 @@ export function PdfReadingAssistant({ material, assignmentId, mode, onAttemptRec
     <div className="rounded-2xl border bg-[var(--color-surface)] p-7 shadow-card"><p className="mb-3 text-sm font-bold text-[var(--color-primary)]">Basahin nang dahan-dahan</p><p className={`${FONT_SIZES[fontSizeIndex]} ${wideSpacing ? 'tracking-wide' : ''}`} style={{ lineHeight: wideSpacing ? 2.2 : 1.9, wordSpacing: wideSpacing ? '0.25em' : undefined }}>{current.split(/(\s+)/).map((part, index) => <span key={`${part}-${index}`} className={matched.has(normalizeForCompare(part)) ? 'rounded bg-[var(--color-success-soft)] font-semibold text-[var(--color-success)]' : ''}>{part}</span>)}</p></div>
     <div className="flex flex-wrap justify-center gap-3"><TTSButton text={current} className="rounded-full border bg-white px-5 py-3 text-sm font-bold" /><button type="button" onClick={listening ? () => { stopRef.current(); setListening(false); } : read} disabled={submitted || mode === 'preview'} className="rounded-full bg-[var(--color-primary)] px-6 py-3 text-sm font-bold text-white disabled:opacity-60"><IconLabel icon="🎙️" label={listening ? 'Itigil' : 'Ako Naman'} /></button></div>
     <p className="text-center text-sm text-[var(--color-text-muted)]">Pakinggan muna, saka basahin ang bahaging ito. Okay lang ang mag-retry.</p>
-    {accuracy !== null && <div className="rounded-xl bg-[var(--color-success-soft)] p-4 text-center font-bold text-[var(--color-success)]">{readingFeedback(accuracy)}</div>}
+    {accuracy !== null && <PronunciationFeedback key={feedbackAttempt} correct={accuracy >= 75} message={readingFeedback(accuracy)} autoPlay={mode === 'student'} />}
     {error && <p className="rounded-xl bg-[var(--color-danger-soft)] px-4 py-3 text-center text-sm text-[var(--color-danger)]">{error}</p>}
     <div className="flex items-center justify-between gap-3"><button type="button" onClick={() => move(Math.max(0, chunkIndex - 1))} disabled={chunkIndex === 0} className="rounded-full border px-4 py-2 disabled:opacity-40">← Bumalik</button>{chunkIndex < chunks.length - 1 ? <button type="button" onClick={() => move(chunkIndex + 1)} disabled={mode === 'student' && !completed.has(chunkIndex)} className="rounded-full bg-[var(--color-primary)] px-5 py-2 font-bold text-white disabled:opacity-40">Susunod →</button> : submitted ? <span className="font-bold text-[var(--color-success)]">Naipasa na sa guro ✓</span> : <button type="button" onClick={submit} disabled={mode === 'student' && completed.size < chunks.length} className="rounded-full bg-[var(--color-success)] px-5 py-2 font-bold text-white disabled:opacity-40">Ipasa sa Guro</button>}</div>
   </div>;
