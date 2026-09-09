@@ -49,6 +49,8 @@ export function PdfReadingAssistant({ material, assignmentId, mode, onAttemptRec
   const chunks = useMemo(() => splitChunks(text, Math.min(3, Math.max(1, material.chunk_size || 1))), [text, material.chunk_size]);
   const current = chunks[chunkIndex] || '';
   const matched = useMemo(() => new Set(normalizeForCompare(transcript).split(' ').filter(Boolean)), [transcript]);
+  const completedCount = completed.size;
+  const progressPercent = chunks.length ? Math.round((completedCount / chunks.length) * 100) : 0;
 
   useEffect(() => () => stopRef.current(), []);
   useEffect(() => {
@@ -87,19 +89,23 @@ export function PdfReadingAssistant({ material, assignmentId, mode, onAttemptRec
   };
 
   if (!text) return <p className="rounded-xl border p-6 text-center text-[var(--color-text-muted)]" style={cardStyle('--color-brand-coral')}>Walang na-extract na teksto mula sa PDF na ito.</p>;
-  return <div className="flex flex-col gap-5">
+  return <section aria-label={`Gabay sa pagbasa: ${material.title}`} className="mx-auto flex w-full max-w-4xl flex-col gap-5">
     <div className="flex flex-wrap items-center justify-between gap-3 rounded-2xl border p-3" style={cardStyle('--color-brand-lavender', 8, 25)}>
       <div><p className="font-bold">Handa na tayong magbasa!</p><p className="text-sm text-[var(--color-text-muted)]">Bahagi {chunkIndex + 1} ng {chunks.length}{material.estimated_minutes ? ` · ${material.estimated_minutes} minuto` : ''}</p></div>
       <div className="flex items-center gap-1 rounded-full border border-white/70 bg-white/70 p-1"><button type="button" onClick={() => setFontSizeIndex((i) => Math.max(0, i - 1))} disabled={fontSizeIndex === 0} className="h-8 w-8 rounded-full disabled:opacity-30">A−</button><span className="w-7 text-center text-xs">{FONT_SIZE_LABELS[fontSizeIndex]}</span><button type="button" onClick={() => setFontSizeIndex((i) => Math.min(3, i + 1))} disabled={fontSizeIndex === 3} className="h-8 w-8 rounded-full disabled:opacity-30">A+</button></div>
       <button type="button" onClick={() => setWideSpacing((value) => !value)} className="rounded-full border border-white/70 bg-white/70 px-3 py-2 text-sm"><IconLabel icon="↔️" label={wideSpacing ? 'Normal na Spacing' : 'Mas Malawak na Spacing'} /></button>
     </div>
+    <div className="rounded-2xl border bg-white/60 p-4 shadow-sm" style={cardStyle('--color-brand-lavender', 6, 24)}>
+      <div className="mb-2 flex items-center justify-between gap-3 text-sm font-bold"><span>Iyong progreso</span><span className="text-[var(--color-text-muted)]">{completedCount} sa {chunks.length} bahagi</span></div>
+      <div className="h-2.5 overflow-hidden rounded-full bg-white"><div className="h-full rounded-full bg-[var(--color-success)] transition-[width] duration-500" style={{ width: `${progressPercent}%` }} /></div>
+    </div>
     {material.preview_words?.length ? <div className="rounded-2xl border p-4" style={cardStyle('--color-brand-sun', 4, 18)}><p className="mb-2 font-bold">Mga salitang paghahandaan</p><div className="flex flex-wrap gap-2">{material.preview_words.slice(0, 5).map((word) => <span key={word} className="rounded-full bg-white px-3 py-1 text-sm font-semibold">{word}</span>)}</div></div> : null}
-    <div className="rounded-2xl border bg-[var(--color-surface)] p-7 shadow-card"><p className="mb-3 text-sm font-bold text-[var(--color-primary)]">Basahin nang dahan-dahan</p><p className={`${FONT_SIZES[fontSizeIndex]} ${wideSpacing ? 'tracking-wide' : ''}`} style={{ lineHeight: wideSpacing ? 2.2 : 1.9, wordSpacing: wideSpacing ? '0.25em' : undefined }}>{current.split(/(\s+)/).map((part, index) => <span key={`${part}-${index}`} className={matched.has(normalizeForCompare(part)) ? 'rounded bg-[var(--color-success-soft)] font-semibold text-[var(--color-success)]' : ''}>{part}</span>)}</p></div>
+    <div className="rounded-3xl border-2 border-[var(--color-primary)]/20 bg-[var(--color-surface)] p-7 shadow-raised sm:p-9"><div className="mb-5 flex items-center justify-between gap-3"><span className="rounded-full bg-[var(--color-primary-soft)] px-3 py-1 text-xs font-bold text-[var(--color-primary)]">Bahagi {chunkIndex + 1}</span><p className="text-sm font-bold text-[var(--color-primary)]">Basahin nang dahan-dahan</p></div><p className={`${FONT_SIZES[fontSizeIndex]} ${wideSpacing ? 'tracking-wide' : ''} font-medium`} style={{ lineHeight: wideSpacing ? 2.2 : 1.9, wordSpacing: wideSpacing ? '0.25em' : undefined }}>{current.split(/(\s+)/).map((part, index) => <span key={`${part}-${index}`} className={matched.has(normalizeForCompare(part)) ? 'rounded-lg bg-[var(--color-success-soft)] px-0.5 font-semibold text-[var(--color-success)]' : ''}>{part}</span>)}</p></div>
     <div className="flex flex-wrap justify-center gap-3"><TTSButton text={current} className="rounded-full border bg-white px-5 py-3 text-sm font-bold" /><button type="button" onClick={listening ? () => { stopRef.current(); setListening(false); } : read} disabled={submitted || mode === 'preview'} className="rounded-full bg-[var(--color-primary)] px-6 py-3 text-sm font-bold text-white disabled:opacity-60"><IconLabel icon="🎙️" label={listening ? 'Itigil' : 'Ako Naman'} /></button></div>
     <p className="text-center text-sm text-[var(--color-text-muted)]">Pakinggan muna, saka basahin ang bahaging ito. Okay lang ang mag-retry.</p>
     {accuracy !== null && <PronunciationFeedback key={feedbackAttempt} correct={accuracy >= 75} message={readingFeedback(accuracy)} autoPlay={mode === 'student'} />}
     {error && <p className="rounded-xl bg-[var(--color-danger-soft)] px-4 py-3 text-center text-sm text-[var(--color-danger)]">{error}</p>}
     <div className="flex items-center justify-between gap-3"><button type="button" onClick={() => move(Math.max(0, chunkIndex - 1))} disabled={chunkIndex === 0} className="rounded-full border px-4 py-2 disabled:opacity-40">← Bumalik</button>{chunkIndex < chunks.length - 1 ? <button type="button" onClick={() => move(chunkIndex + 1)} disabled={mode === 'student' && !completed.has(chunkIndex)} className="rounded-full bg-[var(--color-primary)] px-5 py-2 font-bold text-white disabled:opacity-40">Susunod →</button> : submitted ? <span className="font-bold text-[var(--color-success)]">Naipasa na sa guro ✓</span> : <button type="button" onClick={submit} disabled={mode === 'student' && completed.size < chunks.length} className="rounded-full bg-[var(--color-success)] px-5 py-2 font-bold text-white disabled:opacity-40">Ipasa sa Guro</button>}</div>
-  </div>;
+  </section>;
 }
 async function ownChildId(): Promise<string | null> { const { data: { user } } = await supabase.auth.getUser(); if (!user) return null; const { data } = await supabase.from('children').select('id').eq('auth_uid', user.id).maybeSingle(); return data?.id ?? null; }
