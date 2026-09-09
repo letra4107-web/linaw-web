@@ -55,6 +55,7 @@ jobs:
           username: ${{ secrets.HOSTINGER_FTP_USERNAME }}
           password: ${{ secrets.HOSTINGER_FTP_PASSWORD }}
           local-dir: ./dist/
-          # Hostinger FTP accounts are restricted to public_html already.
-          server-dir: ./
+          # This FTP account starts above the domain document root. Deploy the
+          # complete built site directly into the live Hostinger web folder.
+          server-dir: ./public_html/
           dangerous-clean-slate: false

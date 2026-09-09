@@ -3,7 +3,7 @@
 After this workflow is enabled, every push to the `main` branch follows this order:
 
 1. GitHub Actions installs dependencies, runs lint, tests, and the production build.
-2. Only when verification succeeds, GitHub Actions builds the web application with production values and uploads the contents of `dist/` to the FTP account's `public_html` root.
+2. Only when verification succeeds, GitHub Actions builds the web application with production values and uploads the contents of `dist/` to the Hostinger `public_html` root.
 3. Railway deploys the Node.js/Express API from the same `main` push through its connected GitHub repository.
 
 ## One-time GitHub setup
@@ -19,7 +19,7 @@ Open the repository on GitHub, then select **Settings → Secrets and variables 
 | `VITE_SUPABASE_ANON_KEY` | Production Supabase anon/public key. |
 | `VITE_API_URL` | `https://linawletra-production-409e.up.railway.app/api` |
 
-Use a dedicated FTP account limited to the website directory when Hostinger allows it. The workflow uses `server-dir: ./` because a Hostinger FTP account normally starts inside `public_html`; do not add `public_html` to the secret host value. Do not use the Hostinger account password.
+Use a dedicated FTP account limited to the website directory when Hostinger allows it. This project's FTP account starts above the website directory, so the workflow uses `server-dir: ./public_html/`. Do not add `public_html` to the secret host value. Do not use the Hostinger account password.
 
 ## Railway setup
 
