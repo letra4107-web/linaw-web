@@ -198,7 +198,7 @@ export default function Dashboard() {
   return (
     <div className="flex flex-col gap-8 pb-4 sm:gap-10">
       {/* 1. Header */}
-      <section aria-labelledby="dashboard-title" className="flex flex-col gap-5">
+      <section aria-labelledby="dashboard-title" className="contents">
         <div
           className="relative overflow-hidden rounded-3xl border border-white/20 px-5 py-5 text-white shadow-card sm:px-7 sm:py-6"
           style={{ backgroundImage: 'linear-gradient(135deg, var(--color-hero-from), var(--color-hero-via), var(--color-hero-to))' }}
@@ -238,11 +238,11 @@ export default function Dashboard() {
           </div>
         </div>
 
-        <section aria-label="Salita Ngayon">
+        <section aria-label="Salita Ngayon" className="order-3">
           <WordOfDayCard streak={progress?.streak ?? 0} />
         </section>
 
-        <div className="grid grid-cols-1 gap-4">
+        <div className="order-4 grid grid-cols-1 gap-4">
           <div className="overflow-hidden rounded-3xl border shadow-card" style={cardStyle('--color-brand-lavender', 10, 35)}>
             <div className="flex h-full flex-col gap-4 p-6 sm:p-7">
               <div className="flex items-center gap-3">
@@ -288,7 +288,7 @@ export default function Dashboard() {
       </section>
 
       {/* 2. Deadlines */}
-      <section aria-labelledby="deadlines-title" className="flex flex-col gap-4">
+      <section aria-labelledby="deadlines-title" className="order-2 flex flex-col gap-4">
         <div className="flex flex-wrap items-end justify-between gap-3 px-1">
           <div>
             <p className="text-sm font-bold tracking-[0.12em] text-[var(--color-warning-text)] uppercase">Huwag kalimutan</p>
