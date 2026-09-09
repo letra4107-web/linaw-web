@@ -25,6 +25,13 @@ function studentStoryText(raw: string) {
   return raw.replace(/^[\s\S]*?Ako Naman[.”"]*\s*/i, '');
 }
 
+function readingFeedback(score: number) {
+  if (score >= 90) return 'Napakahusay! Malinaw ang pagbasa mo.';
+  if (score >= 75) return 'Mahusay! Ituloy mo ang galing mo.';
+  if (score >= 50) return 'Ang galing ng pagsubok mo! Pakinggan muli at dahan-dahang basahin.';
+  return 'Salamat sa pagsubok! Kaya mo ito—pakinggan at subukan muli.';
+}
+
 export function PdfReadingAssistant({ material, assignmentId, mode, onAttemptRecorded }: Props) {
   const [fontSizeIndex, setFontSizeIndex] = useState(1);
   const [wideSpacing, setWideSpacing] = useState(false);
@@ -88,7 +95,7 @@ export function PdfReadingAssistant({ material, assignmentId, mode, onAttemptRec
     <div className="rounded-2xl border bg-[var(--color-surface)] p-7 shadow-card"><p className="mb-3 text-sm font-bold text-[var(--color-primary)]">Basahin nang dahan-dahan</p><p className={`${FONT_SIZES[fontSizeIndex]} ${wideSpacing ? 'tracking-wide' : ''}`} style={{ lineHeight: wideSpacing ? 2.2 : 1.9, wordSpacing: wideSpacing ? '0.25em' : undefined }}>{current.split(/(\s+)/).map((part, index) => <span key={`${part}-${index}`} className={matched.has(normalizeForCompare(part)) ? 'rounded bg-[var(--color-success-soft)] font-semibold text-[var(--color-success)]' : ''}>{part}</span>)}</p></div>
     <div className="flex flex-wrap justify-center gap-3"><TTSButton text={current} className="rounded-full border bg-white px-5 py-3 text-sm font-bold" /><button type="button" onClick={listening ? () => { stopRef.current(); setListening(false); } : read} disabled={submitted || mode === 'preview'} className="rounded-full bg-[var(--color-primary)] px-6 py-3 text-sm font-bold text-white disabled:opacity-60"><IconLabel icon="🎙️" label={listening ? 'Itigil' : 'Ako Naman'} /></button></div>
     <p className="text-center text-sm text-[var(--color-text-muted)]">Pakinggan muna, saka basahin ang bahaging ito. Okay lang ang mag-retry.</p>
-    {accuracy !== null && <div className="rounded-xl bg-[var(--color-success-soft)] p-4 text-center font-bold text-[var(--color-success)]">{accuracy >= 75 ? 'Magaling! Ituloy natin.' : 'Ayos lang! Pakinggan at subukan muli.'}</div>}
+    {accuracy !== null && <div className="rounded-xl bg-[var(--color-success-soft)] p-4 text-center font-bold text-[var(--color-success)]">{readingFeedback(accuracy)}</div>}
     {error && <p className="rounded-xl bg-[var(--color-danger-soft)] px-4 py-3 text-center text-sm text-[var(--color-danger)]">{error}</p>}
     <div className="flex items-center justify-between gap-3"><button type="button" onClick={() => move(Math.max(0, chunkIndex - 1))} disabled={chunkIndex === 0} className="rounded-full border px-4 py-2 disabled:opacity-40">← Bumalik</button>{chunkIndex < chunks.length - 1 ? <button type="button" onClick={() => move(chunkIndex + 1)} disabled={mode === 'student' && !completed.has(chunkIndex)} className="rounded-full bg-[var(--color-primary)] px-5 py-2 font-bold text-white disabled:opacity-40">Susunod →</button> : submitted ? <span className="font-bold text-[var(--color-success)]">Naipasa na sa guro ✓</span> : <button type="button" onClick={submit} disabled={mode === 'student' && completed.size < chunks.length} className="rounded-full bg-[var(--color-success)] px-5 py-2 font-bold text-white disabled:opacity-40">Ipasa sa Guro</button>}</div>
   </div>;
