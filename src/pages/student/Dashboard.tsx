@@ -247,7 +247,7 @@ export default function Dashboard() {
             <div className="flex h-full flex-col gap-4 p-6 sm:p-7">
               <div className="flex items-center gap-3">
                 <IconBadge img={bookIcon} brandVar="--color-brand-lavender" />
-                <h2 className="text-xl font-bold">Ipagpatuloy ang Pag-aaral</h2>
+                <h2 className="text-xl font-bold">Pagsasanay Ngayon</h2>
               </div>
               {allCompleted ? (
                 <p className="flex items-center gap-2 text-[var(--color-text-muted)]">
@@ -263,12 +263,12 @@ export default function Dashboard() {
                     </div>
                     <span className="text-sm font-bold text-[var(--color-primary)]">{modulePct}%</span>
                   </div>
-                  <Link to="/student/learn" className="mt-auto inline-flex min-h-12 w-fit items-center rounded-full bg-[var(--color-primary)] px-6 py-3 font-bold text-white shadow-card transition-all hover:-translate-y-0.5 hover:bg-[var(--color-primary-hover)] hover:shadow-raised active:scale-95">Ipagpatuloy</Link>
+                  <Link to="/student/practice?mode=say" className="mt-auto inline-flex min-h-12 w-fit items-center rounded-full bg-[var(--color-primary)] px-6 py-3 font-bold text-white shadow-card transition-all hover:-translate-y-0.5 hover:bg-[var(--color-primary-hover)] hover:shadow-raised active:scale-95">Simulan ang Pagsasanay</Link>
                 </>
               ) : (
                 <>
                   <p className="text-[var(--color-text-muted)]">Wala pang binabasang aralin — simulan ang isa!</p>
-                  <Link to="/student/learn" className="mt-auto inline-flex min-h-12 w-fit items-center rounded-full bg-[var(--color-primary)] px-6 py-3 font-bold text-white shadow-card transition-all hover:-translate-y-0.5 hover:bg-[var(--color-primary-hover)] hover:shadow-raised active:scale-95">Simulan</Link>
+                  <Link to="/student/practice?mode=say" className="mt-auto inline-flex min-h-12 w-fit items-center rounded-full bg-[var(--color-primary)] px-6 py-3 font-bold text-white shadow-card transition-all hover:-translate-y-0.5 hover:bg-[var(--color-primary-hover)] hover:shadow-raised active:scale-95">Simulan ang Pagsasanay</Link>
                 </>
               )}
             </div>
@@ -347,7 +347,7 @@ export default function Dashboard() {
       </section>
 
       {/* Secondary choices stay available without competing with the next reading step. */}
-      <details className="group rounded-3xl border bg-white/55 shadow-card" style={cardStyle('--color-brand-lavender', 5, 20)}>
+      <details className="hidden group rounded-3xl border bg-white/55 shadow-card" style={cardStyle('--color-brand-lavender', 5, 20)}>
         <summary className="flex min-h-14 cursor-pointer list-none items-center justify-between gap-3 px-5 py-3 font-bold text-[var(--color-primary)] marker:content-none">
           Iba pang opsyon
           <span aria-hidden="true" className="text-lg transition-transform group-open:rotate-45">+</span>
