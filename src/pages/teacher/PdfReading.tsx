@@ -45,6 +45,9 @@ interface AssignmentWithAttempts {
 const STATUS_LABEL: Record<string, string> = {
   assigned: 'Bago',
   in_progress: 'Ginagawa',
+  submitted: 'Ipinasa para sa review',
+  reviewed: 'Na-review na',
+  needs_review: 'Kailangan ng gabay',
   completed: 'Tapos na',
 };
 
