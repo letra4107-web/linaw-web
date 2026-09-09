@@ -8,18 +8,18 @@
  * --------------------------------------------------------------------- */
 @theme {
   /* Base palette */
-  --color-brand-cream: #fbf3e2;
-  --color-brand-ink: #3b322c;
-  --color-brand-ink-soft: #5f5044;
+  --color-brand-cream: #f6f7fb;
+  --color-brand-ink: #263142;
+  --color-brand-ink-soft: #657083;
   --color-brand-white: #ffffff;
-  --color-brand-border: #e5e7eb;
+  --color-brand-border: #dfe5ee;
 
   /* Brand accents */
-  --color-brand-sun: #e3971a;
-  --color-brand-coral: #e06b4c;
-  --color-brand-sage: #5c8047;
-  --color-brand-lavender: #7c6fcf;
-  --color-brand-lavender-dark: #5f52b0;
+  --color-brand-sun: #c58a22;
+  --color-brand-coral: #c96f5a;
+  --color-brand-sage: #4f7663;
+  --color-brand-lavender: #7470bd;
+  --color-brand-lavender-dark: #56539b;
 
   /* Hero gradient (violet -> magenta -> rose) */
   --color-brand-hero-from: #6d28d9;
@@ -68,9 +68,9 @@
   --radius-pill: 999px;
 
   /* Shadows: card (default elevation), raised (hover/active), hero (banners) */
-  --shadow-card: 0 2px 8px rgba(59, 50, 44, 0.1);
-  --shadow-raised: 0 8px 20px rgba(95, 82, 176, 0.28);
-  --shadow-hero: 0 16px 40px rgba(151, 76, 222, 0.35);
+  --shadow-card: 0 2px 10px rgba(38, 49, 66, 0.08);
+  --shadow-raised: 0 8px 24px rgba(86, 83, 155, 0.16);
+  --shadow-hero: 0 16px 40px rgba(86, 83, 155, 0.2);
 }
 
 /* ---------------------------------------------------------------------
@@ -136,8 +136,8 @@ body {
   background: var(--color-bg);
   color: var(--color-text);
   font-family: var(--font-body);
-  font-size: calc(18px * var(--font-scale, 1));
-  line-height: 1.6;
+  font-size: calc(16px * var(--font-scale, 1));
+  line-height: 1.65;
   letter-spacing: 0.01em;
 }
 
@@ -152,7 +152,7 @@ body[data-font="dyslexic"] {
 }
 
 body[data-font="dyslexic"] p {
-  margin-bottom: 3.5em;
+  margin-bottom: 2em;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -195,6 +195,16 @@ input, select, textarea {
 input:not([type="checkbox"]):not([type="radio"]), select, textarea {
   border-color: var(--color-border);
   background-color: color-mix(in srgb, var(--color-surface) 92%, var(--color-bg));
+}
+
+input:not([type="checkbox"]):not([type="radio"]):focus, select:focus, textarea:focus {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-primary) 16%, transparent);
+  outline: none;
+}
+
+@media (min-width: 768px) {
+  body { font-size: calc(17px * var(--font-scale, 1)); }
 }
 
 input::placeholder, textarea::placeholder {
