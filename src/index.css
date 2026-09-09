@@ -127,6 +127,7 @@
 
 html {
   color-scheme: light;
+  scroll-behavior: smooth;
 }
 
 body {
@@ -176,6 +177,34 @@ button, input, select, textarea {
 button {
   font-family: var(--font-display);
   font-weight: 600;
+  transition: transform 160ms ease, box-shadow 160ms ease, background-color 160ms ease, border-color 160ms ease;
+}
+
+button:not(:disabled):active {
+  transform: translateY(1px);
+}
+
+button:disabled {
+  cursor: not-allowed;
+}
+
+input, select, textarea {
+  border-radius: var(--radius-sm);
+}
+
+input:not([type="checkbox"]):not([type="radio"]), select, textarea {
+  border-color: var(--color-border);
+  background-color: color-mix(in srgb, var(--color-surface) 92%, var(--color-bg));
+}
+
+input::placeholder, textarea::placeholder {
+  color: var(--color-text-muted);
+  opacity: 0.8;
+}
+
+::selection {
+  background: var(--color-primary-soft);
+  color: var(--color-text);
 }
 
 /* Full-page confetti burst after a pronunciation attempt (ConfettiOverlay.tsx). */
