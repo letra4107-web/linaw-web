@@ -83,13 +83,19 @@ export default function Practice() {
   const { data: words, isLoading: loadingWords } = useQuery({
     queryKey: ['practice-words', path?.effective_level],
     queryFn: async () => {
+      const level = path!.effective_level || 'Beginner';
+      if (!['Beginner', 'Intermediate', 'Advanced'].includes(level)) {
+        throw new Error('Hindi wasto ang antas ng pagbasa. Subukan muli.');
+      }
       const { data, error: err } = await supabase
-        .from('words')
-        .select('id, word')
-        .eq('level', (path!.effective_level || 'Beginner').toLowerCase())
+        .from('reading_content')
+        .select('id, content_text')
+        .eq('content_type', 'word')
+        .eq('is_active', true)
+        .eq('level', level)
         .limit(200);
       if (err) throw err;
-      return data as WordRow[];
+      return (data || []).map((row) => ({ id: row.id, word: row.content_text })) as WordRow[];
     },
     enabled: Boolean(path?.effective_level),
   });

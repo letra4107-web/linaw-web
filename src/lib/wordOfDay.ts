@@ -41,10 +41,18 @@ export async function getOrCreateWordOfDay(childId: string, level: string): Prom
   const existing = await fetchTodayRow(childId, date);
   if (existing) return existing;
 
+  if (!['Beginner', 'Intermediate', 'Advanced'].includes(level)) {
+    throw new Error('Hindi wasto ang antas ng pagbasa. Subukan muli.');
+  }
+
+  // reading_content is the shared mobile/web publish gate. Historical rows in
+  // `words` remain for progress records, but must not be offered to learners.
   const { data: words, error: wordsErr } = await supabase
-    .from('words')
-    .select('id, word')
-    .eq('level', level.toLowerCase())
+    .from('reading_content')
+    .select('id, content_text')
+    .eq('content_type', 'word')
+    .eq('is_active', true)
+    .eq('level', level)
     .limit(500);
   if (wordsErr) throw wordsErr;
   if (!words || words.length === 0) return null;
@@ -56,7 +64,7 @@ export async function getOrCreateWordOfDay(childId: string, level: string): Prom
   const { data: upserted, error: upsertErr } = await supabase
     .from('word_of_day_log')
     .upsert(
-      { child_id: childId, word: chosen.word, date, attempts: 0 },
+      { child_id: childId, word: chosen.content_text, date, attempts: 0 },
       { onConflict: 'child_id,date', ignoreDuplicates: true },
     )
     .select('id, child_id, word, date, correct, attempts, accuracy, xp_awarded, completed_at')
