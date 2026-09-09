@@ -147,6 +147,7 @@ export default function PdfReading() {
   const [monitorId, setMonitorId] = useState<string | null>(null);
   const [reviewingId, setReviewingId] = useState<string | null>(null);
   const [editingId, setEditingId] = useState<string | null>(null);
+  const [assignmentDueDate, setAssignmentDueDate] = useState('');
   const [uploadMode, setUploadMode] = useState<'plain' | 'drill'>('plain');
   const [view, setView] = useState<'active' | 'archived'>('active');
 
@@ -231,15 +232,16 @@ export default function PdfReading() {
   });
 
   const assign = useMutation({
-    mutationFn: async ({ materialId, studentId }: { materialId: string; studentId: string }) => {
+    mutationFn: async ({ materialId, studentId, dueDate }: { materialId: string; studentId: string; dueDate: string }) => {
       const { error: err } = await supabase.from('pdf_assignments').insert({
         pdf_material_id: materialId,
         student_id: studentId,
         assigned_by: user!.id,
+        due_date: dueDate || null,
       });
       if (err) throw err;
     },
-    onSuccess: () => setAssigningId(null),
+    onSuccess: () => { setAssigningId(null); setAssignmentDueDate(''); },
     onError: (err: Error) => setError(err.message),
   });
 
@@ -520,11 +522,18 @@ export default function PdfReading() {
               )}
               {assigningId === m.id && (
                 <ul className="flex flex-wrap gap-2 rounded-xl bg-white/60 p-4">
+                  <li className="w-full">
+                    <label className="flex max-w-xs flex-col gap-1 text-sm font-medium">
+                      Takdang araw <span className="font-normal text-[var(--color-text-muted)]">(optional)</span>
+                      <input type="date" value={assignmentDueDate} onChange={(event) => setAssignmentDueDate(event.target.value)} className="rounded-lg border border-[var(--color-border)] bg-white px-3 py-2" />
+                    </label>
+                    <p className="mt-1 text-xs text-[var(--color-text-muted)]">Kapag may takdang araw, lalabas ito sa Mga Deadline ng mag-aaral.</p>
+                  </li>
                   {(roster ?? []).map((r) => (
                     <li key={r.id}>
                       <button
                         type="button"
-                        onClick={() => assign.mutate({ materialId: m.id, studentId: r.student_id })}
+                        onClick={() => assign.mutate({ materialId: m.id, studentId: r.student_id, dueDate: assignmentDueDate })}
                         className="rounded-full border border-white/70 bg-white px-3 py-1 text-sm hover:border-[var(--color-primary)]"
                       >
                         {r.children?.name ?? 'Mag-aaral'}

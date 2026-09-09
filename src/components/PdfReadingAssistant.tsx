@@ -18,6 +18,13 @@ function splitChunks(text: string, size: number) {
   }, []).filter(Boolean);
 }
 
+// Our upload-ready stories include a teacher-only cover page. pdf-parse
+// extracts that cover together with the story, so remove it before students
+// begin the one-sentence reading routine. Ordinary teacher PDFs are unchanged.
+function studentStoryText(raw: string) {
+  return raw.replace(/^[\s\S]*?Ako Naman[.”"]*\s*/i, '');
+}
+
 export function PdfReadingAssistant({ material, assignmentId, mode, onAttemptRecorded }: Props) {
   const [fontSizeIndex, setFontSizeIndex] = useState(1);
   const [wideSpacing, setWideSpacing] = useState(false);
@@ -29,7 +36,7 @@ export function PdfReadingAssistant({ material, assignmentId, mode, onAttemptRec
   const [accuracy, setAccuracy] = useState<number | null>(null);
   const [submitted, setSubmitted] = useState(false);
   const stopRef = useRef<() => void>(() => {});
-  const text = material.extracted_text?.trim() || '';
+  const text = studentStoryText(material.extracted_text?.trim() || '');
   const chunks = useMemo(() => splitChunks(text, Math.min(3, Math.max(1, material.chunk_size || 1))), [text, material.chunk_size]);
   const current = chunks[chunkIndex] || '';
   const matched = useMemo(() => new Set(normalizeForCompare(transcript).split(' ').filter(Boolean)), [transcript]);
