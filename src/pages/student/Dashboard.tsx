@@ -242,7 +242,7 @@ export default function Dashboard() {
           <WordOfDayCard streak={progress?.streak ?? 0} />
         </section>
 
-        <div className="grid grid-cols-1 gap-4 lg:grid-cols-[1.35fr_1fr]">
+        <div className="grid grid-cols-1 gap-4">
           <div className="overflow-hidden rounded-3xl border shadow-card" style={cardStyle('--color-brand-lavender', 10, 35)}>
             <div className="flex h-full flex-col gap-4 p-6 sm:p-7">
               <div className="flex items-center gap-3">
@@ -274,7 +274,7 @@ export default function Dashboard() {
             </div>
           </div>
 
-          <nav aria-label="Mabilis na puntahan" className="grid grid-cols-3 gap-3">
+          <nav aria-label="Mabilis na puntahan" className="hidden grid-cols-3 gap-3">
             {QUICK_ACTIONS.map((action) => (
               <Link key={action.label} to={action.to} style={cardStyle(action.brandVar, 10, 35)} className="group flex min-h-32 flex-col items-center justify-center gap-3 rounded-3xl border p-3 text-center shadow-card transition-all hover:-translate-y-1 hover:shadow-raised active:scale-95">
                 <span className="flex h-12 w-12 items-center justify-center rounded-2xl shadow-sm transition-transform group-hover:scale-110 group-hover:-rotate-3" style={{ backgroundColor: `color-mix(in srgb, var(${action.brandVar}) 25%, white)` }} aria-hidden="true">
@@ -346,8 +346,13 @@ export default function Dashboard() {
         )}
       </section>
 
-      {/* Existing supporting tools remain available after the primary flow. */}
-      <section aria-label="Iba pang gawain" className="flex flex-col gap-5">
+      {/* Secondary choices stay available without competing with the next reading step. */}
+      <details className="group rounded-3xl border bg-white/55 shadow-card" style={cardStyle('--color-brand-lavender', 5, 20)}>
+        <summary className="flex min-h-14 cursor-pointer list-none items-center justify-between gap-3 px-5 py-3 font-bold text-[var(--color-primary)] marker:content-none">
+          Iba pang opsyon
+          <span aria-hidden="true" className="text-lg transition-transform group-open:rotate-45">+</span>
+        </summary>
+      <section aria-label="Iba pang gawain" className="flex flex-col gap-5 border-t border-[var(--color-border)] p-5">
         <div className="relative flex flex-wrap items-center justify-between gap-4 overflow-hidden rounded-3xl border p-6 shadow-card sm:p-7" style={cardStyle('--color-brand-coral', 12, 35)}>
           <img src={spark} alt="" aria-hidden="true" className="pointer-events-none absolute top-3 right-6 h-6 w-6 opacity-50" />
           <div className="relative z-10 flex items-center gap-3">
@@ -427,6 +432,7 @@ export default function Dashboard() {
           <p className="text-center text-lg font-bold text-[var(--color-primary)]">Bawat salitang nababasa mo, lumalakas ka!</p>
         </div>
       </section>
+      </details>
     </div>
   );
 }
