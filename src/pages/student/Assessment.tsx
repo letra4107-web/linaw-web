@@ -2,9 +2,10 @@ import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useMutation } from '@tanstack/react-query';
 import { api } from '../../lib/api';
-import { computeAccuracy, isSpeechRecognitionSupported, listenOnce } from '../../lib/speech';
+import { assessSpeech, isSpeechRecognitionSupported, listenOnce } from '../../lib/speech';
 import { playTtsSequence } from '../../lib/ttsPlayer';
 import { TTSButton } from '../../components/a11y/TTSButton';
+import { SlowTTSButton } from '../../components/a11y/SlowTTSButton';
 import { BadgeUnlockToast } from '../../components/BadgeUnlockToast';
 import { IconLabel } from '../../components/a11y/IconLabel';
 import { cardStyle, CARD_COLORS } from '../../lib/cardStyle';
@@ -133,10 +134,11 @@ export default function Assessment() {
     setListeningFor(item.content_id);
     listenOnce(
       'fil-PH',
-      (transcript) => {
+      ({ transcript, confidence }) => {
         setListeningFor(null);
-        const accuracy = computeAccuracy(item.content_text, transcript);
-        recordAnswer.mutate({ item, transcript, accuracy });
+        const assessment = assessSpeech(item.content_text, transcript, confidence);
+        if (assessment.outcome === 'retry') { setError(assessment.message); return; }
+        recordAnswer.mutate({ item, transcript, accuracy: assessment.accuracy });
       },
       (message) => {
         setListeningFor(null);
@@ -251,6 +253,7 @@ export default function Assessment() {
             ) : (
               <div className="flex flex-wrap items-center gap-3">
                 <TTSButton text={item.content_text} />
+                <SlowTTSButton text={item.content_text} />
                 <button
                   type="button"
                   disabled={isAnswered || listeningFor === item.content_id}

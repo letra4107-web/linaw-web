@@ -4,7 +4,7 @@ import { useQuery } from '@tanstack/react-query';
 import { supabase } from '../../lib/supabaseClient';
 import { useAuth } from '../../lib/auth/AuthContext';
 import { api } from '../../lib/api';
-import { computeAccuracy, isSpeechRecognitionSupported, listenOnce } from '../../lib/speech';
+import { assessSpeech, isSpeechRecognitionSupported, listenOnce } from '../../lib/speech';
 import { syllabifyWord } from '../../lib/syllabify';
 import { CORRECT_MESSAGES, ENCOURAGE_MESSAGES, randomFrom } from '../../lib/feedbackMessages';
 import { TTSButton } from '../../components/a11y/TTSButton';
@@ -180,11 +180,12 @@ export default function Practice() {
     trackEvent('reading_attempt_started', { surface: 'practice', mode });
     listenOnce(
       'fil-PH',
-      async (transcript) => {
+      async ({ transcript, confidence }) => {
         setListening(false);
-        const accuracy = computeAccuracy(current.word, transcript);
-        // Exact match only -- a near-miss (e.g. "takap" heard for "takip") must not be marked correct.
-        const correct = accuracy === 100;
+        const assessment = assessSpeech(current.word, transcript, confidence);
+        if (assessment.outcome === 'retry') { setError(assessment.message); return; }
+        const { accuracy } = assessment;
+        const correct = assessment.outcome === 'correct';
         const message = randomFrom(correct ? CORRECT_MESSAGES : ENCOURAGE_MESSAGES);
         setLastResult({ transcript, accuracy, correct, message });
         setStreak((s) => (correct ? s + 1 : 0));

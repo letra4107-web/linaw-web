@@ -12,7 +12,9 @@ const parentRoutes = require('./routes/parent');
 const studentRoutes = require('./routes/student');
 const ttsRoutes = require('./routes/tts');
 const notificationsRoutes = require('./routes/notifications');
+const authEventsRoutes = require('./routes/authEvents');
 const { requestObservability } = require('./middleware/observability');
+const { auditTrail } = require('./middleware/auditTrail');
 
 const app = express();
 const apiCompatibilityVersion = String(process.env.API_COMPATIBILITY_VERSION || '3');
@@ -43,6 +45,7 @@ app.use(cors({
 }));
 app.use(express.json({ limit: '1mb', strict: true }));
 app.use(requestObservability);
+app.use(auditTrail);
 app.use((req, res, next) => {
   res.setHeader('X-API-Compatibility-Version', apiCompatibilityVersion);
   next();
@@ -77,6 +80,7 @@ app.use('/api/parent', parentRoutes);
 app.use('/api/student', studentRoutes);
 app.use('/api/tts', ttsRoutes);
 app.use('/api/notifications', notificationsRoutes);
+app.use('/api/auth', authEventsRoutes);
 app.use((req, res) => res.status(404).json({ error: 'Not found' }));
 app.use((err, req, res, _next) => {
   console.error('[unhandled]', err);

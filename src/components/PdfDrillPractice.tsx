@@ -1,7 +1,7 @@
 import { useMemo, useRef, useState } from 'react';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { api } from '../lib/api';
-import { computeAccuracy, isSpeechRecognitionSupported, listenOnce } from '../lib/speech';
+import { assessSpeech, isSpeechRecognitionSupported, listenOnce } from '../lib/speech';
 import { CORRECT_MESSAGES, ENCOURAGE_MESSAGES, randomFrom } from '../lib/feedbackMessages';
 import { TTSButton } from './a11y/TTSButton';
 import { SyllableKaraokeText } from './SyllableKaraokeText';
@@ -54,11 +54,13 @@ export function PdfDrillPractice({ assignmentId }: PdfDrillPracticeProps) {
     setListening(true);
     stopListeningRef.current = listenOnce(
       'fil-PH',
-      async (transcript) => {
+      async ({ transcript, confidence }) => {
         setListening(false);
         setLastHeard(transcript);
-        const accuracy = computeAccuracy(current.word, transcript);
-        const correct = accuracy === 100;
+        const assessment = assessSpeech(current.word, transcript, confidence);
+        if (assessment.outcome === 'retry') { setSpeechError(assessment.message); return; }
+        const { accuracy } = assessment;
+        const correct = assessment.outcome === 'correct';
 
         try {
           const res = await api<{ xpAwarded: number; drillCompleted: boolean }>('/student/pdf-drill/attempt', {

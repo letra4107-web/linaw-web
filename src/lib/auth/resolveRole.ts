@@ -1,5 +1,6 @@
 import type { User } from '@supabase/supabase-js';
 import { supabase } from '../supabaseClient';
+import { api } from '../api';
 
 export type AppRole = 'admin' | 'parent' | 'student' | 'teacher';
 
@@ -63,6 +64,8 @@ export async function resolveRole(user: User): Promise<ResolvedIdentity | null> 
     .from('users')
     .update({ lastLoginAt: new Date().toISOString() })
     .eq('id', user.id);
+  // Server-authenticated, best-effort login audit. No credentials or tokens are sent.
+  void api('/auth/events', { method: 'POST', auth: true, body: { type: 'login' } }).catch(() => {});
 
   return {
     role,

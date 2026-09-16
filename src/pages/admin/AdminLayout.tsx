@@ -15,6 +15,8 @@ const PRIMARY_TABS = [
   { to: '/admin/users', icon: '👥', label: 'Mga User' },
   { to: '/admin/teachers', icon: '🎓', label: 'Mga Guro' },
   { to: '/admin/analytics', icon: '▥', label: 'Analytics' },
+  { to: '/admin/audit-logs', icon: '📋', label: 'Audit Trail' },
+  { to: '/admin/operations', icon: '👁️', label: 'Mga Operasyon' },
   { to: '/admin/archived', icon: '▣', label: 'Arkibo' },
   { to: '/admin/notifications', icon: '🔔', label: 'Mga Abiso' },
   { to: '/admin/settings', icon: '⚙', label: 'Profile' },

@@ -4,7 +4,7 @@ import { supabase } from '../lib/supabaseClient';
 import { useAuth } from '../lib/auth/AuthContext';
 import { api } from '../lib/api';
 import { getOrCreateWordOfDay, MAX_ATTEMPTS } from '../lib/wordOfDay';
-import { computeAccuracy, isSpeechRecognitionSupported, listenOnce } from '../lib/speech';
+import { assessSpeech, isSpeechRecognitionSupported, listenOnce } from '../lib/speech';
 import { syllabifyWord } from '../lib/syllabify';
 import { CORRECT_MESSAGES, ENCOURAGE_MESSAGES, randomFrom } from '../lib/feedbackMessages';
 import { SyllableKaraokeText } from './SyllableKaraokeText';
@@ -123,13 +123,13 @@ export function WordOfDayCard({ streak = 0 }: WordOfDayCardProps) {
     setListening(true);
     listenOnce(
       'fil-PH',
-      async (transcript) => {
+      async ({ transcript, confidence }) => {
         setListening(false);
         setLastHeard(transcript);
-        const accuracy = computeAccuracy(wordOfDay.word, transcript);
-        // Only an exact pronunciation match counts as "correct" -- a near match keeps the
-        // remaining tries (of the 3 total) open instead of ending the word early.
-        const correct = accuracy === 100;
+        const assessment = assessSpeech(wordOfDay.word, transcript, confidence);
+        if (assessment.outcome === 'retry') { setError(assessment.message); return; }
+        const { accuracy } = assessment;
+        const correct = assessment.outcome === 'correct';
         const nextAttempts = attemptsUsed + 1;
 
         try {

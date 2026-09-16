@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { supabase } from '../lib/supabaseClient';
-import { computeAccuracy, isSpeechRecognitionSupported, listenOnce, normalizeForCompare } from '../lib/speech';
+import { assessSpeech, isSpeechRecognitionSupported, listenOnce, normalizeForCompare } from '../lib/speech';
 import { TTSButton } from './a11y/TTSButton';
 import { IconLabel } from './a11y/IconLabel';
 import { cardStyle } from '../lib/cardStyle';
@@ -68,9 +68,11 @@ export function PdfReadingAssistant({ material, assignmentId, mode, onAttemptRec
     })();
   }, [assignmentId, chunks, mode]);
 
-  const saveAttempt = async (spoken: string) => {
+  const saveAttempt = async (spoken: string, confidence: number) => {
     const childId = await ownChildId(); if (!childId || !assignmentId) return;
-    const score = computeAccuracy(current, spoken);
+    const assessment = assessSpeech(current, spoken, confidence);
+    if (assessment.outcome === 'retry') { setError(assessment.message); return; }
+    const score = assessment.accuracy;
     const { error: insertError } = await supabase.from('pdf_reading_attempts').insert({ pdf_assignment_id: assignmentId, student_id: childId, transcript: spoken, accuracy: score, chunk_index: chunkIndex, chunk_text: current });
     if (insertError) throw insertError;
     await supabase.from('pdf_assignments').update({ status: 'in_progress' }).eq('id', assignmentId);
@@ -79,7 +81,7 @@ export function PdfReadingAssistant({ material, assignmentId, mode, onAttemptRec
   const read = () => {
     if (!isSpeechRecognitionSupported()) { setError('Hindi suportado ng browser mo ang speech recognition. Subukan sa Chrome.'); return; }
     setError(null); setListening(true);
-    stopRef.current = listenOnce('fil-PH', async (spoken) => { setListening(false); try { await saveAttempt(spoken); } catch { setError('Hindi na-save ang bahaging ito. Subukan muli.'); } }, (message) => { setListening(false); setError(message); });
+    stopRef.current = listenOnce('fil-PH', async ({ transcript, confidence }) => { setListening(false); try { await saveAttempt(transcript, confidence); } catch { setError('Hindi na-save ang bahaging ito. Subukan muli.'); } }, (message) => { setListening(false); setError(message); });
   };
   const move = (next: number) => { setChunkIndex(next); setAccuracy(null); setTranscript(''); setError(null); };
   const submit = async () => {

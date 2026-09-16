@@ -38,11 +38,28 @@ export function computeAccuracy(target: string, spoken: string): number {
   return Math.max(0, Math.round(similarity * 100));
 }
 
-interface SpeechRecognitionResultLike {
-  transcript: string;
+export type SpeechAssessment =
+  | { outcome: 'correct'; accuracy: number }
+  | { outcome: 'incorrect'; accuracy: number }
+  | { outcome: 'retry'; accuracy: number; message: string };
+
+/** Browser STT provides a transcript, not a pronunciation score. Keep uncertain
+ * recognition separate from a wrong answer to avoid false negatives. */
+export function assessSpeech(target: string, transcript: string, confidence = 1): SpeechAssessment {
+  const accuracy = computeAccuracy(target, transcript);
+  if (accuracy >= 88 && confidence >= 0.55) return { outcome: 'correct', accuracy };
+  if (confidence < 0.55) return { outcome: 'retry', accuracy, message: 'Hindi kita narinig nang malinaw. Subukan muli at magsalita nang mas malapit sa mic.' };
+  if (accuracy >= 55) return { outcome: 'retry', accuracy, message: 'Hindi pa sigurado ang narinig ko. Pakinggan at subukan nating muli.' };
+  return { outcome: 'incorrect', accuracy };
 }
 
-type RecognitionEndedCallback = (transcript: string) => void;
+interface SpeechRecognitionResultLike {
+  transcript: string;
+  confidence?: number;
+}
+
+export interface RecognitionResult { transcript: string; confidence: number }
+type RecognitionEndedCallback = (result: RecognitionResult) => void;
 
 export function isSpeechRecognitionSupported(): boolean {
   return typeof window !== 'undefined' && Boolean(getRecognitionCtor());
@@ -82,7 +99,7 @@ export function listenOnce(lang: string, onResult: RecognitionEndedCallback, onE
 
   recognition.onresult = (event) => {
     const result = event.results[0][0] as SpeechRecognitionResultLike;
-    onResult(result.transcript);
+    onResult({ transcript: result.transcript, confidence: result.confidence ?? 0 });
   };
   recognition.onerror = (event) => {
     const code = (event as unknown as { error?: string }).error || '';

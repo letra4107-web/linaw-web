@@ -8,6 +8,8 @@ import Archived from '../pages/admin/Archived';
 import Teachers from '../pages/admin/Teachers';
 import Settings from '../pages/admin/Settings';
 import Notifications from '../pages/admin/Notifications';
+import AuditLogs from '../pages/admin/AuditLogs';
+import Operations from '../pages/admin/Operations';
 
 const Analytics = lazy(() => import('../pages/admin/Analytics'));
 
@@ -16,5 +18,7 @@ export default function AdminArea() {
     <Route index element={<Dashboard />} /><Route path="users" element={<Users />} /><Route path="archived" element={<Archived />} />
     <Route path="teachers" element={<Teachers />} /><Route path="analytics" element={<Suspense fallback={<p className="p-6">Loading analytics…</p>}><Analytics /></Suspense>} />
     <Route path="notifications" element={<Notifications />} /><Route path="settings" element={<Settings />} />
+    <Route path="audit-logs" element={<AuditLogs />} />
+    <Route path="operations" element={<Operations />} />
   </Route></Routes>;
 }

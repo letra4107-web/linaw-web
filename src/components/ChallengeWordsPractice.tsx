@@ -41,7 +41,7 @@ export function ChallengeWordsPractice({ moduleId }: ChallengeWordsPracticeProps
     setListeningFor(word);
     listenOnce(
       'fil-PH',
-      (transcript) => {
+      ({ transcript }) => {
         setListeningFor(null);
         // Any attempt counts as practiced -- this is a warm-up, not a pass/fail check,
         // so even a near-miss still marks the word as "tried" rather than blocking retry.

@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { api } from '../lib/api';
-import { computeAccuracy, isSpeechRecognitionSupported, listenOnce } from '../lib/speech';
+import { assessSpeech, isSpeechRecognitionSupported, listenOnce } from '../lib/speech';
 import { IconLabel } from './a11y/IconLabel';
 import { AppIcon } from './a11y/AppIcon';
 import { BadgeUnlockToast } from './BadgeUnlockToast';
@@ -69,9 +69,11 @@ export function NonsenseWordCheck({ moduleId }: NonsenseWordCheckProps) {
     setListeningFor(word);
     listenOnce(
       'fil-PH',
-      (transcript) => {
+      ({ transcript, confidence }) => {
         setListeningFor(null);
-        const correct = computeAccuracy(word, transcript) === 100;
+        const assessment = assessSpeech(word, transcript, confidence);
+        if (assessment.outcome === 'retry') { setError(assessment.message); return; }
+        const correct = assessment.outcome === 'correct';
         setAttempts((prev) => ({ ...prev, [word]: { transcript, correct } }));
       },
       (message) => {

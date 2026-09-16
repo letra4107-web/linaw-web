@@ -2,9 +2,10 @@ import { useEffect, useState } from 'react';
 import { Link, useParams, useNavigate } from 'react-router-dom';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { api } from '../../lib/api';
-import { computeAccuracy, isSpeechRecognitionSupported, listenOnce } from '../../lib/speech';
+import { assessSpeech, isSpeechRecognitionSupported, listenOnce } from '../../lib/speech';
 import { CORRECT_MESSAGES, ENCOURAGE_MESSAGES, randomFrom } from '../../lib/feedbackMessages';
 import { TTSButton } from '../../components/a11y/TTSButton';
+import { SlowTTSButton } from '../../components/a11y/SlowTTSButton';
 import { PronunciationFeedback } from '../../components/PronunciationFeedback';
 import { BadgeUnlockToast } from '../../components/BadgeUnlockToast';
 import { NonsenseWordCheck } from '../../components/NonsenseWordCheck';
@@ -88,11 +89,15 @@ export default function Module() {
     trackEvent('reading_attempt_started', { surface: 'lesson' });
     listenOnce(
       'fil-PH',
-      (transcript) => {
+      ({ transcript, confidence }) => {
         setListeningFor(null);
-        const accuracy = computeAccuracy(item.content_text, transcript);
-        // Exact match only -- a near-miss must not be marked correct.
-        const correct = accuracy === 100;
+        const assessment = assessSpeech(item.content_text, transcript, confidence);
+        if (assessment.outcome === 'retry') {
+          setError(assessment.message);
+          return;
+        }
+        const { accuracy } = assessment;
+        const correct = assessment.outcome === 'correct';
         const message = randomFrom(correct ? CORRECT_MESSAGES : ENCOURAGE_MESSAGES);
         setLastResult({ contentId: item.content_id, transcript, accuracy, correct, message });
         submitAttempt.mutate({ contentId: item.content_id, transcript, accuracy });
@@ -185,6 +190,7 @@ export default function Module() {
                     <p className="text-xl leading-loose font-medium sm:text-2xl">{item.content_text}</p>
                     <div className="mt-5 flex flex-wrap items-center gap-3">
                       <TTSButton text={item.content_text} />
+                      <SlowTTSButton text={item.content_text} />
                       <button
                         type="button"
                         onClick={() => practice(item)}
@@ -250,7 +256,7 @@ export default function Module() {
                 >
                   <div className={isCompact ? 'flex flex-col items-center gap-2' : 'flex items-center justify-between gap-4'}>
                     <p className={isCompact ? 'text-3xl font-bold' : 'text-2xl font-medium'}>{isLocked ? '••••' : item.content_text}</p>
-                    {!isLocked && <TTSButton text={item.content_text} />}
+                    {!isLocked && <><TTSButton text={item.content_text} /><SlowTTSButton text={item.content_text} /></>}
                   </div>
                   <div className={`flex items-center gap-3 ${isCompact ? 'flex-col' : 'mt-4'}`}>
                     {isLocked ? (

@@ -10,6 +10,53 @@ const { storageReadiness } = require('../services/storageMigration');
 const router = express.Router();
 router.use(requireAuth, requireRole('admin'));
 
+// Read-only operational visibility for parent/teacher work.  This is separate
+// from the audit trail: it shows the current business records, not merely the
+// request that created or changed them.
+router.get('/operations', async (_req, res) => {
+  try {
+    const [schedules, messages, materials, assignments, links, progress, children, users, readingLevels, studentSettings] = await Promise.all([
+      supabaseAdmin.from('scheduled_activities').select('id, child_id, created_by, created_by_auth_uid, activity_type, title, scheduled_date, status').order('scheduled_date', { ascending: false }).limit(100),
+      supabaseAdmin.from('teacher_messages').select('id, teacher_id, parent_id, child_id, message, read, created_at').order('created_at', { ascending: false }).limit(100),
+      supabaseAdmin.from('pdf_materials').select('id, teacher_id, title, grade_level, level, created_at').order('created_at', { ascending: false }).limit(100),
+      supabaseAdmin.from('pdf_assignments').select('id, pdf_material_id, student_id, assigned_by, status, assigned_at, due_date').order('assigned_at', { ascending: false }).limit(100),
+      supabaseAdmin.from('teacher_student_links').select('id, teacher_id, student_id, assigned_at').order('assigned_at', { ascending: false }).limit(100),
+      supabaseAdmin.from('child_progress').select('child_id, xp, streak, activities_completed, updated_at').order('updated_at', { ascending: false }).limit(100),
+      supabaseAdmin.from('children').select('id, name, parent_id'),
+      supabaseAdmin.from('users').select('id, name, role'),
+      supabaseAdmin.from('student_reading_level_overrides').select('id, student_id, override_level, reason, created_by_auth_uid, created_at, revoked_at').is('revoked_at', null).order('created_at', { ascending: false }).limit(100),
+      supabaseAdmin.from('student_settings').select('auth_uid, dyslexia_font, font_size, high_contrast, reading_guide, tts_enabled'),
+    ]);
+    for (const result of [schedules, messages, materials, assignments, links, progress, children, users, readingLevels, studentSettings]) if (result.error) throw result.error;
+    const names = Object.fromEntries((users.data || []).map((user) => [user.id, user.name || user.id]));
+    const childRows = Object.fromEntries((children.data || []).map((child) => [child.id, { name: child.name || child.id, parent: child.parent_id ? names[child.parent_id] || child.parent_id : null }]));
+    res.json({ schedules: schedules.data || [], messages: messages.data || [], materials: materials.data || [], assignments: assignments.data || [], rosterLinks: links.data || [], progress: progress.data || [], readingLevels: readingLevels.data || [], studentSettings: studentSettings.data || [], names, children: childRows });
+  } catch (err) {
+    console.error('[admin/operations]', err);
+    res.status(500).json({ error: 'Unable to load operational records.' });
+  }
+});
+
+// GET /admin/audit-logs?search=&role=&action=&module=&status=&from=&to=&page=
+router.get('/audit-logs', async (req, res) => {
+  try {
+    const page = Math.max(1, Math.min(100000, Number(req.query.page) || 1));
+    const pageSize = Math.max(10, Math.min(100, Number(req.query.pageSize) || 25));
+    const ascending = req.query.order === 'asc';
+    let query = supabaseAdmin.from('audit_logs').select('id, actor_id, actor_role, actor_name, action, module, record_id, status, metadata, created_at', { count: 'exact' }).order('created_at', { ascending });
+    for (const field of ['actor_role', 'action', 'module', 'status']) if (req.query[field]) query = query.eq(field, String(req.query[field]).slice(0, 160));
+    if (req.query.from) query = query.gte('created_at', String(req.query.from));
+    if (req.query.to) query = query.lte('created_at', `${String(req.query.to)}T23:59:59.999Z`);
+    if (req.query.search) query = query.or(`actor_name.ilike.%${String(req.query.search).replace(/[%_,()]/g, '')}%,action.ilike.%${String(req.query.search).replace(/[%_,()]/g, '')}%`);
+    const { data, error, count } = await query.range((page - 1) * pageSize, page * pageSize - 1);
+    if (error) throw error;
+    res.json({ logs: data || [], total: count || 0, page, pageSize });
+  } catch (err) {
+    console.error('[admin/audit-logs]', err);
+    res.status(500).json({ error: 'Unable to load audit logs.' });
+  }
+});
+
 const BAN_FOREVER = '876000h'; // ~100 years, matches Supabase's convention for an effectively permanent ban
 const BAN_LIFT = 'none';
 const USER_ROLES = new Set(['admin', 'teacher', 'parent', 'student']);
