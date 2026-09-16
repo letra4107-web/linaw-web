@@ -196,11 +196,11 @@ export default function Dashboard() {
   const hasActivity = (progress?.activities_completed ?? 0) > 0;
 
   return (
-    <div className="flex flex-col gap-8 pb-4 sm:gap-10">
+    <div className="flex flex-col gap-8 pb-6 sm:gap-10">
       {/* 1. Header */}
       <section aria-labelledby="dashboard-title" className="contents">
         <div
-          className="relative overflow-hidden rounded-3xl border border-white/20 px-5 py-5 text-white shadow-card sm:px-7 sm:py-6"
+          className="relative overflow-hidden rounded-3xl border border-white/25 px-5 py-5 text-white shadow-hero ring-1 ring-black/5 sm:px-7 sm:py-6"
           style={{ backgroundImage: 'linear-gradient(135deg, var(--color-hero-from), var(--color-hero-via), var(--color-hero-to))' }}
         >
           <div aria-hidden="true" className="pointer-events-none absolute inset-0 opacity-10" style={{ backgroundImage: `url(${dot})`, backgroundSize: '220px', backgroundRepeat: 'repeat' }} />

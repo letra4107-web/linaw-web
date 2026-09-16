@@ -42,8 +42,8 @@ export default function AdminDashboard() {
   const recent = [...users].sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime()).slice(0, 5);
 
   return (
-    <div className="flex min-w-0 flex-col gap-6">
-      <header className="relative overflow-hidden rounded-3xl border border-white/30 bg-gradient-to-br from-[var(--color-brand-navy)] via-[var(--color-brand-violet)] to-[var(--color-primary)] p-5 text-white shadow-raised sm:p-7">
+    <div className="flex min-w-0 flex-col gap-7">
+      <header className="relative overflow-hidden rounded-3xl border border-white/30 bg-gradient-to-br from-[var(--color-brand-navy)] via-[var(--color-brand-violet)] to-[var(--color-primary)] p-5 text-white shadow-hero ring-1 ring-black/5 sm:p-7">
         <div className="absolute -right-12 -top-12 h-44 w-44 rounded-full bg-white/10" aria-hidden="true" />
         <div className="relative flex flex-wrap items-end justify-between gap-4"><div><p className="text-xs font-extrabold tracking-[.14em] text-white/70 uppercase">System overview</p><h1 className="mt-1 text-2xl font-extrabold sm:text-3xl">Kumusta, {identity?.displayName ?? 'Admin'}!</h1><p className="mt-2 max-w-2xl text-sm leading-relaxed text-white/80 sm:text-base">Narito ang malinaw na buod ng users, engagement, at pinakabagong aktibidad ng LinawLetra.</p></div><Link to="/admin/users" className="inline-flex min-h-11 items-center rounded-full bg-white px-5 text-sm font-extrabold text-[var(--color-brand-navy)] shadow-card transition-transform hover:-translate-y-0.5">Tingnan ang users →</Link></div>
       </header>

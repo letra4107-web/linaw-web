@@ -34,15 +34,17 @@ export function DashboardShell({
 
   if (hideHeader) {
     return (
-      <div className="min-h-screen bg-[var(--color-bg)] text-[var(--color-text)]" style={bgStyle}>
+      <div className="relative isolate min-h-screen overflow-x-hidden bg-[var(--color-bg)] text-[var(--color-text)]" style={bgStyle}>
+        <div aria-hidden="true" className="pointer-events-none absolute inset-0 -z-10 bg-gradient-to-br from-white/35 via-transparent to-[var(--color-primary-soft)]/25" />
         {children}
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-[var(--color-bg)] text-[var(--color-text)]" style={bgStyle}>
-      <header className="flex flex-wrap items-center justify-between gap-3 border-b border-[var(--color-border)] px-6 py-4">
+    <div className="relative isolate min-h-screen overflow-x-hidden bg-[var(--color-bg)] text-[var(--color-text)]" style={bgStyle}>
+      <div aria-hidden="true" className="pointer-events-none absolute inset-0 -z-10 bg-gradient-to-br from-white/35 via-transparent to-[var(--color-primary-soft)]/25" />
+      <header className="flex flex-wrap items-center justify-between gap-3 border-b border-[var(--color-border)] bg-[var(--color-surface)]/80 px-6 py-4 shadow-sm backdrop-blur">
         <div className="flex items-center gap-3">
           <img src={logo} alt="LinawLetra" className="h-10 w-auto rounded-lg" />
           {!minimalHeader && (
