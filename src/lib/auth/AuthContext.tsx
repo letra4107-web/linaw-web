@@ -38,13 +38,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setSession(nextSession);
   }, [queryClient]);
 
-  const loadIdentity = async (user: User | null) => {
+  const loadIdentity = async (user: User | null): Promise<ResolvedIdentity | null> => {
     if (!user) {
       setIdentity(null);
-      return;
+      return null;
     }
     const resolved = await resolveRole(user);
     setIdentity(resolved);
+    return resolved;
   };
 
   useEffect(() => {
@@ -66,16 +67,19 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       transitionSession(nextSession);
       setLoading(true);
       setError(null);
-      loadIdentity(nextSession?.user ?? null)
-        .catch(() => setError('Hindi ma-load ang account ngayon. Pakisubukan muli.'))
-        .finally(() => setLoading(false));
-
       // Notify the parent on an actual login only -- never on a background token
       // refresh (fires roughly hourly while the app just sits open) or on the
       // page-refresh/persisted-session replay, both of which aren't a new login.
-      if (event === 'SIGNED_IN' && nextSession?.user) {
-        api('/student/notify-login', { method: 'POST', auth: true }).catch(() => {});
-      }
+      // Resolve the role before calling the student-only endpoint: Teacher,
+      // Parent, and Admin accounts must never generate a forbidden request.
+      loadIdentity(nextSession?.user ?? null)
+        .then((resolved) => {
+          if (event === 'SIGNED_IN' && resolved?.role === 'student') {
+            api('/student/notify-login', { method: 'POST', auth: true }).catch(() => {});
+          }
+        })
+        .catch(() => setError('Hindi ma-load ang account ngayon. Pakisubukan muli.'))
+        .finally(() => setLoading(false));
     });
 
     return () => {
