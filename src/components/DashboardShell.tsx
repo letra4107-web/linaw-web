@@ -34,7 +34,7 @@ export function DashboardShell({
 
   if (hideHeader) {
     return (
-      <div className="relative isolate min-h-screen overflow-x-hidden bg-[var(--color-bg)] text-[var(--color-text)]" style={bgStyle}>
+      <div className="relative isolate min-h-screen overflow-x-clip bg-[var(--color-bg)] text-[var(--color-text)]" style={bgStyle}>
         <div aria-hidden="true" className="pointer-events-none absolute inset-0 -z-10 bg-gradient-to-br from-white/35 via-transparent to-[var(--color-primary-soft)]/25" />
         {children}
       </div>
@@ -42,7 +42,7 @@ export function DashboardShell({
   }
 
   return (
-    <div className="relative isolate min-h-screen overflow-x-hidden bg-[var(--color-bg)] text-[var(--color-text)]" style={bgStyle}>
+    <div className="relative isolate min-h-screen overflow-x-clip bg-[var(--color-bg)] text-[var(--color-text)]" style={bgStyle}>
       <div aria-hidden="true" className="pointer-events-none absolute inset-0 -z-10 bg-gradient-to-br from-white/35 via-transparent to-[var(--color-primary-soft)]/25" />
       <header className="flex flex-wrap items-center justify-between gap-3 border-b border-[var(--color-border)] bg-[var(--color-surface)]/80 px-6 py-4 shadow-sm backdrop-blur">
         <div className="flex items-center gap-3">
