@@ -25,7 +25,7 @@ export default function Dashboard() {
   const nameFor = (studentId: string) => roster?.find((entry) => entry.student_id === studentId)?.children?.name ?? 'Mag-aaral';
 
   return (
-    <div className="flex min-w-0 flex-col gap-7">
+    <div className="teacher-dashboard-page flex min-w-0 flex-col gap-7">
       <header className="relative overflow-hidden rounded-3xl border border-white/25 px-5 py-5 text-white shadow-hero ring-1 ring-black/5 sm:px-7" style={{ backgroundImage: 'linear-gradient(135deg, #5c8047, #0d9488)' }}><div aria-hidden="true" className="absolute -top-16 -right-12 h-44 w-44 rounded-full bg-white/10" /><div aria-hidden="true" className="absolute -bottom-16 left-1/3 h-40 w-40 rounded-full bg-white/10" /><div className="relative"><p className="text-sm font-bold tracking-[0.1em] text-white/75 uppercase">Buod ng guro</p><h1 className="text-2xl font-bold sm:text-3xl">Magandang araw, {identity?.displayName ?? 'Guro'}</h1><p className="mt-1 text-sm text-white/85">Narito ang pinakamahalagang update sa iyong klase.</p></div></header>
 
       <section aria-label="Mahahalagang numero" className="grid grid-cols-2 gap-3 lg:grid-cols-4">

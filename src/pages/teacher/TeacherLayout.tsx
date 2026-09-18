@@ -67,7 +67,7 @@ export default function TeacherLayout() {
         <div className="flex min-w-0 flex-1 flex-col">
           <header className="sticky top-0 z-40 flex h-16 items-center justify-between border-b border-[var(--color-border)] bg-[var(--color-surface)]/95 px-4 shadow-sm backdrop-blur lg:hidden"><div className="flex items-center gap-2"><img src={logo} alt="LinawLetra" className="h-10 w-10 rounded-xl object-cover" /><span className="font-bold text-[var(--color-brand-sage)]">Tanggapan ng Guro</span></div><div className="flex items-center gap-2"><ProfileMenu collapsed mobile /><button type="button" onClick={() => setMobileOpen((value) => !value)} aria-expanded={mobileOpen} className="flex h-12 min-w-12 items-center justify-center rounded-2xl border border-[var(--color-border)] bg-white/75"><AppIcon name="☰" /><span className="sr-only">Menu</span></button></div></header>
           {mobileOpen && <div className="sticky top-16 z-30 border-b border-[var(--color-border)] p-3 shadow-card lg:hidden" style={{ backgroundImage: `url(${navBg})`, backgroundSize: '100% 100%' }}><nav className="grid grid-cols-2 gap-2 sm:grid-cols-3">{PRIMARY_TABS.map((tab) => <NavItem key={tab.to} {...tab} collapsed={false} onNavigate={() => setMobileOpen(false)} />)}</nav></div>}
-          <main className="mx-auto w-full max-w-6xl min-w-0 flex-1 overflow-x-hidden px-4 py-5 sm:px-6 sm:py-7 lg:px-8 lg:py-8"><Outlet /></main>
+          <main className="teacher-workspace mx-auto w-full max-w-6xl min-w-0 flex-1 overflow-x-hidden px-4 py-5 sm:px-6 sm:py-7 lg:px-8 lg:py-8"><Outlet /></main>
         </div>
       </div>
     </DashboardShell>

@@ -223,6 +223,78 @@ input::placeholder, textarea::placeholder {
   opacity: 0.8;
 }
 
+/* Teacher workspace: a calmer, denser operational surface. These selectors
+   intentionally preserve global accessibility typography and role data while
+   reducing the oversized card/form treatment on roster and dashboard views. */
+.teacher-workspace {
+  background: color-mix(in srgb, var(--color-bg) 82%, white);
+}
+
+.teacher-roster-page > header {
+  min-height: 0;
+  padding-block: clamp(1.25rem, 2vw, 1.75rem);
+}
+
+.teacher-roster-page > header h1,
+.teacher-dashboard-page > header h1 {
+  letter-spacing: 0;
+}
+
+.teacher-roster-page > section[aria-labelledby='search-title'] {
+  padding: 1.25rem;
+  box-shadow: 0 10px 24px color-mix(in srgb, var(--color-brand-teal) 10%, transparent);
+}
+
+.teacher-roster-page > section[aria-labelledby='search-title'] > .relative {
+  max-width: 48rem;
+}
+
+.teacher-roster-page > section[aria-labelledby='roster-title'] > div:first-child {
+  border-bottom: 1px solid color-mix(in srgb, var(--color-border) 80%, transparent);
+  padding-bottom: 0.9rem;
+}
+
+.teacher-roster-page > section[aria-labelledby='roster-title'] > .grid > article {
+  border-radius: 1.5rem;
+  box-shadow: 0 8px 20px color-mix(in srgb, var(--color-brand-ink) 8%, transparent);
+}
+
+.teacher-roster-page > section[aria-labelledby='roster-title'] > .grid > article > button {
+  padding: 1rem;
+}
+
+.teacher-roster-page > section[aria-labelledby='roster-title'] > .grid > article > button:focus-visible {
+  outline-offset: -4px;
+}
+
+.teacher-roster-page > section[aria-labelledby='roster-title'] > .grid > article > div {
+  gap: 0.5rem;
+  padding: 0 1rem 1rem;
+}
+
+.teacher-roster-page > section[aria-labelledby='roster-title'] > .grid > article > div > div {
+  min-height: 6.75rem;
+  padding: 0.8rem;
+}
+
+.teacher-dashboard-page > header {
+  padding-block: clamp(1.5rem, 2.5vw, 2.25rem);
+}
+
+.teacher-dashboard-page > section[aria-label='Mahahalagang numero'] > div {
+  min-height: 8.5rem;
+}
+
+@media (max-width: 639px) {
+  .teacher-workspace {
+    background: color-mix(in srgb, var(--color-bg) 90%, white);
+  }
+
+  .teacher-roster-page > section[aria-labelledby='roster-title'] > .grid > article > div > div {
+    min-height: 0;
+  }
+}
+
 ::selection {
   background: var(--color-primary-soft);
   color: var(--color-text);
