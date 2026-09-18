@@ -58,6 +58,8 @@ test('security-critical routes retain authorization and ownership checks', () =>
   assert.match(tts, /authMiddleware = requireAuth/);
   assert.match(tts, /ttsLimiter/);
   assert.match(teacher, /requireRole\('teacher', 'admin'\)/);
+  assert.match(teacher, /router\.get\('\/students\/:studentId\/modules'/);
+  assert.match(teacher, /authorization\.teacherStudent\(req\.user\.id, req\.params\.studentId\)/);
   assert.match(parent, /authorization\.parentChild/);
   assert.match(student, /requireRole\('student'\)/);
   assert.match(student, /\.is\('completed_at', null\)/);

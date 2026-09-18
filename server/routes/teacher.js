@@ -9,10 +9,36 @@ const { validatePdfUpload } = require('../lib/pdfValidation');
 const { uploadLimiter } = require('../lib/rateLimiters');
 const { validateUuidParam, isGrade, isBoundedString } = require('../lib/validation');
 const { createMaterialAccessService } = require('../services/materialAccess');
+const { createSupabaseAuthorizationService } = require('../services/authorization');
 
 const router = express.Router();
 const materialAccess = createMaterialAccessService(supabaseAdmin);
+const authorization = createSupabaseAuthorizationService(supabaseAdmin);
 router.use(requireAuth, requireRole('teacher', 'admin'));
+
+// The student learning-path RPC already defines when a module is complete.
+// Expose only its safe summary after confirming the child belongs to the
+// requesting teacher's roster.
+router.get('/students/:studentId/modules', validateUuidParam('studentId'), async (req, res) => {
+  try {
+    const isRostered = await authorization.teacherStudent(req.user.id, req.params.studentId);
+    if (!isRostered) return res.status(404).json({ error: 'Student not found in your roster.' });
+    const { data, error } = await supabaseAdmin.rpc('get_student_module_path', { p_student_id: req.params.studentId });
+    if (error) throw error;
+    const modules = Array.isArray(data?.modules) ? data.modules.map((module) => ({
+      id: module.id,
+      module_number: module.module_number,
+      title: module.title,
+      state: module.state,
+      content_item_count: module.content_item_count,
+      completed_content_item_count: module.completed_content_item_count,
+    })) : [];
+    res.json({ modules });
+  } catch (err) {
+    console.error('[teacher/student modules]', err);
+    res.status(500).json({ error: 'Unable to load student module progress.' });
+  }
+});
 
 const upload = multer({
   storage: multer.memoryStorage(),
