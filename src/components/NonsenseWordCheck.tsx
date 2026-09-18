@@ -11,8 +11,10 @@ interface NonsenseCheckResponse {
   available: boolean;
   alreadyCompleted: boolean;
   score?: number;
-  words: string[];
+  words: NonsenseWord[];
 }
+
+interface NonsenseWord { id: string; word: string; }
 
 interface SubmitResponse {
   success: boolean;
@@ -34,7 +36,7 @@ interface NonsenseWordCheckProps {
 // modules, or not enough taught units to safely recombine).
 export function NonsenseWordCheck({ moduleId }: NonsenseWordCheckProps) {
   const queryClient = useQueryClient();
-  const [attempts, setAttempts] = useState<Record<string, { transcript: string; correct: boolean }>>({});
+  const [attempts, setAttempts] = useState<Record<string, { transcript: string }>>({});
   const [listeningFor, setListeningFor] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [result, setResult] = useState<SubmitResponse | null>(null);
@@ -50,7 +52,7 @@ export function NonsenseWordCheck({ moduleId }: NonsenseWordCheckProps) {
       api<SubmitResponse>(`/student/learn/module/${moduleId}/nonsense-check/submit`, {
         method: 'POST',
         auth: true,
-        body: { results: Object.entries(attempts).map(([word, a]) => ({ word, correct: a.correct })) },
+        body: { results: Object.entries(attempts).map(([itemId, attempt]) => ({ itemId, transcript: attempt.transcript })) },
       }),
     onSuccess: (res) => {
       setResult(res);
@@ -60,21 +62,20 @@ export function NonsenseWordCheck({ moduleId }: NonsenseWordCheckProps) {
     onError: (err: Error) => setError(err.message),
   });
 
-  const attempt = (word: string) => {
+  const attempt = (item: NonsenseWord) => {
     if (!isSpeechRecognitionSupported()) {
       setError('Hindi suportado ng browser mo ang speech recognition. Subukan sa Chrome.');
       return;
     }
     setError(null);
-    setListeningFor(word);
+    setListeningFor(item.id);
     listenOnce(
       'fil-PH',
       ({ transcript, confidence }) => {
         setListeningFor(null);
-        const assessment = assessSpeech(word, transcript, confidence);
+        const assessment = assessSpeech(item.word, transcript, confidence);
         if (assessment.outcome === 'retry') { setError(assessment.message); return; }
-        const correct = assessment.outcome === 'correct';
-        setAttempts((prev) => ({ ...prev, [word]: { transcript, correct } }));
+        setAttempts((prev) => ({ ...prev, [item.id]: { transcript } }));
       },
       (message) => {
         setListeningFor(null);
@@ -101,7 +102,9 @@ export function NonsenseWordCheck({ moduleId }: NonsenseWordCheckProps) {
   }
 
   const words = data.words;
-  const allAttempted = words.every((w) => attempts[w]);
+  const allAttempted = words.every((item) => attempts[item.id]);
+  const attemptedCount = words.filter((item) => attempts[item.id]).length;
+  const currentItemId = words.find((item) => !attempts[item.id])?.id;
 
   return (
     <div className="rounded-xl border p-6" style={cardStyle('--color-brand-teal')}>
@@ -113,28 +116,34 @@ export function NonsenseWordCheck({ moduleId }: NonsenseWordCheckProps) {
         ang bawat isa gamit ang tamang tunog.
       </p>
 
-      {error && <p className="mb-3 text-[var(--color-danger)]">{error}</p>}
+      <div className="mb-5" role="progressbar" aria-label="Progreso sa pagsubok sa bagong tunog" aria-valuemin={0} aria-valuemax={words.length} aria-valuenow={attemptedCount}>
+        <div className="mb-2 flex items-center justify-between gap-3 text-xs font-bold text-[var(--color-text-muted)]"><span>Basahin ang bawat salita</span><span>{attemptedCount}/{words.length}</span></div>
+        <div className="h-2.5 overflow-hidden rounded-full bg-white/75 shadow-inner"><div className="h-full rounded-full bg-[var(--color-brand-teal)] transition-[width] duration-300 motion-reduce:transition-none" style={{ width: `${(attemptedCount / words.length) * 100}%` }} /></div>
+      </div>
+
+      {error && <p role="alert" className="mb-3 rounded-xl bg-[var(--color-danger-soft)] px-4 py-3 text-[var(--color-danger)]">{error}</p>}
 
       <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
-        {words.map((word) => {
-          const done = attempts[word];
+        {words.map((item) => {
+          const done = attempts[item.id];
           return (
             <div
-              key={word}
+              key={item.id}
               className={`flex flex-col items-center gap-2 rounded-xl border p-4 text-center ${
-                done ? (done.correct ? 'border-[var(--color-success)] bg-[var(--color-success-soft)]' : 'border-[var(--color-danger)]') : 'bg-white/70'
+                done ? 'border-[var(--color-success)] bg-[var(--color-success-soft)]' : currentItemId === item.id ? 'border-2 border-[var(--color-brand-teal)] bg-white shadow-card' : 'bg-white/70'
               }`}
             >
-              <p className="text-2xl font-bold">{word}</p>
+              {currentItemId === item.id && <span className="text-xs font-bold text-[var(--color-brand-teal)]">Susunod na salita</span>}
+              <p className="text-2xl font-bold tracking-wide">{item.word}</p>
               <button
                 type="button"
-                onClick={() => attempt(word)}
-                disabled={listeningFor === word}
-                className="rounded-full bg-[var(--color-primary)] px-3 py-1.5 text-sm text-white disabled:opacity-60"
+                onClick={() => attempt(item)}
+                disabled={listeningFor === item.id}
+                className="min-h-11 rounded-full bg-[var(--color-primary)] px-3 py-1.5 text-sm text-white disabled:opacity-60"
               >
-                <IconLabel icon="🎤" label={listeningFor === word ? 'Nakikinig...' : done ? 'Ulitin' : 'Bigkasin'} />
+                <IconLabel icon="🎤" label={listeningFor === item.id ? 'Nakikinig...' : done ? 'Ulitin' : 'Bigkasin'} />
               </button>
-              {done && <span className="inline-flex items-center gap-1 text-xs"><AppIcon name={done.correct ? '✅' : '❌'} className="h-4 w-4" />{done.correct ? 'Tama' : 'Ulitin natin'}</span>}
+              {done && <span className="inline-flex items-center gap-1 text-xs"><AppIcon name="✅" className="h-4 w-4" />Handa nang isumite</span>}
             </div>
           );
         })}

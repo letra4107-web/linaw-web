@@ -11,12 +11,14 @@ const { assessmentLimiter } = require('../lib/rateLimiters');
 const { createSupabaseAuthorizationService } = require('../services/authorization');
 const { createMaterialAccessService } = require('../services/materialAccess');
 const { scoreTranscript } = require('../lib/speechScoring');
+const { randomUUID } = require('crypto');
 
 const router = express.Router();
 const authorization = createSupabaseAuthorizationService(supabaseAdmin);
 const materialAccess = createMaterialAccessService(supabaseAdmin);
 
 const WORD_OF_DAY_MAX_ATTEMPTS = 3;
+const TRANSCRIPT_SCORABLE_CONTENT_TYPES = new Set(['phonetic', 'syllable', 'word', 'phrase', 'paragraph']);
 router.use(requireAuth, requireRole('student'));
 
 // The module-progression RPCs all take p_student_id = children.id, not the
@@ -112,27 +114,40 @@ router.get('/learn/module/:moduleId', validateUuidParam('moduleId'), async (req,
 });
 
 // POST /student/learn/content/:contentId/attempt
-// { accuracy, transcript?, durationSeconds?, isFullSubmission?, source? }
+// { transcript, durationSeconds?, source? }
+// The response is speech-derived for every currently supported module and
+// assessment item type. Accuracy/completion are always derived below from the
+// stored content, rather than supplied by the browser.
 router.post('/learn/content/:contentId/attempt', validateUuidParam('contentId'), async (req, res) => {
   try {
     const studentId = await resolveStudentId(req.user.id);
-    const { accuracy, transcript, durationSeconds, isFullSubmission, source } = req.body || {};
-    if (!isAccuracy(accuracy)) return res.status(400).json({ error: 'Accuracy must be between 0 and 100.' });
-    if (transcript != null && !isBoundedString(transcript, 2000)) return res.status(400).json({ error: 'Transcript is too long.' });
+    const { transcript, durationSeconds, source } = req.body || {};
+    if (!isBoundedString(transcript, 2000, { allowEmpty: false })) return res.status(400).json({ error: 'A spoken response is required.' });
     if (durationSeconds != null && (!Number.isFinite(Number(durationSeconds)) || Number(durationSeconds) < 0 || Number(durationSeconds) > 3600)) return res.status(400).json({ error: 'Invalid duration.' });
-    if (source != null && !['practice', 'assessment', 'module', 'word_of_day', 'pdf'].includes(source)) return res.status(400).json({ error: 'Invalid attempt source.' });
+    if (source != null && !['practice', 'assessment'].includes(source)) return res.status(400).json({ error: 'Invalid attempt source.' });
+    const { data: content, error: contentError } = await supabaseAdmin
+      .from('reading_content')
+      .select('id, content_text, content_type, is_active')
+      .eq('id', req.params.contentId)
+      .maybeSingle();
+    if (contentError) throw contentError;
+    if (!content || !content.is_active || !content.content_text) return res.status(404).json({ error: 'Reading content not found.' });
+    if (!TRANSCRIPT_SCORABLE_CONTENT_TYPES.has(content.content_type)) {
+      return res.status(422).json({ error: 'This activity type cannot be scored by a speech response.' });
+    }
+    const score = scoreTranscript(content.content_text, transcript);
     const { data, error } = await supabaseAdmin.rpc('record_student_content_attempt', {
       p_student_id: studentId,
-      p_content_id: req.params.contentId,
-      p_accuracy: accuracy,
-      p_transcript: transcript ?? null,
+      p_content_id: content.id,
+      p_accuracy: score.accuracy,
+      p_transcript: transcript,
       p_duration_seconds: durationSeconds ?? null,
-      p_is_full_submission: Boolean(isFullSubmission),
+      p_is_full_submission: content.content_type === 'paragraph',
       p_source: source || 'practice',
     });
     if (error) throw error;
     const newlyUnlockedBadges = await checkAndAwardBadges(supabaseAdmin, studentId);
-    res.json({ ...data, newlyUnlockedBadges });
+    res.json({ ...data, accuracy: score.accuracy, correct: score.correct, newlyUnlockedBadges });
   } catch (err) {
     handleRpcError(res, err);
   }
@@ -226,6 +241,18 @@ function shuffled(arr) {
   return copy;
 }
 
+function pdfReadingChunks(rawText, chunkSize) {
+  // Keep the server's source of truth aligned with the student reading view:
+  // upload-ready stories have a teacher-only cover ending in "Ako Naman".
+  const text = String(rawText || '').replace(/^[\s\S]*?Ako Naman[.â€"]*\s*/i, '');
+  const sentences = text.replace(/\s+/g, ' ').trim().match(/[^.!?]+[.!?]+|[^.!?]+$/g) || [];
+  const size = Math.min(3, Math.max(1, Number(chunkSize) || 1));
+  return sentences.reduce((all, _sentence, index) => {
+    if (index % size === 0) all.push(sentences.slice(index, index + size).join(' ').trim());
+    return all;
+  }, []).filter(Boolean);
+}
+
 // start_module_assessment never populates answer_options/correct_answer_index for any
 // module in this curriculum today (they're reserved DB columns for a future authored
 // reading-comprehension item type -- confirmed empty for every existing Beginner/
@@ -246,7 +273,7 @@ function synthesizeAnswerOptions(items) {
     const distractors = shuffled(uniquePool).slice(0, 3);
     const options = shuffled([item.content_text, ...distractors]);
     return { ...item, answer_options: options, correct_answer_index: options.indexOf(item.content_text) };
-  });
+  }).map(({ correct_answer_index: _answerKey, ...item }) => item);
 }
 
 // POST /student/learn/assessment/:assessmentId/start
@@ -315,16 +342,39 @@ router.get('/learn/module/:moduleId/nonsense-check', validateUuidParam('moduleId
       return res.json({ available: true, alreadyCompleted: true, score: existingCheck.score, words: [] });
     }
 
-    const words = await generateNonsenseWords(supabaseAdmin, moduleId, module.instructional_content_type);
-    if (words.length < 2) return res.json({ available: false, alreadyCompleted: false, words: [] });
+    const { data: savedSet, error: setError } = await supabaseAdmin
+      .from('student_nonsense_check_sets')
+      .select('items')
+      .eq('student_id', studentId)
+      .eq('module_id', moduleId)
+      .maybeSingle();
+    if (setError) throw setError;
+    if (Array.isArray(savedSet?.items) && savedSet.items.length >= 2) {
+      return res.json({ available: true, alreadyCompleted: false, words: savedSet.items });
+    }
 
-    res.json({ available: true, alreadyCompleted: false, words });
+    const generatedWords = await generateNonsenseWords(supabaseAdmin, moduleId, module.instructional_content_type);
+    if (generatedWords.length < 2) return res.json({ available: false, alreadyCompleted: false, words: [] });
+    const items = generatedWords.map((word) => ({ id: randomUUID(), word }));
+    const { error: insertSetError } = await supabaseAdmin.from('student_nonsense_check_sets').insert({
+      student_id: studentId,
+      module_id: moduleId,
+      items,
+    });
+    if (insertSetError && insertSetError.code !== '23505') throw insertSetError;
+    if (insertSetError?.code === '23505') {
+      const { data: concurrentSet, error: concurrentError } = await supabaseAdmin
+        .from('student_nonsense_check_sets').select('items').eq('student_id', studentId).eq('module_id', moduleId).maybeSingle();
+      if (concurrentError) throw concurrentError;
+      return res.json({ available: true, alreadyCompleted: false, words: concurrentSet?.items || [] });
+    }
+    res.json({ available: true, alreadyCompleted: false, words: items });
   } catch (err) {
     handleRpcError(res, err);
   }
 });
 
-// POST /student/learn/module/:moduleId/nonsense-check/submit  { results: [{word, correct}] }
+// POST /student/learn/module/:moduleId/nonsense-check/submit  { results: [{itemId, transcript}] }
 // One shot per student+module (enforced by the unique constraint) -- refreshing
 // or replaying can't re-farm XP. XP/badges only apply on the first submission.
 router.post('/learn/module/:moduleId/nonsense-check/submit', validateUuidParam('moduleId'), async (req, res) => {
@@ -335,8 +385,8 @@ router.post('/learn/module/:moduleId/nonsense-check/submit', validateUuidParam('
     if (!Array.isArray(results) || results.length === 0 || results.length > 20) {
       return res.status(400).json({ error: 'results is required.' });
     }
-    if (results.some((result) => !isBoundedString(result?.word, 100, { allowEmpty: false }) || typeof result?.correct !== 'boolean')) {
-      return res.status(400).json({ error: 'Each result needs a valid word and boolean result.' });
+    if (results.some((result) => !isUuid(result?.itemId) || !isBoundedString(result?.transcript, 2000, { allowEmpty: false }))) {
+      return res.status(400).json({ error: 'Each result needs a valid item and spoken response.' });
     }
 
     const { data: existingCheck, error: existingErr } = await supabaseAdmin
@@ -350,14 +400,38 @@ router.post('/learn/module/:moduleId/nonsense-check/submit', validateUuidParam('
       return res.json({ success: true, alreadyCompleted: true, score: existingCheck.score, xpAwarded: 0, newlyUnlockedBadges: [] });
     }
 
-    const correctCount = results.filter((r) => r.correct).length;
+    const { data: issuedSet, error: issuedSetError } = await supabaseAdmin
+      .from('student_nonsense_check_sets')
+      .select('items')
+      .eq('student_id', studentId)
+      .eq('module_id', moduleId)
+      .maybeSingle();
+    if (issuedSetError) throw issuedSetError;
+    const issuedItems = Array.isArray(issuedSet?.items) ? issuedSet.items : [];
+    const issuedById = new Map(issuedItems.map((item) => [item?.id, item?.word]));
+    const submittedIds = results.map((result) => result.itemId);
+    if (issuedItems.length < 2 || submittedIds.length !== issuedItems.length || new Set(submittedIds).size !== submittedIds.length || submittedIds.some((id) => !issuedById.has(id))) {
+      return res.status(400).json({ error: 'These responses do not match this reading check.' });
+    }
+
+    const scoredResults = results.map((result) => {
+      const score = scoreTranscript(issuedById.get(result.itemId), result.transcript);
+      return { itemId: result.itemId, accuracy: score.accuracy, correct: score.correct };
+    });
+    const correctCount = scoredResults.filter((result) => result.correct).length;
     const score = Math.round((correctCount / results.length) * 100);
     const xpAwarded = correctCount * 15;
 
     const { error: insertErr } = await supabaseAdmin
       .from('student_nonsense_checks')
       .insert({ student_id: studentId, module_id: moduleId, score, xp_awarded: xpAwarded });
-    if (insertErr) throw insertErr;
+    if (insertErr) {
+      if (insertErr.code !== '23505') throw insertErr;
+      const { data: completed, error: completedError } = await supabaseAdmin
+        .from('student_nonsense_checks').select('score').eq('student_id', studentId).eq('module_id', moduleId).maybeSingle();
+      if (completedError) throw completedError;
+      return res.json({ success: true, alreadyCompleted: true, score: completed?.score ?? 0, xpAwarded: 0, newlyUnlockedBadges: [] });
+    }
 
     let newXp = null;
     let newlyUnlockedBadges = [];
@@ -374,7 +448,7 @@ router.post('/learn/module/:moduleId/nonsense-check/submit', validateUuidParam('
       newlyUnlockedBadges = await checkAndAwardBadges(supabaseAdmin, studentId);
     }
 
-    res.json({ success: true, alreadyCompleted: false, score, xpAwarded, newXp, newlyUnlockedBadges });
+    res.json({ success: true, alreadyCompleted: false, score, xpAwarded, newXp, newlyUnlockedBadges, results: scoredResults });
   } catch (err) {
     handleRpcError(res, err);
   }
@@ -483,7 +557,43 @@ router.get('/reading-profile', async (req, res) => {
   }
 });
 
-// POST /student/word-of-day/attempt  { logId, attempts, correct, accuracy }
+// POST /student/practice/attempt  { contentId, transcript }
+// Free practice still contributes to progress and badge eligibility, so its
+// target, score, student identity, and saved result cannot come from the
+// browser. The content id is only a lookup key for active word content.
+router.post('/practice/attempt', assessmentLimiter, async (req, res) => {
+  try {
+    const studentId = await resolveStudentId(req.user.id);
+    const { contentId, transcript } = req.body || {};
+    if (!isUuid(contentId)) return res.status(400).json({ error: 'A valid practice word is required.' });
+    if (!isBoundedString(transcript, 2000, { allowEmpty: false })) return res.status(400).json({ error: 'A spoken response is required.' });
+    const { data: content, error: contentError } = await supabaseAdmin
+      .from('reading_content')
+      .select('id, content_text, content_type, is_active')
+      .eq('id', contentId)
+      .maybeSingle();
+    if (contentError) throw contentError;
+    if (!content || content.content_type !== 'word' || !content.is_active || !content.content_text) {
+      return res.status(404).json({ error: 'Practice word not found.' });
+    }
+    const score = scoreTranscript(content.content_text, transcript);
+    const { error: sessionError } = await supabaseAdmin.from('pronunciation_practice_sessions').insert({
+      student_id: studentId,
+      word: content.content_text,
+      spoken_text: transcript,
+      accuracy_percentage: score.accuracy,
+      is_correct: score.correct,
+      practice_source: 'practice',
+    });
+    if (sessionError) throw sessionError;
+    const newlyUnlockedBadges = await checkAndAwardBadges(supabaseAdmin, studentId);
+    res.json({ success: true, accuracy: score.accuracy, correct: score.correct, newlyUnlockedBadges });
+  } catch (err) {
+    handleRpcError(res, err);
+  }
+});
+
+// POST /student/word-of-day/attempt  { logId, attempts, transcript }
 // word_of_day_log itself is student-writable directly via RLS (the frontend upserts/updates
 // it straight from the client), but the XP reward is not -- child_progress has no student
 // UPDATE policy on xp (confirmed via live RLS probe), matching this schema's established
@@ -492,18 +602,16 @@ router.get('/reading-profile', async (req, res) => {
 router.post('/word-of-day/attempt', async (req, res) => {
   try {
     const studentId = await resolveStudentId(req.user.id);
-    const { logId, attempts, correct, accuracy } = req.body || {};
+    const { logId, attempts, transcript } = req.body || {};
     if (!isUuid(logId)) return res.status(400).json({ error: 'A valid logId is required.' });
     if (!Number.isInteger(attempts) || attempts < 1 || attempts > WORD_OF_DAY_MAX_ATTEMPTS) {
       return res.status(400).json({ error: 'Attempts must be an integer from 1 to 3.' });
     }
-    if (typeof correct !== 'boolean' || !isAccuracy(accuracy)) {
-      return res.status(400).json({ error: 'A boolean result and accuracy from 0 to 100 are required.' });
-    }
+    if (!isBoundedString(transcript, 2000, { allowEmpty: false })) return res.status(400).json({ error: 'A spoken response is required.' });
 
     const { data: logRow, error: fetchErr } = await supabaseAdmin
       .from('word_of_day_log')
-      .select('id, child_id, completed_at')
+      .select('id, child_id, word, completed_at')
       .eq('id', logId)
       .maybeSingle();
     if (fetchErr) throw fetchErr;
@@ -512,13 +620,17 @@ router.post('/word-of-day/attempt', async (req, res) => {
     }
     if (logRow.completed_at) return res.status(409).json({ error: 'This word-of-the-day attempt is already complete.' });
 
-    const attemptsCount = attempts ?? 1;
-    const isCorrect = Boolean(correct);
+    const attemptsCount = attempts;
+    // The browser may help the learner with immediate feedback, but rewards and
+    // completion must always come from the server's comparison with the stored
+    // word. Never accept a browser-provided correct/accuracy value here.
+    const score = scoreTranscript(logRow.word, transcript);
+    const isCorrect = score.correct;
     // Only end the word-of-the-day once the student nails it exactly, or runs out of the 3
     // tries -- a partial/near match must not mark it "correct" or stop further attempts early.
     const isFinal = isCorrect || attemptsCount >= WORD_OF_DAY_MAX_ATTEMPTS;
 
-    const update = { attempts: attemptsCount, accuracy: accuracy ?? null };
+    const update = { attempts: attemptsCount, accuracy: score.accuracy };
     if (isFinal) {
       update.correct = isCorrect;
       update.xp_awarded = isCorrect ? 25 : 0;
@@ -572,6 +684,7 @@ router.post('/word-of-day/attempt', async (req, res) => {
       isFinal,
       correct: isFinal ? isCorrect : null,
       xpAwarded: isFinal && isCorrect ? 25 : 0,
+      accuracy: score.accuracy,
       newXp,
       newStreak,
       newlyUnlockedBadges,
@@ -646,6 +759,100 @@ router.get('/pdf-materials/:assignmentId/access-url', validateUuidParam('assignm
   }
 });
 
+// GET /student/pdf-reading/:assignmentId -- server-owned resume state for a
+// guided PDF reading activity. This replaces browser reads of attempt rows.
+router.get('/pdf-reading/:assignmentId', validateUuidParam('assignmentId'), async (req, res) => {
+  try {
+    const studentId = await resolveStudentId(req.user.id);
+    const assignment = await authorization.studentAssignment(studentId, req.params.assignmentId);
+    if (!assignment) return res.status(404).json({ error: 'Assignment not found for this student.' });
+    const { data: attempts, error } = await supabaseAdmin
+      .from('pdf_reading_attempts')
+      .select('chunk_index')
+      .eq('pdf_assignment_id', assignment.id)
+      .eq('student_id', studentId)
+      .not('chunk_index', 'is', null);
+    if (error) throw error;
+    res.json({ status: assignment.status, completedChunkIndexes: (attempts || []).map((row) => row.chunk_index) });
+  } catch (err) {
+    handleRpcError(res, err);
+  }
+});
+
+// POST /student/pdf-reading/attempt  { assignmentId, chunkIndex, transcript }
+// Chunk text and accuracy are intentionally derived from the assigned PDF,
+// never received from the browser.
+router.post('/pdf-reading/attempt', async (req, res) => {
+  try {
+    const studentId = await resolveStudentId(req.user.id);
+    const { assignmentId, chunkIndex, transcript } = req.body || {};
+    if (!isUuid(assignmentId) || !Number.isInteger(chunkIndex) || chunkIndex < 0) {
+      return res.status(400).json({ error: 'A valid assignment and chunk are required.' });
+    }
+    if (!isBoundedString(transcript, 2000, { allowEmpty: false })) return res.status(400).json({ error: 'A spoken response is required.' });
+    const assignment = await authorization.studentAssignment(studentId, assignmentId);
+    if (!assignment) return res.status(404).json({ error: 'Assignment not found for this student.' });
+    if (['submitted', 'reviewed', 'completed'].includes(assignment.status)) return res.status(409).json({ error: 'This reading activity has already been submitted.' });
+
+    const { data: material, error: materialError } = await supabaseAdmin
+      .from('pdf_materials')
+      .select('extracted_text, chunk_size')
+      .eq('id', assignment.pdf_material_id)
+      .maybeSingle();
+    if (materialError) throw materialError;
+    const targetText = pdfReadingChunks(material?.extracted_text, material?.chunk_size)[chunkIndex];
+    if (!targetText) return res.status(400).json({ error: 'The requested reading section was not found.' });
+
+    const score = scoreTranscript(targetText, transcript);
+    const { error: insertError } = await supabaseAdmin.from('pdf_reading_attempts').insert({
+      pdf_assignment_id: assignment.id,
+      student_id: studentId,
+      transcript,
+      accuracy: score.accuracy,
+      chunk_index: chunkIndex,
+      chunk_text: targetText,
+    });
+    if (insertError) throw insertError;
+    const { error: statusError } = await supabaseAdmin.from('pdf_assignments')
+      .update({ status: 'in_progress' })
+      .eq('id', assignment.id)
+      .in('status', ['assigned', 'in_progress']);
+    if (statusError) throw statusError;
+    res.json({ success: true, accuracy: score.accuracy, correct: score.correct });
+  } catch (err) {
+    handleRpcError(res, err);
+  }
+});
+
+// POST /student/pdf-reading/:assignmentId/submit -- the server verifies every
+// authoritative PDF chunk has an attempt before changing assignment state.
+router.post('/pdf-reading/:assignmentId/submit', validateUuidParam('assignmentId'), async (req, res) => {
+  try {
+    const studentId = await resolveStudentId(req.user.id);
+    const assignment = await authorization.studentAssignment(studentId, req.params.assignmentId);
+    if (!assignment) return res.status(404).json({ error: 'Assignment not found for this student.' });
+    if (['submitted', 'reviewed', 'completed'].includes(assignment.status)) return res.json({ success: true, alreadySubmitted: true });
+    const { data: material, error: materialError } = await supabaseAdmin
+      .from('pdf_materials').select('extracted_text, chunk_size').eq('id', assignment.pdf_material_id).maybeSingle();
+    if (materialError) throw materialError;
+    const chunks = pdfReadingChunks(material?.extracted_text, material?.chunk_size);
+    if (!chunks.length) return res.status(400).json({ error: 'This PDF has no readable sections to submit.' });
+    const { data: attempts, error: attemptsError } = await supabaseAdmin
+      .from('pdf_reading_attempts').select('chunk_index').eq('pdf_assignment_id', assignment.id).eq('student_id', studentId).not('chunk_index', 'is', null);
+    if (attemptsError) throw attemptsError;
+    const completed = new Set((attempts || []).map((row) => row.chunk_index));
+    if (!chunks.every((_chunk, index) => completed.has(index))) return res.status(409).json({ error: 'Complete every reading section before submitting.' });
+    const { error: submitError } = await supabaseAdmin.from('pdf_assignments')
+      .update({ status: 'submitted', submitted_at: new Date().toISOString() })
+      .eq('id', assignment.id)
+      .in('status', ['assigned', 'in_progress']);
+    if (submitError) throw submitError;
+    res.json({ success: true, alreadySubmitted: false });
+  } catch (err) {
+    handleRpcError(res, err);
+  }
+});
+
 router.get('/lessons/:lessonId/access-url', validateUuidParam('lessonId'), async (req, res) => {
   try {
     await resolveStudentId(req.user.id);
@@ -663,9 +870,9 @@ router.get('/lessons/:lessonId/access-url', validateUuidParam('lessonId'), async
   }
 });
 
-// POST /student/pdf-drill/attempt  { assignmentId, drillItemId, transcript, accuracy, correct }
-// Same client-trust split as /word-of-day/attempt: the client computes speech-match
-// accuracy, but the XP write and "already completed" check happen server-side.
+// POST /student/pdf-drill/attempt  { assignmentId, drillItemId, transcript }
+// The browser's speech API provides a transcript only. This route derives the
+// score and reward eligibility from the teacher-authored drill item on the server.
 router.post('/pdf-drill/attempt', async (req, res) => {
   try {
     const { data: child, error: childErr } = await supabaseAdmin
@@ -677,13 +884,11 @@ router.post('/pdf-drill/attempt', async (req, res) => {
     if (!child) return res.status(404).json({ error: 'No linked student record for this account.' });
     const studentId = child.id;
 
-    const { assignmentId, drillItemId, transcript, accuracy, correct } = req.body || {};
+    const { assignmentId, drillItemId, transcript } = req.body || {};
     if (!isUuid(assignmentId) || !isUuid(drillItemId)) {
       return res.status(400).json({ error: 'assignmentId and drillItemId are required.' });
     }
-    if (!isAccuracy(accuracy)) return res.status(400).json({ error: 'Accuracy must be between 0 and 100.' });
-    if (transcript != null && !isBoundedString(transcript, 2000)) return res.status(400).json({ error: 'Transcript is too long.' });
-    if (typeof correct !== 'boolean') return res.status(400).json({ error: 'Correct must be a boolean.' });
+    if (!isBoundedString(transcript, 2000, { allowEmpty: false })) return res.status(400).json({ error: 'A spoken response is required.' });
 
     const assignment = await authorization.studentAssignment(studentId, assignmentId);
     if (!assignment) {
@@ -692,7 +897,7 @@ router.post('/pdf-drill/attempt', async (req, res) => {
 
     const { data: item, error: itemErr } = await supabaseAdmin
       .from('pdf_drill_items')
-      .select('id, pdf_material_id, xp_value')
+      .select('id, pdf_material_id, word, xp_value')
       .eq('id', drillItemId)
       .maybeSingle();
     if (itemErr) throw itemErr;
@@ -700,7 +905,8 @@ router.post('/pdf-drill/attempt', async (req, res) => {
       return res.status(404).json({ error: 'Drill item not found in this assignment.' });
     }
 
-    const isCorrect = Boolean(correct);
+    const score = scoreTranscript(item.word, transcript);
+    const isCorrect = score.correct;
 
     // Only the first correct attempt on a given item ever pays out -- repeat
     // correct reads (e.g. the student replays it for practice) earn nothing more.
@@ -719,8 +925,8 @@ router.post('/pdf-drill/attempt', async (req, res) => {
       pdf_assignment_id: assignmentId,
       student_id: studentId,
       drill_item_id: drillItemId,
-      transcript: transcript || null,
-      accuracy: accuracy ?? null,
+      transcript,
+      accuracy: score.accuracy,
       correct: isCorrect,
       xp_awarded: xpAwarded,
     });
@@ -782,7 +988,7 @@ router.post('/pdf-drill/attempt', async (req, res) => {
 
     const newlyUnlockedBadges = xpAwarded > 0 ? await checkAndAwardBadges(supabaseAdmin, studentId) : [];
 
-    res.json({ success: true, correct: isCorrect, xpAwarded, newXp, drillCompleted: justCompletedDrill, newlyUnlockedBadges });
+    res.json({ success: true, correct: isCorrect, accuracy: score.accuracy, xpAwarded, newXp, drillCompleted: justCompletedDrill, newlyUnlockedBadges });
   } catch (err) {
     handleRpcError(res, err);
   }

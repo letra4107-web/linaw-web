@@ -28,3 +28,26 @@ test('badge reward migration uses a database uniqueness boundary and service-rol
   assert.match(sql, /REVOKE ALL ON FUNCTION[^;]+authenticated/is);
   assert.match(sql, /GRANT EXECUTE ON FUNCTION[^;]+service_role/is);
 });
+
+test('guided PDF reading mutations are removed from the browser RLS surface', () => {
+  const sql = fs.readFileSync(path.resolve(__dirname, '../../migrations/032_lock_down_pdf_reading_student_mutations.sql'), 'utf8');
+  assert.match(sql, /DROP POLICY IF EXISTS "Students record own pdf reading attempts"/i);
+  assert.match(sql, /DROP POLICY IF EXISTS "Students update own pdf assignment status"/i);
+  assert.match(sql, /DROP POLICY IF EXISTS "Students update own guided pdf progress"/i);
+  assert.doesNotMatch(sql, /DISABLE ROW LEVEL SECURITY/i);
+});
+
+test('practice-session writes are no longer granted to authenticated browsers', () => {
+  const sql = fs.readFileSync(path.resolve(__dirname, '../../migrations/033_lock_down_practice_session_mutations.sql'), 'utf8');
+  assert.match(sql, /REVOKE INSERT ON TABLE public\.pronunciation_practice_sessions FROM authenticated/i);
+  assert.doesNotMatch(sql, /TO anon|TO PUBLIC/i);
+  assert.doesNotMatch(sql, /DISABLE ROW LEVEL SECURITY/i);
+});
+
+test('nonsense-word issued sets are server-only and scoped to one student/module', () => {
+  const sql = fs.readFileSync(path.resolve(__dirname, '../../migrations/034_authoritative_nonsense_word_sets.sql'), 'utf8');
+  assert.match(sql, /UNIQUE \(student_id, module_id\)/i);
+  assert.match(sql, /REVOKE ALL ON TABLE public\.student_nonsense_check_sets FROM PUBLIC, anon, authenticated/i);
+  assert.match(sql, /GRANT ALL ON TABLE public\.student_nonsense_check_sets TO service_role/i);
+  assert.doesNotMatch(sql, /DISABLE ROW LEVEL SECURITY/i);
+});

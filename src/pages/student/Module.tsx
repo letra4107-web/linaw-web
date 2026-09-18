@@ -11,6 +11,7 @@ import { BadgeUnlockToast } from '../../components/BadgeUnlockToast';
 import { NonsenseWordCheck } from '../../components/NonsenseWordCheck';
 import { ChallengeWordsPractice } from '../../components/ChallengeWordsPractice';
 import { IconLabel } from '../../components/a11y/IconLabel';
+import { LearningActivityHeader } from '../../components/student/LearningActivityHeader';
 import { cardStyle, CARD_COLORS } from '../../lib/cardStyle';
 import { trackEvent } from '../../lib/analytics';
 
@@ -56,22 +57,26 @@ export default function Module() {
   });
 
   const submitAttempt = useMutation({
-    mutationFn: async ({ contentId, transcript, accuracy }: { contentId: string; transcript: string; accuracy: number }) => {
-      const isParagraph = data?.module.instructional_content_type === 'paragraph';
-      const res = await api<{ newlyUnlockedBadges?: string[] }>(`/student/learn/content/${contentId}/attempt`, {
+    mutationFn: async ({ item, transcript }: { item: ModuleItem; transcript: string }) => {
+      const res = await api<{ accuracy: number; correct: boolean; newlyUnlockedBadges?: string[] }>(`/student/learn/content/${item.content_id}/attempt`, {
         method: 'POST',
         auth: true,
         body: {
-          accuracy,
           transcript,
-          isFullSubmission: isParagraph,
           source: 'practice',
         },
       });
-      return res;
+      return { item, transcript, res };
     },
-    onSuccess: (res) => {
+    onSuccess: ({ item, transcript, res }) => {
       if (res.newlyUnlockedBadges?.length) setNewlyUnlockedBadges(res.newlyUnlockedBadges);
+      setLastResult({
+        contentId: item.content_id,
+        transcript,
+        accuracy: res.accuracy,
+        correct: res.correct,
+        message: randomFrom(res.correct ? CORRECT_MESSAGES : ENCOURAGE_MESSAGES),
+      });
       queryClient.invalidateQueries({ queryKey: ['student-module', moduleId] });
       queryClient.invalidateQueries({ queryKey: ['student-learn-path'] });
       trackEvent('reading_attempt_completed', { surface: 'lesson' });
@@ -96,11 +101,7 @@ export default function Module() {
           setError(assessment.message);
           return;
         }
-        const { accuracy } = assessment;
-        const correct = assessment.outcome === 'correct';
-        const message = randomFrom(correct ? CORRECT_MESSAGES : ENCOURAGE_MESSAGES);
-        setLastResult({ contentId: item.content_id, transcript, accuracy, correct, message });
-        submitAttempt.mutate({ contentId: item.content_id, transcript, accuracy });
+        submitAttempt.mutate({ item, transcript });
       },
       (message) => {
         setListeningFor(null);
@@ -117,10 +118,8 @@ export default function Module() {
 
   const completedCount = (data?.items ?? []).filter((i) => i.completed).length;
   const totalCount = data?.items.length ?? 0;
-  const modulePct = totalCount > 0 ? Math.round((completedCount / totalCount) * 100) : 0;
-
-  if (isLoading) return <p>Naglo-load...</p>;
-  if (!data) return <p className="text-[var(--color-danger)]">Hindi mahanap ang aralin.</p>;
+  if (isLoading) return <div role="status" aria-live="polite" className="rounded-3xl border bg-[var(--surface-muted)] p-6 text-center text-[var(--color-text-muted)] shadow-card">Inihahanda ang iyong aralin...</div>;
+  if (!data) return <div role="alert" className="rounded-3xl border border-[var(--color-danger)]/30 bg-[var(--color-danger-soft)] p-6 text-center text-[var(--color-danger)]">Hindi mahanap ang aralin. Bumalik sa listahan ng mga modyul at subukan muli.</div>;
 
   return (
     <div className="flex flex-col gap-6">
@@ -128,25 +127,15 @@ export default function Module() {
         ← Bumalik sa mga Modyul
       </Link>
 
-      <div
-        className="overflow-hidden rounded-2xl p-6 text-white shadow-hero sm:p-8"
-        style={{ backgroundImage: 'linear-gradient(135deg, var(--color-hero-from), var(--color-hero-via), var(--color-hero-to))' }}
-      >
-        <h1 className="text-2xl font-bold sm:text-3xl">{data.module.title}</h1>
-        {data.module.description && <p className="mt-1 text-white/85">{data.module.description}</p>}
-        {totalCount > 0 && (
-          <div className="mt-4 flex items-center gap-3">
-            <div className="h-2.5 flex-1 overflow-hidden rounded-full bg-white/25">
-              <div className="h-full rounded-full bg-white transition-[width]" style={{ width: `${modulePct}%` }} />
-            </div>
-            <span className="shrink-0 text-sm font-semibold">
-              {completedCount}/{totalCount}
-            </span>
-          </div>
-        )}
-      </div>
+      <LearningActivityHeader
+        eyebrow="Modyul sa pagbasa"
+        title={data.module.title}
+        description={data.module.description ?? 'Basahin, pakinggan, at bigkasin ang bawat gawain sa iyong sariling bilis.'}
+        completed={totalCount > 0 ? completedCount : undefined}
+        total={totalCount > 0 ? totalCount : undefined}
+      />
 
-      {error && <p className="text-[var(--color-danger)]">{error}</p>}
+      {error && <p role="alert" className="rounded-xl bg-[var(--color-danger-soft)] px-4 py-3 text-[var(--color-danger)]">{error}</p>}
 
       {data.module.instructional_content_type === 'paragraph' && <ChallengeWordsPractice moduleId={data.module.id} />}
 

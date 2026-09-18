@@ -2,7 +2,6 @@ import { useEffect, useRef, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '../../lib/supabaseClient';
-import { useAuth } from '../../lib/auth/AuthContext';
 import { api } from '../../lib/api';
 import { assessSpeech, isSpeechRecognitionSupported, listenOnce } from '../../lib/speech';
 import { syllabifyWord } from '../../lib/syllabify';
@@ -11,6 +10,7 @@ import { TTSButton } from '../../components/a11y/TTSButton';
 import { SyllableKaraokeText } from '../../components/SyllableKaraokeText';
 import { PronunciationFeedback } from '../../components/PronunciationFeedback';
 import { IconLabel } from '../../components/a11y/IconLabel';
+import { ReadingTarget } from '../../components/student/ReadingTarget';
 import { cardStyle } from '../../lib/cardStyle';
 import speechIcon from '../../assets/speech.png';
 import { trackEvent } from '../../lib/analytics';
@@ -49,13 +49,13 @@ function saveCurrentWord(word: WordRow | null) {
 }
 
 export default function Practice() {
-  const { user } = useAuth();
   const [searchParams, setSearchParams] = useSearchParams();
   const mode: Mode = searchParams.get('mode') === 'listen' ? 'listen' : 'say';
   const theme = MODE_THEME[mode];
 
   const [current, setCurrent] = useState<WordRow | null>(null);
   const [listening, setListening] = useState(false);
+  const [savingAttempt, setSavingAttempt] = useState(false);
   const [lastResult, setLastResult] = useState<{ transcript: string; accuracy: number; correct: boolean; message: string } | null>(
     null,
   );
@@ -63,21 +63,11 @@ export default function Practice() {
   const [streak, setStreak] = useState(0);
   const [speechStatus, setSpeechStatus] = useState<'idle' | 'loading' | 'speaking'>('idle');
   const speechAudioRef = useRef<HTMLAudioElement | null>(null);
-
-  const { data: child } = useQuery({
-    queryKey: ['student-self', user?.id],
-    queryFn: async () => {
-      const { data, error: err } = await supabase.from('children').select('id').eq('auth_uid', user!.id).maybeSingle();
-      if (err) throw err;
-      return data as { id: string } | null;
-    },
-    enabled: Boolean(user),
-  });
+  const stopRecognitionRef = useRef<() => void>(() => {});
 
   const { data: path } = useQuery({
     queryKey: ['student-learn-path'],
     queryFn: () => api<{ effective_level: string }>('/student/learn/path', { auth: true }),
-    enabled: Boolean(user),
   });
 
   const { data: words, isLoading: loadingWords } = useQuery({
@@ -143,7 +133,7 @@ export default function Practice() {
   // separate marked-SSML call, which sometimes came out mispronounced (reading like English
   // instead of Tagalog); reading the full word at once avoids that.
   const playWord = async () => {
-    if (!current) return;
+    if (!current || savingAttempt) return;
     if (speechStatus === 'speaking') {
       stopSpeech();
       return;
@@ -174,32 +164,30 @@ export default function Practice() {
   };
 
   const handleTry = () => {
-    if (!current || !child) return;
+    if (!current) return;
     setError(null);
     setListening(true);
     trackEvent('reading_attempt_started', { surface: 'practice', mode });
-    listenOnce(
+    stopRecognitionRef.current = listenOnce(
       'fil-PH',
       async ({ transcript, confidence }) => {
         setListening(false);
         const assessment = assessSpeech(current.word, transcript, confidence);
         if (assessment.outcome === 'retry') { setError(assessment.message); return; }
-        const { accuracy } = assessment;
-        const correct = assessment.outcome === 'correct';
-        const message = randomFrom(correct ? CORRECT_MESSAGES : ENCOURAGE_MESSAGES);
-        setLastResult({ transcript, accuracy, correct, message });
-        setStreak((s) => (correct ? s + 1 : 0));
-
-        const { error: insertErr } = await supabase.from('pronunciation_practice_sessions').insert({
-          student_id: child.id,
-          word: current.word,
-          spoken_text: transcript,
-          accuracy_percentage: accuracy,
-          is_correct: correct,
-          practice_source: 'practice',
-        });
-        if (insertErr) setError('Nai-save ang resulta pero may isyu sa pag-log.');
-        trackEvent('reading_attempt_completed', { surface: 'practice', mode, correct });
+        setSavingAttempt(true);
+        try {
+          const result = await api<{ accuracy: number; correct: boolean }>('/student/practice/attempt', {
+            method: 'POST', auth: true, body: { contentId: current.id, transcript },
+          });
+          const message = randomFrom(result.correct ? CORRECT_MESSAGES : ENCOURAGE_MESSAGES);
+          setLastResult({ transcript, accuracy: result.accuracy, correct: result.correct, message });
+          setStreak((s) => (result.correct ? s + 1 : 0));
+          trackEvent('reading_attempt_completed', { surface: 'practice', mode, correct: result.correct });
+        } catch (err) {
+          setError(err instanceof Error ? err.message : 'Hindi na-save ang resulta. Subukan muli.');
+        } finally {
+          setSavingAttempt(false);
+        }
       },
       (message) => {
         setListening(false);
@@ -207,6 +195,11 @@ export default function Practice() {
         trackEvent('reading_attempt_failed', { surface: 'practice', mode });
       },
     );
+  };
+
+  const stopRecording = () => {
+    stopRecognitionRef.current();
+    setListening(false);
   };
 
   return (
@@ -269,9 +262,7 @@ export default function Practice() {
           </div>
         ) : (
           <div className="flex flex-col items-center gap-6 text-center">
-            <div
-              className="flex min-h-32 w-full flex-col items-center justify-center gap-3 rounded-2xl bg-white/70 px-6 py-8 shadow-inner"
-            >
+            <ReadingTarget label={mode === 'say' ? 'Salitang babasahin' : 'Pakinggan at sundan'} tone={theme.brand} className="w-full">
               {mode === 'listen' ? (
                 <SyllableKaraokeText syllables={syllabifyWord(current.word)} activeIndex={null} colorVar={theme.brand} />
               ) : (
@@ -297,7 +288,7 @@ export default function Practice() {
                   <TTSButton text={current.word} />
                 )}
               </div>
-            </div>
+            </ReadingTarget>
 
             {mode === 'listen' ? (
               <>
@@ -320,18 +311,20 @@ export default function Practice() {
               <>
                 <button
                   type="button"
-                  onClick={handleTry}
-                  disabled={listening}
+                  onClick={listening ? stopRecording : handleTry}
+                  disabled={savingAttempt}
+                  aria-label={savingAttempt ? 'Sinusuri ang iyong sagot' : listening ? 'Itigil ang pakikinig' : 'Simulan ang pagbigkas'}
+                  aria-describedby="practice-microphone-help"
                   className={`relative flex h-24 w-24 items-center justify-center rounded-full text-4xl text-white shadow-lg transition-transform hover:scale-105 active:scale-95 disabled:opacity-70 ${
-                    listening ? 'bg-[var(--color-danger)]' : ''
+                    listening ? 'bg-[var(--color-warning)]' : savingAttempt ? 'bg-[var(--color-text-muted)]' : ''
                   }`}
                   style={!listening ? { backgroundImage: `linear-gradient(135deg, ${theme.from}, ${theme.to})` } : undefined}
                 >
                   {listening && <span className="absolute inset-0 animate-ping rounded-full bg-[var(--color-danger)]/60" />}
                   <span className="relative">🎤</span>
                 </button>
-                <p className="text-sm font-medium text-[var(--color-text-muted)]">
-                  {listening ? 'Nakikinig...' : 'Pindutin ang mic at bigkasin'}
+                <p id="practice-microphone-help" aria-live="polite" className="text-sm font-medium text-[var(--color-text-muted)]">
+                  {savingAttempt ? 'Sinusuri at sine-save ang sagot...' : listening ? 'Nakikinig... pindutin para ihinto' : 'Pindutin ang mic at bigkasin'}
                 </p>
               </>
             )}
@@ -347,7 +340,7 @@ export default function Practice() {
               />
             )}
             {error && (
-              <p className="w-full rounded-xl bg-[var(--color-danger-soft)] px-5 py-3 text-sm text-[var(--color-danger)]">
+              <p role="alert" className="w-full rounded-xl bg-[var(--color-danger-soft)] px-5 py-3 text-sm text-[var(--color-danger)]">
                 {error}
               </p>
             )}

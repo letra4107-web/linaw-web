@@ -91,7 +91,7 @@ export function TTSButton({ text, lang = 'fil-PH', className }: TTSButtonProps) 
       aria-pressed={status === 'speaking'}
       className={
         className ??
-        `inline-flex items-center gap-2 rounded-full border px-3 py-1.5 text-sm focus-visible:outline-3 disabled:opacity-60 ${
+        `inline-flex min-h-11 items-center gap-2 rounded-full border px-3 py-1.5 text-sm focus-visible:outline-3 disabled:opacity-60 ${
           status === 'speaking'
             ? 'border-[var(--color-danger)] bg-[var(--color-danger-soft)] text-[var(--color-danger)]'
             : 'border-[var(--color-border)] bg-[var(--color-surface)] text-[var(--color-text)] hover:border-[var(--color-primary)]'

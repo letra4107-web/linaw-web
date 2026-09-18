@@ -27,6 +27,7 @@ interface ChildProgress {
 }
 
 interface ModuleSummary {
+  id: string;
   module_number: number;
   title: string;
   state: 'locked' | 'unlocked' | 'completed';
@@ -61,7 +62,7 @@ const PRACTICE_MODES = [
     to: '/student/practice?mode=say',
     icon: micIcon,
     title: 'Sabihin ang Salita',
-    subtitle: 'AI na Pagsasanay sa Bigkas',
+    subtitle: 'Pagsasanay sa Bigkas gamit ang Speech Support',
     brandVar: '--color-brand-coral',
   },
   {
@@ -247,7 +248,10 @@ export default function Dashboard() {
             <div className="flex h-full flex-col gap-4 p-6 sm:p-7">
               <div className="flex items-center gap-3">
                 <IconBadge img={bookIcon} brandVar="--color-brand-lavender" />
-                <h2 className="text-xl font-bold">Pagsasanay Ngayon</h2>
+                <div>
+                  <p className="text-xs font-bold tracking-[0.12em] text-[var(--color-primary)] uppercase">Susunod mong hakbang</p>
+                  <h2 className="text-xl font-bold">Ipagpatuloy ang aralin</h2>
+                </div>
               </div>
               {allCompleted ? (
                 <p className="flex items-center gap-2 text-[var(--color-text-muted)]">
@@ -263,12 +267,12 @@ export default function Dashboard() {
                     </div>
                     <span className="text-sm font-bold text-[var(--color-primary)]">{modulePct}%</span>
                   </div>
-                  <Link to="/student/practice?mode=say" className="mt-auto inline-flex min-h-12 w-fit items-center rounded-full bg-[var(--color-primary)] px-6 py-3 font-bold text-white shadow-card transition-all hover:-translate-y-0.5 hover:bg-[var(--color-primary-hover)] hover:shadow-raised active:scale-95">Simulan ang Pagsasanay</Link>
+                  <Link to={`/student/learn/module/${currentModule.id}`} className="mt-auto inline-flex min-h-12 w-fit items-center rounded-full bg-[var(--color-primary)] px-6 py-3 font-bold text-white shadow-card transition-all hover:-translate-y-0.5 hover:bg-[var(--color-primary-hover)] hover:shadow-raised active:scale-95">{modulePct > 0 ? 'Ipagpatuloy ang Aralin' : 'Simulan ang Aralin'}</Link>
                 </>
               ) : (
                 <>
                   <p className="text-[var(--color-text-muted)]">Wala pang binabasang aralin — simulan ang isa!</p>
-                  <Link to="/student/practice?mode=say" className="mt-auto inline-flex min-h-12 w-fit items-center rounded-full bg-[var(--color-primary)] px-6 py-3 font-bold text-white shadow-card transition-all hover:-translate-y-0.5 hover:bg-[var(--color-primary-hover)] hover:shadow-raised active:scale-95">Simulan ang Pagsasanay</Link>
+                  <Link to="/student/learn" className="mt-auto inline-flex min-h-12 w-fit items-center rounded-full bg-[var(--color-primary)] px-6 py-3 font-bold text-white shadow-card transition-all hover:-translate-y-0.5 hover:bg-[var(--color-primary-hover)] hover:shadow-raised active:scale-95">Tingnan ang mga Aralin</Link>
                 </>
               )}
             </div>

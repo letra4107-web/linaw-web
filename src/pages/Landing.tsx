@@ -59,8 +59,8 @@ const RESPONSE_POINTS = [
   },
   {
     icon: '🧠',
-    title: 'Phoneme Confusion Detection',
-    text: 'Natutukoy ng system kung aling partikular na mga tunog (hal. "r" vs "d") ang paulit-ulit na nahihirapan ang bata.',
+    title: 'Pagsubaybay sa Mga Tunog',
+    text: 'Ipinapakita ng naitalang pagsasanay kung aling mga tunog (hal. "r" at "d") ang maaaring pagtuunan sa susunod na practice.',
   },
   {
     icon: '🔊',

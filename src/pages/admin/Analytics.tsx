@@ -3,7 +3,7 @@ import { Area, AreaChart, Bar, BarChart, CartesianGrid, ResponsiveContainer, Too
 import { api } from '../../lib/api';
 import { cardStyle } from '../../lib/cardStyle';
 
-interface AnalyticsResponse { enrollmentTrend: { month: string; count: number }[]; usageTrend: { month: string; count: number }[]; roleCounts: Record<string, number>; totals: { children: number; users: number; totalXp: number; badgeUnlockCount: number; practiceSessions: number } }
+interface AnalyticsResponse { enrollmentTrend: { month: string; count: number }[]; usageTrend: { month: string; count: number }[]; roleCounts: Record<string, number>; totals: { children: number; studentAccounts: number; users: number; totalXp: number; badgeUnlockCount: number; practiceSessions: number } }
 const COLORS = ['--color-brand-lavender', '--color-brand-coral', '--color-brand-teal', '--color-brand-sun', '--color-brand-violet'];
 
 function EmptyChart({ label }: { label: string }) { return <div className="flex h-full items-center justify-center rounded-2xl border border-dashed border-[var(--color-border)] bg-white/35 px-4 text-center text-sm text-[var(--color-text-muted)]">Wala pang datos sa {label}.</div>; }
@@ -13,7 +13,7 @@ export default function AdminAnalytics() {
   const { data, isLoading } = useQuery({ queryKey: ['admin-analytics'], queryFn: () => api<AnalyticsResponse>('/admin/analytics', { auth: true }) });
   const roleData = data ? Object.entries(data.roleCounts).sort(([, a], [, b]) => b - a).map(([role, count]) => ({ role, count })) : [];
   const cards = data ? [
-    { icon: '👥', label: 'Mga gumagamit', value: data.totals.users, note: 'Lahat ng account' }, { icon: '🧒', label: 'Mag-aaral', value: data.totals.children, note: 'Mga nakatalang bata' },
+    { icon: '👥', label: 'Mga gumagamit', value: data.totals.users, note: 'Lahat ng account' }, { icon: '🧒', label: 'Student accounts', value: data.totals.studentAccounts, note: 'Katugma ng Users list' },
     { icon: '🎙', label: 'Pagsasanay', value: data.totals.practiceSessions, note: 'Mga sesyon ng pagsasanay' }, { icon: '★', label: 'Kabuuang XP', value: data.totals.totalXp, note: 'Puntos sa pagkatuto' },
     { icon: '🏅', label: 'Mga Parangal', value: data.totals.badgeUnlockCount, note: 'Mga nakuhang parangal' },
   ] : [];

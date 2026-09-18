@@ -396,6 +396,10 @@ router.get('/analytics', async (req, res) => {
       roleCounts,
       totals: {
         children: (children || []).length,
+        // A child/enrollment record is not necessarily a login account. Keep
+        // this separate so the Admin UI's student-user total always agrees
+        // with the Users screen's `role = student` filter.
+        studentAccounts: roleCounts.student || 0,
         users: (users || []).length,
         totalXp,
         badgeUnlockCount,

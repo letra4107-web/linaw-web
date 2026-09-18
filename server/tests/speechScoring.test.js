@@ -18,3 +18,14 @@ test('speech scoring is deterministic and does not award an empty transcript', (
   });
   assert.equal(scoreTranscript('ako ay nagbabasa', 'ako nagbabasa').accuracy, 67);
 });
+
+test('speech scoring normalizes Filipino punctuation, hyphens, apostrophes, and whitespace', () => {
+  assert.equal(normalizeSpeechText("  'Ma-gîng,\tmahusay!'  "), 'ma ging mahusay');
+  assert.deepEqual(scoreTranscript('Mag-ingat, bata!', ' mag ingat bata '), {
+    accuracy: 100,
+    correct: true,
+    expectedTokenCount: 3,
+    transcriptTokenCount: 3,
+  });
+  assert.equal(scoreTranscript('bata', '   ').correct, false);
+});

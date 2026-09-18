@@ -61,7 +61,33 @@ test('security-critical routes retain authorization and ownership checks', () =>
   assert.match(parent, /authorization\.parentChild/);
   assert.match(student, /requireRole\('student'\)/);
   assert.match(student, /\.is\('completed_at', null\)/);
+  assert.match(student, /scoreTranscript\(logRow\.word, transcript\)/);
+  assert.match(student, /scoreTranscript\(item\.word, transcript\)/);
+  assert.match(student, /router\.post\('\/pdf-reading\/attempt'/);
+  assert.match(student, /pdfReadingChunks\(material\?\.extracted_text, material\?\.chunk_size\)\[chunkIndex\]/);
+  assert.match(student, /authorization\.studentAssignment\(studentId, assignmentId\)/);
+  assert.match(student, /router\.post\('\/practice\/attempt', assessmentLimiter/);
+  assert.match(student, /scoreTranscript\(content\.content_text, transcript\)/);
+  assert.match(student, /student_id: studentId/);
+  assert.match(student, /TRANSCRIPT_SCORABLE_CONTENT_TYPES\.has\(content\.content_type\)/);
+  assert.doesNotMatch(student, /const \{ accuracy, transcript, durationSeconds, isFullSubmission, source \} = req\.body/);
+  assert.match(student, /correct_answer_index: _answerKey/);
+  assert.match(student, /from\('student_nonsense_check_sets'\)/);
+  assert.match(student, /scoreTranscript\(issuedById\.get\(result\.itemId\), result\.transcript\)/);
+  assert.match(student, /new Set\(submittedIds\)\.size !== submittedIds\.length/);
+  assert.doesNotMatch(student, /results\.filter\(\(r\) => r\.correct\)/);
+  assert.doesNotMatch(student, /const \{ logId, attempts, correct, accuracy \} = req\.body/);
+  assert.doesNotMatch(student, /const \{ assignmentId, drillItemId, transcript, accuracy, correct \} = req\.body/);
   assert.doesNotMatch(student, /bonusXp/);
+});
+
+test('admin analytics distinguishes student accounts from child enrollment records', () => {
+  const admin = fs.readFileSync(path.join(path.resolve(__dirname, '..'), 'routes', 'admin.js'), 'utf8');
+  const dashboard = fs.readFileSync(path.resolve(__dirname, '../../src/pages/admin/Dashboard.tsx'), 'utf8');
+  const analytics = fs.readFileSync(path.resolve(__dirname, '../../src/pages/admin/Analytics.tsx'), 'utf8');
+  assert.match(admin, /studentAccounts:\s*roleCounts\.student \|\| 0/);
+  assert.match(dashboard, /data\.totals\.studentAccounts/);
+  assert.match(analytics, /data\.totals\.studentAccounts/);
 });
 
 test('bearer and role middleware rejects missing, invalid, and unauthorized sessions', async () => {

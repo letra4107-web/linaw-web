@@ -1,6 +1,7 @@
 /* oxlint-disable react/only-export-components -- compatibility export used throughout the app */
-import { createContext, useContext, useEffect, useState, type ReactNode } from 'react';
+import { createContext, useCallback, useContext, useEffect, useRef, useState, type ReactNode } from 'react';
 import type { Session, User } from '@supabase/supabase-js';
+import { useQueryClient } from '@tanstack/react-query';
 import { supabase } from '../supabaseClient';
 import { resolveRole, type ResolvedIdentity } from './resolveRole';
 import { api } from '../api';
@@ -18,11 +19,24 @@ interface AuthState {
 const AuthContext = createContext<AuthState | undefined>(undefined);
 
 export function AuthProvider({ children }: { children: ReactNode }) {
+  const queryClient = useQueryClient();
   const [session, setSession] = useState<Session | null>(null);
   const [identity, setIdentity] = useState<ResolvedIdentity | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [retryCount, setRetryCount] = useState(0);
+  const activeUserId = useRef<string | null>(null);
+
+  // Query keys are intentionally narrow within a role, but React Query's
+  // in-memory cache is shared by the whole browser application. Clear it at
+  // every identity boundary so a saved-profile switch (or logout/login) cannot
+  // briefly render another person's private data before its new query resolves.
+  const transitionSession = useCallback((nextSession: Session | null) => {
+    const nextUserId = nextSession?.user.id ?? null;
+    if (activeUserId.current !== nextUserId) queryClient.clear();
+    activeUserId.current = nextUserId;
+    setSession(nextSession);
+  }, [queryClient]);
 
   const loadIdentity = async (user: User | null) => {
     if (!user) {
@@ -40,7 +54,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     supabase.auth.getSession().then(({ data, error: sessionError }) => {
       if (!mounted) return;
       if (sessionError) throw sessionError;
-      setSession(data.session);
+      transitionSession(data.session);
       return loadIdentity(data.session?.user ?? null);
     }).catch(() => {
       if (mounted) setError('Hindi ma-load ang account ngayon. Pakisubukan muli.');
@@ -49,7 +63,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     });
 
     const { data: sub } = supabase.auth.onAuthStateChange((event, nextSession) => {
-      setSession(nextSession);
+      transitionSession(nextSession);
       setLoading(true);
       setError(null);
       loadIdentity(nextSession?.user ?? null)
@@ -68,7 +82,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       mounted = false;
       sub.subscription.unsubscribe();
     };
-  }, [retryCount]);
+  }, [retryCount, transitionSession]);
 
   const refreshIdentity = async () => {
     await loadIdentity(session?.user ?? null);

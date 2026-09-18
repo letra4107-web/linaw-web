@@ -47,6 +47,16 @@ function NavContents({ collapsed }: { collapsed: boolean }) { return <><nav aria
 export default function TeacherLayout() {
   const [collapsed, setCollapsed] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+
+  useEffect(() => {
+    if (!mobileOpen) return;
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key !== 'Escape') return;
+      setMobileOpen(false);
+    };
+    document.addEventListener('keydown', onKeyDown);
+    return () => document.removeEventListener('keydown', onKeyDown);
+  }, [mobileOpen]);
   return (
     <DashboardShell roleLabel="Guro" hideHeader bgImage={teacherBg}>
       <div className="flex min-h-screen min-w-0">

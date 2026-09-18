@@ -148,6 +148,7 @@ export default function PdfReading() {
   const [reviewingId, setReviewingId] = useState<string | null>(null);
   const [editingId, setEditingId] = useState<string | null>(null);
   const [assignmentDueDate, setAssignmentDueDate] = useState('');
+  const [assignmentSuccess, setAssignmentSuccess] = useState<string | null>(null);
   const [uploadMode, setUploadMode] = useState<'plain' | 'drill'>('plain');
   const [view, setView] = useState<'active' | 'archived'>('active');
 
@@ -232,7 +233,7 @@ export default function PdfReading() {
   });
 
   const assign = useMutation({
-    mutationFn: async ({ materialId, studentId, dueDate }: { materialId: string; studentId: string; dueDate: string }) => {
+    mutationFn: async ({ materialId, studentId, dueDate }: { materialId: string; studentId: string; dueDate: string; studentName: string }) => {
       const { error: err } = await supabase.from('pdf_assignments').insert({
         pdf_material_id: materialId,
         student_id: studentId,
@@ -241,8 +242,8 @@ export default function PdfReading() {
       });
       if (err) throw err;
     },
-    onSuccess: () => { setAssigningId(null); setAssignmentDueDate(''); },
-    onError: (err: Error) => setError(err.message),
+    onSuccess: (_, variables) => { setAssigningId(null); setAssignmentDueDate(''); setAssignmentSuccess(`Na-assign na ang PDF kay ${variables.studentName}. Maaari mo nang subaybayan ang progreso nito sa materyal.`); },
+    onError: () => setError('Hindi na-assign ang PDF. Suriin ang koneksyon at subukan muli.'),
   });
 
   const archive = useMutation({
@@ -266,6 +267,8 @@ export default function PdfReading() {
           <p className="text-[var(--color-text-muted)]">Mag-upload ng PDF at i-assign sa mga mag-aaral para sa gabay na pagbasa.</p>
         </div>
       </div>
+
+      {assignmentSuccess && <div role="status" aria-live="polite" className="flex flex-wrap items-center justify-between gap-3 rounded-3xl border border-[var(--color-success)]/30 bg-[var(--color-success-soft)] p-4 text-[var(--color-success)]"><p className="font-bold">{assignmentSuccess}</p><button type="button" onClick={() => setAssignmentSuccess(null)} className="min-h-10 rounded-full border border-current px-3 text-sm font-bold">Isara</button></div>}
 
       <form
         onSubmit={(e) => {
@@ -533,7 +536,8 @@ export default function PdfReading() {
                     <li key={r.id}>
                       <button
                         type="button"
-                        onClick={() => assign.mutate({ materialId: m.id, studentId: r.student_id, dueDate: assignmentDueDate })}
+                        onClick={() => assign.mutate({ materialId: m.id, studentId: r.student_id, dueDate: assignmentDueDate, studentName: r.children?.name ?? 'mag-aaral' })}
+                        disabled={assign.isPending}
                         className="rounded-full border border-white/70 bg-white px-3 py-1 text-sm hover:border-[var(--color-primary)]"
                       >
                         {r.children?.name ?? 'Mag-aaral'}

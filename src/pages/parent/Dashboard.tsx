@@ -12,6 +12,7 @@ import { AppIcon } from '../../components/a11y/AppIcon';
 interface Child { id: string; name: string; grade_level: number; }
 interface ChildProgress { child_id: string; level: string; word_count: number; streak: number; }
 interface PracticeSession { word: string; accuracy_percentage: number; is_correct: boolean; duration_seconds: number | null; created_at: string; }
+interface PdfAssignment { id: string; status: string; due_date: string | null; pdf_materials: { title: string } | null; }
 
 function formatRelativeDate(iso: string) {
   const hours = Math.floor((Date.now() - new Date(iso).getTime()) / 3_600_000);
@@ -65,6 +66,15 @@ export default function Dashboard() {
       const { data, error } = await supabase.from('scheduled_activities').select('id, title, scheduled_date').eq('child_id', activeChildId!).eq('status', 'scheduled').order('scheduled_date', { ascending: true }).limit(3);
       if (error) throw error;
       return data as { id: string; title: string; scheduled_date: string }[];
+    },
+    enabled: Boolean(activeChildId),
+  });
+  const { data: assignments } = useQuery({
+    queryKey: ['parent-child-pdf-assignments', activeChildId],
+    queryFn: async () => {
+      const { data, error } = await supabase.from('pdf_assignments').select('id, status, due_date, pdf_materials(title)').eq('student_id', activeChildId!).neq('status', 'completed').order('due_date', { ascending: true, nullsFirst: false }).limit(3);
+      if (error) throw error;
+      return data as unknown as PdfAssignment[];
     },
     enabled: Boolean(activeChildId),
   });
@@ -122,6 +132,11 @@ export default function Dashboard() {
             <div key={item.label} className="min-w-0 rounded-2xl border bg-white/65 p-4" style={{ borderColor: `color-mix(in srgb, var(${item.color}) 24%, white)` }}><span className="text-sm font-bold" style={{ color: `var(${item.color})` }}>{item.icon}</span><p className="mt-1 text-2xl font-bold">{item.value}</p><p className="text-xs font-semibold text-[var(--color-text-muted)]">{item.label}</p></div>
           ))}
         </div>
+      </section>
+
+      <section aria-labelledby="assignments-title" className="rounded-3xl border p-5 shadow-card sm:p-6" style={cardStyle('--color-brand-sage', 7, 26)}>
+        <div className="flex flex-wrap items-center justify-between gap-3"><div><p className="text-xs font-bold tracking-[0.1em] text-[var(--color-brand-sage)] uppercase">Mga gawain</p><h2 id="assignments-title" className="text-xl font-bold">Mga PDF na Hindi Pa Tapos</h2><p className="text-sm text-[var(--color-text-muted)]">Mga materyal na naka-assign kay {activeChild?.name ?? 'iyong anak'}.</p></div><Link to="/parent/progress" className="inline-flex min-h-11 items-center rounded-full px-4 text-sm font-bold text-[var(--color-primary)] hover:bg-white/65">Tingnan ang progreso →</Link></div>
+        {assignments?.length ? <ul className="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">{assignments.map((assignment) => <li key={assignment.id} className="rounded-2xl border border-white/70 bg-white/65 p-4"><p className="font-bold">{assignment.pdf_materials?.title ?? 'Materyal sa PDF'}</p><p className="mt-1 text-sm text-[var(--color-text-muted)]">{assignment.status === 'in_progress' ? 'Ginagawa na' : 'Naka-assign'}{assignment.due_date ? ` · Takdang araw: ${new Date(assignment.due_date).toLocaleDateString('fil-PH', { month: 'short', day: 'numeric' })}` : ''}</p></li>)}</ul> : <p className="mt-4 rounded-2xl bg-white/55 p-4 text-[var(--color-text-muted)]">Wala pang PDF na kailangang tapusin ngayon.</p>}
       </section>
 
       <div className="grid min-w-0 grid-cols-1 gap-5 lg:grid-cols-[1.35fr_0.85fr]">

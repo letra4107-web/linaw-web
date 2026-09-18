@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useId, useRef, useState } from 'react';
 import { NavLink, Outlet } from 'react-router-dom';
 import { supabase } from '../../lib/supabaseClient';
 import { useAuth } from '../../lib/auth/AuthContext';
@@ -113,7 +113,9 @@ function NavItem({
 
 function ProfileMenu({ collapsed, mobile = false }: { collapsed: boolean; mobile?: boolean }) {
   const [open, setOpen] = useState(false);
+  const menuId = useId();
   const menuRef = useRef<HTMLDivElement>(null);
+  const triggerRef = useRef<HTMLButtonElement>(null);
   const { identity, user } = useAuth();
   const displayName = identity?.displayName ?? 'Mag-aaral';
   const initial = displayName.trim().charAt(0).toUpperCase() || 'M';
@@ -124,7 +126,16 @@ function ProfileMenu({ collapsed, mobile = false }: { collapsed: boolean; mobile
       if (menuRef.current && !menuRef.current.contains(event.target as Node)) setOpen(false);
     };
     document.addEventListener('mousedown', onClickOutside);
-    return () => document.removeEventListener('mousedown', onClickOutside);
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key !== 'Escape') return;
+      setOpen(false);
+      triggerRef.current?.focus();
+    };
+    document.addEventListener('keydown', onKeyDown);
+    return () => {
+      document.removeEventListener('mousedown', onClickOutside);
+      document.removeEventListener('keydown', onKeyDown);
+    };
   }, [open]);
 
   const signOut = () => {
@@ -143,10 +154,12 @@ function ProfileMenu({ collapsed, mobile = false }: { collapsed: boolean; mobile
   return (
     <div ref={menuRef} className="relative min-w-0">
       <button
+        ref={triggerRef}
         type="button"
         onClick={() => setOpen((value) => !value)}
         aria-expanded={open}
         aria-haspopup="menu"
+        aria-controls={open ? menuId : undefined}
         title="Aking profile"
         className={`flex min-h-12 w-full min-w-0 items-center gap-3 rounded-2xl border border-[var(--color-border)] bg-white/55 p-2 text-left transition-all hover:border-[var(--color-primary)] hover:bg-white/80 ${collapsed ? 'justify-center' : ''}`}
       >
@@ -165,6 +178,7 @@ function ProfileMenu({ collapsed, mobile = false }: { collapsed: boolean; mobile
 
       {open && (
         <div
+          id={menuId}
           role="menu"
           className={`absolute z-50 w-72 max-w-[calc(100vw-2rem)] rounded-3xl border p-3 shadow-raised ${mobile ? 'top-full right-0 mt-2' : 'bottom-full left-0 mb-2'}`}
           style={cardStyle('--color-brand-lavender', 8, 40)}
@@ -208,7 +222,19 @@ function NavContents({ collapsed, onNavigate }: { collapsed: boolean; onNavigate
 export default function StudentLayout() {
   const [collapsed, setCollapsed] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const mobileMenuButtonRef = useRef<HTMLButtonElement>(null);
   useStudentAccessibilitySync();
+
+  useEffect(() => {
+    if (!mobileOpen) return;
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key !== 'Escape') return;
+      setMobileOpen(false);
+      mobileMenuButtonRef.current?.focus();
+    };
+    document.addEventListener('keydown', onKeyDown);
+    return () => document.removeEventListener('keydown', onKeyDown);
+  }, [mobileOpen]);
 
   return (
     <DashboardShell roleLabel="Mag-aaral" hideHeader bgImage={studentBg}>
@@ -234,7 +260,7 @@ export default function StudentLayout() {
             </div>
             <div className="flex items-center gap-2">
               <ProfileMenu collapsed mobile />
-              <button type="button" onClick={() => setMobileOpen((value) => !value)} aria-expanded={mobileOpen} aria-controls="student-mobile-nav" className="flex h-12 min-w-12 items-center justify-center rounded-2xl border border-[var(--color-border)] bg-white/70 transition-colors hover:border-[var(--color-primary)]">
+              <button ref={mobileMenuButtonRef} type="button" onClick={() => setMobileOpen((value) => !value)} aria-expanded={mobileOpen} aria-controls="student-mobile-nav" className="flex h-12 min-w-12 items-center justify-center rounded-2xl border border-[var(--color-border)] bg-white/70 transition-colors hover:border-[var(--color-primary)]">
                 <IconLabel img={menuIcon} label="Menu" />
               </button>
             </div>

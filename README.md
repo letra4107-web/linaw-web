@@ -26,6 +26,8 @@ LinawLetra is a responsive Filipino reading-support platform for Grades 1–6. I
 
 Authorization is enforced twice: `ProtectedRoute` controls browser navigation, while Express middleware and Supabase RLS enforce access to data. Frontend checks are never treated as a security boundary.
 
+The release-candidate architecture, security boundary, migration requirements, and verification limits are documented in [docs/RELEASE_CANDIDATE_READINESS.md](docs/RELEASE_CANDIDATE_READINESS.md). A concise, defense-oriented demonstration and technical Q&A are in [docs/THESIS_DEMO_GUIDE.md](docs/THESIS_DEMO_GUIDE.md).
+
 ## Frontend setup
 
 Requirements: Node.js 22+ and npm.
@@ -86,6 +88,8 @@ EMAIL_FROM="LinawLetra <no-reply@example.com>"
 
 Create or select the shared Supabase project, configure frontend/backend keys separately, then apply SQL files in `migrations/` in numeric order through a reviewed migration workflow. Do not rerun or edit an already-deployed migration without understanding its idempotency and data impact.
 
+Migrations 032, 033, and 034 are deployed to the staging environment and are immutable history. They respectively remove browser writes for guided PDF attempts/status, remove authenticated-browser insertion of free-practice sessions, and store server-issued nonsense-word sets. Apply all required migrations in order to each environment; do not modify those historical files. No migration 035 is required by the current release candidate.
+
 The `reading-materials` and legacy `lesson-pdfs` buckets are currently public for compatibility with stored `file_url` values and the mobile `teacher_uploads` workflow. Treat their URLs as public data. The private-storage migration must be coordinated: inventory mobile/web consumers, store object paths instead of permanent URLs, add ownership-checked signed-URL endpoints with short expiry, migrate clients, make buckets private, then remove legacy public URLs. Do not flip bucket visibility before both clients are ready.
 
 ### Student credential migration
@@ -133,6 +137,8 @@ Backend-only commands are available in `server/package.json`.
 ## Testing and CI
 
 Focused Node tests cover PDF validation, TTS authentication/limits, reading-profile behavior, and authorization invariants. GitHub Actions installs both workspaces and runs lint, tests, and the production build on pushes and pull requests. `server/tests/e2e.staging.test.js` is skipped by default and runs read-only role smoke tests only when `E2E_ALLOW_STAGING_TESTS=true`; it refuses known production URLs and requires an explicitly staging/local target plus dedicated test accounts.
+
+For the release-candidate verification sequence and the staging tests that intentionally remain environment-gated, see [docs/RELEASE_CANDIDATE_READINESS.md](docs/RELEASE_CANDIDATE_READINESS.md).
 
 ## Production deployment
 

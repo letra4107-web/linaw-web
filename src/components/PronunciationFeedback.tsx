@@ -31,7 +31,7 @@ export function PronunciationFeedback({ correct, message, speakText, detail, hin
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [attemptToken, autoPlay]);
 
-  return <div className={`relative overflow-hidden rounded-xl px-5 py-4 text-center font-semibold ${correct ? 'bg-[var(--color-success-soft)] text-[var(--color-success)]' : 'bg-[var(--color-accent-soft)] text-[var(--color-brand-sun)]'} ${className}`}>
+  return <div role="status" aria-live="polite" aria-atomic="true" className={`relative overflow-hidden rounded-xl px-5 py-4 text-center font-semibold ${correct ? 'bg-[var(--color-success-soft)] text-[var(--color-success)]' : 'bg-[var(--color-accent-soft)] text-[var(--color-brand-sun)]'} ${className}`}>
     <ConfettiOverlay trigger={autoPlay ? attemptToken : null} palette={correct ? CELEBRATE_PALETTE : ENCOURAGE_PALETTE} />
     <div className="relative">
       <p className="text-base">{message}</p>

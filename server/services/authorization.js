@@ -37,7 +37,7 @@ function createSupabaseAuthorizationService(client) {
       return data;
     },
     async findAssignment(id) {
-      const { data, error } = await client.from('pdf_assignments').select('id, pdf_material_id, student_id').eq('id', id).maybeSingle();
+      const { data, error } = await client.from('pdf_assignments').select('id, pdf_material_id, student_id, status').eq('id', id).maybeSingle();
       if (error) throw error;
       return data;
     },

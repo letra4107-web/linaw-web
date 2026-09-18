@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { supabase } from '../lib/supabaseClient';
+import { api } from '../lib/api';
 import { assessSpeech, isSpeechRecognitionSupported, listenOnce, normalizeForCompare } from '../lib/speech';
 import { TTSButton } from './a11y/TTSButton';
 import { IconLabel } from './a11y/IconLabel';
@@ -56,27 +56,26 @@ export function PdfReadingAssistant({ material, assignmentId, mode, onAttemptRec
   useEffect(() => {
     if (mode !== 'student' || !assignmentId || !chunks.length) return;
     void (async () => {
-      const childId = await ownChildId(); if (!childId) return;
-      const [{ data: assignment }, { data: attempts }] = await Promise.all([
-        supabase.from('pdf_assignments').select('status').eq('id', assignmentId).maybeSingle(),
-        supabase.from('pdf_reading_attempts').select('chunk_index').eq('pdf_assignment_id', assignmentId).eq('student_id', childId).not('chunk_index', 'is', null),
-      ]);
-      setSubmitted(['submitted', 'reviewed', 'completed'].includes(assignment?.status || ''));
-      const done = new Set((attempts || []).map((row) => Number(row.chunk_index)).filter(Number.isInteger));
-      setCompleted(done);
-      const next = chunks.findIndex((_, index) => !done.has(index)); if (next >= 0) setChunkIndex(next);
+      try {
+        const reading = await api<{ status: string; completedChunkIndexes: number[] }>(`/student/pdf-reading/${assignmentId}`, { auth: true });
+        setSubmitted(['submitted', 'reviewed', 'completed'].includes(reading.status));
+        const done = new Set(reading.completedChunkIndexes.filter(Number.isInteger));
+        setCompleted(done);
+        const next = chunks.findIndex((_, index) => !done.has(index)); if (next >= 0) setChunkIndex(next);
+      } catch {
+        setError('Hindi ma-load ang dating progreso. Subukan muli.');
+      }
     })();
   }, [assignmentId, chunks, mode]);
 
   const saveAttempt = async (spoken: string, confidence: number) => {
-    const childId = await ownChildId(); if (!childId || !assignmentId) return;
+    if (!assignmentId) return;
     const assessment = assessSpeech(current, spoken, confidence);
     if (assessment.outcome === 'retry') { setError(assessment.message); return; }
-    const score = assessment.accuracy;
-    const { error: insertError } = await supabase.from('pdf_reading_attempts').insert({ pdf_assignment_id: assignmentId, student_id: childId, transcript: spoken, accuracy: score, chunk_index: chunkIndex, chunk_text: current });
-    if (insertError) throw insertError;
-    await supabase.from('pdf_assignments').update({ status: 'in_progress' }).eq('id', assignmentId);
-    setCompleted((old) => new Set(old).add(chunkIndex)); setTranscript(spoken); setAccuracy(score); setFeedbackAttempt((attempt) => attempt + 1); onAttemptRecorded?.(score);
+    const result = await api<{ accuracy: number }>('/student/pdf-reading/attempt', {
+      method: 'POST', auth: true, body: { assignmentId, chunkIndex, transcript: spoken },
+    });
+    setCompleted((old) => new Set(old).add(chunkIndex)); setTranscript(spoken); setAccuracy(result.accuracy); setFeedbackAttempt((attempt) => attempt + 1); onAttemptRecorded?.(result.accuracy);
   };
   const read = () => {
     if (!isSpeechRecognitionSupported()) { setError('Hindi suportado ng browser mo ang speech recognition. Subukan sa Chrome.'); return; }
@@ -86,8 +85,8 @@ export function PdfReadingAssistant({ material, assignmentId, mode, onAttemptRec
   const move = (next: number) => { setChunkIndex(next); setAccuracy(null); setTranscript(''); setError(null); };
   const submit = async () => {
     if (!assignmentId || completed.size < chunks.length) return;
-    const { error: submitError } = await supabase.from('pdf_assignments').update({ status: 'submitted', submitted_at: new Date().toISOString() }).eq('id', assignmentId);
-    if (submitError) { setError('Hindi maipasa ngayon. Subukan muli.'); return; } setSubmitted(true);
+    try { await api(`/student/pdf-reading/${assignmentId}/submit`, { method: 'POST', auth: true }); setSubmitted(true); }
+    catch { setError('Hindi maipasa ngayon. Subukan muli.'); }
   };
 
   if (!text) return <p className="rounded-xl border p-6 text-center text-[var(--color-text-muted)]" style={cardStyle('--color-brand-coral')}>Walang na-extract na teksto mula sa PDF na ito.</p>;
@@ -99,15 +98,14 @@ export function PdfReadingAssistant({ material, assignmentId, mode, onAttemptRec
     </div>
     <div className="rounded-2xl border bg-white/60 p-4 shadow-sm" style={cardStyle('--color-brand-lavender', 6, 24)}>
       <div className="mb-2 flex items-center justify-between gap-3 text-sm font-bold"><span>Iyong progreso</span><span className="text-[var(--color-text-muted)]">{completedCount} sa {chunks.length} bahagi</span></div>
-      <div className="h-2.5 overflow-hidden rounded-full bg-white"><div className="h-full rounded-full bg-[var(--color-success)] transition-[width] duration-500" style={{ width: `${progressPercent}%` }} /></div>
+      <div className="h-2.5 overflow-hidden rounded-full bg-white" role="progressbar" aria-label="Progreso sa gabay na pagbasa" aria-valuemin={0} aria-valuemax={chunks.length} aria-valuenow={completedCount}><div className="h-full rounded-full bg-[var(--color-success)] transition-[width] duration-500 motion-reduce:transition-none" style={{ width: `${progressPercent}%` }} /></div>
     </div>
     {material.preview_words?.length ? <div className="rounded-2xl border p-4" style={cardStyle('--color-brand-sun', 4, 18)}><p className="mb-2 font-bold">Mga salitang paghahandaan</p><div className="flex flex-wrap gap-2">{material.preview_words.slice(0, 5).map((word) => <span key={word} className="rounded-full bg-white px-3 py-1 text-sm font-semibold">{word}</span>)}</div></div> : null}
     <div className="rounded-3xl border-2 border-[var(--color-primary)]/20 bg-[var(--color-surface)] p-7 shadow-raised sm:p-9"><div className="mb-5 flex items-center justify-between gap-3"><span className="rounded-full bg-[var(--color-primary-soft)] px-3 py-1 text-xs font-bold text-[var(--color-primary)]">Bahagi {chunkIndex + 1}</span><p className="text-sm font-bold text-[var(--color-primary)]">Basahin nang dahan-dahan</p></div><p className={`${FONT_SIZES[fontSizeIndex]} ${wideSpacing ? 'tracking-wide' : ''} font-medium`} style={{ lineHeight: wideSpacing ? 2.2 : 1.9, wordSpacing: wideSpacing ? '0.25em' : undefined }}>{current.split(/(\s+)/).map((part, index) => <span key={`${part}-${index}`} className={matched.has(normalizeForCompare(part)) ? 'rounded-lg bg-[var(--color-success-soft)] px-0.5 font-semibold text-[var(--color-success)]' : ''}>{part}</span>)}</p></div>
     <div className="flex flex-wrap justify-center gap-3"><TTSButton text={current} className="rounded-full border bg-white px-5 py-3 text-sm font-bold" /><button type="button" onClick={listening ? () => { stopRef.current(); setListening(false); } : read} disabled={submitted || mode === 'preview'} className="rounded-full bg-[var(--color-primary)] px-6 py-3 text-sm font-bold text-white disabled:opacity-60"><IconLabel icon="🎙️" label={listening ? 'Itigil' : 'Ako Naman'} /></button></div>
     <p className="text-center text-sm text-[var(--color-text-muted)]">Pakinggan muna, saka basahin ang bahaging ito. Okay lang ang mag-retry.</p>
     {accuracy !== null && <PronunciationFeedback key={feedbackAttempt} correct={accuracy >= 75} message={readingFeedback(accuracy)} autoPlay={mode === 'student'} />}
-    {error && <p className="rounded-xl bg-[var(--color-danger-soft)] px-4 py-3 text-center text-sm text-[var(--color-danger)]">{error}</p>}
+    {error && <p role="alert" className="rounded-xl bg-[var(--color-danger-soft)] px-4 py-3 text-center text-sm text-[var(--color-danger)]">{error}</p>}
     <div className="flex items-center justify-between gap-3"><button type="button" onClick={() => move(Math.max(0, chunkIndex - 1))} disabled={chunkIndex === 0} className="rounded-full border px-4 py-2 disabled:opacity-40">← Bumalik</button>{chunkIndex < chunks.length - 1 ? <button type="button" onClick={() => move(chunkIndex + 1)} disabled={mode === 'student' && !completed.has(chunkIndex)} className="rounded-full bg-[var(--color-primary)] px-5 py-2 font-bold text-white disabled:opacity-40">Susunod →</button> : submitted ? <span className="font-bold text-[var(--color-success)]">Naipasa na sa guro ✓</span> : <button type="button" onClick={submit} disabled={mode === 'student' && completed.size < chunks.length} className="rounded-full bg-[var(--color-success)] px-5 py-2 font-bold text-white disabled:opacity-40">Ipasa sa Guro</button>}</div>
   </section>;
 }
-async function ownChildId(): Promise<string | null> { const { data: { user } } = await supabase.auth.getUser(); if (!user) return null; const { data } = await supabase.from('children').select('id').eq('auth_uid', user.id).maybeSingle(); return data?.id ?? null; }

@@ -31,8 +31,8 @@ export default function Dashboard() {
       <section aria-label="Mahahalagang numero" className="grid grid-cols-2 gap-3 lg:grid-cols-4">
         {[
           { value: roster?.length ?? 0, label: 'Nakatakdang mag-aaral', note: 'Kasalukuyang talaan', color: '--color-brand-lavender' },
-          { value: `${classAverage}%`, label: 'Karaniwang marka ng klase', note: `${activeRows.length} may datos sa pagsasanay`, color: '--color-brand-teal' },
-          { value: needsAttention.length, label: 'Kailangang tutukan', note: 'Mas mababa sa 70%', color: '--color-brand-coral' },
+          { value: `${classAverage}%`, label: 'Karaniwang naitalang kawastuhan', note: `${activeRows.length} may datos sa pagsasanay`, color: '--color-brand-teal' },
+          { value: needsAttention.length, label: 'Mga resultang susuriin', note: 'May average na mas mababa sa 70%', color: '--color-brand-coral' },
           { value: pendingAssignments ?? 0, label: 'Aktibong takdang-gawain', note: `${materialsCount ?? 0} materyal na PDF`, color: '--color-brand-sun' },
         ].map((stat) => <div key={stat.label} className="rounded-3xl border p-4 shadow-card sm:p-5" style={cardStyle(stat.color, 8, 28)}><p className="text-2xl font-bold sm:text-3xl">{stat.value}</p><p className="mt-1 text-sm font-bold">{stat.label}</p><p className="mt-1 text-xs text-[var(--color-text-muted)]">{stat.note}</p></div>)}
       </section>

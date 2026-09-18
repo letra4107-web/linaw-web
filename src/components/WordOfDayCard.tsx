@@ -128,8 +128,6 @@ export function WordOfDayCard({ streak = 0 }: WordOfDayCardProps) {
         setLastHeard(transcript);
         const assessment = assessSpeech(wordOfDay.word, transcript, confidence);
         if (assessment.outcome === 'retry') { setError(assessment.message); return; }
-        const { accuracy } = assessment;
-        const correct = assessment.outcome === 'correct';
         const nextAttempts = attemptsUsed + 1;
 
         try {
@@ -141,7 +139,7 @@ export function WordOfDayCard({ streak = 0 }: WordOfDayCardProps) {
           }>('/student/word-of-day/attempt', {
             method: 'POST',
             auth: true,
-            body: { logId: wordOfDay.id, attempts: nextAttempts, correct, accuracy },
+            body: { logId: wordOfDay.id, attempts: nextAttempts, transcript },
           });
           if (res.isFinal && res.correct) setJustAwardedXp(res.xpAwarded);
           if (res.newlyUnlockedBadges?.length) setNewlyUnlockedBadges(res.newlyUnlockedBadges);
@@ -230,6 +228,7 @@ export function WordOfDayCard({ streak = 0 }: WordOfDayCardProps) {
                     type="button"
                     onClick={handleTry}
                     disabled={listening}
+                    aria-describedby="word-of-day-microphone-help"
                     className={`relative flex min-h-16 w-full max-w-sm items-center justify-center gap-3 overflow-hidden rounded-2xl px-6 py-3 text-white shadow-lg transition-all hover:-translate-y-0.5 hover:shadow-raised active:scale-[0.98] disabled:opacity-70 ${
                       listening ? 'bg-[var(--color-danger)]' : ''
                     }`}
@@ -239,7 +238,7 @@ export function WordOfDayCard({ streak = 0 }: WordOfDayCardProps) {
                     <img src={micIcon} alt="" className="relative h-8 w-8 object-contain brightness-0 invert" />
                     <span className="relative text-base font-bold">{listening ? 'Nakikinig...' : 'Bigkasin ang salita'}</span>
                   </button>
-                  <p className="text-center text-sm font-medium text-[var(--color-text-muted)]">
+                  <p id="word-of-day-microphone-help" aria-live="polite" className="text-center text-sm font-medium text-[var(--color-text-muted)]">
                     {listening ? 'Magsalita nang malinaw.' : 'Pindutin ang mic kapag handa ka na.'}
                   </p>
                 </>
@@ -260,7 +259,7 @@ export function WordOfDayCard({ streak = 0 }: WordOfDayCardProps) {
               <p className="text-sm text-[var(--color-text-muted)]">Narinig: "{lastHeard}"</p>
             )}
             {error && (
-              <p className="w-full rounded-xl bg-[var(--color-danger-soft)] px-4 py-2.5 text-center text-sm text-[var(--color-danger)]">
+              <p role="alert" className="w-full rounded-xl bg-[var(--color-danger-soft)] px-4 py-2.5 text-center text-sm text-[var(--color-danger)]">
                 {error}
               </p>
             )}

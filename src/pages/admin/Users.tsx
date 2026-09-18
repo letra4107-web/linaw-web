@@ -22,9 +22,9 @@ export default function AdminUsers() {
   const { data, isLoading } = useQuery({ queryKey: ['admin-users', role, status], queryFn: () => api<{ users: UserRow[] }>(`/admin/users?${params.toString()}`, { auth: true }) });
   useEffect(() => setPage(1), [role, status, search]);
   const invalidate = () => queryClient.invalidateQueries({ queryKey: ['admin-users'] });
-  const disable = useMutation({ mutationFn: (payload: { id: string; reason: string }) => api(`/admin/users/${payload.id}/disable`, { method: 'POST', auth: true, body: { reason: payload.reason } }), onSuccess: () => { invalidate(); setReasonFor(null); setReason(''); }, onError: (err: Error) => setError(err.message) });
-  const restore = useMutation({ mutationFn: (id: string) => api(`/admin/users/${id}/restore`, { method: 'POST', auth: true }), onSuccess: invalidate, onError: (err: Error) => setError(err.message) });
-  const archive = useMutation({ mutationFn: (payload: { id: string; reason: string }) => api(`/admin/users/${payload.id}/archive`, { method: 'POST', auth: true, body: { reason: payload.reason } }), onSuccess: () => { invalidate(); setReasonFor(null); setReason(''); }, onError: (err: Error) => setError(err.message) });
+  const disable = useMutation({ mutationFn: (payload: { id: string; reason: string }) => api(`/admin/users/${payload.id}/disable`, { method: 'POST', auth: true, body: { reason: payload.reason } }), onSuccess: () => { invalidate(); setReasonFor(null); setReason(''); }, onError: () => setError('Hindi na-disable ang account. Suriin ang pahintulot o subukan muli.') });
+  const restore = useMutation({ mutationFn: (id: string) => api(`/admin/users/${id}/restore`, { method: 'POST', auth: true }), onSuccess: invalidate, onError: () => setError('Hindi na-restore ang account. Subukan muli.') });
+  const archive = useMutation({ mutationFn: (payload: { id: string; reason: string }) => api(`/admin/users/${payload.id}/archive`, { method: 'POST', auth: true, body: { reason: payload.reason } }), onSuccess: () => { invalidate(); setReasonFor(null); setReason(''); }, onError: () => setError('Hindi na-archive ang account. Subukan muli.') });
   const normalized = search.trim().toLowerCase();
   const users = (data?.users ?? []).filter((user) => !normalized || user.name?.toLowerCase().includes(normalized) || user.email.toLowerCase().includes(normalized));
   const totalPages = Math.max(1, Math.ceil(users.length / PAGE_SIZE)); const pageUsers = users.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);

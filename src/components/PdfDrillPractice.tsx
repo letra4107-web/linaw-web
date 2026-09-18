@@ -7,6 +7,7 @@ import { TTSButton } from './a11y/TTSButton';
 import { SyllableKaraokeText } from './SyllableKaraokeText';
 import { PronunciationFeedback } from './PronunciationFeedback';
 import { IconLabel } from './a11y/IconLabel';
+import { ReadingTarget } from './student/ReadingTarget';
 import { cardStyle } from '../lib/cardStyle';
 
 interface DrillItem {
@@ -59,21 +60,22 @@ export function PdfDrillPractice({ assignmentId }: PdfDrillPracticeProps) {
         setLastHeard(transcript);
         const assessment = assessSpeech(current.word, transcript, confidence);
         if (assessment.outcome === 'retry') { setSpeechError(assessment.message); return; }
-        const { accuracy } = assessment;
-        const correct = assessment.outcome === 'correct';
+        // Keep the local assessment only for deciding whether the speech API
+        // returned something usable. The API is the source of truth for a
+        // saved result and XP award.
 
         try {
-          const res = await api<{ xpAwarded: number; drillCompleted: boolean }>('/student/pdf-drill/attempt', {
+          const res = await api<{ correct: boolean; xpAwarded: number; drillCompleted: boolean }>('/student/pdf-drill/attempt', {
             method: 'POST',
             auth: true,
-            body: { assignmentId, drillItemId: current.id, transcript, accuracy, correct },
+            body: { assignmentId, drillItemId: current.id, transcript },
           });
           setResult({
-            correct,
-            message: correct ? randomFrom(CORRECT_MESSAGES) : randomFrom(ENCOURAGE_MESSAGES),
+            correct: res.correct,
+            message: res.correct ? randomFrom(CORRECT_MESSAGES) : randomFrom(ENCOURAGE_MESSAGES),
             xpAwarded: res.xpAwarded,
           });
-          if (correct) {
+          if (res.correct) {
             queryClient.invalidateQueries({ queryKey: ['pdf-drill', assignmentId] });
             queryClient.invalidateQueries({ queryKey: ['student-progress'] });
           }
@@ -100,8 +102,8 @@ export function PdfDrillPractice({ assignmentId }: PdfDrillPracticeProps) {
     // cursor naturally lands on the next uncompleted item without needing to advance it.
   };
 
-  if (isLoading) return <p>Naglo-load...</p>;
-  if (items.length === 0) return <p className="text-[var(--color-text-muted)]">Walang laman ang pagsasanay na ito.</p>;
+  if (isLoading) return <div role="status" aria-live="polite" className="rounded-3xl border bg-[var(--surface-muted)] p-6 text-center text-[var(--color-text-muted)] shadow-card">Inihahanda ang pagsasanay sa PDF...</div>;
+  if (items.length === 0) return <div className="rounded-3xl border border-dashed bg-[var(--surface-muted)] p-6 text-center text-[var(--color-text-muted)]">Wala pang salita sa pagsasanay na ito.</div>;
 
   if (!current) {
     return (
@@ -126,7 +128,7 @@ export function PdfDrillPractice({ assignmentId }: PdfDrillPracticeProps) {
         </span>
       </div>
 
-      <div className="h-2 w-full overflow-hidden rounded-full bg-white/70 shadow-inner">
+      <div className="h-2 w-full overflow-hidden rounded-full bg-white/70 shadow-inner" role="progressbar" aria-label="Progreso sa PDF drill" aria-valuemin={0} aria-valuemax={items.length} aria-valuenow={totalDone}>
         <div
           className="h-full rounded-full transition-[width]"
           style={{
@@ -136,16 +138,13 @@ export function PdfDrillPractice({ assignmentId }: PdfDrillPracticeProps) {
         />
       </div>
 
-      <div
-        className="flex min-h-40 flex-col items-center justify-center gap-4 rounded-2xl px-6 py-8 text-center shadow-inner"
-        style={{ backgroundColor: 'color-mix(in srgb, var(--color-brand-lavender) 10%, white)' }}
-      >
+      <ReadingTarget label="Salitang babasahin" tone="--color-brand-lavender">
         {current.image_url && (
           <img src={current.image_url} alt="" className="h-24 w-24 rounded-xl object-contain" />
         )}
         <SyllableKaraokeText syllables={syllables} activeIndex={null} colorVar="--color-brand-lavender" />
         <TTSButton text={current.word} />
-      </div>
+      </ReadingTarget>
 
       {result ? (
         <>
@@ -185,7 +184,7 @@ export function PdfDrillPractice({ assignmentId }: PdfDrillPracticeProps) {
             {listening ? 'Nakikinig... (pindutin para ihinto)' : 'Pindutin ang mic at bigkasin'}
           </p>
           {speechError && (
-            <p className="w-full rounded-xl bg-[var(--color-danger-soft)] px-4 py-2.5 text-center text-sm text-[var(--color-danger)]">
+            <p role="alert" className="w-full rounded-xl bg-[var(--color-danger-soft)] px-4 py-2.5 text-center text-sm text-[var(--color-danger)]">
               <IconLabel icon="⚠️" label={speechError} />
             </p>
           )}

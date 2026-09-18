@@ -81,21 +81,32 @@
  * --------------------------------------------------------------------- */
 :root {
   --color-bg: var(--color-brand-cream);
+  --background: var(--color-bg);
   --color-surface: var(--color-brand-white);
+  --surface: var(--color-surface);
+  --surface-muted: color-mix(in srgb, var(--color-surface) 72%, var(--color-bg));
   --color-text: var(--color-brand-ink);
+  --foreground: var(--color-text);
   --color-text-muted: var(--color-brand-ink-soft);
+  --foreground-muted: var(--color-text-muted);
   --color-border: var(--color-brand-border);
   --color-primary: var(--color-brand-lavender-dark);
+  --primary: var(--color-primary);
   --color-primary-hover: color-mix(in srgb, var(--color-brand-lavender-dark) 82%, black);
   --color-accent: var(--color-brand-sun);
+  --accent: var(--color-accent);
   --color-danger: var(--color-brand-danger-text);
+  --error: var(--color-danger);
   --color-danger-soft: color-mix(in srgb, var(--color-brand-danger-text) 12%, white);
   --color-success: color-mix(in srgb, var(--color-brand-green) 70%, black);
+  --success: var(--color-success);
   --color-success-soft: color-mix(in srgb, var(--color-brand-success) 14%, white);
   --color-warning: color-mix(in srgb, var(--color-brand-warning) 85%, black);
+  --warning: var(--color-warning);
   --color-warning-soft: color-mix(in srgb, var(--color-brand-warning) 16%, white);
   --color-warning-text: var(--color-brand-warning-text);
   --color-focus: var(--color-brand-sun);
+  --focus: var(--color-focus);
   --color-primary-soft: color-mix(in srgb, var(--color-brand-lavender) 16%, white);
   --color-accent-soft: color-mix(in srgb, var(--color-brand-sun) 16%, white);
   --color-hero-from: var(--color-brand-hero-from);
@@ -236,6 +247,17 @@ input::placeholder, textarea::placeholder {
 }
 
 @media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
+
   .confetti-piece {
     display: none;
   }

@@ -8,6 +8,7 @@ import { TTSButton } from '../../components/a11y/TTSButton';
 import { SlowTTSButton } from '../../components/a11y/SlowTTSButton';
 import { BadgeUnlockToast } from '../../components/BadgeUnlockToast';
 import { IconLabel } from '../../components/a11y/IconLabel';
+import { LearningActivityHeader } from '../../components/student/LearningActivityHeader';
 import { cardStyle, CARD_COLORS } from '../../lib/cardStyle';
 import { trackEvent } from '../../lib/analytics';
 
@@ -17,7 +18,6 @@ interface AssessmentItem {
   content_text: string;
   content_type: string;
   answer_options: string[] | null;
-  correct_answer_index: number | null;
   item_order: number;
 }
 
@@ -46,6 +46,7 @@ export default function Assessment() {
   const [started, setStarted] = useState<StartResponse | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [answers, setAnswers] = useState<Record<string, Answered>>({});
+  const [pendingAnswerId, setPendingAnswerId] = useState<string | null>(null);
   const [listeningFor, setListeningFor] = useState<string | null>(null);
   const [result, setResult] = useState<SubmitResult | null>(null);
   const [readingChoicesFor, setReadingChoicesFor] = useState<string | null>(null);
@@ -66,27 +67,26 @@ export default function Assessment() {
     mutationFn: async ({
       item,
       transcript,
-      accuracy,
     }: {
       item: AssessmentItem;
       transcript: string;
-      accuracy: number;
     }) => {
-      const isParagraph = item.content_type === 'paragraph';
       const attempt = await api<{ attempt_id: string }>(`/student/learn/content/${item.content_id}/attempt`, {
         method: 'POST',
         auth: true,
-        body: { accuracy, transcript, isFullSubmission: isParagraph, source: 'assessment' },
+        body: { transcript, source: 'assessment' },
       });
       return { item, attempt };
     },
+    onMutate: ({ item }) => setPendingAnswerId(item.assessment_item_id),
     onSuccess: ({ item, attempt }) => {
       setAnswers((prev) => ({
         ...prev,
         [item.assessment_item_id]: { assessment_item_id: item.assessment_item_id, content_attempt_id: attempt.attempt_id },
       }));
+      setPendingAnswerId(null);
     },
-    onError: (err: Error) => setError(err.message),
+    onError: (err: Error) => { setPendingAnswerId(null); setError(err.message); },
   });
 
   const submitMutation = useMutation({
@@ -105,11 +105,9 @@ export default function Assessment() {
   });
 
   const answerMultipleChoice = (item: AssessmentItem, selectedIndex: number) => {
-    const isCorrect = selectedIndex === item.correct_answer_index;
     recordAnswer.mutate({
       item,
       transcript: item.answer_options?.[selectedIndex] ?? '',
-      accuracy: isCorrect ? 100 : 0,
     });
   };
 
@@ -138,7 +136,7 @@ export default function Assessment() {
         setListeningFor(null);
         const assessment = assessSpeech(item.content_text, transcript, confidence);
         if (assessment.outcome === 'retry') { setError(assessment.message); return; }
-        recordAnswer.mutate({ item, transcript, accuracy: assessment.accuracy });
+        recordAnswer.mutate({ item, transcript });
       },
       (message) => {
         setListeningFor(null);
@@ -184,31 +182,19 @@ export default function Assessment() {
 
   return (
     <div className="flex flex-col gap-6">
-      <div
-        className="overflow-hidden rounded-2xl p-6 text-white shadow-hero sm:p-7"
-        style={{ backgroundImage: 'linear-gradient(135deg, var(--color-hero-from), var(--color-hero-via), var(--color-hero-to))' }}
-      >
-        <p className="text-sm font-semibold tracking-wide text-white/75 uppercase">Pagsusulit</p>
-        <h1 className="mt-1 text-2xl font-bold">
-          Sagutan ang {started.items.length} tanong
-        </h1>
-        <div className="mt-4 flex items-center gap-3">
-          <div className="h-2.5 flex-1 overflow-hidden rounded-full bg-white/25">
-            <div
-              className="h-full rounded-full bg-white transition-[width]"
-              style={{ width: `${(answeredCount / started.items.length) * 100}%` }}
-            />
-          </div>
-          <span className="shrink-0 text-sm font-semibold">
-            {answeredCount}/{started.items.length}
-          </span>
-        </div>
-      </div>
+      <LearningActivityHeader
+        eyebrow="Pagsusulit"
+        title={`Sagutan ang ${started.items.length} tanong`}
+        description="Sagutin ang bawat tanong bago isumite. Maaari kang makinig muli kung kailangan mo."
+        completed={answeredCount}
+        total={started.items.length}
+      />
 
-      {error && <p className="text-[var(--color-danger)]">{error}</p>}
+      {error && <p role="alert" className="rounded-xl bg-[var(--color-danger-soft)] px-4 py-3 text-[var(--color-danger)]">{error}</p>}
 
       {started.items.map((item, idx) => {
         const isAnswered = Boolean(answers[item.assessment_item_id]);
+        const isSubmittingAnswer = pendingAnswerId === item.assessment_item_id;
         return (
           <div
             key={item.assessment_item_id}
@@ -229,7 +215,7 @@ export default function Assessment() {
                   type="button"
                   onClick={() => readChoices(item)}
                   disabled={readingChoicesFor === item.assessment_item_id}
-                  className="inline-flex w-fit items-center gap-2 rounded-full border border-[var(--color-border)] bg-white/70 px-4 py-1.5 text-sm font-medium hover:border-[var(--color-primary)] disabled:opacity-60"
+                  className="inline-flex min-h-11 w-fit items-center gap-2 rounded-full border border-[var(--color-border)] bg-white/70 px-4 py-1.5 text-sm font-medium hover:border-[var(--color-primary)] disabled:opacity-60"
                 >
                   <IconLabel
                     icon="🔊"
@@ -241,9 +227,10 @@ export default function Assessment() {
                     <button
                       key={opt}
                       type="button"
-                      disabled={isAnswered}
+                      disabled={isAnswered || recordAnswer.isPending}
+                      aria-pressed={isAnswered || isSubmittingAnswer}
                       onClick={() => answerMultipleChoice(item, i)}
-                      className="flex-1 rounded-xl border-2 border-white bg-white/70 px-4 py-3 text-left font-medium transition-all hover:border-[var(--color-primary)] hover:-translate-y-0.5 disabled:opacity-60 disabled:hover:translate-y-0"
+                      className={`min-h-11 flex-1 rounded-xl border-2 bg-white/70 px-4 py-3 text-left font-medium transition-all hover:border-[var(--color-primary)] hover:-translate-y-0.5 disabled:opacity-60 disabled:hover:translate-y-0 ${isSubmittingAnswer ? 'border-[var(--color-primary)] bg-[var(--color-primary-soft)]' : 'border-white'}`}
                     >
                       {opt}
                     </button>
@@ -258,7 +245,7 @@ export default function Assessment() {
                   type="button"
                   disabled={isAnswered || listeningFor === item.content_id}
                   onClick={() => practiceSpeech(item)}
-                  className="rounded-full bg-[var(--color-primary)] px-4 py-2 text-sm text-white shadow-card transition-all hover:-translate-y-0.5 hover:shadow-raised active:scale-95 disabled:translate-y-0 disabled:opacity-60"
+                  className="min-h-11 rounded-full bg-[var(--color-primary)] px-4 py-2 text-sm text-white shadow-card transition-all hover:-translate-y-0.5 hover:shadow-raised active:scale-95 disabled:translate-y-0 disabled:opacity-60"
                 >
                   <IconLabel
                     icon="🎤"

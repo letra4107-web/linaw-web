@@ -9,7 +9,7 @@ interface AnalyticsResponse {
   enrollmentTrend: { month: string; count: number }[];
   usageTrend: { month: string; count: number }[];
   roleCounts: Record<string, number>;
-  totals: { children: number; users: number; totalXp: number; badgeUnlockCount: number; practiceSessions: number };
+  totals: { children: number; studentAccounts: number; users: number; totalXp: number; badgeUnlockCount: number; practiceSessions: number };
 }
 interface UserRow { id: string; email: string; name: string | null; role: string; account_status: string; is_active: boolean; created_at: string; lastLoginAt: string | null }
 interface CredentialSecurity { totalStudents: number; legacy: number; rotatedPending: number; secure: number; fullyRetired: number; missing: number; requiresRotation: number; }
@@ -33,7 +33,7 @@ export default function AdminDashboard() {
   const activeUsers = users.filter((user) => user.account_status === 'active' && user.is_active).length;
   const stats = data ? [
     { icon: '👥', label: 'Kabuuang users', value: data.totals.users, detail: `${activeUsers} aktibong account`, brand: '--color-brand-lavender' },
-    { icon: '🧒', label: 'Mga mag-aaral', value: data.totals.children, detail: 'Enrolled children', brand: '--color-brand-coral' },
+    { icon: '🧒', label: 'Student accounts', value: data.totals.studentAccounts, detail: 'Katugma ng Users list', brand: '--color-brand-coral' },
     { icon: '🎓', label: 'Mga guro', value: data.roleCounts.teacher ?? 0, detail: 'Teacher accounts', brand: '--color-brand-sun' },
     { icon: '👪', label: 'Mga magulang', value: data.roleCounts.parent ?? 0, detail: 'Parent accounts', brand: '--color-brand-sage' },
     { icon: '●', label: 'Active users', value: activeUsers, detail: `${users.length ? Math.round((activeUsers / users.length) * 100) : 0}% ng visible accounts`, brand: '--color-brand-teal' },

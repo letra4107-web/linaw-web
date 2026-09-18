@@ -44,15 +44,15 @@ export default function ProgressReport() {
         <>
           <section aria-label="Mahahalagang numero" className="grid grid-cols-2 gap-3 lg:grid-cols-4">
             {[
-              { value: `${averageAccuracy}%`, label: 'Karaniwang accuracy', note: averageAccuracy! >= 80 ? 'Magandang antas' : 'May puwang para umunlad', color: '--color-brand-lavender' },
-              { value: `${successRate}%`, label: 'Success rate', note: `${correctCount} tamang sagot`, color: '--color-brand-sage' },
-              { value: sessions?.length ?? 0, label: 'Kabuuang attempts', note: 'Lahat ng practice', color: '--color-brand-sun' },
-              { value: profile?.weeklyPracticeDays ?? 0, label: 'Araw ngayong linggo', note: 'Consistency', color: '--color-brand-coral' },
+              { value: `${averageAccuracy}%`, label: 'Karaniwang naitalang kawastuhan', note: 'Mula sa mga recorded practice session', color: '--color-brand-lavender' },
+              { value: `${successRate}%`, label: 'Tamang naitalang pagsubok', note: `${correctCount} tamang sagot`, color: '--color-brand-sage' },
+              { value: sessions?.length ?? 0, label: 'Kabuuang pagsubok', note: 'Lahat ng naitalang practice', color: '--color-brand-sun' },
+              { value: profile?.weeklyPracticeDays ?? 0, label: 'Araw ngayong linggo', note: 'Mga araw na may practice', color: '--color-brand-coral' },
             ].map((stat) => <div key={stat.label} className="rounded-3xl border p-4 shadow-card sm:p-5" style={cardStyle(stat.color, 8, 28)}><p className="text-2xl font-bold text-[var(--color-primary)] sm:text-3xl">{stat.value}</p><p className="mt-1 text-sm font-bold">{stat.label}</p><p className="mt-1 text-xs text-[var(--color-text-muted)]">{stat.note}</p></div>)}
           </section>
 
           <section aria-labelledby="trend-title" className="min-w-0 rounded-3xl border p-4 shadow-card sm:p-6" style={cardStyle('--color-brand-teal', 6, 25)}>
-            <div className="mb-4 flex flex-wrap items-end justify-between gap-2"><div><h2 id="trend-title" className="text-xl font-bold">Accuracy sa Paglipas ng Panahon</h2><p className="text-sm text-[var(--color-text-muted)]">Bawat punto ay isang practice session ni {activeChild?.name}.</p></div><span className="rounded-full bg-white/70 px-3 py-1 text-xs font-bold text-[var(--color-brand-teal)]">Target: 80% pataas</span></div>
+            <div className="mb-4 flex flex-wrap items-end justify-between gap-2"><div><h2 id="trend-title" className="text-xl font-bold">Naitalang Kawastuhan sa Paglipas ng Panahon</h2><p className="text-sm text-[var(--color-text-muted)]">Bawat punto ay isang naitalang practice session ni {activeChild?.name}.</p></div><span className="rounded-full bg-white/70 px-3 py-1 text-xs font-bold text-[var(--color-brand-teal)]">Recorded practice data</span></div>
             <div className="h-72 min-w-0 sm:h-80">
               <ResponsiveContainer width="100%" height="100%"><LineChart data={chartData} margin={{ top: 8, right: 8, left: -20, bottom: 0 }}><CartesianGrid strokeDasharray="4 4" stroke="var(--color-border)" vertical={false} /><XAxis dataKey="date" tick={{ fontSize: 11, fill: 'var(--color-text-muted)' }} tickLine={false} axisLine={false} minTickGap={24} /><YAxis domain={[0, 100]} tick={{ fontSize: 11, fill: 'var(--color-text-muted)' }} tickLine={false} axisLine={false} /><Tooltip contentStyle={{ borderRadius: 16, border: '1px solid var(--color-border)', boxShadow: 'var(--shadow-card)' }} formatter={(value) => [`${value}%`, 'Accuracy']} /><Line type="monotone" dataKey="accuracy" stroke="var(--color-primary)" strokeWidth={3} dot={{ r: 3, fill: 'var(--color-primary)' }} activeDot={{ r: 6 }} /></LineChart></ResponsiveContainer>
             </div>
