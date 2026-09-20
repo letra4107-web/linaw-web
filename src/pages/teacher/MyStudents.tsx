@@ -12,9 +12,9 @@ interface StudentProgress { child_id: string; level: string; accuracy_sum: numbe
 interface StudentSession { word: string; accuracy_percentage: number; is_correct: boolean; created_at: string; }
 interface StudentAssignment { id: string; status: string; due_date: string | null; pdf_materials: { title: string } | null; }
 interface StudentModule { id: string; module_number: number; title: string; state: 'locked' | 'unlocked' | 'completed'; content_item_count: number; completed_content_item_count: number; }
-// A compact page keeps student cards readable and makes the roster navigation
-// useful for ordinary class sizes, not only very large rosters.
-const ROSTER_PAGE_SIZE = 3;
+// Ten cards keep each class-list page scannable while avoiding overly frequent
+// navigation for a typical teacher roster.
+const ROSTER_PAGE_SIZE = 10;
 
 export default function MyStudents() {
   const { user } = useAuth();
