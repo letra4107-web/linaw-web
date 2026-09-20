@@ -21,20 +21,10 @@ function base64ToObjectUrl(base64: string): string {
   return URL.createObjectURL(new Blob([buffer], { type: 'audio/mpeg' }));
 }
 
-/** Falls back to the browser's own speech synthesis if the server-side Filipino TTS is unavailable. */
-function speakWithBrowser(text: string, lang: string, rate: number) {
-  if (typeof window === 'undefined' || !('speechSynthesis' in window)) return;
-  window.speechSynthesis.cancel();
-  const utterance = new SpeechSynthesisUtterance(text);
-  utterance.lang = lang;
-  utterance.rate = rate;
-  window.speechSynthesis.speak(utterance);
-}
-
-/** Reads `text` aloud in real Filipino, via a server-side Google Cloud TTS voice. Falls back to the
- *  browser's own (often English-only) speech synthesis if the backend call fails. Acts as a toggle --
+/** Reads `text` aloud through the server-side Filipino Cloud TTS voice. Acts as a toggle --
  *  clicking again while speaking stops playback instead of restarting it. */
 export function TTSButton({ text, lang = 'fil-PH', className }: TTSButtonProps) {
+  void lang; // Server-side Filipino Cloud TTS is authoritative for pronunciation.
   const [status, setStatus] = useState<'idle' | 'loading' | 'speaking'>('idle');
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
@@ -77,8 +67,6 @@ export function TTSButton({ text, lang = 'fil-PH', className }: TTSButtonProps) 
       audio.play();
     } catch {
       trackEvent('speech_request_failed', { surface: 'tts_button' });
-      setStatus('speaking');
-      speakWithBrowser(text, lang, rate);
       setStatus('idle');
     }
   };

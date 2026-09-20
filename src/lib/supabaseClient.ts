@@ -11,5 +11,9 @@ export const supabase = createClient(url, anonKey, {
   auth: {
     persistSession: true,
     autoRefreshToken: true,
+    // Start a clean local auth store after the previous development token was
+    // revoked. This prevents localhost from repeatedly restoring that broken
+    // refresh token on every page load.
+    storageKey: 'linawletra-auth-v2',
   },
 });

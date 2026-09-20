@@ -28,6 +28,7 @@ export default function AdminDashboard() {
   const analytics = useQuery({ queryKey: ['admin-analytics'], queryFn: () => api<AnalyticsResponse>('/admin/analytics', { auth: true }) });
   const usersQuery = useQuery({ queryKey: ['admin-users', '', ''], queryFn: () => api<{ users: UserRow[] }>('/admin/users?', { auth: true }) });
   const credentialsQuery = useQuery({ queryKey: ['admin-credential-security'], queryFn: () => api<{ credentials: CredentialSecurity }>('/admin/credential-security', { auth: true }) });
+  const loadError = [analytics.error, usersQuery.error, credentialsQuery.error].find(Boolean);
   const data = analytics.data;
   const users = usersQuery.data?.users ?? [];
   const activeUsers = users.filter((user) => user.account_status === 'active' && user.is_active).length;
@@ -47,6 +48,12 @@ export default function AdminDashboard() {
         <div className="absolute -right-12 -top-12 h-44 w-44 rounded-full bg-white/10" aria-hidden="true" />
         <div className="relative flex flex-wrap items-end justify-between gap-4"><div><p className="text-xs font-extrabold tracking-[.14em] text-white/70 uppercase">System overview</p><h1 className="mt-1 text-2xl font-extrabold sm:text-3xl">Kumusta, {identity?.displayName ?? 'Admin'}!</h1><p className="mt-2 max-w-2xl text-sm leading-relaxed text-white/80 sm:text-base">Narito ang malinaw na buod ng users, engagement, at pinakabagong aktibidad ng LinawLetra.</p></div><Link to="/admin/users" className="inline-flex min-h-11 items-center rounded-full bg-white px-5 text-sm font-extrabold text-[var(--color-brand-navy)] shadow-card transition-transform hover:-translate-y-0.5">Tingnan ang users →</Link></div>
       </header>
+
+      {import.meta.env.DEV && loadError instanceof Error && (
+        <div role="alert" className="rounded-2xl border border-red-300 bg-red-50 px-4 py-3 text-sm font-medium text-red-800">
+          Hindi ma-load ang Admin data: {loadError.message}
+        </div>
+      )}
 
       {(analytics.isLoading || usersQuery.isLoading) ? <div className="grid grid-cols-2 gap-3 lg:grid-cols-3 xl:grid-cols-6">{Array.from({ length: 6 }, (_, index) => <LoadingCard key={index} />)}</div> : data && <section aria-label="Pangunahing statistics" className="grid grid-cols-2 gap-3 lg:grid-cols-3 xl:grid-cols-6">{stats.map((stat) => <article key={stat.label} className="min-w-0 rounded-3xl border p-4 shadow-card transition-all hover:-translate-y-0.5 hover:shadow-raised" style={cardStyle(stat.brand, 7, 26)}><div className="flex items-start justify-between gap-2"><span className="flex h-10 w-10 items-center justify-center rounded-2xl bg-white/70 text-lg" aria-hidden="true">{stat.icon}</span><span className="h-2.5 w-2.5 rounded-full" style={{ backgroundColor: `var(${stat.brand})` }} /></div><p className="mt-3 text-2xl font-extrabold tabular-nums sm:text-3xl">{stat.value.toLocaleString()}</p><p className="mt-1 text-sm font-bold">{stat.label}</p><p className="mt-1 truncate text-xs text-[var(--color-text-muted)]">{stat.detail}</p></article>)}</section>}
 

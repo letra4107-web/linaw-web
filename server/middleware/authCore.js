@@ -8,7 +8,13 @@ function createAuthMiddleware(client) {
     const token = bearerTokenFrom(req.headers.authorization);
     if (!token) return res.status(401).json({ error: 'Missing Authorization bearer token.' });
     const { data, error } = await client.auth.getUser(token);
-    if (error || !data?.user) return res.status(401).json({ error: 'Invalid or expired session.' });
+    if (error || !data?.user) {
+      // Surface only a safe, local-development diagnostic. It identifies a
+      // configuration/session mismatch without ever returning the bearer token.
+      const detail = process.env.NODE_ENV === 'production' ? undefined : (error?.message || 'No authenticated user returned.');
+      if (detail) console.warn('[auth validation]', detail);
+      return res.status(401).json({ error: 'Invalid or expired session.', ...(detail ? { detail } : {}) });
+    }
     req.user = data.user;
     return next();
   }

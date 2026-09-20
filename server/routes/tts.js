@@ -1,6 +1,7 @@
 const express = require('express');
 const { requireAuth } = require('../middleware/auth');
 const { ttsLimiter } = require('../lib/rateLimiters');
+const { filipinoSsml, isMultiSyllableWord, syllableCount } = require('../lib/filipinoPhonemes');
 
 const MAX_TEXT_LENGTH = 500;
 const GOOGLE_TTS_URL = 'https://texttospeech.googleapis.com/v1/text:synthesize';
@@ -22,7 +23,7 @@ function createTtsRouter({
   try {
     const { text } = req.body || {};
     const requestedRate = Number(req.body?.rate);
-    const speakingRate = Number.isFinite(requestedRate) ? Math.min(1, Math.max(0.25, requestedRate)) : 0.95;
+    const preferredRate = Number.isFinite(requestedRate) ? Math.min(1, Math.max(0.25, requestedRate)) : 0.95;
     if (!text || typeof text !== 'string' || !text.trim()) {
       return res.status(400).json({ error: 'Text is required.' });
     }
@@ -38,12 +39,16 @@ function createTtsRouter({
     if (!apiKey) {
       return res.status(500).json({ error: 'TTS is not configured on the server.' });
     }
+    const syllables = syllableCount(text);
+    // Decodable two-or-more-syllable words need extra time between Filipino
+    // vowel sounds. Never speed up a user-selected slower rate.
+    const speakingRate = isMultiSyllableWord(text) ? Math.min(preferredRate, 0.72) : preferredRate;
 
     const response = await fetchImpl(`${GOOGLE_TTS_URL}?key=${apiKey}`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        input: { text },
+        input: { ssml: filipinoSsml(text) },
         voice: { languageCode: 'fil-PH', name: 'fil-ph-Neural2-A' },
         audioConfig: { audioEncoding: 'MP3', speakingRate },
       }),
@@ -56,7 +61,7 @@ function createTtsRouter({
     }
 
     const data = await response.json();
-    res.json({ audioContent: data.audioContent });
+    res.json({ audioContent: data.audioContent, speakingRate, syllableCount: syllables });
   } catch (err) {
     console.error('[tts]', err);
     res.status(500).json({ error: 'Unable to synthesize speech right now.' });

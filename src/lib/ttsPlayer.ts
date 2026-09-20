@@ -24,22 +24,6 @@ function playAudioAndWait(url: string): Promise<void> {
   });
 }
 
-function speakWithBrowserAndWait(text: string, lang: string, rate: number): Promise<void> {
-  return new Promise((resolve) => {
-    if (typeof window === 'undefined' || !('speechSynthesis' in window)) {
-      resolve();
-      return;
-    }
-    window.speechSynthesis.cancel();
-    const utterance = new SpeechSynthesisUtterance(text);
-    utterance.lang = lang;
-    utterance.rate = rate;
-    utterance.onend = () => resolve();
-    utterance.onerror = () => resolve();
-    window.speechSynthesis.speak(utterance);
-  });
-}
-
 async function resolveAudioUrl(text: string, rate: number): Promise<string | null> {
   const cacheKey = `${text}::${rate}`;
   const cached = audioCache.get(cacheKey);
@@ -57,11 +41,10 @@ async function resolveAudioUrl(text: string, rate: number): Promise<string | nul
 /** Speaks `text` aloud and resolves once playback has finished. `rate` defaults to the
  *  student's saved speed preference (see ttsSettings.ts) when not explicitly overridden. */
 export async function playTts(text: string, rate = getTtsRate(), lang = 'fil-PH'): Promise<void> {
+  void lang; // The server always selects the Filipino Cloud TTS voice.
   const url = await resolveAudioUrl(text, rate);
   if (url) {
     await playAudioAndWait(url);
-  } else {
-    await speakWithBrowserAndWait(text, lang, rate);
   }
 }
 

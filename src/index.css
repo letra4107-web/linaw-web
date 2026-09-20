@@ -166,6 +166,12 @@ body[data-font="dyslexic"] p {
   margin-bottom: 2em;
 }
 
+/* Navigation labels must remain compact; the reading-paragraph spacing above
+   otherwise pushes dashboard branding and sidebar items out of alignment. */
+body[data-font="dyslexic"] .dashboard-sidebar p {
+  margin-bottom: 0;
+}
+
 h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-display);
   font-weight: 700;

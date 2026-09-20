@@ -65,6 +65,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
     const { data: sub } = supabase.auth.onAuthStateChange((event, nextSession) => {
       transitionSession(nextSession);
+
+      // Supabase refreshes access tokens in the background. That is not a
+      // login transition, so reloading the whole identity here makes every
+      // dashboard flash and can trigger a fetch/refresh loop.
+      if (event === 'TOKEN_REFRESHED') return;
+
       setLoading(true);
       setError(null);
       // Notify the parent on an actual login only -- never on a background token

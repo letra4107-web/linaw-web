@@ -1,4 +1,7 @@
-require('dotenv').config();
+// In local development, use this repository's server/.env even if a terminal
+// has stale Supabase variables from another project. Production continues to
+// use its platform-provided environment configuration.
+require('dotenv').config({ override: process.env.NODE_ENV !== 'production' });
 const { assertServerConfig } = require('./config/validateConfig');
 assertServerConfig();
 const express = require('express');

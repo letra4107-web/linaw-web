@@ -208,6 +208,27 @@ test('TTS route enforces auth, input bounds, successful synthesis, and per-user 
   });
 });
 
+test('TTS uses Filipino SSML phonemes and slows multi-syllable words', async () => {
+  const allow = (req, _res, next) => { req.user = { id: 'student-a' }; next(); };
+  const noLimit = (_req, _res, next) => next();
+  let providerPayload;
+  const provider = async (_url, options) => {
+    providerPayload = JSON.parse(options.body);
+    return { ok: true, json: async () => ({ audioContent: 'bXAz' }) };
+  };
+
+  await withHttpApp(createTtsRouter({ authMiddleware: allow, limiter: noLimit, fetchImpl: provider, apiKey: 'test' }), async (url) => {
+    const response = await fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ text: 'ngipin', rate: 1 }) });
+    assert.equal(response.status, 200);
+    const body = await response.json();
+    assert.equal(body.syllableCount, 2);
+    assert.equal(body.speakingRate, 0.72);
+  });
+
+  assert.deepEqual(providerPayload.voice, { languageCode: 'fil-PH', name: 'fil-ph-Neural2-A' });
+  assert.match(providerPayload.input.ssml, /<phoneme alphabet="x-sampa" ph="Nipin">ngipin<\/phoneme>/);
+});
+
 test('material access abstraction supports legacy and short-lived signed URLs', async () => {
   const material = { file_url: 'https://public.example/file.pdf', storage_path: 'teacher/file.pdf' };
   const fakeClient = { storage: { from: () => ({ createSignedUrl: async (path, expiresIn) => ({ data: { signedUrl: `https://signed.example/${path}?ttl=${expiresIn}` }, error: null }) }) } };

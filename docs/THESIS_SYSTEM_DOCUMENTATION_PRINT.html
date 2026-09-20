@@ -1,0 +1,351 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><title>LinawLetra System Documentation</title><style>
+@page { size: A4; margin: 16mm; }
+body { color:#1f2937; font-family: Arial, sans-serif; font-size:10.5pt; line-height:1.55; }
+h1 { color:#4338ca; font-size:23pt; margin:0 0 16pt; border-bottom:3px solid #7c3aed; padding-bottom:8pt; }
+h2 { color:#3730a3; font-size:16pt; margin:24pt 0 9pt; break-after:avoid; }
+h3 { color:#4f46e5; font-size:12pt; margin:16pt 0 6pt; break-after:avoid; }
+p { margin:0 0 8pt; } ul { margin:0 0 10pt; padding-left:20pt; } li { margin:3pt 0; }
+code { font-family:"Cascadia Mono", Consolas, monospace; background:#f3f4f6; padding:1pt 3pt; border-radius:2pt; }
+pre.diagram { white-space:pre-wrap; overflow-wrap:anywhere; background:#f8fafc; border:1px solid #c7d2fe; border-left:4px solid #7c3aed; border-radius:5pt; padding:10pt; font:7.2pt/1.3 "Cascadia Mono", Consolas, monospace; break-inside:avoid; }
+figure { margin:10pt 0 14pt; break-inside:avoid; } .diagram-image { display:block; width:100%; max-height:245mm; object-fit:contain; border:1px solid #c7d2fe; }
+strong { color:#312e81; } 
+</style></head><body><h1>LinawLetra System Documentation</h1><p>This chapter documents the implemented LinawLetra architecture. It is based on the React web application, React Native mobile application, Node.js/Express services, and Supabase schema/migrations. <strong>MongoDB is not used by the current implementation.</strong> Supabase provides PostgreSQL, Authentication, Row-Level Security (RLS), and object storage.</p><h2>1. System architecture</h2><p>LinawLetra follows a three-layer architecture: the User Interface Layer, Application Logic Layer, and Data Storage Layer.</p><pre class="diagram"><code>flowchart TB
+  subgraph UI[User Interface Layer]
+    WEB[React + TypeScript Web Application\nHostinger]
+    MOBILE[React Native Mobile Application]
+  end
+  subgraph LOGIC[Application Logic Layer]
+    API[Node.js + Express REST API\nRailway]
+    AUTHZ[Authentication, role and ownership checks]
+    SPEECH[Speech input, evaluation and TTS orchestration]
+  end
+  subgraph DATA[Data Storage Layer]
+    SA[Supabase Auth]
+    DB[(Supabase PostgreSQL + RLS)]
+    STORE[Supabase Storage]
+  end
+  EXTERNAL[External services\nGoogle Text-to-Speech, email delivery]
+  WEB --&gt;|HTTPS REST API| API
+  MOBILE --&gt;|HTTPS REST API| API
+  API --&gt; AUTHZ --&gt; SA
+  API --&gt; DB
+  API --&gt; STORE
+  API --&gt; SPEECH --&gt; EXTERNAL
+</code></pre><h3>Architecture description</h3><p>The user interface layer presents the student, parent, teacher, and administrator dashboards. It collects input and displays results, but it does not contain service-role credentials and does not decide authorization. The application logic layer validates input, verifies bearer tokens, applies role and ownership rules, handles learning workflows, and returns safe API responses. The data storage layer persists identities, curriculum, practice results, progress, notifications, and files. RLS provides database-level isolation in addition to API authorization.</p><h2>2. Complete use-case diagram</h2><pre class="diagram"><code>flowchart LR
+  Student([Student])
+  Parent([Parent])
+  Teacher([Teacher])
+  Admin([Administrator])
+  System[(LinawLetra)]
+
+  Student --&gt;|Register/verify, log in/out| System
+  Student --&gt;|Learn modules and lessons| System
+  Student --&gt;|Practice pronunciation and hear TTS| System
+  Student --&gt;|Complete Word of the Day, drills and assessments| System
+  Student --&gt;|View progress, streaks, badges and notifications| System
+
+  Parent --&gt;|Register/verify, log in/out| System
+  Parent --&gt;|Enroll and manage child account| System
+  Parent --&gt;|Monitor child progress and calendar| System
+  Parent --&gt;|Read notifications and teacher messages| System
+  Parent --&gt;|Initiate controlled child password reset| System
+
+  Teacher --&gt;|Log in/out| System
+  Teacher --&gt;|Manage assigned students| System
+  Teacher --&gt;|Upload/manage lessons and PDF materials| System
+  Teacher --&gt;|Create assignments and drills| System
+  Teacher --&gt;|Monitor student progress and analytics| System
+  Teacher --&gt;|Send messages| System
+
+  Admin --&gt;|Log in/out| System
+  Admin --&gt;|Manage users, roles and account status| System
+  Admin --&gt;|Manage teacher grade assignments| System
+  Admin --&gt;|View system analytics, archives and notifications| System
+  Admin --&gt;|Review aggregate credential security status| System
+</code></pre><h3>Use-case descriptions</h3><h2>3. Activity diagrams</h2><h3>Complete web-system activity diagram</h3><p>The following consolidated activity diagram presents the principal dynamic workflow of the deployed LinawLetra web application. The swimlanes distinguish actions initiated by a user, interface processing, protected API processing, and persistence or external-service work. The role workspaces are intentionally grouped after authentication so that the diagram remains readable while still showing the implemented Admin, Teacher, Parent, and Student pathways.</p><figure><img class="diagram-image" src="WEB_SYSTEM_ACTIVITY_DIAGRAM.svg" alt="LinawLetra Web System Activity Diagram"></figure><pre class="diagram"><code>flowchart LR
+  start((Start)) --&gt; open[User opens LinawLetra web system]
+
+  subgraph USER[User: public, Admin, Teacher, Parent, or Student]
+    direction TB
+    choose{Existing account?}
+    register[Enter registration information]
+    otp[Enter received OTP]
+    login[Enter email and password]
+    forgot[Request password reset]
+    reset[Set a new password through verified reset flow]
+    retry[Correct information and try again]
+    select[Choose a dashboard action]
+    logout[Select Log out]
+  end
+
+  subgraph WEB[Web System: React web interface]
+    direction TB
+    registrationForm[Validate registration fields]
+    otpForm[Display OTP verification screen]
+    loginForm[Submit credentials securely]
+    error[Show safe validation or authentication error]
+    route[Load role-appropriate dashboard]
+    adminUI[Admin: manage users, roles, account status, grade assignments, analytics, archives and notices]
+    teacherUI[Teacher: manage roster, lessons, assignments, PDF materials, progress and messages]
+    parentUI[Parent: enroll/manage linked child, review progress, calendar, messages and notifications]
+    studentUI[Student: browse lessons, activities, Word of the Day and practice]
+    lesson[Open target word, sentence, lesson or activity]
+    listen[Optionally request text-to-speech]
+    speak[Provide microphone/speech input]
+    feedback[Display score, feedback, hints, progress and earned rewards]
+    continue{Continue another activity?}
+  end
+
+  subgraph API[Backend / REST API: Node.js and Express]
+    direction TB
+    pending[Create pending verification session]
+    verifyOTP[Verify OTP validity and expiry]
+    auth[Authenticate session and resolve role/account status]
+    authorize[Authorize requested role, ownership and relationship]
+    manage[Validate and apply permitted management request]
+    practice[Validate student, activity and speech/practice payload]
+    evaluate[Evaluate the submitted practice response]
+    update[Apply completion, level and badge rules]
+    signout[Invalidate/clear authenticated session]
+  end
+
+  subgraph DATA[Supabase / external services]
+    direction TB
+    email[Email delivery service sends OTP or reset link]
+    supaAuth[(Supabase Authentication)]
+    db[(PostgreSQL with RLS)]
+    storage[(Supabase Storage)]
+    tts[Google Cloud Text-to-Speech]
+    notify[Create scoped notification when applicable]
+  end
+
+  open --&gt; choose
+  choose -- No --&gt; register --&gt; registrationForm --&gt; pending --&gt; supaAuth
+  pending --&gt; email --&gt; otpForm --&gt; otp --&gt; verifyOTP
+  verifyOTP --&gt; validOTP{OTP valid and active?}
+  validOTP -- No --&gt; error --&gt; retry
+  retry --&gt; register
+  validOTP -- Yes --&gt; account[Complete account registration] --&gt; login
+  choose -- Yes --&gt; login
+  login --&gt; loginForm --&gt; auth --&gt; supaAuth
+  auth --&gt; validLogin{Credentials valid?}
+  validLogin -- No --&gt; error --&gt; login
+  login --&gt; forgot --&gt; email --&gt; reset --&gt; login
+  validLogin -- Yes --&gt; active{Account active and role recognized?}
+  active -- No --&gt; error --&gt; login
+  active -- Yes --&gt; route --&gt; select
+
+  select --&gt; adminUI --&gt; authorize --&gt; manage --&gt; db --&gt; route
+  manage --&gt; notify --&gt; db
+  select --&gt; teacherUI --&gt; authorize --&gt; manage
+  teacherUI --&gt; upload{Upload or manage material?}
+  upload -- Yes --&gt; storage --&gt; db
+  upload -- No --&gt; db
+  select --&gt; parentUI --&gt; authorize --&gt; db --&gt; route
+  select --&gt; studentUI --&gt; lesson
+  lesson --&gt; listen --&gt; tts --&gt; speak
+  lesson --&gt; speak
+  speak --&gt; practice --&gt; authorize --&gt; evaluate --&gt; db
+  evaluate --&gt; result{Required score achieved?}
+  result -- No --&gt; feedback --&gt; retryPractice{Practice again?}
+  retryPractice -- Yes --&gt; lesson
+  retryPractice -- No --&gt; route
+  result -- Yes --&gt; update --&gt; db
+  update --&gt; nextLevel{Next-level requirements met?}
+  nextLevel -- Yes --&gt; unlock[Unlock eligible level or activity] --&gt; db
+  nextLevel -- No --&gt; badges{Badge requirements met?}
+  unlock --&gt; badges
+  badges -- Yes --&gt; award[Create eligible badge award and XP] --&gt; db
+  badges -- No --&gt; feedback
+  award --&gt; feedback --&gt; continue
+  continue -- Yes --&gt; studentUI
+  continue -- No --&gt; route
+  route --&gt; logout --&gt; signout --&gt; supaAuth --&gt; finish((End))
+</code></pre><p>#### Activity diagram explanation</p><p>The Web System Activity Diagram illustrates the dynamic workflow of the LinawLetra web application. A user can register through the OTP verification flow, sign in, recover credentials through the verified reset flow, and be routed according to the resolved account role. After the role and relationship checks, administrators manage authorized user and assignment records; teachers manage materials and monitor their assigned learners; parents access only linked-child information; and students select learning activities and submit pronunciation practice. The system validates each request, stores only authorized data through Supabase, optionally requests text-to-speech, evaluates practice results, updates progression, and awards eligible badges without duplication. Error, retry, authorization, performance, progression, and logout paths are explicitly represented.</p><h3>Registration and OTP verification</h3><pre class="diagram"><code>flowchart TD
+  A[User opens registration] --&gt; B[Enter account information]
+  B --&gt; C{Input valid?}
+  C -- No --&gt; D[Show validation message] --&gt; B
+  C -- Yes --&gt; E[Create pending account / OTP session]
+  E --&gt; F[Send one-time verification code]
+  F --&gt; G[User enters OTP]
+  G --&gt; H{OTP valid and not expired?}
+  H -- No --&gt; I[Show error or allow controlled resend] --&gt; G
+  H -- Yes --&gt; J[Confirm account and create authenticated session]
+  J --&gt; K[Route user to role-appropriate dashboard]
+</code></pre><h3>Login and logout</h3><pre class="diagram"><code>flowchart TD
+  A[Open login] --&gt; B[Enter credentials]
+  B --&gt; C[Supabase Auth verifies credentials]
+  C --&gt; D{Authenticated?}
+  D -- No --&gt; E[Show safe error] --&gt; B
+  D -- Yes --&gt; F[Resolve user role and account status]
+  F --&gt; G{Role authorized and active?}
+  G -- No --&gt; H[Reject access / show account status]
+  G -- Yes --&gt; I[Store session and load role dashboard]
+  I --&gt; J[User selects sign out]
+  J --&gt; K[Clear Supabase session]
+  K --&gt; L[Return to public/login screen]
+</code></pre><h3>Student pronunciation practice</h3><pre class="diagram"><code>flowchart TD
+  A[Student opens practice content] --&gt; B[Listen to target word using TTS]
+  B --&gt; C[Speak into browser/mobile microphone]
+  C --&gt; D[Speech recognition returns transcript]
+  D --&gt; E[Validate transcript, content and authenticated student]
+  E --&gt; F[Evaluate pronunciation accuracy/correctness]
+  F --&gt; G[Save practice attempt]
+  G --&gt; H[Update eligible progress/completion]
+  H --&gt; I[Check badge rules]
+  I --&gt; J[Show feedback, score, hints and unlocked badge]
+</code></pre><h3>Level progression and badge unlocking</h3><pre class="diagram"><code>flowchart TD
+  A[New completed/qualified attempt] --&gt; B[Record content attempt]
+  B --&gt; C[Check official completion requirements]
+  C --&gt; D{Requirements satisfied?}
+  D -- Yes --&gt; E[Create completion/progression record]
+  D -- No --&gt; F[Keep current level]
+  E --&gt; G[Evaluate badge criteria]
+  G --&gt; H{Badge not previously awarded?}
+  H -- Yes --&gt; I[Atomically create award and add XP]
+  H -- No --&gt; J[Do not duplicate reward]
+  I --&gt; K[Return updated progress and badge result]
+  F --&gt; K
+  J --&gt; K
+</code></pre><h3>Teacher material upload and management</h3><pre class="diagram"><code>flowchart TD
+  A[Teacher selects PDF/material] --&gt; B[Validate teacher identity and ownership]
+  B --&gt; C[Validate extension, MIME type, signature and size]
+  C --&gt; D{Valid file?}
+  D -- No --&gt; E[Reject and show safe validation error]
+  D -- Yes --&gt; F[Upload object to storage]
+  F --&gt; G[Save material metadata and legacy URL/path fields]
+  G --&gt; H[Teacher publishes, drafts, assigns or archives material]
+  H --&gt; I[Authorized students receive access through material rules]
+</code></pre><h3>Teacher and parent progress monitoring</h3><pre class="diagram"><code>flowchart TD
+  A[Teacher or parent opens progress view] --&gt; B[Authenticate user]
+  B --&gt; C[Verify teacher assignment or parent-child relationship]
+  C --&gt; D{Authorized?}
+  D -- No --&gt; E[Return 403 / no data]
+  D -- Yes --&gt; F[Retrieve scoped attempts, progress and insights]
+  F --&gt; G[Render charts, summaries and recommended support]
+</code></pre><h3>Notifications and admin user management</h3><pre class="diagram"><code>flowchart TD
+  A[System event or admin action] --&gt; B[Create scoped notification]
+  B --&gt; C[Recipient reads notification]
+  C --&gt; D[Mark only own notification as read]
+  E[Admin opens user management] --&gt; F[Authenticate admin role]
+  F --&gt; G[Search/filter user]
+  G --&gt; H[Disable, restore or archive with reason]
+  H --&gt; I[Persist audit/status update and notify affected user where applicable]
+</code></pre><h2>4. Entity relationship diagram</h2><p>The diagram focuses on principal entities observed in the available schema. Some historical mobile migrations contain compatibility tables; the deployed Supabase schema and [RLS audit](RLS_AUDIT.md) remain the authoritative operational reference.</p><pre class="diagram"><code>erDiagram
+  USERS ||--o| PARENTS : has_profile
+  USERS ||--o| TEACHER_PROFILES : has_profile
+  PARENTS ||--o{ CHILDREN : manages
+  CHILDREN ||--o| CHILD_CREDENTIALS : has_metadata
+  CHILDREN ||--o| CHILD_PROGRESS : has_progress
+  TEACHER_PROFILES ||--o{ TEACHER_STUDENT_LINKS : assigned
+  CHILDREN ||--o{ TEACHER_STUDENT_LINKS : assigned_to
+  TEACHER_PROFILES ||--o{ PDF_MATERIALS : owns
+  PDF_MATERIALS ||--o{ PDF_ASSIGNMENTS : assigned_as
+  CHILDREN ||--o{ PDF_ASSIGNMENTS : receives
+  PDF_MATERIALS ||--o{ PDF_DRILL_ITEMS : contains
+  CHILDREN ||--o{ PDF_READING_ATTEMPTS : performs
+  PDF_DRILL_ITEMS ||--o{ PDF_READING_ATTEMPTS : evaluated_in
+  READING_CONTENT ||--o{ STUDENT_CONTENT_ATTEMPTS : attempted
+  CHILDREN ||--o{ STUDENT_CONTENT_ATTEMPTS : makes
+  READING_CONTENT ||--o{ STUDENT_CONTENT_COMPLETIONS : completed
+  CHILDREN ||--o{ STUDENT_CONTENT_COMPLETIONS : earns
+  CHILDREN ||--o{ PRONUNCIATION_PRACTICE_SESSIONS : practices
+  CHILDREN ||--o{ WORD_OF_DAY_LOG : completes
+  CHILDREN ||--o{ NOTIFICATIONS : receives
+  CHILDREN ||--o{ STUDENT_BADGE_AWARDS : earns
+  BADGES ||--o{ STUDENT_BADGE_AWARDS : awarded
+  TEACHER_PROFILES ||--o{ LESSONS : creates
+  CHILDREN ||--o{ LESSON_PROGRESS : tracks
+</code></pre><h3>Database/ERD explanation</h3><p><code>users</code> is the platform account identity, while <code>parents</code> and <code>teacher_profiles</code> provide role-specific profile information. <code>children</code> represents student records, links to a parent, and is associated with progress and optional credential metadata. Teacher-student links scope roster access. Learning is represented through reading content, attempts, completions, modules, lessons, PDF materials, assignments, drills, and pronunciation sessions. Badge awards are separated into a uniqueness-protected award table to prevent duplicate rewards. Notifications are scoped to their recipient.</p><p>Important supporting tables include <code>reading_modules</code>, <code>reading_module_items</code>, <code>reading_module_assessments</code>, <code>student_module_assessment_attempts</code>, <code>student_module_assessment_responses</code>, <code>student_module_completions</code>, <code>lesson_progress</code>, <code>phoneme_confusion</code>, <code>student_nonsense_checks</code>, <code>teacher_messages</code>, <code>scheduled_activities</code>, <code>word_definitions</code>, <code>words</code>, and settings tables. No raw password value belongs in the ERD output or documentation.</p><h2>5. Sequence diagrams</h2><h3>Registration and OTP verification</h3><pre class="diagram"><code>sequenceDiagram
+  actor U as User
+  participant W as Web/Mobile UI
+  participant A as Express API
+  participant S as Supabase Auth/DB
+  participant M as Email Provider
+  U-&gt;&gt;W: Submit registration data
+  W-&gt;&gt;A: POST registration request
+  A-&gt;&gt;A: Validate input and role
+  A-&gt;&gt;S: Create pending identity/OTP session
+  A-&gt;&gt;M: Send OTP
+  M--&gt;&gt;U: Deliver verification code
+  U-&gt;&gt;W: Submit OTP
+  W-&gt;&gt;A: POST verification request
+  A-&gt;&gt;S: Validate OTP and activate account
+  S--&gt;&gt;A: Verified identity
+  A--&gt;&gt;W: Auth/session result
+  W--&gt;&gt;U: Open role dashboard
+</code></pre><h3>Login</h3><pre class="diagram"><code>sequenceDiagram
+  actor U as User
+  participant UI as Web/Mobile UI
+  participant SA as Supabase Auth
+  participant API as Express API
+  participant DB as Supabase PostgreSQL
+  U-&gt;&gt;UI: Enter credentials
+  UI-&gt;&gt;SA: Sign in
+  SA--&gt;&gt;UI: Access token/session
+  UI-&gt;&gt;API: Authenticated dashboard request
+  API-&gt;&gt;SA: Verify bearer token
+  API-&gt;&gt;DB: Resolve role and scoped data
+  DB--&gt;&gt;API: Authorized data
+  API--&gt;&gt;UI: Safe response
+  UI--&gt;&gt;U: Display dashboard
+</code></pre><h3>Pronunciation practice, progress and badge award</h3><pre class="diagram"><code>sequenceDiagram
+  actor S as Student
+  participant UI as Web/Mobile UI
+  participant SR as Speech Recognition
+  participant API as Express API
+  participant DB as Supabase PostgreSQL/RPC
+  S-&gt;&gt;UI: Start practice and speak
+  UI-&gt;&gt;SR: Capture speech input
+  SR--&gt;&gt;UI: Transcript
+  UI-&gt;&gt;API: Authenticated attempt/transcript request
+  API-&gt;&gt;API: Validate student, content and input
+  API-&gt;&gt;API: Evaluate accuracy/correctness
+  API-&gt;&gt;DB: Record attempt and eligible completion
+  DB--&gt;&gt;API: Progression result
+  API-&gt;&gt;DB: Check/atomically award eligible badges
+  DB--&gt;&gt;API: Newly awarded badge IDs
+  API--&gt;&gt;UI: Feedback, progress and badge result
+  UI--&gt;&gt;S: Show result and optional TTS guidance
+</code></pre><h3>Teacher material upload</h3><pre class="diagram"><code>sequenceDiagram
+  actor T as Teacher
+  participant UI as Teacher UI
+  participant API as Express API
+  participant DB as Supabase DB
+  participant ST as Supabase Storage
+  T-&gt;&gt;UI: Choose PDF/material
+  UI-&gt;&gt;API: Authenticated multipart upload
+  API-&gt;&gt;API: Verify teacher and validate file
+  API-&gt;&gt;ST: Upload validated file
+  ST--&gt;&gt;API: Storage path
+  API-&gt;&gt;DB: Save material metadata
+  DB--&gt;&gt;API: Material ID
+  API--&gt;&gt;UI: Upload result
+</code></pre><h3>Parent monitoring</h3><pre class="diagram"><code>sequenceDiagram
+  actor P as Parent
+  participant UI as Parent UI
+  participant API as Express API
+  participant DB as Supabase DB/RLS
+  P-&gt;&gt;UI: Select child progress
+  UI-&gt;&gt;API: Authenticated progress request
+  API-&gt;&gt;API: Verify parent-child ownership
+  API-&gt;&gt;DB: Query child-scoped progress and attempts
+  DB--&gt;&gt;API: Authorized records
+  API--&gt;&gt;UI: Progress summary and insights
+  UI--&gt;&gt;P: Display child progress
+</code></pre><h2>6. Deployment diagram</h2><pre class="diagram"><code>flowchart LR
+  USER[Student / Parent / Teacher / Admin]
+  WEB[Browser\nReact web application\nHostinger]
+  MOBILE[Mobile device\nReact Native application]
+  API[Railway\nNode.js/Express REST API]
+  SUPA[Supabase Cloud\nAuth + PostgreSQL + RLS + Storage]
+  TTS[Google Cloud Text-to-Speech]
+  MAIL[Transactional email service]
+  USER --&gt;|HTTPS| WEB
+  USER --&gt;|HTTPS| MOBILE
+  WEB --&gt;|HTTPS REST / JWT| API
+  MOBILE --&gt;|HTTPS REST / JWT| API
+  API --&gt;|TLS| SUPA
+  API --&gt;|HTTPS| TTS
+  API --&gt;|HTTPS| MAIL
+</code></pre><h3>Deployment architecture explanation</h3><p>The production web bundle is deployed to Hostinger and accessed through <code>linawletra.com</code>. The Express API is deployed to Railway and exposes authenticated HTTPS endpoints. Supabase hosts Auth, PostgreSQL, RLS policies, RPCs, and storage. The web and mobile clients communicate through the internet using HTTPS; service-role keys stay only in Railway/server environments. Google Cloud Text-to-Speech and the transactional email provider are external services called by the backend. CORS restricts browser origins, and security headers are applied at the API and Hostinger layers.</p><h2>7. Diagram interpretation notes</h2><ul><li>Activity diagrams describe business flow and decision points.</li><li>Sequence diagrams describe message order among actors and services.</li><li>The ERD describes data relationships, not every field or historical compatibility artifact.</li><li>The deployment diagram describes physical/cloud hosting and network communication.</li><li>RLS policies, API authorization, and backend validation work together; no single diagram replaces live security testing.</li></ul></body></html>

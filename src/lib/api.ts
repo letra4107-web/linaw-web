@@ -12,13 +12,17 @@ interface ApiOptions {
   auth?: boolean;
 }
 
+async function authorizationHeader() {
+  const { data } = await supabase.auth.getSession();
+  return data.session?.access_token ? `Bearer ${data.session.access_token}` : null;
+}
+
 export async function api<T>(path: string, opts: ApiOptions = {}): Promise<T> {
   const headers: Record<string, string> = { 'Content-Type': 'application/json' };
 
   if (opts.auth) {
-    const { data } = await supabase.auth.getSession();
-    const token = data.session?.access_token;
-    if (token) headers.Authorization = `Bearer ${token}`;
+    const authorization = await authorizationHeader();
+    if (authorization) headers.Authorization = authorization;
   }
 
   const res = await fetch(`${API_URL}${path}`, {
@@ -43,7 +47,10 @@ export async function api<T>(path: string, opts: ApiOptions = {}): Promise<T> {
     const message = typeof payload === 'object' && payload && 'error' in payload
       ? String((payload as { error: unknown }).error)
       : `Request failed (${res.status})`;
-    throw new Error(message);
+    const detail = typeof payload === 'object' && payload && 'detail' in payload
+      ? String((payload as { detail: unknown }).detail)
+      : '';
+    throw new Error(detail ? `${message} (${detail})` : message);
   }
 
   return payload as T;

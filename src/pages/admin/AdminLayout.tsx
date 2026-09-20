@@ -11,7 +11,7 @@ import adminBg from '../../assets/ad.webp';
 import { AppIcon } from '../../components/a11y/AppIcon';
 
 const PRIMARY_TABS = [
-  { to: '/admin', end: true, icon: '⌂', label: 'Dashboard' },
+  { to: '/admin', end: true, icon: '⌂', label: 'Simula' },
   { to: '/admin/users', icon: '👥', label: 'Mga User' },
   { to: '/admin/teachers', icon: '🎓', label: 'Mga Guro' },
   { to: '/admin/analytics', icon: '▥', label: 'Analytics' },
@@ -77,7 +77,7 @@ export default function AdminLayout() {
   return (
     <DashboardShell roleLabel="Admin" hideHeader bgImage={adminBg}>
       <div className="flex min-h-screen min-w-0">
-        <aside className={`sticky top-0 hidden h-screen shrink-0 flex-col border-r border-white/15 transition-[width] duration-200 lg:flex ${collapsed ? 'w-[4.75rem]' : 'w-60'}`} style={{ backgroundImage: `linear-gradient(rgba(28,45,105,.9),rgba(52,47,118,.88)),url(${navBg})`, backgroundSize: 'cover' }}>
+        <aside className={`dashboard-sidebar sticky top-0 hidden h-screen shrink-0 flex-col border-r border-white/15 transition-[width] duration-200 lg:flex ${collapsed ? 'w-[4.75rem]' : 'w-60'}`} style={{ backgroundImage: `linear-gradient(rgba(28,45,105,.9),rgba(52,47,118,.88)),url(${navBg})`, backgroundSize: 'cover' }}>
           <div className={`relative flex h-16 items-center gap-2 border-b border-white/15 px-3 ${collapsed ? 'justify-center' : ''}`}><img src={logo} alt="LinawLetra" className="h-9 w-9 shrink-0 rounded-xl object-cover shadow-sm" />{!collapsed && <div className="min-w-0"><p className="truncate text-sm font-extrabold text-white">LinawLetra</p><p className="truncate text-[0.68rem] font-semibold tracking-wide text-white/60 uppercase">Admin Console</p></div>}<button type="button" onClick={() => setCollapsed((value) => !value)} title={collapsed ? 'Palawakin ang sidebar' : 'Paliitin ang sidebar'} className={`${collapsed ? 'absolute top-[4.4rem] right-[-.75rem]' : 'ml-auto'} flex h-7 w-7 items-center justify-center rounded-full border border-white/25 bg-[var(--color-brand-navy)] text-xs text-white shadow-sm`}><span aria-hidden="true">{collapsed ? '›' : '‹'}</span></button></div>
           <NavContents collapsed={collapsed} />
           <div className="border-t border-white/15 p-2.5"><ProfileMenu collapsed={collapsed} /></div>

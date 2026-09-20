@@ -10,7 +10,7 @@ import teacherBg from '../../assets/td.webp';
 import { AppIcon } from '../../components/a11y/AppIcon';
 
 const PRIMARY_TABS = [
-  { to: '/teacher', end: true, icon: '⌂', label: 'Pangkalahatang-ideya' },
+  { to: '/teacher', end: true, icon: '⌂', label: 'Simula' },
   { to: '/teacher/students', icon: '♟', label: 'Mga Mag-aaral' },
   { to: '/teacher/lessons', icon: '▤', label: 'Mga Aralin' },
   { to: '/teacher/progress-reports', icon: '▥', label: 'Pagsusuri' },
@@ -60,7 +60,7 @@ export default function TeacherLayout() {
   return (
     <DashboardShell roleLabel="Guro" hideHeader bgImage={teacherBg}>
       <div className="flex min-h-screen min-w-0">
-        <aside className={`sticky top-0 hidden h-screen shrink-0 flex-col border-r border-white/15 transition-[width] duration-300 lg:flex ${collapsed ? 'w-[4.75rem]' : 'w-56'}`} style={{ backgroundImage: `url(${navBg})`, backgroundRepeat: 'no-repeat', backgroundSize: '100% 100%' }}>
+        <aside className={`dashboard-sidebar sticky top-0 hidden h-screen shrink-0 flex-col border-r border-white/15 transition-[width] duration-300 lg:flex ${collapsed ? 'w-[4.75rem]' : 'w-56'}`} style={{ backgroundImage: `url(${navBg})`, backgroundRepeat: 'no-repeat', backgroundSize: '100% 100%' }}>
           <div className={`flex h-16 items-center gap-2 border-b border-white/20 px-3 ${collapsed ? 'justify-center' : ''}`}><button type="button" onClick={() => setCollapsed((value) => !value)} className="flex min-w-0 items-center gap-2 rounded-xl p-1 text-white hover:bg-white/10"><img src={logo} alt="LinawLetra" className="h-10 w-10 shrink-0 rounded-xl object-cover" />{!collapsed && <span className="min-w-0 text-left"><span className="block truncate text-sm font-bold">LinawLetra</span><span className="block truncate text-xs text-white/65">Tanggapan ng Guro</span></span>}</button></div>
           <NavContents collapsed={collapsed} />
         </aside>

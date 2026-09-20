@@ -123,7 +123,7 @@ export default function ParentLayout() {
   return (
     <DashboardShell roleLabel="Magulang" hideHeader bgImage={parentBg}>
       <div className="flex min-h-screen min-w-0">
-        <aside className={`sticky top-0 hidden h-screen shrink-0 flex-col border-r border-white/15 transition-[width] duration-300 lg:flex ${collapsed ? 'w-[4.75rem]' : 'w-56'}`} style={{ backgroundImage: `url(${navBg})`, backgroundRepeat: 'no-repeat', backgroundSize: '100% 100%' }}>
+        <aside className={`dashboard-sidebar sticky top-0 hidden h-screen shrink-0 flex-col border-r border-white/15 transition-[width] duration-300 lg:flex ${collapsed ? 'w-[4.75rem]' : 'w-56'}`} style={{ backgroundImage: `url(${navBg})`, backgroundRepeat: 'no-repeat', backgroundSize: '100% 100%' }}>
           <div className={`flex h-16 items-center gap-2 border-b border-white/20 px-3 ${collapsed ? 'justify-center' : ''}`}>
             <button type="button" onClick={() => setCollapsed((value) => !value)} title={collapsed ? 'Palawakin ang sidebar' : 'Paliitin ang sidebar'} className="flex min-w-0 items-center gap-2 rounded-xl p-1 text-white transition-colors hover:bg-white/10">
               <img src={logo} alt="LinawLetra" className="h-10 w-10 shrink-0 rounded-xl object-cover shadow-sm" />

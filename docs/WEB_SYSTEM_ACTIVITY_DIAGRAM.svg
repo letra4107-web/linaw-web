@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="1420" viewBox="0 0 1200 1420" role="img" aria-labelledby="title description">
+  <title id="title">LinawLetra Web System Activity Diagram</title>
+  <desc id="description">A UML-style activity diagram with User and System swimlanes showing authentication, role routing, learning actions, progress, and logout.</desc>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#1f2937"/></marker>
+    <style>
+      .line{stroke:#1f2937;stroke-width:2.2;fill:none;marker-end:url(#arrow)} .box{fill:#fff;stroke:#1f2937;stroke-width:2;rx:12} .decision{fill:#fff;stroke:#1f2937;stroke-width:2} .lane{fill:#fafafa;stroke:#1f2937;stroke-width:2} text{font-family:Arial,sans-serif;fill:#111827} .title{font-size:25px;font-weight:700}.laneTitle{font-size:16px;font-weight:700}.label{font-size:15px;font-weight:600}.small{font-size:13px}.note{font-size:12px;font-weight:700}
+    </style>
+  </defs>
+  <rect x="20" y="20" width="1160" height="1380" fill="white" stroke="#1f2937" stroke-width="2"/>
+  <text x="600" y="55" text-anchor="middle" class="title">LinawLetra Web System Activity Diagram</text>
+  <line x1="20" y1="72" x2="1180" y2="72" stroke="#1f2937" stroke-width="2"/>
+  <rect x="20" y="72" width="500" height="1328" class="lane"/>
+  <rect x="520" y="72" width="660" height="1328" class="lane"/>
+  <text x="270" y="101" text-anchor="middle" class="laneTitle">USER (ADMIN, TEACHER, PARENT, OR STUDENT)</text>
+  <text x="850" y="101" text-anchor="middle" class="laneTitle">LINAWLETRA WEB SYSTEM / API / SUPABASE</text>
+  <line x1="20" y1="116" x2="1180" y2="116" stroke="#1f2937" stroke-width="2"/>
+
+  <circle cx="270" cy="150" r="15" fill="#111827"/>
+  <rect x="145" y="185" width="250" height="48" class="box"/><text x="270" y="214" text-anchor="middle" class="label">Open LinawLetra Web System</text>
+  <line x1="270" y1="165" x2="270" y2="185" class="line"/>
+  <rect x="145" y="270" width="250" height="50" class="box"/><text x="270" y="300" text-anchor="middle" class="label">Enter email and password</text>
+  <line x1="270" y1="233" x2="270" y2="270" class="line"/>
+  <rect x="145" y="355" width="250" height="50" class="box"/><text x="270" y="385" text-anchor="middle" class="label">Select Log in</text>
+  <line x1="270" y1="320" x2="270" y2="355" class="line"/>
+  <line x1="395" y1="380" x2="700" y2="380" class="line"/>
+
+  <rect x="700" y="355" width="300" height="50" class="box"/><text x="850" y="385" text-anchor="middle" class="label">Validate credentials</text>
+  <polygon points="850,445 930,510 850,575 770,510" class="decision"/><text x="850" y="505" text-anchor="middle" class="label">Are the user</text><text x="850" y="525" text-anchor="middle" class="label">credentials valid?</text>
+  <line x1="850" y1="405" x2="850" y2="445" class="line"/>
+  <text x="942" y="496" class="note">No</text><path d="M930 510 H1080 V290 H395" class="line"/>
+  <text x="864" y="602" class="note">Yes</text><rect x="700" y="620" width="300" height="52" class="box"/><text x="850" y="650" text-anchor="middle" class="label">Resolve role and account status</text>
+  <line x1="850" y1="575" x2="850" y2="620" class="line"/>
+  <rect x="700" y="710" width="300" height="52" class="box"/><text x="850" y="741" text-anchor="middle" class="label">Load the appropriate dashboard</text>
+  <line x1="850" y1="672" x2="850" y2="710" class="line"/>
+  <line x1="700" y1="736" x2="395" y2="736" class="line"/>
+
+  <rect x="105" y="780" width="330" height="136" class="box"/>
+  <text x="270" y="810" text-anchor="middle" class="label">Select a role-based task</text>
+  <text x="270" y="838" text-anchor="middle" class="small">Admin: manage accounts and assignments</text>
+  <text x="270" y="860" text-anchor="middle" class="small">Teacher: lessons, materials, and progress</text>
+  <text x="270" y="882" text-anchor="middle" class="small">Parent: child progress and notifications</text>
+  <text x="270" y="904" text-anchor="middle" class="small">Student: lessons and pronunciation practice</text>
+  <line x1="270" y1="736" x2="270" y2="780" class="line"/>
+  <line x1="435" y1="848" x2="700" y2="848" class="line"/>
+
+  <rect x="700" y="812" width="300" height="72" class="box"/><text x="850" y="841" text-anchor="middle" class="label">Authorize the request and relationship</text><text x="850" y="863" text-anchor="middle" class="small">then retrieve scoped data</text>
+  <rect x="700" y="926" width="300" height="78" class="box"/><text x="850" y="955" text-anchor="middle" class="label">Save the change, material, notification,</text><text x="850" y="977" text-anchor="middle" class="label">or pronunciation-practice result</text>
+  <line x1="850" y1="884" x2="850" y2="926" class="line"/>
+  <polygon points="850,1050 930,1115 850,1180 770,1115" class="decision"/><text x="850" y="1110" text-anchor="middle" class="label">Were level or badge</text><text x="850" y="1130" text-anchor="middle" class="label">requirements met?</text>
+  <line x1="850" y1="1004" x2="850" y2="1050" class="line"/>
+  <text x="865" y="1206" class="note">Yes</text><rect x="700" y="1222" width="300" height="54" class="box"/><text x="850" y="1254" text-anchor="middle" class="label">Update progress and award badge</text>
+  <line x1="850" y1="1180" x2="850" y2="1222" class="line"/>
+  <text x="940" y="1100" class="note">No</text><path d="M930 1115 H1060 V1285 H850" class="line"/>
+  <line x1="850" y1="1276" x2="850" y2="1302" class="line"/>
+  <rect x="145" y="1276" width="250" height="52" class="box"/><text x="270" y="1308" text-anchor="middle" class="label">Continue or log out</text>
+  <line x1="700" y1="1302" x2="395" y2="1302" class="line"/>
+  <circle cx="270" cy="1362" r="17" fill="white" stroke="#111827" stroke-width="3"/><circle cx="270" cy="1362" r="9" fill="#111827"/>
+  <line x1="270" y1="1328" x2="270" y2="1345" class="line"/>
+</svg>

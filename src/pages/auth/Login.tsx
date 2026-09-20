@@ -126,7 +126,8 @@ export default function Login() {
   const [error, setError] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
   const [savedProfiles, setSavedProfiles] = useState<SavedAuthProfile[]>(() => getSavedProfiles());
-  const [showForm, setShowForm] = useState(savedProfiles.length === 0);
+  // An old saved refresh token must never hide the normal password login.
+  const [showForm, setShowForm] = useState(true);
   const [reloginBusyId, setReloginBusyId] = useState<string | null>(null);
 
   const validate = (cleanEmail: string): FieldErrors => {

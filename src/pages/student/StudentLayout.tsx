@@ -240,7 +240,7 @@ export default function StudentLayout() {
     <DashboardShell roleLabel="Mag-aaral" hideHeader bgImage={studentBg}>
       <div className="flex min-h-screen min-w-0">
         <aside
-          className={`sticky top-0 hidden h-screen shrink-0 flex-col border-r border-[var(--color-border)] transition-[width] duration-300 lg:flex ${collapsed ? 'w-[4.75rem]' : 'w-56'}`}
+          className={`dashboard-sidebar sticky top-0 hidden h-screen shrink-0 flex-col border-r border-[var(--color-border)] transition-[width] duration-300 lg:flex ${collapsed ? 'w-[4.75rem]' : 'w-56'}`}
           style={{ backgroundImage: `url(${navBg})`, backgroundRepeat: 'no-repeat', backgroundSize: '100% 100%' }}
         >
           <div className={`flex h-16 items-center gap-2 border-b border-[var(--color-border)] px-3 ${collapsed ? 'justify-center' : ''}`}>
