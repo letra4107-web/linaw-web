@@ -61,7 +61,9 @@ export function assessSpeech(target: string, transcript: string, confidence = 1)
   // short words. A strong transcript match is enough; otherwise a child who
   // read correctly can be asked to repeat just because the browser is unsure.
   if (accuracy >= 88) return { outcome: 'correct', accuracy };
-  if (accuracy >= 55) return { outcome: 'retry', accuracy, message: 'Hindi pa sigurado ang narinig ko. Pakinggan at subukan nating muli.' };
+  // Keep retry only for genuinely unclear capture. A clear but different
+  // transcript must be shown as incorrect, so students and testers can tell
+  // the difference between a wrong answer and a microphone/STT problem.
   if (confidence < 0.35) return { outcome: 'retry', accuracy, message: 'Hindi malinaw ang nakuha ng browser. Ulitin ang salita nang dahan-dahan.' };
   return { outcome: 'incorrect', accuracy };
 }
