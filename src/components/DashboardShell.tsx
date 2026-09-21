@@ -16,6 +16,8 @@ interface DashboardShellProps {
   hideHeader?: boolean;
   /** Optional tiled background image (e.g. import().webp) shown behind the whole shell. */
   bgImage?: string;
+  /** Existing role layouts supply an identity scope for visual tokens. */
+  roleTheme?: 'student' | 'teacher' | 'parent' | 'admin';
 }
 
 export function DashboardShell({
@@ -25,6 +27,7 @@ export function DashboardShell({
   minimalHeader = false,
   hideHeader = false,
   bgImage,
+  roleTheme,
 }: DashboardShellProps) {
   const { identity } = useAuth();
 
@@ -34,16 +37,14 @@ export function DashboardShell({
 
   if (hideHeader) {
     return (
-      <div className="relative isolate min-h-screen overflow-x-clip bg-[var(--color-bg)] text-[var(--color-text)]" style={bgStyle}>
-        <div aria-hidden="true" className="pointer-events-none absolute inset-0 -z-10 bg-gradient-to-br from-white/35 via-transparent to-[var(--color-primary-soft)]/25" />
+      <div className={`role-${roleTheme ?? 'student'} relative isolate min-h-screen overflow-x-clip bg-[var(--color-bg)] text-[var(--color-text)]`} style={bgStyle}>
         {children}
       </div>
     );
   }
 
   return (
-    <div className="relative isolate min-h-screen overflow-x-clip bg-[var(--color-bg)] text-[var(--color-text)]" style={bgStyle}>
-      <div aria-hidden="true" className="pointer-events-none absolute inset-0 -z-10 bg-gradient-to-br from-white/35 via-transparent to-[var(--color-primary-soft)]/25" />
+    <div className={`role-${roleTheme ?? 'student'} relative isolate min-h-screen overflow-x-clip bg-[var(--color-bg)] text-[var(--color-text)]`} style={bgStyle}>
       <header className="flex flex-wrap items-center justify-between gap-3 border-b border-[var(--color-border)] bg-[var(--color-surface)]/80 px-6 py-4 shadow-sm backdrop-blur">
         <div className="flex items-center gap-3">
           <img src={logo} alt="LinawLetra" className="h-10 w-auto rounded-lg" />

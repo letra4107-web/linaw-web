@@ -8,8 +8,6 @@ import { IconLabel } from '../../components/a11y/IconLabel';
 import { softSignOut } from '../../lib/auth/softSignOut';
 import { cardStyle } from '../../lib/cardStyle';
 import logo from '../../assets/Logo.jpg';
-import studentBg from '../../assets/sd.webp';
-import navBg from '../../assets/side.webp';
 import homeIcon from '../../assets/home.png';
 import profileIcon from '../../assets/profile.png';
 import menuIcon from '../../assets/menu.png';
@@ -77,8 +75,8 @@ function navClass(collapsed: boolean) {
       collapsed ? 'justify-center px-2' : ''
     } ${
       isActive
-        ? 'border-[var(--color-primary)] bg-[var(--color-primary)] text-white shadow-card'
-        : 'border-transparent text-[var(--color-text)] hover:border-[var(--color-primary)] hover:bg-white/60'
+        ? 'border-white/35 bg-white/15 text-white shadow-card'
+        : 'border-transparent text-white/90 hover:border-white/20 hover:bg-white/10'
     }`;
 }
 
@@ -161,7 +159,7 @@ function ProfileMenu({ collapsed, mobile = false }: { collapsed: boolean; mobile
         aria-haspopup="menu"
         aria-controls={open ? menuId : undefined}
         title="Aking profile"
-        className={`flex min-h-12 w-full min-w-0 items-center gap-3 rounded-2xl border border-[var(--color-border)] bg-white/55 p-2 text-left transition-all hover:border-[var(--color-primary)] hover:bg-white/80 ${collapsed ? 'justify-center' : ''}`}
+        className={`flex min-h-12 w-full min-w-0 items-center gap-3 rounded-2xl border p-2 text-left transition-all ${mobile ? 'border-[var(--color-border)] bg-white/75 hover:border-[var(--color-primary)]' : 'border-white/20 bg-white/10 text-white hover:bg-white/15'} ${collapsed ? 'justify-center' : ''}`}
       >
         <span className="relative flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded-xl bg-[var(--color-primary)] text-lg font-bold text-white shadow-sm">
           <img src={profileIcon} alt="" aria-hidden="true" className="absolute inset-0 h-full w-full object-contain p-1 opacity-35" />
@@ -170,7 +168,7 @@ function ProfileMenu({ collapsed, mobile = false }: { collapsed: boolean; mobile
         {!collapsed && (
           <span className="min-w-0 flex-1">
             <span className="block truncate text-sm font-bold">{displayName}</span>
-            <span className="block text-xs text-[var(--color-text-muted)]">Aking profile</span>
+            <span className={`block text-xs ${mobile ? 'text-[var(--color-text-muted)]' : 'text-white/65'}`}>Aking profile</span>
           </span>
         )}
         {!collapsed && <span aria-hidden="true" className={`mr-1 text-sm transition-transform ${open ? 'rotate-180' : ''}`}>⌄</span>}
@@ -212,7 +210,7 @@ function NavContents({ collapsed, onNavigate }: { collapsed: boolean; onNavigate
         ))}
         {!collapsed && <img src={owlwave} alt="" aria-hidden="true" className="mt-auto w-24 self-center object-contain opacity-90" />}
       </nav>
-      <div className="border-t border-[var(--color-border)] p-3">
+      <div className="border-t border-white/20 p-3">
         <ProfileMenu collapsed={collapsed} />
       </div>
     </>
@@ -237,16 +235,16 @@ export default function StudentLayout() {
   }, [mobileOpen]);
 
   return (
-    <DashboardShell roleLabel="Mag-aaral" hideHeader bgImage={studentBg}>
+    <DashboardShell roleLabel="Mag-aaral" hideHeader roleTheme="student">
       <div className="flex min-h-screen min-w-0">
         <aside
-          className={`dashboard-sidebar sticky top-0 hidden h-screen shrink-0 flex-col border-r border-[var(--color-border)] transition-[width] duration-300 lg:flex ${collapsed ? 'w-[4.75rem]' : 'w-56'}`}
-          style={{ backgroundImage: `url(${navBg})`, backgroundRepeat: 'no-repeat', backgroundSize: '100% 100%' }}
+          className={`dashboard-sidebar sticky top-0 hidden h-screen shrink-0 flex-col border-r border-white/15 transition-[width] duration-300 lg:flex ${collapsed ? 'w-[4.75rem]' : 'w-56'}`}
+          style={{ backgroundColor: 'var(--color-primary-hover)' }}
         >
-          <div className={`flex h-16 items-center gap-2 border-b border-[var(--color-border)] px-3 ${collapsed ? 'justify-center' : ''}`}>
-            <button type="button" onClick={() => setCollapsed((value) => !value)} title={collapsed ? 'Palawakin ang sidebar' : 'Paliitin ang sidebar'} className="flex min-w-0 items-center gap-2 rounded-xl p-1 transition-colors hover:bg-white/60">
+          <div className={`flex h-16 items-center gap-2 border-b border-white/20 px-3 ${collapsed ? 'justify-center' : ''}`}>
+            <button type="button" onClick={() => setCollapsed((value) => !value)} title={collapsed ? 'Palawakin ang sidebar' : 'Paliitin ang sidebar'} className="flex min-w-0 items-center gap-2 rounded-xl p-1 text-white transition-colors hover:bg-white/10">
               <img src={logo} alt="LinawLetra" className="h-10 w-10 shrink-0 rounded-xl object-cover shadow-sm" />
-              {!collapsed && <span className="truncate font-bold text-[var(--color-primary)]">LinawLetra</span>}
+              {!collapsed && <span className="truncate font-bold">LinawLetra</span>}
             </button>
           </div>
           <NavContents collapsed={collapsed} />
@@ -267,7 +265,7 @@ export default function StudentLayout() {
           </header>
 
           {mobileOpen && (
-            <div id="student-mobile-nav" className="sticky top-16 z-30 border-b border-[var(--color-border)] shadow-card lg:hidden" style={{ backgroundImage: `url(${navBg})`, backgroundRepeat: 'no-repeat', backgroundSize: '100% 100%' }}>
+            <div id="student-mobile-nav" className="sticky top-16 z-30 border-b border-white/15 bg-[var(--color-primary-hover)] shadow-card lg:hidden">
               <nav aria-label="Mga bahagi ng student dashboard" className="grid grid-cols-3 gap-2 p-3">
                 {PRIMARY_TABS.map((tab) => (
                   <NavItem key={tab.to} to={tab.to} end={tab.end} icon={tab.icon} label={tab.label} collapsed={false} onNavigate={() => setMobileOpen(false)} />

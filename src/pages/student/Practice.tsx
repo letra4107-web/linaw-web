@@ -22,9 +22,9 @@ interface WordRow {
   word: string;
 }
 
-const MODE_THEME: Record<Mode, { brand: string; from: string; to: string }> = {
-  say: { brand: '--color-brand-coral', from: '#e06b4c', to: '#e3971a' },
-  listen: { brand: '--color-brand-teal', from: '#0d9488', to: '#7c6fcf' },
+const MODE_THEME: Record<Mode, { brand: string }> = {
+  say: { brand: '--color-primary' },
+  listen: { brand: '--color-primary' },
 };
 
 function pickRandom(words: WordRow[], excludeId?: string): WordRow | undefined {
@@ -206,7 +206,7 @@ export default function Practice() {
     <div className="flex flex-col gap-6">
       <div
         className="overflow-hidden rounded-2xl p-8 text-white shadow-lg"
-        style={{ backgroundImage: `linear-gradient(135deg, ${theme.from}, ${theme.to})` }}
+        style={{ backgroundColor: `var(${theme.brand})` }}
       >
         <div className="flex flex-wrap items-center justify-between gap-4">
           <div>
@@ -318,7 +318,7 @@ export default function Practice() {
                   className={`relative flex h-24 w-24 items-center justify-center rounded-full text-4xl text-white shadow-lg transition-transform hover:scale-105 active:scale-95 disabled:opacity-70 ${
                     listening ? 'bg-[var(--color-warning)]' : savingAttempt ? 'bg-[var(--color-text-muted)]' : ''
                   }`}
-                  style={!listening ? { backgroundImage: `linear-gradient(135deg, ${theme.from}, ${theme.to})` } : undefined}
+                  style={!listening ? { backgroundColor: `var(${theme.brand})` } : undefined}
                 >
                   {listening && <span className="absolute inset-0 animate-ping rounded-full bg-[var(--color-danger)]/60" />}
                   <span className="relative">🎤</span>

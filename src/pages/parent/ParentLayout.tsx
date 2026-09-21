@@ -7,8 +7,6 @@ import { useNotifications } from '../../lib/useNotifications';
 import { DashboardShell } from '../../components/DashboardShell';
 import { cardStyle } from '../../lib/cardStyle';
 import logo from '../../assets/Logo.jpg';
-import navBg from '../../assets/pds.webp';
-import parentBg from '../../assets/pd.webp';
 import { AppIcon } from '../../components/a11y/AppIcon';
 
 const PRIMARY_TABS = [
@@ -23,7 +21,7 @@ function navClass(collapsed: boolean) {
   return ({ isActive }: { isActive: boolean }) =>
     `group flex min-h-12 items-center gap-3 rounded-2xl border px-3 py-2.5 text-sm font-bold transition-all ${collapsed ? 'justify-center px-2' : ''} ${
       isActive
-        ? 'border-white/25 bg-[var(--color-brand-coral)] text-white shadow-card'
+        ? 'border-white/35 bg-white/15 text-white shadow-card'
         : 'border-transparent bg-black/10 text-white/90 hover:border-white/15 hover:bg-black/20'
     }`;
 }
@@ -74,7 +72,7 @@ function ProfileMenu({ collapsed, mobile = false }: { collapsed: boolean; mobile
         title="Aking profile"
         className={`relative flex min-h-12 w-full min-w-0 items-center gap-3 rounded-2xl border p-2 text-left transition-all ${mobile ? 'border-[var(--color-border)] bg-white/75 text-[var(--color-text)]' : 'border-white/20 bg-black/10 text-white hover:bg-black/20'} ${collapsed ? 'justify-center' : ''}`}
       >
-        <span className="flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded-xl bg-[var(--color-brand-coral)] font-bold text-white shadow-sm">
+        <span className="flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded-xl bg-[var(--color-primary)] font-bold text-white shadow-sm">
           {parentRow?.avatar_url ? <img src={parentRow.avatar_url} alt="" className="h-full w-full object-cover" /> : initials}
         </span>
         {!collapsed && (
@@ -89,7 +87,7 @@ function ProfileMenu({ collapsed, mobile = false }: { collapsed: boolean; mobile
       {open && (
         <div role="menu" className={`absolute z-50 w-72 max-w-[calc(100vw-2rem)] rounded-3xl border p-3 shadow-raised ${mobile ? 'top-full right-0 mt-2' : 'bottom-full left-0 mb-2'}`} style={cardStyle('--color-brand-coral', 8, 36)}>
           <div className="mb-2 flex items-center gap-3 rounded-2xl bg-white/70 p-3">
-            <span className="flex h-12 w-12 shrink-0 items-center justify-center overflow-hidden rounded-2xl bg-[var(--color-brand-coral)] font-bold text-white">
+            <span className="flex h-12 w-12 shrink-0 items-center justify-center overflow-hidden rounded-2xl bg-[var(--color-primary)] font-bold text-white">
               {parentRow?.avatar_url ? <img src={parentRow.avatar_url} alt="" className="h-full w-full object-cover" /> : initials}
             </span>
             <div className="min-w-0"><p className="truncate font-bold">{displayName}</p><p className="truncate text-xs text-[var(--color-text-muted)]">{user?.email}</p></div>
@@ -121,9 +119,9 @@ export default function ParentLayout() {
   const [mobileOpen, setMobileOpen] = useState(false);
 
   return (
-    <DashboardShell roleLabel="Magulang" hideHeader bgImage={parentBg}>
+    <DashboardShell roleLabel="Magulang" hideHeader roleTheme="parent">
       <div className="flex min-h-screen min-w-0">
-        <aside className={`dashboard-sidebar sticky top-0 hidden h-screen shrink-0 flex-col border-r border-white/15 transition-[width] duration-300 lg:flex ${collapsed ? 'w-[4.75rem]' : 'w-56'}`} style={{ backgroundImage: `url(${navBg})`, backgroundRepeat: 'no-repeat', backgroundSize: '100% 100%' }}>
+        <aside className={`dashboard-sidebar sticky top-0 hidden h-screen shrink-0 flex-col border-r border-white/15 bg-[var(--color-primary-hover)] transition-[width] duration-300 lg:flex ${collapsed ? 'w-[4.75rem]' : 'w-56'}`}>
           <div className={`flex h-16 items-center gap-2 border-b border-white/20 px-3 ${collapsed ? 'justify-center' : ''}`}>
             <button type="button" onClick={() => setCollapsed((value) => !value)} title={collapsed ? 'Palawakin ang sidebar' : 'Paliitin ang sidebar'} className="flex min-w-0 items-center gap-2 rounded-xl p-1 text-white transition-colors hover:bg-white/10">
               <img src={logo} alt="LinawLetra" className="h-10 w-10 shrink-0 rounded-xl object-cover shadow-sm" />
@@ -142,7 +140,7 @@ export default function ParentLayout() {
             </div>
           </header>
           {mobileOpen && (
-            <div id="parent-mobile-nav" className="sticky top-16 z-30 border-b border-[var(--color-border)] p-3 shadow-card lg:hidden" style={{ backgroundImage: `url(${navBg})`, backgroundRepeat: 'no-repeat', backgroundSize: '100% 100%' }}>
+            <div id="parent-mobile-nav" className="sticky top-16 z-30 border-b border-white/15 bg-[var(--color-primary-hover)] p-3 shadow-card lg:hidden">
               <nav aria-label="Mga bahagi ng parent dashboard" className="grid grid-cols-2 gap-2 sm:grid-cols-3">
                 {PRIMARY_TABS.map((tab) => <NavItem key={tab.to} {...tab} collapsed={false} onNavigate={() => setMobileOpen(false)} />)}
               </nav>

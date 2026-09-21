@@ -32,7 +32,7 @@ export function AuthShell({
       <div className="relative hidden overflow-hidden text-white shadow-hero lg:flex lg:w-[44%] lg:flex-col">
         <img src={lookImage} alt="" aria-hidden="true" className="absolute inset-0 h-full w-full object-cover" />
         <div
-          className="absolute inset-0 bg-gradient-to-t from-black/45 via-transparent to-black/10"
+          className="absolute inset-0 bg-black/30"
           aria-hidden="true"
         />
 

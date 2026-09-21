@@ -83,7 +83,7 @@ export default function Settings() {
     <div className="flex min-w-0 flex-col gap-6">
       <div
         className="relative flex min-w-0 flex-col items-start gap-4 overflow-hidden rounded-3xl border border-white/30 p-5 text-white shadow-raised sm:flex-row sm:items-center sm:p-7"
-        style={{ backgroundImage: 'linear-gradient(135deg, #1e3a8a, #5f52b0, #7c3aed)' }}
+        style={{ backgroundColor: 'var(--color-primary)' }}
       >
         <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl border border-white/25 bg-white/20 text-2xl font-extrabold shadow-card backdrop-blur">
           {initialsFor(identity?.displayName ?? 'Admin')}

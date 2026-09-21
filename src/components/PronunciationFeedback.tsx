@@ -3,8 +3,8 @@ import { playTtsSequence } from '../lib/ttsPlayer';
 import { TTSButton } from './a11y/TTSButton';
 import { ConfettiOverlay } from './ConfettiOverlay';
 
-const CELEBRATE_PALETTE = ['#7c3aed', '#f97316', '#14b8a6', '#eab308', '#ec4899'];
-const ENCOURAGE_PALETTE = ['#14b8a6', '#2563eb', '#7c3aed', '#eab308'];
+const CELEBRATE_PALETTE = ['#176b68', '#43865c', '#d9a441', '#477a9b'];
+const ENCOURAGE_PALETTE = ['#176b68', '#477a9b', '#d9a441'];
 
 interface PronunciationFeedbackProps {
   correct: boolean;

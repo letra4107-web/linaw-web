@@ -1,45 +1,32 @@
 @import "tailwindcss";
 
-/* ---------------------------------------------------------------------
- * LinawLetra design tokens, carried over as-is from the mobile app's
- * src/theme/index.ts (base palette, brand accents, hero gradient, vivid
- * accents, semantic colors, type/spacing/radius/shadow scale) so the web
- * build reads as the same product, not a reskin.
- * --------------------------------------------------------------------- */
+/* LinawLetra's shared, paper-and-ink design foundation. Role layouts
+   override only the identity tokens below; semantic meanings never change. */
 @theme {
-  /* Base palette */
-  --color-brand-cream: #f6f7fb;
-  --color-brand-ink: #263142;
-  --color-brand-ink-soft: #657083;
+  --color-brand-cream: #faf8f3;
+  --color-brand-ink: #243331;
+  --color-brand-ink-soft: #667572;
   --color-brand-white: #ffffff;
-  --color-brand-border: #dfe5ee;
-
-  /* Brand accents */
-  --color-brand-sun: #c58a22;
-  --color-brand-coral: #c96f5a;
-  --color-brand-sage: #4f7663;
-  --color-brand-lavender: #7470bd;
-  --color-brand-lavender-dark: #56539b;
-
-  /* Hero gradient (violet -> magenta -> rose) */
-  --color-brand-hero-from: #6d28d9;
-  --color-brand-hero-via: #974cde;
-  --color-brand-hero-to: #9d174d;
-
-  /* Vivid accents: status/category tagging, badges, charts */
-  --color-brand-green: #16a34a;
-  --color-brand-orange: #ea580c;
-  --color-brand-violet: #7c3aed;
-  --color-brand-amber: #f59e0b;
-  --color-brand-teal: #0d9488;
-  --color-brand-navy: #1e3a8a;
-
-  /* Semantic */
-  --color-brand-success: #10b981;
-  --color-brand-warning: #f59e0b;
-  --color-brand-warning-text: #b45309;
-  --color-brand-danger: #ef4444;
-  --color-brand-danger-text: #dc2626;
+  --color-brand-border: #dddcd5;
+  --color-brand-sun: #d9a441;
+  --color-brand-coral: #b85042;
+  --color-brand-sage: #43865c;
+  --color-brand-lavender: #176b68;
+  --color-brand-lavender-dark: #0f4f4d;
+  --color-brand-hero-from: #176b68;
+  --color-brand-hero-via: #176b68;
+  --color-brand-hero-to: #176b68;
+  --color-brand-green: #43865c;
+  --color-brand-orange: #b47b2a;
+  --color-brand-violet: #477a9b;
+  --color-brand-amber: #d9a441;
+  --color-brand-teal: #176b68;
+  --color-brand-navy: #0f4f4d;
+  --color-brand-success: #43865c;
+  --color-brand-warning: #b47b2a;
+  --color-brand-warning-text: #8a5b1d;
+  --color-brand-danger: #b85042;
+  --color-brand-danger-text: #b85042;
 
   /* Legacy/secondary, still present, used less */
   --color-brand-legacy-primary: #4f46e5;
@@ -90,33 +77,41 @@
   --color-text-muted: var(--color-brand-ink-soft);
   --foreground-muted: var(--color-text-muted);
   --color-border: var(--color-brand-border);
-  --color-primary: var(--color-brand-lavender-dark);
+  --color-primary: #176b68;
   --primary: var(--color-primary);
-  --color-primary-hover: color-mix(in srgb, var(--color-brand-lavender-dark) 82%, black);
-  --color-accent: var(--color-brand-sun);
+  --color-primary-hover: #0f4f4d;
+  --color-accent: #d9a441;
   --accent: var(--color-accent);
   --color-danger: var(--color-brand-danger-text);
   --error: var(--color-danger);
   --color-danger-soft: color-mix(in srgb, var(--color-brand-danger-text) 12%, white);
-  --color-success: color-mix(in srgb, var(--color-brand-green) 70%, black);
+  --color-success: #43865c;
   --success: var(--color-success);
   --color-success-soft: color-mix(in srgb, var(--color-brand-success) 14%, white);
-  --color-warning: color-mix(in srgb, var(--color-brand-warning) 85%, black);
+  --color-warning: #b47b2a;
   --warning: var(--color-warning);
   --color-warning-soft: color-mix(in srgb, var(--color-brand-warning) 16%, white);
   --color-warning-text: var(--color-brand-warning-text);
-  --color-focus: var(--color-brand-sun);
+  --color-focus: var(--color-primary);
   --focus: var(--color-focus);
-  --color-primary-soft: color-mix(in srgb, var(--color-brand-lavender) 16%, white);
-  --color-accent-soft: color-mix(in srgb, var(--color-brand-sun) 16%, white);
-  --color-hero-from: var(--color-brand-hero-from);
-  --color-hero-via: var(--color-brand-hero-via);
-  --color-hero-to: var(--color-brand-hero-to);
+  --color-primary-soft: #e5f1ef;
+  --color-accent-soft: color-mix(in srgb, #d9a441 16%, white);
+  --color-hero-from: var(--color-primary);
+  --color-hero-via: var(--color-primary);
+  --color-hero-to: var(--color-primary);
   --color-guide-mask: rgba(59, 50, 44, 0.45);
 
   --font-body: var(--font-sans);
   --font-scale: 1;
 }
+
+/* Role identity: shared surfaces, typography, borders, and statuses remain
+   constant. Legacy accent aliases are deliberately mapped to the active role
+   so existing visual components keep a quiet, coherent treatment. */
+.role-student { --color-bg: #faf8f3; --color-primary: #176b68; --color-primary-hover: #0f4f4d; --color-primary-soft: #e5f1ef; --color-brand-lavender: #176b68; --color-brand-lavender-dark: #0f4f4d; --color-brand-teal: #176b68; --color-brand-navy: #0f4f4d; --color-brand-violet: #176b68; --color-brand-coral: #176b68; }
+.role-teacher { --color-bg: #f8f9f7; --color-primary: #315f7d; --color-primary-hover: #23475f; --color-primary-soft: #e8f0f5; --color-brand-lavender: #315f7d; --color-brand-lavender-dark: #23475f; --color-brand-teal: #315f7d; --color-brand-navy: #23475f; --color-brand-violet: #315f7d; --color-brand-sage: #315f7d; --color-brand-coral: #315f7d; --color-brand-sun: #315f7d; }
+.role-parent { --color-bg: #faf8f3; --color-primary: #9a6742; --color-primary-hover: #70492f; --color-primary-soft: #f5ece3; --color-accent: #9a6742; --color-accent-soft: #f5ece3; --color-brand-lavender: #9a6742; --color-brand-lavender-dark: #70492f; --color-brand-teal: #9a6742; --color-brand-navy: #70492f; --color-brand-violet: #9a6742; --color-brand-sage: #9a6742; --color-brand-coral: #9a6742; --color-brand-sun: #9a6742; --color-brand-amber: #9a6742; --color-brand-orange: #9a6742; }
+.role-admin { --color-bg: #f6f7f5; --color-primary: #394a47; --color-primary-hover: #263633; --color-primary-soft: #e9eeec; --color-brand-lavender: #394a47; --color-brand-lavender-dark: #263633; --color-brand-teal: #394a47; --color-brand-navy: #263633; --color-brand-violet: #394a47; --color-brand-sage: #394a47; --color-brand-coral: #394a47; --color-brand-sun: #394a47; }
 
 :root[data-theme="high-contrast"] {
   --color-bg: #000000;

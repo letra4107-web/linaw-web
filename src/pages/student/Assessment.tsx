@@ -154,9 +154,7 @@ export default function Assessment() {
       <div
         className="flex flex-col items-center gap-4 overflow-hidden rounded-2xl p-10 text-center text-white shadow-hero"
         style={{
-          backgroundImage: result.passed
-            ? 'linear-gradient(135deg, var(--color-hero-from), var(--color-hero-via), var(--color-hero-to))'
-            : 'linear-gradient(135deg, var(--color-brand-coral), var(--color-brand-sun))',
+          backgroundColor: result.passed ? 'var(--color-primary)' : 'var(--color-warning)',
         }}
       >
         <p className="text-6xl">{result.passed ? '🏆' : '💪'}</p>

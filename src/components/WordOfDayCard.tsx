@@ -165,7 +165,7 @@ export function WordOfDayCard({ streak = 0 }: WordOfDayCardProps) {
     <div id="salita-ngayon" className="overflow-hidden rounded-[2rem] border border-[var(--color-brand-sun)]/30 shadow-hero">
       <div
         className="relative overflow-hidden p-6 text-white sm:px-9 sm:py-8"
-        style={{ backgroundImage: 'linear-gradient(135deg, #e3971a, #e06b4c)' }}
+        style={{ backgroundColor: 'var(--color-primary)' }}
       >
         <div aria-hidden="true" className="pointer-events-none absolute -top-16 -right-10 h-40 w-40 rounded-full bg-white/10" />
         <div aria-hidden="true" className="pointer-events-none absolute -bottom-20 left-1/3 h-36 w-36 rounded-full bg-white/10" />
@@ -232,7 +232,7 @@ export function WordOfDayCard({ streak = 0 }: WordOfDayCardProps) {
                     className={`relative flex min-h-16 w-full max-w-sm items-center justify-center gap-3 overflow-hidden rounded-2xl px-6 py-3 text-white shadow-lg transition-all hover:-translate-y-0.5 hover:shadow-raised active:scale-[0.98] disabled:opacity-70 ${
                       listening ? 'bg-[var(--color-danger)]' : ''
                     }`}
-                    style={!listening ? { backgroundImage: 'linear-gradient(135deg, #e3971a, #e06b4c)' } : undefined}
+                    style={!listening ? { backgroundColor: 'var(--color-primary)' } : undefined}
                   >
                     {listening && <span className="absolute inset-0 animate-ping rounded-full bg-[var(--color-danger)]/60" />}
                     <img src={micIcon} alt="" className="relative h-8 w-8 object-contain brightness-0 invert" />

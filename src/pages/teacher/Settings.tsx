@@ -93,7 +93,7 @@ export default function Settings() {
     <div className="flex min-w-0 flex-col gap-6 sm:gap-8">
       <div
         className="relative flex flex-col items-center gap-5 overflow-hidden rounded-3xl p-6 text-center text-white shadow-hero sm:flex-row sm:p-8 sm:text-left"
-        style={{ backgroundImage: 'linear-gradient(135deg, #5c8047, #0d9488)' }}
+        style={{ backgroundColor: 'var(--color-primary)' }}
       >
         <div className="flex h-28 w-28 shrink-0 items-center justify-center rounded-[2rem] border-4 border-white/40 bg-white/20 text-3xl font-bold shadow-lg backdrop-blur">
           {initialsFor(identity?.displayName ?? 'Guro')}

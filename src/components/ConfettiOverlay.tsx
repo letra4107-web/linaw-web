@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 
-const DEFAULT_PALETTE = ['#7c3aed', '#f97316', '#14b8a6', '#eab308', '#ec4899', '#2563eb'];
+const DEFAULT_PALETTE = ['#176b68', '#43865c', '#d9a441', '#477a9b'];
 const PARTICLE_COUNT = 24;
 const DURATION_MS = 2400;
 

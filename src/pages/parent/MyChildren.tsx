@@ -73,7 +73,7 @@ export default function MyChildren() {
 
   return (
     <div className="flex min-w-0 flex-col gap-6">
-      <header className="relative overflow-hidden rounded-3xl border border-white/25 bg-gradient-to-br from-[var(--color-brand-coral)] via-[var(--color-primary)] to-[var(--color-brand-violet)] p-6 text-white shadow-hero sm:p-8">
+      <header className="relative overflow-hidden rounded-3xl border border-white/25 bg-[var(--color-primary)] p-6 text-white shadow-hero sm:p-8">
         <div aria-hidden="true" className="absolute -top-16 -right-12 h-48 w-48 rounded-full bg-white/10" /><div aria-hidden="true" className="absolute -bottom-20 left-1/3 h-44 w-44 rounded-full bg-white/10" />
         <div className="relative flex flex-wrap items-center justify-between gap-5"><div><p className="text-xs font-bold tracking-[0.14em] text-white/75 uppercase">Parent portal</p><h1 className="mt-1 text-3xl font-extrabold sm:text-4xl">Mga Anak Ko</h1><p className="mt-2 max-w-xl text-sm leading-relaxed text-white/85 sm:text-base">Isang malinaw na lugar para pamahalaan ang account, antas, at reading support ng bawat anak.</p></div><div className="rounded-2xl border border-white/25 bg-white/15 px-5 py-4 text-center backdrop-blur"><p className="text-3xl font-extrabold">{children?.length ?? 0}</p><p className="text-xs font-bold tracking-wide text-white/80 uppercase">Naka-enroll</p></div></div>
       </header>

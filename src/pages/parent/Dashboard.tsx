@@ -99,7 +99,7 @@ export default function Dashboard() {
 
   return (
     <div className="flex min-w-0 flex-col gap-7">
-      <header className="relative overflow-hidden rounded-3xl border border-white/25 px-5 py-5 text-white shadow-hero ring-1 ring-black/5 sm:px-7" style={{ backgroundImage: 'linear-gradient(135deg, var(--color-hero-from), var(--color-hero-via), var(--color-hero-to))' }}>
+      <header className="relative overflow-hidden rounded-3xl border border-white/25 bg-[var(--color-primary)] px-5 py-5 text-white shadow-hero ring-1 ring-black/5 sm:px-7">
         <div aria-hidden="true" className="absolute -top-20 -right-12 h-48 w-48 rounded-full bg-white/10" />
         <div className="relative flex flex-wrap items-center justify-between gap-4">
           <div><p className="text-sm font-bold text-white/75">Magandang araw, {parentFirstName}</p><h1 className="mt-0.5 text-2xl font-bold sm:text-3xl">Kumusta ang pagbabasa ni {activeChild?.name}?</h1></div>
