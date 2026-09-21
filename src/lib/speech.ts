@@ -57,9 +57,12 @@ export function assessSpeech(target: string, transcript: string, confidence = 1)
   // (especially single letters such as "A") even when its transcript is an
   // exact match. Never turn that exact match into a false negative.
   if (normalizedTarget === normalizedTranscript) return { outcome: 'correct', accuracy: 100 };
-  if (accuracy >= 88 && confidence >= 0.55) return { outcome: 'correct', accuracy };
-  if (confidence < 0.55) return { outcome: 'retry', accuracy, message: 'Hindi kita narinig nang malinaw. Subukan muli at magsalita nang mas malapit sa mic.' };
+  // Chrome's confidence value is unreliable for Filipino, particularly on
+  // short words. A strong transcript match is enough; otherwise a child who
+  // read correctly can be asked to repeat just because the browser is unsure.
+  if (accuracy >= 88) return { outcome: 'correct', accuracy };
   if (accuracy >= 55) return { outcome: 'retry', accuracy, message: 'Hindi pa sigurado ang narinig ko. Pakinggan at subukan nating muli.' };
+  if (confidence < 0.35) return { outcome: 'retry', accuracy, message: 'Hindi malinaw ang nakuha ng browser. Ulitin ang salita nang dahan-dahan.' };
   return { outcome: 'incorrect', accuracy };
 }
 
