@@ -236,6 +236,10 @@ export default function Dashboard() {
                 {achievementCount} parangal
               </span>
             </div>
+            <Link to="/student/practice" className="relative z-10 inline-flex min-h-11 w-fit items-center gap-2 rounded-full bg-white px-5 py-2.5 text-sm font-bold text-[var(--color-primary-hover)] shadow-card transition-all hover:-translate-y-0.5 hover:bg-[var(--color-primary-soft)] sm:col-span-2">
+              <img src={micIcon} alt="" aria-hidden="true" className="h-5 w-5 object-contain" />
+              Simulan ang Pagsasanay
+            </Link>
           </div>
         </div>
 
