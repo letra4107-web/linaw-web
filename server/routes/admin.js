@@ -368,10 +368,12 @@ router.get('/analytics/students', async (_req, res) => {
 
     const childByAuthId = new Map((childrenResult.data || []).filter((child) => child.auth_uid).map((child) => [child.auth_uid, child]));
     const progressByChildId = new Map((progressResult.data || []).map((progress) => [progress.child_id, progress]));
-    const students = (studentsResult.data || []).map((account) => {
+    const students = await Promise.all((studentsResult.data || []).map(async (account) => {
       const child = childByAuthId.get(account.id);
       const progress = child ? progressByChildId.get(child.id) : null;
       const attempts = Number(progress?.total_attempts || 0);
+      const moduleResult = child ? await supabaseAdmin.rpc('get_student_module_path', { p_student_id: child.id }) : { data: null };
+      const completedModules = Array.isArray(moduleResult.data?.modules) ? moduleResult.data.modules.filter((module) => module.state === 'completed').map((module) => ({ id: module.id, number: module.module_number, title: module.title })) : [];
       return {
         id: account.id,
         name: child?.name || account.name || account.email || 'Mag-aaral',
@@ -388,9 +390,10 @@ router.get('/analytics/students', async (_req, res) => {
           xp: Number(progress?.xp || 0),
           streak: Number(progress?.streak || 0),
           updatedAt: progress?.updated_at || null,
+          completedModules,
         },
       };
-    });
+    }));
     res.json({ students });
   } catch (err) {
     console.error('[admin/analytics/students]', err);

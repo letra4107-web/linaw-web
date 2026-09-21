@@ -5,7 +5,7 @@ import { api } from '../../lib/api';
 import { cardStyle } from '../../lib/cardStyle';
 
 type Trend = { month: string; count: number };
-type Student = { id: string; name: string; email: string | null; gradeLevel: number | null; lastLoginAt: string | null; progress: { level: string | null; accuracy: number | null; attempts: number; activitiesCompleted: number; xp: number; streak: number; updatedAt: string | null } };
+type Student = { id: string; name: string; email: string | null; gradeLevel: number | null; lastLoginAt: string | null; progress: { level: string | null; accuracy: number | null; attempts: number; activitiesCompleted: number; xp: number; streak: number; updatedAt: string | null; completedModules: { id: string; number: number; title: string }[] } };
 type Analytics = { enrollmentTrend: Trend[]; usageTrend: Trend[]; totals: { studentAccounts: number; users: number; totalXp: number; badgeUnlockCount: number; practiceSessions: number } };
 const date = (v: string | null) => v ? new Intl.DateTimeFormat('fil-PH', { dateStyle: 'medium', timeStyle: 'short', timeZone: 'Asia/Manila' }).format(new Date(v)) : 'Wala pa';
 
