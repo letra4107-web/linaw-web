@@ -45,7 +45,7 @@ export type SpeechAssessment =
 
 /** Browser STT provides a transcript, not a pronunciation score. Keep uncertain
  * recognition separate from a wrong answer to avoid false negatives. */
-export function assessSpeech(target: string, transcript: string, confidence = 1): SpeechAssessment {
+export function assessSpeech(target: string, transcript: string, _confidence = 1): SpeechAssessment {
   const accuracy = computeAccuracy(target, transcript);
   const normalizedTarget = normalizeForCompare(target);
   const normalizedTranscript = normalizeForCompare(transcript);
@@ -61,10 +61,10 @@ export function assessSpeech(target: string, transcript: string, confidence = 1)
   // short words. A strong transcript match is enough; otherwise a child who
   // read correctly can be asked to repeat just because the browser is unsure.
   if (accuracy >= 88) return { outcome: 'correct', accuracy };
-  // Keep retry only for genuinely unclear capture. A clear but different
-  // transcript must be shown as incorrect, so students and testers can tell
-  // the difference between a wrong answer and a microphone/STT problem.
-  if (confidence < 0.35) return { outcome: 'retry', accuracy, message: 'Hindi malinaw ang nakuha ng browser. Ulitin ang salita nang dahan-dahan.' };
+  // The browser's confidence score is not a microphone-level measurement and
+  // is especially unreliable for Filipino. Once it has supplied a transcript,
+  // classify it consistently; actual no-speech and microphone errors are
+  // already handled by the recognition error callbacks below.
   return { outcome: 'incorrect', accuracy };
 }
 
