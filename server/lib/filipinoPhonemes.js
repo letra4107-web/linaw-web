@@ -1,62 +1,145 @@
-// Conservative Filipino X-SAMPA transcription for reading-practice words.
-// It intentionally maps graphemes to Filipino sounds instead of allowing an
-// English TTS front-end to infer English letter names or vowel values.
-const FILIPINO_WORD = /^[a-zà-ÿñ]+$/i;
+/**
+ * Filipino SSML helpers for the reading activities.
+ *
+ * Keep the original written word inside the phoneme tag.  This lets Google
+ * Cloud TTS use Filipino IPA while preserving the text shown to the learner.
+ */
+const WORD_PATTERN = /^[\p{L}]+$/u;
+const VOWEL_IPA = Object.freeze({
+  a: 'a',
+  e: 'ɛ',
+  i: 'i',
+  o: 'o',
+  // Google classifies the Filipino /u/ vowel as the near-close sound /ʊ/.
+  // Sending /u/ can make the provider fall back to an English-like "you".
+  u: 'ʊ',
+});
 
-function normalize(word) {
-  return word
+// A vowel at the start or end of a Filipino word is normally bounded by a
+// glottal stop. This prevents isolated letter drills from sounding clipped or
+// drawn out by the voice model.
+const ISOLATED_VOWEL_IPA = Object.freeze({
+  a: 'ʔaʔ',
+  e: 'ʔɛʔ',
+  i: 'ʔiʔ',
+  o: 'ʔoʔ',
+  u: 'ʔʊʔ',
+});
+
+function normalize(value) {
+  return String(value ?? '')
     .normalize('NFD')
     .replace(/[\u0300-\u036f]/g, '')
     .toLocaleLowerCase('fil-PH');
 }
 
-function syllableCount(text) {
-  const word = normalize(String(text).trim());
-  return (word.match(/[aeiou]+/g) || []).length;
+function escapeXml(value) {
+  return String(value)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&apos;');
 }
 
-function filipinoXsampa(word) {
-  if (!FILIPINO_WORD.test(word)) return null;
-  const letters = normalize(word);
-  let phonemes = '';
+function syllableCount(value) {
+  return (normalize(value).match(/[aeiou]/g) || []).length;
+}
 
-  for (let index = 0; index < letters.length;) {
-    const pair = letters.slice(index, index + 2);
-    if (pair === 'ng') { phonemes += 'N'; index += 2; continue; }
-    if (pair === 'ts' || pair === 'ch') { phonemes += 'tS'; index += 2; continue; }
-    if (pair === 'dy') { phonemes += 'dZ'; index += 2; continue; }
+function isMultiSyllableWord(value) {
+  const word = String(value ?? '').trim();
+  return WORD_PATTERN.test(word) && syllableCount(word) >= 2;
+}
 
-    const letter = letters[index];
-    const next = letters[index + 1] || '';
-    const sound = {
-      a: 'a', b: 'b', d: 'd', e: 'E', f: 'f', g: 'g', h: 'h', i: 'i',
-      j: 'dZ', k: 'k', l: 'l', m: 'm', n: 'n', o: 'o', p: 'p', r: '4',
-      s: 's', t: 't', u: 'U', v: 'v', w: 'w', y: 'j', z: 'z',
-    }[letter] || (letter === 'c' ? (/[eiy]/.test(next) ? 's' : 'k') : letter === 'q' ? 'k' : letter === 'x' ? 'ks' : null);
-    if (!sound) return null;
-    phonemes += sound;
-    index += 1;
+/**
+ * A deliberately small Filipino IPA map. It handles Filipino vowel sounds
+ * explicitly and avoids applying English letter-name pronunciation rules.
+ */
+function filipinoIpa(value) {
+  const word = normalize(value);
+  if (!WORD_PATTERN.test(word)) return null;
+
+  let ipa = '';
+  for (let index = 0; index < word.length; index += 1) {
+    const pair = word.slice(index, index + 2);
+
+    if (pair === 'ng') {
+      ipa += 'ŋ';
+      index += 1;
+      continue;
+    }
+    if (pair === 'ts' || pair === 'ch') {
+      ipa += 'tʃ';
+      index += 1;
+      continue;
+    }
+    if (pair === 'dy') {
+      ipa += 'dʒ';
+      index += 1;
+      continue;
+    }
+
+    const letter = word[index];
+    if (VOWEL_IPA[letter]) ipa += VOWEL_IPA[letter];
+    else if (letter === 'r') ipa += 'ɾ';
+    else if (letter === 'y') ipa += 'j';
+    else if (letter === 'c') ipa += word[index + 1] && 'eiy'.includes(word[index + 1]) ? 's' : 'k';
+    else if (letter === 'q') ipa += 'k';
+    else if (letter === 'x') ipa += 'ks';
+    else ipa += letter;
+  }
+  return ipa;
+}
+
+function phonemeWord(word) {
+  const ipa = filipinoIpa(word);
+  if (!ipa) return escapeXml(word);
+  return `<phoneme alphabet="ipa" ph="${ipa}">${escapeXml(word)}</phoneme>`;
+}
+
+function formatParagraph(paragraph) {
+  const tokens = paragraph.match(/[\p{L}]+|[.!?]+|[,;:]+|\s+|[^\s]/gu) || [];
+  let hasTerminalPause = false;
+  let output = '';
+
+  for (const token of tokens) {
+    if (WORD_PATTERN.test(token)) {
+      output += phonemeWord(token);
+      hasTerminalPause = false;
+    } else if (/^[.!?]+$/.test(token)) {
+      output += `${escapeXml(token)}<break time="900ms"/>`;
+      hasTerminalPause = true;
+    } else if (/^[,;:]+$/.test(token)) {
+      output += `${escapeXml(token)}<break time="300ms"/>`;
+      hasTerminalPause = false;
+    } else {
+      output += escapeXml(token);
+    }
   }
 
-  return phonemes;
+  return hasTerminalPause ? output : `${output}<break time="900ms"/>`;
 }
 
-function escapeXml(value) {
-  return String(value).replace(/[&<>"']/g, (character) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&apos;' })[character]);
+function filipinoSsml(value) {
+  const text = String(value ?? '').trim();
+  if (!text) return '<speak></speak>';
+
+  // Isolation practice: use the Filipino vowel itself, never its English name.
+  const isolatedVowel = normalize(text);
+  if (Object.hasOwn(VOWEL_IPA, isolatedVowel)) {
+    return `<speak><phoneme alphabet="ipa" ph="${ISOLATED_VOWEL_IPA[isolatedVowel]}">${isolatedVowel}</phoneme><break time="900ms"/></speak>`;
+  }
+
+  const paragraphs = text.split(/\r?\n\s*\r?\n/).filter(Boolean);
+  return `<speak>${paragraphs.map(formatParagraph).join('<break time="1500ms"/>')}</speak>`;
 }
 
-function filipinoSsml(text) {
-  const parts = String(text).match(/[a-zà-ÿñ]+|[^a-zà-ÿñ]+/gi) || [];
-  const content = parts.map((part) => {
-    const phonemes = filipinoXsampa(part);
-    const visible = escapeXml(part);
-    return phonemes ? `<phoneme alphabet="x-sampa" ph="${phonemes}">${visible}</phoneme>` : visible;
-  }).join('');
-  return `<speak>${content}</speak>`;
-}
-
-function isMultiSyllableWord(text) {
-  return FILIPINO_WORD.test(String(text).trim()) && syllableCount(text) >= 2;
-}
-
-module.exports = { filipinoSsml, filipinoXsampa, isMultiSyllableWord, syllableCount };
+// Retained as an export alias so existing imports do not break. New code uses
+// IPA because it is the requested, supported phonetic notation for this flow.
+module.exports = {
+  filipinoIpa,
+  filipinoSsml,
+  filipinoXsampa: filipinoIpa,
+  isMultiSyllableWord,
+  syllableCount,
+};

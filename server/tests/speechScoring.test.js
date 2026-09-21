@@ -29,3 +29,12 @@ test('speech scoring normalizes Filipino punctuation, hyphens, apostrophes, and 
   });
   assert.equal(scoreTranscript('bata', '   ').correct, false);
 });
+
+test('speech scoring resists simple noise artifacts without accepting wrong Filipino phonemes', () => {
+  // Simulated light background-noise artifact: the Web Speech API repeats a word.
+  assert.equal(scoreTranscript('bata', 'bata bata').correct, true);
+  // False-positive guard: a distinct consonant remains incorrect.
+  assert.equal(scoreTranscript('pala', 'fala').correct, false);
+  // False-negative guard: punctuation and spacing noise remains correct.
+  assert.equal(scoreTranscript('mag-ingat', 'mag ingat').correct, true);
+});

@@ -226,7 +226,7 @@ test('TTS uses Filipino SSML phonemes and slows multi-syllable words', async () 
   });
 
   assert.deepEqual(providerPayload.voice, { languageCode: 'fil-PH', name: 'fil-ph-Neural2-A' });
-  assert.match(providerPayload.input.ssml, /<phoneme alphabet="x-sampa" ph="Nipin">ngipin<\/phoneme>/);
+  assert.match(providerPayload.input.ssml, /<phoneme alphabet="ipa" ph="ŋipin">ngipin<\/phoneme>/);
 });
 
 test('material access abstraction supports legacy and short-lived signed URLs', async () => {

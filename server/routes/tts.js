@@ -2,10 +2,12 @@ const express = require('express');
 const { requireAuth } = require('../middleware/auth');
 const { ttsLimiter } = require('../lib/rateLimiters');
 const { filipinoSsml, isMultiSyllableWord, syllableCount } = require('../lib/filipinoPhonemes');
+const { logAudit } = require('../services/audit');
 
 const MAX_TEXT_LENGTH = 500;
 const GOOGLE_TTS_URL = 'https://texttospeech.googleapis.com/v1/text:synthesize';
-// fil-ph-Neural2-A over the older fil-PH-Wavenet-A -- Neural2 is Google's newer, clearer
+// fil-ph-Neural2-A is Google's supported Filipino Neural2 voice. Google does
+// not provide a fil-PH-Neural2-C voice (C is Wavenet-only).
 // voice tier with better phoneme articulation, which matters more here than for a typical
 // app since this app's readers are decoding by ear.
 
@@ -61,7 +63,8 @@ function createTtsRouter({
     }
 
     const data = await response.json();
-    res.json({ audioContent: data.audioContent, speakingRate, syllableCount: syllables });
+    void logAudit({ actor: { id: req.user.id, role: req.userRole }, action: 'SPEECH.TTS_SYNTHESIZE', target: { id: null }, status: 'successful', req }).catch(() => {});
+    res.json({ audioContent: data.audioContent, speakingRate, syllableCount: syllables, languageCode: 'fil-PH' });
   } catch (err) {
     console.error('[tts]', err);
     res.status(500).json({ error: 'Unable to synthesize speech right now.' });

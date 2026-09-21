@@ -7,6 +7,7 @@ import { getTtsRate } from './ttsSettings';
 // voice/fallback shape. Everything here resolves only once actual playback has *finished*
 // (not just started), so callers can chain several utterances in order (playTtsSequence).
 const audioCache = new Map<string, string>();
+const TTS_AUDIO_CACHE_VERSION = 'filipino-ipa-v2';
 
 function base64ToObjectUrl(base64: string): string {
   const bytes = atob(base64);
@@ -25,7 +26,7 @@ function playAudioAndWait(url: string): Promise<void> {
 }
 
 async function resolveAudioUrl(text: string, rate: number): Promise<string | null> {
-  const cacheKey = `${text}::${rate}`;
+  const cacheKey = `${TTS_AUDIO_CACHE_VERSION}::${text}::${rate}`;
   const cached = audioCache.get(cacheKey);
   if (cached) return cached;
   try {

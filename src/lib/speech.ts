@@ -47,6 +47,16 @@ export type SpeechAssessment =
  * recognition separate from a wrong answer to avoid false negatives. */
 export function assessSpeech(target: string, transcript: string, confidence = 1): SpeechAssessment {
   const accuracy = computeAccuracy(target, transcript);
+  const normalizedTarget = normalizeForCompare(target);
+  const normalizedTranscript = normalizeForCompare(transcript);
+  // Filipino vowel prompts use tunog, not English letter names:
+  // A=ah, E=eh, I=ee, O=oh, U=oo.
+  const vowelSoundAliases: Record<string, string[]> = { a: ['a', 'ah'], e: ['e', 'eh'], i: ['i', 'ee'], o: ['o', 'oh'], u: ['u', 'oo'] };
+  if (vowelSoundAliases[normalizedTarget]?.includes(normalizedTranscript)) return { outcome: 'correct', accuracy: 100 };
+  // Browser confidence is frequently low for very short Filipino targets
+  // (especially single letters such as "A") even when its transcript is an
+  // exact match. Never turn that exact match into a false negative.
+  if (normalizedTarget === normalizedTranscript) return { outcome: 'correct', accuracy: 100 };
   if (accuracy >= 88 && confidence >= 0.55) return { outcome: 'correct', accuracy };
   if (confidence < 0.55) return { outcome: 'retry', accuracy, message: 'Hindi kita narinig nang malinaw. Subukan muli at magsalita nang mas malapit sa mic.' };
   if (accuracy >= 55) return { outcome: 'retry', accuracy, message: 'Hindi pa sigurado ang narinig ko. Pakinggan at subukan nating muli.' };
@@ -77,9 +87,11 @@ const RECOGNITION_ERROR_MESSAGES: Record<string, string> = {
   'not-allowed': 'Kailangan natin ng microphone permission para makinig. Payagan ito sa settings ng browser.',
   'service-not-allowed': 'Kailangan natin ng microphone permission para makinig. Payagan ito sa settings ng browser.',
   'no-speech': 'Walang narinig na boses. Subukan mong bigkasin ulit nang malapit sa mic.',
-  'audio-capture': 'Walang nahanap na microphone sa device na ito.',
-  network: 'May problema sa koneksyon. Subukan ulit.',
-  aborted: 'Naantala ang pakikinig. Subukan ulit.',
+  'audio-capture': 'Walang nahanap na microphone. Ikabit o piliin ang mic sa device settings, saka subukan muli.',
+  network: 'Nawalan ng koneksyon habang nakikinig. Suriin ang internet at subukan muli.',
+  aborted: 'Naantala ang pakikinig bago matapos. Pindutin ang mic at bigkasin muli ang salita.',
+  'bad-grammar': 'May problema sa speech-recognition setting ng browser. I-refresh ang page at subukan muli.',
+  'language-not-supported': 'Hindi suportado ng browser ang Filipino speech recognition. Subukan ang pinakabagong Chrome.',
 };
 
 function friendlyRecognitionError(code: string): string {
@@ -95,10 +107,14 @@ export function listenOnce(lang: string, onResult: RecognitionEndedCallback, onE
   const recognition = new Ctor();
   recognition.lang = lang;
   recognition.interimResults = false;
-  recognition.maxAlternatives = 1;
+  // A short alternative list helps the browser recover from mild background
+  // noise; the server remains the source of truth for scoring.
+  recognition.maxAlternatives = 3;
 
   recognition.onresult = (event) => {
-    const result = event.results[0][0] as SpeechRecognitionResultLike;
+    const alternatives = Array.from(event.results[0] as unknown as ArrayLike<SpeechRecognitionResultLike>);
+    const result = alternatives.sort((left, right) => (right.confidence ?? 0) - (left.confidence ?? 0))[0];
+    if (!result?.transcript?.trim()) return onError('Walang malinaw na narinig. Lumapit sa mic at subukan muli sa tahimik na lugar.');
     onResult({ transcript: result.transcript, confidence: result.confidence ?? 0 });
   };
   recognition.onerror = (event) => {

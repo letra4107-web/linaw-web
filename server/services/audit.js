@@ -1,5 +1,3 @@
-const { supabaseAdmin } = require('../config/supabase');
-
 const SUCCESS = 'successful';
 const FAILED = 'failed';
 
@@ -68,6 +66,9 @@ function recordIdFrom(req) {
 // this task backward-compatible with deployed audit_logs rows.
 async function logAudit({ actor, action, target = {}, before = null, after = null, status = SUCCESS, severity, req }) {
   if (!actor?.id || !/^[A-Z][A-Z0-9_]*\.[A-Z][A-Z0-9_]*$/.test(action)) return;
+  // Load only when an audit write actually occurs. This keeps isolated route
+  // tests independent from local Supabase environment variables.
+  const { supabaseAdmin } = require('../config/supabase');
   const { data: profile } = await supabaseAdmin.from('users').select('name, role').eq('id', actor.id).maybeSingle();
   const actorRole = actor.role || profile?.role || null;
 
