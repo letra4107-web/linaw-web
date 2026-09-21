@@ -208,7 +208,7 @@ export default function Practice() {
         className="overflow-hidden rounded-3xl px-5 py-4 text-white shadow-card sm:px-6 sm:py-5"
         style={{ backgroundColor: `var(${theme.brand})` }}
       >
-        <div className="flex flex-wrap items-center justify-between gap-3">
+        <div className="flex flex-wrap items-center justify-center gap-3 text-center">
           <div>
             <h1 className="text-2xl font-bold sm:text-3xl">
               {mode === 'say' ? '🎙️ Sabihin ang Salita' : '🔊 Pakinggan at Basahin'}
@@ -263,14 +263,15 @@ export default function Practice() {
         ) : (
           <div className="flex flex-col items-center gap-4 text-center">
             <ReadingTarget compact label={mode === 'say' ? 'Salitang babasahin' : 'Pakinggan at sundan'} tone={theme.brand} className="w-full">
-              {mode === 'listen' ? (
-                <SyllableKaraokeText syllables={syllabifyWord(current.word)} activeIndex={null} colorVar={theme.brand} />
-              ) : (
-                <p className="text-4xl font-extrabold tracking-wide sm:text-5xl" style={{ color: `var(${theme.brand})` }}>
-                  {current.word}
-                </p>
-              )}
-              <div className="flex flex-wrap items-center justify-center gap-2">
+              <div className="flex flex-col items-center justify-center gap-3">
+                {mode === 'listen' ? (
+                  <SyllableKaraokeText syllables={syllabifyWord(current.word)} activeIndex={null} colorVar={theme.brand} />
+                ) : (
+                  <p className="text-4xl font-extrabold tracking-wide sm:text-5xl" style={{ color: `var(${theme.brand})` }}>
+                    {current.word}
+                  </p>
+                )}
+                <div className="flex flex-wrap items-center justify-center gap-2">
                 {mode === 'listen' ? (
                   <button
                     type="button"
@@ -287,6 +288,7 @@ export default function Practice() {
                 ) : (
                   <TTSButton text={current.word} />
                 )}
+                </div>
               </div>
             </ReadingTarget>
 
