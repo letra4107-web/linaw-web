@@ -354,6 +354,50 @@ router.post('/teachers', async (req, res) => {
   }
 });
 
+// GET /admin/analytics/students -- the Admin-only drill-down behind the
+// Student Accounts metric. It returns account details and progress together,
+// without exposing credentials or private speech transcripts.
+router.get('/analytics/students', async (_req, res) => {
+  try {
+    const [studentsResult, childrenResult, progressResult] = await Promise.all([
+      supabaseAdmin.from('users').select('id, name, email, account_status, lastLoginAt, created_at').eq('role', 'student').order('name'),
+      supabaseAdmin.from('children').select('id, auth_uid, name, grade_level'),
+      supabaseAdmin.from('child_progress').select('child_id, level, xp, streak, accuracy_sum, total_attempts, activities_completed, updated_at'),
+    ]);
+    for (const result of [studentsResult, childrenResult, progressResult]) if (result.error) throw result.error;
+
+    const childByAuthId = new Map((childrenResult.data || []).filter((child) => child.auth_uid).map((child) => [child.auth_uid, child]));
+    const progressByChildId = new Map((progressResult.data || []).map((progress) => [progress.child_id, progress]));
+    const students = (studentsResult.data || []).map((account) => {
+      const child = childByAuthId.get(account.id);
+      const progress = child ? progressByChildId.get(child.id) : null;
+      const attempts = Number(progress?.total_attempts || 0);
+      return {
+        id: account.id,
+        name: child?.name || account.name || account.email || 'Mag-aaral',
+        email: account.email || null,
+        gradeLevel: child?.grade_level || null,
+        accountStatus: account.account_status || 'active',
+        lastLoginAt: account.lastLoginAt || null,
+        createdAt: account.created_at,
+        progress: {
+          level: progress?.level || null,
+          accuracy: attempts > 0 ? Math.round(Number(progress?.accuracy_sum || 0) / attempts) : null,
+          attempts,
+          activitiesCompleted: Number(progress?.activities_completed || 0),
+          xp: Number(progress?.xp || 0),
+          streak: Number(progress?.streak || 0),
+          updatedAt: progress?.updated_at || null,
+        },
+      };
+    });
+    res.json({ students });
+  } catch (err) {
+    console.error('[admin/analytics/students]', err);
+    res.status(500).json({ error: 'Unable to load student account details.' });
+  }
+});
+
 // GET /admin/analytics
 router.get('/analytics', async (req, res) => {
   try {
