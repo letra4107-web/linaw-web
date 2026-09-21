@@ -203,36 +203,36 @@ export default function Practice() {
   };
 
   return (
-    <div className="flex flex-col gap-6">
+    <div className="mx-auto flex w-full max-w-2xl flex-col gap-4 pb-4 sm:gap-5">
       <div
-        className="overflow-hidden rounded-2xl p-8 text-white shadow-lg"
+        className="overflow-hidden rounded-3xl px-5 py-4 text-white shadow-card sm:px-6 sm:py-5"
         style={{ backgroundColor: `var(${theme.brand})` }}
       >
-        <div className="flex flex-wrap items-center justify-between gap-4">
+        <div className="flex flex-wrap items-center justify-between gap-3">
           <div>
-            <h1 className="text-3xl font-bold">
+            <h1 className="text-2xl font-bold sm:text-3xl">
               {mode === 'say' ? '🎙️ Sabihin ang Salita' : '🔊 Pakinggan at Basahin'}
             </h1>
-            <p className="mt-1 text-white/90">
+            <p className="mt-1 text-sm text-white/90 sm:text-base">
               {mode === 'say'
                 ? 'Basahin nang malakas ang salita sa ibaba.'
                 : "Sundan ng mata ang bawat pantig habang binabasa ito para sa iyo."}
             </p>
           </div>
           {streak >= 2 && (
-            <span className="flex items-center gap-1.5 rounded-full bg-white/20 px-4 py-2 text-sm font-semibold backdrop-blur">
+            <span className="flex items-center gap-1.5 rounded-full bg-white/20 px-3 py-1.5 text-xs font-semibold backdrop-blur">
               🔥 Sunod-sunod!
             </span>
           )}
         </div>
       </div>
 
-      <div className="flex flex-wrap gap-2">
+      <div className="grid grid-cols-2 gap-2">
         <button
           type="button"
           onClick={() => switchMode('say')}
           aria-pressed={mode === 'say'}
-          className={`flex items-center gap-2 rounded-full border-2 px-5 py-2.5 text-sm font-semibold transition-all ${
+          className={`flex min-h-11 items-center justify-center gap-2 rounded-2xl border-2 px-3 py-2 text-sm font-semibold transition-all ${
             mode === 'say'
               ? 'border-transparent bg-[var(--color-brand-coral)] text-white shadow-md'
               : 'border-[var(--color-border)] text-[var(--color-text)] hover:border-[var(--color-brand-coral)]'
@@ -244,7 +244,7 @@ export default function Practice() {
           type="button"
           onClick={() => switchMode('listen')}
           aria-pressed={mode === 'listen'}
-          className={`flex items-center gap-2 rounded-full border-2 px-5 py-2.5 text-sm font-semibold transition-all ${
+          className={`flex min-h-11 items-center justify-center gap-2 rounded-2xl border-2 px-3 py-2 text-sm font-semibold transition-all ${
             mode === 'listen'
               ? 'border-transparent bg-[var(--color-brand-teal)] text-white shadow-md'
               : 'border-[var(--color-border)] text-[var(--color-text)] hover:border-[var(--color-brand-teal)]'
@@ -254,19 +254,19 @@ export default function Practice() {
         </button>
       </div>
 
-      <div className="rounded-2xl border-2 p-8 shadow-md" style={cardStyle(theme.brand, 12, 45)}>
+      <div className="rounded-3xl border p-4 shadow-card sm:p-5" style={cardStyle(theme.brand, 8, 28)}>
         {loadingWords || !current ? (
-          <div className="flex flex-col items-center gap-3 py-10 text-center">
+          <div className="flex flex-col items-center gap-3 py-8 text-center">
             <div className="h-10 w-10 animate-spin rounded-full border-4 border-[var(--color-border)] border-t-[var(--color-primary)]" />
             <p className="text-[var(--color-text-muted)]">Naglo-load...</p>
           </div>
         ) : (
-          <div className="flex flex-col items-center gap-6 text-center">
-            <ReadingTarget label={mode === 'say' ? 'Salitang babasahin' : 'Pakinggan at sundan'} tone={theme.brand} className="w-full">
+          <div className="flex flex-col items-center gap-4 text-center">
+            <ReadingTarget compact label={mode === 'say' ? 'Salitang babasahin' : 'Pakinggan at sundan'} tone={theme.brand} className="w-full">
               {mode === 'listen' ? (
                 <SyllableKaraokeText syllables={syllabifyWord(current.word)} activeIndex={null} colorVar={theme.brand} />
               ) : (
-                <p className="text-5xl font-extrabold tracking-wide" style={{ color: `var(${theme.brand})` }}>
+                <p className="text-4xl font-extrabold tracking-wide sm:text-5xl" style={{ color: `var(${theme.brand})` }}>
                   {current.word}
                 </p>
               )}
@@ -276,7 +276,7 @@ export default function Practice() {
                     type="button"
                     onClick={playWord}
                     disabled={speechStatus === 'loading'}
-                    className="inline-flex items-center gap-2 rounded-full border border-[var(--color-border)] bg-[var(--color-surface)] px-3 py-1.5 text-sm text-[var(--color-text)] hover:border-[var(--color-primary)] disabled:opacity-60"
+                  className="inline-flex min-h-10 items-center gap-2 rounded-full border border-[var(--color-border)] bg-[var(--color-surface)] px-3 py-1.5 text-sm text-[var(--color-text)] hover:border-[var(--color-primary)] disabled:opacity-60"
                   >
                     <IconLabel
                       icon={speechStatus === 'loading' ? '⏳' : undefined}
@@ -298,7 +298,7 @@ export default function Practice() {
                 <button
                   type="button"
                   onClick={() => switchMode('say')}
-                  className="rounded-full bg-[var(--color-primary)] px-6 py-2.5 text-sm font-semibold text-white shadow-md transition-transform hover:-translate-y-0.5 active:scale-95"
+                  className="min-h-11 rounded-full bg-[var(--color-primary)] px-5 py-2 text-sm font-semibold text-white shadow-card transition-transform hover:-translate-y-0.5 active:scale-95"
                 >
                   <IconLabel icon="🎙️" label="Subukan Bigkasin" />
                 </button>
@@ -315,7 +315,7 @@ export default function Practice() {
                   disabled={savingAttempt}
                   aria-label={savingAttempt ? 'Sinusuri ang iyong sagot' : listening ? 'Itigil ang pakikinig' : 'Simulan ang pagbigkas'}
                   aria-describedby="practice-microphone-help"
-                  className={`relative flex h-24 w-24 items-center justify-center rounded-full text-4xl text-white shadow-lg transition-transform hover:scale-105 active:scale-95 disabled:opacity-70 ${
+                  className={`relative flex h-18 w-18 items-center justify-center rounded-full text-3xl text-white shadow-card transition-transform hover:scale-105 active:scale-95 disabled:opacity-70 ${
                     listening ? 'bg-[var(--color-warning)]' : savingAttempt ? 'bg-[var(--color-text-muted)]' : ''
                   }`}
                   style={!listening ? { backgroundColor: `var(${theme.brand})` } : undefined}
@@ -340,7 +340,7 @@ export default function Practice() {
               />
             )}
             {error && (
-              <p role="alert" className="w-full rounded-xl bg-[var(--color-danger-soft)] px-5 py-3 text-sm text-[var(--color-danger)]">
+              <p role="alert" className="w-full rounded-2xl bg-[var(--color-danger-soft)] px-4 py-3 text-sm text-[var(--color-danger)]">
                 {error}
               </p>
             )}
@@ -348,7 +348,7 @@ export default function Practice() {
             <button
               type="button"
               onClick={nextWord}
-              className="rounded-full border border-[var(--color-border)] bg-white px-6 py-2.5 text-sm font-semibold hover:border-[var(--color-primary)]"
+              className="min-h-11 rounded-full border border-[var(--color-border)] bg-white px-5 py-2 text-sm font-semibold hover:border-[var(--color-primary)]"
             >
               <IconLabel icon="➡️" label="Susunod na Salita" />
             </button>
