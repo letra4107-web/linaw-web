@@ -9,6 +9,7 @@ import { SlowTTSButton } from '../../components/a11y/SlowTTSButton';
 import { BadgeUnlockToast } from '../../components/BadgeUnlockToast';
 import { IconLabel } from '../../components/a11y/IconLabel';
 import { LearningActivityHeader } from '../../components/student/LearningActivityHeader';
+import { WordMeaning } from '../../components/student/WordMeaning';
 import { cardStyle, CARD_COLORS } from '../../lib/cardStyle';
 import { trackEvent } from '../../lib/analytics';
 
@@ -252,6 +253,7 @@ export default function Assessment() {
                 </button>
               </div>
             )}
+            {isAnswered && item.content_type === 'word' && <WordMeaning word={item.content_text} className="mt-4" />}
           </div>
         );
       })}

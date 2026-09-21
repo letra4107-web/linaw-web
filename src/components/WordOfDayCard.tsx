@@ -11,6 +11,7 @@ import { SyllableKaraokeText } from './SyllableKaraokeText';
 import { PronunciationFeedback } from './PronunciationFeedback';
 import { BadgeUnlockToast } from './BadgeUnlockToast';
 import { IconLabel } from './a11y/IconLabel';
+import { WordMeaning } from './student/WordMeaning';
 import calendarIcon from '../assets/calendar.png';
 import speechIcon from '../assets/speech.png';
 import micIcon from '../assets/mic.png';
@@ -204,6 +205,7 @@ export function WordOfDayCard({ streak = 0 }: WordOfDayCardProps) {
             />
           </button>
         </div>
+        <WordMeaning word={wordOfDay.word} className="mt-4" />
 
         {isDone ? (
           <PronunciationFeedback

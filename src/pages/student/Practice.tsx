@@ -11,6 +11,7 @@ import { SyllableKaraokeText } from '../../components/SyllableKaraokeText';
 import { PronunciationFeedback } from '../../components/PronunciationFeedback';
 import { IconLabel } from '../../components/a11y/IconLabel';
 import { ReadingTarget } from '../../components/student/ReadingTarget';
+import { WordMeaning } from '../../components/student/WordMeaning';
 import { cardStyle } from '../../lib/cardStyle';
 import speechIcon from '../../assets/speech.png';
 import { trackEvent } from '../../lib/analytics';
@@ -62,7 +63,9 @@ export default function Practice() {
   const [error, setError] = useState<string | null>(null);
   const [streak, setStreak] = useState(0);
   const [speechStatus, setSpeechStatus] = useState<'idle' | 'loading' | 'speaking'>('idle');
+  const [activeSyllable, setActiveSyllable] = useState<number | null>(null);
   const speechAudioRef = useRef<HTMLAudioElement | null>(null);
+  const karaokeFrameRef = useRef<number | null>(null);
   const stopRecognitionRef = useRef<() => void>(() => {});
 
   const { data: path } = useQuery({
@@ -101,12 +104,43 @@ export default function Practice() {
   useEffect(() => {
     return () => {
       speechAudioRef.current?.pause();
+      if (karaokeFrameRef.current !== null) cancelAnimationFrame(karaokeFrameRef.current);
     };
   }, []);
+
+  const stopKaraoke = () => {
+    if (karaokeFrameRef.current !== null) cancelAnimationFrame(karaokeFrameRef.current);
+    karaokeFrameRef.current = null;
+    setActiveSyllable(null);
+  };
+
+  // The word remains one continuous Filipino TTS request (never one request per
+  // syllable).  We only use the audio progress to guide the child's eyes.
+  const startKaraoke = (audio: HTMLAudioElement, syllables: string[]) => {
+    stopKaraoke();
+    if (syllables.length === 0) return;
+
+    const totalCharacters = syllables.reduce((total, syllable) => total + syllable.length, 0);
+    const updateHighlight = () => {
+      const progress = audio.duration > 0 ? audio.currentTime / audio.duration : 0;
+      const targetCharacter = Math.max(0, Math.min(totalCharacters - 1, progress * totalCharacters));
+      let coveredCharacters = 0;
+      const nextIndex = syllables.findIndex((syllable) => {
+        coveredCharacters += syllable.length;
+        return targetCharacter < coveredCharacters;
+      });
+      setActiveSyllable(nextIndex === -1 ? syllables.length - 1 : nextIndex);
+
+      if (!audio.paused && !audio.ended) karaokeFrameRef.current = requestAnimationFrame(updateHighlight);
+    };
+
+    updateHighlight();
+  };
 
   const stopSpeech = () => {
     speechAudioRef.current?.pause();
     speechAudioRef.current = null;
+    stopKaraoke();
     setSpeechStatus('idle');
   };
 
@@ -147,15 +181,21 @@ export default function Practice() {
       for (let i = 0; i < bytes.length; i += 1) buffer[i] = bytes.charCodeAt(i);
       const url = URL.createObjectURL(new Blob([buffer], { type: 'audio/mpeg' }));
       const audio = new Audio(url);
+      const syllables = syllabifyWord(current.word);
       speechAudioRef.current = audio;
       audio.onended = () => {
+        stopKaraoke();
         setSpeechStatus('idle');
         speechAudioRef.current = null;
         URL.revokeObjectURL(url);
       };
-      audio.onerror = () => setSpeechStatus('idle');
+      audio.onerror = () => {
+        stopKaraoke();
+        setSpeechStatus('idle');
+      };
       setSpeechStatus('speaking');
-      audio.play();
+      await audio.play();
+      startKaraoke(audio, syllables);
     } catch {
       trackEvent('speech_request_failed', { surface: 'practice' });
       setSpeechStatus('idle');
@@ -265,7 +305,11 @@ export default function Practice() {
             <ReadingTarget compact label={mode === 'say' ? 'Salitang babasahin' : 'Pakinggan at sundan'} tone={theme.brand} className="w-full">
               <div className="flex flex-col items-center justify-center gap-3">
                 {mode === 'listen' ? (
-                  <SyllableKaraokeText syllables={syllabifyWord(current.word)} activeIndex={null} colorVar={theme.brand} />
+                  <SyllableKaraokeText
+                    syllables={syllabifyWord(current.word)}
+                    activeIndex={activeSyllable}
+                    colorVar={theme.brand}
+                  />
                 ) : (
                   <p className="text-4xl font-extrabold tracking-wide sm:text-5xl" style={{ color: `var(${theme.brand})` }}>
                     {current.word}
@@ -291,6 +335,7 @@ export default function Practice() {
                 </div>
               </div>
             </ReadingTarget>
+            <WordMeaning word={current.word} />
 
             {mode === 'listen' ? (
               <>

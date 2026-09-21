@@ -12,6 +12,7 @@ import { NonsenseWordCheck } from '../../components/NonsenseWordCheck';
 import { ChallengeWordsPractice } from '../../components/ChallengeWordsPractice';
 import { IconLabel } from '../../components/a11y/IconLabel';
 import { LearningActivityHeader } from '../../components/student/LearningActivityHeader';
+import { WordMeaning } from '../../components/student/WordMeaning';
 import { cardStyle, CARD_COLORS } from '../../lib/cardStyle';
 import { trackEvent } from '../../lib/analytics';
 
@@ -177,6 +178,7 @@ export default function Module() {
                 ) : (
                   <>
                     <p className="text-xl leading-loose font-medium sm:text-2xl">{item.content_text}</p>
+                    {item.content_type === 'word' && <WordMeaning word={item.content_text} className="mt-4" />}
                     <div className="mt-5 flex flex-wrap items-center gap-3">
                       <TTSButton text={item.content_text} />
                       <SlowTTSButton text={item.content_text} />
@@ -271,6 +273,7 @@ export default function Module() {
                       </span>
                     )}
                   </div>
+                  {!isLocked && item.content_type === 'word' && <WordMeaning word={item.content_text} className="mt-1" />}
                   {!isCompact && !isLocked && lastResult?.contentId === item.content_id && (
                     <PronunciationFeedback
                       className="mt-3"
