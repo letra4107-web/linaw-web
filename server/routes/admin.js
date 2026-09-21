@@ -44,7 +44,10 @@ router.get('/audit-logs', async (req, res) => {
     const pageSize = Math.max(10, Math.min(100, Number(req.query.pageSize) || 25));
     const ascending = req.query.order === 'asc';
     let query = supabaseAdmin.from('audit_logs').select('id, actor_id, actor_role, actor_name, action, module, record_id, status, metadata, created_at', { count: 'exact' }).order('created_at', { ascending });
-    for (const field of ['actor_role', 'action', 'module', 'status']) if (req.query[field]) query = query.eq(field, String(req.query[field]).slice(0, 160));
+    // `role` is the public filter name; retain actor_role for older callers.
+    const role = String(req.query.role || req.query.actor_role || '').trim().toLowerCase();
+    if (['admin', 'parent', 'teacher', 'student', 'system'].includes(role)) query = query.eq('actor_role', role);
+    for (const field of ['action', 'module', 'status']) if (req.query[field]) query = query.eq(field, String(req.query[field]).slice(0, 160));
     if (req.query.from) query = query.gte('created_at', String(req.query.from));
     if (req.query.to) query = query.lte('created_at', `${String(req.query.to)}T23:59:59.999Z`);
     if (req.query.search) query = query.or(`actor_name.ilike.%${String(req.query.search).replace(/[%_,()]/g, '')}%,action.ilike.%${String(req.query.search).replace(/[%_,()]/g, '')}%`);
