@@ -156,13 +156,15 @@ export default function Login() {
       if (signInError) throw signInError;
       if (!data.user) throw new Error('Hindi makumpleto ang pag-login.');
 
-      if (!data.user.email_confirmed_at) {
-        // Not yet verified: keep the session so /verify-email can act on it.
+      const identity = await resolveRole(data.user);
+      // Student accounts are created and managed by a parent. They do not need
+      // an email verification code before they can begin reading practice.
+      // Parents, teachers, and admins still require email verification.
+      if (!data.user.email_confirmed_at && identity?.role !== 'student') {
         navigate('/verify-email', { state: { email: cleanEmail } });
         return;
       }
 
-      const identity = await resolveRole(data.user);
       if (identity) trackEvent('login_success', { role: identity.role });
       navigate(identity ? dashboardPathForRole(identity.role) : '/verify-email', { replace: true });
     } catch (err) {
@@ -183,12 +185,13 @@ export default function Login() {
 
       updateSavedProfileToken(profile.userId, data.session.refresh_token);
 
-      if (!data.user.email_confirmed_at) {
+      const identity = await resolveRole(data.user);
+      // Keep saved student accounts free of the email-code step as well.
+      if (!data.user.email_confirmed_at && identity?.role !== 'student') {
         navigate('/verify-email', { state: { email: data.user.email } });
         return;
       }
 
-      const identity = await resolveRole(data.user);
       if (identity) trackEvent('login_success', { role: identity.role, saved_profile: true });
       navigate(identity ? dashboardPathForRole(identity.role) : '/verify-email', { replace: true });
     } catch {
