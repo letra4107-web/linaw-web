@@ -26,6 +26,16 @@ const ISOLATED_VOWEL_IPA = Object.freeze({
   u: 'ʔʊʔ',
 });
 
+// Letter drills must use Filipino letter sounds, not the English names
+// ("bee", "kay", "double-u"). The first group is the core Filipino
+// alphabet; the remaining letters retain Filipino-friendly names for content
+// that includes them.
+const ISOLATED_LETTER_NAMES = Object.freeze({
+  b: 'ba', c: 'ka', d: 'da', f: 'fa', g: 'ga', h: 'ha', j: 'dya', k: 'ka',
+  l: 'la', m: 'ma', n: 'na', 'ñ': 'nya', ng: 'nga', p: 'pa', q: 'ku',
+  r: 'ra', s: 'sa', t: 'ta', v: 'va', w: 'wa', x: 'eks', y: 'ya', z: 'za',
+});
+
 function normalize(value) {
   return String(value ?? '')
     .normalize('NFD')
@@ -128,6 +138,12 @@ function filipinoSsml(value) {
   const isolatedVowel = normalize(text);
   if (Object.hasOwn(VOWEL_IPA, isolatedVowel)) {
     return `<speak><phoneme alphabet="ipa" ph="${ISOLATED_VOWEL_IPA[isolatedVowel]}">${isolatedVowel}</phoneme><break time="900ms"/></speak>`;
+  }
+
+  const isolatedLetter = text.toLocaleLowerCase('fil-PH');
+  const letterName = ISOLATED_LETTER_NAMES[isolatedLetter];
+  if (letterName) {
+    return `<speak><phoneme alphabet="ipa" ph="${filipinoIpa(letterName)}">${escapeXml(text)}</phoneme><break time="900ms"/></speak>`;
   }
 
   const paragraphs = text.split(/\r?\n\s*\r?\n/).filter(Boolean);

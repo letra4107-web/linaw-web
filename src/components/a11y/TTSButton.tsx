@@ -7,6 +7,8 @@ import { trackEvent } from '../../lib/analytics';
 interface TTSButtonProps {
   text: string;
   lang?: string;
+  /** Use for explanatory sentences that should not inherit the learner's slow word-reading speed. */
+  rate?: number;
   className?: string;
 }
 
@@ -24,7 +26,7 @@ function base64ToObjectUrl(base64: string): string {
 
 /** Reads `text` aloud through the server-side Filipino Cloud TTS voice. Acts as a toggle --
  *  clicking again while speaking stops playback instead of restarting it. */
-export function TTSButton({ text, lang = 'fil-PH', className }: TTSButtonProps) {
+export function TTSButton({ text, lang = 'fil-PH', rate: requestedRate, className }: TTSButtonProps) {
   void lang; // Server-side Filipino Cloud TTS is authoritative for pronunciation.
   const [status, setStatus] = useState<'idle' | 'loading' | 'speaking'>('idle');
   const audioRef = useRef<HTMLAudioElement | null>(null);
@@ -42,7 +44,7 @@ export function TTSButton({ text, lang = 'fil-PH', className }: TTSButtonProps) 
       return;
     }
 
-    const rate = getTtsRate();
+    const rate = requestedRate ?? getTtsRate();
     const cacheKey = `${TTS_AUDIO_CACHE_VERSION}::${text}::${rate}`;
     const cached = audioCache.get(cacheKey);
     if (cached) {

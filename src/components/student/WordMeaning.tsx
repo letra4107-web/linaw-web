@@ -1,5 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '../../lib/supabaseClient';
+import { TTSButton } from '../a11y/TTSButton';
 
 interface DefinitionRow {
   display_word: string | null;
@@ -56,11 +57,20 @@ export function WordMeaning({ word, className = '' }: { word: string; className?
 
   if (!definition) return null;
 
+  const meaningToSpeak = [definition.meaning_fil, definition.example_sentence].filter(Boolean).join(' ');
+
   return (
     <section aria-label={`Kahulugan ng ${word}`} className={`w-full rounded-2xl border border-[var(--color-border)] bg-white/75 px-4 py-3 text-left ${className}`}>
       <p className="text-xs font-bold tracking-[0.1em] text-[var(--color-primary)] uppercase">Kahulugan</p>
       {definition.display_word && <p className="mt-1 text-sm font-bold">{definition.display_word}</p>}
-      <p className="mt-1 text-sm leading-relaxed text-[var(--color-text)]">{definition.meaning_fil}</p>
+      <div className="mt-1 flex flex-wrap items-start justify-between gap-2">
+        <p className="text-sm leading-relaxed text-[var(--color-text)]">{definition.meaning_fil}</p>
+        <TTSButton
+          text={meaningToSpeak}
+          rate={0.85}
+          className="inline-flex min-h-10 shrink-0 items-center gap-2 rounded-full border border-[var(--color-border)] bg-[var(--color-surface)] px-3 py-1.5 text-xs text-[var(--color-text)] hover:border-[var(--color-primary)]"
+        />
+      </div>
       {definition.example_sentence && <p className="mt-2 border-l-2 border-[var(--color-primary)] pl-3 text-sm italic text-[var(--color-text-muted)]">Halimbawa: {definition.example_sentence}</p>}
     </section>
   );

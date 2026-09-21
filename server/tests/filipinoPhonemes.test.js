@@ -13,12 +13,25 @@ test('isolated Filipino vowels use IPA instead of English letter names', () => {
   );
 });
 
+test('isolated consonants use Filipino letter sounds instead of English names', () => {
+  assert.equal(
+    filipinoSsml('B'),
+    '<speak><phoneme alphabet="ipa" ph="ba">B</phoneme><break time="900ms"/></speak>',
+  );
+  assert.equal(
+    filipinoSsml('Ng'),
+    '<speak><phoneme alphabet="ipa" ph="ŋa">Ng</phoneme><break time="900ms"/></speak>',
+  );
+});
+
 test('Filipino SSML spaces clauses, sentences, and paragraphs for processing time', () => {
   const ssml = filipinoSsml('Basa, anak.\n\nUlitin mo.');
   assert.match(ssml, /<break time="300ms"\/>/);
   assert.match(ssml, /<break time="900ms"\/>/);
   assert.match(ssml, /<break time="1500ms"\/>/);
   assert.match(ssml, /alphabet="ipa" ph="basa"/);
+  assert.match(ssml, /alphabet="ipa" ph="anak"/);
+  assert.match(ssml, /alphabet="ipa" ph="ʊlitin"/);
 });
 
 test('multi-syllable Filipino words receive the slow-reading classification', () => {
