@@ -98,15 +98,16 @@ export default function Dashboard() {
   }
 
   return (
-    <div className="flex min-w-0 flex-col gap-7">
-      <header className="relative overflow-hidden rounded-3xl border border-white/25 bg-[var(--color-primary)] px-5 py-5 text-white shadow-hero ring-1 ring-black/5 sm:px-7">
+    <div className="parent-home-dashboard flex min-w-0 flex-col gap-6 lg:gap-7">
+      <header className="parent-dashboard-hero relative overflow-hidden rounded-[2rem] border border-white/25 bg-[var(--color-primary)] px-6 py-7 text-white shadow-hero ring-1 ring-black/5 lg:px-9 lg:py-8">
         <div aria-hidden="true" className="absolute -top-20 -right-12 h-48 w-48 rounded-full bg-white/10" />
-        <div className="relative flex flex-wrap items-center justify-between gap-4">
-          <div><p className="text-sm font-bold text-white/75">Magandang araw, {parentFirstName}</p><h1 className="mt-0.5 text-2xl font-bold sm:text-3xl">Kumusta ang pagbabasa ni {activeChild?.name}?</h1></div>
+        <img src={owlbook} alt="" aria-hidden="true" className="absolute right-5 bottom-0 h-28 w-28 object-contain drop-shadow-lg lg:right-9 lg:h-36 lg:w-36" />
+        <div className="relative flex flex-wrap items-center justify-between gap-4 pr-20 lg:pr-28">
+          <div><h1 className="text-3xl leading-tight font-bold lg:text-4xl">Magandang araw, {parentFirstName}!</h1><p className="mt-2 max-w-md text-sm font-semibold leading-relaxed text-white/80 lg:text-base">Narito kung paano ang progreso ng iyong anak ngayon.</p></div>
           {children && children.length > 1 && (
-            <label className="flex items-center gap-2 rounded-2xl bg-white/15 p-2 pl-3 text-sm font-bold backdrop-blur">
-              <span>Piliin ang anak</span>
-              <select value={activeChildId ?? ''} onChange={(event) => setSelectedChildId(event.target.value)} className="min-h-10 max-w-40 rounded-xl border border-white/20 bg-white px-3 text-[var(--color-text)]">
+            <label className="hidden items-center gap-2 rounded-full bg-[var(--color-primary-soft)] px-3 py-2 text-sm font-bold text-[var(--color-primary)]">
+              <span>Palitan ang anak</span>
+              <select value={activeChildId ?? ''} onChange={(event) => setSelectedChildId(event.target.value)} className="min-h-10 max-w-40 rounded-xl border-0 bg-transparent px-1 text-[var(--color-primary)]">
                 {children.map((child) => <option key={child.id} value={child.id}>{child.name}</option>)}
               </select>
             </label>
@@ -114,10 +115,12 @@ export default function Dashboard() {
         </div>
       </header>
 
-      <section aria-label="Buod ng anak" className="flex flex-col gap-4 rounded-3xl border p-5 shadow-card sm:p-6" style={cardStyle('--color-brand-lavender', 8, 30)}>
+      <section aria-label="Ang iyong anak" className="flex flex-col gap-4 rounded-[2rem] border p-5 shadow-card lg:p-6" style={cardStyle('--color-brand-lavender', 5, 22)}>
         <div className="flex flex-wrap items-center justify-between gap-4">
+          <p className="mr-auto text-xs font-bold tracking-[0.12em] text-[var(--color-text-muted)] uppercase">Ang iyong anak</p>
+          {children && children.length > 1 && <label className="flex items-center gap-2 rounded-full bg-[var(--color-primary-soft)] px-3 py-2 text-sm font-bold text-[var(--color-primary)]"><span>Palitan ang anak</span><select aria-label="Palitan ang anak" value={activeChildId ?? ''} onChange={(event) => setSelectedChildId(event.target.value)} className="min-h-9 max-w-40 border-0 bg-transparent px-1 text-[var(--color-primary)]">{children.map((child) => <option key={child.id} value={child.id}>{child.name}</option>)}</select></label>}
           <div className="flex items-center gap-3">
-            <span className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-white/75 text-xl font-bold text-[var(--color-primary)]">{activeChild?.name.charAt(0).toUpperCase()}</span>
+            <span className="flex h-16 w-16 shrink-0 items-center justify-center rounded-full bg-[var(--color-primary-soft)] text-2xl font-bold text-[var(--color-primary)]">{activeChild?.name.charAt(0).toUpperCase()}</span>
             <div><h2 className="text-xl font-bold">{activeChild?.name}</h2><p className="text-sm text-[var(--color-text-muted)]">Baitang {activeChild?.grade_level} · {progress?.level ?? 'Walang antas'}</p></div>
           </div>
           <span className={`rounded-full px-3 py-1.5 text-xs font-bold ${isActiveToday ? 'bg-[var(--color-success-soft)] text-[var(--color-success)]' : 'bg-white/70 text-[var(--color-text-muted)]'}`}>{isActiveToday ? '● Aktibo ngayon' : '○ Wala pang aktibidad ngayon'}</span>
@@ -134,14 +137,14 @@ export default function Dashboard() {
         </div>
       </section>
 
-      <section aria-labelledby="assignments-title" className="rounded-3xl border p-5 shadow-card sm:p-6" style={cardStyle('--color-brand-sage', 7, 26)}>
+      <section aria-labelledby="assignments-title" className="order-4 rounded-[2rem] border p-5 shadow-card lg:p-6" style={cardStyle('--color-brand-sage', 7, 26)}>
         <div className="flex flex-wrap items-center justify-between gap-3"><div><p className="text-xs font-bold tracking-[0.1em] text-[var(--color-brand-sage)] uppercase">Mga gawain</p><h2 id="assignments-title" className="text-xl font-bold">Mga PDF na Hindi Pa Tapos</h2><p className="text-sm text-[var(--color-text-muted)]">Mga materyal na naka-assign kay {activeChild?.name ?? 'iyong anak'}.</p></div><Link to="/parent/progress" className="inline-flex min-h-11 items-center rounded-full px-4 text-sm font-bold text-[var(--color-primary)] hover:bg-white/65">Tingnan ang progreso →</Link></div>
         {assignments?.length ? <ul className="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">{assignments.map((assignment) => <li key={assignment.id} className="rounded-2xl border border-white/70 bg-white/65 p-4"><p className="font-bold">{assignment.pdf_materials?.title ?? 'Materyal sa PDF'}</p><p className="mt-1 text-sm text-[var(--color-text-muted)]">{assignment.status === 'in_progress' ? 'Ginagawa na' : 'Naka-assign'}{assignment.due_date ? ` · Takdang araw: ${new Date(assignment.due_date).toLocaleDateString('fil-PH', { month: 'short', day: 'numeric' })}` : ''}</p></li>)}</ul> : <p className="mt-4 rounded-2xl bg-white/55 p-4 text-[var(--color-text-muted)]">Wala pang PDF na kailangang tapusin ngayon.</p>}
       </section>
 
-      <div className="grid min-w-0 grid-cols-1 gap-5 lg:grid-cols-[1.35fr_0.85fr]">
-        <section aria-labelledby="latest-title" className="rounded-3xl border p-5 shadow-card sm:p-6" style={cardStyle('--color-brand-sun', 9, 30)}>
-          <div className="flex items-start justify-between gap-3"><div><p className="text-xs font-bold tracking-[0.1em] text-[var(--color-warning-text)] uppercase">Pinakabagong resulta</p><h2 id="latest-title" className="text-xl font-bold">Huling Pagsasanay sa Pagbasa</h2></div>{latest && <span className="text-xs text-[var(--color-text-muted)]">{formatRelativeDate(latest.created_at)}</span>}</div>
+      <div className="order-3 grid min-w-0 grid-cols-1 gap-5 xl:grid-cols-[1.35fr_0.85fr]">
+        <section aria-labelledby="latest-title" className="rounded-[2rem] border p-5 shadow-card lg:p-6" style={cardStyle('--color-brand-sun', 9, 30)}>
+          <div className="flex items-start justify-between gap-3"><div><p className="text-xs font-bold tracking-[0.1em] text-[var(--color-warning-text)] uppercase">Pinakabagong resulta sa pagbasa</p><h2 id="latest-title" className="text-2xl font-bold">{latest?.word ?? 'Wala pang binasa'}</h2></div>{latest && <span className="text-xs text-[var(--color-text-muted)]">{formatRelativeDate(latest.created_at)}</span>}</div>
           {latest ? (
             <div className="mt-5"><div className="flex flex-wrap items-end justify-between gap-4"><div><p className="text-sm text-[var(--color-text-muted)]">Salitang binasa</p><p className="text-3xl font-bold">{latest.word}</p></div><div className="text-right"><p className={`text-4xl font-bold ${latest.accuracy_percentage >= 80 ? 'text-[var(--color-success)]' : 'text-[var(--color-warning-text)]'}`}>{latest.accuracy_percentage}%</p><p className="text-xs font-bold text-[var(--color-text-muted)]">Kawastuhan</p></div></div>
               <div className="mt-5 grid grid-cols-3 gap-3 border-t border-white/70 pt-4 text-center"><div><p className="font-bold">{latest.duration_seconds ?? '—'}s</p><p className="text-xs text-[var(--color-text-muted)]">Tagal</p></div><div><p className="font-bold">{weekSessions.length}</p><p className="text-xs text-[var(--color-text-muted)]">Practice / linggo</p></div><div><p className="font-bold">{weekDays}</p><p className="text-xs text-[var(--color-text-muted)]">Aktibong araw</p></div></div>
@@ -149,14 +152,14 @@ export default function Dashboard() {
           ) : <p className="mt-5 rounded-2xl bg-white/55 p-5 text-[var(--color-text-muted)]">Wala pang naitalang pagsasanay sa pagbasa.</p>}
         </section>
 
-        <section aria-labelledby="insight-title" className="relative overflow-hidden rounded-3xl border p-5 shadow-card sm:p-6" style={cardStyle('--color-brand-violet', 9, 30)}>
-          <img src={owlbook} alt="" aria-hidden="true" className="absolute -right-5 -bottom-5 h-28 w-28 object-contain opacity-15" />
-          <p className="text-xs font-bold tracking-[0.1em] text-[var(--color-brand-violet)] uppercase">Mahalagang insight</p><h2 id="insight-title" className="mt-1 text-xl font-bold">Dapat Malaman Ngayon</h2>
-          {profile?.sessionCount ? <><p className="relative mt-4 leading-relaxed">{profile.insights[0] ?? profile.recommendedHomePractice}</p><div className="relative mt-4 rounded-2xl bg-white/65 p-4"><p className="text-xs font-bold text-[var(--color-text-muted)]">Iminungkahing suporta sa bahay</p><p className="mt-1 text-sm font-semibold">{profile.recommendedHomePractice}</p></div><Link to="/parent/progress" className="relative mt-4 inline-flex min-h-11 items-center rounded-full px-4 text-sm font-bold text-[var(--color-primary)] hover:bg-white/65">Buong ulat →</Link></> : <p className="mt-4 text-[var(--color-text-muted)]">Kailangan pa ng ilang practice session upang makagawa ng insight.</p>}
+        <section aria-labelledby="insight-title" className="relative overflow-hidden rounded-[2rem] border border-white/20 bg-[var(--color-primary)] p-6 text-white shadow-hero lg:p-7">
+          <img src={owlbook} alt="" aria-hidden="true" className="absolute -right-5 -bottom-5 h-36 w-36 object-contain opacity-25" />
+          <p className="text-xs font-bold tracking-[0.1em] text-white/70 uppercase">Progreso sa pagbasa</p><h2 id="insight-title" className="relative mt-2 max-w-[15rem] text-2xl leading-tight font-bold">{activeChild?.name}&apos;s Reading Progress</h2>
+          {profile?.sessionCount ? <><p className="relative mt-4 leading-relaxed text-white/90">{profile.insights[0] ?? profile.recommendedHomePractice}</p><div className="relative mt-4 rounded-2xl bg-white/15 p-4"><p className="text-xs font-bold text-white/70">Iminungkahing suporta sa bahay</p><p className="mt-1 text-sm font-semibold text-white">{profile.recommendedHomePractice}</p></div><Link to="/parent/progress" className="relative mt-4 inline-flex min-h-11 items-center rounded-full bg-white/15 px-4 text-sm font-bold text-white hover:bg-white/25">Buong ulat →</Link></> : <p className="mt-4 text-white/80">Kailangan pa ng ilang practice session upang makagawa ng insight.</p>}
         </section>
       </div>
 
-      <div className="grid min-w-0 grid-cols-1 gap-5 lg:grid-cols-2">
+      <div className="order-5 grid min-w-0 grid-cols-1 gap-5 lg:grid-cols-2">
         <section aria-labelledby="upcoming-title" className="rounded-3xl border p-5 shadow-card sm:p-6" style={cardStyle('--color-brand-sage', 8, 28)}>
           <div className="flex items-center justify-between gap-3"><h2 id="upcoming-title" className="text-xl font-bold">Paparating na Iskedyul</h2><Link to="/parent/schedule" className="text-sm font-bold text-[var(--color-primary)]">Kalendaryo →</Link></div>
           {upcoming?.length ? <ul className="mt-4 flex flex-col gap-2">{upcoming.map((item) => <li key={item.id} className="flex items-center gap-3 rounded-2xl border border-white/70 bg-white/65 p-3"><time dateTime={item.scheduled_date} className="flex h-12 w-12 shrink-0 flex-col items-center justify-center rounded-xl bg-[var(--color-brand-sage)] text-xs font-bold text-white"><span>{new Date(item.scheduled_date).toLocaleDateString('fil-PH', { month: 'short' })}</span><span className="text-base">{new Date(item.scheduled_date).getDate()}</span></time><span className="min-w-0 flex-1 truncate font-bold">{item.title}</span><span className="rounded-full bg-white px-2 py-1 text-xs font-bold text-[var(--color-success)]">Naka-iskedyul</span></li>)}</ul> : <p className="mt-4 rounded-2xl bg-white/55 p-4 text-[var(--color-text-muted)]">Wala pang paparating na iskedyul.</p>}
@@ -168,7 +171,7 @@ export default function Dashboard() {
         </section>
       </div>
 
-      <nav aria-label="Mabilis na aksyon" className="grid grid-cols-1 gap-3 sm:grid-cols-3">
+      <nav aria-label="Mabilis na aksyon" className="order-6 grid grid-cols-1 gap-3 sm:grid-cols-3">
         {[{ to: '/parent/children', icon: '＋', label: 'Pamahalaan ang mga anak', color: '--color-brand-lavender' }, { to: '/parent/progress', icon: '▥', label: 'Tingnan ang buong ulat', color: '--color-brand-sun' }, { to: '/parent/settings', icon: '☺', label: 'Ayusin ang profile', color: '--color-brand-coral' }].map((action) => <Link key={action.to} to={action.to} className="flex min-h-20 items-center gap-3 rounded-3xl border p-4 font-bold shadow-card transition-all hover:-translate-y-1 hover:shadow-raised" style={cardStyle(action.color)}><span className="flex h-11 w-11 items-center justify-center rounded-2xl bg-white/70" aria-hidden="true"><AppIcon name={action.icon} /></span>{action.label}</Link>)}
       </nav>
     </div>
