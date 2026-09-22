@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { supabase } from '../../lib/supabaseClient';
 import {
   AuthShell,
@@ -12,6 +12,7 @@ import {
 } from '../../components/auth/AuthShell';
 
 export default function ForgotPassword() {
+  const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [error, setError] = useState<string | null>(null);
   const [sent, setSent] = useState(false);
@@ -29,12 +30,11 @@ export default function ForgotPassword() {
 
     setSubmitting(true);
     try {
-      const { error: resetError } = await supabase.auth.resetPasswordForEmail(cleanEmail, {
-        redirectTo: `${window.location.origin}/reset-password`,
-      });
+      const { error: resetError } = await supabase.auth.resetPasswordForEmail(cleanEmail);
       if (resetError) throw resetError;
       // Always show success (anti-enumeration), matching mobile's backend behavior.
       setSent(true);
+      navigate('/reset-password', { state: { email: cleanEmail } });
     } catch {
       setSent(true);
     } finally {
@@ -45,7 +45,7 @@ export default function ForgotPassword() {
   return (
     <AuthShell
       title="Nakalimutan ang password?"
-      subtitle="Magpapadala kami ng link sa pag-reset sa iyong email."
+      subtitle="Magpapadala kami ng verification code sa iyong email."
       cardColorVar="--color-brand-coral"
       footer={
         <Link to="/login" className="font-medium text-[var(--color-primary)] underline">
@@ -54,7 +54,7 @@ export default function ForgotPassword() {
       }
     >
       {sent ? (
-        <FieldSuccess message="Kung may account na naka-rehistro sa email na iyon, may link kang matatanggap sa pag-reset ng password." />
+        <FieldSuccess message="Kung may account na naka-rehistro sa email na iyon, may code kang matatanggap sa pag-reset ng password." />
       ) : (
         <form onSubmit={onSubmit} className="flex flex-col gap-4" noValidate>
           <div>
@@ -74,7 +74,7 @@ export default function ForgotPassword() {
           <FieldError message={error ?? undefined} />
           <button type="submit" disabled={submitting} className={primaryButtonClass}>
             {submitting && <ButtonSpinner />}
-            {submitting ? 'Ipinapadala...' : 'Ipadala ang reset link'}
+            {submitting ? 'Ipinapadala...' : 'Ipadala ang verification code'}
           </button>
         </form>
       )}
