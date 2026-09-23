@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { supabase } from '../../lib/supabaseClient';
 import { api } from '../../lib/api';
 import { useAuth } from '../../lib/auth/AuthContext';
 import { Toggle } from '../../components/a11y/Toggle';
@@ -8,8 +7,7 @@ import { cardStyle } from '../../lib/cardStyle';
 
 type FontSize = 'small' | 'medium' | 'large';
 interface StudentAccessibility { dyslexia_font: boolean; font_size: FontSize; high_contrast: boolean; reading_guide: boolean; tts_enabled: boolean; }
-interface Child { id: string; name: string; grade_level: number; username: string; }
-interface ChildProgress { child_id: string; level: string; xp: number; streak: number; }
+interface Child { id: string; name: string; grade_level: number; username: string; level: string; xp: number; streak: number; }
 interface CredentialSecurity { childId: string; status: 'legacy' | 'rotated_pending' | 'secure' | 'fully_retired' | 'missing'; requiresRotation: boolean; }
 
 const FONT_SIZE_OPTIONS: { value: FontSize; label: string }[] = [
@@ -31,13 +29,8 @@ export default function MyChildren() {
 
   const { data: children, isLoading } = useQuery({
     queryKey: ['parent-children', user?.id],
-    queryFn: async () => { const { data, error: err } = await supabase.from('children').select('id, name, grade_level, username').order('grade_level'); if (err) throw err; return data as Child[]; },
+    queryFn: async () => (await api<{ children: Child[] }>('/parent/children', { auth: true })).children,
     enabled: Boolean(user),
-  });
-  const { data: progress } = useQuery({
-    queryKey: ['parent-children-progress', (children ?? []).map((child) => child.id)],
-    queryFn: async () => { const ids = (children ?? []).map((child) => child.id); if (!ids.length) return []; const { data, error: err } = await supabase.from('child_progress').select('child_id, level, xp, streak').in('child_id', ids); if (err) throw err; return data as ChildProgress[]; },
-    enabled: (children ?? []).length > 0,
   });
   const { data: credentialSecurity } = useQuery({
     queryKey: ['parent-credential-security', user?.id],
@@ -51,7 +44,7 @@ export default function MyChildren() {
   });
   const updateLevel = useMutation({
     mutationFn: ({ childId, level }: { childId: string; level: string }) => api(`/parent/children/${childId}/reading-level`, { method: 'POST', auth: true, body: { level } }),
-    onSuccess: () => { setEditingId(null); queryClient.invalidateQueries({ queryKey: ['parent-children-progress'] }); },
+    onSuccess: () => { setEditingId(null); queryClient.invalidateQueries({ queryKey: ['parent-children'] }); },
     onError: (err: Error) => setError(err.message),
   });
   const { data: accessSettings, isLoading: accessLoading } = useQuery({
@@ -69,8 +62,6 @@ export default function MyChildren() {
     onSuccess: (result) => { setTemporaryCredential({ username: result.username, password: result.temporaryPassword }); setError(null); queryClient.invalidateQueries({ queryKey: ['parent-credential-security'] }); },
     onError: (err: Error) => setError(err.message),
   });
-  const progressFor = (childId: string) => progress?.find((item) => item.child_id === childId);
-
   return (
     <div className="flex min-w-0 flex-col gap-6">
       <header className="relative overflow-hidden rounded-3xl border border-white/25 bg-[var(--color-primary)] p-6 text-white shadow-hero sm:p-8">
@@ -95,7 +86,7 @@ export default function MyChildren() {
           {isLoading && <p className="rounded-2xl bg-white/60 p-5 text-[var(--color-text-muted)]">Kinukuha ang mga account...</p>}
           <ul className="grid min-w-0 grid-cols-1 gap-4">
             {(children ?? []).map((child) => {
-              const childProgress = progressFor(child.id);
+              const childProgress = child;
               const levelOpen = editingId === child.id;
               const accessibilityOpen = accessOpenId === child.id;
               const credential = credentialSecurity?.children.find((item) => item.childId === child.id);
@@ -104,8 +95,8 @@ export default function MyChildren() {
                   <div className="p-5 sm:p-6">
                     <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
                       <span className="flex h-16 w-16 shrink-0 items-center justify-center rounded-3xl bg-white/75 text-2xl font-bold text-[var(--color-primary)] shadow-sm">{child.name.charAt(0).toUpperCase()}</span>
-                      <div className="min-w-0 flex-1"><p className="text-[0.68rem] font-bold tracking-[0.12em] text-[var(--color-brand-teal)] uppercase">Student account</p><h3 className="mt-0.5 truncate text-xl font-extrabold">{child.name}</h3><p className="truncate text-sm text-[var(--color-text-muted)]">@{child.username}</p><div className="mt-3 flex flex-wrap gap-2"><span className="rounded-full border border-[var(--color-border)] bg-white/80 px-3 py-1 text-xs font-bold">Grade {child.grade_level}</span><span className="rounded-full border border-[var(--color-border)] bg-white/80 px-3 py-1 text-xs font-bold">{childProgress?.level ?? 'Walang antas'}</span>{credential?.requiresRotation ? <span className="rounded-full bg-[var(--color-warning-soft)] px-3 py-1 text-xs font-bold text-[var(--color-warning-text)]">Kailangang i-update ang password</span> : credential && <span className="rounded-full bg-[var(--color-success-soft)] px-3 py-1 text-xs font-bold text-[var(--color-success)]">Ligtas ang password</span>}</div></div>
-                      <div className="grid grid-cols-2 gap-2 sm:w-44"><div className="rounded-2xl bg-white/65 p-3 text-center"><p className="text-lg font-bold text-[var(--color-primary)]">{childProgress?.xp ?? 0}</p><p className="text-[0.7rem] text-[var(--color-text-muted)]">XP</p></div><div className="rounded-2xl bg-white/65 p-3 text-center"><p className="text-lg font-bold text-[var(--color-brand-coral)]">{childProgress?.streak ?? 0}</p><p className="text-[0.7rem] text-[var(--color-text-muted)]">Streak</p></div></div>
+                      <div className="min-w-0 flex-1"><p className="text-[0.68rem] font-bold tracking-[0.12em] text-[var(--color-brand-teal)] uppercase">Student account</p><h3 className="mt-0.5 truncate text-xl font-extrabold">{child.name}</h3><p className="truncate text-sm text-[var(--color-text-muted)]">@{child.username}</p><div className="mt-3 flex flex-wrap gap-2"><span className="rounded-full border border-[var(--color-border)] bg-white/80 px-3 py-1 text-xs font-bold">Grade {child.grade_level}</span><span className="rounded-full border border-[var(--color-border)] bg-white/80 px-3 py-1 text-xs font-bold">{child.level}</span>{credential?.requiresRotation ? <span className="rounded-full bg-[var(--color-warning-soft)] px-3 py-1 text-xs font-bold text-[var(--color-warning-text)]">Kailangang i-update ang password</span> : credential && <span className="rounded-full bg-[var(--color-success-soft)] px-3 py-1 text-xs font-bold text-[var(--color-success)]">Ligtas ang password</span>}</div></div>
+                      <div className="grid grid-cols-2 gap-2 sm:w-44"><div className="rounded-2xl bg-white/65 p-3 text-center"><p className="text-lg font-bold text-[var(--color-primary)]">{child.xp}</p><p className="text-[0.7rem] text-[var(--color-text-muted)]">XP</p></div><div className="rounded-2xl bg-white/65 p-3 text-center"><p className="text-lg font-bold text-[var(--color-brand-coral)]">{child.streak}</p><p className="text-[0.7rem] text-[var(--color-text-muted)]">Streak</p></div></div>
                     </div>
                     <div className="mt-4 grid grid-cols-1 gap-2 border-t border-white/70 pt-4 sm:grid-cols-3">
                       <button type="button" onClick={() => { setEditingId(levelOpen ? null : child.id); setLevelDraft(childProgress?.level ?? 'Beginner'); }} className={`min-h-11 rounded-2xl border px-4 text-sm font-bold transition-colors ${levelOpen ? 'border-[var(--color-primary)] bg-[var(--color-primary)] text-white' : 'border-white/70 bg-white/65 hover:border-[var(--color-primary)]'}`}>🎚 Baguhin ang Level</button>

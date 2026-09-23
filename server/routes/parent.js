@@ -73,6 +73,43 @@ router.get('/children/credential-security', async (req, res) => {
   }
 });
 
+// Placement overrides are server-owned. Return the effective level together
+// with each child's progress so the parent portal never shows a stale label.
+router.get('/children', async (req, res) => {
+  try {
+    const { data: children, error: childrenError } = await supabaseAdmin
+      .from('children')
+      .select('id, name, grade_level, username')
+      .eq('parent_id', req.user.id)
+      .order('grade_level');
+    if (childrenError) throw childrenError;
+
+    const childIds = (children || []).map((child) => child.id);
+    if (!childIds.length) return res.json({ children: [] });
+    const [{ data: progress, error: progressError }, { data: overrides, error: overrideError }] = await Promise.all([
+      supabaseAdmin.from('child_progress').select('child_id, level, xp, streak').in('child_id', childIds),
+      supabaseAdmin.from('student_reading_level_overrides').select('student_id, override_level').in('student_id', childIds).is('revoked_at', null),
+    ]);
+    if (progressError) throw progressError;
+    if (overrideError) throw overrideError;
+
+    const progressByChild = new Map((progress || []).map((row) => [row.child_id, row]));
+    const overrideByChild = new Map((overrides || []).map((row) => [row.student_id, row.override_level]));
+    res.json({ children: (children || []).map((child) => {
+      const saved = progressByChild.get(child.id);
+      return {
+        ...child,
+        level: overrideByChild.get(child.id) || saved?.level || difficultyFromGrade(child.grade_level),
+        xp: saved?.xp || 0,
+        streak: saved?.streak || 0,
+      };
+    }) });
+  } catch (err) {
+    console.error('[parent children list]', err);
+    res.status(500).json({ error: 'Hindi ma-load ang mga account ng anak ngayon.' });
+  }
+});
+
 // POST /parent/children  { childName, gradeLevel }
 router.post('/children', async (req, res) => {
   let createdAuthUid = null;
@@ -185,11 +222,13 @@ router.post('/children', async (req, res) => {
       if (linkErr) throw linkErr;
     }
 
+    // A sent email is useful, but the on-screen one-time credential is enough
+    // to complete enrollment. Do not discard a valid account if SMTP fails.
     await sendMail({
       to: parentEmail,
       subject: 'LinawLetra — Naka-enroll na ang Inyong Anak',
       text: `Magandang araw!\n\nNaka-enroll na si ${cleanName} sa LinawLetra (Grade ${finalGradeLevel}, ${level} na reading level).\n\nUsername: ${authEmail}\nPassword: ${password}\n\nItago ang detalyeng ito.`,
-    });
+    }).catch((mailError) => console.error('[parent child enrollment email]', mailError));
 
     res.json({ success: true, child: childRow, level, username: authEmail, temporaryPassword: password });
   } catch (err) {
@@ -249,6 +288,14 @@ router.post('/children/:id/reading-level', validateUuidParam('id'), async (req, 
       created_by_auth_uid: req.user.id,
     });
     if (insertErr) throw insertErr;
+
+    // Sync the legacy value consumed by older/mobile views. The override above
+    // remains the authoritative level used for module placement.
+    const { error: progressErr } = await supabaseAdmin
+      .from('child_progress')
+      .update({ level })
+      .eq('child_id', id);
+    if (progressErr) throw progressErr;
 
     res.json({ success: true });
   } catch (err) {
