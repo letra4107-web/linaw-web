@@ -72,7 +72,8 @@ API_COMPATIBILITY_VERSION=3
 GIT_COMMIT_SHA=
 SUPABASE_URL=https://your-project.supabase.co
 SUPABASE_SERVICE_ROLE_KEY=your-private-service-role-key
-GOOGLE_TTS_API_KEY=your-private-google-key
+ELEVENLABS_API_KEY=your-private-elevenlabs-key
+ELEVENLABS_VOICE_ID=your-lyn-voice-id
 STORAGE_SIGNED_URLS_ENABLED=false
 SMTP_HOST=smtp.example.com
 SMTP_PORT=587
@@ -106,7 +107,7 @@ The mobile source audit found no UI/client query that reads `child_credentials`;
 
 ## Speech and TTS
 
-Speech recognition runs through supported browser APIs. Google TTS runs only on the backend and requires an authenticated Supabase session. The endpoint validates text, limits length, and applies endpoint and API rate limits. Restrict the Google API key to the required Text-to-Speech API and monitor quota/billing alerts.
+Speech recognition runs through supported browser APIs. ElevenLabs TTS runs only on the backend and requires an authenticated Supabase session. The endpoint validates text, limits length, and applies endpoint and API rate limits. Configure `ELEVENLABS_VOICE_ID` with Lyn's Voice ID and monitor quota/billing alerts.
 
 ## User roles
 
