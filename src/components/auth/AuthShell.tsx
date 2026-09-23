@@ -3,7 +3,6 @@ import { useState, type InputHTMLAttributes, type ReactNode } from 'react';
 import { Link } from 'react-router-dom';
 import lookImage from '../../assets/look.webp';
 import bgImage from '../../assets/bg.webp';
-import logoImage from '../../assets/Logo.jpg';
 import { cardStyle } from '../../lib/cardStyle';
 import { AppIcon } from '../a11y/AppIcon';
 
@@ -18,7 +17,6 @@ interface AuthShellProps {
   footer?: ReactNode;
   maxWidthClassName?: string;
   cardColorVar?: string;
-  mobileInspired?: boolean;
 }
 
 export function AuthShell({
@@ -28,34 +26,7 @@ export function AuthShell({
   footer,
   maxWidthClassName = 'max-w-lg',
   cardColorVar = '--color-brand-lavender',
-  mobileInspired = false,
 }: AuthShellProps) {
-  if (mobileInspired) {
-    return (
-      <div className="relative min-h-screen overflow-hidden bg-[var(--color-bg)] text-[var(--color-text)]">
-        <span aria-hidden="true" className="pointer-events-none absolute -top-20 -left-20 h-65 w-65 rounded-full bg-[var(--color-brand-lavender)]/14" />
-        <span aria-hidden="true" className="pointer-events-none absolute top-7 -right-24 h-60 w-60 rounded-full bg-[var(--color-brand-coral)]/12" />
-        <span aria-hidden="true" className="pointer-events-none absolute -bottom-24 -left-16 h-70 w-70 rounded-full bg-[var(--color-brand-sage)]/10" />
-
-        <main className={`relative z-10 mx-auto flex min-h-screen w-full ${maxWidthClassName} flex-col justify-center px-5 py-10 sm:px-6`}>
-          <header className="mb-5 text-center">
-            <Link to="/" className="inline-flex justify-center" aria-label="LinawLetra home">
-              <img src={logoImage} alt="LinawLetra" className="h-22 w-auto object-contain sm:h-26" />
-            </Link>
-            <h1 className="mt-1 text-[28px] leading-tight tracking-tight sm:text-[32px]">{title}</h1>
-            {subtitle && <p className="mx-auto mt-2 max-w-sm text-[15px] leading-6 text-[var(--color-text-muted)]">{subtitle}</p>}
-          </header>
-
-          <section className="rounded-[28px] border border-[var(--color-brand-lavender)]/15 bg-white p-6 shadow-[0_20px_40px_rgba(59,50,44,0.12)] sm:p-8">
-            {children}
-          </section>
-          {footer && <footer className="mt-5 text-center text-sm text-[var(--color-text-muted)]">{footer}</footer>}
-          <p className="mt-4 flex items-center justify-center gap-1.5 text-center text-xs text-[var(--color-text-muted)]"><AppIcon name="🛡️" className="h-4 w-4" /> Ligtas at pribado ang iyong impormasyon.</p>
-        </main>
-      </div>
-    );
-  }
-
   return (
     <div className="min-h-screen bg-[var(--color-bg)] text-[var(--color-text)] lg:flex">
       <div className="relative hidden overflow-hidden text-white shadow-hero lg:flex lg:w-[44%] lg:flex-col">

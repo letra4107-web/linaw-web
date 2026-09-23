@@ -187,11 +187,12 @@ export default function Login() {
 
       const identity = await resolveRole(data.user);
       // A valid refresh-token exchange is already proof that this is a saved,
-      // authenticated device session. One-tap re-login must not ask for an
-      // email verification code again; normal password login keeps its
-      // email-verification requirement above.
-      if (identity) trackEvent('login_success', { role: identity.role, saved_profile: true });
-      navigate(identity ? dashboardPathForRole(identity.role) : '/verify-email', { replace: true });
+      // authenticated device session. Use the saved role as a safe fallback
+      // if the profile lookup is temporarily unavailable, rather than sending
+      // a one-tap user to the email-code screen.
+      const role = identity?.role ?? profile.role;
+      trackEvent('login_success', { role, saved_profile: true });
+      navigate(dashboardPathForRole(role), { replace: true });
     } catch {
       // A dead/expired refresh token can't be used again -- drop it from the
       // picker and let the student fall back to the password form.
@@ -216,7 +217,6 @@ export default function Login() {
       title="Maligayang pagbabalik"
       subtitle="Mag-login para ipagpatuloy ang iyong paglalakbay sa pagbasa."
       cardColorVar="--color-brand-lavender"
-      mobileInspired
       footer={
         <>
           Wala pang account?{' '}
