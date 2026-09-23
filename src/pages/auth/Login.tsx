@@ -214,7 +214,9 @@ export default function Login() {
   return (
     <AuthShell
       title="Maligayang pagbabalik"
+      subtitle="Mag-login para ipagpatuloy ang iyong paglalakbay sa pagbasa."
       cardColorVar="--color-brand-lavender"
+      mobileInspired
       footer={
         <>
           Wala pang account?{' '}
@@ -245,13 +247,13 @@ export default function Login() {
           <button
             type="button"
             onClick={() => setShowForm(false)}
-            className="self-start text-sm font-medium text-[var(--color-primary)] underline"
+            className="flex min-h-8 items-center self-start text-sm font-bold text-[var(--color-primary)]"
           >
             ← Bumalik sa saved na profile
           </button>
         )}
         <div>
-          <label htmlFor="email" className="mb-2 block text-base font-medium">
+          <label htmlFor="email" className="mb-2 block text-xs font-extrabold tracking-[0.06em] uppercase">
             Email
           </label>
           <IconInput
@@ -263,6 +265,7 @@ export default function Login() {
             onChange={(e) => setEmail(e.target.value)}
             autoComplete="email"
             invalid={!!fieldErrors.email}
+            className="min-h-15 rounded-[14px] border-[var(--color-brand-lavender)]/25 bg-[#FAF8F3] text-base focus-visible:bg-[#F2FBF4]"
           />
           {fieldErrors.email && (
             <div className="mt-2">
@@ -272,10 +275,10 @@ export default function Login() {
         </div>
         <div>
           <div className="mb-2 flex items-center justify-between">
-            <label htmlFor="password" className="block text-base font-medium">
+            <label htmlFor="password" className="block text-xs font-extrabold tracking-[0.06em] uppercase">
               Password
             </label>
-            <Link to="/forgot-password" className="text-xs text-[var(--color-primary)] underline">
+            <Link to="/forgot-password" className="text-sm font-bold text-[var(--color-primary)]">
               Nakalimutan?
             </Link>
           </div>
@@ -285,6 +288,7 @@ export default function Login() {
             onChange={setPassword}
             autoComplete="current-password"
             invalid={!!fieldErrors.password}
+            className="min-h-15 rounded-[14px] border-[var(--color-brand-lavender)]/25 bg-[#FAF8F3] text-base focus-visible:bg-[#F2FBF4]"
           />
           {fieldErrors.password && (
             <div className="mt-2">
@@ -293,7 +297,7 @@ export default function Login() {
           )}
         </div>
         <FieldError message={error ?? undefined} />
-        <button type="submit" disabled={submitting} className={primaryButtonClass}>
+        <button type="submit" disabled={submitting} className={`${primaryButtonClass} min-h-14 rounded-3xl py-3.5 text-[17px]`}>
           {submitting && <ButtonSpinner />}
           {submitting ? 'Naglo-login...' : 'Mag-login'}
         </button>
