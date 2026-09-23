@@ -50,11 +50,17 @@ function createTtsRouter({
         model_id: ELEVENLABS_MODEL_ID,
         voice_settings: { speed: speakingRate },
       }),
-    });
+      });
 
     if (!response.ok) {
-      await response.text();
-      console.error('[tts] provider request failed', { status: response.status, requestId: req.requestId });
+      const providerBody = await response.json().catch(() => null);
+      const providerError = providerBody?.detail || providerBody?.error || {};
+      console.error('[tts] provider request failed', {
+        status: response.status,
+        providerType: typeof providerError.type === 'string' ? providerError.type : undefined,
+        providerCode: typeof providerError.code === 'string' ? providerError.code : undefined,
+        requestId: req.requestId,
+      });
       return res.status(502).json({ error: 'Unable to synthesize speech right now.' });
     }
 
