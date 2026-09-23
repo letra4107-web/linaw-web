@@ -186,12 +186,10 @@ export default function Login() {
       updateSavedProfileToken(profile.userId, data.session.refresh_token);
 
       const identity = await resolveRole(data.user);
-      // Keep saved student accounts free of the email-code step as well.
-      if (!data.user.email_confirmed_at && identity?.role !== 'student') {
-        navigate('/verify-email', { state: { email: data.user.email } });
-        return;
-      }
-
+      // A valid refresh-token exchange is already proof that this is a saved,
+      // authenticated device session. One-tap re-login must not ask for an
+      // email verification code again; normal password login keeps its
+      // email-verification requirement above.
       if (identity) trackEvent('login_success', { role: identity.role, saved_profile: true });
       navigate(identity ? dashboardPathForRole(identity.role) : '/verify-email', { replace: true });
     } catch {
