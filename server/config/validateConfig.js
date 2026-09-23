@@ -7,7 +7,7 @@ function isHttpsUrl(value) {
 function validateServerConfig(env, { production = env.NODE_ENV === 'production' } = {}) {
   const issues = [];
   const required = ['SUPABASE_URL', 'SUPABASE_SERVICE_ROLE_KEY'];
-  if (production) required.push('CORS_ORIGIN', 'FRONTEND_URL', 'ELEVENLABS_API_KEY', 'ELEVENLABS_VOICE_ID');
+  if (production) required.push('CORS_ORIGIN', 'FRONTEND_URL');
   for (const name of required) if (!String(env[name] || '').trim()) issues.push({ name, status: 'missing' });
 
   if (env.NODE_ENV && !['development', 'test', 'production'].includes(env.NODE_ENV)) issues.push({ name: 'NODE_ENV', status: 'invalid' });

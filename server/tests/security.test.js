@@ -271,8 +271,6 @@ test('production configuration validation fails closed without printing secret v
     SUPABASE_SERVICE_ROLE_KEY: 'private-value',
     CORS_ORIGIN: 'https://linawletra.com,https://www.linawletra.com',
     FRONTEND_URL: 'https://linawletra.com',
-    ELEVENLABS_API_KEY: 'private-elevenlabs-value',
-    ELEVENLABS_VOICE_ID: 'lyn-voice-id',
     STORAGE_SIGNED_URLS_ENABLED: 'false',
     API_COMPATIBILITY_VERSION: '3',
   });
