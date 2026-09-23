@@ -1,19 +1,18 @@
 const express = require('express');
 const { requireAuth } = require('../middleware/auth');
 const { ttsLimiter } = require('../lib/rateLimiters');
+const { filipinoSsml, isMultiSyllableWord, syllableCount } = require('../lib/filipinoPhonemes');
 const { logAudit } = require('../services/audit');
 
 const MAX_TEXT_LENGTH = 500;
-const ELEVENLABS_TTS_URL = 'https://api.elevenlabs.io/v1/text-to-speech';
-const ELEVENLABS_MODEL_ID = 'eleven_multilingual_v2';
+const GOOGLE_TTS_URL = 'https://texttospeech.googleapis.com/v1/text:synthesize';
 
 // POST /api/tts  { text }  -> { audioContent: base64 mp3 }
 function createTtsRouter({
   authMiddleware = requireAuth,
   limiter = ttsLimiter,
   fetchImpl = global.fetch,
-  apiKey = process.env.ELEVENLABS_API_KEY,
-  voiceId = process.env.ELEVENLABS_VOICE_ID,
+  apiKey = process.env.GOOGLE_TTS_API_KEY,
 } = {}) {
   const router = express.Router();
   router.use(authMiddleware);
@@ -35,38 +34,33 @@ function createTtsRouter({
     })) {
       return res.status(400).json({ error: 'Text contains unsupported characters.' });
     }
-    if (!apiKey || !voiceId) {
+    if (!apiKey) {
       return res.status(500).json({ error: 'TTS is not configured on the server.' });
     }
-    // ElevenLabs accepts a narrower speed range than the old provider. Keep
-    // the learner's slow/normal preference while sending a supported value.
-    const speakingRate = Math.min(1.2, Math.max(0.7, preferredRate));
+    const syllables = syllableCount(text);
+    // Decodable two-or-more-syllable words need extra time between Filipino
+    // vowel sounds. Never speed up a user-selected slower rate.
+    const speakingRate = isMultiSyllableWord(text) ? Math.min(preferredRate, 0.72) : preferredRate;
 
-    const response = await fetchImpl(`${ELEVENLABS_TTS_URL}/${encodeURIComponent(voiceId)}?output_format=mp3_44100_128`, {
+    const response = await fetchImpl(`${GOOGLE_TTS_URL}?key=${apiKey}`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'xi-api-key': apiKey },
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        text,
-        model_id: ELEVENLABS_MODEL_ID,
-        voice_settings: { speed: speakingRate },
+        input: { ssml: filipinoSsml(text) },
+        voice: { languageCode: 'fil-PH', name: 'fil-ph-Neural2-A' },
+        audioConfig: { audioEncoding: 'MP3', speakingRate },
       }),
-      });
+    });
 
     if (!response.ok) {
-      const providerBody = await response.json().catch(() => null);
-      const providerError = providerBody?.detail || providerBody?.error || {};
-      console.error('[tts] provider request failed', {
-        status: response.status,
-        providerType: typeof providerError.type === 'string' ? providerError.type : undefined,
-        providerCode: typeof providerError.code === 'string' ? providerError.code : undefined,
-        requestId: req.requestId,
-      });
+      await response.text();
+      console.error('[tts] provider request failed', { status: response.status, requestId: req.requestId });
       return res.status(502).json({ error: 'Unable to synthesize speech right now.' });
     }
 
-    const audioContent = Buffer.from(await response.arrayBuffer()).toString('base64');
+    const data = await response.json();
     void logAudit({ actor: { id: req.user.id, role: req.userRole }, action: 'SPEECH.TTS_SYNTHESIZE', target: { id: null }, status: 'successful', req }).catch(() => {});
-    res.json({ audioContent, speakingRate, languageCode: 'fil-PH' });
+    res.json({ audioContent: data.audioContent, speakingRate, syllableCount: syllables, languageCode: 'fil-PH' });
   } catch (err) {
     console.error('[tts]', err);
     res.status(500).json({ error: 'Unable to synthesize speech right now.' });
