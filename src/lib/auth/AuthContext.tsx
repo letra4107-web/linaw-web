@@ -64,12 +64,18 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     });
 
     const { data: sub } = supabase.auth.onAuthStateChange((event, nextSession) => {
+      // A one-tap login exchanges a saved refresh token. Supabase reports that
+      // exchange as TOKEN_REFRESHED, just like its ordinary hourly refresh.
+      // Only reload the identity when it belongs to a *new* user session; this
+      // keeps ordinary background refreshes quiet while giving the route guard
+      // the student's role before it renders the dashboard.
+      const isNewSessionUser = activeUserId.current !== (nextSession?.user.id ?? null);
       transitionSession(nextSession);
 
       // Supabase refreshes access tokens in the background. That is not a
       // login transition, so reloading the whole identity here makes every
       // dashboard flash and can trigger a fetch/refresh loop.
-      if (event === 'TOKEN_REFRESHED') return;
+      if (event === 'TOKEN_REFRESHED' && !isNewSessionUser) return;
 
       setLoading(true);
       setError(null);
