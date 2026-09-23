@@ -21,7 +21,10 @@ const VOWEL_IPA = Object.freeze({
 const ISOLATED_VOWEL_IPA = Object.freeze({
   a: 'ʔaʔ',
   e: 'ʔɛʔ',
-  i: 'ʔiʔ',
+  // A bare /i/ is often too brief for the Cloud TTS voice to render as an
+  // isolated letter drill. Use the supported long-vowel form so Module 1's
+  // "I" remains audible without turning it into the English letter name.
+  i: 'iː',
   o: 'ʔoʔ',
   u: 'ʔʊʔ',
 });

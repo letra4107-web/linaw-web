@@ -11,6 +11,10 @@ test('isolated Filipino vowels use IPA instead of English letter names', () => {
     filipinoSsml('U'),
     '<speak><phoneme alphabet="ipa" ph="ʔʊʔ">u</phoneme><break time="900ms"/></speak>',
   );
+  assert.equal(
+    filipinoSsml('I'),
+    '<speak><phoneme alphabet="ipa" ph="iː">i</phoneme><break time="900ms"/></speak>',
+  );
 });
 
 test('isolated consonants use Filipino letter sounds instead of English names', () => {
