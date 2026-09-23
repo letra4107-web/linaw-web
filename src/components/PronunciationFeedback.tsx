@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { playTtsSequence } from '../lib/ttsPlayer';
 import { TTSButton } from './a11y/TTSButton';
+import { SlowTTSButton } from './a11y/SlowTTSButton';
 import { ConfettiOverlay } from './ConfettiOverlay';
 
 const CELEBRATE_PALETTE = ['#176b68', '#43865c', '#d9a441', '#477a9b'];
@@ -37,7 +38,7 @@ export function PronunciationFeedback({ correct, message, speakText, detail, hin
       <p className="text-base">{message}</p>
       {detail && <p className="mt-1 text-sm font-normal">{detail}</p>}
       {hint && <p className="mt-1 text-sm font-normal">{hint}</p>}
-      {word && <div className="mt-2 flex justify-center"><TTSButton text={word} /></div>}
+      {word && <div className="mt-2 flex flex-wrap justify-center gap-2"><TTSButton text={word} /><SlowTTSButton text={word} /></div>}
     </div>
   </div>;
 }

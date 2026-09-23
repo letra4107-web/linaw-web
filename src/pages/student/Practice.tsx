@@ -7,6 +7,7 @@ import { assessSpeech, isSpeechRecognitionSupported, listenOnce } from '../../li
 import { syllabifyWord } from '../../lib/syllabify';
 import { CORRECT_MESSAGES, ENCOURAGE_MESSAGES, randomFrom } from '../../lib/feedbackMessages';
 import { TTSButton } from '../../components/a11y/TTSButton';
+import { SlowTTSButton } from '../../components/a11y/SlowTTSButton';
 import { SyllableKaraokeText } from '../../components/SyllableKaraokeText';
 import { PronunciationFeedback } from '../../components/PronunciationFeedback';
 import { IconLabel } from '../../components/a11y/IconLabel';
@@ -332,6 +333,7 @@ export default function Practice() {
                 ) : (
                   <TTSButton text={current.word} />
                 )}
+                <SlowTTSButton text={current.word} />
                 </div>
               </div>
             </ReadingTarget>

@@ -2,6 +2,7 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { api } from '../lib/api';
 import { assessSpeech, isSpeechRecognitionSupported, listenOnce, normalizeForCompare } from '../lib/speech';
 import { TTSButton } from './a11y/TTSButton';
+import { SlowTTSButton } from './a11y/SlowTTSButton';
 import { IconLabel } from './a11y/IconLabel';
 import { cardStyle } from '../lib/cardStyle';
 import { PronunciationFeedback } from './PronunciationFeedback';
@@ -102,7 +103,7 @@ export function PdfReadingAssistant({ material, assignmentId, mode, onAttemptRec
     </div>
     {material.preview_words?.length ? <div className="rounded-2xl border p-4" style={cardStyle('--color-brand-sun', 4, 18)}><p className="mb-2 font-bold">Mga salitang paghahandaan</p><div className="flex flex-wrap gap-2">{material.preview_words.slice(0, 5).map((word) => <span key={word} className="rounded-full bg-white px-3 py-1 text-sm font-semibold">{word}</span>)}</div></div> : null}
     <div className="rounded-3xl border-2 border-[var(--color-primary)]/20 bg-[var(--color-surface)] p-7 shadow-raised sm:p-9"><div className="mb-5 flex items-center justify-between gap-3"><span className="rounded-full bg-[var(--color-primary-soft)] px-3 py-1 text-xs font-bold text-[var(--color-primary)]">Bahagi {chunkIndex + 1}</span><p className="text-sm font-bold text-[var(--color-primary)]">Basahin nang dahan-dahan</p></div><p className={`${FONT_SIZES[fontSizeIndex]} ${wideSpacing ? 'tracking-wide' : ''} font-medium`} style={{ lineHeight: wideSpacing ? 2.2 : 1.9, wordSpacing: wideSpacing ? '0.25em' : undefined }}>{current.split(/(\s+)/).map((part, index) => <span key={`${part}-${index}`} className={matched.has(normalizeForCompare(part)) ? 'rounded-lg bg-[var(--color-success-soft)] px-0.5 font-semibold text-[var(--color-success)]' : ''}>{part}</span>)}</p></div>
-    <div className="flex flex-wrap justify-center gap-3"><TTSButton text={current} className="rounded-full border bg-white px-5 py-3 text-sm font-bold" /><button type="button" onClick={listening ? () => { stopRef.current(); setListening(false); } : read} disabled={submitted || mode === 'preview'} className="rounded-full bg-[var(--color-primary)] px-6 py-3 text-sm font-bold text-white disabled:opacity-60"><IconLabel icon="🎙️" label={listening ? 'Itigil' : 'Ako Naman'} /></button></div>
+    <div className="flex flex-wrap justify-center gap-3"><TTSButton text={current} className="rounded-full border bg-white px-5 py-3 text-sm font-bold" /><SlowTTSButton text={current} /><button type="button" onClick={listening ? () => { stopRef.current(); setListening(false); } : read} disabled={submitted || mode === 'preview'} className="rounded-full bg-[var(--color-primary)] px-6 py-3 text-sm font-bold text-white disabled:opacity-60"><IconLabel icon="🎙️" label={listening ? 'Itigil' : 'Ako Naman'} /></button></div>
     <p className="text-center text-sm text-[var(--color-text-muted)]">Pakinggan muna, saka basahin ang bahaging ito. Okay lang ang mag-retry.</p>
     {accuracy !== null && <PronunciationFeedback key={feedbackAttempt} correct={accuracy >= 75} message={readingFeedback(accuracy)} autoPlay={mode === 'student'} />}
     {error && <p role="alert" className="rounded-xl bg-[var(--color-danger-soft)] px-4 py-3 text-center text-sm text-[var(--color-danger)]">{error}</p>}

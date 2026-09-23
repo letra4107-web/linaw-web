@@ -10,6 +10,7 @@ import { CORRECT_MESSAGES, ENCOURAGE_MESSAGES, randomFrom } from '../lib/feedbac
 import { SyllableKaraokeText } from './SyllableKaraokeText';
 import { PronunciationFeedback } from './PronunciationFeedback';
 import { BadgeUnlockToast } from './BadgeUnlockToast';
+import { SlowTTSButton } from './a11y/SlowTTSButton';
 import { IconLabel } from './a11y/IconLabel';
 import { WordMeaning } from './student/WordMeaning';
 import calendarIcon from '../assets/calendar.png';
@@ -204,6 +205,7 @@ export function WordOfDayCard({ streak = 0 }: WordOfDayCardProps) {
               label={speechStatus === 'loading' ? 'Naglo-load...' : speechStatus === 'speaking' ? 'Ihinto' : 'Basahin nang Malakas'}
             />
           </button>
+          <SlowTTSButton text={wordOfDay.word} />
         </div>
         <WordMeaning word={wordOfDay.word} className="mt-4" />
 

@@ -4,6 +4,7 @@ import { api } from '../lib/api';
 import { assessSpeech, isSpeechRecognitionSupported, listenOnce } from '../lib/speech';
 import { CORRECT_MESSAGES, ENCOURAGE_MESSAGES, randomFrom } from '../lib/feedbackMessages';
 import { TTSButton } from './a11y/TTSButton';
+import { SlowTTSButton } from './a11y/SlowTTSButton';
 import { SyllableKaraokeText } from './SyllableKaraokeText';
 import { PronunciationFeedback } from './PronunciationFeedback';
 import { IconLabel } from './a11y/IconLabel';
@@ -144,6 +145,7 @@ export function PdfDrillPractice({ assignmentId }: PdfDrillPracticeProps) {
         )}
         <SyllableKaraokeText syllables={syllables} activeIndex={null} colorVar="--color-brand-lavender" />
         <TTSButton text={current.word} />
+        <SlowTTSButton text={current.word} />
       </ReadingTarget>
 
       {result ? (

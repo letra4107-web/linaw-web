@@ -5,6 +5,7 @@ import { computeAccuracy, isSpeechRecognitionSupported, listenOnce } from '../li
 import { IconLabel } from './a11y/IconLabel';
 import { AppIcon } from './a11y/AppIcon';
 import { TTSButton } from './a11y/TTSButton';
+import { SlowTTSButton } from './a11y/SlowTTSButton';
 import { cardStyle } from '../lib/cardStyle';
 
 interface ChallengeWordsResponse {
@@ -97,6 +98,7 @@ export function ChallengeWordsPractice({ moduleId }: ChallengeWordsPracticeProps
                 text={word}
                 className="inline-flex w-full min-w-0 items-center justify-center gap-2 rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] px-3 py-2 text-center text-sm leading-snug hover:border-[var(--color-primary)] focus-visible:outline-3 disabled:opacity-60"
               />
+              <SlowTTSButton text={word} />
 
               <button
                 type="button"
