@@ -48,7 +48,9 @@ export function getSavedProfiles(): SavedAuthProfile[] {
 
 /** Upserts by userId (moves it to the front) and evicts the oldest past MAX_PROFILES. */
 export function saveAuthProfile(profile: Omit<SavedAuthProfile, 'savedAt'>) {
-  const filtered = readAll().filter((p) => p.userId !== profile.userId);
+  // A shared browser must never become a directory of children. Keep only the
+  // last successfully authenticated student, while retaining adult profiles.
+  const filtered = readAll().filter((p) => p.userId !== profile.userId && (profile.role !== 'student' || p.role !== 'student'));
   const next = [{ ...profile, savedAt: new Date().toISOString() }, ...filtered].slice(0, MAX_PROFILES);
   writeAll(next);
 }

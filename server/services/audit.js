@@ -61,6 +61,12 @@ function recordIdFrom(req) {
   return req.path.split('/').find(isUuid) || null;
 }
 
+function platformFor(req) {
+  const supplied = String(req?.body?.platform || '').toLowerCase();
+  if (supplied === 'mobile' || supplied === 'application') return 'Mobile/Application';
+  return /android|iphone|ipad|mobile/i.test(String(req?.headers?.['user-agent'] || '')) ? 'Mobile/Application' : 'Web';
+}
+
 // The helper intentionally accepts the full final signature now. Target/diff
 // fields are persisted in the next additive schema task; current columns keep
 // this task backward-compatible with deployed audit_logs rows.
@@ -83,6 +89,12 @@ async function logAudit({ actor, action, target = {}, before = null, after = nul
     requestId: req?.requestId || null,
     ...(severity ? { severity } : {}),
   };
+  if (action === 'AUTH.LOGIN_SUCCESS' || action === 'AUTH.LOGOUT') {
+    metadata.platform = platformFor(req);
+    metadata.device = String(req?.headers?.['user-agent'] || '').slice(0, 300) || null;
+    metadata.sessionId = /^[a-f0-9-]{36}$/i.test(String(req?.body?.sessionId || '')) ? String(req.body.sessionId) : null;
+    metadata.sessionStatus = action === 'AUTH.LOGOUT' ? 'logged_out' : 'active';
+  }
   // Never include raw body input here: it can contain a password, transcript,
   // audio, or full learning text. Snapshots are supplied explicitly later.
   await supabaseAdmin.from('audit_logs').insert({

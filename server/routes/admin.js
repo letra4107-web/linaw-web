@@ -60,6 +60,41 @@ router.get('/audit-logs', async (req, res) => {
   }
 });
 
+// Admin-only, role-specific monitoring based on real account and audit data.
+// This deliberately excludes credentials, tokens, transcripts, and raw content.
+router.get('/monitoring/users', async (req, res) => {
+  try {
+    const role = String(req.query.role || '').toLowerCase();
+    if (!['student', 'parent', 'teacher'].includes(role)) return res.status(400).json({ error: 'Invalid monitoring role.' });
+    const [{ data: users, error: usersError }, { data: children, error: childrenError }] = await Promise.all([
+      supabaseAdmin.from('users').select('id, name, email, role, account_status, created_at, lastLoginAt').eq('role', role).neq('account_status', 'archived').order('name'),
+      supabaseAdmin.from('children').select('id, auth_uid, parent_id, name, grade_level'),
+    ]);
+    if (usersError || childrenError) throw usersError || childrenError;
+    const ids = (users || []).map((user) => user.id);
+    const { data: activities, error: activitiesError } = ids.length
+      ? await supabaseAdmin.from('audit_logs').select('id, actor_id, action, module, record_id, status, metadata, created_at').in('actor_id', ids).order('created_at', { ascending: false }).limit(500)
+      : { data: [], error: null };
+    if (activitiesError) throw activitiesError;
+    const childrenByParent = new Map(); const childByAuth = new Map();
+    for (const child of children || []) {
+      childByAuth.set(child.auth_uid, child);
+      if (child.parent_id) childrenByParent.set(child.parent_id, [...(childrenByParent.get(child.parent_id) || []), child]);
+    }
+    res.json({ users: (users || []).map((user) => {
+      const child = childByAuth.get(user.id); const ownedChildren = childrenByParent.get(user.id) || [];
+      return {
+        ...user,
+        profile: role === 'student' ? { childId: child?.id || null, gradeLevel: child?.grade_level || null } : role === 'parent' ? { children: ownedChildren.map((item) => ({ id: item.id, name: item.name, gradeLevel: item.grade_level })) } : {},
+        activities: (activities || []).filter((item) => item.actor_id === user.id).slice(0, 30),
+      };
+    }) });
+  } catch (err) {
+    console.error('[admin/monitoring/users]', err);
+    res.status(500).json({ error: 'Unable to load role monitoring.' });
+  }
+});
+
 const BAN_FOREVER = '876000h'; // ~100 years, matches Supabase's convention for an effectively permanent ban
 const BAN_LIFT = 'none';
 const USER_ROLES = new Set(['admin', 'teacher', 'parent', 'student']);

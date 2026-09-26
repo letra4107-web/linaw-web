@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { NavLink, Outlet, useLocation } from 'react-router-dom';
-import { supabase } from '../../lib/supabaseClient';
+import { signOutWithAudit } from '../../lib/auth/authEvents';
 import { useAuth } from '../../lib/auth/AuthContext';
 import { useNotifications } from '../../lib/useNotifications';
 import { cardStyle } from '../../lib/cardStyle';
@@ -9,6 +9,9 @@ import logo from '../../assets/Logo.jpg';
 import { AppIcon } from '../../components/a11y/AppIcon';
 
 const PRIMARY_TABS = [
+  { to: '/admin/students', icon: '🧒', label: 'Mga Mag-aaral' },
+  { to: '/admin/parents', icon: '👪', label: 'Mga Magulang' },
+  { to: '/admin/teachers-monitoring', icon: '🎓', label: 'Mga Guro' },
   { to: '/admin', end: true, icon: '⌂', label: 'Simula' },
   { to: '/admin/users', icon: '👥', label: 'Mga User' },
   { to: '/admin/teachers', icon: '🎓', label: 'Mga Guro' },
@@ -61,7 +64,7 @@ function ProfileMenu({ collapsed }: { collapsed: boolean }) {
       {open && <div className="absolute bottom-full left-0 z-30 mb-2 w-72 max-w-[calc(100vw-2rem)] rounded-2xl border p-3 shadow-raised" style={cardStyle('--color-brand-lavender', 6, 28)}>
         <div className="flex items-center gap-3 p-2"><span className="flex h-11 w-11 items-center justify-center rounded-xl bg-[var(--color-primary)] font-extrabold text-white">{initialsFor(name)}</span><span className="min-w-0"><span className="block truncate font-bold">{name}</span><span className="block truncate text-xs text-[var(--color-text-muted)]">{user?.email}</span></span></div>
         <NavLink to="/admin/settings" onClick={() => setOpen(false)} className="mt-2 flex min-h-10 items-center gap-2 rounded-xl px-3 text-sm font-bold hover:bg-white/70"><AppIcon name="⚙" className="h-4 w-4" /> Account settings</NavLink>
-        <button type="button" onClick={() => supabase.auth.signOut()} className="flex min-h-10 w-full items-center gap-2 rounded-xl px-3 text-sm font-bold text-[var(--color-danger)] hover:bg-[var(--color-danger-soft)]"><span aria-hidden="true">↪</span> Mag-sign out</button>
+        <button type="button" onClick={() => void signOutWithAudit()} className="flex min-h-10 w-full items-center gap-2 rounded-xl px-3 text-sm font-bold text-[var(--color-danger)] hover:bg-[var(--color-danger-soft)]"><span aria-hidden="true">↪</span> Mag-sign out</button>
       </div>}
     </div>
   );

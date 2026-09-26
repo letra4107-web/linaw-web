@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react';
-import { supabase } from '../lib/supabaseClient';
+import { signOutWithAudit } from '../lib/auth/authEvents';
 import { useAuth } from '../lib/auth/AuthContext';
 import logo from '../assets/Logo.jpg';
 import { AccessibilityBar } from './a11y/AccessibilityBar';
@@ -63,7 +63,7 @@ export function DashboardShell({
             <AccessibilityBar />
             <button
               type="button"
-              onClick={() => supabase.auth.signOut()}
+              onClick={() => void signOutWithAudit()}
               className="rounded-full border border-[var(--color-border)] px-4 py-2 text-sm hover:border-[var(--color-danger)]"
             >
               <IconLabel icon="🚪" label="Mag-sign out" />

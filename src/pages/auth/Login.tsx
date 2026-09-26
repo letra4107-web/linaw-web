@@ -5,6 +5,7 @@ import { dashboardPathForRole, resolveRole } from '../../lib/auth/resolveRole';
 import {
   getSavedProfiles,
   removeSavedProfile,
+  saveAuthProfile,
   updateSavedProfileToken,
   type SavedAuthProfile,
 } from '../../lib/auth/savedProfiles';
@@ -165,6 +166,12 @@ export default function Login() {
         return;
       }
 
+      // Store a one-tap ticket only after authentication and role resolution
+      // succeed. Student saves replace any prior student ticket in this browser.
+      if (identity?.role === 'student' && data.session?.refresh_token) {
+        saveAuthProfile({ userId: data.user.id, role: 'student', displayName: identity.displayName, email: data.user.email ?? cleanEmail, refreshToken: data.session.refresh_token });
+        setSavedProfiles(getSavedProfiles());
+      }
       if (identity) trackEvent('login_success', { role: identity.role });
       navigate(identity ? dashboardPathForRole(identity.role) : '/verify-email', { replace: true });
     } catch (err) {

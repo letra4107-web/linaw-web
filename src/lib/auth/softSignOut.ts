@@ -1,5 +1,6 @@
 import { supabase } from '../supabaseClient';
 import { saveAuthProfile, type SavedAuthProfile } from './savedProfiles';
+import { recordAuthEvent } from './authEvents';
 
 // "Switch profile" logout -- the everyday "Mag-log out" button calls this, not a
 // network-revoking sign-out. It saves the current refresh token into the saved-profile
@@ -19,6 +20,7 @@ import { saveAuthProfile, type SavedAuthProfile } from './savedProfiles';
 // and by the fact that a real, fully-revoking sign-out is always one tap away from any
 // dashboard's account menu.
 export async function softSignOut(profile: Omit<SavedAuthProfile, 'savedAt' | 'refreshToken'>) {
+  await recordAuthEvent('logout').catch(() => {});
   const { data } = await supabase.auth.getSession();
   const refreshToken = data.session?.refresh_token;
   if (refreshToken) saveAuthProfile({ ...profile, refreshToken });
