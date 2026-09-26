@@ -108,7 +108,26 @@
 /* Role identity: shared surfaces, typography, borders, and statuses remain
    constant. Legacy accent aliases are deliberately mapped to the active role
    so existing visual components keep a quiet, coherent treatment. */
-.role-student { --color-bg: #faf8f3; --color-primary: #176b68; --color-primary-hover: #0f4f4d; --color-primary-soft: #e5f1ef; --color-brand-lavender: #176b68; --color-brand-lavender-dark: #0f4f4d; --color-brand-teal: #176b68; --color-brand-navy: #0f4f4d; --color-brand-violet: #176b68; --color-brand-coral: #176b68; }
+.role-student { --color-bg: #fff4d9; --color-surface: #fff9ec; --color-text: #3f4145; --color-text-muted: #68645e; --color-border: #e6d9bd; --color-primary: #4f7b60; --color-primary-hover: #385c46; --color-primary-soft: #e7f0e8; --color-accent: #e8c66a; --color-accent-soft: #fbf1cc; --color-success: #4f7b60; --color-warning: #a87320; --color-brand-lavender: #a99ac5; --color-brand-lavender-dark: #756995; --color-brand-teal: #78a98c; --color-brand-navy: #4f7b60; --color-brand-violet: #8fb8d8; --color-brand-coral: #ebaa8c; --color-brand-sage: #78a98c; --color-brand-sun: #e8c66a; --color-brand-orange: #d99aaa; --color-hero-from: #78a98c; --color-hero-via: #8fb8d8; --color-hero-to: #a99ac5; }
+
+/* Student pages use a low-glare storybook paper treatment. Decorations are
+   intentionally subtle and stay behind content and assistive reading tools. */
+.role-student .student-storybook {
+  position: relative;
+}
+
+.role-student .student-storybook::before,
+.role-student .student-storybook::after {
+  content: '';
+  pointer-events: none;
+  position: fixed;
+  z-index: -1;
+  border-radius: 999px;
+  opacity: .38;
+}
+
+.role-student .student-storybook::before { width: 13rem; height: 5rem; top: 7rem; right: -3rem; background: #fff9ec; box-shadow: -3rem 1.2rem 0 -.5rem #fff9ec; }
+.role-student .student-storybook::after { width: 7rem; height: 7rem; bottom: 2rem; left: 1rem; background: #e7f0e8; }
 .role-teacher { --color-bg: #f8f9f7; --color-primary: #315f7d; --color-primary-hover: #23475f; --color-primary-soft: #e8f0f5; --color-brand-lavender: #315f7d; --color-brand-lavender-dark: #23475f; --color-brand-teal: #315f7d; --color-brand-navy: #23475f; --color-brand-violet: #315f7d; --color-brand-sage: #315f7d; --color-brand-coral: #315f7d; --color-brand-sun: #315f7d; }
 .role-parent { --color-bg: #faf8f3; --color-primary: #9a6742; --color-primary-hover: #70492f; --color-primary-soft: #f5ece3; --color-accent: #9a6742; --color-accent-soft: #f5ece3; --color-brand-lavender: #9a6742; --color-brand-lavender-dark: #70492f; --color-brand-teal: #9a6742; --color-brand-navy: #70492f; --color-brand-violet: #9a6742; --color-brand-sage: #9a6742; --color-brand-coral: #9a6742; --color-brand-sun: #9a6742; --color-brand-amber: #9a6742; --color-brand-orange: #9a6742; }
 .role-admin { --color-bg: #f6f7f5; --color-primary: #394a47; --color-primary-hover: #263633; --color-primary-soft: #e9eeec; --color-brand-lavender: #394a47; --color-brand-lavender-dark: #263633; --color-brand-teal: #394a47; --color-brand-navy: #263633; --color-brand-violet: #394a47; --color-brand-sage: #394a47; --color-brand-coral: #394a47; --color-brand-sun: #394a47; }

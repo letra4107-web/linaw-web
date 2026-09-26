@@ -74,6 +74,8 @@ const PRACTICE_MODES = [
   },
 ];
 
+const MODULE_COLORS = ['--color-brand-violet', '--color-brand-coral', '--color-brand-lavender', '--color-brand-sage', '--color-brand-sun'] as const;
+
 function IconBadge({ img, brandVar }: { img: string; brandVar: string }) {
   return (
     <span
@@ -197,7 +199,7 @@ export default function Dashboard() {
   const hasActivity = (progress?.activities_completed ?? 0) > 0;
 
   return (
-    <div className="flex flex-col gap-8 pb-6 sm:gap-10">
+    <div className="student-storybook flex flex-col gap-8 pb-6 sm:gap-10">
       {/* 1. Header */}
       <section aria-labelledby="dashboard-title" className="contents">
         <div
@@ -211,9 +213,9 @@ export default function Dashboard() {
 
           <div className="relative z-10 grid items-center gap-3 sm:grid-cols-[1fr_auto]">
             <div className="max-w-2xl">
-              <p className="text-sm font-bold tracking-[0.12em] text-white/80 uppercase">Kumusta ka ngayon?</p>
+              <p className="text-sm font-bold tracking-[0.12em] text-white/90 uppercase">Bukas na ang iyong learning book</p>
               <h1 id="dashboard-title" className="mt-0.5 text-2xl leading-tight font-bold sm:text-3xl">
-                Masayang pag-aaral, {firstName}!
+                Magandang araw, {firstName}! 👋
               </h1>
               <p className="mt-1 max-w-xl text-sm leading-relaxed text-white/90 sm:text-base">
                 Handa ka na bang magbasa, makinig, at matuto ng bagong salita?
@@ -282,7 +284,7 @@ export default function Dashboard() {
             </div>
           </div>
 
-          <nav aria-label="Mabilis na puntahan" className="hidden grid-cols-3 gap-3">
+          <nav aria-label="Mabilis na puntahan" className="grid grid-cols-1 gap-3 sm:grid-cols-3">
             {QUICK_ACTIONS.map((action) => (
               <Link key={action.label} to={action.to} style={cardStyle(action.brandVar, 10, 35)} className="group flex min-h-32 flex-col items-center justify-center gap-3 rounded-3xl border p-3 text-center shadow-card transition-all hover:-translate-y-1 hover:shadow-raised active:scale-95">
                 <span className="flex h-12 w-12 items-center justify-center rounded-2xl shadow-sm transition-transform group-hover:scale-110 group-hover:-rotate-3" style={{ backgroundColor: `color-mix(in srgb, var(${action.brandVar}) 25%, white)` }} aria-hidden="true">
@@ -293,6 +295,14 @@ export default function Dashboard() {
             ))}
           </nav>
         </div>
+      </section>
+
+      <section aria-labelledby="modules-title" className="order-1">
+        <div className="mb-4 flex flex-wrap items-end justify-between gap-3 px-1">
+          <div><p className="text-sm font-bold tracking-[0.12em] text-[var(--color-primary)] uppercase">Learning adventure</p><h2 id="modules-title" className="mt-1 text-2xl font-bold sm:text-3xl">Mga Modyul Ko</h2><p className="mt-1 text-sm text-[var(--color-text-muted)]">Pumili ng isang kabanata at magpatuloy sa sariling bilis.</p></div>
+          <Link to="/student/learn" className="min-h-11 rounded-full border border-[var(--color-primary)]/30 bg-[var(--color-surface)] px-4 py-2 text-sm font-bold text-[var(--color-primary)]">Lahat ng aralin →</Link>
+        </div>
+        {modules.length ? <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">{modules.map((module, index) => { const percent = Math.round(module.completed_content_item_count / Math.max(1, module.content_item_count) * 100); const isLocked = module.state === 'locked'; const tone = MODULE_COLORS[index % MODULE_COLORS.length]; return <article key={module.id} className={`relative overflow-hidden rounded-3xl border p-5 shadow-card transition-all ${isLocked ? 'opacity-75' : 'hover:-translate-y-1 hover:shadow-raised'}`} style={cardStyle(tone, 12, 35)}><span aria-hidden="true" className="absolute -right-3 -top-5 text-7xl opacity-20">{isLocked ? '🔒' : module.state === 'completed' ? '⭐' : '📖'}</span><div className="relative"><p className="text-xs font-bold tracking-wide text-[var(--color-text-muted)] uppercase">Modyul {module.module_number}</p><h3 className="mt-1 min-h-14 text-lg leading-snug font-bold">{module.title}</h3><div className="mt-4 flex items-center gap-3"><div className="h-2.5 flex-1 overflow-hidden rounded-full bg-white/75"><div className="h-full rounded-full" style={{ width: `${percent}%`, backgroundColor: `var(${tone})` }} /></div><span className="text-xs font-bold">{percent}%</span></div><p className="mt-2 text-xs text-[var(--color-text-muted)]">{module.state === 'completed' ? 'Natapos na • Ang galing!' : isLocked ? 'Makakabukas pagkatapos ng naunang aralin' : `${module.completed_content_item_count} sa ${module.content_item_count} na bahagi`}</p>{isLocked ? <span className="mt-4 inline-flex min-h-10 items-center rounded-full border border-[var(--color-border)] bg-white/45 px-4 text-sm font-bold">Naka-lock</span> : <Link to={`/student/learn/module/${module.id}`} className="mt-4 inline-flex min-h-10 items-center rounded-full bg-[var(--color-primary)] px-4 text-sm font-bold text-white shadow-sm">{module.state === 'completed' ? 'Balikan ang Modyul' : 'Buksan ang Modyul'}</Link>}</div></article>; })}</div> : <div className="rounded-3xl border border-dashed p-6 text-sm text-[var(--color-text-muted)]">Ihahanda ang mga modyul kapag available na ang iyong learning path.</div>}
       </section>
 
       {/* 2. Deadlines */}
