@@ -297,7 +297,7 @@ export default function Dashboard() {
         </div>
       </section>
 
-      <section aria-labelledby="modules-title" className="order-1">
+      <section aria-labelledby="modules-title" className="hidden">
         <div className="mb-4 flex flex-wrap items-end justify-between gap-3 px-1">
           <div><p className="text-sm font-bold tracking-[0.12em] text-[var(--color-primary)] uppercase">Learning adventure</p><h2 id="modules-title" className="mt-1 text-2xl font-bold sm:text-3xl">Mga Modyul Ko</h2><p className="mt-1 text-sm text-[var(--color-text-muted)]">Pumili ng isang kabanata at magpatuloy sa sariling bilis.</p></div>
           <Link to="/student/learn" className="min-h-11 rounded-full border border-[var(--color-primary)]/30 bg-[var(--color-surface)] px-4 py-2 text-sm font-bold text-[var(--color-primary)]">Lahat ng aralin →</Link>
