@@ -117,14 +117,6 @@ export default function Dashboard() {
         <img src={owlbook} alt="" aria-hidden="true" className="absolute right-5 bottom-0 h-28 w-28 object-contain drop-shadow-lg lg:right-9 lg:h-36 lg:w-36" />
         <div className="relative flex flex-wrap items-center justify-between gap-4 pr-20 lg:pr-28">
           <div><p className="text-xs font-bold tracking-[0.12em] text-white/80 uppercase">Family learning journal</p><h1 className="mt-1 text-3xl leading-tight font-bold lg:text-4xl">Magandang araw, {parentFirstName}! 👋</h1><p className="mt-2 max-w-md text-sm font-semibold leading-relaxed text-white/90 lg:text-base">Narito ang progreso ng pag-aaral ni {activeChild?.name ?? 'iyong anak'}.</p></div>
-          {children && children.length > 1 && (
-            <label className="flex items-center gap-2 rounded-full border border-white/25 bg-white/85 px-3 py-2 text-sm font-bold text-[var(--color-primary)] shadow-sm">
-              <span>Palitan ang anak</span>
-              <select value={activeChildId ?? ''} onChange={(event) => setSelectedChildId(event.target.value)} className="min-h-10 max-w-40 rounded-xl border-0 bg-transparent px-1 text-[var(--color-primary)]">
-                {children.map((child) => <option key={child.id} value={child.id}>{child.name}</option>)}
-              </select>
-            </label>
-          )}
         </div>
       </header>
 
