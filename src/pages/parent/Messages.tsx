@@ -1,92 +1,21 @@
+import { useMemo } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '../../lib/supabaseClient';
 import { useAuth } from '../../lib/auth/AuthContext';
 import { cardStyle } from '../../lib/cardStyle';
 
-interface MessageRow {
-  id: string;
-  teacher_id: string;
-  child_id: string;
-  message: string;
-  read: boolean;
-  created_at: string;
-  children: { name: string } | null;
-}
+interface MessageRow { id: string; teacher_id: string; child_id: string; message: string; read: boolean; created_at: string; children: { name: string } | null; }
+const dateTime = (value: string) => new Intl.DateTimeFormat('fil-PH', { dateStyle: 'medium', timeStyle: 'short' }).format(new Date(value));
 
 export default function ParentMessages() {
-  const { user } = useAuth();
-  const queryClient = useQueryClient();
-
-  const { data: messages, isLoading } = useQuery({
-    queryKey: ['parent-messages', user?.id],
-    queryFn: async () => {
-      const { data, error } = await supabase
-        .from('teacher_messages')
-        .select('id, teacher_id, child_id, message, read, created_at, children(name)')
-        .order('created_at', { ascending: false });
-      if (error) throw error;
-      return data as unknown as MessageRow[];
-    },
-    enabled: Boolean(user),
-  });
-
-  const teacherIds = Array.from(new Set((messages ?? []).map((m) => m.teacher_id)));
-
-  const { data: teacherNames } = useQuery({
-    queryKey: ['parent-messages-teachers', teacherIds],
-    queryFn: async () => {
-      if (teacherIds.length === 0) return {} as Record<string, string>;
-      const { data, error } = await supabase.from('users').select('id, name').in('id', teacherIds);
-      if (error) throw error;
-      const map: Record<string, string> = {};
-      for (const t of data ?? []) map[t.id] = t.name ?? 'Guro';
-      return map;
-    },
-    enabled: teacherIds.length > 0,
-  });
-
-  const markRead = useMutation({
-    mutationFn: async (id: string) => {
-      const { error } = await supabase.from('teacher_messages').update({ read: true }).eq('id', id);
-      if (error) throw error;
-    },
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['parent-messages'] }),
-  });
-
-  return (
-    <div className="flex min-w-0 flex-col gap-6">
-      <header className="rounded-3xl border p-5 shadow-card sm:p-6" style={cardStyle('--color-brand-teal', 8, 28)}>
-        <p className="text-xs font-bold tracking-[0.12em] text-[var(--color-brand-teal)] uppercase">Komunikasyon</p>
-        <h1 className="text-2xl font-bold sm:text-3xl">Mga Mensahe</h1>
-        <p className="text-sm text-[var(--color-text-muted)]">Mga update mula sa mga guro ng iyong mga anak.</p>
-      </header>
-
-      {isLoading && <p>Naglo-load...</p>}
-      {messages && messages.length === 0 && (
-        <div className="rounded-3xl border border-dashed border-[var(--color-border)] bg-white/45 p-8 text-center text-[var(--color-text-muted)]">Wala ka pang natatanggap na mensahe.</div>
-      )}
-
-      <ul className="flex flex-col gap-3">
-        {(messages ?? []).map((m) => (
-          <li
-            key={m.id}
-            onClick={() => !m.read && markRead.mutate(m.id)}
-            className={`relative min-w-0 overflow-hidden rounded-3xl border p-5 shadow-card transition-all hover:-translate-y-0.5 hover:shadow-raised ${m.read ? 'opacity-85' : 'cursor-pointer border-[var(--color-primary)]/40 bg-[var(--color-primary-soft)]'}`}
-            style={m.read ? cardStyle('--color-brand-teal', 8, 25) : undefined}
-          >
-            {!m.read && <span className="absolute inset-y-0 left-0 w-1 bg-[var(--color-primary)]" />}
-            <div className="flex items-start gap-3"><span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-white/70" aria-hidden="true">✉</span><div className="min-w-0 flex-1">
-            <p className="text-sm font-bold">
-              {teacherNames?.[m.teacher_id] ?? 'Guro'} — tungkol kay {m.children?.name ?? 'anak mo'}
-            </p>
-            <p className="mt-2 leading-relaxed text-[var(--color-text)]">{m.message}</p>
-            <p className="mt-2 text-xs text-[var(--color-text-muted)]">
-              {new Date(m.created_at).toLocaleString('fil-PH')}
-              {!m.read && ' · Bagong mensahe'}
-            </p></div>{!m.read && <span className="mt-2 h-2.5 w-2.5 shrink-0 rounded-full bg-[var(--color-primary)]" aria-label="Bagong mensahe" />}</div>
-          </li>
-        ))}
-      </ul>
-    </div>
-  );
+  const { user } = useAuth(); const queryClient = useQueryClient();
+  const { data: messages, isLoading, error } = useQuery({ queryKey: ['parent-messages', user?.id], queryFn: async () => { const { data, error: queryError } = await supabase.from('teacher_messages').select('id, teacher_id, child_id, message, read, created_at, children(name)').order('created_at', { ascending: false }); if (queryError) throw queryError; return data as unknown as MessageRow[]; }, enabled: Boolean(user) });
+  const teacherIds = useMemo(() => Array.from(new Set((messages ?? []).map((message) => message.teacher_id))), [messages]);
+  const { data: teacherNames } = useQuery({ queryKey: ['parent-messages-teachers', teacherIds], queryFn: async () => { if (!teacherIds.length) return {} as Record<string, string>; const { data, error: queryError } = await supabase.from('users').select('id, name').in('id', teacherIds); if (queryError) throw queryError; return Object.fromEntries((data ?? []).map((teacher) => [teacher.id, teacher.name ?? 'Guro'])); }, enabled: teacherIds.length > 0 });
+  const markRead = useMutation({ mutationFn: async (id: string) => { const { error: updateError } = await supabase.from('teacher_messages').update({ read: true }).eq('id', id); if (updateError) throw updateError; }, onSuccess: () => queryClient.invalidateQueries({ queryKey: ['parent-messages'] }) });
+  const unread = (messages ?? []).filter((message) => !message.read).length;
+  return <div className="parent-messages-page flex min-w-0 flex-col gap-6"><header className="relative overflow-hidden rounded-[2rem] border border-white/30 p-6 shadow-hero sm:p-8" style={{ backgroundImage: 'linear-gradient(135deg, var(--color-hero-from), var(--color-hero-via), var(--color-hero-to))' }}><span aria-hidden="true" className="absolute -right-10 -top-12 h-40 w-40 rounded-full bg-white/15" /><div className="relative flex flex-wrap items-end justify-between gap-4"><div><p className="text-xs font-bold tracking-[0.14em] text-white/80 uppercase">Family at school</p><h1 className="mt-1 text-3xl font-extrabold text-white sm:text-4xl">Mga Mensahe</h1><p className="mt-2 max-w-xl text-sm leading-relaxed text-white/90">Mga update mula sa mga guro tungkol sa paglalakbay sa pag-aaral ng iyong anak.</p></div><span className="rounded-2xl border border-white/30 bg-white/15 px-4 py-3 text-center text-white backdrop-blur"><b className="block text-2xl">{unread}</b><span className="text-xs font-bold">bagong mensahe</span></span></div></header>
+    {error && <p role="alert" className="rounded-2xl bg-[var(--color-danger-soft)] p-4 text-[var(--color-danger)]">Hindi ma-load ang mga mensahe.</p>}{isLoading && <div className="space-y-3">{Array.from({ length: 3 }, (_, index) => <div key={index} className="h-28 animate-pulse rounded-3xl bg-[var(--color-primary-soft)]" />)}</div>}{messages && messages.length === 0 && <div className="rounded-3xl border border-dashed border-[var(--color-border)] bg-[var(--color-surface)] p-10 text-center"><span className="text-4xl" aria-hidden="true">✉</span><h2 className="mt-3 text-xl font-bold">Wala pang mensahe</h2><p className="mt-1 text-sm text-[var(--color-text-muted)]">Lalabas dito ang mga update mula sa guro ng iyong anak.</p></div>}
+    <ul className="flex flex-col gap-3">{(messages ?? []).map((message) => <li key={message.id}><button type="button" onClick={() => !message.read && markRead.mutate(message.id)} className={`group relative w-full overflow-hidden rounded-3xl border p-5 text-left shadow-card transition-all hover:-translate-y-0.5 hover:shadow-raised focus-visible:outline-[var(--color-focus)] ${message.read ? 'bg-[var(--color-surface)]' : 'border-[var(--color-primary)]/40 bg-[var(--color-primary-soft)]'}`} style={message.read ? cardStyle('--color-brand-violet', 5, 22) : undefined}>{!message.read && <span className="absolute inset-y-0 left-0 w-1.5 bg-[var(--color-primary)]" />}<div className="flex items-start gap-4"><span aria-hidden="true" className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-white/75 text-xl shadow-sm">✉</span><span className="min-w-0 flex-1"><span className="flex flex-wrap items-center gap-2"><b>{teacherNames?.[message.teacher_id] ?? 'Guro'}</b><span className="rounded-full bg-white/70 px-2 py-0.5 text-xs font-bold text-[var(--color-text-muted)]">Para kay {message.children?.name ?? 'anak mo'}</span>{!message.read && <span className="rounded-full bg-[var(--color-primary)] px-2 py-0.5 text-xs font-bold text-white">Bago</span>}</span><span className="mt-2 block whitespace-pre-wrap leading-relaxed text-[var(--color-text)]">{message.message}</span><span className="mt-3 block text-xs font-semibold text-[var(--color-text-muted)]">{dateTime(message.created_at)}{!message.read && ' · Pindutin upang markahang nabasa'}</span></span></div></button></li>)}</ul>
+  </div>;
 }

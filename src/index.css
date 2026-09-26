@@ -133,6 +133,25 @@
 
 .role-parent .parent-storybook { position: relative; }
 .role-parent .parent-storybook::before { content: ''; pointer-events: none; position: fixed; z-index: -1; top: 8rem; right: -2rem; width: 12rem; height: 5rem; border-radius: 999px; background: #fff9ec; opacity: .55; box-shadow: -2.5rem 1rem 0 -.5rem #fff9ec; }
+
+/* Calm, tactile feedback for parent information cards and actions. */
+.role-parent .parent-home-dashboard > section > article,
+.role-parent .parent-home-dashboard > section > div > article,
+.role-parent .parent-home-dashboard > nav > a {
+  transition: transform 180ms ease, box-shadow 180ms ease, border-color 180ms ease;
+}
+
+@media (hover: hover) {
+  .role-parent .parent-home-dashboard > section > article:hover,
+  .role-parent .parent-home-dashboard > section > div > article:hover,
+  .role-parent .parent-home-dashboard > nav > a:hover { transform: translateY(-3px); box-shadow: var(--shadow-raised); }
+}
+
+@media (hover: hover) {
+  .role-parent .parent-children-page > div > section > ul > li:hover { transform: translateY(-3px); }
+}
+
+.role-parent .parent-children-page > div > section > ul > li { transition: transform 180ms ease, box-shadow 180ms ease; }
 .role-admin { --color-bg: #f6f7f5; --color-primary: #394a47; --color-primary-hover: #263633; --color-primary-soft: #e9eeec; --color-brand-lavender: #394a47; --color-brand-lavender-dark: #263633; --color-brand-teal: #394a47; --color-brand-navy: #263633; --color-brand-violet: #394a47; --color-brand-sage: #394a47; --color-brand-coral: #394a47; --color-brand-sun: #394a47; }
 
 :root[data-theme="high-contrast"] {
