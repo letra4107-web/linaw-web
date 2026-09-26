@@ -111,14 +111,14 @@ export default function Dashboard() {
   }
 
   return (
-    <div className="parent-home-dashboard flex min-w-0 flex-col gap-6 lg:gap-7">
-      <header className="parent-dashboard-hero relative overflow-hidden rounded-[2rem] border border-white/25 bg-[var(--color-primary)] px-6 py-7 text-white shadow-hero ring-1 ring-black/5 lg:px-9 lg:py-8">
+    <div className="parent-home-dashboard parent-storybook flex min-w-0 flex-col gap-6 lg:gap-7">
+      <header className="parent-dashboard-hero relative overflow-hidden rounded-[2rem] border border-white/25 px-6 py-7 text-white shadow-hero ring-1 ring-black/5 lg:px-9 lg:py-8" style={{ backgroundImage: 'linear-gradient(135deg, var(--color-hero-from), var(--color-hero-via), var(--color-hero-to))' }}>
         <div aria-hidden="true" className="absolute -top-20 -right-12 h-48 w-48 rounded-full bg-white/10" />
         <img src={owlbook} alt="" aria-hidden="true" className="absolute right-5 bottom-0 h-28 w-28 object-contain drop-shadow-lg lg:right-9 lg:h-36 lg:w-36" />
         <div className="relative flex flex-wrap items-center justify-between gap-4 pr-20 lg:pr-28">
-          <div><h1 className="text-3xl leading-tight font-bold lg:text-4xl">Magandang araw, {parentFirstName}!</h1><p className="mt-2 max-w-md text-sm font-semibold leading-relaxed text-white/80 lg:text-base">Narito kung paano ang progreso ng iyong anak ngayon.</p></div>
+          <div><p className="text-xs font-bold tracking-[0.12em] text-white/80 uppercase">Family learning journal</p><h1 className="mt-1 text-3xl leading-tight font-bold lg:text-4xl">Magandang araw, {parentFirstName}! 👋</h1><p className="mt-2 max-w-md text-sm font-semibold leading-relaxed text-white/90 lg:text-base">Narito ang progreso ng pag-aaral ni {activeChild?.name ?? 'iyong anak'}.</p></div>
           {children && children.length > 1 && (
-            <label className="hidden items-center gap-2 rounded-full bg-[var(--color-primary-soft)] px-3 py-2 text-sm font-bold text-[var(--color-primary)]">
+            <label className="flex items-center gap-2 rounded-full border border-white/25 bg-white/85 px-3 py-2 text-sm font-bold text-[var(--color-primary)] shadow-sm">
               <span>Palitan ang anak</span>
               <select value={activeChildId ?? ''} onChange={(event) => setSelectedChildId(event.target.value)} className="min-h-10 max-w-40 rounded-xl border-0 bg-transparent px-1 text-[var(--color-primary)]">
                 {children.map((child) => <option key={child.id} value={child.id}>{child.name}</option>)}
@@ -218,7 +218,7 @@ export default function Dashboard() {
 
       <nav aria-label="Mabilisang aksyon" className="order-11 grid grid-cols-1 gap-3 sm:grid-cols-3"><Link to="/parent/children" className="rounded-2xl border bg-white p-4 text-center font-bold shadow-card">I-enroll ang Anak</Link><Link to="/parent/progress" className="rounded-2xl border bg-white p-4 text-center font-bold shadow-card">Tingnan ang Ulat</Link><Link to="/parent/settings" className="rounded-2xl border bg-white p-4 text-center font-bold shadow-card">Pamahalaan ang Profile</Link></nav>
 
-      <section aria-labelledby="assignments-title" className="hidden order-4 rounded-[2rem] border p-5 shadow-card lg:p-6" style={cardStyle('--color-brand-sage', 7, 26)}>
+      <section aria-labelledby="assignments-title" className="order-4 rounded-[2rem] border p-5 shadow-card lg:p-6" style={cardStyle('--color-brand-sage', 7, 26)}>
         <div className="flex flex-wrap items-center justify-between gap-3"><div><p className="text-xs font-bold tracking-[0.1em] text-[var(--color-brand-sage)] uppercase">Mga gawain</p><h2 id="assignments-title" className="text-xl font-bold">Mga PDF na Hindi Pa Tapos</h2><p className="text-sm text-[var(--color-text-muted)]">Mga materyal na naka-assign kay {activeChild?.name ?? 'iyong anak'}.</p></div><Link to="/parent/progress" className="inline-flex min-h-11 items-center rounded-full px-4 text-sm font-bold text-[var(--color-primary)] hover:bg-white/65">Tingnan ang progreso →</Link></div>
         {assignments?.length ? <ul className="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">{assignments.map((assignment) => <li key={assignment.id} className="rounded-2xl border border-white/70 bg-white/65 p-4"><p className="font-bold">{assignment.pdf_materials?.title ?? 'Materyal sa PDF'}</p><p className="mt-1 text-sm text-[var(--color-text-muted)]">{assignment.status === 'in_progress' ? 'Ginagawa na' : 'Naka-assign'}{assignment.due_date ? ` · Takdang araw: ${new Date(assignment.due_date).toLocaleDateString('fil-PH', { month: 'short', day: 'numeric' })}` : ''}</p></li>)}</ul> : <p className="mt-4 rounded-2xl bg-white/55 p-4 text-[var(--color-text-muted)]">Wala pang PDF na kailangang tapusin ngayon.</p>}
       </section>
@@ -240,7 +240,7 @@ export default function Dashboard() {
         </section>
       </div>
 
-      <div className="hidden order-5 min-w-0 grid-cols-1 gap-5 lg:grid-cols-2">
+      <div className="order-5 grid min-w-0 grid-cols-1 gap-5 lg:grid-cols-2">
         <section aria-labelledby="upcoming-title" className="rounded-3xl border p-5 shadow-card sm:p-6" style={cardStyle('--color-brand-sage', 8, 28)}>
           <div className="flex items-center justify-between gap-3"><h2 id="upcoming-title" className="text-xl font-bold">Paparating na Iskedyul</h2><Link to="/parent/schedule" className="text-sm font-bold text-[var(--color-primary)]">Kalendaryo →</Link></div>
           {upcoming?.length ? <ul className="mt-4 flex flex-col gap-2">{upcoming.map((item) => <li key={item.id} className="flex items-center gap-3 rounded-2xl border border-white/70 bg-white/65 p-3"><time dateTime={item.scheduled_date} className="flex h-12 w-12 shrink-0 flex-col items-center justify-center rounded-xl bg-[var(--color-brand-sage)] text-xs font-bold text-white"><span>{new Date(item.scheduled_date).toLocaleDateString('fil-PH', { month: 'short' })}</span><span className="text-base">{new Date(item.scheduled_date).getDate()}</span></time><span className="min-w-0 flex-1 truncate font-bold">{item.title}</span><span className="rounded-full bg-white px-2 py-1 text-xs font-bold text-[var(--color-success)]">Naka-iskedyul</span></li>)}</ul> : <p className="mt-4 rounded-2xl bg-white/55 p-4 text-[var(--color-text-muted)]">Wala pang paparating na iskedyul.</p>}
