@@ -9,6 +9,7 @@ import logo from '../../assets/Logo.jpg';
 import { AppIcon } from '../../components/a11y/AppIcon';
 
 const PRIMARY_TABS = [
+  { to: '/admin', end: true, icon: '⌂', label: 'Simula' },
   { to: '/admin/students', icon: '🧒', label: 'Mga Mag-aaral' },
   { to: '/admin/parents', icon: '👪', label: 'Mga Magulang' },
   { to: '/admin/teachers-monitoring', icon: '🎓', label: 'Mga Guro' },
@@ -32,10 +33,11 @@ function NavContents({ collapsed, onNavigate }: { collapsed: boolean; onNavigate
   const { unreadCount } = useNotifications();
   return (
     <nav aria-label="Admin sections" className="flex flex-1 flex-col gap-1 overflow-y-auto px-2.5 py-3">
-      {PRIMARY_TABS.map((tab) => (
-        <NavLink key={tab.to} to={tab.to} end={tab.end} onClick={onNavigate} title={collapsed ? tab.label : undefined} className={({ isActive }) => `group relative flex min-h-11 items-center gap-3 rounded-xl px-3 text-sm font-bold transition-all ${collapsed ? 'justify-center px-0' : ''} ${isActive ? 'bg-white text-[var(--color-brand-navy)] shadow-card' : 'text-white/85 hover:bg-white/15 hover:text-white'}`}>
-          <span className="flex h-7 w-7 shrink-0 items-center justify-center" aria-hidden="true"><AppIcon name={tab.icon} className="h-5 w-5" /></span>
-          <span className={collapsed ? 'sr-only' : 'truncate'}>{tab.label}</span>
+      {!collapsed && <p className="px-3 pt-1 pb-1 text-[0.65rem] font-extrabold tracking-[0.14em] text-white/50 uppercase">Pangunahing menu</p>}
+      {PRIMARY_TABS.filter((tab, index) => tab.to !== '/admin' || index === 0).map((tab) => (
+        <NavLink key={tab.to} to={tab.to} end={tab.end} onClick={onNavigate} title={collapsed ? (tab.to === '/admin/teachers' ? 'Gumawa ng Guro' : tab.label) : undefined} className={({ isActive }) => `group relative flex min-h-11 items-center gap-3 rounded-xl px-3 text-sm font-bold transition-all ${collapsed ? 'justify-center px-0' : ''} ${isActive ? 'bg-white text-[var(--color-brand-navy)] shadow-card ring-1 ring-white/60' : 'text-white/85 hover:bg-white/15 hover:text-white'}`}>
+          <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-white/10 transition-colors group-hover:bg-white/20" aria-hidden="true"><AppIcon name={tab.icon} className="h-5 w-5" /></span>
+          <span className={collapsed ? 'sr-only' : 'truncate'}>{tab.to === '/admin/teachers' ? 'Gumawa ng Guro' : tab.label}</span>
           {tab.to === '/admin/notifications' && unreadCount > 0 && <span className={`${collapsed ? 'absolute right-1 top-1' : 'ml-auto'} flex h-5 min-w-5 items-center justify-center rounded-full bg-[var(--color-danger)] px-1 text-[0.65rem] text-white`}>{unreadCount > 9 ? '9+' : unreadCount}</span>}
         </NavLink>
       ))}
