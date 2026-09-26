@@ -25,8 +25,8 @@ export default function Dashboard() {
   const nameFor = (studentId: string) => roster?.find((entry) => entry.student_id === studentId)?.children?.name ?? 'Mag-aaral';
 
   return (
-    <div className="teacher-dashboard-page flex min-w-0 flex-col gap-7">
-      <header className="relative overflow-hidden rounded-3xl border border-white/25 bg-[var(--color-primary)] px-5 py-5 text-white shadow-hero ring-1 ring-black/5 sm:px-7"><div aria-hidden="true" className="absolute -top-16 -right-12 h-44 w-44 rounded-full bg-white/10" /><div aria-hidden="true" className="absolute -bottom-16 left-1/3 h-40 w-40 rounded-full bg-white/10" /><div className="relative"><p className="text-sm font-bold tracking-[0.1em] text-white/75 uppercase">Buod ng guro</p><h1 className="text-2xl font-bold sm:text-3xl">Magandang araw, {identity?.displayName ?? 'Guro'}</h1><p className="mt-1 text-sm text-white/85">Narito ang pinakamahalagang update sa iyong klase.</p></div></header>
+    <div className="teacher-dashboard-page teacher-storybook flex min-w-0 flex-col gap-7">
+      <header className="relative overflow-hidden rounded-3xl border border-white/25 px-5 py-5 text-white shadow-hero ring-1 ring-black/5 sm:px-7" style={{ backgroundImage: 'linear-gradient(135deg, var(--color-hero-from), var(--color-hero-via), var(--color-hero-to))' }}><div aria-hidden="true" className="absolute -top-16 -right-12 h-44 w-44 rounded-full bg-white/10" /><div aria-hidden="true" className="absolute -bottom-16 left-1/3 h-40 w-40 rounded-full bg-white/10" /><div className="relative"><p className="text-sm font-bold tracking-[0.1em] text-white/80 uppercase">Storybook classroom</p><h1 className="mt-1 text-2xl font-bold sm:text-3xl">Magandang araw, Teacher {identity?.displayName ?? 'Guro'}!</h1><p className="mt-1 text-sm text-white/90">Handa na tayong gabayan ang mga mag-aaral ngayong araw.</p></div></header>
 
       <section aria-label="Mahahalagang numero" className="grid grid-cols-2 gap-3 lg:grid-cols-4">
         {[

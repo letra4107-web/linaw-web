@@ -128,7 +128,12 @@
 
 .role-student .student-storybook::before { width: 13rem; height: 5rem; top: 7rem; right: -3rem; background: #fff9ec; box-shadow: -3rem 1.2rem 0 -.5rem #fff9ec; }
 .role-student .student-storybook::after { width: 7rem; height: 7rem; bottom: 2rem; left: 1rem; background: #e7f0e8; }
-.role-teacher { --color-bg: #f8f9f7; --color-primary: #315f7d; --color-primary-hover: #23475f; --color-primary-soft: #e8f0f5; --color-brand-lavender: #315f7d; --color-brand-lavender-dark: #23475f; --color-brand-teal: #315f7d; --color-brand-navy: #23475f; --color-brand-violet: #315f7d; --color-brand-sage: #315f7d; --color-brand-coral: #315f7d; --color-brand-sun: #315f7d; }
+.role-teacher { --color-bg: #fff4d9; --color-surface: #fff9ec; --color-text: #3f4145; --color-text-muted: #68645e; --color-border: #e6d9bd; --color-primary: #4f7b60; --color-primary-hover: #385c46; --color-primary-soft: #e7f0e8; --color-accent: #8fb8d8; --color-accent-soft: #e8f1f8; --color-brand-lavender: #a99ac5; --color-brand-lavender-dark: #756995; --color-brand-teal: #8fb8d8; --color-brand-navy: #4f7b60; --color-brand-violet: #8fb8d8; --color-brand-sage: #78a98c; --color-brand-coral: #ebaa8c; --color-brand-sun: #e8c66a; --color-hero-from: #78a98c; --color-hero-via: #8fb8d8; --color-hero-to: #a99ac5; }
+
+.role-teacher .teacher-storybook { position: relative; }
+.role-teacher .teacher-storybook::before { content: ''; pointer-events: none; position: fixed; z-index: -1; top: 7rem; right: -2.5rem; width: 13rem; height: 5rem; border-radius: 999px; opacity: .45; background: #fff9ec; box-shadow: -3rem 1.25rem 0 -.45rem #fff9ec; }
+.role-teacher .teacher-dashboard-page > section, .role-teacher .teacher-dashboard-page > div > section { transition: transform 180ms ease, box-shadow 180ms ease; }
+@media (hover: hover) { .role-teacher .teacher-dashboard-page > section:hover, .role-teacher .teacher-dashboard-page > div > section:hover { transform: translateY(-3px); box-shadow: var(--shadow-raised); } }
 .role-parent { --color-bg: #fff4d9; --color-surface: #fff9ec; --color-text: #3f4145; --color-text-muted: #68645e; --color-border: #e6d9bd; --color-primary: #4f7b60; --color-primary-hover: #385c46; --color-primary-soft: #e7f0e8; --color-accent: #8fb8d8; --color-accent-soft: #e8f1f8; --color-brand-lavender: #a99ac5; --color-brand-lavender-dark: #756995; --color-brand-teal: #8fb8d8; --color-brand-navy: #4f7b60; --color-brand-violet: #8fb8d8; --color-brand-sage: #78a98c; --color-brand-coral: #ebaa8c; --color-brand-sun: #e8c66a; --color-brand-amber: #e8c66a; --color-brand-orange: #d99aaa; --color-hero-from: #78a98c; --color-hero-via: #8fb8d8; --color-hero-to: #a99ac5; }
 
 .role-parent .parent-storybook { position: relative; }
