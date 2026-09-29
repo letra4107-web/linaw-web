@@ -39,6 +39,25 @@ const ISOLATED_LETTER_NAMES = Object.freeze({
   r: 'ra', s: 'sa', t: 'ta', v: 'va', w: 'wa', x: 'eks', y: 'ya', z: 'za',
 });
 
+// ElevenLabs receives plain text rather than the Google-specific SSML used by
+// the legacy provider. Spell the sound out only for a standalone letter drill;
+// ordinary Filipino words are left untouched so the multilingual model can
+// apply its natural word-level pronunciation.
+const ELEVENLABS_VOWEL_SOUNDS = Object.freeze({ a: 'ah', e: 'eh', i: 'ih', o: 'oh', u: 'uh' });
+
+function elevenLabsSoundSpelling(value) {
+  const letterSound = String(value);
+  const finalVowel = letterSound.at(-1);
+  return ELEVENLABS_VOWEL_SOUNDS[finalVowel]
+    ? `${letterSound.slice(0, -1)}${ELEVENLABS_VOWEL_SOUNDS[finalVowel]}`
+    : letterSound;
+}
+
+const ELEVENLABS_ISOLATED_SOUNDS = Object.freeze({
+  ...ELEVENLABS_VOWEL_SOUNDS,
+  ...Object.fromEntries(Object.entries(ISOLATED_LETTER_NAMES).map(([letter, sound]) => [letter, elevenLabsSoundSpelling(sound)])),
+});
+
 function normalize(value) {
   return String(value ?? '')
     .normalize('NFD')
@@ -153,12 +172,19 @@ function filipinoSsml(value) {
   return `<speak>${paragraphs.map(formatParagraph).join('<break time="1500ms"/>')}</speak>`;
 }
 
+function elevenLabsText(value) {
+  const text = String(value ?? '').trim();
+  if (!text) return '';
+  return ELEVENLABS_ISOLATED_SOUNDS[normalize(text)] || text;
+}
+
 // Retained as an export alias so existing imports do not break. New code uses
 // IPA because it is the requested, supported phonetic notation for this flow.
 module.exports = {
   filipinoIpa,
   filipinoSsml,
   filipinoXsampa: filipinoIpa,
+  elevenLabsText,
   isMultiSyllableWord,
   syllableCount,
 };

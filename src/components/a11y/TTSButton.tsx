@@ -1,6 +1,6 @@
 import { useRef, useState } from 'react';
 import { api } from '../../lib/api';
-import { getTtsRate } from '../../lib/ttsSettings';
+import { getTtsPlaybackRate, getTtsRate } from '../../lib/ttsSettings';
 import { IconLabel } from './IconLabel';
 import { trackEvent } from '../../lib/analytics';
 
@@ -15,7 +15,7 @@ interface TTSButtonProps {
 // Cache decoded audio per spoken text+rate so repeat plays (e.g. re-reading the same word)
 // don't re-hit the TTS API -- keyed by rate too since the same text sounds different at each speed.
 const audioCache = new Map<string, string>();
-const TTS_AUDIO_CACHE_VERSION = 'filipino-ipa-v2';
+const TTS_AUDIO_CACHE_VERSION = 'elevenlabs-v7';
 
 function base64ToObjectUrl(base64: string): string {
   const bytes = atob(base64);
@@ -50,6 +50,7 @@ export function TTSButton({ text, lang = 'fil-PH', rate: requestedRate, classNam
     if (cached) {
       setStatus('speaking');
       const audio = new Audio(cached);
+      audio.playbackRate = getTtsPlaybackRate(rate);
       audioRef.current = audio;
       audio.onended = () => setStatus('idle');
       audio.onerror = () => setStatus('idle');
@@ -64,6 +65,7 @@ export function TTSButton({ text, lang = 'fil-PH', rate: requestedRate, classNam
       audioCache.set(cacheKey, url);
       setStatus('speaking');
       const audio = new Audio(url);
+      audio.playbackRate = getTtsPlaybackRate(rate);
       audioRef.current = audio;
       audio.onended = () => setStatus('idle');
       audio.onerror = () => setStatus('idle');

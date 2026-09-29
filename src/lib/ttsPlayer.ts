@@ -1,5 +1,5 @@
 import { api } from './api';
-import { getTtsRate } from './ttsSettings';
+import { getTtsPlaybackRate, getTtsRate } from './ttsSettings';
 
 // Lightweight, cache-backed TTS playback used for auto-playing feedback text/pronunciation
 // (e.g. reading the praise message, then the correct word) -- separate from TTSButton's own
@@ -7,7 +7,9 @@ import { getTtsRate } from './ttsSettings';
 // voice/fallback shape. Everything here resolves only once actual playback has *finished*
 // (not just started), so callers can chain several utterances in order (playTtsSequence).
 const audioCache = new Map<string, string>();
-const TTS_AUDIO_CACHE_VERSION = 'filipino-ipa-v2';
+const TTS_AUDIO_CACHE_VERSION = 'elevenlabs-v7';
+let activeSequenceId = 0;
+let activeSequenceAudio: HTMLAudioElement | null = null;
 
 function base64ToObjectUrl(base64: string): string {
   const bytes = atob(base64);
@@ -16,11 +18,24 @@ function base64ToObjectUrl(base64: string): string {
   return URL.createObjectURL(new Blob([buffer], { type: 'audio/mpeg' }));
 }
 
-function playAudioAndWait(url: string): Promise<void> {
+function playAudioAndWait(url: string, rate: number, sequenceId?: number): Promise<void> {
   return new Promise((resolve) => {
+    if (sequenceId !== undefined && sequenceId !== activeSequenceId) {
+      resolve();
+      return;
+    }
     const audio = new Audio(url);
-    audio.onended = () => resolve();
-    audio.onerror = () => resolve();
+    audio.playbackRate = getTtsPlaybackRate(rate);
+    if (sequenceId !== undefined) {
+      activeSequenceAudio?.pause();
+      activeSequenceAudio = audio;
+    }
+    const finish = () => {
+      if (activeSequenceAudio === audio) activeSequenceAudio = null;
+      resolve();
+    };
+    audio.onended = finish;
+    audio.onerror = finish;
     audio.play().catch(() => resolve());
   });
 }
@@ -45,7 +60,7 @@ export async function playTts(text: string, rate = getTtsRate(), lang = 'fil-PH'
   void lang; // The server always selects the Filipino Cloud TTS voice.
   const url = await resolveAudioUrl(text, rate);
   if (url) {
-    await playAudioAndWait(url);
+    await playAudioAndWait(url, rate);
   }
 }
 
@@ -56,8 +71,13 @@ interface TtsQueueItem {
 
 /** Speaks each item in order, waiting for one to finish before starting the next. */
 export async function playTtsSequence(items: (string | TtsQueueItem)[], lang = 'fil-PH'): Promise<void> {
+  const sequenceId = ++activeSequenceId;
+  activeSequenceAudio?.pause();
   for (const item of items) {
+    if (sequenceId !== activeSequenceId) return;
     const { text, rate = getTtsRate() } = typeof item === 'string' ? { text: item } : item;
-    await playTts(text, rate, lang);
+    void lang;
+    const url = await resolveAudioUrl(text, rate);
+    if (url) await playAudioAndWait(url, rate, sequenceId);
   }
 }
