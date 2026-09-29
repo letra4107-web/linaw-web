@@ -2,6 +2,7 @@
 import { useState, type InputHTMLAttributes, type ReactNode } from 'react';
 import { Link } from 'react-router-dom';
 import leftImage from '../../assets/left.png';
+import rightImage from '../../assets/right.png';
 import { cardStyle } from '../../lib/cardStyle';
 import { AppIcon } from '../a11y/AppIcon';
 
@@ -14,6 +15,7 @@ interface AuthShellProps {
   subtitle?: string;
   children: ReactNode;
   footer?: ReactNode;
+  eyebrow?: string;
   maxWidthClassName?: string;
   cardColorVar?: string;
 }
@@ -23,12 +25,13 @@ export function AuthShell({
   subtitle,
   children,
   footer,
+  eyebrow,
   maxWidthClassName = 'max-w-lg',
   cardColorVar = '--color-brand-lavender',
 }: AuthShellProps) {
   return (
     <div className="auth-shell min-h-screen text-[var(--color-text)] lg:flex">
-      <div className="auth-shell-illustration relative hidden overflow-hidden text-white shadow-hero lg:flex lg:w-[44%] lg:flex-col">
+      <div className="auth-shell-illustration relative hidden overflow-hidden text-white shadow-hero lg:flex lg:w-1/2 lg:flex-col">
         <img src={leftImage} alt="" aria-hidden="true" className="absolute inset-0 h-full w-full object-cover object-center" />
         <div
           className="absolute inset-0 bg-transparent"
@@ -51,6 +54,7 @@ export function AuthShell({
       </div>
 
       <div className="auth-shell-content relative flex flex-1 flex-col">
+        <img src={rightImage} alt="" aria-hidden="true" className="auth-shell-right-art pointer-events-none absolute inset-0 h-full w-full object-cover object-center" />
 
         <div className="relative z-10 flex flex-1 flex-col">
           <header className="border-b border-[var(--color-border)] px-6 py-4 lg:hidden">
@@ -58,15 +62,16 @@ export function AuthShell({
               LinawLetra
             </Link>
           </header>
-          <main className={`mx-auto flex w-full ${maxWidthClassName} flex-1 flex-col justify-center gap-6 px-6 py-12`}>
+          <main className={`auth-shell-main mx-auto flex w-full ${maxWidthClassName} flex-1 flex-col justify-center gap-6 px-6 py-12`}>
             <div className="text-center">
-              <h1 className="text-4xl">{title}</h1>
-              {subtitle && <p className="mt-3 text-lg text-[var(--color-text-muted)]">{subtitle}</p>}
+              {eyebrow && <p className="auth-shell-eyebrow mx-auto mb-4 w-fit rounded-full px-5 py-2 text-sm font-extrabold tracking-[0.08em] uppercase">{eyebrow}</p>}
+              <h1 className="auth-shell-title text-4xl">{title}</h1>
+              {subtitle && <p className="auth-shell-subtitle mt-3 text-lg text-[var(--color-text-muted)]">{subtitle}</p>}
             </div>
             <div className="auth-shell-card rounded-3xl border p-8 shadow-card sm:p-10" style={cardStyle(cardColorVar, 8, 30)}>
               {children}
             </div>
-            {footer && <div className="text-center text-base text-[var(--color-text-muted)]">{footer}</div>}
+            {footer && <div className="auth-shell-footer text-center text-base text-[var(--color-text-muted)]">{footer}</div>}
           </main>
         </div>
       </div>

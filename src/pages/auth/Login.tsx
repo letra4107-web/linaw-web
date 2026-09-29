@@ -221,7 +221,8 @@ export default function Login() {
 
   return (
     <AuthShell
-      title="Maligayang pagbabalik"
+      eyebrow="Maligayang Pagbabalik!"
+      title="Handa ka na bang magbasa?"
       subtitle="Mag-login para ipagpatuloy ang iyong paglalakbay sa pagbasa."
       cardColorVar="--color-brand-lavender"
       footer={
