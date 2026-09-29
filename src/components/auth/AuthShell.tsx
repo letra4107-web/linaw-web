@@ -2,7 +2,6 @@
 import { useState, type InputHTMLAttributes, type ReactNode } from 'react';
 import { Link } from 'react-router-dom';
 import leftImage from '../../assets/left.png';
-import rightImage from '../../assets/right.png';
 import { cardStyle } from '../../lib/cardStyle';
 import { AppIcon } from '../a11y/AppIcon';
 
@@ -31,7 +30,7 @@ export function AuthShell({
 }: AuthShellProps) {
   return (
     <div className="auth-shell min-h-screen text-[var(--color-text)] lg:flex">
-      <div className="auth-shell-illustration relative hidden overflow-hidden text-white shadow-hero lg:flex lg:w-1/2 lg:flex-col">
+      <div className="auth-shell-illustration relative hidden overflow-hidden text-white lg:flex lg:w-1/2 lg:flex-col">
         <img src={leftImage} alt="" aria-hidden="true" className="absolute inset-0 h-full w-full object-cover object-center" />
         <div
           className="absolute inset-0 bg-transparent"
@@ -54,8 +53,6 @@ export function AuthShell({
       </div>
 
       <div className="auth-shell-content relative flex flex-1 flex-col">
-        <img src={rightImage} alt="" aria-hidden="true" className="auth-shell-right-art pointer-events-none absolute inset-0 h-full w-full object-cover object-center" />
-
         <div className="relative z-10 flex flex-1 flex-col">
           <header className="border-b border-[var(--color-border)] px-6 py-4 lg:hidden">
             <Link to="/" className="text-xl font-bold text-[var(--color-primary)]">
