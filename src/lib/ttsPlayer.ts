@@ -1,5 +1,5 @@
 import { api } from './api';
-import { getTtsPlaybackRate, getTtsRate } from './ttsSettings';
+import { getTtsPlaybackRate, getTtsRate, isIsolatedFilipinoVowel } from './ttsSettings';
 
 // Lightweight, cache-backed TTS playback used for auto-playing feedback text/pronunciation
 // (e.g. reading the praise message, then the correct word) -- separate from TTSButton's own
@@ -58,9 +58,10 @@ async function resolveAudioUrl(text: string, rate: number): Promise<string | nul
  *  student's saved speed preference (see ttsSettings.ts) when not explicitly overridden. */
 export async function playTts(text: string, rate = getTtsRate(), lang = 'fil-PH'): Promise<void> {
   void lang; // The server always selects the Filipino Cloud TTS voice.
-  const url = await resolveAudioUrl(text, rate);
+  const effectiveRate = isIsolatedFilipinoVowel(text) ? 1 : rate;
+  const url = await resolveAudioUrl(text, effectiveRate);
   if (url) {
-    await playAudioAndWait(url, rate);
+    await playAudioAndWait(url, effectiveRate);
   }
 }
 
@@ -76,8 +77,9 @@ export async function playTtsSequence(items: (string | TtsQueueItem)[], lang = '
   for (const item of items) {
     if (sequenceId !== activeSequenceId) return;
     const { text, rate = getTtsRate() } = typeof item === 'string' ? { text: item } : item;
+    const effectiveRate = isIsolatedFilipinoVowel(text) ? 1 : rate;
     void lang;
-    const url = await resolveAudioUrl(text, rate);
-    if (url) await playAudioAndWait(url, rate, sequenceId);
+    const url = await resolveAudioUrl(text, effectiveRate);
+    if (url) await playAudioAndWait(url, effectiveRate, sequenceId);
   }
 }
