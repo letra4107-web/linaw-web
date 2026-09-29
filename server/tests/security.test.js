@@ -259,6 +259,34 @@ test('TTS uses the configured IPA pronunciation dictionary for letter drills', a
   assert.deepEqual(providerPayload.pronunciation_dictionary_locators, [{ pronunciation_dictionary_id: 'dictionary-test', version_id: 'version-test' }]);
 });
 
+test('U drill uses its Filipino sound spelling instead of a voice-specific IPA rule', async () => {
+  const allow = (req, _res, next) => { req.user = { id: 'student-a' }; next(); };
+  const noLimit = (_req, _res, next) => next();
+  let providerPayload;
+  const provider = async (_url, options) => {
+    providerPayload = JSON.parse(options.body);
+    return { ok: true, arrayBuffer: async () => Buffer.from('mp3') };
+  };
+
+  await withHttpApp(createTtsRouter({
+    authMiddleware: allow,
+    limiter: noLimit,
+    fetchImpl: provider,
+    apiKey: 'test',
+    voiceId: 'voice-test',
+    pronunciationDictionaryId: 'dictionary-test',
+    pronunciationDictionaryVersionId: 'version-test',
+  }), async (url) => {
+    const response = await fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ text: 'U', rate: 0.4 }) });
+    assert.equal(response.status, 200);
+    assert.equal((await response.json()).speakingRate, 1);
+  });
+
+  assert.equal(providerPayload.text, 'oo');
+  assert.equal(providerPayload.model_id, 'eleven_multilingual_v2');
+  assert.equal(providerPayload.pronunciation_dictionary_locators, undefined);
+});
+
 test('TTS falls back to multilingual speech when a pronunciation dictionary request is rejected', async () => {
   const allow = (req, _res, next) => { req.user = { id: 'student-a' }; next(); };
   const noLimit = (_req, _res, next) => next();

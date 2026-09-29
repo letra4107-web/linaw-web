@@ -54,7 +54,11 @@ function createTtsRouter({
     }
 
     const providerUrl = `${ELEVENLABS_TTS_URL}/${encodeURIComponent(voiceId)}?output_format=mp3_44100_128`;
-    const usePronunciationDictionary = Boolean(pronunciationDictionaryId && pronunciationDictionaryVersionId);
+    // Some voices render the dictionary's IPA /u/ as "ah". Keep the other
+    // letter rules in the dictionary, but send U through its tested Filipino
+    // sound spelling ("oo") instead.
+    const isUDrill = text.trim().toLocaleLowerCase('fil-PH') === 'u';
+    const usePronunciationDictionary = Boolean(pronunciationDictionaryId && pronunciationDictionaryVersionId) && !isUDrill;
     const synthesize = (payload) => fetchImpl(providerUrl, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'xi-api-key': apiKey },

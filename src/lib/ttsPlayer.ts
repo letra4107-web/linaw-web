@@ -7,7 +7,7 @@ import { getTtsPlaybackRate, getTtsRate, isIsolatedFilipinoVowel } from './ttsSe
 // voice/fallback shape. Everything here resolves only once actual playback has *finished*
 // (not just started), so callers can chain several utterances in order (playTtsSequence).
 const audioCache = new Map<string, string>();
-const TTS_AUDIO_CACHE_VERSION = 'elevenlabs-v7';
+const TTS_AUDIO_CACHE_VERSION = 'elevenlabs-v8';
 let activeSequenceId = 0;
 let activeSequenceAudio: HTMLAudioElement | null = null;
 

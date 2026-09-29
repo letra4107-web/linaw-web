@@ -1,6 +1,18 @@
 const test = require('node:test');
 const assert = require('node:assert/strict');
-const { filipinoSsml, isMultiSyllableWord, syllableCount } = require('../lib/filipinoPhonemes');
+const { elevenLabsText, filipinoSsml, isMultiSyllableWord, syllableCount } = require('../lib/filipinoPhonemes');
+
+test('ElevenLabs receives explicit Filipino sounds for isolated letter drills', () => {
+  assert.equal(elevenLabsText('A'), 'ah');
+  assert.equal(elevenLabsText('E'), 'eh');
+  assert.equal(elevenLabsText('I'), 'ih');
+  assert.equal(elevenLabsText('O'), 'oh');
+  assert.equal(elevenLabsText('U'), 'oo');
+  assert.equal(elevenLabsText('M'), 'mah');
+  assert.equal(elevenLabsText('S'), 'sah');
+  assert.equal(elevenLabsText('Ng'), 'ngah');
+  assert.equal(elevenLabsText('bata'), 'bata');
+});
 
 test('isolated Filipino vowels use IPA instead of English letter names', () => {
   assert.equal(
