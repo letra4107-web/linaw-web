@@ -166,6 +166,13 @@
   background: linear-gradient(180deg, #fff7df 0%, #fff4d9 45%, #fff8e9 100%);
 }
 
+/* Shared account pages use the same lavender, sky, and cream palette. */
+.auth-shell { --color-bg: #fff7df; --color-surface: #fffdf7; --color-text: #3f3a4a; --color-text-muted: #6f6878; --color-border: #e5dcef; --color-primary: #7567b8; --color-primary-hover: #6255a3; --color-primary-soft: #eeeafb; --color-success: #7567b8; --color-success-soft: #eeeafb; --color-brand-lavender: #a99ac5; --color-brand-lavender-dark: #756995; --color-brand-violet: #7567b8; --color-brand-teal: #8fb8d8; --color-brand-sage: #8fb8d8; --color-brand-navy: #6255a3; --color-brand-sun: #e8c66a; --color-brand-coral: #ebaa8c; background: linear-gradient(135deg, #fff8e8 0%, #f7f2ff 52%, #edf8fc 100%); }
+.auth-shell-content { background: radial-gradient(circle at 88% 10%, rgba(143,184,216,.24), transparent 20rem), radial-gradient(circle at 10% 94%, rgba(169,154,197,.16), transparent 22rem); }
+.auth-shell-card { border-color: rgba(117,103,184,.18); background: rgba(255,253,247,.88) !important; box-shadow: 0 16px 40px rgba(92,75,138,.12); backdrop-filter: blur(10px); }
+.auth-shell-illustration { background: #8fb8d8; }
+.auth-shell-home-link { color: #4b367f; background: rgba(255,250,240,.9); box-shadow: 0 5px 18px rgba(61,44,102,.16); backdrop-filter: blur(8px); }
+
 .student-home-hero {
   background-position: center;
   background-size: cover;

@@ -1,8 +1,7 @@
 /* oxlint-disable react/only-export-components -- shared auth form API intentionally colocated */
 import { useState, type InputHTMLAttributes, type ReactNode } from 'react';
 import { Link } from 'react-router-dom';
-import lookImage from '../../lib/emptyImage';
-import bgImage from '../../lib/emptyImage';
+import leftImage from '../../assets/left.png';
 import { cardStyle } from '../../lib/cardStyle';
 import { AppIcon } from '../a11y/AppIcon';
 
@@ -28,11 +27,11 @@ export function AuthShell({
   cardColorVar = '--color-brand-lavender',
 }: AuthShellProps) {
   return (
-    <div className="min-h-screen bg-[var(--color-bg)] text-[var(--color-text)] lg:flex">
-      <div className="relative hidden overflow-hidden text-white shadow-hero lg:flex lg:w-[44%] lg:flex-col">
-        <img src={lookImage} alt="" aria-hidden="true" className="absolute inset-0 h-full w-full object-cover" />
+    <div className="auth-shell min-h-screen text-[var(--color-text)] lg:flex">
+      <div className="auth-shell-illustration relative hidden overflow-hidden text-white shadow-hero lg:flex lg:w-[44%] lg:flex-col">
+        <img src={leftImage} alt="" aria-hidden="true" className="absolute inset-0 h-full w-full object-cover object-center" />
         <div
-          className="absolute inset-0 bg-black/30"
+          className="absolute inset-0 bg-transparent"
           aria-hidden="true"
         />
 
@@ -41,18 +40,17 @@ export function AuthShell({
             LinawLetra
           </Link>
 
-          <p className="mt-10 max-w-[15rem] text-2xl leading-snug font-bold drop-shadow-lg sm:text-3xl">
+          <p className="sr-only">
             Tulong sa pagbasa ng Tagalog, para sa bawat bata.
           </p>
 
-          <p className="mt-auto text-sm text-white/90 drop-shadow-md">
+          <p className="sr-only">
             Ginawa para sa mga mag-aaral na may dyslexia, Grade 1–6.
           </p>
         </div>
       </div>
 
-      <div className="relative flex flex-1 flex-col">
-        <img src={bgImage} alt="" aria-hidden="true" className="pointer-events-none absolute inset-0 h-full w-full object-cover" />
+      <div className="auth-shell-content relative flex flex-1 flex-col">
 
         <div className="relative z-10 flex flex-1 flex-col">
           <header className="border-b border-[var(--color-border)] px-6 py-4 lg:hidden">
@@ -65,7 +63,7 @@ export function AuthShell({
               <h1 className="text-4xl">{title}</h1>
               {subtitle && <p className="mt-3 text-lg text-[var(--color-text-muted)]">{subtitle}</p>}
             </div>
-            <div className="rounded-xl border p-8 shadow-card sm:p-10" style={cardStyle(cardColorVar, 8, 30)}>
+            <div className="auth-shell-card rounded-3xl border p-8 shadow-card sm:p-10" style={cardStyle(cardColorVar, 8, 30)}>
               {children}
             </div>
             {footer && <div className="text-center text-base text-[var(--color-text-muted)]">{footer}</div>}

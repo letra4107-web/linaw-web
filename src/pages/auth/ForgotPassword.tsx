@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { LockKeyhole, Mail, ShieldCheck } from 'lucide-react';
 import { supabase } from '../../lib/supabaseClient';
 import logo from '../../assets/Logo.jpg';
-import lookImage from '../../lib/emptyImage';
+import leftImage from '../../assets/left.png';
 import { ButtonSpinner, FieldError, isValidEmail } from '../../components/auth/AuthShell';
 
 export default function ForgotPassword() {
@@ -36,18 +36,18 @@ export default function ForgotPassword() {
   };
 
   return (
-    <main className="grid min-h-screen overflow-hidden bg-[var(--color-bg)] text-[var(--color-text)] lg:grid-cols-[44%_56%]">
-      <aside className="relative hidden overflow-hidden text-white lg:flex lg:flex-col">
-        <img src={lookImage} alt="" aria-hidden="true" className="absolute inset-0 h-full w-full object-cover" />
-        <div aria-hidden="true" className="absolute inset-0 bg-[var(--color-primary-hover)]/55" />
+    <main className="auth-shell grid min-h-screen overflow-hidden text-[var(--color-text)] lg:grid-cols-[44%_56%]">
+      <aside className="auth-shell-illustration relative hidden overflow-hidden text-white lg:flex lg:flex-col">
+        <img src={leftImage} alt="" aria-hidden="true" className="absolute inset-0 h-full w-full object-cover object-center" />
+        <div aria-hidden="true" className="absolute inset-0 bg-transparent" />
         <div className="relative z-10 flex h-full flex-col p-10 xl:p-14">
-          <Link to="/" className="flex items-center gap-3 text-2xl font-bold"><img src={logo} alt="" className="h-11 w-11 rounded-xl object-cover" />LinawLetra</Link>
-          <div className="my-auto max-w-sm"><p className="text-4xl leading-tight font-bold">Ligtas na pagbabalik sa iyong pagkatuto.</p><p className="mt-5 text-base leading-relaxed text-white/85">I-reset ang iyong password at magpatuloy sa pagbabasa, pagsasanay, at pag-unlad.</p></div>
-          <p className="text-sm font-semibold text-white/85">Tulong sa pagbasa ng Filipino para sa bawat bata.</p>
+          <Link to="/" className="auth-shell-home-link flex items-center gap-3 rounded-full px-4 py-2 text-lg font-bold"><img src={logo} alt="" className="h-9 w-9 rounded-xl object-cover" />LinawLetra</Link>
+          <div className="sr-only"><p>Ligtas na pagbabalik sa iyong pagkatuto.</p><p>I-reset ang iyong password at magpatuloy sa pagbabasa, pagsasanay, at pag-unlad.</p></div>
+          <p className="sr-only">Tulong sa pagbasa ng Filipino para sa bawat bata.</p>
         </div>
       </aside>
 
-      <div className="relative flex min-h-screen items-center justify-center overflow-hidden px-5 py-10">
+      <div className="auth-shell-content relative flex min-h-screen items-center justify-center overflow-hidden px-5 py-10">
         <div aria-hidden="true" className="absolute -top-24 -left-24 h-72 w-72 rounded-full bg-[var(--color-primary)]/12" />
         <div aria-hidden="true" className="absolute top-10 -right-28 h-64 w-64 rounded-full bg-[var(--color-brand-coral)]/12" />
 

@@ -272,7 +272,7 @@ export default function Login() {
             onChange={(e) => setEmail(e.target.value)}
             autoComplete="email"
             invalid={!!fieldErrors.email}
-            className="min-h-15 rounded-[14px] border-[var(--color-brand-lavender)]/25 bg-[#FAF8F3] text-base focus-visible:bg-[#F2FBF4]"
+            className="min-h-15 rounded-[14px] border-[var(--color-brand-lavender)]/25 bg-[#FAF8F3] text-base focus-visible:bg-[#F4F0FF]"
           />
           {fieldErrors.email && (
             <div className="mt-2">
@@ -295,7 +295,7 @@ export default function Login() {
             onChange={setPassword}
             autoComplete="current-password"
             invalid={!!fieldErrors.password}
-            className="min-h-15 rounded-[14px] border-[var(--color-brand-lavender)]/25 bg-[#FAF8F3] text-base focus-visible:bg-[#F2FBF4]"
+            className="min-h-15 rounded-[14px] border-[var(--color-brand-lavender)]/25 bg-[#FAF8F3] text-base focus-visible:bg-[#F4F0FF]"
           />
           {fieldErrors.password && (
             <div className="mt-2">
