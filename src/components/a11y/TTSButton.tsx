@@ -1,6 +1,6 @@
 import { useRef, useState } from 'react';
 import { api } from '../../lib/api';
-import { getTtsPlaybackRate, getTtsRate } from '../../lib/ttsSettings';
+import { getTtsPlaybackRate, getTtsRate, isIsolatedFilipinoVowel } from '../../lib/ttsSettings';
 import { IconLabel } from './IconLabel';
 import { trackEvent } from '../../lib/analytics';
 
@@ -44,7 +44,9 @@ export function TTSButton({ text, lang = 'fil-PH', rate: requestedRate, classNam
       return;
     }
 
-    const rate = requestedRate ?? getTtsRate();
+    // Letter-vowel drills are always clear, natural-speed sounds. This also
+    // prevents a saved .4/.5 reading setting from slowing A/E/I/O/U.
+    const rate = isIsolatedFilipinoVowel(text) ? 1 : requestedRate ?? getTtsRate();
     const cacheKey = `${TTS_AUDIO_CACHE_VERSION}::${text}::${rate}`;
     const cached = audioCache.get(cacheKey);
     if (cached) {

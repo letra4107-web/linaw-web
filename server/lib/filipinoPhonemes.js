@@ -178,6 +178,10 @@ function elevenLabsText(value) {
   return ELEVENLABS_ISOLATED_SOUNDS[normalize(text)] || text;
 }
 
+function isIsolatedFilipinoVowel(value) {
+  return Object.hasOwn(VOWEL_IPA, normalize(value));
+}
+
 // Retained as an export alias so existing imports do not break. New code uses
 // IPA because it is the requested, supported phonetic notation for this flow.
 module.exports = {
@@ -185,6 +189,7 @@ module.exports = {
   filipinoSsml,
   filipinoXsampa: filipinoIpa,
   elevenLabsText,
+  isIsolatedFilipinoVowel,
   isMultiSyllableWord,
   syllableCount,
 };

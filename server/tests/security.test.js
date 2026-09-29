@@ -188,45 +188,105 @@ test('TTS route enforces auth, input bounds, successful synthesis, and per-user 
   const deny = (_req, res) => res.status(401).json({ error: 'Unauthorized' });
   const allow = (req, _res, next) => { req.user = { id: 'student-a' }; next(); };
   const noLimit = (_req, _res, next) => next();
-  const provider = async () => ({ ok: true, json: async () => ({ audioContent: 'bXAz' }) });
+  const provider = async () => ({ ok: true, arrayBuffer: async () => Buffer.from('mp3') });
 
-  await withHttpApp(createTtsRouter({ authMiddleware: deny, limiter: noLimit, fetchImpl: provider, apiKey: 'test' }), async (url) => {
+  await withHttpApp(createTtsRouter({ authMiddleware: deny, limiter: noLimit, fetchImpl: provider, apiKey: 'test', voiceId: 'voice-test' }), async (url) => {
     const response = await fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ text: 'bata' }) });
     assert.equal(response.status, 401);
   });
-  await withHttpApp(createTtsRouter({ authMiddleware: allow, limiter: noLimit, fetchImpl: provider, apiKey: 'test' }), async (url) => {
+  await withHttpApp(createTtsRouter({ authMiddleware: allow, limiter: noLimit, fetchImpl: provider, apiKey: 'test', voiceId: 'voice-test' }), async (url) => {
     let response = await fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ text: 'x'.repeat(MAX_TEXT_LENGTH + 1) }) });
     assert.equal(response.status, 400);
     response = await fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ text: 'bata' }) });
     assert.equal(response.status, 200);
-    assert.equal((await response.json()).audioContent, 'bXAz');
+    const body = await response.json();
+    assert.equal(body.audioContent, 'bXAz');
+    assert.equal(body.speakingRate, 0.7);
   });
-  await withHttpApp(createTtsRouter({ authMiddleware: allow, limiter: userLimiter({ windowMs: 60_000, limit: 1 }), fetchImpl: provider, apiKey: 'test' }), async (url) => {
+  await withHttpApp(createTtsRouter({ authMiddleware: allow, limiter: userLimiter({ windowMs: 60_000, limit: 1 }), fetchImpl: provider, apiKey: 'test', voiceId: 'voice-test' }), async (url) => {
     const options = { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ text: 'bata' }) };
     assert.equal((await fetch(url, options)).status, 200);
     assert.equal((await fetch(url, options)).status, 429);
   });
 });
 
-test('TTS uses Filipino SSML phonemes and slows multi-syllable words', async () => {
+test('TTS uses ElevenLabs multilingual speech with a bounded voice speed', async () => {
   const allow = (req, _res, next) => { req.user = { id: 'student-a' }; next(); };
   const noLimit = (_req, _res, next) => next();
   let providerPayload;
   const provider = async (_url, options) => {
     providerPayload = JSON.parse(options.body);
-    return { ok: true, json: async () => ({ audioContent: 'bXAz' }) };
+    return { ok: true, arrayBuffer: async () => Buffer.from('mp3') };
   };
 
-  await withHttpApp(createTtsRouter({ authMiddleware: allow, limiter: noLimit, fetchImpl: provider, apiKey: 'test' }), async (url) => {
-    const response = await fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ text: 'ngipin', rate: 1 }) });
+  await withHttpApp(createTtsRouter({ authMiddleware: allow, limiter: noLimit, fetchImpl: provider, apiKey: 'test', voiceId: 'voice-test' }), async (url) => {
+    const response = await fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ text: 'ngipin', rate: 0.3 }) });
     assert.equal(response.status, 200);
     const body = await response.json();
-    assert.equal(body.syllableCount, 2);
-    assert.equal(body.speakingRate, 0.72);
+    assert.equal(body.speakingRate, 0.7);
   });
 
-  assert.deepEqual(providerPayload.voice, { languageCode: 'fil-PH', name: 'fil-ph-Neural2-A' });
-  assert.match(providerPayload.input.ssml, /<phoneme alphabet="ipa" ph="ŋipin">ngipin<\/phoneme>/);
+  assert.equal(providerPayload.text, 'ngipin');
+  assert.equal(providerPayload.model_id, 'eleven_multilingual_v2');
+  assert.deepEqual(providerPayload.voice_settings, { speed: 0.7 });
+});
+
+test('TTS uses the configured IPA pronunciation dictionary for letter drills', async () => {
+  const allow = (req, _res, next) => { req.user = { id: 'student-a' }; next(); };
+  const noLimit = (_req, _res, next) => next();
+  let providerPayload;
+  const provider = async (_url, options) => {
+    providerPayload = JSON.parse(options.body);
+    return { ok: true, arrayBuffer: async () => Buffer.from('mp3') };
+  };
+
+  await withHttpApp(createTtsRouter({
+    authMiddleware: allow,
+    limiter: noLimit,
+    fetchImpl: provider,
+    apiKey: 'test',
+    voiceId: 'voice-test',
+    pronunciationDictionaryId: 'dictionary-test',
+    pronunciationDictionaryVersionId: 'version-test',
+  }), async (url) => {
+    const response = await fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ text: 'I', rate: 1 }) });
+    assert.equal(response.status, 200);
+    assert.equal((await response.json()).speakingRate, 1);
+  });
+
+  assert.equal(providerPayload.text, 'I');
+  assert.equal(providerPayload.model_id, 'eleven_v3');
+  assert.deepEqual(providerPayload.pronunciation_dictionary_locators, [{ pronunciation_dictionary_id: 'dictionary-test', version_id: 'version-test' }]);
+});
+
+test('TTS falls back to multilingual speech when a pronunciation dictionary request is rejected', async () => {
+  const allow = (req, _res, next) => { req.user = { id: 'student-a' }; next(); };
+  const noLimit = (_req, _res, next) => next();
+  const payloads = [];
+  const provider = async (_url, options) => {
+    payloads.push(JSON.parse(options.body));
+    return payloads.length === 1
+      ? { ok: false, status: 422, text: async () => 'unsupported dictionary' }
+      : { ok: true, arrayBuffer: async () => Buffer.from('mp3') };
+  };
+
+  await withHttpApp(createTtsRouter({
+    authMiddleware: allow,
+    limiter: noLimit,
+    fetchImpl: provider,
+    apiKey: 'test',
+    voiceId: 'voice-test',
+    pronunciationDictionaryId: 'dictionary-test',
+    pronunciationDictionaryVersionId: 'version-test',
+  }), async (url) => {
+    const response = await fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ text: 'S' }) });
+    assert.equal(response.status, 200);
+  });
+
+  assert.equal(payloads.length, 2);
+  assert.equal(payloads[1].model_id, 'eleven_multilingual_v2');
+  assert.equal(payloads[1].text, 'sah');
+  assert.equal(payloads[1].pronunciation_dictionary_locators, undefined);
 });
 
 test('material access abstraction supports legacy and short-lived signed URLs', async () => {

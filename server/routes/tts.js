@@ -1,7 +1,7 @@
 const express = require('express');
 const { requireAuth } = require('../middleware/auth');
 const { ttsLimiter } = require('../lib/rateLimiters');
-const { elevenLabsText } = require('../lib/filipinoPhonemes');
+const { elevenLabsText, isIsolatedFilipinoVowel } = require('../lib/filipinoPhonemes');
 const { logAudit } = require('../services/audit');
 
 const MAX_TEXT_LENGTH = 500;
@@ -31,9 +31,6 @@ function createTtsRouter({
   try {
     const { text } = req.body || {};
     const requestedRate = Number(req.body?.rate);
-    // ElevenLabs accepts voice speed between 0.7 and 1.2. Keep the existing
-    // client preference API while clamping it to the provider's safe range.
-    const speakingRate = Number.isFinite(requestedRate) ? Math.min(1.2, Math.max(0.7, requestedRate)) : 0.7;
     if (!text || typeof text !== 'string' || !text.trim()) {
       return res.status(400).json({ error: 'Text is required.' });
     }
@@ -46,6 +43,12 @@ function createTtsRouter({
     })) {
       return res.status(400).json({ error: 'Text contains unsupported characters.' });
     }
+    // A/E/I/O/U drills must always be heard at natural speed. They are brief
+    // sounds, so applying a reading-speed preference makes them unclear.
+    // ElevenLabs accepts voice speed between 0.7 and 1.2 for other content.
+    const speakingRate = isIsolatedFilipinoVowel(text)
+      ? 1
+      : Number.isFinite(requestedRate) ? Math.min(1.2, Math.max(0.7, requestedRate)) : 0.7;
     if (!apiKey || !voiceId) {
       return res.status(500).json({ error: 'TTS is not configured on the server.' });
     }
