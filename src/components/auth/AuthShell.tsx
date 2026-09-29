@@ -1,8 +1,8 @@
 /* oxlint-disable react/only-export-components -- shared auth form API intentionally colocated */
 import { useState, type InputHTMLAttributes, type ReactNode } from 'react';
 import { Link } from 'react-router-dom';
-import lookImage from '../../assets/look.webp';
-import bgImage from '../../assets/bg.webp';
+import lookImage from '../../lib/emptyImage';
+import bgImage from '../../lib/emptyImage';
 import { cardStyle } from '../../lib/cardStyle';
 import { AppIcon } from '../a11y/AppIcon';
 

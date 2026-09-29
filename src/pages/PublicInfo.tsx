@@ -1,7 +1,7 @@
 import { Link, useLocation } from 'react-router-dom';
 import { Accessibility, ArrowLeft, Baby, CalendarDays, CheckCircle2, FileText, Mail, ShieldCheck, Trash2, type LucideIcon } from 'lucide-react';
 import logo from '../assets/Logo.jpg';
-import landBg from '../assets/land.webp';
+import landBg from '../lib/emptyImage';
 
 const LAST_REVIEWED = 'Setyembre 1, 2026';
 type PageInfo = { title: string; shortTitle: string; intro: string; icon: LucideIcon; accent: string; sections: { heading: string; body: string }[] };

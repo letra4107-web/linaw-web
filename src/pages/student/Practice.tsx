@@ -14,8 +14,9 @@ import { IconLabel } from '../../components/a11y/IconLabel';
 import { ReadingTarget } from '../../components/student/ReadingTarget';
 import { WordMeaning } from '../../components/student/WordMeaning';
 import { cardStyle } from '../../lib/cardStyle';
-import speechIcon from '../../assets/speech.png';
+import speechIcon from '../../lib/emptyImage';
 import { trackEvent } from '../../lib/analytics';
+import { getTtsPlaybackRate, getTtsRate } from '../../lib/ttsSettings';
 
 type Mode = 'say' | 'listen';
 
@@ -176,12 +177,14 @@ export default function Practice() {
     setSpeechStatus('loading');
     setError(null);
     try {
-      const res = await api<{ audioContent: string }>('/tts', { method: 'POST', auth: true, body: { text: current.word } });
+      const rate = getTtsRate();
+      const res = await api<{ audioContent: string }>('/tts', { method: 'POST', auth: true, body: { text: current.word, rate } });
       const bytes = atob(res.audioContent);
       const buffer = new Uint8Array(bytes.length);
       for (let i = 0; i < bytes.length; i += 1) buffer[i] = bytes.charCodeAt(i);
       const url = URL.createObjectURL(new Blob([buffer], { type: 'audio/mpeg' }));
       const audio = new Audio(url);
+      audio.playbackRate = getTtsPlaybackRate(rate);
       const syllables = syllabifyWord(current.word);
       speechAudioRef.current = audio;
       audio.onended = () => {

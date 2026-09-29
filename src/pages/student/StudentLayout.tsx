@@ -1,25 +1,20 @@
 import { useEffect, useId, useRef, useState } from 'react';
 import { NavLink, Outlet } from 'react-router-dom';
+import { BookOpen, ChevronDown, CircleUserRound, House, LogOut, Trophy, UserRound } from 'lucide-react';
 import { supabase } from '../../lib/supabaseClient';
 import { useAuth } from '../../lib/auth/AuthContext';
 import { useAccessibility, type FontScale } from '../../lib/a11y/AccessibilityContext';
 import { DashboardShell } from '../../components/DashboardShell';
 import { IconLabel } from '../../components/a11y/IconLabel';
 import { softSignOut } from '../../lib/auth/softSignOut';
-import { cardStyle } from '../../lib/cardStyle';
 import logo from '../../assets/Logo.jpg';
-import homeIcon from '../../assets/home.png';
-import profileIcon from '../../assets/profile.png';
-import menuIcon from '../../assets/menu.png';
-import bookIcon from '../../assets/book.png';
-import trophyIcon from '../../assets/trophy.png';
-import logoutIcon from '../../assets/logout.png';
-import owlwave from '../../assets/owlwave.png';
+import sidebarBackground from '../../assets/students/backgrounds/sidebar-background.png';
+import owlMascot from '../../assets/students/mascot/owl-mascot.png';
 
 const PRIMARY_TABS = [
-  { to: '/student', end: true, icon: homeIcon, label: 'Simula' },
-  { to: '/student/learn', icon: bookIcon, label: 'Aralin' },
-  { to: '/student/achievements', icon: trophyIcon, label: 'Parangal' },
+  { to: '/student', end: true, icon: House, label: 'Simula' },
+  { to: '/student/learn', icon: BookOpen, label: 'Aralin' },
+  { to: '/student/achievements', icon: Trophy, label: 'Parangal' },
 ];
 
 interface StudentSettingsRow {
@@ -71,12 +66,12 @@ function useStudentAccessibilitySync() {
 
 function navClass(collapsed: boolean) {
   return ({ isActive }: { isActive: boolean }) =>
-    `group flex min-h-12 items-center gap-3 rounded-2xl border px-3 py-2.5 text-base font-bold transition-all ${
+    `student-sidebar-nav-item group flex min-h-12 items-center gap-3 rounded-2xl border px-3 py-2.5 text-base font-bold transition-all ${
       collapsed ? 'justify-center px-2' : ''
     } ${
       isActive
-        ? 'border-white/35 bg-white/15 text-white shadow-card'
-        : 'border-transparent text-white/90 hover:border-white/20 hover:bg-white/10'
+        ? 'border-[#A99AD8]/55 bg-[#FFF9EE]/85 text-[var(--color-text)] shadow-card'
+        : 'border-transparent bg-[#FFF9EE]/55 text-[var(--color-text)] hover:border-[#A99AD8]/45 hover:bg-[#FFF9EE]/80'
     }`;
 }
 
@@ -90,17 +85,18 @@ function NavItem({
 }: {
   to: string;
   end?: boolean;
-  icon: string;
+  icon: typeof House;
   label: string;
   collapsed: boolean;
   onNavigate?: () => void;
 }) {
+  const NavIcon = icon;
   return (
     <NavLink to={to} end={end} title={label} className={navClass(collapsed)} onClick={onNavigate}>
       {({ isActive }) => (
         <>
-          <span className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-xl transition-transform group-hover:scale-105 ${isActive ? 'bg-white/90 shadow-sm' : 'bg-white/65'}`}>
-            <img src={icon} alt="" aria-hidden="true" className="h-6 w-6 object-contain" />
+          <span className={`student-sidebar-nav-icon flex h-9 w-9 shrink-0 items-center justify-center rounded-xl transition-transform group-hover:scale-105 ${isActive ? 'bg-white/90 shadow-sm' : 'bg-white/65'}`}>
+            <NavIcon aria-hidden="true" className="h-6 w-6" strokeWidth={2.2} />
           </span>
           <span className={collapsed ? 'sr-only' : undefined}>{label}</span>
         </>
@@ -150,7 +146,7 @@ function ProfileMenu({ collapsed, mobile = false }: { collapsed: boolean; mobile
   };
 
   return (
-    <div ref={menuRef} className="relative min-w-0">
+    <div ref={menuRef} className="student-sidebar-profile-menu relative min-w-0">
       <button
         ref={triggerRef}
         type="button"
@@ -159,10 +155,10 @@ function ProfileMenu({ collapsed, mobile = false }: { collapsed: boolean; mobile
         aria-haspopup="menu"
         aria-controls={open ? menuId : undefined}
         title="Aking profile"
-        className={`flex min-h-12 w-full min-w-0 items-center gap-3 rounded-2xl border p-2 text-left transition-all ${mobile ? 'border-[var(--color-border)] bg-white/75 hover:border-[var(--color-primary)]' : 'border-white/20 bg-white/10 text-white hover:bg-white/15'} ${collapsed ? 'justify-center' : ''}`}
+        className={`student-sidebar-profile-trigger flex min-h-12 w-full min-w-0 items-center gap-3 rounded-2xl border p-2 text-left transition-all ${open ? 'student-sidebar-profile-trigger-open' : ''} ${mobile ? 'border-[var(--color-border)] bg-white/75 hover:border-[var(--color-primary)]' : 'border-white/20 bg-white/10 text-white hover:bg-white/15'} ${collapsed ? 'justify-center' : ''}`}
       >
         <span className="relative flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded-xl bg-[var(--color-primary)] text-lg font-bold text-white shadow-sm">
-          <img src={profileIcon} alt="" aria-hidden="true" className="absolute inset-0 h-full w-full object-contain p-1 opacity-35" />
+          <CircleUserRound aria-hidden="true" className="absolute inset-0 h-full w-full p-1 opacity-35" />
           <span className="relative">{initial}</span>
         </span>
         {!collapsed && (
@@ -171,29 +167,30 @@ function ProfileMenu({ collapsed, mobile = false }: { collapsed: boolean; mobile
             <span className={`block text-xs ${mobile ? 'text-[var(--color-text-muted)]' : 'text-white/65'}`}>Aking profile</span>
           </span>
         )}
-        {!collapsed && <span aria-hidden="true" className={`mr-1 text-sm transition-transform ${open ? 'rotate-180' : ''}`}>⌄</span>}
+        {!collapsed && <ChevronDown aria-hidden="true" className={`mr-1 h-4 w-4 shrink-0 transition-transform ${open ? 'rotate-180' : ''}`} />}
       </button>
 
       {open && (
         <div
           id={menuId}
           role="menu"
-          className={`absolute z-50 w-72 max-w-[calc(100vw-2rem)] rounded-3xl border p-3 shadow-raised ${mobile ? 'top-full right-0 mt-2' : 'bottom-full left-0 mb-2'}`}
-          style={cardStyle('--color-brand-lavender', 8, 40)}
+          className={`student-profile-popover absolute z-50 ${mobile ? 'student-profile-popover-mobile' : ''}`}
         >
-          <div className="mb-2 flex items-center gap-3 rounded-2xl bg-white/65 p-3">
-            <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-[var(--color-primary)] text-xl font-bold text-white">{initial}</span>
+          <div className="student-profile-popover-header flex items-center gap-3">
+            <span className="student-profile-popover-avatar flex shrink-0 items-center justify-center text-lg font-bold text-white">{initial}</span>
             <div className="min-w-0">
               <p className="truncate font-bold">{displayName}</p>
-              <p className="truncate text-xs text-[var(--color-text-muted)]">{user?.email ?? 'Student account'}</p>
+              <p className="student-profile-popover-email">{user?.email ?? 'Student account'}</p>
             </div>
           </div>
-          <NavLink to="/student/profile" onClick={() => setOpen(false)} role="menuitem" className="flex min-h-11 items-center rounded-xl px-3 py-2 text-sm font-bold transition-colors hover:bg-white/70">
-            <IconLabel img={profileIcon} label="Tingnan ang aking profile" />
+          <NavLink to="/student/profile" onClick={() => setOpen(false)} role="menuitem" className="student-profile-popover-item student-profile-popover-view-profile">
+            <UserRound aria-hidden="true" className="h-4 w-4 shrink-0" />
+            <span>Tingnan ang aking profile</span>
           </NavLink>
-          <div className="my-2 border-t border-white/70" />
-          <button type="button" onClick={signOut} role="menuitem" className="flex min-h-11 w-full items-center rounded-xl px-3 py-2 text-sm font-bold text-[var(--color-danger)] transition-colors hover:bg-[var(--color-danger-soft)]">
-            <IconLabel img={logoutIcon} label="Mag-sign out" />
+          <div className="student-profile-popover-divider" />
+          <button type="button" onClick={signOut} role="menuitem" className="student-profile-popover-item student-profile-popover-sign-out">
+            <LogOut aria-hidden="true" className="h-4 w-4 shrink-0" />
+            <span>Mag-sign out</span>
           </button>
         </div>
       )}
@@ -204,13 +201,15 @@ function ProfileMenu({ collapsed, mobile = false }: { collapsed: boolean; mobile
 function NavContents({ collapsed, onNavigate }: { collapsed: boolean; onNavigate?: () => void }) {
   return (
     <>
-      <nav aria-label="Mga bahagi ng student dashboard" className="flex flex-1 flex-col gap-1.5 overflow-y-auto px-3 py-4">
+      <nav aria-label="Mga bahagi ng student dashboard" className="student-sidebar-nav flex flex-1 flex-col gap-1.5 px-3 py-4">
         {PRIMARY_TABS.map((tab) => (
           <NavItem key={tab.to} to={tab.to} end={tab.end} icon={tab.icon} label={tab.label} collapsed={collapsed} onNavigate={onNavigate} />
         ))}
-        {!collapsed && <img src={owlwave} alt="" aria-hidden="true" className="mt-auto w-24 self-center object-contain opacity-90" />}
       </nav>
-      <div className="border-t border-white/20 p-3">
+      <div aria-hidden="true" className={`student-sidebar-scene ${collapsed ? 'is-collapsed' : ''}`}>
+        <img src={owlMascot} alt="" />
+      </div>
+      <div className="student-sidebar-profile-area border-t border-white/20 p-3">
         <ProfileMenu collapsed={collapsed} />
       </div>
     </>
@@ -238,11 +237,11 @@ export default function StudentLayout() {
     <DashboardShell roleLabel="Mag-aaral" hideHeader roleTheme="student">
       <div className="flex min-h-screen min-w-0">
         <aside
-          className={`dashboard-sidebar sticky top-0 hidden h-screen shrink-0 flex-col border-r border-white/15 transition-[width] duration-300 lg:flex ${collapsed ? 'w-[4.75rem]' : 'w-56'}`}
-          style={{ backgroundColor: 'var(--color-primary-hover)' }}
+          className={`student-sidebar dashboard-sidebar sticky top-0 hidden h-screen shrink-0 flex-col border-r border-white/35 transition-[width] duration-300 lg:flex ${collapsed ? 'w-[4.75rem]' : 'w-56'}`}
+          style={{ backgroundImage: `linear-gradient(180deg, rgba(101,122,203,.78) 0%, rgba(120,134,213,.70) 28%, rgba(146,142,219,.62) 55%, rgba(183,166,223,.52) 76%, rgba(213,190,227,.32) 100%), url(${sidebarBackground})` }}
         >
-          <div className={`flex h-16 items-center gap-2 border-b border-white/20 px-3 ${collapsed ? 'justify-center' : ''}`}>
-            <button type="button" onClick={() => setCollapsed((value) => !value)} title={collapsed ? 'Palawakin ang sidebar' : 'Paliitin ang sidebar'} className="flex min-w-0 items-center gap-2 rounded-xl p-1 text-white transition-colors hover:bg-white/10">
+          <div className={`student-sidebar-logo-header flex h-16 items-center gap-2 border-b border-white/20 px-3 ${collapsed ? 'justify-center' : ''}`}>
+            <button type="button" onClick={() => setCollapsed((value) => !value)} title={collapsed ? 'Palawakin ang sidebar' : 'Paliitin ang sidebar'} className="student-sidebar-logo-button flex min-w-0 items-center gap-2 rounded-xl p-1 text-[var(--color-text)] transition-colors hover:bg-[#FFF9EE]/60">
               <img src={logo} alt="LinawLetra" className="h-10 w-10 shrink-0 rounded-xl object-cover shadow-sm" />
               {!collapsed && <span className="truncate font-bold">LinawLetra</span>}
             </button>
@@ -259,13 +258,13 @@ export default function StudentLayout() {
             <div className="flex items-center gap-2">
               <ProfileMenu collapsed mobile />
               <button ref={mobileMenuButtonRef} type="button" onClick={() => setMobileOpen((value) => !value)} aria-expanded={mobileOpen} aria-controls="student-mobile-nav" className="flex h-12 min-w-12 items-center justify-center rounded-2xl border border-[var(--color-border)] bg-white/70 transition-colors hover:border-[var(--color-primary)]">
-                <IconLabel img={menuIcon} label="Menu" />
+                <IconLabel icon="☰" label="Menu" />
               </button>
             </div>
           </header>
 
           {mobileOpen && (
-            <div id="student-mobile-nav" className="sticky top-16 z-30 border-b border-white/15 bg-[var(--color-primary-hover)] shadow-card lg:hidden">
+            <div id="student-mobile-nav" className="student-mobile-nav sticky top-16 z-30 border-b border-white/35 shadow-card lg:hidden" style={{ backgroundImage: `linear-gradient(180deg, rgba(101,122,203,.78) 0%, rgba(120,134,213,.70) 28%, rgba(146,142,219,.62) 55%, rgba(183,166,223,.52) 76%, rgba(213,190,227,.32) 100%), url(${sidebarBackground})` }}>
               <nav aria-label="Mga bahagi ng student dashboard" className="grid grid-cols-3 gap-2 p-3">
                 {PRIMARY_TABS.map((tab) => (
                   <NavItem key={tab.to} to={tab.to} end={tab.end} icon={tab.icon} label={tab.label} collapsed={false} onNavigate={() => setMobileOpen(false)} />
@@ -274,7 +273,7 @@ export default function StudentLayout() {
             </div>
           )}
 
-          <main className="mx-auto w-full max-w-6xl min-w-0 flex-1 overflow-x-hidden px-4 py-5 sm:px-6 sm:py-7 lg:px-8 lg:py-8">
+          <main className="student-main-content mx-auto w-full max-w-7xl min-w-0 flex-1 overflow-x-hidden px-4 py-5 sm:px-6 sm:py-7 lg:px-8 lg:py-8">
             <Outlet />
           </main>
         </div>

@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { LockKeyhole, Mail, ShieldCheck } from 'lucide-react';
 import { supabase } from '../../lib/supabaseClient';
 import logo from '../../assets/Logo.jpg';
-import lookImage from '../../assets/look.webp';
+import lookImage from '../../lib/emptyImage';
 import { ButtonSpinner, FieldError, isValidEmail } from '../../components/auth/AuthShell';
 
 export default function ForgotPassword() {

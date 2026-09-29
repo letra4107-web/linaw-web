@@ -7,9 +7,9 @@ import { TTSSpeedControl } from '../../components/a11y/TTSSpeedControl';
 import { ReadingInsightsPanel, type ReadingProfile } from '../../components/ReadingInsightsPanel';
 import { findBadge } from '../../lib/badges';
 import { cardStyle, CARD_COLORS } from '../../lib/cardStyle';
-import profileIcon from '../../assets/profile.png';
-import trophyIcon from '../../assets/trophy.png';
-import spark from '../../assets/spark.png';
+import profileIcon from '../../lib/emptyImage';
+import trophyIcon from '../../lib/emptyImage';
+import spark from '../../lib/emptyImage';
 
 interface ChildRow {
   id: string;

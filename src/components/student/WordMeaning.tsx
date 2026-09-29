@@ -48,7 +48,7 @@ async function loadMeaning(word: string): Promise<DefinitionRow | null> {
 }
 
 /** A quiet Filipino-only meaning card for word-level learning activities. */
-export function WordMeaning({ word, className = '' }: { word: string; className?: string }) {
+export function WordMeaning({ word, className = '', compactControls = false }: { word: string; className?: string; compactControls?: boolean }) {
   const { data: definition } = useQuery({
     queryKey: ['word-meaning', normalizeWordKey(word)],
     queryFn: () => loadMeaning(word),
@@ -62,11 +62,11 @@ export function WordMeaning({ word, className = '' }: { word: string; className?
 
   return (
     <section aria-label={`Kahulugan ng ${word}`} className={`w-full rounded-2xl border border-[var(--color-border)] bg-white/75 px-4 py-3 text-left ${className}`}>
-      <p className="text-xs font-bold tracking-[0.1em] text-[var(--color-primary)] uppercase">Kahulugan</p>
-      {definition.display_word && <p className="mt-1 text-sm font-bold">{definition.display_word}</p>}
-      <div className="mt-1 flex flex-wrap items-start justify-between gap-2">
-        <p className="text-sm leading-relaxed text-[var(--color-text)]">{definition.meaning_fil}</p>
-        <div className="flex shrink-0 flex-wrap gap-2"><TTSButton text={meaningToSpeak} rate={0.85} className="inline-flex min-h-10 items-center gap-2 rounded-full border border-[var(--color-border)] bg-[var(--color-surface)] px-3 py-1.5 text-xs text-[var(--color-text)] hover:border-[var(--color-primary)]" /><SlowTTSButton text={meaningToSpeak} /></div>
+      <p className="text-sm font-bold tracking-[0.1em] text-[var(--color-primary)] uppercase">Kahulugan</p>
+      {definition.display_word && <p className="mt-1 text-base font-bold">{definition.display_word}</p>}
+      <div className="mt-2 flex flex-wrap items-start gap-3">
+        <p className="text-base leading-relaxed font-bold text-[var(--color-text)]">{definition.meaning_fil}</p>
+        <div className={compactControls ? 'student-word-meaning-controls flex w-full flex-col gap-2' : 'flex w-full flex-wrap gap-2'}><TTSButton text={meaningToSpeak} rate={0.5} className={compactControls ? 'inline-flex min-h-11 w-full justify-center gap-2 rounded-full border border-[var(--color-border)] bg-[var(--color-surface)] px-3 py-1.5 text-sm font-bold text-[var(--color-text)] hover:border-[var(--color-primary)]' : 'inline-flex min-h-11 items-center gap-2 rounded-full border border-[var(--color-border)] bg-[var(--color-surface)] px-3 py-1.5 text-sm font-bold text-[var(--color-text)] hover:border-[var(--color-primary)]'} /><SlowTTSButton text={meaningToSpeak} /></div>
       </div>
       {definition.example_sentence && <p className="mt-2 border-l-2 border-[var(--color-primary)] pl-3 text-sm italic text-[var(--color-text-muted)]">Halimbawa: {definition.example_sentence}</p>}
     </section>

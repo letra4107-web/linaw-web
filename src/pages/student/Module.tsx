@@ -247,7 +247,7 @@ export default function Module() {
                 >
                   <div className={isCompact ? 'flex flex-col items-center gap-2' : 'flex items-center justify-between gap-4'}>
                     <p className={isCompact ? 'text-3xl font-bold' : 'text-2xl font-medium'}>{isLocked ? '••••' : item.content_text}</p>
-                    {!isLocked && <><TTSButton text={item.content_text} /><SlowTTSButton text={item.content_text} /></>}
+                    {!isLocked && <><TTSButton text={item.content_text} rate={item.content_type === 'phonetic' ? 1 : undefined} /><SlowTTSButton text={item.content_text} /></>}
                   </div>
                   <div className={`flex items-center gap-3 ${isCompact ? 'flex-col' : 'mt-4'}`}>
                     {isLocked ? (
@@ -292,7 +292,7 @@ export default function Module() {
         })()
       )}
 
-      {lastResult && data.items.some((item) => item.content_id === lastResult.contentId) && (
+      {lastResult && ['phonetic', 'word'].includes(data.module.instructional_content_type) && data.items.some((item) => item.content_id === lastResult.contentId) && (
         <PronunciationFeedback
           correct={lastResult.correct}
           message={lastResult.message}

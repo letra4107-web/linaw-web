@@ -7,6 +7,8 @@ import App from './App.tsx';
 import { AuthProvider } from './lib/auth/AuthContext';
 import { AccessibilityProvider } from './lib/a11y/AccessibilityContext';
 import { ReadingGuideOverlay } from './components/a11y/ReadingGuideOverlay';
+import '@fontsource/opendyslexic/400.css';
+import '@fontsource/opendyslexic/700.css';
 
 const queryClient = new QueryClient({
   defaultOptions: {

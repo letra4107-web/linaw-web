@@ -4,8 +4,8 @@ import { supabase } from '../../lib/supabaseClient';
 import { useAuth } from '../../lib/auth/AuthContext';
 import { BADGE_CATALOG, BADGE_CATEGORY_LABEL, type BadgeCategory } from '../../lib/badges';
 import { cardStyle, CARD_COLORS } from '../../lib/cardStyle';
-import trophyIcon from '../../assets/trophy.png';
-import confetti from '../../assets/confetti.png';
+import trophyIcon from '../../lib/emptyImage';
+import confetti from '../../lib/emptyImage';
 
 interface ChildProgress {
   activities_completed: number;

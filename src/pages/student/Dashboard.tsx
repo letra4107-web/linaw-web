@@ -7,17 +7,21 @@ import { IconLabel } from '../../components/a11y/IconLabel';
 import { WordOfDayCard } from '../../components/WordOfDayCard';
 import { cardStyle } from '../../lib/cardStyle';
 import type { ReadingProfile } from '../../components/ReadingInsightsPanel';
-import owlbook from '../../assets/owlbook.png';
-import owlup from '../../assets/owlup.png';
-import spark from '../../assets/spark.png';
-import bookIcon from '../../assets/book.png';
-import micIcon from '../../assets/mic.png';
-import trophyIcon from '../../assets/trophy.png';
-import calendarIcon from '../../assets/calendar.png';
-import speechIcon from '../../assets/speech.png';
-import bulbIcon from '../../assets/bulb.png';
-import confetti from '../../assets/confetti.png';
-import dot from '../../assets/dot.png';
+import owlbook from '../../lib/emptyImage';
+import owlup from '../../lib/emptyImage';
+import spark from '../../lib/emptyImage';
+import bookIcon from '../../lib/emptyImage';
+import micIcon from '../../lib/emptyImage';
+import trophyIcon from '../../lib/emptyImage';
+import calendarIcon from '../../lib/emptyImage';
+import speechIcon from '../../lib/emptyImage';
+import bulbIcon from '../../lib/emptyImage';
+import confetti from '../../lib/emptyImage';
+import heroBackground from '../../assets/students/backgrounds/student-hero-bg.png';
+import heroCharacter from '../../assets/students/characters/student-hero-character.png';
+import deadlineDecoration from '../../assets/students/decorations/deadline-card-decoration.png';
+import lessonProgressDecoration from '../../assets/students/decorations/lesson-progress-decoration.png';
+import emptyStateIllustration from '../../assets/students/illustrations/empty-state-illustration.png';
 
 interface ChildProgress {
   xp: number;
@@ -50,12 +54,6 @@ interface PdfAssignment {
 interface PracticeSession {
   created_at: string;
 }
-
-const QUICK_ACTIONS = [
-  { to: '/student/learn', icon: bookIcon, label: 'Aralin', brandVar: '--color-brand-lavender' },
-  { to: '/student/practice', icon: micIcon, label: 'Pagsasanay', brandVar: '--color-brand-coral' },
-  { to: '/student/achievements', icon: trophyIcon, label: 'Parangal', brandVar: '--color-brand-sun' },
-];
 
 const PRACTICE_MODES = [
   {
@@ -199,46 +197,41 @@ export default function Dashboard() {
   const hasActivity = (progress?.activities_completed ?? 0) > 0;
 
   return (
-    <div className="student-storybook flex flex-col gap-8 pb-6 sm:gap-10">
+    <div className="student-storybook student-home-dashboard flex flex-col gap-8 pb-8 sm:gap-9 sm:pb-10">
       {/* 1. Header */}
       <section aria-labelledby="dashboard-title" className="contents">
         <div
-          className="relative overflow-hidden rounded-3xl border border-white/25 px-5 py-5 text-white shadow-hero ring-1 ring-black/5 sm:px-7 sm:py-6"
-          style={{ backgroundImage: 'linear-gradient(135deg, var(--color-hero-from), var(--color-hero-via), var(--color-hero-to))' }}
+          className="student-home-hero relative min-h-[280px] overflow-hidden rounded-[2rem] border px-5 py-7 shadow-hero sm:px-9 sm:py-9"
+          style={{ backgroundImage: `url(${heroBackground})` }}
         >
-          <div aria-hidden="true" className="pointer-events-none absolute inset-0 opacity-10" style={{ backgroundImage: `url(${dot})`, backgroundSize: '220px', backgroundRepeat: 'repeat' }} />
-          <div aria-hidden="true" className="pointer-events-none absolute -top-12 -right-10 h-48 w-48 rounded-full bg-white/10" />
-          <div aria-hidden="true" className="pointer-events-none absolute -bottom-20 left-1/3 h-56 w-56 rounded-full bg-white/10" />
-          <img src={spark} alt="" aria-hidden="true" className="pointer-events-none absolute top-7 right-8 h-8 w-8 opacity-80 sm:right-36" />
+          <div aria-hidden="true" className="student-home-hero-scrim" />
+          <img src={heroCharacter} alt="" aria-hidden="true" className="student-home-hero-character" />
 
-          <div className="relative z-10 grid items-center gap-3 sm:grid-cols-[1fr_auto]">
-            <div className="max-w-2xl">
-              <p className="text-sm font-bold tracking-[0.12em] text-white/90 uppercase">Bukas na ang iyong learning book</p>
-              <h1 id="dashboard-title" className="mt-0.5 text-2xl leading-tight font-bold sm:text-3xl">
+          <div className="relative z-10 grid min-h-[232px] items-center gap-3 pr-12 sm:grid-cols-[1fr_auto] sm:pr-28 lg:pr-0">
+            <div className="student-home-hero-copy max-w-2xl">
+              <p className="text-sm font-bold tracking-[0.12em] text-[var(--color-primary)] uppercase">Bukas na ang iyong learning book</p>
+              <h1 id="dashboard-title" className="mt-0.5 text-2xl leading-tight font-bold text-[var(--color-text)] sm:text-3xl">
                 Magandang araw, {firstName}! 👋
               </h1>
-              <p className="mt-1 max-w-xl text-sm leading-relaxed text-white/90 sm:text-base">
+              <p className="mt-1 max-w-xl text-sm leading-relaxed text-[var(--color-text-muted)] sm:text-base">
                 Handa ka na bang magbasa, makinig, at matuto ng bagong salita?
               </p>
             </div>
-            <span aria-hidden="true" className="absolute right-0 bottom-0 flex h-20 w-20 shrink-0 rotate-3 items-center justify-center rounded-2xl bg-white/10 sm:static sm:h-24 sm:w-24 sm:border sm:border-white/20">
-              <img src={owlbook} alt="" className="h-16 w-16 object-contain sm:h-20 sm:w-20" />
-            </span>
             <div className="flex flex-wrap gap-2 pr-14 sm:col-span-2 sm:pr-0">
-              <span className="flex min-h-9 items-center gap-1.5 rounded-full border border-white/15 bg-white/15 px-3 py-1.5 text-xs font-bold backdrop-blur sm:text-sm">
+              <span className="student-home-stat flex min-h-9 items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-bold sm:text-sm">
                 <span className="flex h-5 w-5 items-center justify-center rounded-full bg-white/20 p-0.5"><img src={spark} alt="" className="h-full w-full object-contain" /></span>
                 {progress?.xp ?? 0} XP
               </span>
-              <span className="flex min-h-9 items-center gap-1.5 rounded-full border border-white/15 bg-white/15 px-3 py-1.5 text-xs font-bold backdrop-blur sm:text-sm">
+              <span className="student-home-stat flex min-h-9 items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-bold sm:text-sm">
                 <span className="flex h-5 w-5 items-center justify-center rounded-full bg-white/20" aria-hidden="true">🔥</span>
                 {progress?.streak ?? 0} araw na streak
               </span>
-              <span className="flex min-h-9 items-center gap-1.5 rounded-full border border-white/15 bg-white/15 px-3 py-1.5 text-xs font-bold backdrop-blur sm:text-sm">
+              <span className="student-home-stat flex min-h-9 items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-bold sm:text-sm">
                 <span className="flex h-5 w-5 items-center justify-center rounded-full bg-white/20 p-0.5"><img src={trophyIcon} alt="" className="h-full w-full object-contain" /></span>
                 {achievementCount} parangal
               </span>
             </div>
-            <Link to="/student/practice" className="relative z-10 inline-flex min-h-11 w-fit items-center gap-2 rounded-full bg-white px-5 py-2.5 text-sm font-bold text-[var(--color-primary-hover)] shadow-card transition-all hover:-translate-y-0.5 hover:bg-[var(--color-primary-soft)] sm:col-span-2">
+            <Link to="/student/practice" className="student-home-primary-action relative z-10 inline-flex min-h-12 w-fit items-center gap-2 rounded-full px-6 py-3 text-sm font-bold text-white shadow-card transition-all hover:-translate-y-0.5 hover:shadow-raised sm:col-span-2">
               <img src={micIcon} alt="" aria-hidden="true" className="h-5 w-5 object-contain" />
               Simulan ang Pagsasanay
             </Link>
@@ -250,50 +243,42 @@ export default function Dashboard() {
         </section>
 
         <div className="order-4 grid grid-cols-1 gap-4">
-          <div className="overflow-hidden rounded-3xl border shadow-card" style={cardStyle('--color-brand-lavender', 10, 35)}>
-            <div className="flex h-full flex-col gap-4 p-6 sm:p-7">
-              <div className="flex items-center gap-3">
+          <div className="student-home-lesson">
+            <div aria-hidden="true" className="student-home-lesson-atmosphere" />
+            <div aria-hidden="true" className="student-home-lesson-glow" />
+            <img src={lessonProgressDecoration} alt="" aria-hidden="true" className="student-home-lesson-decoration" />
+            <div className="student-home-lesson-content">
+              <div className="student-home-lesson-heading">
                 <IconBadge img={bookIcon} brandVar="--color-brand-lavender" />
                 <div>
-                  <p className="text-xs font-bold tracking-[0.12em] text-[var(--color-primary)] uppercase">Susunod mong hakbang</p>
-                  <h2 className="text-xl font-bold">Ipagpatuloy ang aralin</h2>
+                  <p className="student-home-lesson-eyebrow">Susunod mong hakbang</p>
+                  <h2>Ipagpatuloy ang aralin</h2>
                 </div>
               </div>
               {allCompleted ? (
-                <p className="flex items-center gap-2 text-[var(--color-text-muted)]">
+                <p className="student-home-lesson-detail flex items-center gap-2">
                   Tapos na ang mga aralin sa modyul na ito!
                   <img src={confetti} alt="" aria-hidden="true" className="h-6 w-6 object-contain" />
                 </p>
               ) : currentModule ? (
                 <>
-                  <p className="text-sm text-[var(--color-text-muted)]">Aralin {currentModuleIndex + 1} ng {modules.length} — {currentModule.title}</p>
-                  <div className="flex items-center gap-3" role="progressbar" aria-label="Progreso sa kasalukuyang aralin" aria-valuenow={modulePct} aria-valuemin={0} aria-valuemax={100}>
-                    <div className="h-3 flex-1 overflow-hidden rounded-full bg-white/70 shadow-inner">
-                      <div className="h-full rounded-full transition-[width] duration-500" style={{ width: `${modulePct}%`, backgroundImage: 'linear-gradient(90deg, var(--color-hero-from), var(--color-hero-via))' }} />
+                  <p className="student-home-lesson-detail">Aralin {currentModuleIndex + 1} ng {modules.length} — {currentModule.title}</p>
+                  <div className="student-home-lesson-progress" role="progressbar" aria-label="Progreso sa kasalukuyang aralin" aria-valuenow={modulePct} aria-valuemin={0} aria-valuemax={100}>
+                    <div className="student-home-lesson-progress-track">
+                      <div className="student-home-lesson-progress-fill transition-[width] duration-500" style={{ width: `${modulePct}%` }} />
                     </div>
-                    <span className="text-sm font-bold text-[var(--color-primary)]">{modulePct}%</span>
+                    <span>{modulePct}%</span>
                   </div>
-                  <Link to={`/student/learn/module/${currentModule.id}`} className="mt-auto inline-flex min-h-12 w-fit items-center rounded-full bg-[var(--color-primary)] px-6 py-3 font-bold text-white shadow-card transition-all hover:-translate-y-0.5 hover:bg-[var(--color-primary-hover)] hover:shadow-raised active:scale-95">{modulePct > 0 ? 'Ipagpatuloy ang Aralin' : 'Simulan ang Aralin'}</Link>
+                  <Link to={`/student/learn/module/${currentModule.id}`} className="student-home-lesson-cta">{modulePct > 0 ? 'Ipagpatuloy ang Aralin' : 'Simulan ang Aralin'} <span aria-hidden="true">→</span></Link>
                 </>
               ) : (
                 <>
-                  <p className="text-[var(--color-text-muted)]">Wala pang binabasang aralin — simulan ang isa!</p>
-                  <Link to="/student/learn" className="mt-auto inline-flex min-h-12 w-fit items-center rounded-full bg-[var(--color-primary)] px-6 py-3 font-bold text-white shadow-card transition-all hover:-translate-y-0.5 hover:bg-[var(--color-primary-hover)] hover:shadow-raised active:scale-95">Tingnan ang mga Aralin</Link>
+                  <p className="student-home-lesson-detail">Wala pang binabasang aralin — simulan ang isa!</p>
+                  <Link to="/student/learn" className="student-home-lesson-cta">Tingnan ang mga Aralin <span aria-hidden="true">→</span></Link>
                 </>
               )}
             </div>
           </div>
-
-          <nav aria-label="Mabilis na puntahan" className="grid grid-cols-1 gap-3 sm:grid-cols-3">
-            {QUICK_ACTIONS.map((action) => (
-              <Link key={action.label} to={action.to} style={cardStyle(action.brandVar, 10, 35)} className="group flex min-h-32 flex-col items-center justify-center gap-3 rounded-3xl border p-3 text-center shadow-card transition-all hover:-translate-y-1 hover:shadow-raised active:scale-95">
-                <span className="flex h-12 w-12 items-center justify-center rounded-2xl shadow-sm transition-transform group-hover:scale-110 group-hover:-rotate-3" style={{ backgroundColor: `color-mix(in srgb, var(${action.brandVar}) 25%, white)` }} aria-hidden="true">
-                  <img src={action.icon} alt="" className="h-7 w-7 object-contain" />
-                </span>
-                <span className="text-sm font-bold sm:text-base">{action.label}</span>
-              </Link>
-            ))}
-          </nav>
         </div>
       </section>
 
@@ -307,7 +292,7 @@ export default function Dashboard() {
 
       {/* 2. Deadlines */}
       <section aria-labelledby="deadlines-title" className="order-2 flex flex-col gap-4">
-        <div className="flex flex-wrap items-end justify-between gap-3 px-1">
+        <div className="student-home-section-heading flex flex-wrap items-end justify-between gap-3 px-1">
           <div>
             <p className="text-sm font-bold tracking-[0.12em] text-[var(--color-warning-text)] uppercase">Huwag kalimutan</p>
             <h2 id="deadlines-title" className="mt-1 flex items-center gap-3 text-2xl font-bold sm:text-3xl">
@@ -322,7 +307,9 @@ export default function Dashboard() {
         </div>
 
         {deadlines && deadlines.length > 0 ? (
-          <ul className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="relative">
+          <img src={deadlineDecoration} alt="" aria-hidden="true" className="student-home-deadline-decoration" />
+          <ul className="relative z-10 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {deadlines.map((deadline) => {
               const presentation = getDeadlinePresentation(deadline.due_date!);
               return (
@@ -353,13 +340,14 @@ export default function Dashboard() {
               );
             })}
           </ul>
+          </div>
         ) : (
-          <div className="flex min-h-36 items-center gap-4 rounded-3xl border p-6 shadow-card" style={cardStyle('--color-brand-sun', 10, 35)}>
-            <span className="flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl bg-white/70"><img src={owlup} alt="" aria-hidden="true" className="h-12 w-12 object-contain" /></span>
-            <div>
+          <div className="student-home-empty-deadline flex min-h-36 items-center gap-5 rounded-3xl border bg-[#FFF9EE] p-6 shadow-card sm:px-7">
+            <div className="min-w-0">
               <h3 className="text-lg font-bold">Ayos! Wala kang nalalapit na deadline.</h3>
               <p className="mt-1 text-[var(--color-text-muted)]">Malinis ang schedule mo ngayon. Magpatuloy sa pagsasanay!</p>
             </div>
+            <img src={emptyStateIllustration} alt="" aria-hidden="true" className="student-home-empty-illustration ml-auto h-24 w-24 shrink-0 object-contain sm:h-28 sm:w-32" />
           </div>
         )}
       </section>

@@ -12,10 +12,8 @@ import { PronunciationFeedback } from './PronunciationFeedback';
 import { BadgeUnlockToast } from './BadgeUnlockToast';
 import { SlowTTSButton } from './a11y/SlowTTSButton';
 import { IconLabel } from './a11y/IconLabel';
+import { getTtsPlaybackRate, getTtsRate } from '../lib/ttsSettings';
 import { WordMeaning } from './student/WordMeaning';
-import calendarIcon from '../assets/calendar.png';
-import speechIcon from '../assets/speech.png';
-import micIcon from '../assets/mic.png';
 
 interface WordOfDayCardProps {
   streak?: number;
@@ -96,12 +94,14 @@ export function WordOfDayCard({ streak = 0 }: WordOfDayCardProps) {
     setSpeechStatus('loading');
     setError(null);
     try {
-      const res = await api<{ audioContent: string }>('/tts', { method: 'POST', auth: true, body: { text: wordOfDay.word } });
+      const rate = getTtsRate();
+      const res = await api<{ audioContent: string }>('/tts', { method: 'POST', auth: true, body: { text: wordOfDay.word, rate } });
       const bytes = atob(res.audioContent);
       const buffer = new Uint8Array(bytes.length);
       for (let i = 0; i < bytes.length; i += 1) buffer[i] = bytes.charCodeAt(i);
       const url = URL.createObjectURL(new Blob([buffer], { type: 'audio/mpeg' }));
       const audio = new Audio(url);
+      audio.playbackRate = getTtsPlaybackRate(rate);
       speechAudioRef.current = audio;
       audio.onended = () => {
         setSpeechStatus('idle');
@@ -164,23 +164,20 @@ export function WordOfDayCard({ streak = 0 }: WordOfDayCardProps) {
   if (isLoading || !wordOfDay) return null;
 
   return (
-    <div id="salita-ngayon" className="overflow-hidden rounded-[2rem] border border-[var(--color-brand-sun)]/30 shadow-hero">
+    <div id="salita-ngayon" className="student-word-practice relative overflow-hidden rounded-[2rem] border border-[#A99AD8]/35 shadow-hero">
       <div
-        className="relative overflow-hidden p-6 text-white sm:px-9 sm:py-8"
-        style={{ backgroundColor: 'var(--color-primary)' }}
+        className="student-word-practice-header relative overflow-hidden p-5 sm:px-8 sm:py-6"
       >
         <div aria-hidden="true" className="pointer-events-none absolute -top-16 -right-10 h-40 w-40 rounded-full bg-white/10" />
         <div aria-hidden="true" className="pointer-events-none absolute -bottom-20 left-1/3 h-36 w-36 rounded-full bg-white/10" />
         <div className="relative flex flex-wrap items-start justify-between gap-4">
           <div>
-            <p className="text-sm font-bold tracking-[0.12em] text-white/80 uppercase">Gawain para sa araw na ito</p>
-            <h2 className="mt-1 text-2xl font-bold sm:text-3xl">
-              <IconLabel img={calendarIcon} label="Salita Ngayon" />
-            </h2>
-            <p className="mt-2 max-w-xl text-base text-white/90">Makinig muna, saka bigkasin nang malinaw ang salita.</p>
+            <p className="text-sm font-bold tracking-[0.12em] text-[var(--color-primary)] uppercase">Gawain para sa araw na ito</p>
+            <h2 className="mt-1 text-2xl font-bold sm:text-3xl">☀️ Salita Ngayon</h2>
+            <p className="mt-2 max-w-xl text-base text-[var(--color-text-muted)]">Makinig muna, saka bigkasin nang malinaw ang salita.</p>
           </div>
           {streak > 0 && (
-            <span className="flex min-h-10 items-center gap-1.5 rounded-full border border-white/20 bg-white/20 px-4 py-1.5 text-sm font-bold backdrop-blur">
+            <span className="flex min-h-10 items-center gap-1.5 rounded-full border border-[#A99AD8]/35 bg-white/55 px-4 py-1.5 text-sm font-bold text-[var(--color-text)] backdrop-blur">
               🔥 Sunod-sunod!
             </span>
           )}
@@ -188,11 +185,14 @@ export function WordOfDayCard({ streak = 0 }: WordOfDayCardProps) {
       </div>
 
       <div
-        className="p-5 sm:p-8"
-        style={{ backgroundColor: 'color-mix(in srgb, var(--color-brand-sun) 10%, white)' }}
+        className="student-word-practice-content relative p-5 sm:px-8 sm:py-6"
       >
-        <div className="flex min-h-48 flex-col items-center justify-center gap-5 rounded-3xl border border-white bg-white/75 px-5 py-8 text-center shadow-inner sm:px-8">
-          <SyllableKaraokeText syllables={syllabifyWord(wordOfDay.word)} activeIndex={null} colorVar="--color-brand-sun" />
+        <div className="student-word-reading-panel flex flex-col items-center gap-5 px-4 py-3 text-center sm:px-6 sm:py-4">
+          <SyllableKaraokeText syllables={syllabifyWord(wordOfDay.word)} activeIndex={null} colorVar="--color-brand-sun" alternateColorVar="--color-brand-sage" />
+          <button type="button" onClick={playWord} disabled={speechStatus === 'loading'} className="student-word-listen-cue" aria-label={speechStatus === 'speaking' ? 'Ihinto ang pagbasa' : 'Pakinggan ang salita'}>
+            <IconLabel icon={speechStatus === 'loading' ? '⏳' : '🔊'} label={speechStatus === 'speaking' ? 'Ihinto ang pagbasa' : 'Pakinggan ang salita'} />
+          </button>
+          <div className="student-word-controls flex flex-wrap justify-center gap-2">
           <button
             type="button"
             onClick={playWord}
@@ -200,14 +200,14 @@ export function WordOfDayCard({ streak = 0 }: WordOfDayCardProps) {
             className="inline-flex min-h-12 items-center gap-2 rounded-full border-2 border-[var(--color-brand-sun)] bg-[var(--color-surface)] px-5 py-2 text-sm font-bold text-[var(--color-text)] shadow-sm transition-all hover:-translate-y-0.5 hover:shadow-card disabled:opacity-60"
           >
             <IconLabel
-              img={speechStatus !== 'loading' ? speechIcon : undefined}
-              icon={speechStatus === 'loading' ? '⏳' : undefined}
               label={speechStatus === 'loading' ? 'Naglo-load...' : speechStatus === 'speaking' ? 'Ihinto' : 'Basahin nang Malakas'}
+              icon={speechStatus === 'loading' ? '⏳' : '🔊'}
             />
           </button>
           <SlowTTSButton text={wordOfDay.word} />
+          </div>
         </div>
-        <WordMeaning word={wordOfDay.word} className="mt-4" />
+        <WordMeaning word={wordOfDay.word} compactControls className="student-word-meaning mt-4" />
 
         {isDone ? (
           <PronunciationFeedback
@@ -233,13 +233,13 @@ export function WordOfDayCard({ streak = 0 }: WordOfDayCardProps) {
                     onClick={handleTry}
                     disabled={listening}
                     aria-describedby="word-of-day-microphone-help"
-                    className={`relative flex min-h-16 w-full max-w-sm items-center justify-center gap-3 overflow-hidden rounded-2xl px-6 py-3 text-white shadow-lg transition-all hover:-translate-y-0.5 hover:shadow-raised active:scale-[0.98] disabled:opacity-70 ${
+                    className={`student-word-practice-mic relative flex min-h-[52px] w-full max-w-sm items-center justify-center gap-3 overflow-hidden rounded-2xl px-6 py-3 text-white shadow-lg transition-all hover:-translate-y-0.5 hover:shadow-raised active:scale-[0.98] disabled:opacity-70 ${
                       listening ? 'bg-[var(--color-danger)]' : ''
                     }`}
-                    style={!listening ? { backgroundColor: 'var(--color-primary)' } : undefined}
+                    style={!listening ? { backgroundColor: '#7567B8' } : undefined}
                   >
                     {listening && <span className="absolute inset-0 animate-ping rounded-full bg-[var(--color-danger)]/60" />}
-                    <img src={micIcon} alt="" className="relative h-8 w-8 object-contain brightness-0 invert" />
+                    <span aria-hidden="true" className="relative text-2xl">🎙️</span>
                     <span className="relative text-base font-bold">{listening ? 'Nakikinig...' : 'Bigkasin ang salita'}</span>
                   </button>
                   <p id="word-of-day-microphone-help" aria-live="polite" className="text-center text-sm font-medium text-[var(--color-text-muted)]">

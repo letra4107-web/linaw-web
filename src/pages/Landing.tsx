@@ -5,7 +5,7 @@ import { IconLabel } from '../components/a11y/IconLabel';
 import { AppIcon } from '../components/a11y/AppIcon';
 import { ScrollReveal } from '../components/ScrollReveal';
 import logo from '../assets/Logo.jpg';
-import landBg from '../assets/land.webp';
+import landBg from '../lib/emptyImage';
 import { cardStyle, CARD_COLORS } from '../lib/cardStyle';
 
 const FEATURES = [

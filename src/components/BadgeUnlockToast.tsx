@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { findBadge } from '../lib/badges';
-import owlup from '../assets/owlup.png';
+import owlup from '../lib/emptyImage';
 
 interface BadgeUnlockToastProps {
   badgeIds: string[];

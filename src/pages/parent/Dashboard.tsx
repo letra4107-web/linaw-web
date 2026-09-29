@@ -6,7 +6,7 @@ import { useAuth } from '../../lib/auth/AuthContext';
 import { api } from '../../lib/api';
 import type { ReadingProfile } from '../../components/ReadingInsightsPanel';
 import { cardStyle } from '../../lib/cardStyle';
-import owlbook from '../../assets/owlbook.png';
+import owlbook from '../../lib/emptyImage';
 import { AppIcon } from '../../components/a11y/AppIcon';
 
 interface Child { id: string; name: string; grade_level: number; }

@@ -25,8 +25,8 @@ export function PronunciationFeedback({ correct, message, speakText, detail, hin
     if (!autoPlay) return;
     const praise = speakText ?? message;
     const sequence = !correct && word
-      ? [{ text: praise, rate: 0.85 }, { text: 'Ulitin natin. Pakinggan mabuti.', rate: 0.85 }, { text: word, rate: 0.6 }, { text: word, rate: 0.6 }]
-      : [{ text: praise, rate: 0.85 }];
+      ? [{ text: praise, rate: 0.85 }, { text: 'Ulitin natin. Pakinggan mabuti.', rate: 0.8 }, { text: word, rate: 0.4 }]
+      : [{ text: praise, rate: 1 }];
     playTtsSequence(sequence);
     // The attempt token intentionally gates replay behavior rather than unrelated re-renders.
     // eslint-disable-next-line react-hooks/exhaustive-deps
