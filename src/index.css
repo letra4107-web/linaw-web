@@ -169,7 +169,7 @@
 /* Shared account pages use the same lavender, sky, and cream palette. */
 .auth-shell { --color-bg: #fff7df; --color-surface: #fffdf7; --color-text: #3f3a4a; --color-text-muted: #6f6878; --color-border: #e5dcef; --color-primary: #7567b8; --color-primary-hover: #6255a3; --color-primary-soft: #eeeafb; --color-success: #7567b8; --color-success-soft: #eeeafb; --color-brand-lavender: #a99ac5; --color-brand-lavender-dark: #756995; --color-brand-violet: #7567b8; --color-brand-teal: #8fb8d8; --color-brand-sage: #8fb8d8; --color-brand-navy: #6255a3; --color-brand-sun: #e8c66a; --color-brand-coral: #ebaa8c; background: linear-gradient(135deg, #fff8e8 0%, #f7f2ff 52%, #edf8fc 100%); }
 .auth-shell-content { isolation: isolate; overflow: hidden; background: #f9f5ff; }
-.auth-shell-right-art { z-index: -1; opacity: .72; filter: saturate(.68) brightness(1.06); }
+.auth-shell-right-art { z-index: -1; opacity: .4; filter: saturate(.4) brightness(1.08); }
 .auth-shell-main { max-width: 35rem; }
 .auth-shell-card { border-color: rgba(117,103,184,.18); background: rgba(255,253,247,.91) !important; box-shadow: 0 16px 40px rgba(92,75,138,.14); backdrop-filter: blur(10px); }
 .auth-shell-illustration { background: #8fb8d8; }
