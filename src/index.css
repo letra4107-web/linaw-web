@@ -505,7 +505,8 @@
 }
 
 .role-parent .parent-children-page > div > section > ul > li { transition: transform 180ms ease, box-shadow 180ms ease; }
-.role-admin { --color-bg: #f6f7f5; --color-primary: #394a47; --color-primary-hover: #263633; --color-primary-soft: #e9eeec; --color-brand-lavender: #394a47; --color-brand-lavender-dark: #263633; --color-brand-teal: #394a47; --color-brand-navy: #263633; --color-brand-violet: #394a47; --color-brand-sage: #394a47; --color-brand-coral: #394a47; --color-brand-sun: #394a47; }
+.role-admin { --color-bg: #f6f7f5; --color-primary: #394a47; --color-primary-hover: #263633; --color-primary-soft: #e9eeec; --color-brand-lavender: #394a47; --color-brand-lavender-dark: #263633; --color-brand-teal: #394a47; --color-brand-navy: #263633; --color-brand-violet: #394a47; --color-brand-sage: #394a47; --color-brand-coral: #394a47; --color-brand-sun: #394a47; font-family: "Comic Sans MS", "Comic Sans", cursive; }
+.role-admin :is(h1, h2, h3, h4, h5, h6, button, input, select, textarea) { font-family: "Comic Sans MS", "Comic Sans", cursive; }
 
 :root[data-theme="high-contrast"] {
   --color-bg: #000000;

@@ -9,18 +9,18 @@ import logo from '../../assets/Logo.jpg';
 import { AppIcon } from '../../components/a11y/AppIcon';
 
 const PRIMARY_TABS = [
-  { to: '/admin', end: true, icon: '⌂', label: 'Simula' },
-  { to: '/admin/students', icon: '🧒', label: 'Mga Mag-aaral' },
-  { to: '/admin/parents', icon: '👪', label: 'Mga Magulang' },
-  { to: '/admin/teachers-monitoring', icon: '🎓', label: 'Mga Guro' },
-  { to: '/admin', end: true, icon: '⌂', label: 'Simula' },
-  { to: '/admin/users', icon: '👥', label: 'Mga User' },
-  { to: '/admin/teachers', icon: '🎓', label: 'Mga Guro' },
+  { to: '/admin', end: true, icon: '⌂', label: 'Home' },
+  { to: '/admin/students', icon: '🧒', label: 'Students' },
+  { to: '/admin/parents', icon: '👪', label: 'Parents' },
+  { to: '/admin/teachers-monitoring', icon: '🎓', label: 'Teachers' },
+  { to: '/admin', end: true, icon: '⌂', label: 'Home' },
+  { to: '/admin/users', icon: '👥', label: 'Users' },
+  { to: '/admin/teachers', icon: '🎓', label: 'Teachers' },
   { to: '/admin/analytics', icon: '▥', label: 'Analytics' },
   { to: '/admin/audit-logs', icon: '📋', label: 'Audit Trail' },
-  { to: '/admin/operations', icon: '👁️', label: 'Mga Operasyon' },
-  { to: '/admin/archived', icon: '▣', label: 'Arkibo' },
-  { to: '/admin/notifications', icon: '🔔', label: 'Mga Abiso' },
+  { to: '/admin/operations', icon: '👁️', label: 'Operations' },
+  { to: '/admin/archived', icon: '▣', label: 'Archive' },
+  { to: '/admin/notifications', icon: '🔔', label: 'Notifications' },
   { to: '/admin/settings', icon: '⚙', label: 'Profile' },
 ];
 
@@ -33,11 +33,11 @@ function NavContents({ collapsed, onNavigate }: { collapsed: boolean; onNavigate
   const { unreadCount } = useNotifications();
   return (
     <nav aria-label="Admin sections" className="flex flex-1 flex-col gap-1 overflow-y-auto px-2.5 py-3">
-      {!collapsed && <p className="px-3 pt-1 pb-1 text-[0.65rem] font-extrabold tracking-[0.14em] text-white/50 uppercase">Pangunahing menu</p>}
+      {!collapsed && <p className="px-3 pt-1 pb-1 text-[0.65rem] font-extrabold tracking-[0.14em] text-white/50 uppercase">Main menu</p>}
       {PRIMARY_TABS.filter((tab, index) => tab.to !== '/admin' || index === 0).map((tab) => (
-        <NavLink key={tab.to} to={tab.to} end={tab.end} onClick={onNavigate} title={collapsed ? (tab.to === '/admin/teachers' ? 'Gumawa ng Guro' : tab.label) : undefined} className={({ isActive }) => `group relative flex min-h-11 items-center gap-3 rounded-xl px-3 text-sm font-bold transition-all ${collapsed ? 'justify-center px-0' : ''} ${isActive ? 'bg-white text-[var(--color-brand-navy)] shadow-card ring-1 ring-white/60' : 'text-white/85 hover:bg-white/15 hover:text-white'}`}>
+        <NavLink key={tab.to} to={tab.to} end={tab.end} onClick={onNavigate} title={collapsed ? (tab.to === '/admin/teachers' ? 'Create teacher' : tab.label) : undefined} className={({ isActive }) => `group relative flex min-h-11 items-center gap-3 rounded-xl px-3 text-sm font-bold transition-all ${collapsed ? 'justify-center px-0' : ''} ${isActive ? 'bg-white text-[var(--color-brand-navy)] shadow-card ring-1 ring-white/60' : 'text-white/85 hover:bg-white/15 hover:text-white'}`}>
           <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-white/10 transition-colors group-hover:bg-white/20" aria-hidden="true"><AppIcon name={tab.icon} className="h-5 w-5" /></span>
-          <span className={collapsed ? 'sr-only' : 'truncate'}>{tab.to === '/admin/teachers' ? 'Gumawa ng Guro' : tab.label}</span>
+          <span className={collapsed ? 'sr-only' : 'truncate'}>{tab.to === '/admin/teachers' ? 'Create teacher' : tab.label}</span>
           {tab.to === '/admin/notifications' && unreadCount > 0 && <span className={`${collapsed ? 'absolute right-1 top-1' : 'ml-auto'} flex h-5 min-w-5 items-center justify-center rounded-full bg-[var(--color-danger)] px-1 text-[0.65rem] text-white`}>{unreadCount > 9 ? '9+' : unreadCount}</span>}
         </NavLink>
       ))}
@@ -66,7 +66,7 @@ function ProfileMenu({ collapsed }: { collapsed: boolean }) {
       {open && <div className="absolute bottom-full left-0 z-30 mb-2 w-72 max-w-[calc(100vw-2rem)] rounded-2xl border p-3 shadow-raised" style={cardStyle('--color-brand-lavender', 6, 28)}>
         <div className="flex items-center gap-3 p-2"><span className="flex h-11 w-11 items-center justify-center rounded-xl bg-[var(--color-primary)] font-extrabold text-white">{initialsFor(name)}</span><span className="min-w-0"><span className="block truncate font-bold">{name}</span><span className="block truncate text-xs text-[var(--color-text-muted)]">{user?.email}</span></span></div>
         <NavLink to="/admin/settings" onClick={() => setOpen(false)} className="mt-2 flex min-h-10 items-center gap-2 rounded-xl px-3 text-sm font-bold hover:bg-white/70"><AppIcon name="⚙" className="h-4 w-4" /> Account settings</NavLink>
-        <button type="button" onClick={() => void signOutWithAudit()} className="flex min-h-10 w-full items-center gap-2 rounded-xl px-3 text-sm font-bold text-[var(--color-danger)] hover:bg-[var(--color-danger-soft)]"><span aria-hidden="true">↪</span> Mag-sign out</button>
+        <button type="button" onClick={() => void signOutWithAudit()} className="flex min-h-10 w-full items-center gap-2 rounded-xl px-3 text-sm font-bold text-[var(--color-danger)] hover:bg-[var(--color-danger-soft)]"><span aria-hidden="true">↪</span> Sign out</button>
       </div>}
     </div>
   );
@@ -81,12 +81,12 @@ export default function AdminLayout() {
     <DashboardShell roleLabel="Admin" hideHeader roleTheme="admin">
       <div className="flex min-h-screen min-w-0">
         <aside className={`dashboard-sidebar sticky top-0 hidden h-screen shrink-0 flex-col border-r border-white/15 bg-[var(--color-primary-hover)] transition-[width] duration-200 lg:flex ${collapsed ? 'w-[4.75rem]' : 'w-60'}`}>
-          <div className={`relative flex h-16 items-center gap-2 border-b border-white/15 px-3 ${collapsed ? 'justify-center' : ''}`}><img src={logo} alt="LinawLetra" className="h-9 w-9 shrink-0 rounded-xl object-cover shadow-sm" />{!collapsed && <div className="min-w-0"><p className="truncate text-sm font-extrabold text-white">LinawLetra</p><p className="truncate text-[0.68rem] font-semibold tracking-wide text-white/60 uppercase">Admin Console</p></div>}<button type="button" onClick={() => setCollapsed((value) => !value)} title={collapsed ? 'Palawakin ang sidebar' : 'Paliitin ang sidebar'} className={`${collapsed ? 'absolute top-[4.4rem] right-[-.75rem]' : 'ml-auto'} flex h-7 w-7 items-center justify-center rounded-full border border-white/25 bg-[var(--color-brand-navy)] text-xs text-white shadow-sm`}><span aria-hidden="true">{collapsed ? '›' : '‹'}</span></button></div>
+          <div className={`relative flex h-16 items-center gap-2 border-b border-white/15 px-3 ${collapsed ? 'justify-center' : ''}`}><img src={logo} alt="LinawLetra" className="h-9 w-9 shrink-0 rounded-xl object-cover shadow-sm" />{!collapsed && <div className="min-w-0"><p className="truncate text-sm font-extrabold text-white">LinawLetra</p><p className="truncate text-[0.68rem] font-semibold tracking-wide text-white/60 uppercase">Admin Console</p></div>}<button type="button" onClick={() => setCollapsed((value) => !value)} title={collapsed ? 'Expand sidebar' : 'Collapse sidebar'} className={`${collapsed ? 'absolute top-[4.4rem] right-[-.75rem]' : 'ml-auto'} flex h-7 w-7 items-center justify-center rounded-full border border-white/25 bg-[var(--color-brand-navy)] text-xs text-white shadow-sm`}><span aria-hidden="true">{collapsed ? '›' : '‹'}</span></button></div>
           <NavContents collapsed={collapsed} />
           <div className="border-t border-white/15 p-2.5"><ProfileMenu collapsed={collapsed} /></div>
         </aside>
         <div className="flex min-w-0 flex-1 flex-col">
-          <header className="sticky top-0 z-20 flex h-16 items-center justify-between border-b border-[var(--color-border)] bg-[var(--color-surface)]/90 px-4 backdrop-blur lg:hidden"><div className="flex min-w-0 items-center gap-3"><img src={logo} alt="LinawLetra" className="h-9 w-9 rounded-xl object-cover" /><div className="min-w-0"><p className="truncate text-sm font-extrabold">{current?.label ?? 'Admin'}</p><p className="text-[0.65rem] font-bold tracking-wide text-[var(--color-text-muted)] uppercase">Admin Console</p></div></div><button type="button" onClick={() => setMobileOpen((value) => !value)} aria-expanded={mobileOpen} aria-label="Buksan ang menu" className="flex h-10 w-10 items-center justify-center rounded-xl border border-[var(--color-border)] bg-white/65"><AppIcon name={mobileOpen ? '×' : '☰'} /><span className="sr-only">Menu</span></button></header>
+          <header className="sticky top-0 z-20 flex h-16 items-center justify-between border-b border-[var(--color-border)] bg-[var(--color-surface)]/90 px-4 backdrop-blur lg:hidden"><div className="flex min-w-0 items-center gap-3"><img src={logo} alt="LinawLetra" className="h-9 w-9 rounded-xl object-cover" /><div className="min-w-0"><p className="truncate text-sm font-extrabold">{current?.label ?? 'Admin'}</p><p className="text-[0.65rem] font-bold tracking-wide text-[var(--color-text-muted)] uppercase">Admin Console</p></div></div><button type="button" onClick={() => setMobileOpen((value) => !value)} aria-expanded={mobileOpen} aria-label="Open menu" className="flex h-10 w-10 items-center justify-center rounded-xl border border-[var(--color-border)] bg-white/65"><AppIcon name={mobileOpen ? '×' : '☰'} /><span className="sr-only">Menu</span></button></header>
           {mobileOpen && <div className="sticky top-16 z-20 flex max-h-[calc(100vh-4rem)] flex-col border-b border-white/15 bg-[var(--color-primary-hover)] lg:hidden"><NavContents collapsed={false} onNavigate={() => setMobileOpen(false)} /><div className="border-t border-white/15 p-2.5"><ProfileMenu collapsed={false} /></div></div>}
           <main className="mx-auto w-full max-w-7xl min-w-0 flex-1 overflow-x-hidden px-4 py-5 sm:px-6 sm:py-7 xl:px-8"><Outlet /></main>
         </div>
