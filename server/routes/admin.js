@@ -95,6 +95,33 @@ router.get('/monitoring/users', async (req, res) => {
   }
 });
 
+// Admin-only read model for an individual account. This deliberately reuses the
+// live progress, relationship, and activity records used by each role's own UI.
+router.get('/monitoring/users/:id', validateUuidParam('id'), async (req, res) => {
+  try {
+    const { data: user, error: userError } = await supabaseAdmin.from('users').select('id, name, email, role, account_status, lastLoginAt, created_at').eq('id', req.params.id).maybeSingle();
+    if (userError) throw userError;
+    if (!user || !['student', 'parent', 'teacher'].includes(user.role)) return res.status(404).json({ error: 'Monitored account not found.' });
+    const { data: activity, error: activityError } = await supabaseAdmin.from('audit_logs').select('id, action, module, status, metadata, created_at').eq('actor_id', user.id).order('created_at', { ascending: false }).limit(50);
+    if (activityError) throw activityError;
+    if (user.role === 'student') {
+      const [{ data: child, error: childError }, { data: progress, error: progressError }] = await Promise.all([supabaseAdmin.from('children').select('id, name, grade_level, parent_id').eq('auth_uid', user.id).maybeSingle(), supabaseAdmin.from('children').select('id').eq('auth_uid', user.id).maybeSingle()]);
+      if (childError || progressError) throw childError || progressError;
+      const [{ data: summary, error: summaryError }, { data: sessions, error: sessionsError }, modulesResult] = await Promise.all([child ? supabaseAdmin.from('child_progress').select('level, xp, streak, accuracy_sum, total_attempts, activities_completed, updated_at').eq('child_id', child.id).maybeSingle() : Promise.resolve({ data: null, error: null }), child ? supabaseAdmin.from('pronunciation_practice_sessions').select('word, accuracy_percentage, is_correct, created_at').eq('student_id', child.id).order('created_at', { ascending: false }).limit(20) : Promise.resolve({ data: [], error: null }), child ? supabaseAdmin.rpc('get_student_module_path', { p_student_id: child.id }) : Promise.resolve({ data: null, error: null })]);
+      if (summaryError || sessionsError || modulesResult.error) throw summaryError || sessionsError || modulesResult.error;
+      return res.json({ user, child, progress: summary, modules: modulesResult.data?.modules || [], sessions: sessions || [], activity: activity || [] });
+    }
+    if (user.role === 'parent') {
+      const { data: children, error } = await supabaseAdmin.from('children').select('id, name, grade_level').eq('parent_id', user.id); if (error) throw error;
+      const ids = (children || []).map((child) => child.id); const { data: progress, error: progressError2 } = ids.length ? await supabaseAdmin.from('child_progress').select('child_id, level, xp, activities_completed, updated_at').in('child_id', ids) : { data: [], error: null }; if (progressError2) throw progressError2;
+      return res.json({ user, children: children || [], progress: progress || [], activity: activity || [] });
+    }
+    const [{ data: links, error: linksError }, { data: materials, error: materialsError }, { data: assignments, error: assignmentsError }] = await Promise.all([supabaseAdmin.from('teacher_student_links').select('student_id, assigned_at').eq('teacher_id', user.id), supabaseAdmin.from('pdf_materials').select('id, title, grade_level, level, created_at').eq('teacher_id', user.id).order('created_at', { ascending: false }).limit(30), supabaseAdmin.from('pdf_assignments').select('id, student_id, status, assigned_at').eq('assigned_by', user.id).order('assigned_at', { ascending: false }).limit(30)]);
+    if (linksError || materialsError || assignmentsError) throw linksError || materialsError || assignmentsError;
+    return res.json({ user, roster: links || [], materials: materials || [], assignments: assignments || [], activity: activity || [] });
+  } catch (err) { console.error('[admin/monitoring/user detail]', err); res.status(500).json({ error: 'Unable to load monitoring details.' }); }
+});
+
 const BAN_FOREVER = '876000h'; // ~100 years, matches Supabase's convention for an effectively permanent ban
 const BAN_LIFT = 'none';
 const USER_ROLES = new Set(['admin', 'teacher', 'parent', 'student']);
