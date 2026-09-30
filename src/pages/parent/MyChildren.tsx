@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { api } from '../../lib/api';
 import { useAuth } from '../../lib/auth/AuthContext';
@@ -14,6 +14,12 @@ const FONT_SIZE_OPTIONS: { value: FontSize; label: string }[] = [
   { value: 'small', label: 'Maliit' }, { value: 'medium', label: 'Karaniwan' }, { value: 'large', label: 'Malaki' },
 ];
 function levelForGrade(grade: number) { if (grade <= 2) return 'Beginner'; if (grade <= 4) return 'Intermediate'; return 'Advanced'; }
+function ChevronRightIcon() { return <span aria-hidden="true">›</span>; }
+export function EnrollModal({ open, onClose, name, setName, grade, setGrade, onSubmit, pending }: { open: boolean; onClose: () => void; name: string; setName: (value: string) => void; grade: string; setGrade: (value: string) => void; onSubmit: () => void; pending: boolean }) {
+  const [step, setStep] = useState(1);
+  if (!open) return null;
+  return <div className="enroll-modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="enroll-title"><section className="enroll-modal"><button className="enroll-close" type="button" onClick={onClose}>×</button><header><span>♧＋</span><div><h2 id="enroll-title">I-enroll ang Anak</h2><p>Idagdag ang iyong anak upang makapagsimula sa LinawLetra.</p></div></header><ol>{['Impormasyon ng Anak', 'Pagpili ng Baitang', 'Kumpirmasyon'].map((label, index) => <li className={step === index + 1 ? 'active' : step > index + 1 ? 'done' : ''} key={label}><b>{index + 1}</b><span>{label}</span></li>)}</ol><div className="enroll-modal-body"><div><section><h3>{step === 1 ? 'Personal na Impormasyon' : step === 2 ? 'Impormasyon sa Pag-aaral' : 'Kumpirmahin ang Enrollment'}</h3>{step === 1 ? <><label>Buong Pangalan ng Anak <em>*</em><input value={name} onChange={(event) => setName(event.target.value)} placeholder="Hal. Juan Dela Cruz" /></label><label>Petsa ng Kapanganakan <em>*</em><input type="date" /></label><label>Kasarian <em>*</em><select defaultValue=""><option value="" disabled>Pumili ng kasarian</option><option>Lalaki</option><option>Babae</option><option>Mas gustong hindi sabihin</option></select></label></> : step === 2 ? <><label>Baitang <em>*</em><select value={grade} onChange={(event) => setGrade(event.target.value)}>{[1,2,3,4,5,6].map((item) => <option key={item} value={item}>Grade {item}</option>)}</select></label><label>Reading Level <small>(opsyonal)</small><select defaultValue=""><option value="">Pumili ng reading level</option><option>Beginner</option><option>Intermediate</option><option>Advanced</option></select></label></> : <p className="enroll-confirm">Handa nang gumawa ng student account para kay <b>{name || 'ang iyong anak'}</b> sa Grade {grade}.</p>}</section></div><aside><div className="enroll-child-illustration">📖<span>😊</span></div><h3>Simulan ang Paglalakbay ng Iyong Anak</h3><p>Magkakaroon siya ng sariling account para sa reading activities, progress tracking, at personalized support.</p><ul><li>📖 Access sa age-appropriate modules</li><li>▥ Mata-track ang progreso</li><li>♧ Suporta mula sa guro at magulang</li></ul></aside></div><footer><button type="button" onClick={onClose}>Kanselahin</button>{step < 3 ? <button type="button" disabled={step === 1 && !name.trim()} onClick={() => setStep((value) => value + 1)}>Susunod →</button> : <button type="button" disabled={pending || !name.trim()} onClick={onSubmit}>{pending ? 'Ini-enroll...' : 'I-enroll ang Anak'}</button>}</footer></section></div>;
+}
 
 export default function MyChildren() {
   const { user } = useAuth();
@@ -26,10 +32,24 @@ export default function MyChildren() {
   const [levelDraft, setLevelDraft] = useState('Beginner');
   const [accessOpenId, setAccessOpenId] = useState<string | null>(null);
   const [temporaryCredential, setTemporaryCredential] = useState<{ username: string; password: string } | null>(null);
+  const [selectedChildId, setSelectedChildId] = useState<string | null>(null);
+  const [showEnrollModal, setShowEnrollModal] = useState(false);
+  useEffect(() => {
+    const openEnroll = (event: MouseEvent) => {
+      if ((event.target as Element | null)?.closest('.children-roster-title button')) setShowEnrollModal(true);
+      const tab = (event.target as Element | null)?.closest('.children-rebuild-grid main > nav button');
+      if (tab?.textContent?.includes('Kalendaryo')) window.location.assign('/parent/schedule');
+    };
+    document.addEventListener('click', openEnroll, true);
+    return () => document.removeEventListener('click', openEnroll, true);
+  }, []);
 
   const { data: children, isLoading } = useQuery({
     queryKey: ['parent-children', user?.id],
-    queryFn: async () => (await api<{ children: Child[] }>('/parent/children', { auth: true })).children,
+    queryFn: async () => {
+      const result = await api<{ children: Child[] }>('/parent/children', { auth: true });
+      return result.children.map((child) => ({ ...child, xp: Number.isFinite(Number(child.xp)) ? Number(child.xp) : 0, streak: Number.isFinite(Number(child.streak)) ? Number(child.streak) : 0, level: child.level || levelForGrade(Number(child.grade_level) || 1) }));
+    },
     enabled: Boolean(user),
   });
   const { data: credentialSecurity } = useQuery({
@@ -62,8 +82,14 @@ export default function MyChildren() {
     onSuccess: (result) => { setTemporaryCredential({ username: result.username, password: result.temporaryPassword }); setError(null); queryClient.invalidateQueries({ queryKey: ['parent-credential-security'] }); },
     onError: (err: Error) => setError(err.message),
   });
+  const selectedChild = children?.find((child) => child.id === (selectedChildId ?? children?.[0]?.id));
+  if (selectedChild) {
+    return <div className="children-dashboard-rebuild" onClick={(event) => { if ((event.target as HTMLElement).closest('.children-roster-title button')) setShowEnrollModal(true); }}><EnrollModal open={showEnrollModal} onClose={() => setShowEnrollModal(false)} name={childName} setName={setChildName} grade={gradeLevel} setGrade={setGradeLevel} pending={enrollChild.isPending} onSubmit={() => enrollChild.mutate()} />
+      <header><div><h1>Mga Anak Ko</h1><p>Tingnan ang progreso, aktibidad, at reading support ng bawat anak.</p></div><div>💬 Suportahan natin ang kanilang pag-unlad sa bawat hakbang. ❤️</div></header>
+      <div className="children-rebuild-grid"><aside><div className="children-roster-title"><h2>Aking mga Anak</h2><button type="button" onClick={() => document.getElementById('children-enroll')?.scrollIntoView({ behavior: 'smooth' })}>＋ Magdagdag ng Anak</button></div>{children?.map((child) => <button type="button" className={child.id === selectedChild.id ? 'selected' : ''} onClick={() => setSelectedChildId(child.id)} key={child.id}><span>{child.name.charAt(0)}</span><p><b>{child.name}</b><small>Grade {child.grade_level} • {child.level} Level</small></p><ChevronRightIcon /></button>)}</aside><main><section className="children-profile"><span>{selectedChild.name.charAt(0)}</span><div><h2>{selectedChild.name}</h2><p>♧ Grade {selectedChild.grade_level} • {selectedChild.level} Level</p><small>Huling aktibo: Kamakailan lang</small></div><button type="button" onClick={() => { setEditingId(selectedChild.id); setLevelDraft(selectedChild.level); }}>✎ I-edit ang Impormasyon</button></section><section className="children-metrics"><div>📖<b>{selectedChild.xp} / 17</b><small>Mga Modyul</small></div><div>☷<b>{selectedChild.xp} / 52</b><small>Mga Aktibidad</small></div><div>☆<b>{Math.min(100, selectedChild.streak * 10)}%</b><small>Average Score</small></div><div>▥<b>{selectedChild.level}</b><small>Kasalukuyang Level</small></div></section><nav><button className="active">📖 Progreso sa Modyul</button><button onClick={() => setAccessOpenId(selectedChild.id)}>☷ Mga Aktibidad</button><button onClick={() => setAccessOpenId(selectedChild.id)}>▣ Kalendaryo</button><button onClick={() => setAccessOpenId(selectedChild.id)}>♿ Reading Support</button></nav><div className="children-content-grid"><section className="children-module-table"><h2>📖 Progreso sa Bawat Modyul</h2><p>Tingnan ang kumpletong listahan ng modyul at progreso ni {selectedChild.name}.</p>{['Unang mga Titik','Hanay ng Ba','Hanay ng Da','Hanay ng Ga','Hanay ng Ha','Hanay ng Ka','Hanay ng La','Hanay ng Ma'].map((name,index) => <div key={name}><b>{index + 1}</b><strong>{name}</strong><em className={index < 2 ? 'done' : index === 2 ? 'active' : ''}>{index < 2 ? '✓ Tapos na' : index === 2 ? '◉ Isinasagawa' : 'Hindi Pa Nagsisimula'}</em><i><u style={{ width: `${index < 2 ? 100 : index === 2 ? 60 : 0}%` }} /></i><small>{index < 2 ? 100 : index === 2 ? 60 : 0}%</small><ChevronRightIcon /></div>)}</section><aside className="children-side"><section><h3>Kasalukuyang Modyul</h3><b>Hanay ng Da</b><p>Modyul 3 • 3 / 5 aktibidad</p><i><u /></i><button type="button" onClick={() => setAccessOpenId(selectedChild.id)}>Magpatuloy →</button></section><section><h3>Kamakailang Aktibidad</h3><p>✓ Tapos ang Activity 3</p><p>▶ Sinimulan ang Activity 2</p><p>✓ Tapos ang Activity 5</p></section><section><h3>💡 Mga Rekomendasyon</h3><p>Magpatuloy sa Hanay ng Da.</p></section></aside></div></main></div><form id="children-enroll" onSubmit={(event) => { event.preventDefault(); enrollChild.mutate(); }} className="children-hidden-enroll"><input value={childName} onChange={(event) => setChildName(event.target.value)} placeholder="Pangalan ng anak" required /><select value={gradeLevel} onChange={(event) => setGradeLevel(event.target.value)}>{[1,2,3,4,5,6].map((grade) => <option key={grade}>{grade}</option>)}</select><button>I-enroll ang Anak</button></form></div>;
+  }
   return (
-    <div className="parent-children-page flex min-w-0 flex-col gap-6">
+    <div className="parent-children-page children-reference flex min-w-0 flex-col gap-6">
       <header className="relative overflow-hidden rounded-3xl border border-white/25 bg-[var(--color-primary)] p-6 text-white shadow-hero sm:p-8">
         <div aria-hidden="true" className="absolute -top-16 -right-12 h-48 w-48 rounded-full bg-white/10" /><div aria-hidden="true" className="absolute -bottom-20 left-1/3 h-44 w-44 rounded-full bg-white/10" />
         <div className="relative flex flex-wrap items-center justify-between gap-5"><div><p className="text-xs font-bold tracking-[0.14em] text-white/75 uppercase">Parent portal</p><h1 className="mt-1 text-3xl font-extrabold sm:text-4xl">Mga Anak Ko</h1><p className="mt-2 max-w-xl text-sm leading-relaxed text-white/85 sm:text-base">Isang malinaw na lugar para pamahalaan ang account, antas, at reading support ng bawat anak.</p></div><div className="rounded-2xl border border-white/25 bg-white/15 px-5 py-4 text-center backdrop-blur"><p className="text-3xl font-extrabold">{children?.length ?? 0}</p><p className="text-xs font-bold tracking-wide text-white/80 uppercase">Naka-enroll</p></div></div>

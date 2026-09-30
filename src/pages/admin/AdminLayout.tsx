@@ -18,7 +18,6 @@ const PRIMARY_TABS = [
   { to: '/admin/teachers', icon: '🎓', label: 'Teachers' },
   { to: '/admin/analytics', icon: '▥', label: 'Analytics' },
   { to: '/admin/audit-logs', icon: '📋', label: 'Audit Trail' },
-  { to: '/admin/operations', icon: '👁️', label: 'Operations' },
   { to: '/admin/archived', icon: '▣', label: 'Archive' },
   { to: '/admin/notifications', icon: '🔔', label: 'Notifications' },
   { to: '/admin/settings', icon: '⚙', label: 'Settings' },

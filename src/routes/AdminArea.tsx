@@ -10,7 +10,6 @@ import Settings from '../pages/admin/Settings';
 import SystemSettings from '../pages/admin/SystemSettings';
 import Notifications from '../pages/admin/Notifications';
 import AuditLogs from '../pages/admin/AuditLogs';
-import Operations from '../pages/admin/Operations';
 import RoleMonitoring from '../pages/admin/RoleMonitoring';
 
 const Analytics = lazy(() => import('../pages/admin/Analytics'));
@@ -21,7 +20,6 @@ export default function AdminArea() {
     <Route path="teachers" element={<Teachers />} /><Route path="analytics" element={<Suspense fallback={<p className="p-6">Loading analytics…</p>}><Analytics /></Suspense>} />
     <Route path="notifications" element={<Notifications />} /><Route path="settings" element={<SystemSettings />} /><Route path="profile" element={<Settings />} />
     <Route path="audit-logs" element={<AuditLogs />} />
-    <Route path="operations" element={<Operations />} />
     <Route path="students" element={<RoleMonitoring role="student" />} />
     <Route path="parents" element={<RoleMonitoring role="parent" />} />
     <Route path="teachers-monitoring" element={<RoleMonitoring role="teacher" />} />

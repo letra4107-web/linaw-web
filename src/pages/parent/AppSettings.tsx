@@ -1,127 +1,46 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useEffect, useState } from 'react';
+import { BarChart3, Bell, CalendarDays, Database, Download, Globe2, LockKeyhole, Megaphone, MessageSquare, Monitor, Moon, Palette, ShieldCheck, Sun } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import { supabase } from '../../lib/supabaseClient';
 import { useAuth } from '../../lib/auth/AuthContext';
-import { Toggle } from '../../components/a11y/Toggle';
-import { AccessibilityBar } from '../../components/a11y/AccessibilityBar';
-import { IconLabel } from '../../components/a11y/IconLabel';
-import { cardStyle } from '../../lib/cardStyle';
+import { useAccessibility } from '../../lib/a11y/AccessibilityContext';
+import './app-settings.css';
+import './app-settings-theme.css';
+import './app-settings-dark.css';
 
-interface ParentSettings {
-  auth_uid: string;
-  lesson_notifications: boolean;
-  progress_notifications: boolean;
-  milestone_alerts: boolean;
-  weekly_progress_reports: boolean;
-}
-
-const SETTINGS_DEFAULTS: Omit<ParentSettings, 'auth_uid'> = {
-  lesson_notifications: true,
-  progress_notifications: true,
-  milestone_alerts: true,
-  weekly_progress_reports: true,
-};
-
-const NOTIFICATION_ROWS: { key: keyof typeof SETTINGS_DEFAULTS; icon: string; label: string; desc: string }[] = [
-  { key: 'lesson_notifications', icon: '📖', label: 'Update sa Aralin', desc: 'Kapag binuksan ng iyong anak ang isang aralin' },
-  { key: 'progress_notifications', icon: '📊', label: 'Update sa Progreso', desc: 'Maabisuhan tungkol sa progreso ng iyong anak sa pagbasa' },
-  { key: 'milestone_alerts', icon: '🏅', label: 'Update sa Parangal', desc: 'Ipagdiwang ang mga tagumpay at parangal' },
-  { key: 'weekly_progress_reports', icon: '🗓️', label: 'Lingguhang Ulat ng Progreso', desc: 'Lingguhang buod ng pagbasa ng iyong anak' },
+type Channel = 'inApp' | 'email' | 'sms';
+type PreferenceKey = 'progress' | 'teacher' | 'schedule' | 'announcements';
+type Preferences = Record<PreferenceKey, Record<Channel, boolean>>;
+interface ParentSettings { auth_uid: string; notification_preferences: Preferences; preferred_language: string; two_factor_preference: boolean; }
+const DEFAULT_PREFERENCES: Preferences = { progress: { inApp: true, email: true, sms: false }, teacher: { inApp: true, email: true, sms: false }, schedule: { inApp: true, email: true, sms: false }, announcements: { inApp: true, email: true, sms: false } };
+const rows: { key: PreferenceKey; icon: 'bars' | 'message' | 'calendar' | 'megaphone'; title: string; description: string }[] = [
+  { key: 'progress', icon: 'bars', title: 'Progress Updates', description: 'Mga update sa reading progress, nakumpleto na aktibidad, at achievement ng iyong anak.' },
+  { key: 'teacher', icon: 'message', title: 'Mga Mensahe mula sa Guro', description: 'Mga bagong mensahe, anunsyo, at feedback mula sa guro.' },
+  { key: 'schedule', icon: 'calendar', title: 'Schedule Reminders', description: 'Mga paalala para sa reading sessions, activities, at mahahalagang petsa.' },
+  { key: 'announcements', icon: 'megaphone', title: 'Mga Anunsyo ng Paaralan', description: 'Mahalagang abiso at updates mula sa LinawLetra at paaralan.' },
 ];
+const normalise = (value?: Partial<Preferences>): Preferences => ({ progress: { ...DEFAULT_PREFERENCES.progress, ...value?.progress }, teacher: { ...DEFAULT_PREFERENCES.teacher, ...value?.teacher }, schedule: { ...DEFAULT_PREFERENCES.schedule, ...value?.schedule }, announcements: { ...DEFAULT_PREFERENCES.announcements, ...value?.announcements } });
+
+function Switch({ checked, label, onClick }: { checked: boolean; label: string; onClick: () => void }) { return <button type="button" role="switch" aria-checked={checked} aria-label={label} onClick={onClick} className={`parent-settings-switch ${checked ? 'on' : ''}`}><i /></button>; }
+function NotificationIcon({ name }: { name: (typeof rows)[number]['icon'] }) { const Icon = name === 'bars' ? BarChart3 : name === 'message' ? MessageSquare : name === 'calendar' ? CalendarDays : Megaphone; return <Icon size={22} aria-hidden="true" />; }
 
 export default function ParentAppSettings() {
-  const { user } = useAuth();
-  const queryClient = useQueryClient();
-
-  const { data: saved } = useQuery({
-    queryKey: ['parent-settings', user?.id],
-    queryFn: async () => {
-      const { data, error } = await supabase
-        .from('parents_settings')
-        .select('auth_uid, lesson_notifications, progress_notifications, milestone_alerts, weekly_progress_reports')
-        .eq('auth_uid', user!.id)
-        .maybeSingle();
-      if (error) throw error;
-      if (data) return { ...SETTINGS_DEFAULTS, ...data } as ParentSettings;
-
-      const initial: ParentSettings = { auth_uid: user!.id, ...SETTINGS_DEFAULTS };
-      const { data: inserted, error: insertErr } = await supabase.from('parents_settings').insert(initial).select().single();
-      if (insertErr) throw insertErr;
-      return { ...SETTINGS_DEFAULTS, ...inserted } as ParentSettings;
-    },
-    enabled: Boolean(user),
-  });
-
-  const updateSetting = useMutation({
-    mutationFn: async (patch: Partial<Omit<ParentSettings, 'auth_uid'>>) => {
-      const { error } = await supabase.from('parents_settings').update(patch).eq('auth_uid', user!.id);
-      if (error) throw error;
-    },
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['parent-settings', user?.id] }),
-  });
-
-  return (
-    <div className="flex min-w-0 flex-col gap-6">
-      <header className="rounded-3xl border p-5 shadow-card sm:p-6" style={cardStyle('--color-brand-lavender', 8, 28)}>
-        <p className="text-xs font-bold tracking-[0.12em] text-[var(--color-primary)] uppercase">Preferences</p>
-        <h1 className="text-2xl font-bold sm:text-3xl">Mga Setting</h1>
-        <p className="text-sm text-[var(--color-text-muted)]">Pamahalaan ang mga abiso, accessibility, at suporta.</p>
-      </header>
-
-      <div className="flex flex-col gap-1 rounded-3xl border p-5 shadow-card sm:p-6" style={cardStyle('--color-brand-lavender')}>
-        <h2 className="mb-3 text-xl font-bold">Kagustuhan sa Abiso</h2>
-        {saved &&
-          NOTIFICATION_ROWS.map((row, i) => (
-            <div
-              key={row.key}
-              className={`flex items-center justify-between gap-4 py-4 ${i > 0 ? 'border-t border-white/60' : ''}`}
-            >
-              <div className="flex items-start gap-3">
-                <span className="text-lg" aria-hidden="true">{row.icon}</span>
-                <div>
-                  <p className="font-medium">{row.label}</p>
-                  <p className="text-sm text-[var(--color-text-muted)]">{row.desc}</p>
-                </div>
-              </div>
-              <Toggle
-                on={saved[row.key]}
-                onClick={() => updateSetting.mutate({ [row.key]: !saved[row.key] })}
-                label={row.label}
-              />
-            </div>
-          ))}
-      </div>
-
-      <div className="flex flex-col gap-3 rounded-3xl border p-5 shadow-card sm:p-6" style={cardStyle('--color-brand-teal')}>
-        <h2 className="text-xl font-bold">Accessibility</h2>
-        <p className="text-sm text-[var(--color-text-muted)]">
-          Ito ay para sa sarili mong pagbabasa sa web — hiwalay ito sa accessibility ng bawat anak, na naa-ayos mula sa
-          "Mga Anak Ko".
-        </p>
-        <AccessibilityBar />
-      </div>
-
-      <div className="flex flex-col gap-3 rounded-3xl border p-5 shadow-card sm:p-6" style={cardStyle('--color-brand-coral')}>
-        <h2 className="text-xl font-bold">
-          <IconLabel icon="🎧" label="Tulong at Suporta" />
-        </h2>
-        <a
-          href="mailto:linawletra@gmail.com?subject=Tulong%20sa%20LinawLetra"
-          className="flex items-center justify-between rounded-lg px-2 py-2 text-sm hover:bg-white/60"
-        >
-          <span>Kontakin ang Suporta</span>
-          <span aria-hidden="true">→</span>
-        </a>
-        <a
-          href="https://linawletra.app/privacy"
-          target="_blank"
-          rel="noreferrer"
-          className="flex items-center justify-between rounded-lg px-2 py-2 text-sm hover:bg-white/60"
-        >
-          <span>Patakaran sa Pagkapribado</span>
-          <span aria-hidden="true">→</span>
-        </a>
-        <p className="px-2 text-sm text-[var(--color-text-muted)]">Bersyon ng App 1.0.0 - Up to date</p>
-      </div>
-    </div>
-  );
+  const { user } = useAuth(); const queryClient = useQueryClient(); const { theme, setTheme } = useAccessibility(); const [downloadStatus, setDownloadStatus] = useState<string | null>(null); const [mfaSetup, setMfaSetup] = useState<{ factorId: string; qr: string } | null>(null); const [mfaCode, setMfaCode] = useState(''); const [mfaStatus, setMfaStatus] = useState<string | null>(null); const [language, setLanguage] = useState('fil');
+  const { data: settings } = useQuery({ queryKey: ['parent-settings-reference', user?.id], queryFn: async () => { const { data, error } = await supabase.from('parents_settings').select('auth_uid, notification_preferences, preferred_language, two_factor_preference').eq('auth_uid', user!.id).maybeSingle(); if (error) throw error; if (data) return { ...data, notification_preferences: normalise(data.notification_preferences as Partial<Preferences>) } as ParentSettings; const initial = { auth_uid: user!.id, notification_preferences: DEFAULT_PREFERENCES, preferred_language: 'fil', two_factor_preference: false }; const { data: inserted, error: insertError } = await supabase.from('parents_settings').insert(initial).select().single(); if (insertError) throw insertError; return inserted as ParentSettings; }, enabled: Boolean(user) });
+  const update = useMutation({ mutationFn: async (patch: Partial<ParentSettings>) => { const { error } = await supabase.from('parents_settings').update(patch).eq('auth_uid', user!.id); if (error) throw error; }, onSuccess: () => { queryClient.invalidateQueries({ queryKey: ['parent-settings-reference', user?.id] }); queryClient.invalidateQueries({ queryKey: ['parent-layout-language', user?.id] }); } });
+  const updateChannel = (key: PreferenceKey, channel: Channel) => { if (!settings) return; const prefs = normalise(settings.notification_preferences); prefs[key][channel] = !prefs[key][channel]; update.mutate({ notification_preferences: prefs }); };
+  useEffect(() => { if (!settings?.preferred_language) return; setLanguage(settings.preferred_language); document.documentElement.lang = settings.preferred_language === 'en' ? 'en' : 'fil'; document.documentElement.dataset.language = settings.preferred_language; }, [settings?.preferred_language]);
+  const toggleMfa = async () => { setMfaStatus(null); try { const { data: factors, error: factorsError } = await supabase.auth.mfa.listFactors(); if (factorsError) throw factorsError; const verified = factors?.totp.find((factor) => factor.status === 'verified'); if (verified) { const { error: removeError } = await supabase.auth.mfa.unenroll({ factorId: verified.id }); if (removeError) throw removeError; update.mutate({ two_factor_preference: false }); setMfaStatus('Na-disable ang two-factor authentication.'); return; } const { data, error: enrollError } = await supabase.auth.mfa.enroll({ factorType: 'totp', friendlyName: 'LinawLetra Parent' }); if (enrollError) throw enrollError; setMfaSetup({ factorId: data.id, qr: data.totp.qr_code }); } catch (mfaError) { setMfaStatus(mfaError instanceof Error ? mfaError.message : 'Hindi ma-set up ang two-factor authentication.'); } };
+  const verifyMfa = async () => { if (!mfaSetup || !mfaCode.trim()) return; setMfaStatus(null); try { const { error: verifyError } = await supabase.auth.mfa.challengeAndVerify({ factorId: mfaSetup.factorId, code: mfaCode.trim() }); if (verifyError) throw verifyError; update.mutate({ two_factor_preference: true }); setMfaSetup(null); setMfaCode(''); setMfaStatus('Naka-enable na ang two-factor authentication.'); } catch (mfaError) { setMfaStatus(mfaError instanceof Error ? mfaError.message : 'Hindi ma-verify ang code.'); } };
+  const downloadData = async () => { if (!user) return; setDownloadStatus(null); try { const [children, progress, messages] = await Promise.all([supabase.from('children').select('id, name, grade_level, created_at'), supabase.from('child_progress').select('*'), supabase.from('teacher_messages').select('message, read, created_at, child_id')]); if (children.error || progress.error || messages.error) throw new Error('Hindi makuha ang ilan sa iyong data.'); const content = JSON.stringify({ exported_at: new Date().toISOString(), account: { name: user.user_metadata?.name ?? null, email: user.email }, children: children.data ?? [], progress: progress.data ?? [], messages: messages.data ?? [] }, null, 2); const url = URL.createObjectURL(new Blob([content], { type: 'application/json' })); const anchor = document.createElement('a'); anchor.href = url; anchor.download = 'linawletra-parent-data.json'; anchor.click(); URL.revokeObjectURL(url); setDownloadStatus('Na-download na ang iyong data.'); } catch (downloadError) { setDownloadStatus(downloadError instanceof Error ? downloadError.message : 'Hindi ma-download ang data ngayon.'); } };
+  const preference = settings?.notification_preferences ?? DEFAULT_PREFERENCES; const english = language === 'en';
+  return <div className="parent-settings-reference">
+    <header className="parent-settings-hero"><div><p>ACCOUNT SETTINGS</p><h1>{english ? 'Settings' : 'Mga Setting'}</h1><span>{english ? 'Customize your LinawLetra experience.' : 'I-customize ang iyong karanasan sa LinawLetra.'}</span></div><div aria-hidden="true"><b><Palette size={56} /></b><strong>Family</strong></div></header>
+    <section className="settings-card notification-card"><header><span className="settings-icon gold"><Bell size={22} /></span><div><h2>{english ? 'Notification Preferences' : 'Notification Preferences'}</h2><p>{english ? 'Choose which notifications you want to receive.' : 'Piliin kung aling mga abiso ang gusto mong matanggap.'}</p></div><aside>i {english ? 'You will receive important updates about progress, activities, and messages.' : 'Makakatanggap ka ng importanteng updates tungkol sa progress, aktibidad, at mga mensahe.'}</aside></header>{rows.map((row) => <div className="notification-row" key={row.key}><span className={`settings-icon ${row.icon}`}><NotificationIcon name={row.icon} /></span><div><h3>{row.title}</h3><p>{row.description}</p></div>{(['inApp', 'email', 'sms'] as Channel[]).map((channel) => <label key={channel}><span>{channel === 'inApp' ? 'In-app' : channel === 'email' ? 'Email' : 'SMS (optional)'}</span><Switch checked={preference[row.key][channel]} label={`${row.title}: ${channel}`} onClick={() => updateChannel(row.key, channel)} /></label>)}</div>)}</section>
+    <div className="settings-two-grid"><section className="settings-card appearance-card"><header><span className="settings-icon purple"><Palette size={22} /></span><div><h2>Appearance</h2><p>{english ? 'Choose your dashboard theme.' : 'Piliin ang tema ng iyong dashboard.'}</p></div></header><div className="appearance-options"><button type="button" className={theme === 'default' ? 'selected' : ''} onClick={() => setTheme('default')}><Sun size={24} /><b>Light Mode</b></button><button type="button" className={theme === 'dark' ? 'selected' : ''} onClick={() => setTheme('dark')}><Moon size={24} /><b>Dark Mode</b></button><button type="button" onClick={() => setTheme(window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'default')}><Monitor size={24} /><b>System Default</b></button></div></section><section className="settings-card language-card"><header><span className="settings-icon blue"><Globe2 size={22} /></span><div><h2>{english ? 'Language' : 'Wika / Language'}</h2><p>{english ? 'Choose the language used in LinawLetra.' : 'Piliin ang wikang gagamitin sa LinawLetra.'}</p></div></header><select value={language} onChange={(event) => { setLanguage(event.target.value); document.documentElement.lang = event.target.value === 'en' ? 'en' : 'fil'; update.mutate({ preferred_language: event.target.value }); }}><option value="fil">Filipino (Default)</option><option value="en">English</option></select></section></div>
+    <section className="settings-card security-card"><header><span className="settings-icon purple"><ShieldCheck size={22} /></span><div><h2>Privacy at Seguridad</h2><p>Pamahalaan ang seguridad ng iyong account.</p></div><aside>i Panatilihing ligtas ang iyong account.</aside></header><div className="security-row"><span className="settings-icon blue"><LockKeyhole size={20} /></span><div><h3>Baguhin ang Password</h3><p>Magtakda ng bagong password para sa mas ligtas na account.</p></div><Link to="/parent/settings">Baguhin ang Password →</Link></div><div className="security-row"><span className="settings-icon green"><ShieldCheck size={20} /></span><div><h3>Two-Factor Authentication (optional)</h3><p>Magdagdag ng karagdagang seguridad sa iyong account.</p>{mfaStatus && <small className="settings-status" role="status">{mfaStatus}</small>}</div><Switch checked={settings?.two_factor_preference ?? false} label="Two-factor authentication" onClick={toggleMfa} /></div></section>
+    <section className="settings-card data-card"><header><span className="settings-icon blue"><Database size={22} /></span><div><h2>{english ? 'Data Management' : 'Pamahala ng Data'}</h2><p>{english ? 'Control your information in LinawLetra.' : 'Kontrolin ang iyong impormasyon sa LinawLetra.'}</p></div></header><div className="security-row"><span className="settings-icon purple"><Download size={20} /></span><div><h3>{english ? 'Download my data' : 'I-download ang aking data'}</h3><p>{english ? 'Get a copy of your account data, including progress, activities, and profile.' : 'Kumuha ng kopya ng iyong account data tulad ng progress, activities, at profile.'}</p>{downloadStatus && <small className="settings-status" role="status">{downloadStatus}</small>}</div><button type="button" onClick={downloadData}>{english ? 'Download Data' : 'I-download ang Data'} →</button></div></section>
+    {mfaSetup && <div className="settings-mfa-modal" role="dialog" aria-modal="true" aria-labelledby="mfa-title"><div><button type="button" aria-label="Isara" onClick={() => { setMfaSetup(null); setMfaCode(''); }}>×</button><h2 id="mfa-title">I-set up ang Two-Factor Authentication</h2><p>I-scan ang QR code gamit ang authenticator app, pagkatapos ilagay ang 6-digit code.</p><img src={mfaSetup.qr} alt="QR code para sa authenticator app" /><input inputMode="numeric" maxLength={6} value={mfaCode} onChange={(event) => setMfaCode(event.target.value.replace(/\D/g, ''))} placeholder="000000" aria-label="Authentication code" /><button type="button" disabled={mfaCode.length !== 6} onClick={verifyMfa}>I-verify at I-enable</button></div></div>}
+  </div>;
 }

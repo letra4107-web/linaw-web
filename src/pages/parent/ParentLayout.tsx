@@ -8,6 +8,7 @@ import { DashboardShell } from '../../components/DashboardShell';
 import { cardStyle } from '../../lib/cardStyle';
 import logo from '../../assets/Logo.jpg';
 import { AppIcon } from '../../components/a11y/AppIcon';
+import './parent-theme.css';
 
 const PRIMARY_TABS = [
   { to: '/parent', end: true, icon: '⌂', label: 'Simula' },
@@ -16,6 +17,7 @@ const PRIMARY_TABS = [
   { to: '/parent/children', icon: '♟', label: 'Mga Anak Ko' },
   { to: '/parent/messages', icon: '✉', label: 'Mga Mensahe' },
 ];
+const englishLabels: Record<string, string> = { Simula: 'Home', Progreso: 'Progress', Kalendaryo: 'Calendar', 'Mga Anak Ko': 'My Children', 'Mga Mensahe': 'Messages' };
 
 function navClass(collapsed: boolean) {
   return ({ isActive }: { isActive: boolean }) =>
@@ -103,11 +105,11 @@ function ProfileMenu({ collapsed, mobile = false }: { collapsed: boolean; mobile
   );
 }
 
-function NavContents({ collapsed }: { collapsed: boolean }) {
+function NavContents({ collapsed, english }: { collapsed: boolean; english: boolean }) {
   return (
     <>
       <nav aria-label="Mga bahagi ng parent dashboard" className="flex flex-1 flex-col gap-1.5 overflow-y-auto px-3 py-4">
-        {PRIMARY_TABS.map((tab) => <NavItem key={tab.to} {...tab} collapsed={collapsed} />)}
+        {PRIMARY_TABS.map((tab) => <NavItem key={tab.to} {...tab} label={english ? englishLabels[tab.label] ?? tab.label : tab.label} collapsed={collapsed} />)}
       </nav>
       <div className="border-t border-white/20 p-3"><ProfileMenu collapsed={collapsed} /></div>
     </>
@@ -117,6 +119,11 @@ function NavContents({ collapsed }: { collapsed: boolean }) {
 export default function ParentLayout() {
   const [collapsed, setCollapsed] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const { user } = useAuth();
+  const { data: parentPreferences } = useQuery({ queryKey: ['parent-layout-language', user?.id], queryFn: async () => { const { data, error } = await supabase.from('parents_settings').select('preferred_language').eq('auth_uid', user!.id).maybeSingle(); if (error) throw error; return data as { preferred_language?: string } | null; }, enabled: Boolean(user) });
+  const english = parentPreferences?.preferred_language === 'en';
+
+  useEffect(() => { document.documentElement.lang = english ? 'en' : 'fil'; document.documentElement.dataset.parentLanguage = english ? 'en' : 'fil'; }, [english]);
 
   return (
     <DashboardShell roleLabel="Magulang" hideHeader roleTheme="parent">
@@ -128,7 +135,7 @@ export default function ParentLayout() {
               {!collapsed && <span className="truncate font-bold">LinawLetra</span>}
             </button>
           </div>
-          <NavContents collapsed={collapsed} />
+          <NavContents collapsed={collapsed} english={english} />
         </aside>
 
         <div className="flex min-w-0 flex-1 flex-col">
@@ -142,7 +149,7 @@ export default function ParentLayout() {
           {mobileOpen && (
             <div id="parent-mobile-nav" className="sticky top-16 z-30 border-b border-white/15 bg-[var(--color-primary-hover)] p-3 shadow-card lg:hidden">
               <nav aria-label="Mga bahagi ng parent dashboard" className="grid grid-cols-2 gap-2 sm:grid-cols-3">
-                {PRIMARY_TABS.map((tab) => <NavItem key={tab.to} {...tab} collapsed={false} onNavigate={() => setMobileOpen(false)} />)}
+                {PRIMARY_TABS.map((tab) => <NavItem key={tab.to} {...tab} label={english ? englishLabels[tab.label] ?? tab.label : tab.label} collapsed={false} onNavigate={() => setMobileOpen(false)} />)}
               </nav>
             </div>
           )}

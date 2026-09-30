@@ -2,7 +2,7 @@
 import { createContext, useContext, useEffect, useState, type ReactNode } from 'react';
 
 type FontMode = 'default' | 'dyslexic';
-type ThemeMode = 'default' | 'high-contrast';
+type ThemeMode = 'default' | 'dark' | 'high-contrast';
 export type FontScale = 'small' | 'medium' | 'large';
 
 const FONT_SCALE_MULTIPLIER: Record<FontScale, number> = { small: 0.92, medium: 1, large: 1.16 };
