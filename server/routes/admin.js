@@ -497,4 +497,48 @@ router.get('/analytics', async (req, res) => {
   }
 });
 
+const SYSTEM_SETTINGS_DEFAULTS = {
+  systemName: 'LinawLetra', organizationName: '', defaultLanguage: 'fil', timezone: 'Asia/Manila',
+  sequentialModules: true, passingScore: 75, completionRequirement: 80, allowActivityRetry: true, autoSaveProgress: true,
+  xpPerActivity: 10, xpPerModule: 50, enableBadges: true, enableDailyStreak: true, enableAchievementRewards: true,
+  studentProgressAlerts: true, newAccountNotifications: true, teacherNotifications: true, systemAnnouncements: true,
+  sessionTimeout: '30', failedLoginLimit: 5, requireStrongPassword: true, lockAfterFailures: true,
+  maintenanceMode: false, announcement: '', readOnlyMode: false,
+};
+
+function validatedSystemSettings(value) {
+  const settings = { ...SYSTEM_SETTINGS_DEFAULTS, ...(value || {}) };
+  if (typeof settings.systemName !== 'string' || !settings.systemName.trim() || settings.systemName.length > 120) throw new Error('System name is required and must be 120 characters or fewer.');
+  if (typeof settings.organizationName !== 'string' || settings.organizationName.length > 160 || typeof settings.announcement !== 'string' || settings.announcement.length > 1000) throw new Error('One or more text fields are too long.');
+  if (!['fil', 'en'].includes(settings.defaultLanguage) || !['15', '30', '60', '120'].includes(String(settings.sessionTimeout))) throw new Error('Invalid settings selection.');
+  for (const key of ['passingScore', 'completionRequirement']) if (!Number.isFinite(settings[key]) || settings[key] < 0 || settings[key] > 100) throw new Error('Scores must be between 0 and 100.');
+  for (const key of ['xpPerActivity', 'xpPerModule']) if (!Number.isFinite(settings[key]) || settings[key] < 0) throw new Error('XP values cannot be negative.');
+  if (!Number.isInteger(settings.failedLoginLimit) || settings.failedLoginLimit < 1 || settings.failedLoginLimit > 100) throw new Error('Failed login limit must be a positive whole number.');
+  return settings;
+}
+
+router.get('/system-settings', async (_req, res) => {
+  try {
+    const { data, error } = await supabaseAdmin.from('system_settings').select('settings').eq('key', 'global').maybeSingle();
+    if (error) throw error;
+    res.json({ settings: { ...SYSTEM_SETTINGS_DEFAULTS, ...(data?.settings || {}) } });
+  } catch (err) {
+    console.error('[admin/system-settings get]', err);
+    res.status(500).json({ error: 'Unable to load system settings.' });
+  }
+});
+
+router.patch('/system-settings', async (req, res) => {
+  try {
+    const settings = validatedSystemSettings(req.body);
+    const { data, error } = await supabaseAdmin.from('system_settings').upsert({ key: 'global', settings, updated_by: req.user.id, updated_at: new Date().toISOString() }, { onConflict: 'key' }).select('settings').single();
+    if (error) throw error;
+    await supabaseAdmin.from('audit_logs').insert({ actor_id: req.user.id, actor_role: 'admin', actor_name: req.user.name || null, action: 'ADMIN.SYSTEM_SETTINGS_UPDATE', module: 'admin_settings', record_id: 'global', status: 'successful', updated_values: settings, metadata: { platform: 'web' } });
+    res.json({ settings: { ...SYSTEM_SETTINGS_DEFAULTS, ...(data?.settings || {}) } });
+  } catch (err) {
+    console.error('[admin/system-settings patch]', err);
+    res.status(400).json({ error: err instanceof Error ? err.message : 'Unable to update system settings.' });
+  }
+});
+
 module.exports = router;
