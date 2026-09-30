@@ -11,7 +11,7 @@ const COPY: Record<Role, { title: string; singular: string; intro: string }> = {
   parent: { title: 'Mga Magulang', singular: 'magulang', intro: 'Mga parent account at aktibidad sa Parent modules.' },
   teacher: { title: 'Mga Guro', singular: 'guro', intro: 'Mga teacher account at aktibidad sa Teacher modules.' },
 };
-const time = (value: string) => new Intl.DateTimeFormat('fil-PH', { dateStyle: 'medium', timeStyle: 'short', timeZone: 'Asia/Manila' }).format(new Date(value));
+const time = (value: string) => new Intl.DateTimeFormat('en-US', { dateStyle: 'medium', timeStyle: 'short', timeZone: 'Asia/Manila' }).format(new Date(value));
 
 export default function RoleMonitoring({ role }: { role: Role }) {
   const [search, setSearch] = useState(''); const [selectedId, setSelectedId] = useState<string | null>(null);

@@ -508,6 +508,50 @@
 .role-admin { --color-bg: #f6f7f5; --color-primary: #394a47; --color-primary-hover: #263633; --color-primary-soft: #e9eeec; --color-brand-lavender: #394a47; --color-brand-lavender-dark: #263633; --color-brand-teal: #394a47; --color-brand-navy: #263633; --color-brand-violet: #394a47; --color-brand-sage: #394a47; --color-brand-coral: #394a47; --color-brand-sun: #394a47; font-family: "Comic Sans MS", "Comic Sans", cursive; }
 .role-admin :is(h1, h2, h3, h4, h5, h6, button, input, select, textarea) { font-family: "Comic Sans MS", "Comic Sans", cursive; }
 
+/* Role dashboard palette refinement. Components consume these semantic tokens,
+   while legacy aliases keep existing cards, charts, and badges coherent. */
+.role-parent {
+  --role-primary: #4f8fcb; --role-secondary: #73b7e3; --role-soft: #ddefFA;
+  --role-background: #f1f8fd; --role-card: #ffffff; --role-accent: #f4c95d;
+  --role-text: #354052; --role-muted: #6e7c8d; --role-border: #d9e8f2;
+  --color-bg: var(--role-background); --color-surface: var(--role-card); --color-text: var(--role-text); --color-text-muted: var(--role-muted); --color-border: var(--role-border);
+  --color-primary: var(--role-primary); --color-primary-hover: #3978b4; --color-primary-soft: var(--role-soft); --color-accent: var(--role-accent); --color-accent-soft: #fff4d7;
+  --color-brand-lavender: #8bc0e8; --color-brand-lavender-dark: #3978b4; --color-brand-teal: var(--role-primary); --color-brand-navy: #3978b4; --color-brand-violet: #639fd0; --color-brand-sage: #73b7e3; --color-brand-coral: #e99880; --color-brand-sun: var(--role-accent); --color-brand-amber: var(--role-accent); --color-brand-orange: #e6a85d;
+  --color-hero-from: var(--role-primary); --color-hero-via: #62a4d6; --color-hero-to: var(--role-secondary);
+  --shadow-card: 0 4px 16px rgba(40, 50, 60, .05); --shadow-raised: 0 10px 24px rgba(79, 143, 203, .15);
+}
+
+.role-teacher {
+  --role-primary: #7a68d1; --role-secondary: #9a8ae2; --role-soft: #eae5ff;
+  --role-background: #f6f3ff; --role-card: #ffffff; --role-accent: #f2b866;
+  --role-text: #443e50; --role-muted: #756f82; --role-border: #e2dcf5;
+  --color-bg: var(--role-background); --color-surface: var(--role-card); --color-text: var(--role-text); --color-text-muted: var(--role-muted); --color-border: var(--role-border);
+  --color-primary: var(--role-primary); --color-primary-hover: #6352b4; --color-primary-soft: var(--role-soft); --color-accent: var(--role-accent); --color-accent-soft: #fff0d7;
+  --color-brand-lavender: var(--role-secondary); --color-brand-lavender-dark: #6352b4; --color-brand-teal: #8d80d9; --color-brand-navy: #6352b4; --color-brand-violet: var(--role-primary); --color-brand-sage: #9d92df; --color-brand-coral: #e99a8d; --color-brand-sun: var(--role-accent); --color-brand-amber: var(--role-accent); --color-brand-orange: #de9c67;
+  --color-hero-from: #6e5bc4; --color-hero-via: var(--role-primary); --color-hero-to: var(--role-secondary);
+  --shadow-card: 0 4px 16px rgba(40, 50, 60, .05); --shadow-raised: 0 10px 24px rgba(122, 104, 209, .15);
+}
+
+.role-admin {
+  --role-primary: #39766c; --role-secondary: #5b968b; --role-soft: #dcedE9;
+  --role-background: #f2f8f6; --role-card: #ffffff; --role-accent: #e8b85b;
+  --role-text: #30433f; --role-muted: #697d78; --role-border: #d6e4e0;
+  --color-bg: var(--role-background); --color-surface: var(--role-card); --color-text: var(--role-text); --color-text-muted: var(--role-muted); --color-border: var(--role-border);
+  --color-primary: var(--role-primary); --color-primary-hover: #2f6259; --color-primary-soft: var(--role-soft); --color-accent: var(--role-accent); --color-accent-soft: #fff0d3;
+  --color-brand-lavender: #7fb3aa; --color-brand-lavender-dark: #2f6259; --color-brand-teal: var(--role-secondary); --color-brand-navy: #2f6259; --color-brand-violet: #548f85; --color-brand-sage: #8abbb2; --color-brand-coral: #df9280; --color-brand-sun: var(--role-accent); --color-brand-amber: var(--role-accent); --color-brand-orange: #d89c58;
+  --color-hero-from: var(--role-primary); --color-hero-via: #46857a; --color-hero-to: var(--role-secondary);
+  --shadow-card: 0 4px 16px rgba(40, 50, 60, .05); --shadow-raised: 0 10px 24px rgba(57, 118, 108, .15);
+}
+
+:is(.role-parent, .role-teacher, .role-admin) .dashboard-sidebar {
+  background: linear-gradient(180deg, var(--color-hero-from) 0%, var(--color-hero-via) 55%, var(--color-hero-to) 100%) !important;
+}
+
+:is(.role-parent, .role-teacher, .role-admin) .dashboard-sidebar a[aria-current="page"] {
+  background: rgba(255, 255, 255, .94) !important;
+  color: var(--color-primary) !important;
+}
+
 :root[data-theme="high-contrast"] {
   --color-bg: #000000;
   --color-surface: #0a0a0a;

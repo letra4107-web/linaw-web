@@ -4,7 +4,7 @@ import { api } from '../../lib/api';
 import { cardStyle } from '../../lib/cardStyle';
 
 type Log = { id: string; actor_name: string | null; actor_role: string | null; action: string; module: string; status: 'successful' | 'failed'; metadata: { platform?: string; device?: string; sessionStatus?: string }; created_at: string };
-const time = (value: string) => new Intl.DateTimeFormat('fil-PH', { dateStyle: 'medium', timeStyle: 'short', timeZone: 'Asia/Manila' }).format(new Date(value));
+const time = (value: string) => new Intl.DateTimeFormat('en-US', { dateStyle: 'medium', timeStyle: 'short', timeZone: 'Asia/Manila' }).format(new Date(value));
 
 export default function AuditLogs() {
   const [search, setSearch] = useState(''); const [role, setRole] = useState(''); const [page, setPage] = useState(1); const [selected, setSelected] = useState<Log | null>(null);

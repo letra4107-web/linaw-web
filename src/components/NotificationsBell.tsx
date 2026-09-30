@@ -5,12 +5,12 @@ import { IconLabel } from './a11y/IconLabel';
 function timeAgo(iso: string) {
   const diffMs = Date.now() - new Date(iso).getTime();
   const mins = Math.floor(diffMs / 60000);
-  if (mins < 1) return 'ngayon lang';
-  if (mins < 60) return `${mins}m ang nakaraan`;
+  if (mins < 1) return 'just now';
+  if (mins < 60) return `${mins}m ago`;
   const hrs = Math.floor(mins / 60);
-  if (hrs < 24) return `${hrs}h ang nakaraan`;
+  if (hrs < 24) return `${hrs}h ago`;
   const days = Math.floor(hrs / 24);
-  return `${days}d ang nakaraan`;
+  return `${days}d ago`;
 }
 
 export function NotificationsBell() {
@@ -35,7 +35,7 @@ export function NotificationsBell() {
         aria-expanded={open}
         className="relative rounded-full border border-[var(--color-border)] px-3 py-2 text-sm hover:border-[var(--color-primary)]"
       >
-        <IconLabel icon="🔔" label="Mga Abiso" />
+        <IconLabel icon="🔔" label="Notifications" />
         {unreadCount > 0 && (
           <span className="absolute -right-1 -top-1 flex h-5 min-w-5 items-center justify-center rounded-full bg-[var(--color-danger)] px-1 text-xs font-semibold text-white">
             {unreadCount > 9 ? '9+' : unreadCount}
@@ -46,20 +46,20 @@ export function NotificationsBell() {
       {open && (
         <div className="absolute right-0 z-20 mt-2 w-80 max-w-[90vw] rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] shadow-lg">
           <div className="flex items-center justify-between border-b border-[var(--color-border)] px-4 py-3">
-            <p className="font-semibold">Mga Abiso</p>
+            <p className="font-semibold">Notifications</p>
             {unreadCount > 0 && (
               <button
                 type="button"
                 onClick={() => markAllAsRead.mutate()}
                 className="text-sm text-[var(--color-primary)] underline"
               >
-                Markahan lahat na nabasa
+                Mark all as read
               </button>
             )}
           </div>
           <div className="max-h-96 overflow-y-auto">
             {notifications.length === 0 && (
-              <p className="px-4 py-6 text-center text-sm text-[var(--color-text-muted)]">Wala pang abiso.</p>
+              <p className="px-4 py-6 text-center text-sm text-[var(--color-text-muted)]">No notifications yet.</p>
             )}
             {notifications.map((n) => (
               <button

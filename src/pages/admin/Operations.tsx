@@ -17,7 +17,7 @@ const TABS = [
 ] as const;
 type Tab = (typeof TABS)[number]['key'];
 const PAGE_SIZE = 10;
-const formatDate = (value: unknown) => value ? new Intl.DateTimeFormat('fil-PH', { dateStyle: 'medium', timeStyle: 'short', timeZone: 'Asia/Manila' }).format(new Date(String(value))) : 'Walang petsa';
+const formatDate = (value: unknown) => value ? new Intl.DateTimeFormat('en-US', { dateStyle: 'medium', timeStyle: 'short', timeZone: 'Asia/Manila' }).format(new Date(String(value))) : 'No date';
 
 export default function Operations() {
   const [tab, setTab] = useState<Tab>('schedules'); const [page, setPage] = useState(1); const [search, setSearch] = useState('');

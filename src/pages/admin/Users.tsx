@@ -12,7 +12,7 @@ const inputClass = 'min-h-11 rounded-xl border border-[var(--color-border)] bg-w
 
 function StatusPill({ status }: { status: string }) { const active = status === 'active'; return <span className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-extrabold capitalize ${active ? 'bg-[var(--color-success-soft)] text-[var(--color-success)]' : 'bg-[var(--color-warning-soft)] text-[var(--color-warning-text)]'}`}><span className={`h-1.5 w-1.5 rounded-full ${active ? 'bg-[var(--color-success)]' : 'bg-[var(--color-warning)]'}`} />{status}</span>; }
 function roleIcon(role: string) { return <AppIcon name={role === 'teacher' ? '🎓' : role === 'parent' ? '👪' : role === 'student' ? '🧒' : '🛡'} className="h-5 w-5" />; }
-function formatDate(value: string | null) { return value ? new Date(value).toLocaleDateString('fil-PH', { month: 'short', day: 'numeric', year: 'numeric' }) : 'Hindi pa'; }
+function formatDate(value: string | null) { return value ? new Date(value).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : 'Not yet'; }
 
 export default function AdminUsers() {
   const queryClient = useQueryClient();
