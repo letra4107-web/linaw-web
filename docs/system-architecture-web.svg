@@ -1,0 +1,67 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1120" viewBox="0 0 1600 1120" role="img" aria-labelledby="title desc">
+  <title id="title">LinawLetra Web System Architecture</title>
+  <desc id="desc">Architecture diagram showing web roles, portals, Express API, Supabase services, text to speech, and email.</desc>
+  <defs>
+    <linearGradient id="hero" x1="0" x2="1"><stop stop-color="#146fc2"/><stop offset="1" stop-color="#56b6ea"/></linearGradient>
+    <linearGradient id="cloud" x1="0" x2="1"><stop stop-color="#e9f8ff"/><stop offset="1" stop-color="#d5efff"/></linearGradient>
+    <filter id="shadow" x="-10%" y="-10%" width="120%" height="130%"><feDropShadow dx="0" dy="5" stdDeviation="7" flood-color="#2a6290" flood-opacity=".14"/></filter>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto"><path d="M0,0 L10,3 L0,6 Z" fill="#4a87b5"/></marker>
+    <style>
+      .bg{fill:#f4fbff}.title{font:800 34px Arial,sans-serif;fill:#fff}.subtitle{font:400 16px Arial,sans-serif;fill:#dff4ff}.section{font:800 17px Arial,sans-serif;fill:#2a6193;letter-spacing:1px}.role{font:800 16px Arial,sans-serif;fill:#17355f}.box-title{font:800 16px Arial,sans-serif;fill:#17355f}.item{font:400 13px Arial,sans-serif;fill:#496886}.small{font:400 12px Arial,sans-serif;fill:#547592}.cloud-title{font:800 16px Arial,sans-serif;fill:#1d6096}.cloud-item{font:400 13px Arial,sans-serif;fill:#38648a}.line{stroke:#4a87b5;stroke-width:2.5;fill:none;marker-end:url(#arrow)}.dash{stroke:#9ccbe8;stroke-width:2;stroke-dasharray:7 7;fill:none}.panel{fill:#fff;stroke:#c9e2f2;stroke-width:1.5}.module{fill:#f8fcff;stroke:#d7e9f5;stroke-width:1.2}.pill{fill:#e8f6ff}.cloud{fill:url(#cloud);stroke:#b9dff3;stroke-width:1.5}
+    </style>
+  </defs>
+  <rect class="bg" width="1600" height="1120"/>
+  <rect x="42" y="28" width="1516" height="82" rx="24" fill="url(#hero)" filter="url(#shadow)"/>
+  <text x="82" y="76" class="title">LinawLetra Web System Architecture</text>
+  <text x="82" y="99" class="subtitle">Responsive Filipino reading-support platform for Grades 1–6</text>
+
+  <text x="64" y="153" class="section">WEB USERS</text>
+  <g filter="url(#shadow)">
+    <rect class="panel" x="64" y="171" width="332" height="74" rx="16"/><circle cx="102" cy="208" r="22" fill="#e2f3ff"/><text x="94" y="214" font-family="Arial" font-size="22" fill="#1688d8">S</text><text x="140" y="202" class="role">Student</text><text x="140" y="222" class="small">Reading and learning activities</text>
+    <rect class="panel" x="432" y="171" width="332" height="74" rx="16"/><circle cx="470" cy="208" r="22" fill="#fff2d9"/><text x="460" y="214" font-family="Arial" font-size="22" fill="#e39a12">P</text><text x="508" y="202" class="role">Parent / Guardian</text><text x="508" y="222" class="small">Child progress, schedules, messages</text>
+    <rect class="panel" x="800" y="171" width="332" height="74" rx="16"/><circle cx="838" cy="208" r="22" fill="#e5f8ed"/><text x="828" y="214" font-family="Arial" font-size="22" fill="#19a66b">T</text><text x="876" y="202" class="role">Teacher</text><text x="876" y="222" class="small">Lessons, roster, learning materials</text>
+    <rect class="panel" x="1168" y="171" width="332" height="74" rx="16"/><circle cx="1206" cy="208" r="22" fill="#eee8ff"/><text x="1196" y="214" font-family="Arial" font-size="22" fill="#7956c8">A</text><text x="1244" y="202" class="role">Administrator</text><text x="1244" y="222" class="small">Users, monitoring, system settings</text>
+  </g>
+  <path class="line" d="M230 245v36"/><path class="line" d="M598 245v36"/><path class="line" d="M966 245v36"/><path class="line" d="M1334 245v36"/>
+
+  <text x="64" y="298" class="section">PRESENTATION LAYER — REACT WEB APPLICATION</text>
+  <rect x="64" y="315" width="1436" height="350" rx="22" fill="#fafdff" stroke="#b9dff3" stroke-width="2"/>
+  <g filter="url(#shadow)">
+    <rect class="panel" x="88" y="341" width="325" height="296" rx="18"/><rect x="88" y="341" width="325" height="46" rx="18" fill="#e9f6ff"/><text x="111" y="370" class="box-title">Student Portal</text>
+    <rect class="module" x="108" y="405" width="285" height="52" rx="10"/><text x="124" y="427" class="item">Authentication &amp; Account Access</text><text x="124" y="445" class="small">Login, role-based dashboard</text>
+    <rect class="module" x="108" y="467" width="285" height="74" rx="10"/><text x="124" y="489" class="item">Reading and Practice Modules</text><text x="124" y="507" class="small">Lessons • pronunciation • assessments</text><text x="124" y="525" class="small">Nonsense-word and challenge-word checks</text>
+    <rect class="module" x="108" y="551" width="285" height="66" rx="10"/><text x="124" y="573" class="item">Progress &amp; Accessibility</text><text x="124" y="591" class="small">XP • badges • streaks • reading level</text><text x="124" y="609" class="small">TTS • guide • dyslexia font • contrast</text>
+
+    <rect class="panel" x="438" y="341" width="325" height="296" rx="18"/><rect x="438" y="341" width="325" height="46" rx="18" fill="#fff6e7"/><text x="461" y="370" class="box-title">Parent Portal</text>
+    <rect class="module" x="458" y="405" width="285" height="52" rx="10"/><text x="474" y="427" class="item">Child Enrollment &amp; Account Support</text><text x="474" y="445" class="small">Student accounts and password reset</text>
+    <rect class="module" x="458" y="467" width="285" height="74" rx="10"/><text x="474" y="489" class="item">Child Progress &amp; Learning Support</text><text x="474" y="507" class="small">Reports • achievements • recommendations</text><text x="474" y="525" class="small">Accessibility preferences</text>
+    <rect class="module" x="458" y="551" width="285" height="66" rx="10"/><text x="474" y="573" class="item">Communication &amp; Planning</text><text x="474" y="591" class="small">Teacher messages • notifications</text><text x="474" y="609" class="small">Schedules and activities</text>
+
+    <rect class="panel" x="788" y="341" width="325" height="296" rx="18"/><rect x="788" y="341" width="325" height="46" rx="18" fill="#e8faef"/><text x="811" y="370" class="box-title">Teacher Portal</text>
+    <rect class="module" x="808" y="405" width="285" height="52" rx="10"/><text x="824" y="427" class="item">Student Roster Management</text><text x="824" y="445" class="small">Assigned students and learner profiles</text>
+    <rect class="module" x="808" y="467" width="285" height="74" rx="10"/><text x="824" y="489" class="item">Lessons and Materials</text><text x="824" y="507" class="small">Learning modules • PDF upload</text><text x="824" y="525" class="small">Assignments and reading resources</text>
+    <rect class="module" x="808" y="551" width="285" height="66" rx="10"/><text x="824" y="573" class="item">Monitoring &amp; Communication</text><text x="824" y="591" class="small">Progress reports • assessments</text><text x="824" y="609" class="small">Parent messages</text>
+
+    <rect class="panel" x="1138" y="341" width="325" height="296" rx="18"/><rect x="1138" y="341" width="325" height="46" rx="18" fill="#f0ebff"/><text x="1161" y="370" class="box-title">Admin Portal</text>
+    <rect class="module" x="1158" y="405" width="285" height="52" rx="10"/><text x="1174" y="427" class="item">User &amp; Role Management</text><text x="1174" y="445" class="small">Student • parent • teacher • admin</text>
+    <rect class="module" x="1158" y="467" width="285" height="74" rx="10"/><text x="1174" y="489" class="item">System Monitoring</text><text x="1174" y="507" class="small">Operational analytics • audit records</text><text x="1174" y="525" class="small">Account and content oversight</text>
+    <rect class="module" x="1158" y="551" width="285" height="66" rx="10"/><text x="1174" y="573" class="item">System Configuration</text><text x="1174" y="591" class="small">Reading settings and platform controls</text><text x="1174" y="609" class="small">System-wide settings</text>
+  </g>
+  <path class="line" d="M782 665v52"/>
+
+  <text x="64" y="735" class="section">APPLICATION &amp; SECURITY LAYER</text>
+  <rect x="64" y="752" width="1436" height="108" rx="20" fill="#173c66" filter="url(#shadow)"/>
+  <text x="94" y="790" font-family="Arial" font-size="21" font-weight="800" fill="#fff">Node.js + Express API Server</text>
+  <text x="94" y="817" font-family="Arial" font-size="14" fill="#d6ecff">JWT verification • Role-based access control • Input validation • Rate limiting • CORS • Protected API endpoints</text>
+  <text x="94" y="839" font-family="Arial" font-size="14" fill="#d6ecff">Enrollment • password reset • progress processing • secure file validation • notification processing • TTS requests</text>
+  <path class="line" d="M782 860v48"/>
+
+  <text x="64" y="926" class="section">CLOUD SERVICES &amp; EXTERNAL INTEGRATIONS</text>
+  <g filter="url(#shadow)">
+    <rect class="cloud" x="64" y="944" width="360" height="126" rx="18"/><text x="88" y="978" class="cloud-title">Supabase Platform</text><text x="88" y="1004" class="cloud-item">Auth — user sessions and JWT</text><text x="88" y="1026" class="cloud-item">PostgreSQL — learning and user data</text><text x="88" y="1048" class="cloud-item">RLS, Realtime, and Storage</text>
+    <rect class="cloud" x="460" y="944" width="320" height="126" rx="18"/><text x="484" y="978" class="cloud-title">Text-to-Speech Service</text><text x="484" y="1004" class="cloud-item">Google Cloud TTS / ElevenLabs</text><text x="484" y="1026" class="cloud-item">Reading audio and voice support</text><text x="484" y="1048" class="cloud-item">Browser speech recognition</text>
+    <rect class="cloud" x="816" y="944" width="320" height="126" rx="18"/><text x="840" y="978" class="cloud-title">Email Service</text><text x="840" y="1004" class="cloud-item">SMTP / Nodemailer</text><text x="840" y="1026" class="cloud-item">Enrollment credentials</text><text x="840" y="1048" class="cloud-item">Account and system notifications</text>
+    <rect class="cloud" x="1172" y="944" width="328" height="126" rx="18"/><text x="1196" y="978" class="cloud-title">Deployment Services</text><text x="1196" y="1004" class="cloud-item">Hostinger — React web frontend</text><text x="1196" y="1026" class="cloud-item">Railway — Express API server</text><text x="1196" y="1048" class="cloud-item">Supabase — database and storage</text>
+  </g>
+  <path class="dash" d="M245 908v36M620 908v36M976 908v36M1336 908v36"/>
+</svg>
