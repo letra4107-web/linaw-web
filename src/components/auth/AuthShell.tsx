@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import leftImage from '../../assets/left.png';
 import { cardStyle } from '../../lib/cardStyle';
 import { AppIcon } from '../a11y/AppIcon';
+import logo from '../../assets/Logo.jpg';
 
 export function isValidEmail(value: string): boolean {
   return /\S+@\S+\.\S+/.test(value);
@@ -38,8 +39,8 @@ export function AuthShell({
         />
 
         <div className="relative z-10 flex h-full flex-col px-10 py-12">
-          <Link to="/" className="text-2xl font-bold tracking-tight drop-shadow-md">
-            LinawLetra
+          <Link to="/" className="w-fit rounded-lg focus-visible:outline-white">
+            <img src={logo} alt="LinawLetra" className="h-16 w-auto rounded-lg" />
           </Link>
 
           <p className="sr-only">
@@ -55,8 +56,8 @@ export function AuthShell({
       <div className="auth-shell-content relative flex flex-1 flex-col">
         <div className="relative z-10 flex flex-1 flex-col">
           <header className="border-b border-[var(--color-border)] px-6 py-4 lg:hidden">
-            <Link to="/" className="text-xl font-bold text-[var(--color-primary)]">
-              LinawLetra
+            <Link to="/" className="w-fit rounded-lg focus-visible:outline-[var(--color-primary)]">
+              <img src={logo} alt="LinawLetra" className="h-12 w-auto rounded-lg" />
             </Link>
           </header>
           <main className={`auth-shell-main mx-auto flex w-full ${maxWidthClassName} flex-1 flex-col justify-center gap-6 px-6 py-12`}>

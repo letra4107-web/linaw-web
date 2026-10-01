@@ -645,6 +645,13 @@ body[data-font="dyslexic"] .dashboard-sidebar p {
   margin-bottom: 0;
 }
 
+body[data-font="comic"],
+body[data-font="comic"] :is(h1, h2, h3, h4, h5, h6, button, input, select, textarea) {
+  font-family: "Comic Sans MS", "Comic Sans", cursive;
+  letter-spacing: 0;
+  word-spacing: normal;
+}
+
 h1, h2, h3, h4, h5, h6 {
   font-family: "OpenDyslexic", var(--font-display);
   font-weight: 700;

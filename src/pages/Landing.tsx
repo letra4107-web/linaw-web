@@ -4,6 +4,7 @@ import { TTSButton } from '../components/a11y/TTSButton';
 import { IconLabel } from '../components/a11y/IconLabel';
 import { AppIcon } from '../components/a11y/AppIcon';
 import { ScrollReveal } from '../components/ScrollReveal';
+import { useAccessibility } from '../lib/a11y/AccessibilityContext';
 import logo from '../assets/Logo.jpg';
 import landBg from '../lib/emptyImage';
 import { cardStyle, CARD_COLORS } from '../lib/cardStyle';
@@ -92,6 +93,8 @@ const STEPS = [
 
 export default function Landing() {
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
+  const { font, setFont } = useAccessibility();
+  const selectedFont = font === 'comic' ? 'comic' : 'dyslexic';
 
   return (
     <div
@@ -129,6 +132,19 @@ export default function Landing() {
             </ul>
           </nav>
           <div className="flex items-center gap-2 justify-self-end sm:gap-4">
+            <label className="hidden items-center gap-2 text-sm font-semibold md:flex">
+              <span className="sr-only">Piliin ang font</span>
+              <span aria-hidden="true">Aa</span>
+              <select
+                value={selectedFont}
+                onChange={(event) => setFont(event.target.value as 'dyslexic' | 'comic')}
+                aria-label="Piliin ang font"
+                className="rounded-full border border-[var(--color-border)] bg-white px-3 py-2 text-sm font-semibold text-[var(--color-text)] outline-none hover:border-[var(--color-primary)] focus:border-[var(--color-primary)]"
+              >
+                <option value="dyslexic">OpenDyslexic</option>
+                <option value="comic">Comic Sans</option>
+              </select>
+            </label>
             <button
               type="button"
               onClick={() => setMobileNavOpen((v) => !v)}
@@ -180,6 +196,18 @@ export default function Landing() {
                 ),
               )}
             </ul>
+            <label className="mt-4 flex items-center justify-between gap-3 border-t border-[var(--color-border)] pt-4 text-sm font-semibold">
+              <span>Piliin ang font</span>
+              <select
+                value={selectedFont}
+                onChange={(event) => setFont(event.target.value as 'dyslexic' | 'comic')}
+                aria-label="Piliin ang font"
+                className="rounded-full border border-[var(--color-border)] bg-white px-3 py-2 text-sm font-semibold text-[var(--color-text)] outline-none focus:border-[var(--color-primary)]"
+              >
+                <option value="dyslexic">OpenDyslexic</option>
+                <option value="comic">Comic Sans</option>
+              </select>
+            </label>
           </nav>
         )}
       </header>

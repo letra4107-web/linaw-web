@@ -26,11 +26,11 @@ export function AccessibilityBar() {
       </button>
       <button
         type="button"
-        onClick={() => setFont(font === 'dyslexic' ? 'default' : 'dyslexic')}
-        aria-pressed={font === 'dyslexic'}
+        onClick={() => setFont(font === 'comic' ? 'dyslexic' : 'comic')}
+        aria-pressed={font === 'comic'}
         className="rounded-full border border-[var(--color-border)] px-3 py-1.5 hover:border-[var(--color-primary)]"
       >
-        <IconLabel icon="🔤" label={font === 'dyslexic' ? 'Karaniwang font' : 'Madaling basahing font'} />
+        <IconLabel icon="🔤" label={font === 'comic' ? 'OpenDyslexic font' : 'Comic Sans font'} />
       </button>
       <button
         type="button"
