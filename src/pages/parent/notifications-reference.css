@@ -1,0 +1,104 @@
+.parent-notifications-page,
+.parent-notifications-page * {
+  font-family: Arial, Helvetica, sans-serif !important;
+  letter-spacing: normal !important;
+}
+.parent-notifications-page {
+  width: 100% !important;
+  max-width: none !important;
+  padding: 2px 0 22px;
+}
+.parent-notifications-page .notification-hero {
+  min-height: 142px !important;
+  border: 1px solid #d5e9f7 !important;
+  border-radius: 18px !important;
+  background: linear-gradient(105deg, #f9fdff 0%, #eaf8ff 62%, #c7ecff 100%) !important;
+  box-shadow: 0 5px 16px rgba(40, 123, 184, .1) !important;
+}
+.parent-notifications-page .notification-hero h1 { font-size: 30px !important; font-weight: 800 !important; }
+.parent-notifications-page .notification-bell {
+  position: absolute !important;
+  top: 22px !important;
+  right: 54px !important;
+  display: grid !important;
+  z-index: 2 !important;
+}
+.parent-notifications-page .notification-tabs {
+  display: flex !important;
+  flex-flow: row nowrap !important;
+  align-items: center !important;
+  gap: 8px !important;
+  width: 100% !important;
+  overflow-x: auto !important;
+}
+.parent-notifications-page .notification-tabs button {
+  display: inline-flex !important;
+  flex: 0 0 auto !important;
+  align-items: center !important;
+  justify-content: center !important;
+  min-width: max-content;
+  height: 39px !important;
+  border: 1px solid #d7e5ef !important;
+  border-radius: 12px !important;
+  background: #fff !important;
+  color: #223b68 !important;
+  font-size: 12px !important;
+  font-weight: 700 !important;
+  box-shadow: 0 2px 7px rgba(38, 94, 139, .07) !important;
+}
+.parent-notifications-page .notification-tabs button.is-active {
+  border-color: #277fd4 !important;
+  background: linear-gradient(105deg, #2b8ee4, #3688d7) !important;
+  color: #fff !important;
+}
+.parent-notifications-page .notification-tools label,
+.parent-notifications-page .notification-tools > button {
+  height: 40px !important;
+  border: 1px solid #d8e6f1 !important;
+  border-radius: 12px !important;
+  background: #fff !important;
+  box-shadow: 0 2px 7px rgba(38, 94, 139, .06) !important;
+}
+.parent-notifications-page .notification-tools { display: flex !important; flex-flow: row nowrap !important; width: 100% !important; }
+.parent-notifications-page .notification-tools label { display: flex !important; flex: 1 1 auto !important; }
+.parent-notifications-page .notification-tools > button { display: inline-flex !important; flex: 0 0 auto !important; }
+.parent-notifications-page .notification-group h2 { font-size: 18px !important; font-weight: 800 !important; }
+.parent-notifications-page .notification-row {
+  display: grid !important;
+  grid-template-columns: 44px minmax(0, 1fr) auto 20px !important;
+  column-gap: 14px !important;
+  align-items: center !important;
+  min-height: 78px !important;
+  border: 1px solid #dfeaf2 !important;
+  border-radius: 14px !important;
+  background: #fff !important;
+  box-shadow: 0 3px 10px rgba(44, 104, 148, .07) !important;
+}
+.parent-notifications-page .notification-row-icon { display: grid !important; grid-column: 1 !important; width: 44px !important; height: 44px !important; }
+.parent-notifications-page .notification-row-icon svg { stroke: currentColor !important; }
+.parent-notifications-page .notification-icon-pdf_assignment { background: #fff0e7 !important; color: #f26725 !important; }
+.parent-notifications-page .notification-icon-assessment_graded { background: #ffe9e8 !important; color: #ef4b47 !important; }
+.parent-notifications-page .notification-icon-streak { background: #fff5d9 !important; color: #e8a20a !important; }
+.parent-notifications-page .notification-icon-lesson { background: #e7f4ff !important; color: #138ee5 !important; }
+.parent-notifications-page .notification-icon-achievement { background: #e4faed !important; color: #14ae66 !important; }
+.parent-notifications-page .notification-icon-xp { background: #fff6dc !important; color: #e8a20a !important; }
+.parent-notifications-page .notification-icon-practice { background: #e7f6ff !important; color: #138ee5 !important; }
+.parent-notifications-page .notification-icon-student_login { background: #eaf0ff !important; color: #5876c9 !important; }
+.parent-notifications-page .notification-unread { position: absolute !important; left: 67px !important; top: 26px !important; width: 8px !important; height: 8px !important; }
+.parent-notifications-page .notification-row-copy { display: block !important; grid-column: 2 !important; min-width: 0 !important; width: auto !important; text-align: left !important; }
+.parent-notifications-page .notification-row-copy b,
+.parent-notifications-page .notification-row-copy small { display: block !important; width: 100% !important; text-align: left !important; }
+.parent-notifications-page .notification-row-time { display: block !important; grid-column: 3 !important; white-space: nowrap !important; }
+.parent-notifications-page .notification-row-chevron { grid-column: 4 !important; }
+.parent-notifications-page .notification-row:has([aria-label="Hindi pa nabasa"]) { background: #fff9f8 !important; border-color: #ffe2df !important; }
+.parent-notifications-page .notification-row b { font-size: 14px !important; font-weight: 700 !important; }
+.parent-notifications-page .notification-row small { font-size: 12px !important; }
+@media (max-width: 640px) {
+  .parent-notifications-page .notification-hero { min-height: 126px !important; }
+  .parent-notifications-page .notification-hero h1 { font-size: 27px !important; }
+  .parent-notifications-page .notification-bell { right: 18px !important; transform: scale(.75); transform-origin: top right; }
+  .parent-notifications-page .notification-row { grid-template-columns: 40px minmax(0, 1fr) 18px !important; column-gap: 10px !important; }
+  .parent-notifications-page .notification-row-icon { width: 40px !important; height: 40px !important; }
+  .parent-notifications-page .notification-row-time { display: none !important; }
+  .parent-notifications-page .notification-unread { left: 58px !important; }
+}

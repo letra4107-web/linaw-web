@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import { Link } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 import { Award, BarChart3, BookOpen, CalendarDays, CheckCircle2, ChevronDown, ChevronRight, Clock3, List, Lock, PlayCircle, Sparkles, Star, Trophy } from 'lucide-react';
 import { supabase } from '../../lib/supabaseClient';
 import { useAuth } from '../../lib/auth/AuthContext';
@@ -15,8 +15,11 @@ const modules = ['Unang mga Titik', 'Hanay ng Ba', 'Hanay ng Da', 'Hanay ng Ga',
 
 export default function ProgressReport() {
   const { user } = useAuth();
+  const [searchParams] = useSearchParams();
   const [selectedChildId, setSelectedChildId] = useState<string | null>(null);
-  const [activeTab, setActiveTab] = useState<'modules' | 'activities' | 'results' | 'time'>('modules');
+  const requestedTab = searchParams.get('tab');
+  const initialTab = requestedTab === 'activities' || requestedTab === 'results' || requestedTab === 'time' || requestedTab === 'modules' ? requestedTab : 'modules';
+  const [activeTab, setActiveTab] = useState<'modules' | 'activities' | 'results' | 'time'>(initialTab);
   const { data: children } = useQuery({ queryKey: ['parent-children', user?.id], queryFn: async () => { const { data, error } = await supabase.from('children').select('id, name, grade_level').order('name'); if (error) throw error; return data as Child[]; }, enabled: Boolean(user) });
   const activeChildId = selectedChildId ?? children?.[0]?.id ?? null;
   const activeChild = children?.find((child) => child.id === activeChildId);

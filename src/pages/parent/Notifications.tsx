@@ -1,70 +1,28 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
+import { Award, Bell, BookOpen, ChevronDown, ChevronRight, FileText, GraduationCap, Mail, Search, Settings2 } from 'lucide-react';
 import { useNotifications, type NotificationRow } from '../../lib/useNotifications';
-import { cardStyle } from '../../lib/cardStyle';
+import './notifications-reference.css';
 
-const TYPE_META: Record<string, { color: string; icon: string; label: string }> = {
-  pdf_assignment: { color: '--color-brand-lavender', icon: '📄', label: 'Takdang-aralin' },
-  assessment_graded: { color: '--color-brand-teal', icon: '📝', label: 'Assessment' },
-  streak: { color: '--color-brand-coral', icon: '🔥', label: 'Streak' },
-  lesson: { color: '--color-brand-lavender', icon: '📖', label: 'Aralin' },
-  achievement: { color: '--color-brand-sun', icon: '🏅', label: 'Parangal' },
-  xp: { color: '--color-brand-sun', icon: '★', label: 'XP' },
-  practice: { color: '--color-brand-sage', icon: '🎙', label: 'Pagsasanay' },
-  student_login: { color: '--color-brand-violet', icon: '●', label: 'Account' },
+const TYPE_META: Record<string, { Icon: typeof Bell; tone: string; label: string }> = {
+  pdf_assignment: { Icon: FileText, tone: 'bg-orange-50 text-orange-500', label: 'Takdang-aralin' }, assessment_graded: { Icon: GraduationCap, tone: 'bg-rose-50 text-rose-500', label: 'Assessment' }, streak: { Icon: Award, tone: 'bg-amber-50 text-amber-500', label: 'Streak' }, lesson: { Icon: BookOpen, tone: 'bg-blue-50 text-blue-500', label: 'Aralin' }, achievement: { Icon: Award, tone: 'bg-emerald-50 text-emerald-500', label: 'Nakamit' }, xp: { Icon: Award, tone: 'bg-amber-50 text-amber-500', label: 'XP' }, practice: { Icon: BookOpen, tone: 'bg-sky-50 text-sky-500', label: 'Pagsasanay' }, student_login: { Icon: Settings2, tone: 'bg-indigo-50 text-indigo-500', label: 'Account' },
 };
-const LEARNING_TYPES = new Set(['lesson', 'pdf_assignment', 'assessment_graded', 'practice']);
-const PROGRESS_TYPES = new Set(['streak', 'achievement', 'xp']);
-type Filter = 'all' | 'unread' | 'learning' | 'progress';
-const FILTERS: { value: Filter; label: string }[] = [
-  { value: 'all', label: 'Lahat' }, { value: 'unread', label: 'Hindi pa nabasa' }, { value: 'learning', label: 'Pag-aaral' }, { value: 'progress', label: 'Progreso' },
-];
+const LEARNING_TYPES = new Set(['lesson', 'pdf_assignment', 'assessment_graded', 'practice']); const PROGRESS_TYPES = new Set(['streak', 'achievement', 'xp']);
+type Filter = 'all' | 'unread' | 'learning' | 'progress' | 'messages' | 'system';
 function isToday(iso: string) { return new Date(iso).toDateString() === new Date().toDateString(); }
 function formatTime(iso: string) { return new Date(iso).toLocaleString('fil-PH', { hour: 'numeric', minute: '2-digit', month: 'short', day: 'numeric' }); }
-function matchesFilter(notification: NotificationRow, filter: Filter) { if (filter === 'all') return true; if (filter === 'unread') return !notification.is_read; if (filter === 'learning') return LEARNING_TYPES.has(notification.type); if (filter === 'progress') return PROGRESS_TYPES.has(notification.type); return true; }
+function matchesFilter(row: NotificationRow, filter: Filter) { return filter === 'all' || (filter === 'unread' && !row.is_read) || (filter === 'learning' && LEARNING_TYPES.has(row.type)) || (filter === 'progress' && PROGRESS_TYPES.has(row.type)) || (filter === 'messages' && /mensahe|message/i.test(`${row.title} ${row.body ?? row.message ?? ''}`)) || (filter === 'system' && row.type === 'student_login'); }
 
 export default function ParentNotifications() {
-  const { notifications, unreadCount, markAsRead, markAllAsRead } = useNotifications();
-  const [filter, setFilter] = useState<Filter>('all');
-  const filtered = notifications.filter((notification) => matchesFilter(notification, filter));
-  const today = filtered.filter((notification) => isToday(notification.created_at));
-  const earlier = filtered.filter((notification) => !isToday(notification.created_at));
-
-  const renderGroup = (label: string, rows: NotificationRow[]) => rows.length > 0 && (
-    <section key={label} aria-labelledby={`notification-${label}`}>
-      <h2 id={`notification-${label}`} className="mb-3 text-sm font-bold tracking-[0.1em] text-[var(--color-text-muted)] uppercase">{label} <span className="ml-1 rounded-full bg-white/65 px-2 py-0.5 text-xs">{rows.length}</span></h2>
-      <div className="flex flex-col gap-3">
-        {rows.map((notification) => {
-          const meta = TYPE_META[notification.type] ?? { color: '--color-brand-lavender', icon: '🔔', label: 'Update' };
-          return (
-            <button key={notification.id} type="button" onClick={() => !notification.is_read && markAsRead.mutate(notification.id)} className={`group relative flex min-w-0 items-start gap-3 overflow-hidden rounded-3xl border p-4 text-left shadow-card transition-all hover:-translate-y-0.5 hover:shadow-raised sm:gap-4 sm:p-5 ${notification.is_read ? 'opacity-85' : 'border-[var(--color-primary)]/45'}`} style={cardStyle(meta.color, notification.is_read ? 5 : 10, notification.is_read ? 22 : 35)}>
-              {!notification.is_read && <span className="absolute inset-y-0 left-0 w-1 bg-[var(--color-primary)]" aria-hidden="true" />}
-              <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-white/75 text-xl shadow-sm" aria-hidden="true">{meta.icon}</span>
-              <span className="min-w-0 flex-1">
-                <span className="flex flex-wrap items-center gap-2"><span className="rounded-full bg-white/70 px-2.5 py-0.5 text-[0.68rem] font-bold" style={{ color: `var(${meta.color})` }}>{meta.label}</span>{!notification.is_read && <span className="text-[0.68rem] font-bold text-[var(--color-primary)]">BAGO</span>}</span>
-                <span className="mt-2 block font-bold leading-snug">{notification.title}</span>
-                {(notification.body ?? notification.message) && <span className="mt-1 block text-sm leading-relaxed text-[var(--color-text-muted)]">{notification.body ?? notification.message}</span>}
-                <time dateTime={notification.created_at} className="mt-2 block text-xs font-semibold text-[var(--color-text-muted)]">{formatTime(notification.created_at)}</time>
-              </span>
-              {!notification.is_read && <span className="mt-2 h-2.5 w-2.5 shrink-0 rounded-full bg-[var(--color-primary)]" aria-label="Hindi pa nabasa" />}
-            </button>
-          );
-        })}
-      </div>
-    </section>
-  );
-
-  return (
-    <div className="flex min-w-0 flex-col gap-6">
-      <header className="flex flex-wrap items-center justify-between gap-4 rounded-3xl border p-5 shadow-card sm:p-6" style={cardStyle('--color-brand-coral', 8, 28)}>
-        <div><p className="text-xs font-bold tracking-[0.12em] text-[var(--color-brand-coral)] uppercase">Updates</p><h1 className="text-2xl font-bold sm:text-3xl">Mga Abiso</h1><p className="text-sm text-[var(--color-text-muted)]">Mahahalagang update tungkol sa pag-aaral ng iyong anak.</p></div>
-        <div className="rounded-2xl bg-white/70 px-4 py-2 text-center"><p className="text-2xl font-bold text-[var(--color-primary)]">{unreadCount}</p><p className="text-xs font-bold text-[var(--color-text-muted)]">Hindi pa nabasa</p></div>
-      </header>
-
-      {unreadCount > 0 && <div className="flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-[var(--color-primary)]/30 bg-[var(--color-primary-soft)] p-4"><p className="text-sm font-bold">May {unreadCount} bago kang update na dapat tingnan.</p><button type="button" onClick={() => markAllAsRead.mutate()} className="min-h-10 rounded-full border border-[var(--color-primary)] bg-white/70 px-4 text-sm font-bold text-[var(--color-primary)]">Markahan lahat bilang nabasa</button></div>}
-
-      <div className="-mx-1 flex gap-2 overflow-x-auto px-1 pb-1" role="toolbar" aria-label="Salain ang mga abiso">{FILTERS.map((item) => <button key={item.value} type="button" onClick={() => setFilter(item.value)} aria-pressed={filter === item.value} className={`min-h-11 shrink-0 rounded-full border px-4 text-sm font-bold transition-all ${filter === item.value ? 'border-[var(--color-primary)] bg-[var(--color-primary)] text-white shadow-card' : 'border-[var(--color-border)] bg-white/55 hover:border-[var(--color-primary)]'}`}>{item.label}{item.value === 'unread' && unreadCount > 0 ? ` (${unreadCount})` : ''}</button>)}</div>
-
-      {!filtered.length ? <div className="rounded-3xl border border-dashed border-[var(--color-border)] bg-white/45 p-10 text-center"><p className="text-4xl" aria-hidden="true">🔔</p><h2 className="mt-3 text-xl font-bold">Walang abiso sa view na ito</h2><p className="mt-1 text-[var(--color-text-muted)]">Makikita rito ang mga update tungkol sa progreso at pag-aaral.</p></div> : <div className="flex flex-col gap-7">{renderGroup('Ngayon', today)}{renderGroup('Mas Nauna', earlier)}</div>}
-    </div>
-  );
+  const { notifications, unreadCount, markAsRead, markAllAsRead } = useNotifications(); const [filter, setFilter] = useState<Filter>('all'); const [search, setSearch] = useState(''); const [newestFirst, setNewestFirst] = useState(true);
+  const filtered = useMemo(() => notifications.filter((row) => matchesFilter(row, filter) && `${row.title} ${row.body ?? row.message ?? ''}`.toLocaleLowerCase().includes(search.trim().toLocaleLowerCase())).sort((left, right) => newestFirst ? new Date(right.created_at).getTime() - new Date(left.created_at).getTime() : new Date(left.created_at).getTime() - new Date(right.created_at).getTime()), [filter, newestFirst, notifications, search]);
+  const groups = [['Ngayon', filtered.filter((row) => isToday(row.created_at))], ['Kahapon', filtered.filter((row) => !isToday(row.created_at))]] as const;
+  const count = (value: Filter) => notifications.filter((row) => matchesFilter(row, value)).length;
+  const tabs: { value: Filter; label: string; count: number }[] = [{ value: 'all', label: 'Lahat', count: notifications.length }, { value: 'unread', label: 'Mga Bagong Abiso', count: unreadCount }, { value: 'progress', label: 'Progreso', count: count('progress') }, { value: 'learning', label: 'Iskedyul', count: count('learning') }, { value: 'messages', label: 'Mga Mensahe', count: count('messages') }, { value: 'system', label: 'System', count: count('system') }];
+  return <div className="parent-notifications-page mx-auto flex w-full max-w-[48rem] flex-col gap-3 text-[#183260]">
+    <header className="notification-hero relative min-h-36 overflow-hidden rounded-2xl border border-[#d9edf9] bg-gradient-to-r from-[#f8fdff] via-[#eaf8ff] to-[#c9ebff] px-4 py-4 shadow-sm sm:px-5"><div className="relative z-10"><p className="text-[11px] font-extrabold tracking-[.12em] text-[#396393]">NOTIFICATIONS</p><h1 className="mt-2 text-[30px] font-extrabold leading-none tracking-tight text-[#173260]">Mga Abiso</h1><p className="mt-2 max-w-[27rem] text-[14px] leading-5 text-[#5d78a2]">Manatiling updated sa mga mahahalagang impormasyon<br className="hidden sm:block" /> tungkol sa iyong mga anak.</p></div><div aria-hidden="true" className="absolute -right-8 -bottom-12 h-44 w-44 rounded-full bg-[#d2edff]" /><div aria-hidden="true" className="notification-bell absolute right-10 top-5 grid h-24 w-24 place-items-center rounded-full bg-[#e9f7ff]"><Bell size={57} className="text-[#ffc846]" fill="currentColor" /><span className="absolute -right-2 top-1 grid h-9 w-9 place-items-center rounded-full bg-[#fa5a59] text-sm font-extrabold text-white">{unreadCount}</span></div></header>
+    <nav className="notification-tabs grid grid-flow-col auto-cols-max gap-1.5 overflow-x-auto pb-1" aria-label="Salain ang mga abiso">{tabs.map((tab) => <button type="button" key={tab.value} onClick={() => setFilter(tab.value)} className={`h-10 rounded-xl border px-3 text-[11px] font-extrabold shadow-sm transition ${filter === tab.value ? 'is-active border-[#1979d8] bg-gradient-to-r from-[#288ee5] to-[#3d94e4] text-white' : 'border-[#d8e6f1] bg-white text-[#25406e] hover:border-[#80b9ee]'}`}>{tab.label} ({tab.count})</button>)}</nav>
+    <div className="notification-tools flex gap-3"><label className="flex h-10 min-w-0 flex-1 items-center gap-2 rounded-xl border border-[#d8e6f1] bg-white px-3 shadow-sm"><Search size={18} className="text-[#4c78ae]" /><input value={search} onChange={(event) => setSearch(event.target.value)} placeholder="Maghanap ng abiso..." aria-label="Maghanap ng abiso" className="min-w-0 w-full border-0 bg-transparent text-[13px] outline-none placeholder:text-[#778cac]" /></label><button type="button" onClick={() => setNewestFirst((value) => !value)} aria-label="Baguhin ang ayos ng mga abiso" className="flex h-10 shrink-0 items-center justify-center gap-3 rounded-xl border border-[#d8e6f1] bg-white px-3 text-[12px] font-bold text-[#25406e] shadow-sm">{newestFirst ? 'Pinakabagong Una' : 'Pinakaluma Una'} <ChevronDown size={16} /></button></div>
+    {!filtered.length ? <section className="rounded-2xl border border-dashed border-[#cbddeb] bg-white p-10 text-center"><Bell className="mx-auto text-blue-400" size={36} /><h2 className="mt-3 text-xl font-bold">Walang abiso sa view na ito</h2><p className="mt-1 text-sm text-[#6680a1]">Makikita rito ang mga update tungkol sa progreso at pag-aaral.</p></section> : groups.map(([label, rows]) => rows.length > 0 && <section className="notification-group" key={label}><h2 className="mb-2 mt-1 text-[17px] font-extrabold text-[#426492]">{label}</h2><div className="space-y-1.5">{rows.map((row) => { const meta = TYPE_META[row.type] ?? { Icon: Bell, tone: 'bg-blue-50 text-blue-500', label: 'Update' }; const Icon = meta.Icon; return <button key={row.id} type="button" onClick={() => !row.is_read && markAsRead.mutate(row.id)} className={`notification-row group flex min-h-[76px] w-full items-center gap-3 rounded-xl border px-4 py-3 text-left shadow-sm transition hover:-translate-y-px hover:shadow-md ${row.is_read ? 'border-[#e1edf5] bg-white' : 'border-[#ffe1df] bg-[#fff9f8]'}`}><span className={`notification-row-icon notification-icon-${row.type} grid h-11 w-11 shrink-0 place-items-center rounded-full ${meta.tone}`}><Icon size={22} /></span>{!row.is_read && <span aria-label="Hindi pa nabasa" className="notification-unread h-2 w-2 shrink-0 rounded-full bg-[#f2503e]" />}<span className="notification-row-copy min-w-0 flex-1"><b className="block truncate text-[13px] text-[#172e59]">{row.title}</b><small className="mt-1 block truncate text-[12px] text-[#60779d]">{row.body ?? row.message ?? meta.label}</small></span><time className="notification-row-time hidden shrink-0 text-right text-[11px] font-medium leading-4 text-[#60779d] sm:block">{formatTime(row.created_at)}</time><ChevronRight size={19} className="notification-row-chevron shrink-0 text-[#2580da]" /></button>; })}</div></section>)}
+    <button type="button" onClick={() => markAllAsRead.mutate()} disabled={!unreadCount || markAllAsRead.isPending} className="mx-auto mt-2 flex min-h-10 items-center gap-2 rounded-full border border-[#d6e5f0] bg-white px-6 text-sm font-bold text-[#2f79c6] shadow-sm disabled:opacity-50"><Mail size={17} />{markAllAsRead.isPending ? 'Ina-update...' : 'Markahan lahat bilang nabasa'}</button>
+  </div>;
 }

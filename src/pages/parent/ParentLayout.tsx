@@ -4,10 +4,12 @@ import { NavLink, Outlet } from 'react-router-dom';
 import { supabase } from '../../lib/supabaseClient';
 import { useAuth } from '../../lib/auth/AuthContext';
 import { useNotifications } from '../../lib/useNotifications';
+import { useAccessibility, type ThemeMode } from '../../lib/a11y/AccessibilityContext';
 import { DashboardShell } from '../../components/DashboardShell';
 import { cardStyle } from '../../lib/cardStyle';
 import logo from '../../assets/Logo.jpg';
 import { AppIcon } from '../../components/a11y/AppIcon';
+import { enableParentEnglish } from './parentTranslations';
 import './parent-theme.css';
 
 const PRIMARY_TABS = [
@@ -119,15 +121,25 @@ function NavContents({ collapsed, english }: { collapsed: boolean; english: bool
 export default function ParentLayout() {
   const [collapsed, setCollapsed] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const portalRef = useRef<HTMLDivElement>(null);
   const { user } = useAuth();
-  const { data: parentPreferences } = useQuery({ queryKey: ['parent-layout-language', user?.id], queryFn: async () => { const { data, error } = await supabase.from('parents_settings').select('preferred_language').eq('auth_uid', user!.id).maybeSingle(); if (error) throw error; return data as { preferred_language?: string } | null; }, enabled: Boolean(user) });
+  const { setTheme } = useAccessibility();
+  const { data: parentPreferences } = useQuery({ queryKey: ['parent-layout-language', user?.id], queryFn: async () => { const { data, error } = await supabase.from('parents_settings').select('preferred_language, preferred_theme').eq('auth_uid', user!.id).maybeSingle(); if (error) throw error; return data as { preferred_language?: string; preferred_theme?: ThemeMode } | null; }, enabled: Boolean(user) });
   const english = parentPreferences?.preferred_language === 'en';
 
   useEffect(() => { document.documentElement.lang = english ? 'en' : 'fil'; document.documentElement.dataset.parentLanguage = english ? 'en' : 'fil'; }, [english]);
+  useEffect(() => {
+    const preferredTheme = parentPreferences?.preferred_theme;
+    if (preferredTheme === 'default' || preferredTheme === 'dark' || preferredTheme === 'high-contrast') setTheme(preferredTheme);
+  }, [parentPreferences?.preferred_theme, setTheme]);
+  useEffect(() => {
+    if (!portalRef.current) return;
+    return enableParentEnglish(portalRef.current, english);
+  }, [english]);
 
   return (
     <DashboardShell roleLabel="Magulang" hideHeader roleTheme="parent">
-      <div className="flex min-h-screen min-w-0">
+      <div ref={portalRef} className="flex min-h-screen min-w-0">
         <aside className={`dashboard-sidebar sticky top-0 hidden h-screen shrink-0 flex-col border-r border-white/15 bg-[var(--color-primary-hover)] transition-[width] duration-300 lg:flex ${collapsed ? 'w-[4.75rem]' : 'w-56'}`}>
           <div className={`flex h-16 items-center gap-2 border-b border-white/20 px-3 ${collapsed ? 'justify-center' : ''}`}>
             <button type="button" onClick={() => setCollapsed((value) => !value)} title={collapsed ? 'Palawakin ang sidebar' : 'Paliitin ang sidebar'} className="flex min-w-0 items-center gap-2 rounded-xl p-1 text-white transition-colors hover:bg-white/10">
@@ -153,7 +165,7 @@ export default function ParentLayout() {
               </nav>
             </div>
           )}
-          <main className="mx-auto w-full max-w-6xl min-w-0 flex-1 overflow-x-hidden px-4 py-5 sm:px-6 sm:py-7 lg:px-8 lg:py-8"><Outlet /></main>
+          <main className="mx-auto w-full max-w-6xl min-w-0 flex-1 overflow-x-hidden px-4 py-5 sm:px-6 sm:py-7 lg:px-8 lg:py-8"><Outlet key={english ? 'en' : 'fil'} /></main>
         </div>
       </div>
     </DashboardShell>

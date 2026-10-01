@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { CalendarDays, ChevronLeft, ChevronRight, Clock3, Lightbulb, List, Plus } from 'lucide-react';
+import { useSearchParams } from 'react-router-dom';
 import { supabase } from '../../lib/supabaseClient';
 import { useAuth } from '../../lib/auth/AuthContext';
 
@@ -13,7 +14,10 @@ const typeFor = (value: string) => types.find((item) => item.value === value) ??
 
 export default function Schedule() {
   const { user } = useAuth(); const client = useQueryClient();
-  const [selectedChild, setSelectedChild] = useState(''); const [month, setMonth] = useState(() => new Date(new Date().getFullYear(), new Date().getMonth(), 1)); const [mode, setMode] = useState<'Buwan' | 'Linggo' | 'Araw'>('Buwan'); const [selectedDate, setSelectedDate] = useState<string | null>(null); const [showForm, setShowForm] = useState(false);
+  const [searchParams] = useSearchParams();
+  const requestedDate = searchParams.get('date');
+  const validRequestedDate = requestedDate && /^\d{4}-\d{2}-\d{2}$/.test(requestedDate) ? requestedDate : null;
+  const [selectedChild, setSelectedChild] = useState(''); const [month, setMonth] = useState(() => validRequestedDate ? new Date(`${validRequestedDate}T00:00:00`) : new Date(new Date().getFullYear(), new Date().getMonth(), 1)); const [mode, setMode] = useState<'Buwan' | 'Linggo' | 'Araw'>('Buwan'); const [selectedDate, setSelectedDate] = useState<string | null>(validRequestedDate); const [showForm, setShowForm] = useState(false);
   const [form, setForm] = useState({ activity_type: 'reading_lesson', title: '', scheduled_date: '', start_time: '', description: '' });
   const { data: children } = useQuery({ queryKey: ['parent-children', user?.id], queryFn: async () => { const { data, error } = await supabase.from('children').select('id,name').order('name'); if (error) throw error; return data as Child[]; }, enabled: Boolean(user) });
   const activeChild = selectedChild || children?.[0]?.id || '';
