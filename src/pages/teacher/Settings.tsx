@@ -1,232 +1,84 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { Bell, BookOpen, BriefcaseBusiness, Camera, Check, CheckCircle2, Eye, EyeOff, LockKeyhole, Mail, Moon, Palette, Save, ShieldCheck, Sun, UserRound } from 'lucide-react';
 import { supabase } from '../../lib/supabaseClient';
 import { useAuth } from '../../lib/auth/AuthContext';
-import { cardStyle } from '../../lib/cardStyle';
-import { IconLabel } from '../../components/a11y/IconLabel';
-import { AppIcon } from '../../components/a11y/AppIcon';
+import { useAccessibility, type ThemeMode } from '../../lib/a11y/AccessibilityContext';
+import teacherHeroBackground from '../../assets/teacher/Teacher Home Hero Banner Background.png';
+import teacherIllustration from '../../assets/teacher/Teacher Illustration.png';
 
-function initialsFor(name: string) {
-  const parts = name.trim().split(/\s+/).filter(Boolean);
-  if (parts.length === 0) return '🧑‍🏫';
-  return (parts[0][0] + (parts[1]?.[0] ?? '')).toUpperCase();
-}
+const initialsFor = (name: string) => name.trim().split(/\s+/).filter(Boolean).map((item) => item[0]).join('').slice(0, 2).toUpperCase() || 'GU';
 
 export default function Settings() {
   const { user, identity, refreshIdentity } = useAuth();
+  const { theme, setTheme } = useAccessibility();
   const queryClient = useQueryClient();
   const [name, setName] = useState(identity?.displayName ?? '');
+  const [currentPassword, setCurrentPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [showCurrent, setShowCurrent] = useState(false);
+  const [showNew, setShowNew] = useState(false);
+  const [showConfirm, setShowConfirm] = useState(false);
   const [profileMsg, setProfileMsg] = useState<string | null>(null);
   const [passwordMsg, setPasswordMsg] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const avatarInput = useRef<HTMLInputElement>(null);
 
-  const { data: teacherProfile } = useQuery({
-    queryKey: ['teacher-profile-settings', user?.id],
-    queryFn: async () => {
-      const { data, error: err } = await supabase
-        .from('teacher_profiles')
-        .select('notify_by_email, grade_levels')
-        .eq('user_id', user!.id)
-        .maybeSingle();
-      if (err) throw err;
-      return data as { notify_by_email: boolean; grade_levels: number[] } | null;
-    },
-    enabled: Boolean(user),
-  });
-
-  const updateProfile = useMutation({
-    mutationFn: async () => {
-      const { error: err } = await supabase.from('users').update({ name: name.trim() }).eq('id', user!.id);
-      if (err) throw err;
-    },
-    onSuccess: async () => {
-      setProfileMsg('Na-save ang pangalan.');
-      setError(null);
-      await refreshIdentity();
-    },
-    onError: (err: Error) => setError(err.message),
-  });
-
-  const updatePassword = useMutation({
-    mutationFn: async () => {
-      if (newPassword.length < 8 || !/[A-Z]/.test(newPassword) || !/[0-9]/.test(newPassword)) {
-        throw new Error('Kailangang 8+ characters, may malaking letra at numero.');
-      }
-      if (newPassword !== confirmPassword) {
-        throw new Error('Hindi magkatugma ang dalawang password.');
-      }
-      const { error: err } = await supabase.auth.updateUser({ password: newPassword });
-      if (err) throw err;
-    },
-    onSuccess: () => {
-      setPasswordMsg('Na-update ang password.');
-      setNewPassword('');
-      setConfirmPassword('');
-      setError(null);
-    },
-    onError: (err: Error) => setError(err.message),
-  });
-
-  const toggleNotify = useMutation({
-    mutationFn: async (value: boolean) => {
-      const { error: err } = await supabase
-        .from('teacher_profiles')
-        .update({ notify_by_email: value })
-        .eq('user_id', user!.id);
-      if (err) throw err;
-    },
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['teacher-profile-settings'] }),
-    onError: (err: Error) => setError(err.message),
-  });
-
-  const passwordChecks = [
-    { label: '8+ characters', met: newPassword.length >= 8 },
-    { label: 'May malaking letra (A-Z)', met: /[A-Z]/.test(newPassword) },
-    { label: 'May numero (0-9)', met: /[0-9]/.test(newPassword) },
-  ];
-
+  const { data: teacherProfile } = useQuery({ queryKey: ['teacher-profile-settings', user?.id], queryFn: async () => {
+    const { data, error: queryError } = await supabase.from('teacher_profiles').select('notify_by_email, notify_progress, notify_schedule, grade_levels, avatar_url').eq('user_id', user!.id).maybeSingle();
+    if (queryError) throw queryError;
+    return data as { notify_by_email: boolean; notify_progress: boolean; notify_schedule: boolean; grade_levels: number[]; avatar_url: string | null } | null;
+  }, enabled: Boolean(user) });
   const gradeLevels = teacherProfile?.grade_levels ?? [];
 
-  return (
-    <div className="flex min-w-0 flex-col gap-6 sm:gap-8">
-      <div
-        className="relative flex flex-col items-center gap-5 overflow-hidden rounded-3xl p-6 text-center text-white shadow-hero sm:flex-row sm:p-8 sm:text-left"
-        style={{ backgroundColor: 'var(--color-primary)' }}
-      >
-        <div className="flex h-28 w-28 shrink-0 items-center justify-center rounded-[2rem] border-4 border-white/40 bg-white/20 text-3xl font-bold shadow-lg backdrop-blur">
-          {initialsFor(identity?.displayName ?? 'Guro')}
-        </div>
-        <div className="min-w-0 flex-1">
-          <p className="text-xs font-bold tracking-[0.12em] text-white/70 uppercase">Teacher profile</p>
-          <h1 className="truncate text-2xl font-bold sm:text-3xl">{identity?.displayName ?? 'Aking Profile'}</h1>
-          <p className="truncate text-white/85">{user?.email}</p>
-          <span className="mt-1 inline-block rounded-full bg-white/20 px-3 py-0.5 text-xs font-semibold backdrop-blur">
-            <IconLabel icon="🧑‍🏫" label={`Guro · Grade ${gradeLevels.join(', ') || '-'}`} />
-          </span>
-        </div>
-      </div>
+  const updateProfile = useMutation({ mutationFn: async () => {
+    if (!name.trim()) throw new Error('Ilagay ang iyong pangalan.');
+    const { error: updateError } = await supabase.from('users').update({ name: name.trim() }).eq('id', user!.id);
+    if (updateError) throw updateError;
+  }, onSuccess: async () => { setProfileMsg('Na-save ang iyong profile.'); setError(null); await refreshIdentity(); }, onError: (mutationError: Error) => setError(mutationError.message) });
 
-      {error && (
-        <p className="rounded-2xl border border-[var(--color-danger)] bg-[var(--color-danger-soft)] px-4 py-3 text-sm text-[var(--color-danger)]">
-          {error}
-        </p>
-      )}
+  const updatePassword = useMutation({ mutationFn: async () => {
+    if (!currentPassword) throw new Error('Ilagay ang kasalukuyang password.');
+    if (newPassword.length < 8 || !/[A-Z]/.test(newPassword) || !/[a-z]/.test(newPassword) || !/[0-9]/.test(newPassword) || !/[^A-Za-z0-9]/.test(newPassword)) throw new Error('Sundin ang lahat ng password requirements.');
+    if (newPassword !== confirmPassword) throw new Error('Hindi magkatugma ang bagong password.');
+    const { error: signInError } = await supabase.auth.signInWithPassword({ email: user?.email ?? '', password: currentPassword });
+    if (signInError) throw new Error('Hindi tama ang kasalukuyang password.');
+    const { error: updateError } = await supabase.auth.updateUser({ password: newPassword });
+    if (updateError) throw updateError;
+  }, onSuccess: () => { setPasswordMsg('Na-update ang password.'); setCurrentPassword(''); setNewPassword(''); setConfirmPassword(''); setError(null); }, onError: (mutationError: Error) => setError(mutationError.message) });
 
-      <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
-        <div className="rounded-3xl border p-5 shadow-card sm:p-6" style={cardStyle('--color-brand-sage')}>
-          <h2 className="mb-4 text-xl font-bold">
-            <IconLabel icon="✏️" label="Profile Ko" />
-          </h2>
-          <form
-            onSubmit={(e) => {
-              e.preventDefault();
-              updateProfile.mutate();
-            }}
-            className="flex flex-col gap-3"
-          >
-            <label htmlFor="name" className="text-sm font-medium">
-              Pangalan
-            </label>
-            <input
-              id="name"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              className="min-h-12 w-full rounded-2xl border border-[var(--color-border)] bg-white px-4"
-            />
-            {profileMsg && <p className="text-sm font-medium text-[var(--color-success)]">{profileMsg}</p>}
-            <button
-              type="submit"
-              disabled={updateProfile.isPending}
-              className="inline-flex min-h-11 items-center self-start rounded-xl bg-[var(--color-brand-sage)] px-5 font-bold text-white hover:opacity-90 disabled:opacity-60"
-            >
-              {updateProfile.isPending ? 'Sine-save...' : 'I-save'}
-            </button>
-          </form>
-        </div>
+  const toggleNotify = useMutation({ mutationFn: async ({ key, value }: { key: 'notify_by_email' | 'notify_progress' | 'notify_schedule'; value: boolean }) => {
+    const { error: updateError } = await supabase.from('teacher_profiles').update({ [key]: value }).eq('user_id', user!.id);
+    if (updateError) throw updateError;
+  }, onSuccess: () => queryClient.invalidateQueries({ queryKey: ['teacher-profile-settings'] }), onError: (mutationError: Error) => setError(mutationError.message) });
 
-        <div className="rounded-3xl border p-5 shadow-card sm:p-6" style={cardStyle('--color-brand-teal')}>
-          <h2 className="mb-4 text-xl font-bold">
-            <IconLabel icon="🔔" label="Mga Abiso" />
-          </h2>
-          <label className="flex items-center gap-3 rounded-lg border border-white/60 bg-white/60 px-4 py-3">
-            <input
-              type="checkbox"
-              checked={teacherProfile?.notify_by_email ?? true}
-              onChange={(e) => toggleNotify.mutate(e.target.checked)}
-              className="h-4 w-4"
-            />
-            Ipadala sa email ang mga update
-          </label>
-          <p className="mt-4 text-sm text-[var(--color-text-muted)]">
-            Naka-assign kang mag-turo sa <span className="font-medium">Grade {gradeLevels.join(', ') || '-'}</span>.
-            Awtomatikong idinaragdag sa iyong roster ang bawat mag-aaral sa mga grade na ito.
-          </p>
-        </div>
+  const uploadAvatar = useMutation({ mutationFn: async (file: File) => {
+    if (!user) throw new Error('Kailangang naka-sign in para mag-upload.');
+    if (!file.type.startsWith('image/') || file.size > 2 * 1024 * 1024) throw new Error('Pumili ng PNG, JPG, o WEBP na hanggang 2 MB.');
+    const extension = file.name.split('.').pop()?.replace(/[^a-z0-9]/gi, '') || 'jpg';
+    const path = `${user.id}/avatar-${Date.now()}.${extension}`;
+    const { error: uploadError } = await supabase.storage.from('teacher-avatars').upload(path, file, { contentType: file.type, upsert: false });
+    if (uploadError) throw uploadError;
+    const { data } = supabase.storage.from('teacher-avatars').getPublicUrl(path);
+    const { error: profileError } = await supabase.from('teacher_profiles').update({ avatar_url: data.publicUrl }).eq('user_id', user.id);
+    if (profileError) throw profileError;
+  }, onSuccess: () => { setProfileMsg('Na-update ang profile photo.'); setError(null); queryClient.invalidateQueries({ queryKey: ['teacher-profile-settings'] }); }, onError: (mutationError: Error) => setError(mutationError.message) });
 
-        <div className="rounded-3xl border p-5 shadow-card sm:p-6 lg:col-span-2" style={cardStyle('--color-brand-coral')}>
-          <h2 className="mb-4 text-xl font-bold">
-            <IconLabel icon="🔒" label="Palitan ang Password" />
-          </h2>
-          <form
-            onSubmit={(e) => {
-              e.preventDefault();
-              updatePassword.mutate();
-            }}
-            className="grid grid-cols-1 gap-4 lg:grid-cols-2"
-          >
-            <div className="flex flex-col gap-3">
-              <label htmlFor="password" className="text-sm font-medium">
-                Bagong Password
-              </label>
-              <input
-                id="password"
-                type="password"
-                value={newPassword}
-                onChange={(e) => setNewPassword(e.target.value)}
-                className="min-h-12 w-full rounded-2xl border border-[var(--color-border)] bg-white px-4"
-              />
-              <label htmlFor="confirmPassword" className="text-sm font-medium">
-                Kumpirmahin ang Bagong Password
-              </label>
-              <input
-                id="confirmPassword"
-                type="password"
-                value={confirmPassword}
-                onChange={(e) => setConfirmPassword(e.target.value)}
-                className="min-h-12 w-full rounded-2xl border border-[var(--color-border)] bg-white px-4"
-              />
-            </div>
-            <div className="flex flex-col justify-center gap-2">
-              <p className="text-sm font-medium text-[var(--color-text-muted)]">Kailangan ng password:</p>
-              {passwordChecks.map((c) => (
-                <p
-                  key={c.label}
-                  className={`flex items-center gap-2 text-sm ${c.met ? 'text-[var(--color-success)]' : 'text-[var(--color-text-muted)]'}`}
-                >
-                  <AppIcon name={c.met ? '✅' : '⬜'} className="h-4 w-4" /> {c.label}
-                </p>
-              ))}
-              {confirmPassword && (
-                <p className={`flex items-center gap-2 text-sm ${newPassword === confirmPassword ? 'text-[var(--color-success)]' : 'text-[var(--color-danger)]'}`}>
-                  <AppIcon name={newPassword === confirmPassword ? '✅' : '⬜'} className="h-4 w-4" /> Magkatugma ang password
-                </p>
-              )}
-            </div>
-            {passwordMsg && (
-              <p className="text-sm font-medium text-[var(--color-success)] lg:col-span-2">{passwordMsg}</p>
-            )}
-            <button
-              type="submit"
-              disabled={updatePassword.isPending || !newPassword || !confirmPassword}
-              className="inline-flex min-h-11 items-center self-start rounded-xl bg-[var(--color-brand-coral)] px-5 font-bold text-white hover:opacity-90 disabled:opacity-60 lg:col-span-2"
-            >
-              {updatePassword.isPending ? 'Ina-update...' : 'I-update ang Password'}
-            </button>
-          </form>
-        </div>
-      </div>
+  const passwordChecks = [
+    ['8+ characters', newPassword.length >= 8], ['May malaking letra (A-Z)', /[A-Z]/.test(newPassword)], ['May maliit na letra (a-z)', /[a-z]/.test(newPassword)], ['May numero (0-9)', /[0-9]/.test(newPassword)], ['May special character (!@#)', /[^A-Za-z0-9]/.test(newPassword)],
+  ];
+  const chooseTheme = (next: ThemeMode) => setTheme(next);
+  const automaticTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'default';
+
+  return <div className="teacher-settings-reference flex min-w-0 flex-col gap-4 pb-6">
+    <header className="teacher-settings-hero"><img src={teacherHeroBackground} alt="" aria-hidden="true" /><div className="teacher-settings-hero__wash" aria-hidden="true" /><div><p>Magandang araw,</p><h1>{identity?.displayName ?? 'Guro'} <span>👋</span></h1><small>Pamahalaan ang iyong account at mga kagustuhan sa LinawLetra.</small></div><img className="teacher-settings-hero__teacher" src={teacherIllustration} alt="" aria-hidden="true" /><aside>Patuloy na nagbigay ng mas maliwanag na kinabukasan para sa bawat bata. ♥</aside><section><button type="button" className="teacher-avatar-upload" onClick={() => avatarInput.current?.click()} disabled={uploadAvatar.isPending} aria-label="Palitan ang profile photo">{teacherProfile?.avatar_url ? <img src={teacherProfile.avatar_url} alt="Profile photo" /> : initialsFor(identity?.displayName ?? 'Guro')}<i><Camera /></i></button><input ref={avatarInput} className="sr-only" type="file" accept="image/png,image/jpeg,image/webp" onChange={(event) => { const file = event.target.files?.[0]; if (file) uploadAvatar.mutate(file); event.target.value = ''; }} /><div><b>{identity?.displayName ?? 'Guro'}</b><small>{user?.email}</small><i><BriefcaseBusiness /> Guro</i><i><BookOpen /> Grade {gradeLevels.join(', ') || '—'}</i></div><button type="button" className="teacher-avatar-button" onClick={() => avatarInput.current?.click()} disabled={uploadAvatar.isPending}><Camera /> {uploadAvatar.isPending ? 'Ina-upload...' : 'Palitan ang Litrato'}</button></section></header>
+    {error && <p className="teacher-settings-notice error" role="alert">{error}</p>}
+    <div className="teacher-settings-grid">
+      <section className="teacher-settings-card teacher-profile-card"><header><span><UserRound /></span><div><h2>Profile Ko</h2><p>I-edit ang iyong personal na impormasyon.</p></div></header><form onSubmit={(event) => { event.preventDefault(); updateProfile.mutate(); }}><label><span><UserRound /> Pangalan</span><input value={name} onChange={(event) => setName(event.target.value)} aria-label="Pangalan" /></label><label><span><Mail /> Email</span><input value={user?.email ?? ''} readOnly aria-label="Email" /></label><label><span><BriefcaseBusiness /> Tungkulin</span><select value="teacher" disabled aria-label="Tungkulin"><option value="teacher">Guro</option></select></label><div className="teacher-grade-list"><span><BookOpen /> Mga Grade na Itinuturo</span><div>{gradeLevels.map((grade) => <label key={grade}><input type="checkbox" checked readOnly /> Grade {grade}</label>)}{!gradeLevels.length && <small>Wala pang assigned grade.</small>}</div></div>{profileMsg && <p className="teacher-settings-notice success">{profileMsg}</p>}<button type="submit" disabled={updateProfile.isPending}><Save /> {updateProfile.isPending ? 'Sine-save...' : 'I-save ang mga Pagbabago'}</button></form></section>
+      <section className="teacher-settings-card teacher-password-card"><header><span><LockKeyhole /></span><div><h2>Palitan ang Password</h2><p>Panatilihing ligtas ang iyong account.</p></div></header><form onSubmit={(event) => { event.preventDefault(); updatePassword.mutate(); }}><div className="teacher-password-layout"><div className="teacher-password-fields"><label>Kasalukuyang Password<span><LockKeyhole /><input type={showCurrent ? 'text' : 'password'} value={currentPassword} onChange={(event) => setCurrentPassword(event.target.value)} placeholder="Ilagay ang kasalukuyang password" /><button type="button" onClick={() => setShowCurrent((value) => !value)} aria-label="Ipakita o itago ang kasalukuyang password">{showCurrent ? <EyeOff /> : <Eye />}</button></span></label><label>Bagong Password<span><LockKeyhole /><input type={showNew ? 'text' : 'password'} value={newPassword} onChange={(event) => setNewPassword(event.target.value)} placeholder="Ilagay ang bagong password" /><button type="button" onClick={() => setShowNew((value) => !value)} aria-label="Ipakita o itago ang bagong password">{showNew ? <EyeOff /> : <Eye />}</button></span></label><label>Kumpirmahin ang Bagong Password<span><LockKeyhole /><input type={showConfirm ? 'text' : 'password'} value={confirmPassword} onChange={(event) => setConfirmPassword(event.target.value)} placeholder="Ilagay muli ang bagong password" /><button type="button" onClick={() => setShowConfirm((value) => !value)} aria-label="Ipakita o itago ang bagong password">{showConfirm ? <EyeOff /> : <Eye />}</button></span></label></div><aside><ShieldCheck /><b>Mga Kailangan sa Password:</b>{passwordChecks.map(([label, met]) => <p className={met ? 'met' : ''} key={label as string}><Check /> {label as string}</p>)}</aside></div>{passwordMsg && <p className="teacher-settings-notice success">{passwordMsg}</p>}<button type="submit" disabled={updatePassword.isPending}><LockKeyhole /> {updatePassword.isPending ? 'Ina-update...' : 'I-update ang Password'}</button></form></section>
+      <section className="teacher-settings-card teacher-notification-card"><header><span><Bell /></span><div><h2>Mga Abiso</h2><p>Piliin kung anong mga abiso ang gusto mong matanggap.</p></div></header><div className="teacher-notification-list"><label className="teacher-notification-toggle"><Mail /><span><b>Ipadala sa email ang mga update</b><small>Makakatanggap ka ng mahahalagang email notification.</small></span><input type="checkbox" checked={teacherProfile?.notify_by_email ?? true} onChange={(event) => toggleNotify.mutate({ key: 'notify_by_email', value: event.target.checked })} aria-label="Ipadala sa email ang mga update" /><i /></label><label className="teacher-notification-toggle"><BookOpen /><span><b>Mga ulat sa progreso ng mag-aaral</b><small>Abiso kapag may bagong progress activity.</small></span><input type="checkbox" checked={teacherProfile?.notify_progress ?? true} onChange={(event) => toggleNotify.mutate({ key: 'notify_progress', value: event.target.checked })} aria-label="Mga ulat sa progreso ng mag-aaral" /><i /></label><label className="teacher-notification-toggle"><Bell /><span><b>Mga paalala sa iskedyul</b><small>Abiso para sa mga naka-iskedyul na gawain.</small></span><input type="checkbox" checked={teacherProfile?.notify_schedule ?? false} onChange={(event) => toggleNotify.mutate({ key: 'notify_schedule', value: event.target.checked })} aria-label="Mga paalala sa iskedyul" /><i /></label></div></section>
+      <section className="teacher-settings-card teacher-theme-card"><header><span><Palette /></span><div><h2>Tema at Display</h2><p>Piliin ang theme na komportable para sa iyo.</p></div></header><div className="teacher-theme-options"><button type="button" className={theme === 'default' ? 'selected' : ''} onClick={() => chooseTheme('default')}><Sun /><b>Maliwanag</b><small>Maliwanag at buhay</small>{theme === 'default' && <CheckCircle2 />}</button><button type="button" className={theme === 'dark' ? 'selected' : ''} onClick={() => chooseTheme('dark')}><Moon /><b>Madilim</b><small>Mas komportable sa mata</small>{theme === 'dark' && <CheckCircle2 />}</button><button type="button" className={theme === automaticTheme ? 'selected' : ''} onClick={() => chooseTheme(automaticTheme)}><Palette /><b>Awtomatiko</b><small>Ayon sa iyong device</small>{theme === automaticTheme && <CheckCircle2 />}</button></div></section>
     </div>
-  );
+  </div>;
 }

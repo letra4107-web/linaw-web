@@ -4,11 +4,11 @@ import { cardStyle } from '../../lib/cardStyle';
 
 type Filter = 'all' | 'unread' | 'account' | 'system';
 const FILTERS: { value: Filter; label: string }[] = [{ value: 'all', label: 'Lahat' }, { value: 'unread', label: 'Hindi pa nabasa' }, { value: 'account', label: 'Account' }, { value: 'system', label: 'Iba pang update' }];
-const ACCOUNT_TYPES = new Set(['account_disabled', 'account_restored', 'student_login']);
+const ACCOUNT_TYPES = new Set(['account_disabled', 'account_restored', 'student_login', 'user_login']);
 function isToday(value: string) { return new Date(value).toDateString() === new Date().toDateString(); }
 function formatTime(value: string) { return new Date(value).toLocaleString('en-US', { month: 'short', day: 'numeric', year: 'numeric', hour: 'numeric', minute: '2-digit' }); }
 function matches(row: NotificationRow, filter: Filter) { if (filter === 'all') return true; if (filter === 'unread') return !row.is_read; if (filter === 'account') return ACCOUNT_TYPES.has(row.type); return !ACCOUNT_TYPES.has(row.type); }
-function metaFor(type: string) { if (type === 'account_disabled') return { icon: '⛔', label: 'Mataas', color: '--color-brand-coral' }; if (type === 'account_restored') return { icon: '↩', label: 'Account', color: '--color-brand-sage' }; if (type === 'student_login') return { icon: '●', label: 'Activity', color: '--color-brand-violet' }; return { icon: '🔔', label: 'Update', color: '--color-brand-lavender' }; }
+function metaFor(type: string) { if (type === 'account_disabled') return { icon: '⛔', label: 'High priority', color: '--color-brand-coral' }; if (type === 'account_restored') return { icon: '↩', label: 'Account', color: '--color-brand-sage' }; if (type === 'student_login' || type === 'user_login') return { icon: '●', label: 'Sign-in', color: '--color-brand-violet' }; return { icon: '🔔', label: 'Update', color: '--color-brand-lavender' }; }
 
 export default function AdminNotifications() {
   const { notifications, unreadCount, isLoading, markAsRead, markAllAsRead } = useNotifications();

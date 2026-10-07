@@ -123,6 +123,50 @@ router.get('/monitoring/users/:id', validateUuidParam('id'), async (req, res) =>
   } catch (err) { console.error('[admin/monitoring/user detail]', err); res.status(500).json({ error: 'Unable to load monitoring details.' }); }
 });
 
+// Private admin notes for a student account. These are intentionally never
+// exposed to student, parent, or teacher APIs.
+router.get('/monitoring/users/:id/notes', validateUuidParam('id'), async (req, res) => {
+  try {
+    const { data, error } = await supabaseAdmin.from('admin_student_notes')
+      .select('id, content, created_at, author_id')
+      .eq('student_id', req.params.id)
+      .order('created_at', { ascending: false });
+    if (error) throw error;
+    res.json({ notes: data || [] });
+  } catch (err) {
+    console.error('[admin/student notes list]', err);
+    res.status(500).json({ error: 'Unable to load student notes.' });
+  }
+});
+
+router.post('/monitoring/users/:id/notes', validateUuidParam('id'), async (req, res) => {
+  try {
+    const content = String(req.body?.content || '').trim();
+    if (!isBoundedString(content, 1000, { allowEmpty: false })) return res.status(400).json({ error: 'Note must be between 1 and 1,000 characters.' });
+    const { data: student, error: studentError } = await supabaseAdmin.from('users').select('id').eq('id', req.params.id).eq('role', 'student').maybeSingle();
+    if (studentError) throw studentError;
+    if (!student) return res.status(404).json({ error: 'Student account not found.' });
+    const { data, error } = await supabaseAdmin.from('admin_student_notes').insert({ student_id: student.id, author_id: req.user.id, content }).select('id, content, created_at, author_id').single();
+    if (error) throw error;
+    res.status(201).json({ note: data });
+  } catch (err) {
+    console.error('[admin/student notes create]', err);
+    res.status(500).json({ error: 'Unable to save student note.' });
+  }
+});
+
+router.delete('/monitoring/users/:id/notes/:noteId', validateUuidParam('id'), validateUuidParam('noteId'), async (req, res) => {
+  try {
+    const { data, error } = await supabaseAdmin.from('admin_student_notes').delete().eq('id', req.params.noteId).eq('student_id', req.params.id).select('id').maybeSingle();
+    if (error) throw error;
+    if (!data) return res.status(404).json({ error: 'Student note not found.' });
+    res.json({ success: true });
+  } catch (err) {
+    console.error('[admin/student notes delete]', err);
+    res.status(500).json({ error: 'Unable to delete student note.' });
+  }
+});
+
 const BAN_FOREVER = '876000h'; // ~100 years, matches Supabase's convention for an effectively permanent ban
 const BAN_LIFT = 'none';
 const USER_ROLES = new Set(['admin', 'teacher', 'parent', 'student']);
@@ -475,6 +519,7 @@ router.get('/analytics', async (req, res) => {
     ]);
 
     const enrollmentByMonth = {};
+    const enrollmentByRoleMonth = { student: {}, parent: {}, teacher: {} };
     for (const c of children || []) {
       const key = String(c.created_at).slice(0, 7);
       enrollmentByMonth[key] = (enrollmentByMonth[key] || 0) + 1;
@@ -483,6 +528,10 @@ router.get('/analytics', async (req, res) => {
     const roleCounts = {};
     for (const u of users || []) {
       roleCounts[u.role || 'unknown'] = (roleCounts[u.role || 'unknown'] || 0) + 1;
+      if (enrollmentByRoleMonth[u.role]) {
+        const key = String(u.created_at).slice(0, 7);
+        enrollmentByRoleMonth[u.role][key] = (enrollmentByRoleMonth[u.role][key] || 0) + 1;
+      }
     }
 
     const usageByMonth = {};
@@ -503,6 +552,9 @@ router.get('/analytics', async (req, res) => {
       enrollmentTrend: Object.entries(enrollmentByMonth)
         .sort(([a], [b]) => a.localeCompare(b))
         .map(([month, count]) => ({ month, count })),
+      enrollmentByRole: Object.entries(enrollmentByRoleMonth).flatMap(([role, entries]) => Object.entries(entries)
+        .sort(([a], [b]) => a.localeCompare(b))
+        .map(([month, count]) => ({ month, role, count }))),
       usageTrend: Object.entries(usageByMonth)
         .sort(([a], [b]) => a.localeCompare(b))
         .map(([month, count]) => ({ month, count })),

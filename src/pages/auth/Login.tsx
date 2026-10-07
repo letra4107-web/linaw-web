@@ -225,11 +225,12 @@ export default function Login() {
       title="Handa ka na bang magbasa?"
       subtitle="Mag-login para ipagpatuloy ang iyong paglalakbay sa pagbasa."
       cardColorVar="--color-brand-lavender"
+      variant="login"
       footer={
         <>
-          Wala pang account?{' '}
+          Wala ka pang account?{' '}
           <Link to="/signup" className="font-medium text-[var(--color-primary)] underline">
-            Mag-sign up
+            Gumawa ng account
           </Link>
         </>
       }
@@ -251,13 +252,14 @@ export default function Login() {
 
       {showForm && (
       <form onSubmit={onSubmit} className="flex flex-col gap-4" noValidate>
+        <p className="auth-login-welcome" role="status">🦉 Masaya kang makita ulit!</p>
         {savedProfiles.length > 0 && (
           <button
             type="button"
             onClick={() => setShowForm(false)}
             className="flex min-h-8 items-center self-start text-sm font-bold text-[var(--color-primary)]"
           >
-            ← Bumalik sa saved na profile
+            ← Bumalik sa naka-save na profile
           </button>
         )}
         <div>
@@ -287,7 +289,7 @@ export default function Login() {
               Password
             </label>
             <Link to="/forgot-password" className="text-sm font-bold text-[var(--color-primary)]">
-              Nakalimutan?
+              Nakalimutan ang password?
             </Link>
           </div>
           <PasswordInput

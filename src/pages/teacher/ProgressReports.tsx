@@ -1,43 +1,121 @@
+import { useMemo, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+import { Bar, BarChart, CartesianGrid, Cell, Pie, PieChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
+import { AlertTriangle, BarChart3, CheckCircle2, ChevronRight, Crown, Lightbulb, Search, Target, Trophy, UsersRound } from 'lucide-react';
 import { supabase } from '../../lib/supabaseClient';
 import { useAuth } from '../../lib/auth/AuthContext';
-import { cardStyle } from '../../lib/cardStyle';
+import teacherHeroBackground from '../../assets/teacher/Teacher Home Hero Banner Background.png';
+import teacherIllustration from '../../assets/teacher/Teacher Illustration.png';
 
-interface RosterChild { id: string; student_id: string; children: { id: string; name: string } | null; }
-interface ProgressRow { child_id: string; xp: number; streak: number; accuracy_sum: number; total_attempts: number; activities_completed: number; }
+interface ChildRow { id: string; name: string; grade_level: number; username: string; }
+interface RosterRow { id: string; student_id: string; assigned_at: string; children: ChildRow | null; }
+interface ProgressRow { child_id: string; xp: number; streak: number; level: string | null; accuracy_sum: number; total_attempts: number; activities_completed: number; }
+interface RecentRow { student_id: string; created_at: string; }
+
+const levelColors: Record<string, string> = { Advanced: '#8060e4', Intermediate: '#48a0ef', Beginner: '#ffba1d' };
+const levelClass = (level: string) => level.toLowerCase();
+const dateLabel = (value?: string) => value ? new Intl.DateTimeFormat('en-PH', { month: 'short', day: 'numeric', year: 'numeric' }).format(new Date(value)) : 'Wala pa';
 
 export default function ProgressReports() {
   const { user } = useAuth();
-  const { data: roster } = useQuery({ queryKey: ['teacher-roster', user?.id], queryFn: async () => { const { data, error } = await supabase.from('teacher_student_links').select('id, student_id, children(id, name)'); if (error) throw error; return data as unknown as RosterChild[]; }, enabled: Boolean(user) });
+  const [gradeFilter, setGradeFilter] = useState('all');
+  const [levelFilter, setLevelFilter] = useState('all');
+  const [query, setQuery] = useState('');
+
+  const { data: roster, isLoading: rosterLoading } = useQuery({
+    queryKey: ['teacher-roster', user?.id],
+    queryFn: async () => {
+      const { data, error } = await supabase.from('teacher_student_links')
+        .select('id, student_id, assigned_at, children(id, name, grade_level, username)')
+        .order('assigned_at', { ascending: false });
+      if (error) throw error;
+      return data as unknown as RosterRow[];
+    },
+    enabled: Boolean(user),
+  });
   const studentIds = (roster ?? []).map((row) => row.student_id);
-  const { data: progress, isLoading } = useQuery({ queryKey: ['teacher-progress-reports', studentIds], queryFn: async () => { if (!studentIds.length) return []; const { data, error } = await supabase.from('child_progress').select('child_id, xp, streak, accuracy_sum, total_attempts, activities_completed').in('child_id', studentIds); if (error) throw error; return data as ProgressRow[]; }, enabled: studentIds.length > 0 });
-  const nameFor = (childId: string) => roster?.find((row) => row.student_id === childId)?.children?.name ?? 'Mag-aaral';
-  const chartData = (progress ?? []).map((row) => ({ name: nameFor(row.child_id), xp: row.xp ?? 0, streak: row.streak ?? 0, accuracy: row.total_attempts > 0 ? Math.round(row.accuracy_sum / row.total_attempts) : 0, activities: row.activities_completed ?? 0, attempts: row.total_attempts ?? 0 }));
-  const active = chartData.filter((row) => row.attempts > 0);
-  const classAverage = active.length ? Math.round(active.reduce((sum, row) => sum + row.accuracy, 0) / active.length) : 0;
-  const strongest = [...active].sort((a, b) => b.accuracy - a.accuracy)[0];
-  const weakest = [...active].sort((a, b) => a.accuracy - b.accuracy)[0];
+  const { data: progress, isLoading: progressLoading } = useQuery({
+    queryKey: ['teacher-progress-reports', studentIds],
+    queryFn: async () => {
+      if (!studentIds.length) return [];
+      const { data, error } = await supabase.from('child_progress')
+        .select('child_id, xp, streak, level, accuracy_sum, total_attempts, activities_completed')
+        .in('child_id', studentIds);
+      if (error) throw error;
+      return data as ProgressRow[];
+    },
+    enabled: studentIds.length > 0,
+  });
+  const { data: recent } = useQuery({
+    queryKey: ['teacher-progress-recent', studentIds],
+    queryFn: async () => {
+      if (!studentIds.length) return [];
+      const { data, error } = await supabase.from('pronunciation_practice_sessions')
+        .select('student_id, created_at').in('student_id', studentIds).order('created_at', { ascending: false }).limit(100);
+      if (error) throw error;
+      return data as RecentRow[];
+    },
+    enabled: studentIds.length > 0,
+  });
 
-  return (
-    <div className="flex min-w-0 flex-col gap-6">
-      <header className="rounded-3xl border p-5 shadow-card sm:p-6" style={cardStyle('--color-brand-violet', 8, 28)}><p className="text-xs font-bold tracking-[0.12em] text-[var(--color-brand-violet)] uppercase">Pagsusuri ng klase</p><h1 className="text-2xl font-bold sm:text-3xl">Pag-unlad at Pagganap</h1><p className="text-sm text-[var(--color-text-muted)]">Batay sa aktuwal na datos ng bawat mag-aaral sa iyong talaan.</p></header>
-      {isLoading && <p className="rounded-2xl bg-white/60 p-5">Binubuo ang analytics...</p>}
-      {!isLoading && !chartData.length && <div className="rounded-3xl border border-dashed border-[var(--color-border)] bg-white/45 p-8 text-center"><h2 className="text-xl font-bold">Wala pang datos ng klase</h2><p className="text-[var(--color-text-muted)]">Magdagdag muna ng mag-aaral sa talaan.</p></div>}
-      {chartData.length > 0 && <>
-        <section className="grid grid-cols-2 gap-3 lg:grid-cols-4" aria-label="Buod ng klase">{[
-          { value: `${classAverage}%`, label: 'Karaniwang marka ng klase', note: `${active.length} may pagsubok`, color: '--color-brand-teal' },
-          { value: chartData.filter((row) => row.accuracy < 70 && row.attempts > 0).length, label: 'Kailangang tutukan', note: 'Mas mababa sa 70%', color: '--color-brand-coral' },
-          { value: strongest?.name ?? '—', label: 'Pinakamataas na kawastuhan', note: strongest ? `${strongest.accuracy}%` : 'Walang datos', color: '--color-brand-sage' },
-          { value: weakest?.name ?? '—', label: 'Pinakamababang kawastuhan', note: weakest ? `${weakest.accuracy}%` : 'Walang datos', color: '--color-brand-sun' },
-        ].map((stat) => <div key={stat.label} className="min-w-0 rounded-3xl border p-4 shadow-card sm:p-5" style={cardStyle(stat.color, 8, 28)}><p className="truncate text-xl font-bold sm:text-2xl">{stat.value}</p><p className="mt-1 text-sm font-bold">{stat.label}</p><p className="mt-1 text-xs text-[var(--color-text-muted)]">{stat.note}</p></div>)}</section>
+  const studentRows = useMemo(() => (roster ?? []).map((row) => {
+    const item = progress?.find((value) => value.child_id === row.student_id);
+    const accuracy = item?.total_attempts ? Math.round(item.accuracy_sum / item.total_attempts) : 0;
+    const level = item?.level || 'Beginner';
+    const lastActivity = recent?.find((value) => value.student_id === row.student_id)?.created_at;
+    return { ...row, item, accuracy, level, lastActivity, needsAttention: Boolean(item?.total_attempts && accuracy < 70) };
+  }), [roster, progress, recent]);
 
-        <div className="grid min-w-0 grid-cols-1 gap-5 lg:grid-cols-2">
-          {[{ title: 'Kawastuhan ng Bawat Mag-aaral', desc: 'Mas mataas ay mas mahusay; target ang 80% pataas.', dataKey: 'accuracy', color: 'var(--color-primary)', domain: [0, 100] as [number, number] }, { title: 'Natapos na Gawain', desc: 'Dami ng natapos na gawaing pagbasa.', dataKey: 'activities', color: 'var(--role-secondary, var(--color-brand-sage))', domain: undefined }].map((chart) => <section key={chart.dataKey} className="min-w-0 rounded-3xl border p-4 shadow-card sm:p-5" style={cardStyle(chart.dataKey === 'accuracy' ? '--color-primary' : '--color-brand-sage', 6, 24)}><h2 className="text-lg font-bold">{chart.title}</h2><p className="text-xs text-[var(--color-text-muted)]">{chart.desc}</p><div className="mt-3 h-72 min-w-0"><ResponsiveContainer width="100%" height="100%"><BarChart data={chartData} margin={{ top: 8, right: 6, left: -22, bottom: 0 }}><CartesianGrid strokeDasharray="4 4" vertical={false} stroke="var(--color-border)" /><XAxis dataKey="name" tick={{ fontSize: 10 }} tickLine={false} axisLine={false} interval={0} tickFormatter={(value: string) => value.split(' ')[0]} /><YAxis domain={chart.domain} tick={{ fontSize: 10 }} tickLine={false} axisLine={false} /><Tooltip contentStyle={{ borderRadius: 16, border: '1px solid var(--color-border)' }} /><Bar dataKey={chart.dataKey} fill={chart.color} radius={[8, 8, 0, 0]} /></BarChart></ResponsiveContainer></div></section>)}
-        </div>
+  const activeRows = studentRows.filter((row) => row.item?.total_attempts);
+  const targetRows = activeRows.filter((row) => row.accuracy >= 80);
+  const attentionRows = activeRows.filter((row) => row.needsAttention);
+  const gradeLevels = [...new Set(studentRows.map((row) => row.children?.grade_level).filter((value): value is number => Boolean(value)))].sort((a, b) => a - b);
+  const graphRows = ['Accuracy', 'Completion', 'Practice'].map((metric) => {
+    const next: Record<string, string | number> = { metric };
+    gradeLevels.slice(0, 3).forEach((grade) => {
+      const group = activeRows.filter((row) => row.children?.grade_level === grade);
+      const maxActivities = Math.max(1, ...activeRows.map((row) => row.item?.activities_completed ?? 0));
+      const maxAttempts = Math.max(1, ...activeRows.map((row) => row.item?.total_attempts ?? 0));
+      next[`grade${grade}`] = group.length ? Math.round(group.reduce((sum, row) => sum + (metric === 'Accuracy' ? row.accuracy : metric === 'Completion' ? ((row.item?.activities_completed ?? 0) / maxActivities) * 100 : ((row.item?.total_attempts ?? 0) / maxAttempts) * 100), 0) / group.length) : 0;
+    });
+    return next;
+  });
+  const distribution = ['Advanced', 'Intermediate', 'Beginner'].map((level) => ({ name: level, value: studentRows.filter((row) => row.level.toLowerCase() === level.toLowerCase()).length, color: levelColors[level] }));
+  const visibleRows = studentRows.filter((row) => (gradeFilter === 'all' || String(row.children?.grade_level) === gradeFilter)
+    && (levelFilter === 'all' || row.level.toLowerCase() === levelFilter)
+    && (!query.trim() || row.children?.name.toLowerCase().includes(query.trim().toLowerCase()) || row.children?.username.toLowerCase().includes(query.trim().toLowerCase())));
+  const ranked = [...activeRows].sort((a, b) => b.accuracy - a.accuracy);
 
-        <section aria-labelledby="student-performance-title"><div className="mb-3"><h2 id="student-performance-title" className="text-xl font-bold">Detalye ng Pagganap</h2><p className="text-sm text-[var(--color-text-muted)]">Maikling paghahambing ng lahat ng mag-aaral.</p></div><div className="grid grid-cols-1 gap-3 md:grid-cols-2">{chartData.sort((a, b) => a.accuracy - b.accuracy).map((row) => <article key={row.name} className="rounded-3xl border p-4 shadow-card" style={cardStyle(row.accuracy < 70 && row.attempts ? '--color-brand-coral' : '--color-brand-lavender', 6, 24)}><div className="flex items-center justify-between gap-3"><div className="min-w-0"><h3 className="truncate font-bold">{row.name}</h3><p className="text-xs text-[var(--color-text-muted)]">{row.attempts} pagsubok · {row.activities} gawain</p></div><span className={`rounded-full px-3 py-1 text-sm font-bold ${row.accuracy < 70 && row.attempts ? 'bg-[var(--color-danger-soft)] text-[var(--color-danger)]' : 'bg-[var(--color-success-soft)] text-[var(--color-success)]'}`}>{row.attempts ? `${row.accuracy}%` : 'Walang datos'}</span></div><div className="mt-3 h-2.5 overflow-hidden rounded-full bg-white/75 shadow-inner"><div className="h-full rounded-full" style={{ width: `${Math.min(100, row.accuracy)}%`, backgroundColor: row.accuracy < 70 ? 'var(--color-brand-coral)' : 'var(--color-brand-sage)' }} /></div><div className="mt-3 flex justify-between text-xs text-[var(--color-text-muted)]"><span>{row.xp.toLocaleString()} XP</span><span>{row.streak} sunod-sunod</span></div></article>)}</div></section>
-      </>}
-    </div>
-  );
+  return <div className="teacher-reports-reference flex min-w-0 flex-col gap-4 pb-6">
+    <header className="teacher-reports-hero">
+      <img src={teacherHeroBackground} alt="" aria-hidden="true" />
+      <div className="teacher-reports-hero__wash" aria-hidden="true" />
+      <div className="teacher-reports-hero__copy"><p>Ulat ng pag-unlad</p><h1>Mas Maliwanag na Pag-unlad <BarChart3 /></h1><span>Subaybayan ang progreso ng bawat mag-aaral at tukuyin ang mga lugar na kailangang pa ng suporta.</span></div>
+      <img className="teacher-reports-hero__teacher" src={teacherIllustration} alt="" aria-hidden="true" />
+      <aside><Lightbulb /><span>Mas maunlad na mag-aaral, mas makabuluhang kinabukasan.</span></aside>
+    </header>
+
+    {(rosterLoading || progressLoading) && <p className="teacher-reports-loading">Binubuo ang ulat ng pag-unlad...</p>}
+    {!rosterLoading && !progressLoading && !studentRows.length && <section className="teacher-reports-empty"><UsersRound /><h2>Wala pang mag-aaral sa iyong roster</h2><p>Magdagdag muna ng mag-aaral upang makita ang mga ulat ng pag-unlad.</p></section>}
+    {!!studentRows.length && <>
+      <section className="teacher-report-stats" aria-label="Buod ng pag-unlad">
+        <article><span><UsersRound /></span><div><b>{studentRows.length}</b><p>Kabuuang Mag-aaral</p><small>{activeRows.length} may aktibidad</small></div></article>
+        <article><span><BarChart3 /></span><div><b>{activeRows.length}</b><p>Aktibong Mag-aaral</p><small>{studentRows.length ? `${Math.round((activeRows.length / studentRows.length) * 100)}% ng kabuuan` : '0% ng kabuuan'}</small></div></article>
+        <article><span><Trophy /></span><div><b>{targetRows.length}</b><p>Naaabot ang Target</p><small>80% pataas ang marka</small></div></article>
+        <article><span><Target /></span><div><b>{attentionRows.length}</b><p>Kailangan ng Suporta</p><small>Mas mababa sa 70%</small></div></article>
+      </section>
+
+      <section className="teacher-reports-charts">
+        <article className="teacher-reports-chart-card"><header><span><BarChart3 /></span><div><h2>Pangkalahatang Pag-unlad</h2><p>Average na marka batay sa aktuwal na records ng klase</p></div><div className="teacher-reports-legend">{gradeLevels.slice(0, 3).map((grade, index) => <small key={grade} className={`grade-${index + 1}`}>Grade {grade}</small>)}</div></header><div className="teacher-reports-bar-chart"><ResponsiveContainer width="100%" height="100%"><BarChart data={graphRows} margin={{ top: 10, right: 8, left: -20, bottom: 0 }} barGap={5}><CartesianGrid vertical={false} stroke="#e9e4f7" /><XAxis dataKey="metric" tickLine={false} axisLine={false} tick={{ fontSize: 11, fill: '#615b87' }} /><YAxis domain={[0, 100]} tickLine={false} axisLine={false} tick={{ fontSize: 10, fill: '#7a7597' }} /><Tooltip contentStyle={{ borderRadius: 14, border: '1px solid #e5dff4', fontSize: 12 }} formatter={(value) => `${value ?? 0}%`} />{gradeLevels.slice(0, 3).map((grade, index) => <Bar key={grade} dataKey={`grade${grade}`} name={`Grade ${grade}`} fill={['#8060e4', '#ffbd27', '#46ba92'][index]} radius={[6, 6, 0, 0]} />)}</BarChart></ResponsiveContainer></div></article>
+        <article className="teacher-reports-level-card"><header><span><Crown /></span><div><h2>Antas ng Pagbasa</h2><p>Bilang ng mga mag-aaral sa bawat antas</p></div></header><div className="teacher-reports-donut"><ResponsiveContainer width="100%" height="100%"><PieChart><Pie data={distribution} dataKey="value" nameKey="name" innerRadius="57%" outerRadius="83%" paddingAngle={1}>{distribution.map((item) => <Cell key={item.name} fill={item.color} />)}</Pie><Tooltip /></PieChart></ResponsiveContainer><strong>{studentRows.length}<small>Mag-aaral</small></strong></div><ul>{distribution.map((item) => <li key={item.name}><i style={{ background: item.color }} /><span>{item.name}</span><b>{item.value} ({studentRows.length ? Math.round((item.value / studentRows.length) * 100) : 0}%)</b></li>)}</ul></article>
+      </section>
+
+      <section className="teacher-reports-highlights">
+        <article><header><span><Crown /></span><div><h2>Nangungunang Mag-aaral</h2><p>Pinakamataas na kabuuang marka</p></div><ChevronRight /></header><div className="teacher-report-student-strip">{ranked.slice(0, 3).map((row, index) => <div key={row.id}><em>{index + 1}</em><span>{row.children?.name.split(' ').map((word) => word[0]).join('').slice(0, 2)}</span><p><b>{row.children?.name ?? 'Mag-aaral'}</b><small>Grade {row.children?.grade_level ?? '—'} · {row.accuracy}%</small><i><u style={{ width: `${row.accuracy}%` }} /></i></p></div>)}{!ranked.length && <p className="teacher-report-empty-copy">Wala pang sapat na activity record.</p>}</div></article>
+        <article className="attention"><header><span><AlertTriangle /></span><div><h2>Kailangang Tutukan</h2><p>Mga mag-aaral na mababa ang marka</p></div><ChevronRight /></header><div className="teacher-report-student-strip">{attentionRows.slice(0, 3).map((row) => <div key={row.id}><span>{row.children?.name.split(' ').map((word) => word[0]).join('').slice(0, 2)}</span><p><b>{row.children?.name ?? 'Mag-aaral'}</b><small>Grade {row.children?.grade_level ?? '—'} · {row.accuracy}%</small><i><u style={{ width: `${row.accuracy}%` }} /></i></p></div>)}{!attentionRows.length && <p className="teacher-report-empty-copy">Walang mag-aaral na nangangailangan ng agarang suporta.</p>}</div></article>
+      </section>
+
+      <section className="teacher-reports-table-card"><header><span><CheckCircle2 /></span><div><h2>Detalye ng Pag-unlad ng Mag-aaral</h2><p>Tingnan ang indibidwal na progreso ng bawat mag-aaral.</p></div><div className="teacher-reports-table-filters"><select value={gradeFilter} onChange={(event) => setGradeFilter(event.target.value)}><option value="all">Lahat ng Baitang</option>{gradeLevels.map((grade) => <option key={grade} value={grade}>Grade {grade}</option>)}</select><select value={levelFilter} onChange={(event) => setLevelFilter(event.target.value)}><option value="all">Lahat ng Antas</option><option value="advanced">Advanced</option><option value="intermediate">Intermediate</option><option value="beginner">Beginner</option></select><label><Search /><input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Hanapin ang mag-aaral..." /></label></div></header><div className="teacher-reports-table-scroll"><table><thead><tr><th>Mag-aaral</th><th>Baitang</th><th>Antas ng Pagbasa</th><th>Kabuuang Marka</th><th>Huling Aktibidad</th><th>Katayuan</th></tr></thead><tbody>{visibleRows.map((row) => <tr key={row.id}><td><span className="teacher-report-avatar">{row.children?.name.split(' ').map((word) => word[0]).join('').slice(0, 2) || '?'}</span><div><b>{row.children?.name ?? 'Mag-aaral'}</b><small>{row.children?.username ?? 'Walang username'}</small></div></td><td>Grade {row.children?.grade_level ?? '—'}</td><td><em className={`teacher-report-level ${levelClass(row.level)}`}>{row.level}</em></td><td><div className="teacher-report-score"><i><u style={{ width: `${row.accuracy}%` }} /></i><b>{row.item?.total_attempts ? `${row.accuracy}%` : '—'}</b></div></td><td><b>{dateLabel(row.lastActivity)}</b><small>{row.item?.activities_completed ?? 0} natapos na gawain</small></td><td><em className={row.needsAttention ? 'teacher-report-status attention' : 'teacher-report-status'}>{row.needsAttention ? 'Kailangan ng Atensyon' : 'Aktibo'}</em></td></tr>)}{!visibleRows.length && <tr><td className="teacher-reports-no-results" colSpan={6}>Walang mag-aaral na tugma sa mga filter.</td></tr>}</tbody></table></div></section>
+    </>}
+  </div>;
 }

@@ -14,6 +14,8 @@ const teacherRoutes = require('./routes/teacher');
 const parentRoutes = require('./routes/parent');
 const studentRoutes = require('./routes/student');
 const ttsRoutes = require('./routes/tts');
+const { createTtsRouter, publicAudioCache } = require('./routes/tts');
+const { publicTtsLimiter } = require('./lib/rateLimiters');
 const notificationsRoutes = require('./routes/notifications');
 const authEventsRoutes = require('./routes/authEvents');
 const { requestObservability } = require('./middleware/observability');
@@ -82,6 +84,9 @@ app.use('/api/teacher', teacherRoutes);
 app.use('/api/parent', parentRoutes);
 app.use('/api/student', studentRoutes);
 app.use('/api/tts', ttsRoutes);
+// The landing-page read-aloud control uses the same server-side ElevenLabs
+// implementation, with an IP-based cap because visitors are not signed in.
+app.use('/api/public/tts', createTtsRouter({ authMiddleware: (_req, _res, next) => next(), limiter: publicTtsLimiter, cache: publicAudioCache }));
 app.use('/api/notifications', notificationsRoutes);
 app.use('/api/auth', authEventsRoutes);
 app.use((req, res) => res.status(404).json({ error: 'Not found' }));

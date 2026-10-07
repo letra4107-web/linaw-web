@@ -69,6 +69,35 @@ function platformFor(req) {
   return 'Web';
 }
 
+function shouldNotifyAdmins(action, actorRole, status) {
+  return action === 'AUTH.LOGIN_SUCCESS' && actorRole !== 'admin' && status === SUCCESS;
+}
+
+async function notifyAdminsOfLogin(supabaseAdmin, { actorId, actorName, actorRole, platform }) {
+  const { data: admins, error } = await supabaseAdmin
+    .from('users')
+    .select('id')
+    .eq('role', 'admin');
+  if (error) throw error;
+
+  const recipients = (admins || []).map((admin) => admin.id).filter((id) => id && id !== actorId);
+  if (!recipients.length) return;
+
+  const name = actorName || 'A user';
+  const role = actorRole ? ` (${actorRole})` : '';
+  const body = `${name}${role} signed in on ${platform}.`;
+  const { error: insertError } = await supabaseAdmin.from('notifications').insert(recipients.map((user_id) => ({
+    user_id,
+    title: 'User sign-in',
+    body,
+    message: body,
+    type: 'user_login',
+    is_read: false,
+    read: false,
+  })));
+  if (insertError) throw insertError;
+}
+
 // The helper intentionally accepts the full final signature now. Target/diff
 // fields are persisted in the next additive schema task; current columns keep
 // this task backward-compatible with deployed audit_logs rows.
@@ -109,6 +138,22 @@ async function logAudit({ actor, action, target = {}, before = null, after = nul
     updated_values: after,
     metadata,
   });
+
+  // Deliver a concise, realtime-visible admin alert for actual user sign-ins.
+  // This deliberately excludes admin sign-ins and routine learning activity to
+  // avoid notification noise.
+  if (shouldNotifyAdmins(action, actorRole, status)) {
+    try {
+      await notifyAdminsOfLogin(supabaseAdmin, {
+        actorId: actor.id,
+        actorName: actor.name || profile?.name || actor.displayName || null,
+        actorRole,
+        platform: metadata.platform,
+      });
+    } catch (error) {
+      console.error('[audit admin-login-notification]', error);
+    }
+  }
 }
 
-module.exports = { SUCCESS, FAILED, auditActionForRequest, platformFor, logAudit };
+module.exports = { SUCCESS, FAILED, auditActionForRequest, platformFor, shouldNotifyAdmins, logAudit };

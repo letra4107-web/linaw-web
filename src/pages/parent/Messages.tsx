@@ -34,7 +34,13 @@ export default function ParentMessages() {
       const { data, error: queryError } = await supabase.from('teacher_messages').select('id, teacher_id, child_id, message, read, created_at, children(name)').order('created_at', { ascending: false });
       if (queryError) throw queryError;
       return data as unknown as MessageRow[];
-    }, enabled: Boolean(user),
+    },
+    enabled: Boolean(user),
+    // Teacher follow-ups are delivered through teacher_messages. Refresh the
+    // parent inbox while it is open so a newly sent reply becomes visible
+    // without requiring the parent to reload the page.
+    refetchInterval: 10_000,
+    refetchOnWindowFocus: true,
   });
   const teacherIds = useMemo(() => Array.from(new Set((messages ?? []).map((message) => message.teacher_id))), [messages]);
   const { data: teacherNames } = useQuery({

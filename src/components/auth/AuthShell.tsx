@@ -18,6 +18,7 @@ interface AuthShellProps {
   eyebrow?: string;
   maxWidthClassName?: string;
   cardColorVar?: string;
+  variant?: 'default' | 'login' | 'signup';
 }
 
 export function AuthShell({
@@ -28,9 +29,10 @@ export function AuthShell({
   eyebrow,
   maxWidthClassName = 'max-w-lg',
   cardColorVar = '--color-brand-lavender',
+  variant = 'default',
 }: AuthShellProps) {
   return (
-    <div className="auth-shell min-h-screen text-[var(--color-text)] lg:flex">
+    <div className={`auth-shell auth-shell-${variant} min-h-screen text-[var(--color-text)] lg:flex`}>
       <div className="auth-shell-illustration relative hidden overflow-hidden text-white lg:flex lg:w-1/2 lg:flex-col">
         <img src={leftImage} alt="" aria-hidden="true" className="absolute inset-0 h-full w-full object-cover object-center" />
         <div
@@ -39,7 +41,7 @@ export function AuthShell({
         />
 
         <div className="relative z-10 flex h-full flex-col px-10 py-12">
-          <Link to="/" className="w-fit rounded-lg focus-visible:outline-white">
+          <Link to="/" className="auth-shell-scene-logo w-fit rounded-lg focus-visible:outline-white">
             <img src={logo} alt="LinawLetra" className="h-16 w-auto rounded-lg" />
           </Link>
 
@@ -60,6 +62,7 @@ export function AuthShell({
               <img src={logo} alt="LinawLetra" className="h-12 w-auto rounded-lg" />
             </Link>
           </header>
+          {(variant === 'login' || variant === 'signup') && <div className="auth-shell-mobile-scene lg:hidden"><img src={leftImage} alt="" aria-hidden="true" /></div>}
           <main className={`auth-shell-main mx-auto flex w-full ${maxWidthClassName} flex-1 flex-col justify-center gap-6 px-6 py-12`}>
             <div className="text-center">
               {eyebrow && <p className="auth-shell-eyebrow mx-auto mb-4 w-fit rounded-full px-5 py-2 text-sm font-extrabold tracking-[0.08em] uppercase">{eyebrow}</p>}

@@ -7,7 +7,6 @@ import {
   FieldError,
   IconInput,
   PasswordInput,
-  PasswordStrengthMeter,
   inputClass,
   isValidEmail,
   primaryButtonClass,
@@ -103,8 +102,11 @@ export default function SignUp() {
   return (
     <AuthShell
       title="Gumawa ng account"
+      eyebrow="Simulan ang Paglalakbay!"
+      subtitle="Gumawa ng iyong LinawLetra account at simulan ang mas masayang paglalakbay sa pagbasa."
       maxWidthClassName="max-w-2xl"
       cardColorVar="--color-brand-sage"
+      variant="signup"
       footer={
         <>
           May account ka na?{' '}
@@ -115,19 +117,20 @@ export default function SignUp() {
       }
     >
       <form onSubmit={onSubmit} className="flex flex-col gap-4" noValidate>
+        <p className="auth-signup-welcome" role="status">🦉 Tara, magsimula tayo!</p>
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-[1fr_10rem_1fr]">
           <div>
             <label htmlFor="firstName" className="mb-2 block text-base font-medium">
               Pangalan
             </label>
-            <IconInput
+            <input
               id="firstName"
-              icon="🧑"
               required
               value={firstName}
               onChange={(e) => setFirstName(e.target.value)}
               autoComplete="given-name"
-              invalid={!!fieldErrors.firstName}
+              aria-invalid={!!fieldErrors.firstName || undefined}
+              className={`${inputClass} ${fieldErrors.firstName ? 'border-[var(--color-danger)] focus-visible:border-[var(--color-danger)] focus-visible:ring-[var(--color-danger)]/25' : ''}`}
             />
             {fieldErrors.firstName && (
               <div className="mt-2">
@@ -152,14 +155,14 @@ export default function SignUp() {
             <label htmlFor="lastName" className="mb-2 block text-base font-medium">
               Apelyido
             </label>
-            <IconInput
+            <input
               id="lastName"
-              icon="🧑"
               required
               value={lastName}
               onChange={(e) => setLastName(e.target.value)}
               autoComplete="family-name"
-              invalid={!!fieldErrors.lastName}
+              aria-invalid={!!fieldErrors.lastName || undefined}
+              className={`${inputClass} ${fieldErrors.lastName ? 'border-[var(--color-danger)] focus-visible:border-[var(--color-danger)] focus-visible:ring-[var(--color-danger)]/25' : ''}`}
             />
             {fieldErrors.lastName && (
               <div className="mt-2">
@@ -181,6 +184,7 @@ export default function SignUp() {
             onChange={(e) => setEmail(e.target.value)}
             autoComplete="email"
             invalid={!!fieldErrors.email}
+            placeholder="halimbawa@email.com"
           />
           {fieldErrors.email && (
             <div className="mt-2">
@@ -200,10 +204,12 @@ export default function SignUp() {
               autoComplete="new-password"
               invalid={!!fieldErrors.password}
             />
-            <p className="text-sm text-[var(--color-text-muted)]">
-              Dapat 8+ characters ang haba, may malaking titik (A-Z) at numero (0-9).
-            </p>
-            <PasswordStrengthMeter password={password} />
+            <p className="auth-password-helper">Gumamit ng hindi bababa sa 8 character na may malaking titik (A–Z) at numero (0–9).</p>
+            <ul className="auth-password-checklist" aria-label="Mga kailangan sa password">
+              <li className={password.length >= 8 ? 'complete' : ''}>{password.length >= 8 ? '✓' : '○'} Hindi bababa sa 8 character</li>
+              <li className={/[A-Z]/.test(password) ? 'complete' : ''}>{/[A-Z]/.test(password) ? '✓' : '○'} May malaking titik (A–Z)</li>
+              <li className={/[0-9]/.test(password) ? 'complete' : ''}>{/[0-9]/.test(password) ? '✓' : '○'} May numero (0–9)</li>
+            </ul>
             {fieldErrors.password && <FieldError message={fieldErrors.password} />}
           </div>
         </div>
@@ -223,6 +229,7 @@ export default function SignUp() {
               <FieldError message={fieldErrors.confirmPassword} />
             </div>
           )}
+          {confirmPassword && password === confirmPassword && !fieldErrors.confirmPassword && <p className="auth-password-match" role="status">✓ Magkatugma ang password</p>}
         </div>
         <div>
           <label htmlFor="agreedToTerms" className="flex items-start gap-3 text-base">
@@ -248,7 +255,7 @@ export default function SignUp() {
         <FieldError message={error ?? undefined} />
         <button type="submit" disabled={submitting} className={primaryButtonClass}>
           {submitting && <ButtonSpinner />}
-          {submitting ? 'Gumagawa ng account...' : 'Mag-sign up'}
+          {submitting ? 'Gumagawa ng account...' : 'Gumawa ng Account'}
         </button>
       </form>
     </AuthShell>

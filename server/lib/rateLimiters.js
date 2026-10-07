@@ -7,6 +7,15 @@ function userLimiter({ windowMs, limit }) {
 module.exports = {
   userLimiter,
   ttsLimiter: userLimiter({ windowMs: 60_000, limit: 20 }),
+  // Public pages have no signed-in user to key against. Keep this deliberately
+  // conservative so the server-side ElevenLabs credential cannot be abused.
+  publicTtsLimiter: rateLimit({
+    windowMs: 60_000,
+    limit: 8,
+    standardHeaders: 'draft-7',
+    legacyHeaders: false,
+    message: safe429,
+  }),
   uploadLimiter: userLimiter({ windowMs: 15 * 60_000, limit: 30 }),
   assessmentLimiter: userLimiter({ windowMs: 10 * 60_000, limit: 60 }),
   credentialLimiter: userLimiter({ windowMs: 60 * 60_000, limit: 10 }),

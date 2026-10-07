@@ -1,480 +1,84 @@
-import { useState } from 'react';
+import { useState, type ReactNode } from 'react';
 import { Link } from 'react-router-dom';
 import { TTSButton } from '../components/a11y/TTSButton';
 import { IconLabel } from '../components/a11y/IconLabel';
-import { AppIcon } from '../components/a11y/AppIcon';
 import { ScrollReveal } from '../components/ScrollReveal';
 import { useAccessibility } from '../lib/a11y/AccessibilityContext';
 import logo from '../assets/Logo.jpg';
-import landBg from '../lib/emptyImage';
-import { cardStyle, CARD_COLORS } from '../lib/cardStyle';
-
-const FEATURES = [
-  {
-    icon: '🗣️',
-    title: 'Mas Madaling Pagsasanay',
-    text: 'Nagbabasa ang bata nang malakas at nakakatanggap ng malinaw na tulong sa bawat pagsubok.',
-    tint: 'primary',
-  },
-  {
-    icon: '👨‍👩‍👧',
-    title: 'Malinaw na Progreso',
-    text: 'Nakikita ng magulang ang reading activity, progreso, at mga bahaging kailangan pang sanayin.',
-    tint: 'primary',
-  },
-  {
-    icon: '🧑‍🏫',
-    title: 'Actionable na Insight',
-    text: 'Nakikita ng guro ang learning patterns upang makapili ng mas angkop na aralin at pagsasanay.',
-    tint: 'accent',
-  },
-] as const;
+import mascot from '../assets/students/mascot/owl-mascot.png';
 
 const NAV_LINKS = [
-  { label: 'Bahay', href: '/' },
-  { label: 'Tungkol Sa Amin', href: '#phonological-dyslexia' },
-  { label: 'Mga Tampok', href: '#ano-ang-makukuha' },
-  { label: 'Paano Gumagana', href: '#paano-gumagana' },
+  { label: 'Bahay', href: '/' }, { label: 'Tungkol sa Amin', href: '#phonological-dyslexia' },
+  { label: 'Mga Tampok', href: '#mga-tampok' }, { label: 'Paano Gumagana', href: '#paano-gumagana' },
   { label: 'Makipag-ugnayan', href: '#contact' },
 ] as const;
 
-const ROLES = [
-  { icon: '🧒', label: 'Mag-aaral' },
-  { icon: '👨‍👩‍👧', label: 'Magulang' },
-  { icon: '🧑‍🏫', label: 'Guro' },
-  { icon: '🛠️', label: 'Admin' },
-];
+const QUICK_BENEFITS = [
+  { icon: '📖', title: 'Grade 1–6', text: 'Mga gawaing angkop sa antas ng bata', color: 'sky' },
+  { icon: '🧠', title: 'Angkop na Pagkatuto', text: 'Mga araling naaayon sa pangangailangan', color: 'lavender' },
+  { icon: '🔊', title: 'Basa at Pakinig', text: 'Pagsasanay gamit ang tunog at salita', color: 'peach' },
+  { icon: '⭐', title: 'Masayang Pagsasanay', text: 'Matuto habang nakakakuha ng progreso at parangal', color: 'mint' },
+] as const;
 
-const STATS = [
-  { value: 'Grade 1–6', label: 'Saklaw na antas' },
-  { value: '4', label: 'Uri ng user' },
-  { value: '100%', label: 'Tagalog na UI' },
-  { value: 'Data', label: 'Reading insights' },
-];
-
-const RESPONSE_POINTS = [
-  {
-    icon: '🎙️',
-    title: 'Real-time na Speech Recognition',
-    text: 'Sinusuri ang bawat binigkas na salita ng bata at inihahambing kaagad sa tamang bigkas.',
-  },
-  {
-    icon: '🧠',
-    title: 'Pagsubaybay sa Mga Tunog',
-    text: 'Ipinapakita ng naitalang pagsasanay kung aling mga tunog (hal. "r" at "d") ang maaaring pagtuunan sa susunod na practice.',
-  },
-  {
-    icon: '🔊',
-    title: 'Text-to-Speech',
-    text: 'Naririnig muna ng bata ang tamang bigkas ng salita bago pa man sumubok magbasa nang malakas.',
-  },
-  {
-    icon: '🔤',
-    title: 'Dyslexia-Friendly na Font',
-    text: 'May Lexend font toggle na dinisenyo para mas madaling makilala ang hugis ng bawat letra.',
-  },
-  {
-    icon: '📊',
-    title: 'Reading Insights',
-    text: 'Ipinapakita sa magulang at guro ang mga specific na "mahihinang tunog" ng bata para malaman kung saan dapat mag-focus ang extra practice.',
-  },
-  {
-    icon: '📏',
-    title: 'Reading Guide Overlay',
-    text: 'Tumutulong itong mag-focus sa isang linya ng teksto nang hindi naliligaw ang mata sa ibang bahagi ng pahina.',
-  },
+const TOOLS = [
+  { icon: '🎙️', title: 'Pagkilala sa Boses', text: 'Sinusuri ang binibigkas na salita upang makatulong sa pagsasanay sa pagbasa.' },
+  { icon: '🧠', title: 'Pagsubaybay sa mga Tunog', text: 'Tinutulungan ang bata sa pagkilala at pagsasanay ng mga tunog.' },
+  { icon: '🔊', title: 'Teksto Patungong Boses', text: 'Maaaring pakinggan nang malinaw ang salita o pangungusap.' },
+  { icon: '🔤', title: 'Dyslexia-Friendly na Font', text: 'Mas madaling basahin at mas komportable sa mata.' },
+  { icon: '📊', title: 'Pagsubaybay sa Pag-unlad', text: 'Nakikita ang pagbabago at progreso habang nagpapatuloy ang pag-aaral.' },
+  { icon: '📏', title: 'Gabay sa Pagbasa', text: 'Tumutulong upang masundan ng bata ang tamang linya habang nagbabasa.' },
 ] as const;
 
 const STEPS = [
-  { n: '1', icon: '✍️', title: 'Mag-sign up', text: 'Gumawa ng account bilang magulang o guro sa loob ng ilang minuto.' },
-  { n: '2', icon: '🧒', title: 'I-enroll ang bata', text: 'Idagdag ang anak o mag-aaral, awtomatikong mase-set ang reading level.' },
-  { n: '3', icon: '📈', title: 'Subaybayan ang progreso', text: 'Makita ang bawat sesyon, badge, at insight habang umuunlad ang bata.' },
+  { n: '1', icon: '✍️', title: 'Gumawa ng Account', text: 'Gumawa ng account bilang mag-aaral, magulang, o guro.' },
+  { n: '2', icon: '🔎', title: 'Kilalanin ang Antas ng Pagbasa', text: 'Sa pamamagitan ng mga paunang gawain, natutukoy ang kasalukuyang pangangailangan ng bata.' },
+  { n: '3', icon: '🌱', title: 'Magsimula sa Angkop na Pagkatuto', text: 'Makakatanggap ang bata ng mga gawaing naaayon sa kanyang progreso at pangangailangan.' },
 ] as const;
+
+const AUDIENCES = [
+  { icon: '🌟', eyebrow: 'Para sa Mag-aaral', title: 'Mas Masayang Pagbabasa', text: 'Mga gawaing simple, malinaw, at masayang sundan upang unti-unting magkaroon ng kumpiyansa sa pagbabasa.', color: 'lavender' },
+  { icon: '📈', eyebrow: 'Para sa Magulang', title: 'Malinaw na Pag-unlad', text: 'Makikita ang progreso, mga natapos na gawain, at mga bahaging kailangan pa ng suporta.', color: 'peach' },
+  { icon: '👩‍🏫', eyebrow: 'Para sa Guro', title: 'Mas Makabuluhang Gabay', text: 'Makikita ang mga huwaran sa pagkatuto at progreso upang makapagbigay ng mas angkop na suporta at pagsasanay.', color: 'mint' },
+] as const;
+
+function PageLink({ href, children, className, onClick }: { href: string; children: ReactNode; className?: string; onClick?: () => void }) {
+  return href.startsWith('#') ? <a href={href} className={className} onClick={onClick}>{children}</a> : <Link to={href} className={className} onClick={onClick}>{children}</Link>;
+}
 
 export default function Landing() {
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
   const { font, setFont } = useAccessibility();
   const selectedFont = font === 'comic' ? 'comic' : 'dyslexic';
+  const closeNav = () => setMobileNavOpen(false);
 
-  return (
-    <div
-      className="min-h-screen bg-[var(--color-bg)] text-[var(--color-text)]"
-      style={{ backgroundImage: `url(${landBg})`, backgroundRepeat: 'repeat', backgroundSize: '900px auto' }}
-    >
-      <header className="sticky top-0 z-20 border-b border-[var(--color-border)] bg-[var(--color-bg)]/85 backdrop-blur">
-        <div className="grid grid-cols-[1fr_auto_1fr] items-center gap-2 px-3 py-2 sm:gap-4 sm:px-6">
-          <Link to="/" className="justify-self-start">
-            <img src={logo} alt="LinawLetra" className="h-12 w-auto rounded-lg sm:h-20" />
-          </Link>
-          <nav className="hidden justify-self-center lg:block" aria-label="Pangunahing navigation">
-            <ul className="flex items-center gap-8 text-lg font-semibold">
-              {NAV_LINKS.map((item) =>
-                item.href.startsWith('#') ? (
-                  <li key={item.label}>
-                    <a
-                      href={item.href}
-                      className="inline-block transition-transform duration-150 hover:-translate-y-0.5 hover:text-[var(--color-primary)] active:scale-90"
-                    >
-                      {item.label}
-                    </a>
-                  </li>
-                ) : (
-                  <li key={item.label}>
-                    <Link
-                      to={item.href}
-                      className="inline-block transition-transform duration-150 hover:-translate-y-0.5 hover:text-[var(--color-primary)] active:scale-90"
-                    >
-                      {item.label}
-                    </Link>
-                  </li>
-                ),
-              )}
-            </ul>
-          </nav>
-          <div className="flex items-center gap-1 justify-self-end sm:gap-4">
-            <label className="hidden items-center gap-2 text-sm font-semibold md:flex">
-              <span className="sr-only">Piliin ang font</span>
-              <span aria-hidden="true">Aa</span>
-              <select
-                value={selectedFont}
-                onChange={(event) => setFont(event.target.value as 'dyslexic' | 'comic')}
-                aria-label="Piliin ang font"
-                className="rounded-full border border-[var(--color-border)] bg-white px-3 py-2 text-sm font-semibold text-[var(--color-text)] outline-none hover:border-[var(--color-primary)] focus:border-[var(--color-primary)]"
-              >
-                <option value="dyslexic">OpenDyslexic</option>
-                <option value="comic">Comic Sans</option>
-              </select>
-            </label>
-            <button
-              type="button"
-              onClick={() => setMobileNavOpen((v) => !v)}
-              aria-expanded={mobileNavOpen}
-              aria-label={mobileNavOpen ? 'Isara ang menu' : 'Buksan ang menu'}
-              className="shrink-0 rounded-full border border-[var(--color-border)] p-2 text-lg transition-transform hover:border-[var(--color-primary)] active:scale-90 lg:hidden"
-            >
-              <AppIcon name={mobileNavOpen ? '✕' : '☰'} />
-            </button>
-            <Link
-              to="/login"
-              className="shrink-0 whitespace-nowrap rounded-full border border-[var(--color-border)] px-2.5 py-2 text-sm font-medium transition-transform hover:border-[var(--color-primary)] active:scale-95 sm:px-4 sm:text-base"
-            >
-              Mag-login
-            </Link>
-            <Link
-              to="/signup"
-              className="shrink-0 whitespace-nowrap rounded-full bg-[var(--color-primary)] px-2.5 py-2 text-sm font-semibold text-white shadow-card transition-all hover:-translate-y-0.5 hover:bg-[var(--color-primary-hover)] hover:shadow-raised active:scale-95 sm:px-4 sm:text-base"
-            >
-              Mag-sign up
-            </Link>
-          </div>
+  return <div className="landing-page min-h-screen bg-[var(--color-bg)] text-[var(--color-text)]">
+    <header className="landing-nav sticky top-0 z-30 border-b border-[var(--color-border)]/70 bg-[#fffdf7]/90 backdrop-blur">
+      <div className="mx-auto grid max-w-7xl grid-cols-[1fr_auto] items-center gap-3 px-4 py-3 sm:px-6 lg:grid-cols-[1fr_auto_1fr]">
+        <Link to="/" className="justify-self-start" aria-label="LinawLetra, bahay"><img src={logo} alt="LinawLetra" className="h-11 w-auto rounded-xl sm:h-14" /></Link>
+        <nav className="hidden justify-self-center lg:block" aria-label="Pangunahing navigation"><ul className="flex items-center gap-6 text-sm font-semibold xl:gap-8">{NAV_LINKS.map((item) => <li key={item.label}><PageLink href={item.href} className="landing-nav-link">{item.label}</PageLink></li>)}</ul></nav>
+        <div className="flex items-center gap-2 justify-self-end sm:gap-3">
+          <label className="hidden items-center gap-2 rounded-full border border-[var(--color-border)] bg-white px-3 py-2 text-xs font-semibold md:flex"><span aria-hidden="true">Aa</span><span className="sr-only">Piliin ang font</span><select value={selectedFont} onChange={(event) => setFont(event.target.value as 'dyslexic' | 'comic')} aria-label="Piliin ang font" className="bg-transparent outline-none"><option value="dyslexic">OpenDyslexic</option><option value="comic">Comic Sans</option></select></label>
+          <Link to="/login" className="landing-login hidden sm:inline-flex">Mag-login</Link><Link to="/signup" className="landing-primary-button hidden sm:inline-flex">Magsimula</Link>
+          <button type="button" onClick={() => setMobileNavOpen((open) => !open)} aria-expanded={mobileNavOpen} aria-label={mobileNavOpen ? 'Isara ang menu' : 'Buksan ang menu'} className="grid h-11 w-11 place-items-center rounded-full border border-[var(--color-border)] bg-white text-xl lg:hidden">{mobileNavOpen ? '×' : '☰'}</button>
         </div>
+      </div>
+      {mobileNavOpen && <nav className="border-t border-[var(--color-border)] bg-[#fffdf7] px-6 py-5 lg:hidden" aria-label="Mobile navigation"><ul className="mx-auto flex max-w-7xl flex-col gap-4 font-semibold">{NAV_LINKS.map((item) => <li key={item.label}><PageLink href={item.href} className="landing-nav-link" onClick={closeNav}>{item.label}</PageLink></li>)}</ul><div className="mx-auto mt-5 flex max-w-7xl items-center gap-3 border-t border-[var(--color-border)] pt-4"><label className="flex flex-1 items-center justify-between gap-2 text-sm font-semibold"><span>Piliin ang font</span><select value={selectedFont} onChange={(event) => setFont(event.target.value as 'dyslexic' | 'comic')} className="rounded-full border border-[var(--color-border)] bg-white px-3 py-2"><option value="dyslexic">OpenDyslexic</option><option value="comic">Comic Sans</option></select></label><Link to="/login" className="landing-login" onClick={closeNav}>Mag-login</Link><Link to="/signup" className="landing-primary-button" onClick={closeNav}>Magsimula</Link></div></nav>}
+    </header>
+    <main>
+      <section className="landing-hero overflow-hidden"><div className="landing-cloud landing-cloud-one" aria-hidden="true" /><div className="landing-cloud landing-cloud-two" aria-hidden="true" /><div className="relative mx-auto grid max-w-7xl items-center gap-8 px-6 py-14 sm:py-20 lg:grid-cols-[1.02fr_.98fr] lg:py-24">
+        <ScrollReveal immediate className="relative z-10 max-w-2xl text-center lg:text-left"><span className="landing-badge">Para sa Grade 1–6 <span aria-hidden="true">•</span> Suporta sa Pagbasa</span><h1 className="landing-display mt-5 text-4xl leading-[1.12] sm:text-5xl xl:text-6xl">Mas malinaw na pagbasa,<br className="hidden sm:block" /> mas masayang pagkatuto.</h1><p className="mt-5 max-w-xl text-base leading-8 text-[var(--color-text-muted)] sm:text-lg">Kasama ang LinawLetra sa bawat hakbang ng bata tungo sa mas malinaw, mas kumpiyansa, at mas masayang pagbabasa.</p><div className="mt-8 flex flex-wrap items-center justify-center gap-3 lg:justify-start"><TTSButton publicAccess rate={1} className="landing-tts-button" text="Mas malinaw na pagbasa, mas masayang pagkatuto. Kasama ang LinawLetra sa bawat hakbang ng bata tungo sa mas malinaw, mas kumpiyansa, at mas masayang pagbabasa." /><Link to="/signup" className="landing-primary-button"><IconLabel icon="🚀" label="Magsimula" /></Link><a href="#paano-gumagana" className="landing-secondary-button"><IconLabel icon="▶" label="Paano Ito Gumagana" /></a></div><p className="mt-6 text-sm font-medium text-[var(--color-text-muted)]">Para sa mga mag-aaral, magulang, at guro.</p></ScrollReveal>
+        <ScrollReveal className="landing-mascot-stage"><span className="landing-letter letter-a" aria-hidden="true">Aa</span><span className="landing-letter letter-b" aria-hidden="true">Bb</span><span className="landing-letter letter-k" aria-hidden="true">Kk</span><span className="landing-star star-one" aria-hidden="true">✦</span><span className="landing-star star-two" aria-hidden="true">★</span><span className="landing-book" aria-hidden="true">📖</span><div className="landing-speech">Kaya mo ’yan!<br />Tara, magbasa tayo!</div><img src={mascot} alt="Si Linaw, ang masayahing kuwago ng LinawLetra, na nagbabasa ng libro" className="landing-mascot" /></ScrollReveal>
+      </div></section>
+      <section className="relative z-10 mx-auto -mt-5 max-w-7xl px-6 sm:-mt-8"><div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">{QUICK_BENEFITS.map((item) => <article key={item.title} className={`landing-quick-card ${item.color}`}><span aria-hidden="true" className="text-3xl">{item.icon}</span><div><h2>{item.title}</h2><p>{item.text}</p></div></article>)}</div></section>
+      <section id="phonological-dyslexia" className="scroll-mt-24 px-6 py-20 sm:py-28"><ScrollReveal className="mx-auto grid max-w-7xl gap-12 lg:grid-cols-[.9fr_1.1fr] lg:items-center"><div><span className="landing-section-label">Ang aming pokus</span><h2 className="landing-section-title mt-4">Ano ang Phonological Dyslexia?</h2><h3 className="mt-4 text-xl font-bold text-[#2f7774]">Mas madaling maintindihan kapag malinaw ang paliwanag.</h3><p className="landing-copy mt-5">Ito ay uri ng dyslexia kung saan nahihirapang iugnay ng bata ang mga tunog sa mga letra at pantig. Kaya maaaring maging mahirap ang pagbasa ng bagong salita kahit naiintindihan ito kapag naririnig.</p><p className="landing-copy mt-4">Maaaring mapansin ang paghahalo ng magkatunog na letra, mabagal na pagbasa, o paulit-ulit na pagsubok. Sa LinawLetra, binibigyan ang bawat bata ng mahinahon at malinaw na gabay sa bawat hakbang.</p><div className="mt-6 grid gap-3 sm:grid-cols-2"><p className="landing-highlight">✓ Nakasentro sa tunog, letra, at pantig</p><p className="landing-highlight">✓ Suportadong pagsasanay sa sariling bilis</p></div></div><div className="relative"><div className="landing-reading-illustration" aria-hidden="true"><span>🔊</span><span>Ａａ</span><span>〰</span><span>📚</span><div>Ang bawat tunog ay isang hakbang pasulong.</div></div><div className="relative grid gap-4 sm:grid-cols-2">{TOOLS.map((tool, index) => <article key={tool.title} className={`landing-tool-card tool-${index % 3}`}><span aria-hidden="true">{tool.icon}</span><h3>{tool.title}</h3><p>{tool.text}</p></article>)}</div></div></ScrollReveal></section>
+      <section id="paano-gumagana" className="landing-journey scroll-mt-24 px-6 py-20 sm:py-28"><ScrollReveal className="mx-auto max-w-7xl"><div className="mx-auto max-w-2xl text-center"><span className="landing-section-label">Simpleng paglalakbay</span><h2 className="landing-section-title mt-4">Paano Gumagana?</h2><p className="landing-copy mt-3">Tatlong simpleng hakbang tungo sa mas malinaw na pagbabasa.</p></div><div className="landing-steps mt-14 grid gap-8 md:grid-cols-3">{STEPS.map((step) => <article key={step.n} className="landing-step"><span className="landing-step-number">{step.n}</span><span className="text-4xl" aria-hidden="true">{step.icon}</span><h3>{step.title}</h3><p>{step.text}</p></article>)}</div><div className="mt-9 text-center text-sm font-semibold text-[#2f7774]">✦ Bawat maliit na hakbang ay mahalaga. ✦</div></ScrollReveal></section>
+      <section id="mga-tampok" className="scroll-mt-24 px-6 py-20 sm:py-28"><ScrollReveal className="mx-auto max-w-7xl"><div className="mx-auto max-w-2xl text-center"><span className="landing-section-label">Para sa buong komunidad</span><h2 className="landing-section-title mt-4">Kasama Mo ang LinawLetra sa Bawat Hakbang</h2></div><div className="mt-12 grid gap-6 lg:grid-cols-3">{AUDIENCES.map((item) => <article key={item.eyebrow} className={`landing-audience-card ${item.color}`}><span className="text-4xl" aria-hidden="true">{item.icon}</span><p>{item.eyebrow}</p><h3>{item.title}</h3><div className="mt-4 h-1.5 w-16 rounded-full bg-current opacity-45" /><span className="landing-audience-orb" aria-hidden="true">✦</span><p className="landing-audience-text">{item.text}</p></article>)}</div></ScrollReveal></section>
+      <section className="px-6 pb-20 sm:pb-28"><ScrollReveal className="landing-final-cta mx-auto max-w-7xl overflow-hidden"><div className="relative z-10 max-w-2xl"><span className="landing-section-label bg-white/85">Simulan ang paglalakbay</span><h2 className="landing-display mt-4 text-3xl sm:text-4xl">Handa ka na bang magsimula?</h2><p className="mt-4 text-base leading-7 text-[#315653] sm:text-lg">Simulan ang mas malinaw at mas masayang paglalakbay sa pagbabasa kasama ang LinawLetra.</p><div className="mt-7 flex flex-wrap gap-3"><Link to="/signup" className="landing-primary-button"><IconLabel icon="🚀" label="Gumawa ng Account" /></Link><Link to="/login" className="landing-secondary-button bg-white/85">Mag-login</Link></div></div><div className="landing-final-mascot"><div>Tara! Sabay tayong matuto!</div><img src={mascot} alt="Si Linaw na nag-aanyaya sa pagkatuto" /></div></ScrollReveal></section>
+    </main>
+    <footer id="contact" className="border-t border-[var(--color-border)] bg-[#fffdf8] px-6 py-14"><div className="mx-auto grid max-w-7xl gap-10 sm:grid-cols-2 lg:grid-cols-[1.35fr_1fr_1fr_1fr]"><div><img src={logo} alt="LinawLetra" className="h-14 w-auto rounded-xl" /><p className="landing-copy mt-4 max-w-sm">LinawLetra — katuwang sa mas malinaw at mas masayang pagbabasa ng bawat batang Pilipino.</p><a href="mailto:linawletra@gmail.com" className="mt-4 inline-block font-semibold text-[var(--color-primary)] hover:underline">linawletra@gmail.com</a></div><FooterGroup title="Matuto" links={[['Tungkol sa Amin','#phonological-dyslexia'],['Phonological Dyslexia','#phonological-dyslexia'],['Mga Tampok','#mga-tampok'],['Paano Gumagana','#paano-gumagana']]} /><FooterGroup title="Para sa Iyo" links={[['Mag-aaral','/signup'],['Magulang','/signup'],['Guro','/signup']]} /><FooterGroup title="Impormasyon" links={[['Pagkapribado','/privacy'],['Mga Tuntunin','/terms'],['Madaling Gamitin','/accessibility'],['Makipag-ugnayan','#contact']]} /></div><div className="mx-auto mt-10 flex max-w-7xl flex-col gap-2 border-t border-[var(--color-border)] pt-6 text-sm text-[var(--color-text-muted)] sm:flex-row sm:justify-between"><p>© {new Date().getFullYear()} LinawLetra. Lahat ng karapatan ay nakalaan.</p><p>Ginawa nang may pagmamahal para sa mga batang Pilipino.</p></div></footer>
+  </div>;
+}
 
-        {mobileNavOpen && (
-          <nav className="border-t border-[var(--color-border)] px-6 py-4 lg:hidden" aria-label="Mobile navigation">
-            <ul className="flex flex-col gap-3 text-base font-semibold">
-              {NAV_LINKS.map((item) =>
-                item.href.startsWith('#') ? (
-                  <li key={item.label}>
-                    <a
-                      href={item.href}
-                      onClick={() => setMobileNavOpen(false)}
-                      className="inline-block transition-transform duration-150 hover:text-[var(--color-primary)] active:scale-90"
-                    >
-                      {item.label}
-                    </a>
-                  </li>
-                ) : (
-                  <li key={item.label}>
-                    <Link
-                      to={item.href}
-                      onClick={() => setMobileNavOpen(false)}
-                      className="inline-block transition-transform duration-150 hover:text-[var(--color-primary)] active:scale-90"
-                    >
-                      {item.label}
-                    </Link>
-                  </li>
-                ),
-              )}
-            </ul>
-            <label className="mt-4 flex items-center justify-between gap-3 border-t border-[var(--color-border)] pt-4 text-sm font-semibold">
-              <span>Piliin ang font</span>
-              <select
-                value={selectedFont}
-                onChange={(event) => setFont(event.target.value as 'dyslexic' | 'comic')}
-                aria-label="Piliin ang font"
-                className="rounded-full border border-[var(--color-border)] bg-white px-3 py-2 text-sm font-semibold text-[var(--color-text)] outline-none focus:border-[var(--color-primary)]"
-              >
-                <option value="dyslexic">OpenDyslexic</option>
-                <option value="comic">Comic Sans</option>
-              </select>
-            </label>
-          </nav>
-        )}
-      </header>
-
-      <section className="relative overflow-hidden bg-gradient-to-br from-[var(--color-hero-from)] via-[var(--color-hero-via)] to-[var(--color-hero-to)] shadow-hero">
-        <div
-          className="pointer-events-none absolute -top-24 -left-24 h-80 w-80 rounded-full bg-white/10 blur-3xl"
-          aria-hidden="true"
-        />
-        <div
-          className="pointer-events-none absolute right-0 -bottom-32 h-96 w-96 translate-x-1/4 rounded-full bg-white/10 blur-3xl"
-          aria-hidden="true"
-        />
-        <main className="relative mx-auto max-w-6xl px-6 py-14 text-center sm:py-20">
-          <ScrollReveal immediate>
-            <span className="inline-flex items-center gap-2 rounded-full border border-white/40 bg-white/15 px-4 py-1 text-sm font-medium text-white">
-              Para sa Grade 1–6 · Nakatutok sa Phonological Dyslexia
-            </span>
-            <h1 className="mt-6 text-4xl text-white sm:text-6xl">
-              Tulong sa pagbasa ng Tagalog, para sa bawat bata.
-            </h1>
-            <p className="mx-auto mt-5 max-w-2xl text-lg text-white/85">
-              Ginawa ang LinawLetra para sa mga mag-aaral na may dyslexia, mula Grade 1 hanggang
-              Grade 6 — kasama ang mga tool para sa magulang, guro, at admin.
-            </p>
-            <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
-              <TTSButton text="Tulong sa pagbasa ng Tagalog, para sa bawat bata. Ginawa ang LinawLetra para sa mga mag-aaral na may dyslexia." />
-              <Link
-                to="/signup"
-                className="rounded-full bg-white px-6 py-3 text-base font-semibold text-[var(--color-primary)] shadow-card transition-all hover:-translate-y-0.5 hover:bg-white/90 hover:shadow-raised active:scale-95"
-              >
-                <IconLabel icon="🚀" label="Magsimula" />
-              </Link>
-            </div>
-
-            <div className="mt-12 flex flex-wrap items-center justify-center gap-3">
-              {ROLES.map((r) => (
-                <span
-                  key={r.label}
-                  className="rounded-full border border-white/25 bg-white/10 px-4 py-2 text-sm font-medium text-white backdrop-blur"
-                >
-                  <IconLabel icon={r.icon} label={r.label} />
-                </span>
-              ))}
-            </div>
-
-            <div className="mt-14 grid grid-cols-2 gap-6 border-t border-white/20 pt-8 sm:grid-cols-4">
-              {STATS.map((s) => (
-                <div key={s.label}>
-                  <p className="text-2xl font-bold text-white sm:text-3xl">{s.value}</p>
-                  <p className="mt-1 text-xs text-white/70 sm:text-sm">{s.label}</p>
-                </div>
-              ))}
-            </div>
-          </ScrollReveal>
-        </main>
-      </section>
-
-      <main id="phonological-dyslexia" className="mx-auto max-w-6xl px-6 py-14">
-        <ScrollReveal className="grid grid-cols-1 gap-10 lg:grid-cols-[0.9fr_1.1fr]">
-          <div>
-            <span className="inline-flex items-center gap-2 rounded-full border border-[var(--color-border)] bg-[var(--color-primary-soft)] px-4 py-1 text-sm font-medium text-[var(--color-primary)]">
-              Ang aming pokus
-            </span>
-            <h2 className="mt-4 text-2xl sm:text-3xl">Ano ang Phonological Dyslexia?</h2>
-            <p className="mt-4 text-[var(--color-text-muted)]">
-              Isa itong partikular na uri ng dyslexia kung saan nahihirapan ang bata na iugnay ang
-              mga tunog (phonemes) sa mga letra at pantig — kaya mahirap para sa kanila ang
-              pag-decode o pagbasa ng mga bagong salita nang malakas, kahit na naiintindihan nila
-              ang ibig sabihin nito kapag naririnig.
-            </p>
-            <p className="mt-3 text-[var(--color-text-muted)]">
-              Kadalasang nakikita ito sa paghahalo ng magkatunog na letra (tulad ng "d" at "r", o
-              "b" at "p"), at sa mabagal o paulit-ulit na pagsubok bago mabasa nang tama ang isang
-              salita. Dinisenyo ang LinawLetra partikular para dito — hindi generic na "reading
-              app," kundi tool na nakatutok sa phoneme-level na pagsasanay.
-            </p>
-          </div>
-          <div className="grid grid-cols-1 content-between gap-4 sm:grid-cols-2">
-            {RESPONSE_POINTS.map((r, i) => (
-              <div
-                key={r.title}
-                className="rounded-xl border p-4 shadow-card"
-                style={cardStyle(CARD_COLORS[i % CARD_COLORS.length])}
-              >
-                <div className="mb-2 text-2xl" aria-hidden="true">
-                  {r.icon}
-                </div>
-                <h3 className="mb-1 text-sm font-semibold">{r.title}</h3>
-                <p className="text-xs text-[var(--color-text-muted)]">{r.text}</p>
-              </div>
-            ))}
-          </div>
-        </ScrollReveal>
-      </main>
-
-      <main id="paano-gumagana" className="mx-auto max-w-6xl px-6 py-14">
-        <ScrollReveal>
-          <div className="mb-8 text-center">
-            <h2 className="text-2xl sm:text-3xl">Paano gumagana</h2>
-            <p className="mx-auto mt-2 max-w-xl text-[var(--color-text-muted)]">
-              Tatlong simpleng hakbang lang para makasimula.
-            </p>
-          </div>
-          <div className="grid grid-cols-1 items-start gap-6 sm:grid-cols-3">
-            {STEPS.map((s, i) => (
-              <div
-                key={s.n}
-                className="relative rounded-xl border p-6 text-center shadow-card"
-                style={cardStyle(CARD_COLORS[i % CARD_COLORS.length])}
-              >
-                <span className="absolute -top-4 left-1/2 flex h-8 w-8 -translate-x-1/2 items-center justify-center rounded-full bg-[var(--color-primary)] text-sm font-bold text-white shadow-card">
-                  {s.n}
-                </span>
-                <div className="mt-3 mb-3 text-3xl" aria-hidden="true">
-                  {s.icon}
-                </div>
-                <h3 className="mb-2 text-lg font-semibold">{s.title}</h3>
-                <p className="text-sm text-[var(--color-text-muted)]">{s.text}</p>
-              </div>
-            ))}
-          </div>
-        </ScrollReveal>
-      </main>
-
-      <main id="ano-ang-makukuha" className="mx-auto max-w-6xl px-6 pb-14">
-        <ScrollReveal>
-          <div className="mb-8 text-center">
-            <h2 className="text-2xl sm:text-3xl">Ano ang makukuha ninyo</h2>
-          </div>
-          <div className="grid grid-cols-1 items-start gap-6 text-left sm:grid-cols-3">
-            {FEATURES.map((f, i) => (
-              <div
-                key={f.title}
-                className="rounded-xl border p-6 shadow-card transition-all hover:-translate-y-1 hover:shadow-raised"
-                style={cardStyle(CARD_COLORS[i % CARD_COLORS.length])}
-              >
-                <div
-                  className="mb-3 flex h-12 w-12 items-center justify-center rounded-full text-2xl"
-                  style={{
-                    background: f.tint === 'primary' ? 'var(--color-primary-soft)' : 'var(--color-accent-soft)',
-                  }}
-                  aria-hidden="true"
-                >
-                  {f.icon}
-                </div>
-                <h3 className="mb-2 text-lg font-semibold">{f.title}</h3>
-                <p className="text-[var(--color-text-muted)]">{f.text}</p>
-              </div>
-            ))}
-          </div>
-        </ScrollReveal>
-      </main>
-
-      <section className="relative overflow-hidden bg-gradient-to-br from-[var(--color-hero-from)] via-[var(--color-hero-via)] to-[var(--color-hero-to)]">
-        <ScrollReveal className="mx-auto max-w-3xl px-6 py-12 text-center">
-          <h2 className="text-2xl text-white sm:text-3xl">Handa na bang magsimula?</h2>
-          <p className="mx-auto mt-3 max-w-xl text-white/85">
-            Gumawa ng account upang simulan ang suportadong pagsasanay sa pagbasa.
-          </p>
-          <Link
-            to="/signup"
-            className="mt-6 inline-flex rounded-full bg-white px-6 py-3 text-base font-semibold text-[var(--color-primary)] shadow-card transition-all hover:-translate-y-0.5 hover:bg-white/90 hover:shadow-raised active:scale-95"
-          >
-            <IconLabel icon="🚀" label="Gumawa ng account" />
-          </Link>
-        </ScrollReveal>
-      </section>
-
-      <footer id="contact" className="border-t border-[var(--color-border)] bg-[var(--color-surface)]">
-        <div className="mx-auto max-w-6xl px-6 py-12">
-          <div className="grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-[1.3fr_1fr_1fr_1fr]">
-            <div>
-              <img src={logo} alt="LinawLetra" className="h-14 w-auto rounded-lg" />
-              <p className="mt-4 max-w-xs text-sm text-[var(--color-text-muted)]">
-                Tagalog reading support para sa mga mag-aaral na may dyslexia, Grade
-                1–6 — kasama ang mga tool para sa magulang, guro, at admin.
-              </p>
-              <a
-                href="mailto:linawletra@gmail.com"
-                className="mt-4 inline-flex items-center gap-2 text-sm font-medium transition-transform hover:text-[var(--color-primary)] hover:underline active:scale-95"
-              >
-                <IconLabel icon="✉️" label="linawletra@gmail.com" />
-              </a>
-            </div>
-
-            <div>
-              <h3 className="mb-3 text-sm font-semibold tracking-wide text-[var(--color-text-muted)] uppercase">
-                Mabilisang Link
-              </h3>
-              <ul className="flex flex-col gap-2 text-sm">
-                <li>
-                  <a
-                    href="#phonological-dyslexia"
-                    className="inline-block transition-transform hover:text-[var(--color-primary)] hover:underline active:scale-95"
-                  >
-                    Phonological Dyslexia
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="#paano-gumagana"
-                    className="inline-block transition-transform hover:text-[var(--color-primary)] hover:underline active:scale-95"
-                  >
-                    Paano Gumagana
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="#ano-ang-makukuha"
-                    className="inline-block transition-transform hover:text-[var(--color-primary)] hover:underline active:scale-95"
-                  >
-                    Mga Tampok
-                  </a>
-                </li>
-                <li>
-                  <Link
-                    to="/login"
-                    className="inline-block transition-transform hover:text-[var(--color-primary)] hover:underline active:scale-95"
-                  >
-                    Mag-login
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    to="/signup"
-                    className="inline-block transition-transform hover:text-[var(--color-primary)] hover:underline active:scale-95"
-                  >
-                    Mag-sign up
-                  </Link>
-                </li>
-              </ul>
-            </div>
-
-            <div>
-              <h3 className="mb-3 text-sm font-semibold tracking-wide text-[var(--color-text-muted)] uppercase">
-                Para Kanino
-              </h3>
-              <ul className="flex flex-col gap-2 text-sm text-[var(--color-text-muted)]">
-                {ROLES.map((r) => (
-                  <li key={r.label}>
-                    <IconLabel icon={r.icon} label={r.label} />
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            <div>
-              <h3 className="mb-3 text-sm font-semibold tracking-wide text-[var(--color-text-muted)] uppercase">
-                Impormasyon
-              </h3>
-              <ul className="flex flex-col gap-2 text-sm">
-                <li><Link to="/privacy" className="hover:text-[var(--color-primary)] hover:underline">Privacy</Link></li>
-                <li><Link to="/terms" className="hover:text-[var(--color-primary)] hover:underline">Mga Tuntunin</Link></li>
-                <li><Link to="/child-data" className="hover:text-[var(--color-primary)] hover:underline">Data ng Bata</Link></li>
-                <li><Link to="/account-deletion" className="hover:text-[var(--color-primary)] hover:underline">Pag-delete ng Account</Link></li>
-                <li><Link to="/accessibility" className="hover:text-[var(--color-primary)] hover:underline">Accessibility</Link></li>
-              </ul>
-            </div>
-          </div>
-
-          <div className="mt-10 flex flex-col items-center gap-2 border-t border-[var(--color-border)] pt-6 text-center text-sm text-[var(--color-text-muted)] sm:flex-row sm:justify-between sm:text-left">
-            <p>© {new Date().getFullYear()} LinawLetra. Lahat ng karapatan ay nakalaan.</p>
-            <p>Ginawa nang may pagmamahal para sa mga batang Pilipino.</p>
-          </div>
-        </div>
-      </footer>
-    </div>
-  );
+function FooterGroup({ title, links }: { title: string; links: readonly (readonly [string, string])[] }) {
+  return <div><h2 className="text-sm font-bold uppercase tracking-wider text-[#2f7774]">{title}</h2><ul className="mt-4 space-y-3 text-sm font-medium">{links.map(([label, href]) => <li key={label}><PageLink href={href} className="hover:text-[var(--color-primary)] hover:underline">{label}</PageLink></li>)}</ul></div>;
 }

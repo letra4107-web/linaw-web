@@ -8,6 +8,8 @@ const MAX_TEXT_LENGTH = 500;
 const ELEVENLABS_TTS_URL = 'https://api.elevenlabs.io/v1/text-to-speech';
 const ELEVENLABS_MODEL_ID = 'eleven_multilingual_v2';
 const ELEVENLABS_PHONETIC_MODEL_ID = 'eleven_v3';
+const PUBLIC_AUDIO_CACHE_TTL_MS = 60 * 60 * 1000;
+const publicAudioCache = new Map();
 
 // POST /api/tts  { text }  -> { audioContent: base64 mp3 }
 function createTtsRouter({
@@ -22,6 +24,7 @@ function createTtsRouter({
   modelId = process.env.ELEVENLABS_MODEL_ID,
   pronunciationDictionaryId = process.env.ELEVENLABS_PRONUNCIATION_DICTIONARY_ID,
   pronunciationDictionaryVersionId = process.env.ELEVENLABS_PRONUNCIATION_DICTIONARY_VERSION_ID,
+  cache = null,
 } = {}) {
   void modelId;
   const router = express.Router();
@@ -49,6 +52,12 @@ function createTtsRouter({
     const speakingRate = isIsolatedFilipinoVowel(text)
       ? 1
       : Number.isFinite(requestedRate) ? Math.min(1.2, Math.max(0.7, requestedRate)) : 0.7;
+    const cacheKey = `${text.trim()}::${speakingRate}`;
+    const cached = cache?.get(cacheKey);
+    if (cached && cached.expiresAt > Date.now()) {
+      return res.json({ audioContent: cached.audioContent, speakingRate, languageCode: 'fil-PH', cached: true });
+    }
+    if (cached) cache.delete(cacheKey);
     if (!apiKey || !voiceId) {
       return res.status(500).json({ error: 'TTS is not configured on the server.' });
     }
@@ -99,7 +108,13 @@ function createTtsRouter({
     }
 
     const audioContent = Buffer.from(await response.arrayBuffer()).toString('base64');
-    void logAudit({ actor: { id: req.user.id, role: req.userRole }, action: 'SPEECH.TTS_SYNTHESIZE', target: { id: null }, status: 'successful', req }).catch(() => {});
+    if (cache) {
+      // Public landing text is static, so caching avoids repeated ElevenLabs
+      // synthesis without retaining an unbounded amount of visitor content.
+      if (cache.size >= 32) cache.delete(cache.keys().next().value);
+      cache.set(cacheKey, { audioContent, expiresAt: Date.now() + PUBLIC_AUDIO_CACHE_TTL_MS });
+    }
+    if (req.user) void logAudit({ actor: { id: req.user.id, role: req.userRole }, action: 'SPEECH.TTS_SYNTHESIZE', target: { id: null }, status: 'successful', req }).catch(() => {});
     res.json({ audioContent, speakingRate, languageCode: 'fil-PH' });
   } catch (err) {
     console.error('[tts]', err);
@@ -112,3 +127,4 @@ function createTtsRouter({
 module.exports = createTtsRouter();
 module.exports.createTtsRouter = createTtsRouter;
 module.exports.MAX_TEXT_LENGTH = MAX_TEXT_LENGTH;
+module.exports.publicAudioCache = publicAudioCache;

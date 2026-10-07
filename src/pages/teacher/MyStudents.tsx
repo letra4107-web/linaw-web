@@ -1,10 +1,12 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { Link } from 'react-router-dom';
+import { AlertCircle, BarChart3, BookOpen, CheckCircle2, ChevronLeft, ChevronRight, GraduationCap, MoreHorizontal, Search, SlidersHorizontal, UserCheck, UsersRound, X } from 'lucide-react';
 import { supabase } from '../../lib/supabaseClient';
 import { api } from '../../lib/api';
 import { useAuth } from '../../lib/auth/AuthContext';
-import { cardStyle } from '../../lib/cardStyle';
+import rosterHero from '../../assets/teacher/Teacher Home Hero Banner Background.png';
+import purpleShape from '../../assets/teacher/Hero Left Purple Decorative Shape.png';
 
 interface ChildRow { id: string; name: string; grade_level: number; username: string; }
 interface RosterRow { id: string; student_id: string; assigned_at: string; children: ChildRow | null; }
@@ -12,80 +14,98 @@ interface StudentProgress { child_id: string; level: string; accuracy_sum: numbe
 interface StudentSession { word: string; accuracy_percentage: number; is_correct: boolean; created_at: string; }
 interface StudentAssignment { id: string; status: string; due_date: string | null; pdf_materials: { title: string } | null; }
 interface StudentModule { id: string; module_number: number; title: string; state: 'locked' | 'unlocked' | 'completed'; content_item_count: number; completed_content_item_count: number; }
-// Ten cards keep each class-list page scannable while avoiding overly frequent
-// navigation for a typical teacher roster.
-const ROSTER_PAGE_SIZE = 10;
+
+const PAGE_SIZE = 5;
+const initials = (value?: string) => value?.trim().split(/\s+/).map((part) => part[0]).join('').slice(0, 2).toUpperCase() || '?';
+const shortTime = (value?: string) => value ? new Intl.DateTimeFormat('en-US', { month: 'short', day: 'numeric' }).format(new Date(value)) : 'No activity';
 
 export default function MyStudents() {
   const { user } = useAuth();
   const [gradeFilter, setGradeFilter] = useState('all');
-  const [rosterSearch, setRosterSearch] = useState('');
+  const [levelFilter, setLevelFilter] = useState('all');
+  const [statusFilter, setStatusFilter] = useState('all');
+  const [query, setQuery] = useState('');
+  const [page, setPage] = useState(1);
   const [selectedStudentId, setSelectedStudentId] = useState<string | null>(null);
-  const [rosterPage, setRosterPage] = useState(1);
-  const { data: teacherProfile } = useQuery({ queryKey: ['teacher-profile', user?.id], queryFn: async () => { const { data, error: err } = await supabase.from('teacher_profiles').select('grade_levels').eq('user_id', user!.id).maybeSingle(); if (err) throw err; return data as { grade_levels: number[] } | null; }, enabled: Boolean(user) });
-  const gradeLevels = teacherProfile?.grade_levels ?? [];
-  const { data: roster, isLoading } = useQuery({ queryKey: ['teacher-roster', user?.id], queryFn: async () => { const { data, error: err } = await supabase.from('teacher_student_links').select('id, student_id, assigned_at, children(id, name, grade_level, username)').order('assigned_at', { ascending: false }); if (err) throw err; return data as unknown as RosterRow[]; }, enabled: Boolean(user) });
+  const { data: teacherProfile } = useQuery({ queryKey: ['teacher-profile', user?.id], queryFn: async () => {
+    const { data, error } = await supabase.from('teacher_profiles').select('grade_levels').eq('user_id', user!.id).maybeSingle();
+    if (error) throw error;
+    return data as { grade_levels: number[] } | null;
+  }, enabled: Boolean(user) });
+  const { data: roster, isLoading } = useQuery({ queryKey: ['teacher-roster', user?.id], queryFn: async () => {
+    const { data, error } = await supabase.from('teacher_student_links').select('id, student_id, assigned_at, children(id, name, grade_level, username)').order('assigned_at', { ascending: false });
+    if (error) throw error;
+    return data as unknown as RosterRow[];
+  }, enabled: Boolean(user) });
   const rosterIds = (roster ?? []).map((row) => row.student_id);
-  const { data: progress } = useQuery({ queryKey: ['teacher-students-progress', rosterIds], queryFn: async () => { if (!rosterIds.length) return []; const { data, error: err } = await supabase.from('child_progress').select('child_id, level, accuracy_sum, total_attempts, activities_completed, streak').in('child_id', rosterIds); if (err) throw err; return data as StudentProgress[]; }, enabled: rosterIds.length > 0 });
-  const { data: selectedSessions } = useQuery({ queryKey: ['teacher-student-detail-sessions', selectedStudentId], queryFn: async () => { const { data, error: err } = await supabase.from('pronunciation_practice_sessions').select('word, accuracy_percentage, is_correct, created_at').eq('student_id', selectedStudentId!).order('created_at', { ascending: false }).limit(5); if (err) throw err; return data as StudentSession[]; }, enabled: Boolean(selectedStudentId) });
-  const { data: selectedAssignments } = useQuery({ queryKey: ['teacher-student-detail-assignments', selectedStudentId], queryFn: async () => { const { data, error: err } = await supabase.from('pdf_assignments').select('id, status, due_date, pdf_materials(title)').eq('student_id', selectedStudentId!).order('assigned_at', { ascending: false }).limit(6); if (err) throw err; return data as unknown as StudentAssignment[]; }, enabled: Boolean(selectedStudentId) });
-  const { data: selectedModuleData, isLoading: isLoadingModules, isError: hasModuleError } = useQuery({ queryKey: ['teacher-student-detail-modules', selectedStudentId], queryFn: () => api<{ modules: StudentModule[] }>(`/teacher/students/${selectedStudentId}/modules`, { auth: true }), enabled: Boolean(selectedStudentId) });
+  const { data: progress } = useQuery({ queryKey: ['teacher-students-progress', rosterIds], queryFn: async () => {
+    if (!rosterIds.length) return [];
+    const { data, error } = await supabase.from('child_progress').select('child_id, level, accuracy_sum, total_attempts, activities_completed, streak').in('child_id', rosterIds);
+    if (error) throw error;
+    return data as StudentProgress[];
+  }, enabled: rosterIds.length > 0 });
+  const { data: recent } = useQuery({ queryKey: ['teacher-roster-recent', rosterIds], queryFn: async () => {
+    if (!rosterIds.length) return [];
+    const { data, error } = await supabase.from('pronunciation_practice_sessions').select('student_id, created_at').in('student_id', rosterIds).order('created_at', { ascending: false }).limit(100);
+    if (error) throw error;
+    return data as { student_id: string; created_at: string }[];
+  }, enabled: rosterIds.length > 0 });
+  const { data: selectedSessions } = useQuery({ queryKey: ['teacher-student-detail-sessions', selectedStudentId], queryFn: async () => {
+    const { data, error } = await supabase.from('pronunciation_practice_sessions').select('word, accuracy_percentage, is_correct, created_at').eq('student_id', selectedStudentId!).order('created_at', { ascending: false }).limit(5);
+    if (error) throw error;
+    return data as StudentSession[];
+  }, enabled: Boolean(selectedStudentId) });
+  const { data: selectedAssignments } = useQuery({ queryKey: ['teacher-student-detail-assignments', selectedStudentId], queryFn: async () => {
+    const { data, error } = await supabase.from('pdf_assignments').select('id, status, due_date, pdf_materials(title)').eq('student_id', selectedStudentId!).order('assigned_at', { ascending: false }).limit(5);
+    if (error) throw error;
+    return data as unknown as StudentAssignment[];
+  }, enabled: Boolean(selectedStudentId) });
+  const { data: selectedModuleData } = useQuery({ queryKey: ['teacher-student-detail-modules', selectedStudentId], queryFn: () => api<{ modules: StudentModule[] }>(`/teacher/students/${selectedStudentId}/modules`, { auth: true }), enabled: Boolean(selectedStudentId) });
+
+  const gradeLevels = teacherProfile?.grade_levels ?? [...new Set((roster ?? []).map((row) => row.children?.grade_level).filter(Boolean))] as number[];
   const progressFor = (id: string) => progress?.find((item) => item.child_id === id);
-  const rosterForFilter = (roster ?? []).filter((row) => {
-    const matchesGrade = gradeFilter === 'all' || String(row.children?.grade_level) === gradeFilter;
-    const searchTerm = rosterSearch.trim().toLocaleLowerCase();
-    const matchesSearch = !searchTerm || row.children?.name.toLocaleLowerCase().includes(searchTerm) || row.children?.username.toLocaleLowerCase().includes(searchTerm);
-    return matchesGrade && matchesSearch;
+  const recentFor = (id: string) => recent?.find((item) => item.student_id === id)?.created_at;
+  const studentRows = useMemo(() => (roster ?? []).map((row) => {
+    const item = progressFor(row.student_id);
+    const accuracy = item?.total_attempts ? Math.round(item.accuracy_sum / item.total_attempts) : 0;
+    const needsAttention = Boolean(item?.total_attempts && accuracy < 70);
+    return { ...row, item, accuracy, needsAttention, lastActivity: recentFor(row.student_id) };
+  }), [roster, progress, recent]);
+  const filtered = studentRows.filter((row) => {
+    const student = row.children;
+    const normalized = query.trim().toLowerCase();
+    return (gradeFilter === 'all' || String(student?.grade_level) === gradeFilter)
+      && (levelFilter === 'all' || row.item?.level?.toLowerCase() === levelFilter)
+      && (statusFilter === 'all' || (statusFilter === 'attention' ? row.needsAttention : !row.needsAttention))
+      && (!normalized || student?.name.toLowerCase().includes(normalized) || student?.username.toLowerCase().includes(normalized));
   });
-  const totalRosterPages = Math.max(1, Math.ceil(rosterForFilter.length / ROSTER_PAGE_SIZE));
-  const currentRosterPage = Math.min(rosterPage, totalRosterPages);
-  const filteredRoster = rosterForFilter.slice((currentRosterPage - 1) * ROSTER_PAGE_SIZE, currentRosterPage * ROSTER_PAGE_SIZE);
-  const selectedRow = (roster ?? []).find((row) => row.student_id === selectedStudentId);
-  const selectedProgress = selectedStudentId ? progressFor(selectedStudentId) : undefined;
-  const selectedAccuracy = selectedProgress?.total_attempts ? Math.round(selectedProgress.accuracy_sum / selectedProgress.total_attempts) : null;
-  const completedModules = (selectedModuleData?.modules ?? []).filter((module) => module.state === 'completed');
+  const pages = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE));
+  const visible = filtered.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
+  const selected = studentRows.find((row) => row.student_id === selectedStudentId);
+  const selectedCompleted = (selectedModuleData?.modules ?? []).filter((module) => module.state === 'completed');
+  const activeStudents = studentRows.filter((row) => row.item?.total_attempts).length;
+  const needsAttention = studentRows.filter((row) => row.needsAttention).length;
+  const completedActivities = studentRows.reduce((sum, row) => sum + (row.item?.activities_completed ?? 0), 0);
+  const setFilter = (setter: (value: string) => void) => (value: string) => { setter(value); setPage(1); };
 
-  return (
-    <div className="teacher-roster-page flex min-w-0 flex-col gap-6">
-      <header className="flex flex-wrap items-center justify-between gap-4 rounded-3xl border p-5 shadow-card sm:p-6" style={cardStyle('--color-brand-lavender', 8, 28)}><div><p className="text-xs font-bold tracking-[0.12em] text-[var(--color-primary)] uppercase">Class roster</p><h1 className="text-2xl font-bold sm:text-3xl">Mga Mag-aaral</h1><p className="text-sm text-[var(--color-text-muted)]">Hanapin, idagdag, at subaybayan ang iyong mga mag-aaral.</p></div><span className="rounded-2xl bg-white/70 px-4 py-2 text-sm font-bold text-[var(--color-primary)]">{roster?.length ?? 0} assigned</span></header>
+  return <div className="teacher-students-reference flex min-w-0 flex-col gap-4 pb-6">
+    <header className="teacher-students-hero relative overflow-hidden rounded-[1.3rem] border px-7 py-6 shadow-card"><img src={rosterHero} alt="" aria-hidden="true" /><img src={purpleShape} alt="" aria-hidden="true" /><div><p>My students</p><h1>Our students <UsersRound /></h1><span>Manage, monitor, and support the learning progress of every student.</span></div></header>
 
+    <section className="teacher-student-stats grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
+      <article><span><UsersRound /></span><div><b>{studentRows.length}</b><p>Total students</p><small>Students in your roster</small></div><ChevronRight /></article>
+      <article><span><UserCheck /></span><div><b>{activeStudents}</b><p>Active students</p><small>With recorded practice</small></div><ChevronRight /></article>
+      <article><span><BarChart3 /></span><div><b>{needsAttention}</b><p>Needs attention</p><small>Below 70% accuracy</small></div><ChevronRight /></article>
+      <article><span><GraduationCap /></span><div><b>{completedActivities}</b><p>Completed activities</p><small>Recorded across the roster</small></div><ChevronRight /></article>
+    </section>
 
-      <section aria-labelledby="roster-title"><div className="mb-4 flex flex-wrap items-end justify-between gap-3"><div><h2 id="roster-title" className="text-xl font-bold">Class List</h2><p className="text-sm text-[var(--color-text-muted)]">Piliin ang card para makita ang mas malinaw na overview.</p></div><label className="text-sm font-bold">Baitang<select value={gradeFilter} onChange={(event) => setGradeFilter(event.target.value)} className="ml-2 min-h-10 rounded-xl border border-[var(--color-border)] bg-white/75 px-3 font-normal"><option value="all">Lahat</option>{gradeLevels.map((grade) => <option key={grade} value={grade}>Grade {grade}</option>)}</select></label></div>
-        {isLoading && <p className="rounded-2xl bg-white/60 p-5">Naglo-load...</p>}
-        {rosterForFilter.length > ROSTER_PAGE_SIZE && <nav aria-label="Pagination ng class list" className="mb-4 flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-[var(--color-border)] bg-white/55 px-4 py-3"><p className="text-sm font-semibold text-[var(--color-text-muted)]">Ipinapakita {(currentRosterPage - 1) * ROSTER_PAGE_SIZE + 1}–{Math.min(currentRosterPage * ROSTER_PAGE_SIZE, rosterForFilter.length)} ng {rosterForFilter.length} mag-aaral</p><div className="flex items-center gap-2"><button type="button" onClick={() => setRosterPage((page) => Math.max(1, page - 1))} disabled={currentRosterPage === 1} className="min-h-10 rounded-full border bg-white px-4 text-sm font-bold disabled:opacity-40">← Nakaraan</button><span className="text-sm font-bold" aria-current="page">{currentRosterPage} / {totalRosterPages}</span><button type="button" onClick={() => setRosterPage((page) => Math.min(totalRosterPages, page + 1))} disabled={currentRosterPage === totalRosterPages} className="min-h-10 rounded-full border bg-white px-4 text-sm font-bold disabled:opacity-40">Susunod →</button></div></nav>}
-        {!isLoading && !filteredRoster.length && <p className="rounded-3xl border border-dashed border-[var(--color-border)] bg-white/45 p-8 text-center text-[var(--color-text-muted)]">Wala pang mag-aaral sa view na ito.</p>}
-        <label className="mb-3 block"><span className="sr-only">Hanapin sa class list</span><input type="search" value={rosterSearch} onChange={(event) => { setRosterSearch(event.target.value); setRosterPage(1); }} className="min-h-11 w-full rounded-2xl border border-[var(--color-border)] bg-white/80 px-4 text-sm" placeholder="Hanapin sa class list..." /></label>
-        <div className="overflow-x-auto rounded-3xl border bg-white/55 shadow-card">
-          <table className="w-full min-w-[760px] border-collapse text-left text-sm">
-            <thead className="border-b border-[var(--color-border)] bg-[var(--color-primary-soft)]/55 text-xs tracking-[0.08em] text-[var(--color-text-muted)] uppercase"><tr><th className="px-5 py-4">Pangalan</th><th className="px-4 py-4">Baitang</th><th className="px-4 py-4">Antas ng pagbasa</th><th className="px-5 py-4">Kahirapan sa pagbasa</th></tr></thead>
-            <tbody>{filteredRoster.map((row) => { const student = row.children; const item = progressFor(row.student_id); const accuracy = item?.total_attempts ? Math.round(item.accuracy_sum / item.total_attempts) : null; const difficulty = accuracy === null ? 'Wala pang data' : accuracy < 70 ? 'Kailangan ng tulong' : accuracy < 85 ? 'Katamtaman' : 'Mababa'; const difficultyClass = accuracy === null || accuracy >= 85 ? 'bg-[var(--color-success-soft)] text-[var(--color-success)]' : accuracy < 70 ? 'bg-[var(--color-danger-soft)] text-[var(--color-danger)]' : 'bg-[var(--color-warning-soft)] text-[var(--color-warning-text)]'; return <tr key={row.id} onClick={() => setSelectedStudentId(row.student_id)} className="cursor-pointer border-b border-[var(--color-border)]/70 last:border-0 hover:bg-[var(--color-primary-soft)]/35 focus-within:bg-[var(--color-primary-soft)]/35"><td className="px-5 py-4"><span className="flex items-center gap-3"><span className="flex h-10 w-10 items-center justify-center rounded-xl bg-[var(--color-primary-soft)] font-bold text-[var(--color-primary)]">{student?.name.charAt(0) ?? '?'}</span><span><span className="block font-bold">{student?.name ?? 'Hindi kilala'}</span><span className="text-xs text-[var(--color-text-muted)]">{student?.username ?? '—'}</span></span></span></td><td className="px-4 py-4">Grade {student?.grade_level ?? '—'}</td><td className="px-4 py-4">{item?.level ?? 'Walang antas'}</td><td className="px-5 py-4"><span className={`rounded-full px-2.5 py-1 text-xs font-bold ${difficultyClass}`}>{difficulty}</span></td></tr>; })}</tbody>
-          </table>
-        </div>
-        {selectedStudentId && <div className="mt-5 rounded-3xl border p-5 shadow-card sm:p-6" style={cardStyle('--color-brand-teal', 7, 26)}><h3 className="text-lg font-bold">Recent Pronunciation History</h3>{selectedSessions?.length ? <ul className="mt-3 grid grid-cols-1 gap-2 sm:grid-cols-2">{selectedSessions.map((session, index) => <li key={`${session.created_at}-${index}`} className="flex items-center gap-3 rounded-2xl bg-white/65 p-3"><span className={`flex h-9 w-9 items-center justify-center rounded-xl font-bold ${session.is_correct ? 'bg-[var(--color-success-soft)] text-[var(--color-success)]' : 'bg-[var(--color-warning-soft)] text-[var(--color-warning-text)]'}`}>{session.is_correct ? '✓' : '↻'}</span><div className="min-w-0 flex-1"><p className="truncate font-bold">{session.word}</p><time dateTime={session.created_at} className="text-xs text-[var(--color-text-muted)]">{new Date(session.created_at).toLocaleDateString('fil-PH', { month: 'short', day: 'numeric' })}</time></div><span className="font-bold">{session.accuracy_percentage}%</span></li>)}</ul> : <p className="mt-3 text-sm text-[var(--color-text-muted)]">Wala pang recent pronunciation activity.</p>}</div>}
-      {selectedStudentId && selectedRow?.children && <section aria-labelledby="student-detail-title" className="rounded-3xl border p-5 shadow-card sm:p-6" style={cardStyle('--color-brand-teal', 7, 26)}>
-        <div className="flex flex-wrap items-start justify-between gap-4"><div className="flex min-w-0 items-center gap-3"><span className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-white/75 text-xl font-bold text-[var(--color-primary)]">{selectedRow.children.name.charAt(0)}</span><div className="min-w-0"><p className="text-xs font-bold tracking-[0.1em] text-[var(--color-brand-teal)] uppercase">Detalye ng mag-aaral</p><h3 id="student-detail-title" className="truncate text-xl font-bold">{selectedRow.children.name}</h3><p className="text-sm text-[var(--color-text-muted)]">Grade {selectedRow.children.grade_level} · {selectedProgress?.level ?? 'Wala pang antas na naitala'}</p></div></div><div className="flex flex-wrap gap-2"><Link to="/teacher/progress-reports" className="inline-flex min-h-11 items-center rounded-full bg-white/70 px-4 text-sm font-bold text-[var(--color-primary)] hover:bg-white">Tingnan ang ulat</Link><Link to="/teacher/lessons?tab=pdf" className="inline-flex min-h-11 items-center rounded-full bg-[var(--color-primary)] px-4 text-sm font-bold text-white">Mag-assign ng PDF</Link></div></div>
-        <section aria-label="Pagganap sa pagbasa" className="mt-5 grid grid-cols-1 gap-3 sm:grid-cols-3"><div className="rounded-2xl bg-white/65 p-4"><p className="text-xs font-bold text-[var(--color-text-muted)]">Accuracy</p><p className="mt-1 text-2xl font-bold">{selectedAccuracy === null ? '—' : `${selectedAccuracy}%`}</p><p className="text-xs text-[var(--color-text-muted)]">{selectedProgress?.total_attempts ?? 0} pronunciation attempts</p></div><div className="rounded-2xl bg-white/65 p-4"><p className="text-xs font-bold text-[var(--color-text-muted)]">Activities</p><p className="mt-1 text-2xl font-bold">{selectedProgress?.activities_completed ?? 0}</p><p className="text-xs text-[var(--color-text-muted)]">Mga natapos na gawain</p></div><div className="rounded-2xl bg-white/65 p-4"><p className="text-xs font-bold text-[var(--color-text-muted)]">Streak</p><p className="mt-1 text-2xl font-bold">{selectedProgress?.streak ?? 0}</p><p className="text-xs text-[var(--color-text-muted)]">Magkakasunod na araw</p></div></section>
-        <div className="mt-5 grid grid-cols-1 gap-4 lg:grid-cols-2"><div><h4 className="font-bold">Kamakailang practice</h4>{selectedSessions?.length ? <ul className="mt-2 flex flex-col gap-2">{selectedSessions.map((session, index) => <li key={`${session.created_at}-${index}`} className="flex items-center justify-between gap-3 rounded-2xl bg-white/65 p-3"><span className="min-w-0"><span className="block truncate font-bold">{session.word}</span><time dateTime={session.created_at} className="text-xs text-[var(--color-text-muted)]">{new Date(session.created_at).toLocaleDateString('fil-PH', { month: 'short', day: 'numeric' })}</time></span><span className="shrink-0 text-sm font-bold">{session.accuracy_percentage}%</span></li>)}</ul> : <p className="mt-2 rounded-2xl bg-white/55 p-3 text-sm text-[var(--color-text-muted)]">Wala pang naitalang practice.</p>}</div><div><h4 className="font-bold">Mga PDF assignment</h4>{selectedAssignments?.length ? <ul className="mt-2 flex flex-col gap-2">{selectedAssignments.map((assignment) => <li key={assignment.id} className="rounded-2xl bg-white/65 p-3"><p className="font-bold">{assignment.pdf_materials?.title ?? 'Materyal sa PDF'}</p><p className="text-xs text-[var(--color-text-muted)]">{assignment.status === 'completed' ? 'Tapos na' : assignment.status === 'in_progress' ? 'Ginagawa' : 'Naka-assign'}{assignment.due_date ? ` · Takdang araw: ${new Date(assignment.due_date).toLocaleDateString('fil-PH', { month: 'short', day: 'numeric' })}` : ''}</p></li>)}</ul> : <p className="mt-2 rounded-2xl bg-white/55 p-3 text-sm text-[var(--color-text-muted)]">Wala pang PDF assignment para sa mag-aaral na ito.</p>}</div></div>
-        <section aria-labelledby="completed-modules-title" className="mt-5 rounded-2xl bg-white/50 p-4"><div className="flex flex-wrap items-center justify-between gap-2"><div><h4 id="completed-modules-title" className="font-bold">Mga natapos na modyul</h4><p className="text-xs text-[var(--color-text-muted)]">Batay sa recorded module progress ng mag-aaral.</p></div><span className="rounded-full bg-white/70 px-3 py-1 text-sm font-bold text-[var(--color-success)]">{completedModules.length} tapos</span></div>{isLoadingModules ? <p className="mt-3 text-sm text-[var(--color-text-muted)]">Kinukuha ang module progress...</p> : hasModuleError ? <p role="alert" className="mt-3 rounded-xl bg-[var(--color-danger-soft)] p-3 text-sm text-[var(--color-danger)]">Hindi ma-load ang module progress ngayon.</p> : completedModules.length ? <ul className="mt-3 grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-3">{completedModules.map((module) => <li key={module.id} className="rounded-2xl bg-white/70 p-3"><p className="font-bold">Modyul {module.module_number}: {module.title}</p><p className="mt-1 text-xs text-[var(--color-text-muted)]">{module.completed_content_item_count}/{module.content_item_count} gawain · Tapos na</p></li>)}</ul> : <p className="mt-3 rounded-xl bg-white/65 p-3 text-sm text-[var(--color-text-muted)]">Wala pang natapos na modyul na naitala.</p>}</section>
-      <button type="button" onClick={() => setSelectedStudentId(null)} className="absolute top-4 right-4 flex h-10 w-10 items-center justify-center rounded-full border bg-white text-xl font-bold text-[var(--color-text)] shadow-card hover:bg-[var(--color-primary-soft)]" aria-label="Isara ang detalye ng mag-aaral">×</button></section>}
-      <style>{`
-        .teacher-roster-page section[aria-labelledby='student-detail-title'] {
-          position: fixed;
-          z-index: 60;
-          top: 50%;
-          left: 50%;
-          width: min(56rem, calc(100vw - 2rem));
-          max-height: calc(100vh - 2rem);
-          transform: translate(-50%, -50%);
-          overflow-y: auto;
-          background: var(--color-surface);
-          box-shadow: 0 0 0 100vmax rgb(15 23 42 / 55%), var(--shadow-raised);
-        }
-        .teacher-roster-page section[aria-labelledby='student-detail-title'] > div:first-child {
-          padding-right: 3.5rem;
-        }
-      `}</style>
-      </section>
-    </div>
-  );
+    <section className="teacher-student-filters rounded-2xl border p-3 shadow-card"><label><Search /><input value={query} onChange={(event) => setFilter(setQuery)(event.target.value)} placeholder="Search students (name, username, or grade)..." /></label><label><SlidersHorizontal /><select value={gradeFilter} onChange={(event) => setFilter(setGradeFilter)(event.target.value)}><option value="all">All grades</option>{gradeLevels.map((grade) => <option key={grade} value={grade}>Grade {grade}</option>)}</select></label><label><select value={levelFilter} onChange={(event) => setFilter(setLevelFilter)(event.target.value)}><option value="all">All reading levels</option><option value="beginner">Beginner</option><option value="intermediate">Intermediate</option><option value="advanced">Advanced</option></select></label><label><select value={statusFilter} onChange={(event) => setFilter(setStatusFilter)(event.target.value)}><option value="all">All statuses</option><option value="active">Active</option><option value="attention">Needs attention</option></select></label><Link to="/teacher/lessons?tab=pdf"><span>＋</span> Add student activity</Link></section>
+
+    <section className="teacher-student-table-card overflow-hidden rounded-[1.35rem] border shadow-card"><div className="overflow-x-auto"><table className="w-full min-w-[1050px] text-left"><thead><tr><th><input type="checkbox" aria-label="Select all visible students" /></th><th>Student</th><th>Grade</th><th>Reading level</th><th>Progress</th><th>Status</th><th>Last activity</th><th>Action</th></tr></thead><tbody>
+      {isLoading && Array.from({ length: 5 }, (_, index) => <tr key={index}><td colSpan={8}><div className="teacher-student-skeleton animate-pulse" /></td></tr>)}
+      {!isLoading && visible.map((row) => { const student = row.children; const level = row.item?.level ?? 'Beginner'; return <tr key={row.id}><td><input type="checkbox" aria-label={`Select ${student?.name ?? 'student'}`} /></td><td><button type="button" onClick={() => setSelectedStudentId(row.student_id)} className="teacher-student-name"><span>{initials(student?.name)}</span><i><b>{student?.name ?? 'Unknown student'}</b><small>{student?.username ?? 'No username'}</small></i></button></td><td>Grade {student?.grade_level ?? '—'}</td><td><span className={`teacher-level ${level.toLowerCase()}`}>{level}</span></td><td><div className="teacher-progress-inline"><i><u style={{ width: `${row.accuracy}%` }} /></i><b>{row.item?.total_attempts ? `${row.accuracy}%` : '—'}</b></div></td><td><span className={row.needsAttention ? 'teacher-student-status attention' : 'teacher-student-status'}>{row.needsAttention ? <AlertCircle /> : <CheckCircle2 />}{row.needsAttention ? 'Needs attention' : 'Active'}</span></td><td>{shortTime(row.lastActivity)}</td><td><button type="button" className="teacher-more-button" onClick={() => setSelectedStudentId(row.student_id)} aria-label={`Open ${student?.name ?? 'student'} details`}><MoreHorizontal /></button></td></tr>; })}
+      {!isLoading && !visible.length && <tr><td colSpan={8} className="teacher-student-empty">No students match these filters.</td></tr>}
+    </tbody></table></div><footer><span>Showing {filtered.length ? (page - 1) * PAGE_SIZE + 1 : 0}–{Math.min(page * PAGE_SIZE, filtered.length)} of {filtered.length} students</span><div><button type="button" disabled={page === 1} onClick={() => setPage(page - 1)}><ChevronLeft /></button>{Array.from({ length: Math.min(pages, 5) }, (_, index) => <button key={index} type="button" onClick={() => setPage(index + 1)} aria-current={page === index + 1 ? 'page' : undefined}>{index + 1}</button>)}<button type="button" disabled={page === pages} onClick={() => setPage(page + 1)}><ChevronRight /></button></div></footer></section>
+
+    {selected && <div className="teacher-student-modal" role="dialog" aria-modal="true" aria-label="Student details" onMouseDown={() => setSelectedStudentId(null)}><article onMouseDown={(event) => event.stopPropagation()}><header><div><p>Student overview</p><h2>{selected.children?.name ?? 'Student'}</h2><span>Grade {selected.children?.grade_level ?? '—'} · {selected.item?.level ?? 'No reading level'}</span></div><button type="button" onClick={() => setSelectedStudentId(null)} aria-label="Close"><X /></button></header><section className="teacher-modal-metrics"><div><b>{selected.accuracy}%</b><small>Accuracy</small></div><div><b>{selected.item?.activities_completed ?? 0}</b><small>Activities</small></div><div><b>{selected.item?.streak ?? 0}</b><small>Day streak</small></div></section><section><h3>Recent practice</h3>{selectedSessions?.length ? <ul>{selectedSessions.map((session, index) => <li key={`${session.created_at}-${index}`}><span className={session.is_correct ? 'correct' : ''}>{session.is_correct ? <CheckCircle2 /> : <AlertCircle />}</span><div><b>{session.word}</b><small>{shortTime(session.created_at)}</small></div><strong>{session.accuracy_percentage}%</strong></li>)}</ul> : <p>No practice recorded yet.</p>}</section><section><h3>Assignments</h3>{selectedAssignments?.length ? <ul>{selectedAssignments.map((assignment) => <li key={assignment.id}><span><BookOpen /></span><div><b>{assignment.pdf_materials?.title ?? 'PDF material'}</b><small>{assignment.status} {assignment.due_date ? `· Due ${shortTime(assignment.due_date)}` : ''}</small></div></li>)}</ul> : <p>No assignments found for this student.</p>}</section><section><h3>Completed modules</h3><p>{selectedCompleted.length ? `${selectedCompleted.length} completed module${selectedCompleted.length === 1 ? '' : 's'}.` : 'No completed modules recorded yet.'}</p></section><footer><Link to="/teacher/progress-reports">View progress reports <ChevronRight /></Link><Link to="/teacher/lessons?tab=pdf">Assign material <ChevronRight /></Link></footer></article></div>}
+  </div>;
 }

@@ -10,6 +10,8 @@ interface TTSButtonProps {
   /** Use for explanatory sentences that should not inherit the learner's slow word-reading speed. */
   rate?: number;
   className?: string;
+  /** Lets public pages use the server-side ElevenLabs voice with a strict anonymous rate limit. */
+  publicAccess?: boolean;
 }
 
 // Cache decoded audio per spoken text+rate so repeat plays (e.g. re-reading the same word)
@@ -26,7 +28,7 @@ function base64ToObjectUrl(base64: string): string {
 
 /** Reads `text` aloud through the server-side Filipino Cloud TTS voice. Acts as a toggle --
  *  clicking again while speaking stops playback instead of restarting it. */
-export function TTSButton({ text, lang = 'fil-PH', rate: requestedRate, className }: TTSButtonProps) {
+export function TTSButton({ text, lang = 'fil-PH', rate: requestedRate, className, publicAccess = false }: TTSButtonProps) {
   void lang; // Server-side Filipino Cloud TTS is authoritative for pronunciation.
   const [status, setStatus] = useState<'idle' | 'loading' | 'speaking'>('idle');
   const audioRef = useRef<HTMLAudioElement | null>(null);
@@ -36,6 +38,25 @@ export function TTSButton({ text, lang = 'fil-PH', rate: requestedRate, classNam
     audioRef.current = null;
     if (typeof window !== 'undefined' && 'speechSynthesis' in window) window.speechSynthesis.cancel();
     setStatus('idle');
+  };
+
+  // The marketing landing page is intentionally available before sign-in,
+  // while the higher-quality API voice requires an authenticated session.
+  // Keep the read-aloud button useful for public visitors with the browser's
+  // built-in speech engine when the API is unavailable.
+  const speakWithBrowser = (rate: number) => {
+    if (typeof window === 'undefined' || !('speechSynthesis' in window)) {
+      setStatus('idle');
+      return;
+    }
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.lang = lang;
+    utterance.rate = getTtsPlaybackRate(rate);
+    utterance.onend = () => setStatus('idle');
+    utterance.onerror = () => setStatus('idle');
+    window.speechSynthesis.cancel();
+    setStatus('speaking');
+    window.speechSynthesis.speak(utterance);
   };
 
   const speak = async () => {
@@ -62,7 +83,7 @@ export function TTSButton({ text, lang = 'fil-PH', rate: requestedRate, classNam
 
     setStatus('loading');
     try {
-      const res = await api<{ audioContent: string }>('/tts', { method: 'POST', auth: true, body: { text, rate } });
+      const res = await api<{ audioContent: string }>(publicAccess ? '/public/tts' : '/tts', { method: 'POST', auth: !publicAccess, body: { text, rate } });
       const url = base64ToObjectUrl(res.audioContent);
       audioCache.set(cacheKey, url);
       setStatus('speaking');
@@ -74,7 +95,7 @@ export function TTSButton({ text, lang = 'fil-PH', rate: requestedRate, classNam
       audio.play();
     } catch {
       trackEvent('speech_request_failed', { surface: 'tts_button' });
-      setStatus('idle');
+      speakWithBrowser(rate);
     }
   };
 

@@ -6,6 +6,8 @@ import { useNotifications } from '../../lib/useNotifications';
 import { cardStyle } from '../../lib/cardStyle';
 import { DashboardShell } from '../../components/DashboardShell';
 import logo from '../../assets/Logo.jpg';
+import sidebarFoliageLeft from '../../assets/admin_design/sidebar-foliage-left.png';
+import sidebarFoliageRight from '../../assets/admin_design/sidebar-foliage-right.png';
 import { AppIcon } from '../../components/a11y/AppIcon';
 
 const PRIMARY_TABS = [
@@ -13,9 +15,8 @@ const PRIMARY_TABS = [
   { to: '/admin/students', icon: '🧒', label: 'Students' },
   { to: '/admin/parents', icon: '👪', label: 'Parents' },
   { to: '/admin/teachers-monitoring', icon: '🎓', label: 'Teachers' },
-  { to: '/admin', end: true, icon: '⌂', label: 'Home' },
   { to: '/admin/users', icon: '👥', label: 'Users' },
-  { to: '/admin/teachers', icon: '🎓', label: 'Teachers' },
+  { to: '/admin/teachers', icon: '🎓', label: 'Create teacher' },
   { to: '/admin/analytics', icon: '▥', label: 'Analytics' },
   { to: '/admin/audit-logs', icon: '📋', label: 'Audit Trail' },
   { to: '/admin/archived', icon: '▣', label: 'Archive' },
@@ -57,15 +58,50 @@ const REMAINING_ADMIN_ENGLISH_REPLACEMENTS: Array<[string, string]> = [
   ['Hanapin, salain, at pamahalaan ang tunay na LinawLetra accounts.', 'Search, filter, and manage LinawLetra accounts.'],
   ['Resulta', 'Results'], ['Maghanap ng user', 'Search users'], ['Lahat ng role', 'All roles'], ['Lahat ng status', 'All statuses'],
   ['Nagpadala kami ng kumpirmasyon sa parehong luma at bagong email — buksan ang link para tapusin ang pagbabago.', 'We sent a confirmation to both email addresses. Open the link to complete the change.'],
-  ['Wala pang abiso.', 'No notifications yet.'], ['ngayon lang', 'just now'], ['ang nakaraan', 'ago']
+  ['Wala pang abiso.', 'No notifications yet.'], ['ngayon lang', 'just now'], ['ang nakaraan', 'ago'],
+  ['Walang session', 'No active session'], ['Mga iskedyul', 'Schedules'], ['Mga pagbabago sa antas ng pagbasa.', 'Reading-level changes.'],
+  ['Mga setting na tumutulong sa pagbasa.', 'Settings that support reading.'], ['Mga mensahe', 'Messages'], ['Komunikasyon ng guro at magulang.', 'Teacher and parent communication.'],
+  ['Mga materyal', 'Materials'], ['Reading materials na in-upload ng guro.', 'Reading materials uploaded by teachers.'],
+  ['Mga materyal na naka-assign sa mag-aaral.', 'Materials assigned to students.'], ['Hindi tukoy na mag-aaral', 'Unknown student'],
+  ['Hindi tukoy na user', 'Unknown user'], ['Walang pamagat', 'Untitled'], ['Gawain', 'Activity'], ['Walang mensahe', 'No message'],
+  ['Nabasa', 'Read'], ['Bago', 'New'], ['gawain', 'activities'], ['araw na streak', 'day streak'],
+  ['Mga naka-planong gawain para sa mag-aaral.', 'Planned activities for students.'], ['Ugnayan ng guro at mag-aaral.', 'Teacher-student links.'],
+  ['Progreso', 'Progress'], ['XP, streak, at natapos na gawain.', 'XP, streaks, and completed activities.'],
+  ['Itinakda ni', 'Assigned by'], ['Guro:', 'Teacher:'], ['naka-on', 'on'], ['naka-off', 'off'], ['Naka-assign', 'Assigned'], ['Naka-roster', 'On roster'],
+  ['Mga Operasyon', 'Operations'], ['Read-only na tanaw sa aktibong gawain, learning support, at records ng sistema.', 'Read-only view of active work, learning support, and system records.'],
+  ['Hindi ma-load ang operations.', 'Unable to load operations.'], ['Maghanap sa listahan...', 'Search the list...'],
+  ['Walang tumugmang record.', 'No matching records.'], ['Subukang baguhin ang search o pumili ng ibang kategorya.', 'Try changing the search or selecting another category.'],
+  ['Walang session', 'No active session'], ['Pangalan o aksyon...', 'Name or action...'], ['Lahat ng user', 'All users'],
+  ['Mga mag-aaral', 'Students'], ['Mga magulang', 'Parents'], ['Mga guro', 'Teachers'], ['Mga aktibidad', 'Activities'],
+  ['Detalye ng transaksyon', 'Transaction details'], ['Hindi available', 'Not available'],
+  ['Nag-login si', 'Signed in:'], ['Na-disable ang iyong account', 'Your account was disabled'], ['Naibalik ang iyong account', 'Your account was restored'],
+  ['Maaari ka nang mag-login muli.', 'You can sign in again.'], ['Makipag-ugnayan para sa detalye.', 'Contact support for details.']
 ];
 
 const ADMIN_ENGLISH_REPLACEMENTS: Array<[string, string]> = [
   ['Mga Mag-aaral', 'Students'], ['Mga Magulang', 'Parents'], ['Mga Guro', 'Teachers'], ['Mga Abiso', 'Notifications'], ['Mga Operasyon', 'Operations'], ['Pagsusuri', 'Analytics'], ['Pamamahala ng Users', 'User Management'], ['Arkibo', 'Archive'], ['Kasalukuyang mga guro', 'Current teachers'], ['Bagong teacher account', 'New teacher account'], ['Wala pang guro', 'No teachers yet'], ['Walang pangalan', 'No name'], ['Walang pamagat', 'Untitled'], ['Walang mensahe', 'No message'], ['Walang petsa', 'No date'], ['Walang available', 'Not available'], ['Walang tumugmang record.', 'No matching records.'], ['Walang tumugmang account.', 'No matching accounts.'], ['Walang tumugmang user', 'No matching users'], ['Walang na-archive na account.', 'No archived accounts.'], ['Walang archived account', 'No archived accounts'], ['Walang abiso sa view na ito', 'No notifications in this view'], ['Wala pang datos.', 'No data yet.'], ['Wala pang naka-link na profile.', 'No linked profile yet.'], ['Wala pang recorded activity.', 'No recorded activity yet.'], ['Hindi pa nabasa', 'Unread'], ['Hindi pa', 'Not yet'], ['Hindi ma-load ang', 'Unable to load'], ['Naglo-load ng', 'Loading'], ['Sine-save...', 'Saving...'], ['Ina-update...', 'Updating...'], ['Ipinapadala...', 'Sending...'], ['Ginagawa ang account...', 'Creating account...'], ['Na-save ang pangalan.', 'Name saved.'], ['Na-update ang password.', 'Password updated.'], ['Maglagay ng valid na email address.', 'Enter a valid email address.'], ['Kailangang 8+ characters, may malaking letra at numero.', 'Use at least 8 characters, including an uppercase letter and number.'], ['Hindi magkatugma ang dalawang password.', 'The passwords do not match.'], ['Pangalan', 'Name'], ['Huling login', 'Last login'], ['Aksyon', 'Action'], ['Oras', 'Time'], ['Detalye', 'Details'], ['Dahilan', 'Reason'], ['Kumpirmahin', 'Confirm'], ['Isara', 'Close'], ['Nakaraan', 'Previous'], ['Susunod', 'Next'], ['I-reset', 'Reset'], ['I-save', 'Save'], ['I-update ang Email', 'Update email'], ['I-update ang Password', 'Update password'], ['I-restore', 'Restore'], ['I-disable', 'Disable'], ['I-archive', 'Archive'], ['Maghanap', 'Search'], ['Hanapin', 'Search'], ['Salain', 'Filter'], ['Lahat ng', 'All'], ['Ngayon', 'Today'], ['Mas nauna', 'Earlier'], ['BAGO', 'NEW'], ['Matagumpay', 'Successful'], ['Nabigo', 'Failed'], ['Mag-sign out', 'Sign out'], ['Magkatugma ang password', 'Passwords match'], ['Bagong Email', 'New email'], ['Bagong Password', 'New password'], ['Kumpirmahin ang Bagong Password', 'Confirm new password'], ['Palitan ang Email', 'Change email'], ['Palitan ang Password', 'Change password'], ['Profile Ko', 'My profile'], ['Aking Profile', 'My Profile'], ['Mga anak:', 'Children:'], ['Kamakailang aktibidad', 'Recent activity'], ['Pumili ng account upang makita ang profile at aktibidad.', 'Select an account to view its profile and activity.'], ['Ipinapakita', 'Showing'], ['ng ', 'of '], ['araw na streak', 'day streak'], ['gawain', 'activities'], ['Guro:', 'Teacher:'], ['Itinakda ni', 'Assigned by'], ['naka-on', 'on'], ['naka-off', 'off'], ['Nabasa', 'Read'], ['Naka-assign', 'Assigned'], ['Naka-roster', 'On roster'], ['Hindi tukoy na mag-aaral', 'Unknown student'], ['Hindi tukoy na user', 'Unknown user'], ['Maghanap sa listahan...', 'Search the list...'], ['Subukang baguhin ang search o pumili ng ibang kategorya.', 'Try changing the search or selecting another category.'], ['Piliin ang lahat ng hahawakang grade level.', 'Select all grade levels they will teach.'], ['Pumili ng kahit isang grade level.', 'Select at least one grade level.'], ['Lahat ng field ay kinakailangan.', 'All fields are required.'], ['Buong pangalan', 'Full name'], ['Mga baitang', 'Grade levels'], ['Gumawa ng Account', 'Create account'], ['Gamitin ang form para gumawa ng unang account.', 'Use the form to create the first account.'], ['Nagawa ang account para kay', 'Account created for'], ['Naipadala na ang pansamantalang password sa email ng guro.', 'A temporary password has been sent to the teacher’s email.'], ['Mga aktibidad', 'Activities'], ['Monitoring at seguridad', 'Monitoring and security'], ['Append-only record ng transaksyon, login session, platform, at device kapag available.', 'Append-only record of transactions, login sessions, platforms, and devices when available.'], ['Pangalan o aksyon...', 'Name or action...'], ['Lahat ng user', 'All users'], ['Device/browser', 'Device/browser'], ['Hindi available', 'Not available'], ['Mga totoong system at account update para sa iyong admin account.', 'System and account updates for your admin account.'], ['Salain ang abiso', 'Filter notifications'], ['Markahan lahat na nabasa', 'Mark all as read'], ['Lalabas rito ang mga update kapag mayroon na.', 'Updates will appear here when available.']
 ];
 
+const ADMIN_HOME_FILIPINO_REPLACEMENTS: Array<[string, string]> = [
+  ['Total users', 'Kabuuang Gumagamit'], ['Student accounts', 'Mga Mag-aaral'], ['Students', 'Mga Mag-aaral'], ['Teachers', 'Mga Guro'], ['Parents', 'Mga Magulang'], ['Users', 'Mga Gumagamit'],
+  ['Create teacher', 'Gumawa ng Guro'], ['Analytics', 'Analitika'], ['Notifications', 'Mga Abiso'], ['Settings', 'Mga Setting'],
+  ['Growth', 'PAGLAGO'], ['Enrollment trend', 'Trend ng Enrolment'], ['System activity', 'PINAKABAGONG AKTIBIDAD'], ['New accounts', 'Mga Bagong Account'],
+  ['Shortcuts', 'MGA MABILIS NA PAGKILOS'], ['Quick actions', 'Mga Mabilis na Pagkilos'], ['Manage users', 'Pamahalaan ang mga Account'],
+  ['Create a teacher', 'Gumawa ng Guro'], ['Open analytics', 'Tingnan ang Analytics'], ['View all', 'Tingnan lahat'],
+  ['Credential security', 'May kailangang aksyon'], ['Account created', 'Gumawa ng account'], ['No account activity yet.', 'Wala pang bagong aktibidad.'],
+  ['Monthly', 'Buwanang View'], ['Practice sessions', 'Mga Sesyon ng Pagsasanay'], ['Supporting families', 'Mga Pamilyang Gumagabay'], ['Teacher accounts', 'Mga Account ng Guro'],
+  ['student account(s) need password rotation', 'account ng mag-aaral ang kailangang magpalit ng password.'], ['Aggregate onlyâ€”no password or hash values are exposed.', 'Walang password o sensitibong impormasyon ang ipinapakita.'],
+  ['Search, filter, and account actions', 'Maghanap, mag-filter, at mamahala ng mga account'], ['Create a teacher account', 'Gumawa ng bagong account para sa guro'], ['Trends and system performance', 'Tingnan ang progreso at performance'],
+  ['Student', 'Mag-aaral'], ['Parent', 'Magulang'], ['Teacher', 'Guro'], ['No enrollment data yet.', 'Wala pang enrollment data.']
+];
+
+void ADMIN_HOME_FILIPINO_REPLACEMENTS;
+
 function translateAdminInterface(root: HTMLElement) {
-  const translate = (value: string) => [...ADMIN_ENGLISH_REPLACEMENTS, ...ADDITIONAL_ADMIN_ENGLISH_REPLACEMENTS, ...REMAINING_ADMIN_ENGLISH_REPLACEMENTS].filter(([from]) => from !== 'ng ').sort(([left], [right]) => right.length - left.length).reduce((text, [from, to]) => text.replaceAll(from, to), value);
+  const translate = (value: string) => {
+    const english = [...ADMIN_ENGLISH_REPLACEMENTS, ...ADDITIONAL_ADMIN_ENGLISH_REPLACEMENTS, ...REMAINING_ADMIN_ENGLISH_REPLACEMENTS].filter(([from]) => from !== 'ng ').sort(([left], [right]) => right.length - left.length).reduce((text, [from, to]) => text.replaceAll(from, to), value);
+    return english;
+  };
   const walk = (node: Node) => {
     if (node.nodeType === Node.TEXT_NODE) {
       const translated = translate(node.textContent ?? '');
@@ -93,10 +129,10 @@ function NavContents({ collapsed, onNavigate }: { collapsed: boolean; onNavigate
   return (
     <nav aria-label="Admin sections" className="flex flex-1 flex-col gap-1 overflow-y-auto px-2.5 py-3">
       {!collapsed && <p className="px-3 pt-1 pb-1 text-[0.65rem] font-extrabold tracking-[0.14em] text-white/50 uppercase">Main menu</p>}
-      {PRIMARY_TABS.filter((tab, index) => tab.to !== '/admin' || index === 0).map((tab) => (
-        <NavLink key={tab.to} to={tab.to} end={tab.end} onClick={onNavigate} title={collapsed ? (tab.to === '/admin/teachers' ? 'Create teacher' : tab.label) : undefined} className={({ isActive }) => `group relative flex min-h-11 items-center gap-3 rounded-xl px-3 text-sm font-bold transition-all ${collapsed ? 'justify-center px-0' : ''} ${isActive ? 'bg-white text-[var(--color-brand-navy)] shadow-card ring-1 ring-white/60' : 'text-white/85 hover:bg-white/15 hover:text-white'}`}>
+      {PRIMARY_TABS.map((tab) => (
+        <NavLink key={tab.to} to={tab.to} end={tab.end} onClick={onNavigate} title={collapsed ? tab.label : undefined} className={({ isActive }) => `group relative flex min-h-11 items-center gap-3 rounded-xl px-3 text-sm font-bold transition-all ${collapsed ? 'justify-center px-0' : ''} ${isActive ? 'bg-white text-[var(--color-brand-navy)] shadow-card ring-1 ring-white/60' : 'text-white/85 hover:bg-white/15 hover:text-white'}`}>
           <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-white/10 transition-colors group-hover:bg-white/20" aria-hidden="true"><AppIcon name={tab.icon} className="h-5 w-5" /></span>
-          <span className={collapsed ? 'sr-only' : 'truncate'}>{tab.to === '/admin/teachers' ? 'Create teacher' : tab.label}</span>
+          <span className={collapsed ? 'sr-only' : 'truncate'}>{tab.label}</span>
           {tab.to === '/admin/notifications' && unreadCount > 0 && <span className={`${collapsed ? 'absolute right-1 top-1' : 'ml-auto'} flex h-5 min-w-5 items-center justify-center rounded-full bg-[var(--color-danger)] px-1 text-[0.65rem] text-white`}>{unreadCount > 9 ? '9+' : unreadCount}</span>}
         </NavLink>
       ))}
@@ -136,6 +172,8 @@ export default function AdminLayout() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const location = useLocation();
   const contentRef = useRef<HTMLDivElement>(null);
+  const { identity } = useAuth();
+  const { unreadCount } = useNotifications();
   useEffect(() => {
     const root = contentRef.current;
     if (!root) return;
@@ -148,15 +186,21 @@ export default function AdminLayout() {
   return (
     <DashboardShell roleLabel="Admin" hideHeader roleTheme="admin">
       <div className="flex min-h-screen min-w-0">
-        <aside className={`dashboard-sidebar sticky top-0 hidden h-screen shrink-0 flex-col border-r border-white/15 bg-[var(--color-primary-hover)] transition-[width] duration-200 lg:flex ${collapsed ? 'w-[4.75rem]' : 'w-60'}`}>
-          <div className={`relative flex h-16 items-center gap-2 border-b border-white/15 px-3 ${collapsed ? 'justify-center' : ''}`}><img src={logo} alt="LinawLetra" className="h-9 w-9 shrink-0 rounded-xl object-cover shadow-sm" />{!collapsed && <div className="min-w-0"><p className="truncate text-sm font-extrabold text-white">LinawLetra</p><p className="truncate text-[0.68rem] font-semibold tracking-wide text-white/60 uppercase">Admin Console</p></div>}<button type="button" onClick={() => setCollapsed((value) => !value)} title={collapsed ? 'Expand sidebar' : 'Collapse sidebar'} className={`${collapsed ? 'absolute top-[4.4rem] right-[-.75rem]' : 'ml-auto'} flex h-7 w-7 items-center justify-center rounded-full border border-white/25 bg-[var(--color-brand-navy)] text-xs text-white shadow-sm`}><span aria-hidden="true">{collapsed ? '›' : '‹'}</span></button></div>
+        <aside className={`dashboard-sidebar admin-sidebar-art fixed inset-y-0 left-0 z-40 hidden h-screen shrink-0 flex-col border-r border-white/15 bg-[var(--color-primary-hover)] transition-[width] duration-200 lg:flex ${collapsed ? 'w-[4.75rem]' : 'w-64'}`}>
+          <img src={sidebarFoliageLeft} alt="" aria-hidden="true" className="admin-sidebar-foliage admin-sidebar-foliage-left" />
+          <img src={sidebarFoliageRight} alt="" aria-hidden="true" className="admin-sidebar-foliage admin-sidebar-foliage-right" />
+          <div className={`relative flex h-16 items-center gap-2 border-b border-white/15 px-3 ${collapsed ? 'justify-center' : ''}`}><button type="button" onClick={() => setCollapsed((value) => !value)} title={collapsed ? 'Open sidebar' : 'Close sidebar'} aria-label={collapsed ? 'Open sidebar' : 'Close sidebar'} className="admin-sidebar-logo-toggle shrink-0 rounded-xl"><img src={logo} alt="LinawLetra" className="h-9 w-9 rounded-xl object-cover shadow-sm" /></button>{!collapsed && <div className="min-w-0"><p className="truncate text-sm font-extrabold text-white">LinawLetra</p><p className="truncate text-[0.68rem] font-semibold tracking-wide text-white/60 uppercase">Admin Console</p></div>}</div>
           <NavContents collapsed={collapsed} />
           <div className="border-t border-white/15 p-2.5"><ProfileMenu collapsed={collapsed} /></div>
         </aside>
-        <div ref={contentRef} className="flex min-w-0 flex-1 flex-col">
+        <div ref={contentRef} className={`flex min-w-0 flex-1 flex-col transition-[margin] duration-200 ${collapsed ? 'lg:ml-[4.75rem]' : 'lg:ml-64'}`}>
+          <header className="admin-utility-bar hidden h-[4.7rem] items-center justify-between px-6 lg:flex xl:px-8">
+            <label className="admin-global-search"><span aria-hidden="true">⌕</span><input aria-label="Search the admin dashboard" placeholder="Search... (e.g. student, parent, teacher, or account)" /></label>
+            <div className="flex items-center gap-4"><NavLink to="/admin/notifications" aria-label="Notifications" className="admin-notification-button relative"><AppIcon name="🔔" className="h-5 w-5" />{unreadCount > 0 && <span className="absolute -top-1 -right-1 grid h-5 min-w-5 place-items-center rounded-full bg-[#ef5350] px-1 text-[.62rem] font-bold text-white">{unreadCount > 9 ? '9+' : unreadCount}</span>}</NavLink><span className="admin-utility-avatar">{initialsFor(identity?.displayName ?? 'Admin')}</span><span className="leading-tight"><b className="block text-sm">{identity?.displayName ?? 'Admin User'}</b><small className="text-xs text-[var(--color-text-muted)]">Administrator</small></span><span className="text-sm" aria-hidden="true">⌄</span></div>
+          </header>
           <header className="sticky top-0 z-20 flex h-16 items-center justify-between border-b border-[var(--color-border)] bg-[var(--color-surface)]/90 px-4 backdrop-blur lg:hidden"><div className="flex min-w-0 items-center gap-3"><img src={logo} alt="LinawLetra" className="h-9 w-9 rounded-xl object-cover" /><div className="min-w-0"><p className="truncate text-sm font-extrabold">{current?.label ?? 'Admin'}</p><p className="text-[0.65rem] font-bold tracking-wide text-[var(--color-text-muted)] uppercase">Admin Console</p></div></div><button type="button" onClick={() => setMobileOpen((value) => !value)} aria-expanded={mobileOpen} aria-label="Open menu" className="flex h-10 w-10 items-center justify-center rounded-xl border border-[var(--color-border)] bg-white/65"><AppIcon name={mobileOpen ? '×' : '☰'} /><span className="sr-only">Menu</span></button></header>
           {mobileOpen && <div className="sticky top-16 z-20 flex max-h-[calc(100vh-4rem)] flex-col border-b border-white/15 bg-[var(--color-primary-hover)] lg:hidden"><NavContents collapsed={false} onNavigate={() => setMobileOpen(false)} /><div className="border-t border-white/15 p-2.5"><ProfileMenu collapsed={false} /></div></div>}
-          <main className="mx-auto w-full max-w-7xl min-w-0 flex-1 overflow-x-hidden px-4 py-5 sm:px-6 sm:py-7 xl:px-8"><Outlet /></main>
+          <main className="w-full max-w-none min-w-0 flex-1 overflow-x-hidden px-4 py-5 sm:px-6 sm:py-6 xl:px-6 xl:py-6"><Outlet /></main>
         </div>
       </div>
     </DashboardShell>

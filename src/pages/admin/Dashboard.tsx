@@ -4,6 +4,11 @@ import { Area, AreaChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YA
 import { useAuth } from '../../lib/auth/AuthContext';
 import { api } from '../../lib/api';
 import { cardStyle } from '../../lib/cardStyle';
+import { AppIcon } from '../../components/a11y/AppIcon';
+import heroBackground from '../../assets/admin_design/admin-hero-background.png';
+import adminMascot from '../../assets/admin_design/owl-admin-mascot.png';
+
+const mascot = adminMascot;
 
 interface AnalyticsResponse {
   enrollmentTrend: { month: string; count: number }[];
@@ -16,9 +21,16 @@ interface CredentialSecurity { totalStudents: number; legacy: number; rotatedPen
 
 const QUICK_ACTIONS = [
   { to: '/admin/users', icon: '👥', label: 'Manage users', desc: 'Search, filter, and account actions', brand: '--color-brand-lavender' },
-  { to: '/admin/teachers', icon: '🎓', label: 'Add a teacher', desc: 'Create a teacher account', brand: '--color-brand-sun' },
+  { to: '/admin/teachers', icon: '🎓', label: 'Create a teacher', desc: 'Create a teacher account', brand: '--color-brand-sun' },
   { to: '/admin/analytics', icon: '▥', label: 'Open analytics', desc: 'Trends and system performance', brand: '--color-brand-teal' },
 ];
+
+const FILIPINO_QUICK_ACTIONS = [
+  { to: '/admin/users', icon: '👥', label: 'Pamahalaan ang mga Account', desc: 'Maghanap, magsala, at kumilos sa mga account', brand: '--color-brand-lavender' },
+  { to: '/admin/teachers', icon: '🎓', label: 'Gumawa ng Guro', desc: 'Magdagdag ng bagong teacher account', brand: '--color-brand-sun' },
+  { to: '/admin/analytics', icon: '▥', label: 'Tingnan ang Analytics', desc: 'Mga trend at performance ng system', brand: '--color-brand-teal' },
+];
+void FILIPINO_QUICK_ACTIONS;
 
 function LoadingCard() { return <div className="h-28 animate-pulse rounded-3xl border border-white/60 bg-white/45" />; }
 function formatDate(value: string) { return new Date(value).toLocaleString('en-US', { month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' }); }
@@ -32,21 +44,35 @@ export default function AdminDashboard() {
   const data = analytics.data;
   const users = usersQuery.data?.users ?? [];
   const activeUsers = users.filter((user) => user.account_status === 'active' && user.is_active).length;
-  const stats = data ? [
-    { icon: '👥', label: 'Total users', value: data.totals.users, detail: `${activeUsers} active accounts`, brand: '--color-brand-lavender' },
-    { icon: '🧒', label: 'Student accounts', value: data.totals.studentAccounts, detail: 'Matches the Users list', brand: '--color-brand-coral' },
-    { icon: '🎓', label: 'Teachers', value: data.roleCounts.teacher ?? 0, detail: 'Teacher accounts', brand: '--color-brand-sun' },
-    { icon: '👪', label: 'Parents', value: data.roleCounts.parent ?? 0, detail: 'Parent accounts', brand: '--color-brand-sage' },
-    { icon: '●', label: 'Active users', value: activeUsers, detail: `${users.length ? Math.round((activeUsers / users.length) * 100) : 0}% of visible accounts`, brand: '--color-brand-teal' },
-    { icon: '🎙', label: 'Practice sessions', value: data.totals.practiceSessions, detail: `${data.totals.totalXp.toLocaleString()} total XP`, brand: '--color-brand-violet' },
+  const localizedStats = data ? [
+    { icon: '👥', label: 'Total Users', value: data.totals.users, detail: `${activeUsers} active accounts`, brand: '--color-brand-sage' },
+    { icon: '🧒', label: 'Students', value: data.totals.studentAccounts, detail: 'Student accounts', brand: '--color-brand-sun' },
+    { icon: '🎓', label: 'Teachers', value: data.roleCounts.teacher ?? 0, detail: 'Teacher accounts', brand: '--color-brand-coral' },
+    { icon: '👪', label: 'Parents', value: data.roleCounts.parent ?? 0, detail: 'Supporting families', brand: '--color-brand-lavender' },
+    { icon: '📖', label: 'Practice Sessions', value: data.totals.practiceSessions, detail: `${data.totals.totalXp.toLocaleString()} total XP`, brand: '--color-brand-violet' },
   ] : [];
+  const stats = data ? [
+    { icon: '👥', label: 'Total users', value: data.totals.users, detail: `${activeUsers} active accounts`, brand: '--color-brand-sage' },
+    { icon: '🧒', label: 'Student accounts', value: data.totals.studentAccounts, detail: 'Matches the Users list', brand: '--color-brand-violet' },
+    { icon: '🎓', label: 'Teachers', value: data.roleCounts.teacher ?? 0, detail: 'Teacher accounts', brand: '--color-brand-sun' },
+    { icon: '👪', label: 'Parents', value: data.roleCounts.parent ?? 0, detail: 'Supporting families', brand: '--color-brand-lavender' },
+    { icon: '🎙', label: 'Practice sessions', value: data.totals.practiceSessions, detail: `${data.totals.totalXp.toLocaleString()} total XP`, brand: '--color-brand-teal' },
+  ] : [];
+  void stats;
   const recent = [...users].sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime()).slice(0, 5);
 
   return (
     <div className="flex min-w-0 flex-col gap-7">
-      <header className="relative overflow-hidden rounded-3xl border border-white/30 bg-[var(--color-primary)] p-5 text-white shadow-hero ring-1 ring-black/5 sm:p-7">
-        <div className="absolute -right-12 -top-12 h-44 w-44 rounded-full bg-white/10" aria-hidden="true" />
-        <div className="relative flex flex-wrap items-end justify-between gap-4"><div><p className="text-xs font-extrabold tracking-[.14em] text-white/70 uppercase">System overview</p><h1 className="mt-1 text-2xl font-extrabold sm:text-3xl">Welcome back, {identity?.displayName ?? 'Admin'}!</h1><p className="mt-2 max-w-2xl text-sm leading-relaxed text-white/80 sm:text-base">Here is a clear summary of LinawLetra users, engagement, and recent activity.</p></div><Link to="/admin/users" className="inline-flex min-h-11 items-center rounded-full bg-white px-5 text-sm font-extrabold text-[var(--color-brand-navy)] shadow-card transition-transform hover:-translate-y-0.5">View users →</Link></div>
+      <header className="admin-home-banner relative isolate overflow-hidden rounded-3xl border p-5 shadow-hero ring-1 ring-black/5 sm:p-7">
+        <img src={heroBackground} alt="" aria-hidden="true" className="admin-banner-background" />
+        <img src={adminMascot} alt="" aria-hidden="true" className="admin-banner-mascot" />
+        <div className="admin-banner-reference-copy">
+          <p>Good morning,</p>
+          <h1>Admin!</h1>
+          <span>Here is a quick summary of LinawLetra users<br className="hidden sm:block" /> and activity today.</span>
+        </div>
+        <span className="admin-banner-letter" aria-hidden="true">ABC ✦</span><span className="admin-banner-pencil" aria-hidden="true">✎</span><img src={mascot} alt="" aria-hidden="true" className="admin-banner-mascot" />
+        <div className="relative flex flex-wrap items-end justify-between gap-4"><div><p className="text-xs font-extrabold tracking-[.14em] text-white/70 uppercase">Good morning! ✦</p><h1 className="mt-1 text-2xl font-extrabold sm:text-3xl">Welcome back, {identity?.displayName ?? 'Admin'}!</h1><p className="mt-2 max-w-2xl text-sm leading-relaxed text-white/80 sm:text-base">Here is the quick story of LinawLetra today: learner progress, new accounts, and reading activity.</p></div><Link to="/admin/users" className="inline-flex min-h-11 items-center rounded-full bg-white px-5 text-sm font-extrabold text-[var(--color-brand-navy)] shadow-card transition-transform hover:-translate-y-0.5">View users →</Link></div>
       </header>
 
       {import.meta.env.DEV && loadError instanceof Error && (
@@ -55,7 +81,7 @@ export default function AdminDashboard() {
         </div>
       )}
 
-      {(analytics.isLoading || usersQuery.isLoading) ? <div className="grid grid-cols-2 gap-3 lg:grid-cols-3 xl:grid-cols-6">{Array.from({ length: 6 }, (_, index) => <LoadingCard key={index} />)}</div> : data && <section aria-label="Key statistics" className="grid grid-cols-2 gap-3 lg:grid-cols-3 xl:grid-cols-6">{stats.map((stat) => <article key={stat.label} className="min-w-0 rounded-3xl border p-4 shadow-card transition-all hover:-translate-y-0.5 hover:shadow-raised" style={cardStyle(stat.brand, 7, 26)}><div className="flex items-start justify-between gap-2"><span className="flex h-10 w-10 items-center justify-center rounded-2xl bg-white/70 text-lg" aria-hidden="true">{stat.icon}</span><span className="h-2.5 w-2.5 rounded-full" style={{ backgroundColor: `var(${stat.brand})` }} /></div><p className="mt-3 text-2xl font-extrabold tabular-nums sm:text-3xl">{stat.value.toLocaleString()}</p><p className="mt-1 text-sm font-bold">{stat.label}</p><p className="mt-1 truncate text-xs text-[var(--color-text-muted)]">{stat.detail}</p></article>)}</section>}
+      {(analytics.isLoading || usersQuery.isLoading) ? <div className="grid grid-cols-2 gap-3 lg:grid-cols-5">{Array.from({ length: 5 }, (_, index) => <LoadingCard key={index} />)}</div> : data ? <section aria-label="Key statistics" className="grid grid-cols-2 gap-3 lg:grid-cols-5">{localizedStats.map((stat) => <article key={stat.label} className="admin-stat-card min-w-0 rounded-3xl border p-4 shadow-card transition-all hover:-translate-y-0.5 hover:shadow-raised" style={cardStyle(stat.brand, 7, 26)}><div className="flex items-start justify-between gap-2"><span className="flex h-10 w-10 items-center justify-center rounded-2xl bg-white/70 text-[var(--color-primary)]" aria-hidden="true"><AppIcon name={stat.icon} className="h-5 w-5" /></span><span className="admin-stat-arrow" aria-hidden="true">›</span></div><p className="mt-3 text-2xl font-extrabold tabular-nums sm:text-3xl">{stat.value.toLocaleString()}</p><p className="mt-1 text-sm font-bold">{stat.label}</p><p className="mt-1 truncate text-xs text-[var(--color-text-muted)]">{stat.detail}</p></article>)}</section> : <section role="alert" className="rounded-3xl border border-amber-200 bg-amber-50 p-5 text-sm text-amber-900">Unable to load dashboard data. Check your admin session and refresh the page.</section>}
 
       {credentialsQuery.data && <section className="rounded-3xl border p-4 shadow-card sm:p-5" style={cardStyle(credentialsQuery.data.credentials.requiresRotation ? '--color-brand-sun' : '--color-brand-sage', 5, 20)}><div className="flex flex-wrap items-center justify-between gap-3"><div><p className="text-xs font-bold tracking-wide uppercase">Credential security</p><h2 className="text-lg font-extrabold">{credentialsQuery.data.credentials.requiresRotation ? `${credentialsQuery.data.credentials.requiresRotation} student account(s) need password rotation` : 'All recorded student credentials are retired'}</h2><p className="text-sm text-[var(--color-text-muted)]">Aggregate only—no password or hash values are exposed.</p></div><div className="flex flex-wrap gap-2 text-xs font-bold"><span className="rounded-full bg-white/70 px-3 py-1">Legacy: {credentialsQuery.data.credentials.legacy}</span><span className="rounded-full bg-white/70 px-3 py-1">Retired: {credentialsQuery.data.credentials.fullyRetired}</span><span className="rounded-full bg-white/70 px-3 py-1">Missing metadata: {credentialsQuery.data.credentials.missing}</span></div></div></section>}
 
