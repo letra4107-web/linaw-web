@@ -6,6 +6,7 @@ const { requireAuth, requireRole } = require('../middleware/auth');
 const { validateUuidParam, isGrade, isBoundedString } = require('../lib/validation');
 const { summarizeCredentialSecurity } = require('../services/credentialSecurity');
 const { storageReadiness } = require('../services/storageMigration');
+const { platformFor } = require('../services/audit');
 
 const router = express.Router();
 router.use(requireAuth, requireRole('admin'));
@@ -560,7 +561,7 @@ router.patch('/system-settings', async (req, res) => {
     const settings = validatedSystemSettings(req.body);
     const { data, error } = await supabaseAdmin.from('system_settings').upsert({ key: 'global', settings, updated_by: req.user.id, updated_at: new Date().toISOString() }, { onConflict: 'key' }).select('settings').single();
     if (error) throw error;
-    await supabaseAdmin.from('audit_logs').insert({ actor_id: req.user.id, actor_role: 'admin', actor_name: req.user.name || null, action: 'ADMIN.SYSTEM_SETTINGS_UPDATE', module: 'admin_settings', record_id: 'global', status: 'successful', updated_values: settings, metadata: { platform: 'web' } });
+    await supabaseAdmin.from('audit_logs').insert({ actor_id: req.user.id, actor_role: 'admin', actor_name: req.user.name || null, action: 'ADMIN.SYSTEM_SETTINGS_UPDATE', module: 'admin_settings', record_id: 'global', status: 'successful', updated_values: settings, metadata: { platform: platformFor(req) } });
     res.json({ settings: { ...SYSTEM_SETTINGS_DEFAULTS, ...(data?.settings || {}) } });
   } catch (err) {
     console.error('[admin/system-settings patch]', err);

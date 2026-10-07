@@ -6,7 +6,6 @@ import { api } from '../../lib/api';
 import { assessSpeech, isSpeechRecognitionSupported, listenOnce } from '../../lib/speech';
 import { syllabifyWord } from '../../lib/syllabify';
 import { CORRECT_MESSAGES, ENCOURAGE_MESSAGES, randomFrom } from '../../lib/feedbackMessages';
-import { TTSButton } from '../../components/a11y/TTSButton';
 import { SlowTTSButton } from '../../components/a11y/SlowTTSButton';
 import { SyllableKaraokeText } from '../../components/SyllableKaraokeText';
 import { PronunciationFeedback } from '../../components/PronunciationFeedback';
@@ -17,6 +16,8 @@ import { cardStyle } from '../../lib/cardStyle';
 import speechIcon from '../../lib/emptyImage';
 import { trackEvent } from '../../lib/analytics';
 import { getTtsPlaybackRate, getTtsRate } from '../../lib/ttsSettings';
+import listenIllustration from '../../assets/listen.png';
+import './practice-reference.css';
 
 type Mode = 'say' | 'listen';
 
@@ -247,12 +248,12 @@ export default function Practice() {
   };
 
   return (
-    <div className="mx-auto flex w-full max-w-2xl flex-col gap-4 pb-4 sm:gap-5">
+    <div className={`practice-reference ${mode === 'listen' ? 'practice-reference-listen' : ''} mx-auto flex w-full max-w-5xl flex-col gap-4 pb-4 sm:gap-5`}>
       <div
-        className="overflow-hidden rounded-3xl px-5 py-4 text-white shadow-card sm:px-6 sm:py-5"
+        className="practice-reference-hero overflow-hidden rounded-3xl px-5 py-2 text-white shadow-card sm:px-8 sm:py-2"
         style={{ backgroundColor: `var(${theme.brand})` }}
       >
-        <div className="flex flex-wrap items-center justify-center gap-3 text-center">
+        <div className="practice-reference-hero-content flex flex-wrap items-center justify-center gap-3 text-center">
           <div>
             <h1 className="text-2xl font-bold sm:text-3xl">
               {mode === 'say' ? '🎙️ Sabihin ang Salita' : '🔊 Pakinggan at Basahin'}
@@ -271,12 +272,12 @@ export default function Practice() {
         </div>
       </div>
 
-      <div className="grid grid-cols-2 gap-2">
+      <div className="practice-reference-tabs grid grid-cols-1 gap-3 sm:grid-cols-2">
         <button
           type="button"
           onClick={() => switchMode('say')}
           aria-pressed={mode === 'say'}
-          className={`flex min-h-11 items-center justify-center gap-2 rounded-2xl border-2 px-3 py-2 text-sm font-semibold transition-all ${
+          className={`practice-reference-tab flex min-h-11 items-center justify-center gap-2 rounded-2xl border-2 px-3 py-2 text-sm font-semibold transition-all ${
             mode === 'say'
               ? 'border-transparent bg-[var(--color-brand-coral)] text-white shadow-md'
               : 'border-[var(--color-border)] text-[var(--color-text)] hover:border-[var(--color-brand-coral)]'
@@ -288,7 +289,7 @@ export default function Practice() {
           type="button"
           onClick={() => switchMode('listen')}
           aria-pressed={mode === 'listen'}
-          className={`flex min-h-11 items-center justify-center gap-2 rounded-2xl border-2 px-3 py-2 text-sm font-semibold transition-all ${
+          className={`practice-reference-tab practice-reference-listen-tab flex min-h-11 items-center justify-center gap-2 rounded-2xl border-2 px-3 py-2 text-sm font-semibold transition-all ${
             mode === 'listen'
               ? 'border-transparent bg-[var(--color-brand-teal)] text-white shadow-md'
               : 'border-[var(--color-border)] text-[var(--color-text)] hover:border-[var(--color-brand-teal)]'
@@ -298,29 +299,36 @@ export default function Practice() {
         </button>
       </div>
 
-      <div className="rounded-3xl border p-4 shadow-card sm:p-5" style={cardStyle(theme.brand, 8, 28)}>
+      <div className="practice-reference-card rounded-3xl border p-4 shadow-card sm:p-5" style={cardStyle(theme.brand, 8, 28)}>
         {loadingWords || !current ? (
           <div className="flex flex-col items-center gap-3 py-8 text-center">
             <div className="h-10 w-10 animate-spin rounded-full border-4 border-[var(--color-border)] border-t-[var(--color-primary)]" />
             <p className="text-[var(--color-text-muted)]">Naglo-load...</p>
           </div>
         ) : (
-          <div className="flex flex-col items-center gap-4 text-center">
-            <ReadingTarget compact label={mode === 'say' ? 'Salitang babasahin' : 'Pakinggan at sundan'} tone={theme.brand} className="w-full">
-              <div className="flex flex-col items-center justify-center gap-3">
+          <div className="practice-reference-content flex flex-col items-center gap-4 text-center">
+            <div className="practice-reference-progress flex w-full flex-wrap items-center justify-between gap-3 text-xs font-bold tracking-[.08em] sm:text-sm">
+              <span className="rounded-full px-4 py-2">{mode === 'listen' ? '🎧 Listen Mode' : '📖 Salitang babasahin'}</span>
+              {mode === 'say' && <span className="rounded-full px-4 py-2">● Antas: Madali</span>}
+              <span className="practice-reference-count">1 / 200 <i><b /></i></span>
+              {mode === 'listen' && <span className="practice-listen-navigation"><button type="button" onClick={nextWord} aria-label="Nakaraang salita">←</button><button type="button" onClick={nextWord} aria-label="Susunod na salita">→</button></span>}
+            </div>
+            <ReadingTarget compact label={mode === 'say' ? 'Salitang babasahin' : 'Pakinggan at sundan'} tone={theme.brand} className="practice-reference-word w-full">
+              <div className={`${mode === 'listen' ? 'practice-listen-content ' : ''}flex flex-col items-center justify-center gap-3`}>
+                {mode === 'listen' && <img src={listenIllustration} alt="Batang nakikinig gamit ang headphones" className="practice-listen-illustration" />}
                 {mode === 'listen' ? (
                   <SyllableKaraokeText
                     syllables={syllabifyWord(current.word)}
                     activeIndex={activeSyllable}
                     colorVar={theme.brand}
+                    highlightDifficult
                   />
                 ) : (
                   <p className="text-4xl font-extrabold tracking-wide sm:text-5xl" style={{ color: `var(${theme.brand})` }}>
                     {current.word}
                   </p>
                 )}
-                <div className="flex flex-wrap items-center justify-center gap-2">
-                {mode === 'listen' ? (
+                {mode === 'listen' && <div className="flex flex-wrap items-center justify-center gap-2">
                   <button
                     type="button"
                     onClick={playWord}
@@ -333,26 +341,31 @@ export default function Practice() {
                       label={speechStatus === 'loading' ? 'Naglo-load...' : speechStatus === 'speaking' ? 'Ihinto' : 'Basahin nang Malakas'}
                     />
                   </button>
-                ) : (
-                  <TTSButton text={current.word} />
-                )}
                 <SlowTTSButton text={current.word} />
-                </div>
+                </div>}
               </div>
             </ReadingTarget>
-            <WordMeaning word={current.word} />
+            {mode === 'listen' && (
+              <div className="practice-listen-actions">
+                <button type="button" onClick={playWord} disabled={speechStatus === 'loading'}>
+                  <IconLabel img={speechIcon} label={speechStatus === 'loading' ? 'Naglo-load...' : speechStatus === 'speaking' ? 'Ihinto ang Pagbasa' : 'Basahin nang Malakas'} />
+                </button>
+                <SlowTTSButton text={current.word} />
+              </div>
+            )}
+            <WordMeaning word={current.word} className="practice-reference-meaning" compactControls hideControls={mode === 'listen'} />
 
             {mode === 'listen' ? (
               <>
                 <p className="text-sm font-medium text-[var(--color-text-muted)]">
-                  Sundan ng mata ang bawat pantig habang binabasa ito para sa iyo.
+                  Pakinggan ang salita at ulitin.
                 </p>
                 <button
                   type="button"
                   onClick={() => switchMode('say')}
                   className="min-h-11 rounded-full bg-[var(--color-primary)] px-5 py-2 text-sm font-semibold text-white shadow-card transition-transform hover:-translate-y-0.5 active:scale-95"
                 >
-                  <IconLabel icon="🎙️" label="Subukan Bigkasin" />
+                  <IconLabel icon="🎙️" label="Subukan Pakinggan Muli" />
                 </button>
               </>
             ) : !isSpeechRecognitionSupported() ? (

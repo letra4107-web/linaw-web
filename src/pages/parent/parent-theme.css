@@ -34,3 +34,1080 @@
 :root[data-theme="dark"] .role-parent :is(.progress-bottom-grid>article>section>span.practiced,.progress-badge-row span.earned){background:#1d443c!important;color:#71dfa7!important}
 :root[data-theme="dark"] .role-parent :is(.children-module-table i,.children-side i,.progress-module-panel li>i){background:#415d76!important}
 :root[data-theme="dark"] .role-parent :is(.parent-module-illustration,.progress-module-art,.progress-child-avatar,.calendar-reference-hero label i,.parent-child-initial){background:#203d56!important;color:#8cd2ff!important}
+
+/* A brighter, more celebratory home for parents, while keeping the reading
+   data easy to scan. These enhancements are scoped to the parent dashboard. */
+.role-parent:has(.parent-reference-dashboard) main {
+  background:
+    radial-gradient(circle at 92% 4%, rgba(255, 205, 112, .20), transparent 19rem),
+    radial-gradient(circle at 4% 35%, rgba(81, 183, 234, .14), transparent 23rem),
+    #f7fbff;
+}
+
+.parent-reference-dashboard {
+  gap: 1rem;
+}
+
+.parent-reference-hero {
+  isolation: isolate;
+  min-height: 10rem;
+  border: 1px solid rgba(80, 173, 224, .45);
+  background: linear-gradient(120deg, #e8f8ff 0%, #c8ecff 52%, #b8def8 100%);
+  box-shadow: 0 16px 34px rgba(44, 130, 183, .16);
+}
+
+.parent-reference-hero::before,
+.parent-reference-hero::after {
+  position: absolute;
+  z-index: -1;
+  border-radius: 50%;
+  content: '';
+}
+
+.parent-reference-hero::before {
+  right: 9rem;
+  top: -4.5rem;
+  width: 12rem;
+  height: 12rem;
+  border: 1.25rem solid rgba(255, 255, 255, .32);
+}
+
+.parent-reference-hero::after {
+  right: -2.5rem;
+  bottom: -5.5rem;
+  width: 15rem;
+  height: 15rem;
+  background: rgba(58, 152, 209, .16);
+}
+
+.parent-hero-quote {
+  border: 1px solid rgba(255, 255, 255, .82);
+  box-shadow: 0 .65rem 1.5rem rgba(57, 139, 192, .15);
+  backdrop-filter: blur(.35rem);
+}
+
+.parent-child-switcher,
+.parent-panel {
+  border-color: rgba(161, 211, 238, .82);
+  box-shadow: 0 .65rem 1.5rem rgba(42, 116, 164, .08);
+}
+
+.parent-child-switcher {
+  background: linear-gradient(100deg, rgba(255,255,255,.98), rgba(238,249,255,.98));
+}
+
+.parent-child-select {
+  background: #fff;
+  box-shadow: inset 0 0 0 1px rgba(204, 230, 244, .5);
+}
+
+.parent-add-child {
+  border: 0;
+  background: linear-gradient(135deg, #168bd5, #45aee4);
+  color: #fff;
+  box-shadow: 0 .45rem .9rem rgba(22, 139, 213, .22);
+}
+
+.parent-panel {
+  transition: transform 180ms ease, box-shadow 180ms ease, border-color 180ms ease;
+}
+
+@media (hover: hover) {
+  .parent-panel:hover {
+    border-color: #acdcef;
+    box-shadow: 0 .9rem 1.9rem rgba(42, 116, 164, .13);
+  }
+}
+
+.notification-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: grid;
+  place-items: center;
+  padding: 1rem;
+  background: rgba(8, 49, 67, .52);
+  backdrop-filter: blur(.25rem);
+}
+.notification-modal-card {
+  width: min(100%, 34rem);
+  overflow: hidden;
+  border: 1px solid #b8dde3;
+  border-radius: 1.35rem;
+  background: #fff;
+  box-shadow: 0 1.2rem 3rem rgba(5, 49, 67, .28);
+}
+.notification-modal-card > header { display: flex; align-items: flex-start; gap: .8rem; padding: 1.3rem 1.3rem 1rem; background: linear-gradient(120deg, #edfafa, #e5f0fb); }
+.notification-modal-icon { display: grid; width: 3rem; height: 3rem; flex: 0 0 auto; place-items: center; border-radius: 50%; }
+.notification-modal-card header > div { min-width: 0; flex: 1; }
+.notification-modal-card header p { margin: 0; color: #397088; font-size: .75rem; font-weight: 800; }
+.notification-modal-card header h2 { margin: .18rem 0 0; color: #173c5a; font-size: 1.15rem; font-weight: 800; line-height: 1.35; }
+.notification-modal-card header > button { display: grid; width: 2.25rem; height: 2.25rem; place-items: center; border: 0; border-radius: 50%; background: rgba(255,255,255,.75); color: #27617a; cursor: pointer; }
+.notification-modal-content { padding: 1.25rem 1.35rem 1.5rem; }
+.notification-modal-content time { display: block; margin-bottom: .8rem; color: #618298; font-size: .78rem; }
+.notification-modal-content p { margin: 0; color: #294c63; font-size: .96rem; line-height: 1.65; white-space: pre-wrap; }
+.notification-modal-card footer { display: flex; justify-content: flex-end; padding: .9rem 1.35rem; border-top: 1px solid #d8eaed; background: #f8fcfc; }
+.notification-modal-card footer button { border: 0; border-radius: .7rem; padding: .62rem 1.15rem; background: #187d92; color: #fff; font-weight: 800; cursor: pointer; }
+
+.parent-progress-panel {
+  background: linear-gradient(135deg, #fff 0%, #f1faff 100%);
+}
+
+/* Give every dashboard box its own gentle color cue. */
+.parent-current-module {
+  border-color: #ffdcb0;
+  background: linear-gradient(135deg, #fffdf8, #fff0d8);
+}
+
+.parent-module-list {
+  border-color: #d9cff9;
+  background: linear-gradient(135deg, #fff, #f4f0ff);
+}
+
+.parent-schedule-panel {
+  border-color: #bee9d2;
+  background: linear-gradient(135deg, #fbfffd, #e6f9ee);
+}
+
+.parent-achievements {
+  border-color: #ffdda0;
+  background: linear-gradient(135deg, #fffdf5, #fff3d2);
+}
+
+.parent-quick-actions {
+  border-color: #c8ddff;
+  background: linear-gradient(135deg, #fbfdff, #e8f2ff);
+}
+
+.parent-recent {
+  border-color: #bfe7ee;
+  background: linear-gradient(135deg, #fbffff, #e5f8fb);
+}
+
+.parent-tips {
+  border-color: #f0cde0;
+  background: linear-gradient(135deg, #fffafd, #ffedf6);
+}
+
+.parent-resources {
+  border-color: #d7d1ff;
+  background: linear-gradient(135deg, #fdfcff, #f0edff);
+}
+
+.parent-donut {
+  box-shadow: 0 0 0 .45rem #eaf7ff, 0 .7rem 1.2rem rgba(32, 131, 191, .16);
+}
+
+.parent-donut>div {
+  box-shadow: inset 0 0 0 1px #d8ebf6;
+}
+
+.parent-module-illustration {
+  background: linear-gradient(145deg, #d8f3ff, #eaf2ff 62%, #ffe9af);
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,.72);
+}
+
+.parent-hero-art {
+  position: absolute;
+  z-index: 0;
+  right: .35rem;
+  bottom: -.35rem;
+  width: min(43%, 25rem);
+  max-height: 110%;
+  object-fit: contain;
+  object-position: right bottom;
+  pointer-events: none;
+}
+
+.parent-module-illustration img { width: 100%; height: 100%; object-fit: cover; }
+.parent-badges img { width: 3rem; height: 3rem; object-fit: contain; }
+.parent-empty-art { width: min(16rem, 78%); max-height: 11rem; object-fit: contain; }
+.parent-empty-inline { display: flex; align-items: center; justify-content: center; gap: .5rem; min-height: 5.5rem; }
+.parent-empty-inline img { width: 4.5rem; height: 4.5rem; object-fit: contain; }
+.progress-module-art img { width: 100%; height: 100%; object-fit: cover; }
+.parent-tab-empty { display: grid; min-height: 11rem; place-items: center; align-content: center; gap: .25rem; }
+.parent-tab-empty img { width: 7rem; height: 7rem; object-fit: contain; }
+
+.parent-badges>div {
+  position: relative;
+  overflow: visible;
+  border-color: #ffe1a3;
+  background: linear-gradient(145deg, #fffdf7, #fff3cf);
+}
+
+.parent-badges>div:nth-child(2) {
+  border-color: #d7d1ff;
+  background: linear-gradient(145deg, #faf8ff, #ece7ff);
+}
+
+.parent-badges>div:nth-child(3) {
+  border-color: #bfead7;
+  background: linear-gradient(145deg, #f6fffb, #dff8ec);
+}
+
+.parent-badges>div::after {
+  position: absolute;
+  right: -.8rem;
+  top: -.9rem;
+  width: 3.25rem;
+  height: 3.25rem;
+  border-radius: 50%;
+  background: rgba(255, 190, 57, .16);
+  content: '';
+}
+
+.parent-quick-actions>div a {
+  border: 1px solid transparent;
+  box-shadow: 0 .35rem .75rem rgba(35, 126, 183, .08);
+}
+
+.parent-quick-actions>div a:first-child { background: linear-gradient(145deg, #e6f7ff, #ccecff); }
+.parent-quick-actions>div a:nth-child(2) { background: linear-gradient(145deg, #fff0f6, #ffe0ea); }
+.parent-quick-actions>div a:nth-child(3) { background: linear-gradient(145deg, #f0f7ff, #e2ecff); }
+
+.parent-recommendation {
+  border: 1px solid #ffe2a1;
+  background: linear-gradient(105deg, #fff9e9, #fff0cb);
+}
+
+.parent-tips>div {
+  border: 1px solid transparent;
+  box-shadow: 0 .2rem .55rem rgba(42, 116, 164, .04);
+}
+
+.parent-resource-grid a {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(145deg, #fff, #f2faff);
+  transition: transform 180ms ease, box-shadow 180ms ease;
+}
+
+.parent-resource-grid a::after {
+  position: absolute;
+  right: -.8rem;
+  bottom: -1.3rem;
+  width: 4rem;
+  height: 4rem;
+  border-radius: 50%;
+  background: rgba(60, 171, 229, .10);
+  content: '';
+}
+
+@media (max-width: 620px) {
+  .parent-reference-hero { min-height: 11rem; }
+  .parent-reference-hero::before { right: -2.5rem; }
+  .parent-hero-art { width: 55%; opacity: .42; }
+}
+
+/* Parent progress report: colorful, easy-to-follow module cards. */
+.parent-progress-reference {
+  gap: 1rem;
+}
+
+.parent-progress-hero {
+  position: relative;
+  overflow: hidden;
+  border-color: #b8dff4;
+  background: linear-gradient(120deg, #eaf9ff, #d8efff 58%, #e5dcff);
+  box-shadow: 0 .9rem 2rem rgba(49, 132, 184, .14);
+}
+
+.parent-progress-hero::after {
+  position: absolute;
+  right: -3rem;
+  bottom: -5rem;
+  width: 14rem;
+  height: 14rem;
+  border: 1.4rem solid rgba(255,255,255,.45);
+  border-radius: 50%;
+  content: '';
+}
+
+.parent-progress-hero > * { position: relative; z-index: 1; }
+
+.progress-overview { border-color: #b8e2f7; background: linear-gradient(135deg, #fff, #eaf8ff); }
+.progress-current { border-color: #ffd89e; background: linear-gradient(135deg, #fffdf7, #fff0d4); }
+.progress-module-panel { border-color: #d7ccfa; background: linear-gradient(135deg, #fff, #f5f1ff); }
+.progress-activity { border-color: #bce8d3; background: linear-gradient(135deg, #fbfffd, #e6faef); }
+.progress-bottom-grid > article:nth-child(1) { border-color: #bfe9d7; background: linear-gradient(135deg, #fbfffd, #e4f9ed); }
+.progress-bottom-grid > article:nth-child(2) { border-color: #c8dcff; background: linear-gradient(135deg, #fcfdff, #e7f0ff); }
+.progress-bottom-grid > article:nth-child(3) { border-color: #ffdca6; background: linear-gradient(135deg, #fffdf8, #fff2d5); }
+
+.progress-tabs {
+  gap: .35rem;
+  border-color: #cfdef4;
+  background: rgba(255,255,255,.88);
+  box-shadow: 0 .45rem 1rem rgba(55, 132, 181, .08);
+}
+
+.progress-tabs button:nth-child(1) { color: #197bb7; }
+.progress-tabs button:nth-child(2) { color: #15905c; }
+.progress-tabs button:nth-child(3) { color: #a96413; }
+.progress-tabs button:nth-child(4) { color: #7251bf; }
+.progress-tabs button.active { box-shadow: 0 .35rem .75rem rgba(35, 126, 183, .22); }
+
+.progress-module-panel li.progress-module-card {
+  margin-top: .45rem;
+  min-height: 3.45rem;
+  border: 1px solid transparent;
+  border-radius: .8rem;
+  padding: .35rem .45rem;
+  transition: transform 180ms ease, box-shadow 180ms ease;
+}
+
+.progress-module-panel li.module-tone-0 { border-color: #bfe4f7; background: #ecf9ff; }
+.progress-module-panel li.module-tone-1 { border-color: #c7ebd8; background: #edfbf3; }
+.progress-module-panel li.module-tone-2 { border-color: #ffe0ad; background: #fff6e2; }
+.progress-module-panel li.module-tone-3 { border-color: #ddd2ff; background: #f5f1ff; }
+.progress-module-panel li.progress-module-card.is-active { border-width: 2px; box-shadow: 0 .45rem 1rem rgba(239, 164, 36, .18); }
+.progress-module-panel li.progress-module-card.is-done { box-shadow: inset .25rem 0 #19a36d; }
+
+/* Reading difficulty is earned through the learning path; it is intentionally
+   informational rather than parent-selectable during enrollment. */
+.role-parent .enroll-modal-body label:has(> small) {
+  pointer-events: none;
+}
+.role-parent .enroll-modal-body label:has(> small) > select {
+  display: none;
+}
+.role-parent .enroll-modal-body label:has(> small)::after {
+  content: "Beginner — awtomatikong maa-unlock ang susunod na level matapos ang lahat ng modyul at passing score.";
+  display: block;
+  margin-top: .5rem;
+  padding: .8rem 1rem;
+  border: 1px solid #a9ddef;
+  border-radius: .9rem;
+  background: #edf9ff;
+  color: #135277;
+  font-size: .88rem;
+  font-weight: 700;
+  line-height: 1.45;
+}
+
+/* Profile popover: keep its text readable over the patterned sidebar. */
+.role-parent .parent-profile-menu {
+  background: #fffdf9 !important;
+  border-color: #c9e3ef !important;
+  color: #173b61 !important;
+  box-shadow: 0 .8rem 2rem rgba(7, 62, 83, .22) !important;
+}
+.role-parent .parent-profile-menu-header { background: linear-gradient(135deg, #f2fbff, #e6f4ff) !important; }
+.role-parent .parent-profile-menu-header p:first-of-type { color: #173b61 !important; }
+.role-parent .parent-profile-menu-header p:last-child { color: #54738d !important; }
+.role-parent .parent-profile-menu [role="menuitem"] { color: #1d4b72 !important; background: transparent !important; }
+.role-parent .parent-profile-menu [role="menuitem"]:hover,
+.role-parent .parent-profile-menu [role="menuitem"]:focus-visible,
+.role-parent .parent-profile-menu [role="menuitem"][aria-current="page"] { background: #e6f5ff !important; color: #087fc4 !important; }
+.role-parent .parent-profile-menu > div.my-2 { border-color: #d7e9f2 !important; }
+.role-parent .parent-profile-menu button[role="menuitem"] { color: #bd4438 !important; }
+.role-parent .parent-profile-menu button[role="menuitem"]:hover,
+.role-parent .parent-profile-menu button[role="menuitem"]:focus-visible { background: #fff0ed !important; color: #a9342a !important; }
+:root[data-theme="dark"] .role-parent .parent-profile-menu { background: #17354d !important; border-color: #3e6680 !important; }
+:root[data-theme="dark"] .role-parent .parent-profile-menu-header { background: #214660 !important; }
+:root[data-theme="dark"] .role-parent .parent-profile-menu-header p:first-of-type,
+:root[data-theme="dark"] .role-parent .parent-profile-menu [role="menuitem"] { color: #edf8ff !important; }
+:root[data-theme="dark"] .role-parent .parent-profile-menu-header p:last-child { color: #b8d4e5 !important; }
+:root[data-theme="dark"] .role-parent .parent-profile-menu [role="menuitem"]:hover,
+:root[data-theme="dark"] .role-parent .parent-profile-menu [role="menuitem"][aria-current="page"] { background: #285a78 !important; color: #fff !important; }
+
+/* Compact, calm profile menu used over the colorful sidebar. */
+.role-parent .parent-profile-menu {
+  width: min(17rem, calc(100vw - 2rem)) !important;
+  padding: .5rem !important;
+  border-radius: 1rem !important;
+  background: #fff !important;
+  border: 1px solid #d6e8f0 !important;
+  box-shadow: 0 1rem 2.4rem rgba(9, 56, 76, .24) !important;
+}
+.role-parent .parent-profile-menu-header {
+  gap: .7rem !important;
+  margin-bottom: .4rem !important;
+  padding: .7rem !important;
+  border: 1px solid #e1f0f6;
+  border-radius: 1rem !important;
+  background: #f4fbfe !important;
+}
+.role-parent .parent-profile-menu-header > span {
+  width: 2.8rem !important;
+  height: 2.8rem !important;
+  border-radius: .9rem !important;
+  background: linear-gradient(135deg, #328ed5, #69a9db) !important;
+}
+.role-parent .parent-profile-menu-header p:first-of-type { font-size: .92rem; line-height: 1.2; }
+.role-parent .parent-profile-menu-header p:last-child { margin-top: .18rem; font-size: .7rem; }
+.role-parent .parent-profile-menu [role="menuitem"] {
+  min-height: 2.65rem !important;
+  margin: .12rem 0 !important;
+  padding: .55rem .7rem !important;
+  border-radius: .8rem !important;
+  font-size: .84rem !important;
+  letter-spacing: 0 !important;
+}
+.role-parent .parent-profile-menu [role="menuitem"]:hover,
+.role-parent .parent-profile-menu [role="menuitem"]:focus-visible,
+.role-parent .parent-profile-menu [role="menuitem"][aria-current="page"] {
+  background: #eaf6fb !important;
+  color: #147bb7 !important;
+}
+.role-parent .parent-profile-menu > div.my-2 { margin: .4rem .2rem !important; }
+.role-parent .parent-profile-menu button[role="menuitem"] { margin-top: .12rem !important; }
+/* The menu stays readable even when the rest of the portal is in dark mode. */
+:root[data-theme="dark"] .role-parent .parent-profile-menu { background: #fff !important; border-color: #d6e8f0 !important; }
+:root[data-theme="dark"] .role-parent .parent-profile-menu-header { background: #f4fbfe !important; }
+:root[data-theme="dark"] .role-parent .parent-profile-menu-header p:first-of-type,
+:root[data-theme="dark"] .role-parent .parent-profile-menu [role="menuitem"] { color: #1d4b72 !important; }
+:root[data-theme="dark"] .role-parent .parent-profile-menu-header p:last-child { color: #54738d !important; }
+:root[data-theme="dark"] .role-parent .parent-profile-menu [role="menuitem"]:hover,
+:root[data-theme="dark"] .role-parent .parent-profile-menu [role="menuitem"][aria-current="page"] { background: #eaf6fb !important; color: #147bb7 !important; }
+:root[data-theme="dark"] .role-parent .parent-profile-menu button[role="menuitem"] { color: #bd4438 !important; }
+
+/* Keep the profile dropdown as one continuous menu, not stacked cards. */
+.role-parent .parent-profile-menu-header {
+  margin: 0 0 .45rem !important;
+  padding: .6rem .7rem .75rem !important;
+  border: 0 !important;
+  border-bottom: 1px solid #e0edf3 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+}
+.role-parent .parent-profile-menu [role="menuitem"] {
+  margin: 0 !important;
+  border: 0 !important;
+  border-radius: .7rem !important;
+  background: transparent !important;
+}
+.role-parent .parent-profile-menu > div.my-2 { display: none; }
+.role-parent .parent-profile-menu button[role="menuitem"] {
+  margin-top: .45rem !important;
+  padding-top: .7rem !important;
+  border-top: 1px solid #e0edf3 !important;
+  border-radius: 0 0 .7rem .7rem !important;
+}
+:root[data-theme="dark"] .role-parent .parent-profile-menu-header { background: transparent !important; border-bottom-color: #e0edf3 !important; }
+
+/* Match the profile menu to the calm teal sidebar palette. */
+.role-parent .parent-profile-menu {
+  background:
+    linear-gradient(155deg, rgba(13, 101, 123, .96), rgba(16, 72, 105, .97)),
+    var(--parent-sidebar-pattern, none) !important;
+  background-size: cover, 12rem auto !important;
+  background-position: center, center !important;
+  border-color: rgba(255,255,255,.28) !important;
+  box-shadow: .5rem .9rem 2rem rgba(4, 53, 70, .30) !important;
+}
+.role-parent .parent-profile-menu-header { border-bottom-color: rgba(255,255,255,.22) !important; }
+.role-parent .parent-profile-menu-header p:first-of-type,
+.role-parent .parent-profile-menu [role="menuitem"] { color: #f8fdff !important; }
+.role-parent .parent-profile-menu-header p:last-child { color: rgba(244, 252, 255, .72) !important; }
+.role-parent .parent-profile-menu > div.my-2,
+.role-parent .parent-profile-menu button[role="menuitem"] { border-color: rgba(255,255,255,.22) !important; }
+.role-parent .parent-profile-menu [role="menuitem"]:hover,
+.role-parent .parent-profile-menu [role="menuitem"]:focus-visible,
+.role-parent .parent-profile-menu [role="menuitem"][aria-current="page"] {
+  background: rgba(255, 249, 228, .96) !important;
+  color: #176a86 !important;
+}
+.role-parent .parent-profile-menu button[role="menuitem"] { color: #ffe1db !important; }
+.role-parent .parent-profile-menu button[role="menuitem"]:hover,
+.role-parent .parent-profile-menu button[role="menuitem"]:focus-visible { background: rgba(255,255,255,.12) !important; color: #fff !important; }
+.role-parent .parent-profile-menu a[href="/parent/notifications"] > span:first-child {
+  padding: .18rem .4rem;
+  border-radius: .45rem;
+  background: rgba(255, 210, 88, .18);
+  box-shadow: inset 0 -1px 0 rgba(255, 223, 127, .48);
+}
+
+/* On desktop, let the account menu cross into the dashboard instead of being
+   visually trapped inside the sidebar. */
+@media (min-width: 1024px) {
+  .role-parent .dashboard-sidebar .parent-profile-menu {
+    position: fixed !important;
+    z-index: 1000 !important;
+    left: 1rem !important;
+    bottom: 5rem !important;
+  }
+}
+
+.progress-module-panel li.module-tone-0 > span { background: #cbeefe; color: #1374ad; }
+.progress-module-panel li.module-tone-1 > span { background: #cef4de; color: #0b8d57; }
+.progress-module-panel li.module-tone-2 > span { background: #ffe7b9; color: #aa6810; }
+.progress-module-panel li.module-tone-3 > span { background: #e1d8ff; color: #7250bd; }
+
+.progress-module-panel li > i { background: rgba(255,255,255,.8); }
+.progress-module-panel li.module-tone-0 > i u { background: #1d9cdd; }
+.progress-module-panel li.module-tone-1 > i u { background: #17ae72; }
+.progress-module-panel li.module-tone-2 > i u { background: #efa229; }
+.progress-module-panel li.module-tone-3 > i u { background: #9368db; }
+
+@media (hover: hover) {
+  .progress-module-panel li.progress-module-card:hover {
+    transform: translateX(.2rem);
+    box-shadow: 0 .5rem 1rem rgba(47, 116, 164, .12);
+  }
+}
+
+.progress-tab-summary {
+  border: 1px dashed #b7d9ee;
+  border-radius: .9rem;
+  background: linear-gradient(145deg, #f7fcff, #eef8ff);
+}
+
+/* Color map for every major Parent Portal surface. The pale tones keep the
+   dashboard cheerful without reducing contrast for reading and data entry. */
+.calendar-board { border-color: #bfdef6; background: linear-gradient(145deg, #fff, #edf8ff); }
+.calendar-details { border-color: #ffdca8; background: linear-gradient(145deg, #fffdf8, #fff1d9); }
+.calendar-reference-side section:nth-child(1) { border-color: #c8e9d8; background: linear-gradient(145deg, #fbfffd, #e8faef); }
+.calendar-reference-side section:nth-child(2) { border-color: #dcd1ff; background: linear-gradient(145deg, #fff, #f2eeff); }
+.calendar-reference-side section:nth-child(3) { border-color: #f4cde1; background: linear-gradient(145deg, #fffafd, #ffedf5); }
+.calendar-reminder { border-color: #ffe0a8; background: linear-gradient(145deg, #fffaf0, #fff0cb); }
+
+.children-dashboard-rebuild > header { border-color: #bbe3f6; background: linear-gradient(120deg, #eaf9ff, #cfeeff, #e6dcff); }
+.children-rebuild-grid > aside { border-color: #d6cbfa; background: linear-gradient(145deg, #fff, #f3efff); }
+.children-rebuild-grid main > section:nth-of-type(1) { border-color: #c1e6f7; background: linear-gradient(145deg, #fff, #ecf9ff); }
+.children-rebuild-grid main > section:nth-of-type(2) { border-color: #c9ebd9; background: linear-gradient(145deg, #fbfffd, #e9faf0); }
+.children-side section:nth-child(odd) { border-color: #ffe0a9; background: linear-gradient(145deg, #fffdf8, #fff1d6); }
+.children-side section:nth-child(even) { border-color: #f2cee2; background: linear-gradient(145deg, #fffaff, #ffedf6); }
+.children-profile { border-color: #c5e6f7; background: linear-gradient(145deg, #fff, #eaf8ff); }
+.children-metrics > div:nth-child(4n + 1) { background: #e9f8ff; }
+.children-metrics > div:nth-child(4n + 2) { background: #ecfbf2; }
+.children-metrics > div:nth-child(4n + 3) { background: #fff5df; }
+.children-metrics > div:nth-child(4n + 4) { background: #f3efff; }
+
+.parent-messages-reference .messages-inbox { border-color: #d8ccfa; background: linear-gradient(145deg, #fff, #f4f0ff); }
+.parent-messages-reference .messages-conversation { border-color: #bee3f5; background: linear-gradient(145deg, #fff, #ecf9ff); }
+.parent-messages-reference .messages-info { border-color: #ffe0a8; background: linear-gradient(105deg, #fff9e8, #fff0ca); }
+.parent-messages-reference .messages-composer { background: #f1fbff; }
+.parent-messages-reference .messages-thread:nth-child(3n + 1) { background: #f2fbff; }
+.parent-messages-reference .messages-thread:nth-child(3n + 2) { background: #f7f3ff; }
+.parent-messages-reference .messages-thread:nth-child(3n + 3) { background: #f1fcf5; }
+
+.parent-settings-reference .settings-card:nth-of-type(1) { border-color: #c4e5f7; background: linear-gradient(145deg, #fff, #ecf9ff); }
+.parent-settings-reference .settings-card:nth-of-type(2) { border-color: #d8cdf9; background: linear-gradient(145deg, #fff, #f3efff); }
+.parent-settings-reference .settings-card:nth-of-type(3) { border-color: #c5ead9; background: linear-gradient(145deg, #fff, #ebfaf1); }
+.parent-settings-reference .settings-card:nth-of-type(4) { border-color: #ffe0a9; background: linear-gradient(145deg, #fffdf7, #fff1d6); }
+.parent-settings-reference .settings-card:nth-of-type(5) { border-color: #f2cde2; background: linear-gradient(145deg, #fffafd, #ffedf5); }
+.parent-settings-reference .notification-row:nth-child(even) { background: rgba(234, 248, 255, .65); }
+
+.parent-profile-page .profile-card:not(.children):not(.contact):not(.actions) { border-color: #c2e5f7; background: linear-gradient(145deg, #fff, #ebf9ff); }
+.parent-profile-page .profile-card.children { background: linear-gradient(145deg, #fffdf6, #fff2d5); }
+.parent-profile-page .profile-card.contact { border-color: #c8ebd9; background: linear-gradient(145deg, #fbfffd, #e8faf0); }
+.parent-profile-page .profile-card.actions { background: linear-gradient(145deg, #fffafd, #ffedf5); }
+
+.parent-notifications-page .notification-row:nth-child(3n + 1) { background: #f1faff !important; border-color: #c7e6f5 !important; }
+.parent-notifications-page .notification-row:nth-child(3n + 2) { background: #f5f1ff !important; border-color: #ded3ff !important; }
+.parent-notifications-page .notification-row:nth-child(3n + 3) { background: #effbf4 !important; border-color: #c7ecd9 !important; }
+.parent-notifications-page .notification-row:has([aria-label="Hindi pa nabasa"]) { background: #fff3e5 !important; border-color: #ffd8b1 !important; }
+
+/* The newer Children page uses utility classes; color its primary boxes too. */
+.role-parent main .children-dashboard-rebuild ~ * .rounded-3xl,
+.role-parent main [class*="children"] .rounded-3xl {
+  border-color: rgba(184, 218, 241, .86);
+}
+
+/* Consistent, gentle hover feedback for every parent-portal action. */
+@media (hover: hover) {
+  .role-parent main :is(
+    .parent-add-child,
+    .parent-quick-actions a,
+    .parent-resource-grid a,
+    .parent-recommendation,
+    .parent-panel-head > a,
+    .progress-tabs button,
+    .progress-all-activity,
+    .calendar-reference-side section > button,
+    .calendar-toolbar button,
+    .calendar-toolbar > div button,
+    .messages-thread,
+    .messages-inbox-heading button,
+    .messages-send,
+    .notification-row,
+    .notification-tabs button,
+    .children-rebuild-grid > aside > button,
+    .children-side button,
+    .settings-card button,
+    .profile-card .add,
+    .profile-card .outline
+  ) {
+    transition: transform 180ms ease, box-shadow 180ms ease, filter 180ms ease, border-color 180ms ease, background-color 180ms ease;
+  }
+
+  .role-parent main :is(
+    .parent-add-child,
+    .parent-quick-actions a,
+    .parent-resource-grid a,
+    .parent-recommendation,
+    .progress-all-activity,
+    .messages-inbox-heading button,
+    .messages-send,
+    .notification-row,
+    .profile-card .add,
+    .profile-card .outline
+  ):hover {
+    transform: translateY(-3px) !important;
+    box-shadow: 0 .7rem 1.35rem rgba(37, 117, 165, .18) !important;
+    filter: saturate(1.08) brightness(1.015);
+    text-decoration: none !important;
+  }
+
+  .role-parent main :is(
+    .parent-panel-head > a,
+    .calendar-reference-side section > button,
+    .calendar-toolbar button,
+    .calendar-toolbar > div button,
+    .progress-tabs button,
+    .notification-tabs button,
+    .children-rebuild-grid > aside > button,
+    .children-side button,
+    .settings-card button
+  ):hover {
+    transform: translateY(-1px) !important;
+    filter: brightness(1.035);
+  }
+
+  .role-parent main .messages-thread:hover {
+    transform: translateX(.25rem) !important;
+    box-shadow: inset .22rem 0 var(--color-primary), 0 .35rem .8rem rgba(37, 117, 165, .10) !important;
+    filter: none;
+  }
+
+  .role-parent main .parent-module-list li > a:hover {
+    transform: translateX(.25rem) !important;
+    box-shadow: inset .22rem 0 #1595dc;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .role-parent main :is(a, button, [role="button"]) { transition: none !important; }
+}
+
+/* Active controls always need high contrast; palette-specific button colors
+   must never override the white label and icon on an active background. */
+.role-parent main :is(
+  .progress-tabs button.active,
+  .notification-tabs button.is-active,
+  .messages-filter button[aria-selected="true"],
+  .calendar-toolbar > div button.active,
+  .children-rebuild-grid > aside > button.selected,
+  .appearance-options button.selected
+) {
+  color: #fff !important;
+  text-shadow: 0 1px 1px rgba(0, 0, 0, .14);
+}
+
+.role-parent main :is(
+  .progress-tabs button.active,
+  .notification-tabs button.is-active,
+  .messages-filter button[aria-selected="true"],
+  .calendar-toolbar > div button.active,
+  .children-rebuild-grid > aside > button.selected,
+  .appearance-options button.selected
+) :is(svg, span, b, small) {
+  color: inherit !important;
+}
+
+/* The selected child is intentionally a pale-blue card, so it needs dark
+   content rather than the white text used by solid active buttons. */
+.role-parent main .children-rebuild-grid > aside > button.selected {
+  border-color: #1999e5 !important;
+  background: #e1f3ff !important;
+  color: #123c68 !important;
+  text-shadow: none !important;
+}
+
+.role-parent main .children-rebuild-grid > aside > button.selected :is(b, small, span:last-child) {
+  color: #123c68 !important;
+}
+
+.role-parent main .children-rebuild-grid > aside > button.selected small { color: #426c92 !important; }
+
+/* Parent navigation: friendly color without the harshness of a solid dark bar. */
+.role-parent .dashboard-sidebar {
+  position: sticky;
+  top: 0;
+  align-self: flex-start;
+  z-index: 20;
+  overflow: hidden;
+  border-right-color: rgba(255, 255, 255, .26) !important;
+  background:
+    radial-gradient(circle at 112% 7%, rgba(255, 218, 120, .32), transparent 10rem),
+    radial-gradient(circle at -18% 79%, rgba(118, 219, 205, .24), transparent 15rem),
+    linear-gradient(165deg, rgba(22, 126, 146, .96) 0%, rgba(23, 107, 131, .96) 48%, rgba(35, 88, 125, .96) 100%),
+    var(--parent-sidebar-pattern, none) !important;
+  background-size: auto, auto, auto, 13rem auto;
+  background-position: center, center, center, center;
+  background-repeat: no-repeat, no-repeat, no-repeat, repeat;
+  background-blend-mode: screen, screen, normal, soft-light;
+  box-shadow: .4rem 0 1.5rem rgba(18, 78, 103, .12);
+}
+
+.role-parent .dashboard-sidebar::before,
+.role-parent .dashboard-sidebar::after {
+  position: absolute;
+  z-index: 0;
+  border-radius: 50%;
+  pointer-events: none;
+  content: '';
+}
+
+.role-parent .dashboard-sidebar::before {
+  right: -5rem;
+  top: 16rem;
+  width: 12rem;
+  height: 12rem;
+  border: 1.1rem solid rgba(255,255,255,.09);
+}
+
+.role-parent .dashboard-sidebar::after {
+  left: -5rem;
+  bottom: -4rem;
+  width: 10rem;
+  height: 10rem;
+  background: rgba(255, 207, 90, .10);
+}
+
+.role-parent .dashboard-sidebar > * { position: relative; z-index: 1; }
+
+.role-parent .dashboard-sidebar a {
+  border-color: rgba(255,255,255,.10) !important;
+  background: rgba(6, 61, 82, .22) !important;
+  color: rgba(255,255,255,.94) !important;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.05) !important;
+}
+
+.role-parent .dashboard-sidebar a > span:first-child {
+  background: rgba(255,255,255,.14) !important;
+  color: #fff7d9 !important;
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,.10);
+}
+
+.role-parent .dashboard-sidebar a[aria-current="page"] {
+  border-color: rgba(255,255,255,.50) !important;
+  background: linear-gradient(105deg, #fff8df, #fff) !important;
+  color: #176f87 !important;
+  box-shadow: 0 .5rem 1rem rgba(4, 50, 73, .24) !important;
+}
+
+.role-parent .dashboard-sidebar a[aria-current="page"] > span:first-child {
+  background: linear-gradient(145deg, #ffe6a1, #ffd169) !important;
+  color: #8a5b0b !important;
+  box-shadow: none;
+}
+
+.role-parent .dashboard-sidebar > div:first-child {
+  background: rgba(4, 64, 87, .16);
+}
+
+.role-parent .dashboard-sidebar > div:first-child button {
+  border-radius: .85rem;
+  padding: .35rem;
+}
+
+.role-parent .dashboard-sidebar > div:first-child button:hover {
+  background: rgba(255,255,255,.13);
+}
+
+.role-parent .dashboard-sidebar > div:last-child {
+  background: rgba(4, 58, 80, .13);
+}
+
+@media (hover: hover) {
+  .role-parent .dashboard-sidebar a:not([aria-current="page"]):hover {
+    border-color: rgba(255,255,255,.20) !important;
+    background: rgba(255,255,255,.15) !important;
+    color: #fff !important;
+    transform: translateX(.22rem) !important;
+    filter: none !important;
+  }
+
+  .role-parent .dashboard-sidebar a[aria-current="page"]:hover {
+    background: linear-gradient(105deg, #fff3c9, #fff) !important;
+    transform: none !important;
+    filter: brightness(1.01) !important;
+  }
+}
+
+/* Preserve the low-light palette when the parent selects dark mode. */
+:root[data-theme="dark"] .role-parent .dashboard-sidebar {
+  background: linear-gradient(165deg, #123a55, #162c49) !important;
+}
+:root[data-theme="dark"] .role-parent .dashboard-sidebar a[aria-current="page"] {
+  background: linear-gradient(105deg, #244d6d, #203d56) !important;
+  color: #dff3ff !important;
+}
+:root[data-theme="dark"] .role-parent .dashboard-sidebar a[aria-current="page"] > span:first-child {
+  background: #315f82 !important;
+  color: #9cddff !important;
+}
+
+/* Keep every Parent Portal surface in the same calm teal–blue family as the
+   sidebar. Gold remains reserved for active and achievement accents. */
+.role-parent {
+  --parent-surface-sky: #edf9fc;
+  --parent-surface-blue: #e8f4fa;
+  --parent-surface-teal: #e9f8f5;
+  --parent-border-teal: #b9dde2;
+}
+
+.parent-reference-dashboard .parent-panel,
+.parent-child-switcher,
+.calendar-board,
+.calendar-details,
+.calendar-reference-side section,
+.children-rebuild-grid > aside,
+.children-rebuild-grid main > section,
+.children-side section,
+.children-profile,
+.parent-messages-reference .messages-inbox,
+.parent-messages-reference .messages-conversation,
+.parent-settings-reference .settings-card,
+.parent-profile-page .profile-card,
+.progress-overview,
+.progress-current,
+.progress-panel,
+.progress-bottom-grid > article {
+  border-color: var(--parent-border-teal) !important;
+  background: linear-gradient(145deg, #fff, var(--parent-surface-sky)) !important;
+}
+
+/* Alternating tints retain scannability without leaving the shared palette. */
+.parent-reference-dashboard .parent-dashboard-column > .parent-panel:nth-child(even),
+.calendar-reference-side section:nth-child(even),
+.children-rebuild-grid main > section:nth-child(even),
+.parent-settings-reference .settings-card:nth-of-type(even),
+.progress-bottom-grid > article:nth-child(even) {
+  background: linear-gradient(145deg, #fff, var(--parent-surface-teal)) !important;
+}
+
+.parent-reference-dashboard .parent-dashboard-column > .parent-panel:nth-child(3n),
+.calendar-reference-side section:nth-child(3n),
+.parent-settings-reference .settings-card:nth-of-type(3n),
+.progress-bottom-grid > article:nth-child(3n) {
+  background: linear-gradient(145deg, #fff, var(--parent-surface-blue)) !important;
+}
+
+.parent-progress-hero,
+.children-dashboard-rebuild > header,
+.parent-profile-hero,
+.parent-settings-hero,
+.calendar-reference-hero,
+.messages-hero {
+  border-color: #b7dce4 !important;
+  background: linear-gradient(120deg, #edfafd, #d8f1f4 55%, #dcecf7) !important;
+}
+
+.progress-module-panel li.module-tone-0,
+.progress-module-panel li.module-tone-1,
+.progress-module-panel li.module-tone-2,
+.progress-module-panel li.module-tone-3 {
+  border-color: #c2e1e5 !important;
+  background: #eef9fa !important;
+}
+.progress-module-panel li.module-tone-1 { background: #e8f6f5 !important; }
+.progress-module-panel li.module-tone-2 { background: #eaf5fa !important; }
+.progress-module-panel li.module-tone-3 { background: #f0fafb !important; }
+.progress-module-panel li.module-tone-0 > span,
+.progress-module-panel li.module-tone-1 > span,
+.progress-module-panel li.module-tone-2 > span,
+.progress-module-panel li.module-tone-3 > span {
+  background: #cfecef !important;
+  color: #176f7d !important;
+}
+.progress-module-panel li.module-tone-0 > i u,
+.progress-module-panel li.module-tone-1 > i u,
+.progress-module-panel li.module-tone-2 > i u,
+.progress-module-panel li.module-tone-3 > i u { background: #168b9c !important; }
+
+.parent-messages-reference .messages-thread:nth-child(3n + 1),
+.parent-messages-reference .messages-thread:nth-child(3n + 2),
+.parent-messages-reference .messages-thread:nth-child(3n + 3),
+.parent-notifications-page .notification-row:nth-child(3n + 1),
+.parent-notifications-page .notification-row:nth-child(3n + 2),
+.parent-notifications-page .notification-row:nth-child(3n + 3) {
+  border-color: #c6e2e7 !important;
+  background: #f2fbfc !important;
+}
+.parent-messages-reference .messages-thread:nth-child(even),
+.parent-notifications-page .notification-row:nth-child(even) { background: #eaf7f7 !important; }
+
+.parent-quick-actions > div a:first-child,
+.parent-quick-actions > div a:nth-child(2),
+.parent-quick-actions > div a:nth-child(3),
+.parent-resource-grid a,
+.parent-recommendation,
+.parent-tips > div {
+  border-color: #c4e1e5 !important;
+  background: linear-gradient(145deg, #faffff, #dff2f3) !important;
+}
+
+.parent-badges > div,
+.parent-badges > div:nth-child(2),
+.parent-badges > div:nth-child(3) {
+  border-color: #c4e1e5 !important;
+  background: linear-gradient(145deg, #faffff, #e0f3f4) !important;
+}
+
+/* Sidebar gold is echoed only on active/completed states. */
+.parent-module-status.active,
+.progress-module-panel li.progress-module-card.is-active,
+.parent-notifications-page .notification-row:has([aria-label="Hindi pa nabasa"]) {
+  border-color: #f1c76b !important;
+  background: #fff7df !important;
+}
+
+:root[data-theme="dark"] .role-parent :is(
+  .parent-panel, .parent-child-switcher, .calendar-board, .calendar-details,
+  .calendar-reference-side section, .children-rebuild-grid > aside,
+  .children-rebuild-grid main > section, .children-side section, .children-profile,
+  .messages-inbox, .messages-conversation, .settings-card, .profile-card,
+  .progress-overview, .progress-current, .progress-panel, .progress-bottom-grid > article,
+  .progress-module-panel li.progress-module-card, .messages-thread, .notification-row,
+  .parent-quick-actions > div a, .parent-resource-grid a, .parent-recommendation,
+  .parent-tips > div, .parent-badges > div
+) { border-color: #365a77 !important; background: #172536 !important; }
+
+:root[data-theme="dark"] .role-parent :is(
+  .parent-progress-hero, .children-dashboard-rebuild > header, .parent-profile-hero,
+  .parent-settings-hero, .calendar-reference-hero, .messages-hero
+) { border-color: #365a77 !important; background: linear-gradient(115deg, #162d46, #1c4968) !important; }
+
+/* Restore visible color coding for cards while retaining the sidebar's teal
+   border/accent, so sections are easy to recognize at a glance. */
+:root:not([data-theme="dark"]) .parent-reference-dashboard .parent-progress-panel,
+:root:not([data-theme="dark"]) .progress-overview,
+:root:not([data-theme="dark"]) .calendar-board,
+:root:not([data-theme="dark"]) .parent-messages-reference .messages-conversation {
+  border-color: #9eddec !important;
+  background: linear-gradient(145deg, #fff, #dff5ff) !important;
+}
+
+:root:not([data-theme="dark"]) .parent-reference-dashboard .parent-current-module,
+:root:not([data-theme="dark"]) .progress-current,
+:root:not([data-theme="dark"]) .calendar-details,
+:root:not([data-theme="dark"]) .progress-bottom-grid > article:nth-child(3) {
+  border-color: #f2cf83 !important;
+  background: linear-gradient(145deg, #fffdf6, #fff0c9) !important;
+}
+
+:root:not([data-theme="dark"]) .parent-reference-dashboard .parent-module-list,
+:root:not([data-theme="dark"]) .parent-reference-dashboard .parent-resources,
+:root:not([data-theme="dark"]) .progress-module-panel,
+:root:not([data-theme="dark"]) .calendar-reference-side section:nth-child(2),
+:root:not([data-theme="dark"]) .parent-settings-reference .settings-card:nth-of-type(even) {
+  border-color: #d4c3f6 !important;
+  background: linear-gradient(145deg, #fff, #eee8ff) !important;
+}
+
+:root:not([data-theme="dark"]) .parent-reference-dashboard .parent-schedule-panel,
+:root:not([data-theme="dark"]) .parent-reference-dashboard .parent-recent,
+:root:not([data-theme="dark"]) .progress-activity,
+:root:not([data-theme="dark"]) .progress-bottom-grid > article:nth-child(1),
+:root:not([data-theme="dark"]) .calendar-reference-side section:nth-child(1) {
+  border-color: #aee3c8 !important;
+  background: linear-gradient(145deg, #fbfffd, #dcf7e8) !important;
+}
+
+:root:not([data-theme="dark"]) .parent-reference-dashboard .parent-achievements,
+:root:not([data-theme="dark"]) .parent-reference-dashboard .parent-tips,
+:root:not([data-theme="dark"]) .progress-bottom-grid > article:nth-child(2),
+:root:not([data-theme="dark"]) .calendar-reference-side section:nth-child(3),
+:root:not([data-theme="dark"]) .parent-settings-reference .settings-card:nth-of-type(5) {
+  border-color: #f0c4da !important;
+  background: linear-gradient(145deg, #fffafd, #ffe8f2) !important;
+}
+
+:root:not([data-theme="dark"]) .parent-reference-dashboard .parent-quick-actions,
+:root:not([data-theme="dark"]) .parent-child-switcher,
+:root:not([data-theme="dark"]) .children-rebuild-grid > aside,
+:root:not([data-theme="dark"]) .children-profile,
+:root:not([data-theme="dark"]) .parent-profile-page .profile-card:not(.children):not(.contact):not(.actions) {
+  border-color: #b9dce9 !important;
+  background: linear-gradient(145deg, #fff, #e2f3fa) !important;
+}
+
+:root:not([data-theme="dark"]) .progress-module-panel li.module-tone-0 { background: #ddf5ff !important; border-color: #a7dfee !important; }
+:root:not([data-theme="dark"]) .progress-module-panel li.module-tone-1 { background: #e0f8ea !important; border-color: #b4e4c9 !important; }
+:root:not([data-theme="dark"]) .progress-module-panel li.module-tone-2 { background: #fff1cf !important; border-color: #f1d188 !important; }
+:root:not([data-theme="dark"]) .progress-module-panel li.module-tone-3 { background: #eee8ff !important; border-color: #d5c7f5 !important; }
+
+:root:not([data-theme="dark"]) .parent-badges > div { background: #fff1cd !important; border-color: #f2d28e !important; }
+:root:not([data-theme="dark"]) .parent-badges > div:nth-child(2) { background: #e9e3ff !important; border-color: #d4c6f6 !important; }
+:root:not([data-theme="dark"]) .parent-badges > div:nth-child(3) { background: #dff7e9 !important; border-color: #b7e5ca !important; }
+
+/* Let the supplied pattern be clearly visible across the whole sidebar. */
+:root:not([data-theme="dark"]) .role-parent .dashboard-sidebar {
+  background-image:
+    linear-gradient(165deg, rgba(16, 112, 129, .78), rgba(21, 83, 116, .82)),
+    var(--parent-sidebar-pattern) !important;
+  background-size: cover, 15rem auto !important;
+  background-position: center, center !important;
+  background-repeat: no-repeat, repeat !important;
+  background-blend-mode: normal, normal !important;
+}
+
+/* Parent notification inbox: readable category cards with the same calm
+   teal-and-gold language used by the sidebar.  These come last on purpose:
+   older dashboard colour rules also target notification rows. */
+:root:not([data-theme="dark"]) .parent-notifications-page {
+  gap: 1rem !important;
+}
+
+:root:not([data-theme="dark"]) .parent-notifications-page .notification-hero {
+  border-color: #a9dce6 !important;
+  background: linear-gradient(118deg, #edfafd 0%, #d9f1f3 58%, #dcebfa 100%) !important;
+  box-shadow: 0 .7rem 1.6rem rgba(26, 112, 132, .12) !important;
+}
+
+:root:not([data-theme="dark"]) .parent-notifications-page .notification-tabs button {
+  border-color: #bfdfe4 !important;
+  background: #f8ffff !important;
+  color: #18546b !important;
+}
+
+:root:not([data-theme="dark"]) .parent-notifications-page .notification-tabs button.is-active {
+  border-color: #117a91 !important;
+  background: linear-gradient(120deg, #177f94, #236d9a) !important;
+  color: #fff !important;
+  box-shadow: 0 .45rem .9rem rgba(19, 104, 131, .20) !important;
+}
+
+:root:not([data-theme="dark"]) .parent-notifications-page .notification-tools label,
+:root:not([data-theme="dark"]) .parent-notifications-page .notification-tools > button {
+  border-color: #c6e1e6 !important;
+  background: #fbffff !important;
+}
+
+:root:not([data-theme="dark"]) .parent-notifications-page .notification-row {
+  position: relative !important;
+  border-color: #c5e1e6 !important;
+  background: linear-gradient(110deg, #fbffff, #edf9fa) !important;
+  box-shadow: 0 .3rem .9rem rgba(30, 112, 131, .07) !important;
+}
+
+:root:not([data-theme="dark"]) .parent-notifications-page .notification-row:nth-child(even) {
+  border-color: #cdd9f0 !important;
+  background: linear-gradient(110deg, #fbfcff, #eff4ff) !important;
+}
+
+:root:not([data-theme="dark"]) .parent-notifications-page .notification-row:has([aria-label="Hindi pa nabasa"]) {
+  border-color: #f0cd79 !important;
+  background: linear-gradient(110deg, #fffdf6, #fff4d7) !important;
+}
+
+:root:not([data-theme="dark"]) .parent-notifications-page .notification-unread {
+  position: absolute !important;
+  right: -.15rem !important;
+  left: auto !important;
+  top: -.15rem !important;
+  z-index: 1;
+  border: 2px solid #fff !important;
+  background: #eab440 !important;
+  box-shadow: 0 1px 4px rgba(129, 87, 5, .22);
+}
+
+@media (hover: hover) {
+  :root:not([data-theme="dark"]) .parent-notifications-page .notification-row:hover {
+    border-color: #71bfcc !important;
+    background: #fff !important;
+    box-shadow: 0 .6rem 1.2rem rgba(30, 112, 131, .13) !important;
+  }
+}

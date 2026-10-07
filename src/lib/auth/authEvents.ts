@@ -4,7 +4,9 @@ import { supabase } from '../supabaseClient';
 type AuthEvent = 'login' | 'logout';
 
 function platform() {
-  return /Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent || '') ? 'mobile' : 'web';
+  const userAgent = navigator.userAgent || '';
+  if (/iPhone|iPad|iPod/i.test(userAgent)) return 'ios';
+  return /Android|Mobile/i.test(userAgent) ? 'mobile' : 'web';
 }
 
 function sessionId() {

@@ -62,9 +62,11 @@ function recordIdFrom(req) {
 }
 
 function platformFor(req) {
-  const supplied = String(req?.body?.platform || '').toLowerCase();
-  if (supplied === 'mobile' || supplied === 'application') return 'Mobile/Application';
-  return /android|iphone|ipad|mobile/i.test(String(req?.headers?.['user-agent'] || '')) ? 'Mobile/Application' : 'Web';
+  // The deployed product is currently tracked as web-only. Keep a single,
+  // unambiguous label until the native clients have their own verified audit
+  // event integration.
+  void req;
+  return 'Web';
 }
 
 // The helper intentionally accepts the full final signature now. Target/diff
@@ -78,19 +80,17 @@ async function logAudit({ actor, action, target = {}, before = null, after = nul
   const { data: profile } = await supabaseAdmin.from('users').select('name, role').eq('id', actor.id).maybeSingle();
   const actorRole = actor.role || profile?.role || null;
 
-  // Per product requirement, user login activity is visible to admins but an
-  // admin's own login is not added to the operational trail.
-  if (action === 'AUTH.LOGIN_SUCCESS' && actorRole === 'admin') return;
-
   const metadata = {
     source: 'express',
     method: req?.method || null,
     path: req ? canonicalPath(req) : null,
     requestId: req?.requestId || null,
+    // Keep the table's Platform column useful for every new authenticated
+    // event, not only login/logout records.
+    platform: platformFor(req),
     ...(severity ? { severity } : {}),
   };
   if (action === 'AUTH.LOGIN_SUCCESS' || action === 'AUTH.LOGOUT') {
-    metadata.platform = platformFor(req);
     metadata.device = String(req?.headers?.['user-agent'] || '').slice(0, 300) || null;
     metadata.sessionId = /^[a-f0-9-]{36}$/i.test(String(req?.body?.sessionId || '')) ? String(req.body.sessionId) : null;
     metadata.sessionStatus = action === 'AUTH.LOGOUT' ? 'logged_out' : 'active';
@@ -111,4 +111,4 @@ async function logAudit({ actor, action, target = {}, before = null, after = nul
   });
 }
 
-module.exports = { SUCCESS, FAILED, auditActionForRequest, logAudit };
+module.exports = { SUCCESS, FAILED, auditActionForRequest, platformFor, logAudit };

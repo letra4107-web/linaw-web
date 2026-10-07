@@ -87,7 +87,7 @@ router.get('/children', async (req, res) => {
     const childIds = (children || []).map((child) => child.id);
     if (!childIds.length) return res.json({ children: [] });
     const [{ data: progress, error: progressError }, { data: overrides, error: overrideError }] = await Promise.all([
-      supabaseAdmin.from('child_progress').select('child_id, level, xp, streak').in('child_id', childIds),
+      supabaseAdmin.from('child_progress').select('child_id, level, xp, streak, activities_completed, accuracy_sum, total_attempts, updated_at').in('child_id', childIds),
       supabaseAdmin.from('student_reading_level_overrides').select('student_id, override_level').in('student_id', childIds).is('revoked_at', null),
     ]);
     if (progressError) throw progressError;
@@ -102,6 +102,10 @@ router.get('/children', async (req, res) => {
         level: overrideByChild.get(child.id) || saved?.level || difficultyFromGrade(child.grade_level),
         xp: saved?.xp || 0,
         streak: saved?.streak || 0,
+        activities_completed: saved?.activities_completed || 0,
+        accuracy_sum: saved?.accuracy_sum || 0,
+        total_attempts: saved?.total_attempts || 0,
+        progress_updated_at: saved?.updated_at || null,
       };
     }) });
   } catch (err) {
@@ -137,8 +141,9 @@ router.post('/children', async (req, res) => {
       return res.status(409).json({ error: 'Naka-enroll na ang mag-aaral na ito sa grade level na ito.' });
     }
 
-    // Reading level auto-defaults from grade -- never left unset/manual.
-    const level = difficultyFromGrade(finalGradeLevel);
+    // Every learner begins with the foundation path. Higher difficulties are
+    // earned automatically after completing the previous level.
+    const level = 'Beginner';
     const authEmail = await getAvailableStudentUsername(cleanName);
     const password = makeStudentPassword();
 
@@ -186,16 +191,6 @@ router.post('/children', async (req, res) => {
     });
     if (progressErr) throw progressErr;
 
-    if (level !== 'Beginner') {
-      const { error: overrideErr } = await supabaseAdmin.from('student_reading_level_overrides').insert({
-        student_id: childRow.id,
-        override_level: level,
-        reason: `Automatic grade placement: Grade ${finalGradeLevel}`,
-        created_by_auth_uid: parentId,
-      });
-      if (overrideErr) throw overrideErr;
-    }
-
     const hashedPassword = await bcrypt.hash(password, 12);
     const { error: credentialsErr } = await supabaseAdmin.from('child_credentials').insert({
       child_id: childRow.id,
@@ -242,62 +237,15 @@ router.post('/children', async (req, res) => {
   }
 });
 
-// POST /parent/children/:id/reading-level  { level, reason? }
-// student_reading_level_overrides is SELECT-only for clients (server-owned),
-// so changing a child's placement has to go through here even though it's a
-// parent-initiated action.
+// POST /parent/children/:id/reading-level
+// Kept as a compatibility endpoint for older clients. Reading levels are no
+// longer parent-selectable: the student route advances them after completion.
 router.post('/children/:id/reading-level', validateUuidParam('id'), async (req, res) => {
   try {
     const { id } = req.params;
-    const { level, reason } = req.body || {};
-    const allowed = ['Beginner', 'Intermediate', 'Advanced'];
-    if (!allowed.includes(level)) {
-      return res.status(400).json({ error: 'Invalid reading level.' });
-    }
-    if (reason != null && !isBoundedString(reason, 500)) return res.status(400).json({ error: 'Reason is too long.' });
-
     const child = await authorization.parentChild(req.user.id, id);
-    if (!child) {
-      return res.status(403).json({ error: 'Not your child account.' });
-    }
-
-    const { data: activeOverride, error: activeErr } = await supabaseAdmin
-      .from('student_reading_level_overrides')
-      .select('id')
-      .eq('student_id', id)
-      .is('revoked_at', null)
-      .maybeSingle();
-    if (activeErr) throw activeErr;
-
-    if (activeOverride) {
-      const { error: revokeErr } = await supabaseAdmin
-        .from('student_reading_level_overrides')
-        .update({
-          revoked_at: new Date().toISOString(),
-          revoked_by_auth_uid: req.user.id,
-          revocation_reason: 'Replaced by a new parent-set reading level.',
-        })
-        .eq('id', activeOverride.id);
-      if (revokeErr) throw revokeErr;
-    }
-
-    const { error: insertErr } = await supabaseAdmin.from('student_reading_level_overrides').insert({
-      student_id: id,
-      override_level: level,
-      reason: reason?.trim() || 'Manually set by parent.',
-      created_by_auth_uid: req.user.id,
-    });
-    if (insertErr) throw insertErr;
-
-    // Sync the legacy value consumed by older/mobile views. The override above
-    // remains the authoritative level used for module placement.
-    const { error: progressErr } = await supabaseAdmin
-      .from('child_progress')
-      .update({ level })
-      .eq('child_id', id);
-    if (progressErr) throw progressErr;
-
-    res.json({ success: true });
+    if (!child) return res.status(403).json({ error: 'Not your child account.' });
+    return res.status(403).json({ error: 'Awtomatikong naa-unlock ang susunod na level matapos makumpleto ang kasalukuyang modyul at passing score.' });
   } catch (err) {
     console.error('[parent/children/:id/reading-level]', err);
     res.status(500).json({ error: 'Unable to update reading level.' });

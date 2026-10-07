@@ -6,8 +6,8 @@ import { useAuth } from '../../lib/auth/AuthContext';
 import { useNotifications } from '../../lib/useNotifications';
 import { useAccessibility, type ThemeMode } from '../../lib/a11y/AccessibilityContext';
 import { DashboardShell } from '../../components/DashboardShell';
-import { cardStyle } from '../../lib/cardStyle';
 import logo from '../../assets/Logo.jpg';
+import sidebarPattern from '../../assets/parent/Sidebar background pattern.png';
 import { AppIcon } from '../../components/a11y/AppIcon';
 import { enableParentEnglish } from './parentTranslations';
 import './parent-theme.css';
@@ -89,8 +89,8 @@ function ProfileMenu({ collapsed, mobile = false }: { collapsed: boolean; mobile
       </button>
 
       {open && (
-        <div role="menu" className={`absolute z-50 w-72 max-w-[calc(100vw-2rem)] rounded-3xl border p-3 shadow-raised ${mobile ? 'top-full right-0 mt-2' : 'bottom-full left-0 mb-2'}`} style={cardStyle('--color-brand-coral', 8, 36)}>
-          <div className="mb-2 flex items-center gap-3 rounded-2xl bg-white/70 p-3">
+        <div role="menu" className={`parent-profile-menu absolute z-50 w-72 max-w-[calc(100vw-2rem)] rounded-3xl border p-3 shadow-raised ${mobile ? 'top-full right-0 mt-2' : 'bottom-full left-0 mb-2'}`}>
+          <div className="parent-profile-menu-header mb-2 flex items-center gap-3 rounded-2xl p-3">
             <span className="flex h-12 w-12 shrink-0 items-center justify-center overflow-hidden rounded-2xl bg-[var(--color-primary)] font-bold text-white">
               {parentRow?.avatar_url ? <img src={parentRow.avatar_url} alt="" className="h-full w-full object-cover" /> : initials}
             </span>
@@ -140,7 +140,7 @@ export default function ParentLayout() {
   return (
     <DashboardShell roleLabel="Magulang" hideHeader roleTheme="parent">
       <div ref={portalRef} className="flex min-h-screen min-w-0">
-        <aside className={`dashboard-sidebar sticky top-0 hidden h-screen shrink-0 flex-col border-r border-white/15 bg-[var(--color-primary-hover)] transition-[width] duration-300 lg:flex ${collapsed ? 'w-[4.75rem]' : 'w-56'}`}>
+        <aside style={{ '--parent-sidebar-pattern': `url("${sidebarPattern}")` } as React.CSSProperties} className={`dashboard-sidebar sticky top-0 hidden h-screen shrink-0 flex-col border-r border-white/15 bg-[var(--color-primary-hover)] transition-[width] duration-300 lg:flex ${collapsed ? 'w-[4.75rem]' : 'w-56'}`}>
           <div className={`flex h-16 items-center gap-2 border-b border-white/20 px-3 ${collapsed ? 'justify-center' : ''}`}>
             <button type="button" onClick={() => setCollapsed((value) => !value)} title={collapsed ? 'Palawakin ang sidebar' : 'Paliitin ang sidebar'} className="flex min-w-0 items-center gap-2 rounded-xl p-1 text-white transition-colors hover:bg-white/10">
               <img src={logo} alt="LinawLetra" className="h-10 w-10 shrink-0 rounded-xl object-cover shadow-sm" />

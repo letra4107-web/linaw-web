@@ -1,0 +1,135 @@
+.practice-reference { width: min(100%, 50rem) !important; color: #3f4160; gap: 1.25rem !important; }
+.role-student:has(.practice-reference) .student-main-content { max-width: 72rem; padding-top: 1.25rem; padding-bottom: 2rem; }
+
+.practice-reference-hero { position: relative; min-height: 7.8rem; padding: 1.25rem 2rem !important; border-radius: 1.55rem !important; background: linear-gradient(135deg, #6c5cbd, #7769bc 54%, #6755ad) !important; box-shadow: 0 13px 28px rgba(82,67,150,.22) !important; }
+.practice-reference-hero::before { content: ''; position: absolute; left: 7%; top: 50%; width: 5.25rem; height: 5.25rem; border-radius: 999px; background: rgba(255,255,255,.11); transform: translateY(-50%); }
+.practice-reference-hero-content { position: relative; min-height: 5.25rem; }
+.practice-reference-hero h1 { letter-spacing: .1em; }
+.practice-reference-hero p { max-width: 34rem; letter-spacing: .13em; line-height: 1.5; }
+
+.practice-reference-tabs { gap: .8rem !important; padding-inline: .05rem; }
+.practice-reference-tab { min-height: 4.25rem !important; border-color: #e9dfc7 !important; background: rgba(255,252,241,.9); color: #3f4160 !important; box-shadow: 0 4px 12px rgba(82,67,115,.07); }
+.practice-reference-tab[aria-pressed='true'] { border-color: transparent !important; background: linear-gradient(135deg, #ff9578, #f48e72) !important; color: white !important; box-shadow: 0 7px 16px rgba(225,119,91,.23); }
+.practice-reference-listen-tab[aria-pressed='true'] { background: linear-gradient(135deg, #82bce2, #679eca) !important; box-shadow: 0 7px 16px rgba(70,137,183,.25); }
+
+.practice-reference-card { padding: 1.3rem !important; border-color: #dedaf0 !important; border-radius: 1.55rem !important; background: linear-gradient(145deg, rgba(252,251,255,.97), rgba(245,244,255,.94)) !important; box-shadow: 0 12px 30px rgba(81,70,135,.10) !important; }
+.practice-reference-content { gap: 1rem !important; }
+.practice-reference-progress { color: #474b73; }
+.practice-reference-progress > span:first-child { background: #e9e5fb; color: #6859c1; }
+.practice-reference-progress > span:nth-child(2) { background: #edf8ed; }
+.practice-reference-count { display: inline-flex; align-items: center; gap: .7rem; }
+.practice-reference-count i { display: block; width: 8.5rem; height: .62rem; overflow: hidden; border-radius: 999px; background: #dedceb; }
+.practice-reference-count b { display: block; width: 18%; height: 100%; border-radius: inherit; background: #7567c8; }
+
+.practice-reference-word { min-height: 14rem !important; border: 2px solid rgba(233,202,132,.38) !important; border-radius: 1.3rem !important; background: linear-gradient(135deg, #fffdf6, #fff9eb) !important; box-shadow: inset 0 0 0 .55rem rgba(255,255,255,.55), 0 8px 20px rgba(82,67,115,.08) !important; }
+.practice-reference-word::after { content: ''; position: absolute; inset: .6rem; border: 1px dashed rgba(223,171,70,.40); border-radius: 1rem; pointer-events: none; }
+.practice-reference-word > span { z-index: 1; background: #eeeafb !important; color: #6657bb !important; }
+.practice-reference-word p { position: relative; z-index: 1; color: #5345a8 !important; font-size: clamp(2.2rem, 4.5vw, 3.5rem) !important; letter-spacing: .06em; }
+.practice-reference-word > div { position: relative; z-index: 1; }
+.practice-reference-word button { position: relative; z-index: 2; }
+.practice-reference-meaning { border-color: #dcdcf4 !important; background: rgba(255,255,255,.72) !important; box-shadow: 0 5px 15px rgba(82,67,115,.05); }
+.practice-reference-meaning > p:first-child { color: #6859c1 !important; }
+
+/* Listen mode: a picture-and-audio player modeled after the supplied design. */
+.practice-reference-listen .practice-reference-hero { background: linear-gradient(135deg, #6b5cbd, #7667bb 58%, #6756ae) !important; }
+.practice-reference-listen .practice-reference-progress { justify-content: flex-start; }
+.practice-reference-listen .practice-reference-progress > span:first-child { background: #e9e5fb; color: #6757bb; }
+.practice-reference-listen .practice-reference-count { margin-left: auto; }
+.practice-listen-navigation { display: inline-flex; gap: .75rem; }
+.practice-listen-navigation button { display: grid; width: 3.25rem; height: 3.25rem; place-items: center; border: 0; border-radius: 50%; background: #ece9fa; color: #554596; font-size: 1.7rem; line-height: 1; box-shadow: 0 3px 8px rgba(80,66,142,.08); }
+.practice-listen-navigation button:last-child { background: linear-gradient(135deg, #7766c5, #5c49a7); color: #fff; }
+.practice-reference-listen .practice-reference-word { min-height: 17.5rem !important; border-color: #eadab4 !important; background: radial-gradient(circle at 16% 70%, rgba(188,174,239,.34) 0 3.5rem, transparent 3.55rem), radial-gradient(circle at 22% 42%, rgba(230,221,255,.85) 0 4.5rem, transparent 4.6rem), linear-gradient(135deg, #fffdf7, #fff6df) !important; }
+.practice-reference-listen .practice-reference-word::before { content: '♫  ♪'; position: absolute; z-index: 1; left: 13%; top: 1.35rem; color: #9b7bd9; font-size: 2rem; font-weight: 800; letter-spacing: .4rem; transform: rotate(-8deg); }
+.practice-reference-listen .practice-reference-word > div { width: 100%; margin-left: 0; padding: 1rem 1.25rem !important; }
+.practice-reference-listen .practice-listen-content { position: relative; display: grid !important; width: 57%; min-height: 11rem; margin-left: auto; padding: 1.15rem 1.25rem !important; border: 1px dashed rgba(222,175,88,.48); border-radius: 1.25rem; background: rgba(255,253,244,.72); }
+.practice-reference-listen .practice-listen-illustration { position: absolute; z-index: 2; left: -70%; bottom: -1.65rem; width: 68%; max-width: none; max-height: 16rem; object-fit: contain; object-position: bottom center; }
+.practice-reference-listen .practice-listen-content > p { font-size: clamp(2.7rem, 6vw, 4.5rem) !important; }
+.practice-reference-listen .practice-listen-content > div { position: relative; margin-top: .35rem; }
+.practice-reference-listen .practice-listen-content > div > button:first-child { display: grid; width: 4.5rem; height: 4.5rem; min-height: 4.5rem !important; place-items: center; margin-inline: auto; overflow: hidden; border: 0; border-radius: 50%; background: linear-gradient(135deg, #7666c6, #5d4aaa) !important; color: white; box-shadow: 0 6px 14px rgba(87,69,160,.26); }
+.practice-reference-listen .practice-listen-content > div::before, .practice-reference-listen .practice-listen-content > div::after { position: absolute; top: 50%; color: #c9bef2; font-size: 1.45rem; letter-spacing: .06rem; transform: translateY(-50%); }
+.practice-reference-listen .practice-listen-content > div::before { content: '▂ ▅ ▇'; right: calc(50% + 3.25rem); }
+.practice-reference-listen .practice-listen-content > div::after { content: '▇ ▅ ▂'; left: calc(50% + 3.25rem); }
+.practice-reference-listen .practice-listen-content > div > button:first-child span { font-size: 0; }
+.practice-reference-listen .practice-listen-content > div > button:first-child::after { content: '🔊'; font-size: 1.65rem; }
+.practice-reference-listen .practice-listen-content > div > button:nth-child(2) { display: none; }
+.practice-listen-actions { display: grid; grid-template-columns: 1fr; width: 100%; gap: .6rem; }
+.practice-listen-actions > button, .practice-listen-actions > .inline-flex { display: inline-flex; min-height: 3.35rem; align-items: center; justify-content: center; gap: .55rem; border: 1px solid #ebddbd; border-radius: 999px; background: #fff9e8; color: #3f4160; font-size: .82rem; font-weight: 700; letter-spacing: .08em; }
+.practice-listen-actions > .inline-flex { border-color: #ded7fa; background: #faf9ff; color: #6959bd; }
+.practice-reference-listen .practice-reference-content > button:not(.practice-listen-navigation button) { min-width: 18rem; background: linear-gradient(135deg, #7666c6, #5d4aaa) !important; }
+
+@media (max-width: 640px) {
+  .role-student:has(.practice-reference) .student-main-content { padding-top: .85rem; }
+  .practice-reference { gap: .85rem !important; }
+  .practice-reference-hero { min-height: 0; padding: 1rem 1.15rem !important; }
+  .practice-reference-hero::before { left: .75rem; width: 4rem; height: 4rem; }
+  .practice-reference-hero h1 { font-size: 1.45rem !important; letter-spacing: .055em; }
+  .practice-reference-hero p { font-size: .78rem !important; letter-spacing: .08em; }
+  .practice-reference-tabs { grid-template-columns: 1fr !important; gap: .55rem !important; }
+  .practice-reference-tab { min-height: 3.25rem !important; }
+  .practice-reference-card { padding: .8rem !important; border-radius: 1.2rem !important; }
+  .practice-reference-progress { justify-content: center !important; gap: .55rem !important; }
+  .practice-reference-listen .practice-reference-count { margin-left: 0; }
+  .practice-listen-navigation { order: 4; }
+  .practice-reference-listen .practice-reference-word { min-height: 20rem !important; padding: .7rem !important; }
+  .practice-reference-listen .practice-listen-content { width: 66%; min-height: 12rem; padding: .9rem .4rem !important; }
+  .practice-reference-listen .practice-listen-illustration { left: -57%; bottom: -1.35rem; width: 62%; max-height: 13rem; }
+  .practice-reference-listen .practice-listen-content > div::before { right: calc(50% + 2.75rem); }
+  .practice-reference-listen .practice-listen-content > div::after { left: calc(50% + 2.75rem); }
+  .practice-reference-listen .practice-listen-content > div > button:first-child { width: 3.8rem; height: 3.8rem; min-height: 3.8rem !important; }
+  .practice-listen-actions { grid-template-columns: 1fr; gap: .65rem; }
+  .practice-reference-listen .practice-reference-content > button:not(.practice-listen-navigation button) { min-width: min(100%, 18rem); }
+}
+
+/* Desktop practice is intentionally a single-screen activity.  These rules
+   retain the larger, easy-to-read controls while preventing a student from
+   having to scroll between hearing a word and moving to the next one. */
+@media (min-width: 641px) {
+  .role-student:has(.practice-reference) .student-main-content { padding-top: .65rem; padding-bottom: .65rem; }
+  .practice-reference { gap: .5rem !important; }
+  .practice-reference-hero { min-height: 5.5rem; padding: .65rem 1.5rem !important; border-radius: 1.1rem !important; }
+  .practice-reference-hero::before { width: 3.5rem; height: 3.5rem; }
+  .practice-reference-hero-content { min-height: 4.15rem; }
+  .practice-reference-hero h1 { font-size: 1.5rem !important; }
+  .practice-reference-hero p { margin-top: .2rem !important; font-size: .8rem !important; }
+  .practice-reference-tabs { gap: .5rem !important; }
+  .practice-reference-tab { min-height: 2.75rem !important; border-radius: .85rem !important; font-size: .8rem !important; }
+  .practice-reference-card { padding: .6rem !important; border-radius: 1.1rem !important; }
+  .practice-reference-content { gap: .5rem !important; }
+  .practice-reference-progress { min-height: 2rem; gap: .4rem !important; font-size: .75rem !important; }
+  .practice-reference-progress > span { padding: .3rem .6rem !important; }
+  .practice-reference-count i { width: 5rem; height: .4rem; }
+  .practice-listen-navigation { gap: .45rem; }
+  .practice-listen-navigation button { width: 2.1rem; height: 2.1rem; font-size: 1.2rem; }
+  .practice-reference-listen .practice-reference-word { height: 8.8rem; min-height: 8.8rem !important; padding: .25rem .5rem !important; }
+  .practice-reference-listen .practice-reference-word > div { min-height: 0 !important; height: 100% !important; padding-top: 0 !important; }
+  .practice-reference-listen .practice-reference-word::before { top: .55rem; font-size: 1.1rem; }
+  .practice-reference-listen .practice-reference-word > span { top: .35rem !important; left: .45rem !important; padding: .15rem .45rem !important; font-size: .58rem !important; }
+  .practice-reference-listen .practice-listen-content { min-height: 4.6rem; height: 100%; padding: .3rem .65rem !important; }
+  .practice-reference-listen .practice-listen-illustration { bottom: -.45rem; max-height: 6.6rem; }
+  .practice-reference-listen .practice-listen-content > p { font-size: clamp(3.1rem, 5.3vw, 4.55rem) !important; font-weight: 900 !important; }
+  .practice-reference-listen .practice-listen-content > div { margin-top: .1rem; }
+  .practice-reference-listen .practice-listen-content > div > button:first-child { width: 2.95rem; height: 2.95rem; min-height: 2.95rem !important; }
+  .practice-reference-listen .practice-listen-content > div > button:first-child::after { font-size: 1.15rem; }
+  .practice-reference-listen .practice-listen-content > div::before, .practice-reference-listen .practice-listen-content > div::after { font-size: 1rem; }
+  .practice-reference-listen .practice-listen-content > div::before { right: calc(50% + 2.25rem); }
+  .practice-reference-listen .practice-listen-content > div::after { left: calc(50% + 2.25rem); }
+  .practice-listen-actions { gap: .4rem; }
+  .practice-listen-actions > button, .practice-listen-actions > .inline-flex { min-height: 2.1rem; font-size: .72rem; }
+  .practice-reference-meaning { padding: .35rem .75rem !important; border-radius: .9rem !important; }
+  .practice-reference-meaning > p:first-child { font-size: .75rem !important; }
+  .practice-reference-meaning div { margin-top: .25rem !important; gap: .25rem !important; }
+  .practice-reference-meaning p { font-size: .78rem !important; line-height: 1.25 !important; }
+  .practice-reference-meaning button { min-height: 2rem !important; font-size: .72rem !important; }
+  .practice-reference-content > p { margin: 0 !important; font-size: .72rem !important; }
+  .practice-reference-content > button { min-height: 2rem !important; padding: .25rem .8rem !important; font-size: .75rem !important; }
+
+  /* Say mode uses the same one-screen rhythm as Listen mode: a bounded word
+     panel followed by vertically ordered actions, so changing modes never
+     makes the student hunt or scroll for the microphone. */
+  .practice-reference:not(.practice-reference-listen) .practice-reference-word { height: 8.8rem; min-height: 8.8rem !important; padding: .35rem .65rem !important; }
+  .practice-reference:not(.practice-reference-listen) .practice-reference-word > div { min-height: 0 !important; height: 100% !important; padding-top: 0 !important; }
+  .practice-reference:not(.practice-reference-listen) .practice-reference-word > div > div { position: absolute; inset: 2rem .7rem .35rem; height: auto; min-height: 0; gap: .45rem !important; }
+  .practice-reference:not(.practice-reference-listen) .practice-reference-word p { position: absolute !important; top: 50%; left: 0; width: 100%; margin: 0; transform: translateY(-50%); font-size: clamp(3.45rem, 6.2vw, 5.1rem) !important; font-weight: 900 !important; line-height: 1.1; text-shadow: 0 1px 0 rgba(255,255,255,.72); }
+  .practice-reference:not(.practice-reference-listen) .practice-reference-word > div > div > div { flex-direction: column !important; gap: .3rem !important; }
+  .practice-reference:not(.practice-reference-listen) .practice-reference-word button { min-height: 1.85rem !important; padding: .2rem .6rem !important; font-size: .72rem !important; }
+}

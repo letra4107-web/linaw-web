@@ -102,9 +102,9 @@ export default function Landing() {
       style={{ backgroundImage: `url(${landBg})`, backgroundRepeat: 'repeat', backgroundSize: '900px auto' }}
     >
       <header className="sticky top-0 z-20 border-b border-[var(--color-border)] bg-[var(--color-bg)]/85 backdrop-blur">
-        <div className="grid grid-cols-[1fr_auto_1fr] items-center gap-4 px-4 py-2 sm:px-6">
+        <div className="grid grid-cols-[1fr_auto_1fr] items-center gap-2 px-3 py-2 sm:gap-4 sm:px-6">
           <Link to="/" className="justify-self-start">
-            <img src={logo} alt="LinawLetra" className="h-16 w-auto rounded-lg sm:h-20" />
+            <img src={logo} alt="LinawLetra" className="h-12 w-auto rounded-lg sm:h-20" />
           </Link>
           <nav className="hidden justify-self-center lg:block" aria-label="Pangunahing navigation">
             <ul className="flex items-center gap-8 text-lg font-semibold">
@@ -131,7 +131,7 @@ export default function Landing() {
               )}
             </ul>
           </nav>
-          <div className="flex items-center gap-2 justify-self-end sm:gap-4">
+          <div className="flex items-center gap-1 justify-self-end sm:gap-4">
             <label className="hidden items-center gap-2 text-sm font-semibold md:flex">
               <span className="sr-only">Piliin ang font</span>
               <span aria-hidden="true">Aa</span>
@@ -150,19 +150,19 @@ export default function Landing() {
               onClick={() => setMobileNavOpen((v) => !v)}
               aria-expanded={mobileNavOpen}
               aria-label={mobileNavOpen ? 'Isara ang menu' : 'Buksan ang menu'}
-              className="rounded-full border border-[var(--color-border)] p-2 text-lg transition-transform hover:border-[var(--color-primary)] active:scale-90 lg:hidden"
+              className="shrink-0 rounded-full border border-[var(--color-border)] p-2 text-lg transition-transform hover:border-[var(--color-primary)] active:scale-90 lg:hidden"
             >
               <AppIcon name={mobileNavOpen ? '✕' : '☰'} />
             </button>
             <Link
               to="/login"
-              className="rounded-full border border-[var(--color-border)] px-3 py-2 text-base font-medium transition-transform hover:border-[var(--color-primary)] active:scale-95 sm:px-4"
+              className="shrink-0 whitespace-nowrap rounded-full border border-[var(--color-border)] px-2.5 py-2 text-sm font-medium transition-transform hover:border-[var(--color-primary)] active:scale-95 sm:px-4 sm:text-base"
             >
               Mag-login
             </Link>
             <Link
               to="/signup"
-              className="rounded-full bg-[var(--color-primary)] px-3 py-2 text-base font-semibold text-white shadow-card transition-all hover:-translate-y-0.5 hover:bg-[var(--color-primary-hover)] hover:shadow-raised active:scale-95 sm:px-4"
+              className="shrink-0 whitespace-nowrap rounded-full bg-[var(--color-primary)] px-2.5 py-2 text-sm font-semibold text-white shadow-card transition-all hover:-translate-y-0.5 hover:bg-[var(--color-primary-hover)] hover:shadow-raised active:scale-95 sm:px-4 sm:text-base"
             >
               Mag-sign up
             </Link>

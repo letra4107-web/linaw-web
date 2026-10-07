@@ -59,7 +59,7 @@ export default function Module() {
 
   const submitAttempt = useMutation({
     mutationFn: async ({ item, transcript }: { item: ModuleItem; transcript: string }) => {
-      const res = await api<{ accuracy: number; correct: boolean; newlyUnlockedBadges?: string[] }>(`/student/learn/content/${item.content_id}/attempt`, {
+      const res = await api<{ accuracy: number; correct: boolean; newlyUnlockedBadges?: string[]; levelAdvancedTo?: string | null }>(`/student/learn/content/${item.content_id}/attempt`, {
         method: 'POST',
         auth: true,
         body: {
@@ -81,6 +81,7 @@ export default function Module() {
       queryClient.invalidateQueries({ queryKey: ['student-module', moduleId] });
       queryClient.invalidateQueries({ queryKey: ['student-learn-path'] });
       trackEvent('reading_attempt_completed', { surface: 'lesson' });
+      if (res.levelAdvancedTo) navigate('/student/learn');
     },
     onError: (err: Error) => { setError(err.message); trackEvent('reading_attempt_failed', { surface: 'lesson' }); },
   });

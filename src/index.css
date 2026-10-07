@@ -652,6 +652,20 @@ body[data-font="comic"] :is(h1, h2, h3, h4, h5, h6, button, input, select, texta
   word-spacing: normal;
 }
 
+/* Comic Sans has a comparatively small x-height, so the same nominal size
+   reads smaller than the default and OpenDyslexic faces.  Give every Comic
+   Sans view a larger type scale, including the parent portal which always
+   uses Comic Sans.  Scaling the root also covers component-level rem sizes. */
+html:has(body[data-font="comic"]),
+html:has(.role-parent) {
+  font-size: 112.5%;
+}
+
+body[data-font="comic"],
+.role-parent {
+  font-size: calc(18px * var(--font-scale, 1));
+}
+
 h1, h2, h3, h4, h5, h6 {
   font-family: "OpenDyslexic", var(--font-display);
   font-weight: 700;

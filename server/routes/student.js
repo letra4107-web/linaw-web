@@ -11,6 +11,7 @@ const { assessmentLimiter } = require('../lib/rateLimiters');
 const { createSupabaseAuthorizationService } = require('../services/authorization');
 const { createMaterialAccessService } = require('../services/materialAccess');
 const { scoreTranscript } = require('../lib/speechScoring');
+const { evaluateLevelPromotion } = require('../services/learningProgression');
 const { randomUUID } = require('crypto');
 
 const router = express.Router();
@@ -28,6 +29,54 @@ async function resolveStudentId(authUid) {
   if (error) throw error;
   if (!data) throw Object.assign(new Error('No linked student record for this account.'), { status: 404 });
   return data.id;
+}
+
+// The database RPC remains the source of truth for module completion. Once it
+// reports a whole level as complete, this server-owned check promotes the
+// learner only if their recorded average also meets the passing score.
+async function promoteStudentIfEligible(studentId) {
+  const [{ data: path, error: pathError }, { data: progress, error: progressError }, { data: student, error: studentError }] = await Promise.all([
+    supabaseAdmin.rpc('get_student_module_path', { p_student_id: studentId }),
+    supabaseAdmin.from('child_progress').select('accuracy_sum, total_attempts').eq('child_id', studentId).maybeSingle(),
+    supabaseAdmin.from('children').select('parent_id').eq('id', studentId).maybeSingle(),
+  ]);
+  if (pathError) throw pathError;
+  if (progressError) throw progressError;
+  if (studentError) throw studentError;
+
+  const decision = evaluateLevelPromotion({
+    effectiveLevel: path?.effective_level,
+    modules: path?.modules,
+    accuracySum: progress?.accuracy_sum,
+    totalAttempts: progress?.total_attempts,
+  });
+  if (!decision.eligible || !decision.nextLevel) return null;
+
+  // Retire any placement override before making the newly earned level the
+  // authoritative one. This prevents an old grade/manual placement from
+  // keeping the learner in the prior path.
+  const { error: revokeError } = await supabaseAdmin
+    .from('student_reading_level_overrides')
+    .update({ revoked_at: new Date().toISOString(), revocation_reason: 'Advanced automatically after completing the previous reading level.' })
+    .eq('student_id', studentId)
+    .is('revoked_at', null);
+  if (revokeError) throw revokeError;
+
+  const { error: levelError } = await supabaseAdmin
+    .from('child_progress')
+    .update({ level: decision.nextLevel })
+    .eq('child_id', studentId);
+  if (levelError) throw levelError;
+
+  const { error: overrideError } = await supabaseAdmin.from('student_reading_level_overrides').insert({
+    student_id: studentId,
+    override_level: decision.nextLevel,
+    reason: `Automatic advancement: all ${path.effective_level} modules completed with a ${decision.averageScore}% average score.`,
+    created_by_auth_uid: student?.parent_id ?? null,
+  });
+  if (overrideError) throw overrideError;
+
+  return { level: decision.nextLevel, averageScore: decision.averageScore };
 }
 
 function handleRpcError(res, err) {
@@ -146,8 +195,11 @@ router.post('/learn/content/:contentId/attempt', validateUuidParam('contentId'),
       p_source: source || 'practice',
     });
     if (error) throw error;
-    const newlyUnlockedBadges = await checkAndAwardBadges(supabaseAdmin, studentId);
-    res.json({ ...data, accuracy: score.accuracy, correct: score.correct, newlyUnlockedBadges });
+    const [newlyUnlockedBadges, advancement] = await Promise.all([
+      checkAndAwardBadges(supabaseAdmin, studentId),
+      promoteStudentIfEligible(studentId),
+    ]);
+    res.json({ ...data, accuracy: score.accuracy, correct: score.correct, newlyUnlockedBadges, levelAdvancedTo: advancement?.level ?? null });
   } catch (err) {
     handleRpcError(res, err);
   }
@@ -209,7 +261,10 @@ router.post('/learn/content/:contentId/authoritative-attempt', assessmentLimiter
       p_source: 'practice',
     });
     if (attemptError) throw attemptError;
-    const newlyUnlockedBadges = await checkAndAwardBadges(supabaseAdmin, studentId);
+    const [newlyUnlockedBadges, advancement] = await Promise.all([
+      checkAndAwardBadges(supabaseAdmin, studentId),
+      promoteStudentIfEligible(studentId),
+    ]);
     const response = {
       ...attempt,
       score,
@@ -217,6 +272,7 @@ router.post('/learn/content/:contentId/authoritative-attempt', assessmentLimiter
       // Comparison-only telemetry for staging; this field never affects outcomes.
       clientScoreDifference: clientAccuracy == null ? null : score.accuracy - Number(clientAccuracy),
       authoritative: true,
+      levelAdvancedTo: advancement?.level ?? null,
       replayed: false,
     };
     const { error: persistError } = await supabaseAdmin
