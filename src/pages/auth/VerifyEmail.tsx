@@ -1,12 +1,13 @@
 import { useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { supabase } from '../../lib/supabaseClient';
-import { AuthShell, FieldError, inputClass, primaryButtonClass } from '../../components/auth/AuthShell';
+import { AuthShell, FieldError, inputClass, isValidEmail, primaryButtonClass } from '../../components/auth/AuthShell';
 
 export default function VerifyEmail() {
   const navigate = useNavigate();
   const location = useLocation();
-  const email = (location.state as { email?: string } | null)?.email ?? '';
+  const initialEmail = (location.state as { email?: string } | null)?.email ?? '';
+  const [email, setEmail] = useState(initialEmail);
   const [code, setCode] = useState('');
   const [error, setError] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
@@ -14,16 +15,25 @@ export default function VerifyEmail() {
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
+    const cleanEmail = email.trim().toLowerCase();
+    if (!isValidEmail(cleanEmail)) {
+      setError('Ilagay ang email address na ginamit sa paggawa ng account.');
+      return;
+    }
+    if (!code) {
+      setError('Ilagay ang verification code mula sa email.');
+      return;
+    }
     setSubmitting(true);
     try {
       const { error: verifyError } = await supabase.auth.verifyOtp({
-        email,
+        email: cleanEmail,
         token: code,
         type: 'signup',
       });
       if (verifyError) throw verifyError;
 
-      await supabase.from('users').update({ email_verified: true }).eq('email', email);
+      await supabase.from('users').update({ email_verified: true }).eq('email', cleanEmail);
 
       navigate('/login', { replace: true });
     } catch (err) {
@@ -38,8 +48,8 @@ export default function VerifyEmail() {
       title="I-verify ang iyong email"
       cardColorVar="--color-brand-violet"
       subtitle={
-        email
-          ? `Ipinadala namin ang code sa ${email}.`
+        initialEmail
+          ? `Ipinadala namin ang code sa ${initialEmail}.`
           : 'Ilagay ang code na natanggap mo sa email.'
       }
       footer={
@@ -49,6 +59,20 @@ export default function VerifyEmail() {
       }
     >
       <form onSubmit={onSubmit} className="flex flex-col gap-4" noValidate>
+        <div>
+          <label htmlFor="email" className="mb-2 block text-base font-medium">
+            Email
+          </label>
+          <input
+            id="email"
+            type="email"
+            required
+            value={email}
+            onChange={(event) => setEmail(event.target.value)}
+            autoComplete="email"
+            className={inputClass}
+          />
+        </div>
         <div>
           <label htmlFor="code" className="mb-2 block text-base font-medium">
             Verification code

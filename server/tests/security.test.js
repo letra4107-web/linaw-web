@@ -92,6 +92,24 @@ test('admin analytics distinguishes student accounts from child enrollment recor
   assert.match(analytics, /data\.totals\.studentAccounts/);
 });
 
+test('teacher creation generates and emails an email-verification OTP', () => {
+  const admin = fs.readFileSync(path.join(path.resolve(__dirname, '..'), 'routes', 'admin.js'), 'utf8');
+  assert.match(admin, /auth\.admin\.generateLink\(\{/);
+  assert.match(admin, /type: 'signup'/);
+  assert.match(admin, /email_otp/);
+  assert.match(admin, /Verification code: \$\{verificationCode\}/);
+  assert.match(admin, /email_verified: false/);
+});
+
+test('unconfirmed sign-ins are routed to the email verification screen', () => {
+  const login = fs.readFileSync(path.resolve(__dirname, '../../src/pages/auth/Login.tsx'), 'utf8');
+  const verify = fs.readFileSync(path.resolve(__dirname, '../../src/pages/auth/VerifyEmail.tsx'), 'utf8');
+  assert.match(login, /email not confirmed/i);
+  assert.match(login, /navigate\('\/verify-email', \{ state: \{ email: cleanEmail \} \}\)/);
+  assert.match(verify, /isValidEmail\(cleanEmail\)/);
+  assert.match(verify, /id="email"/);
+});
+
 test('bearer and role middleware rejects missing, invalid, and unauthorized sessions', async () => {
   assert.equal(bearerTokenFrom('Bearer abc'), 'abc');
   assert.equal(bearerTokenFrom('Basic abc'), '');

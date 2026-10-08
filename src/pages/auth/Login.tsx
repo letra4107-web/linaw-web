@@ -175,6 +175,13 @@ export default function Login() {
       if (identity) trackEvent('login_success', { role: identity.role });
       navigate(identity ? dashboardPathForRole(identity.role) : '/verify-email', { replace: true });
     } catch (err) {
+      // Supabase rejects password sign-in for an unconfirmed email before it
+      // returns a session. Keep the email and send the user straight to the
+      // OTP screen instead of leaving them at an error they cannot resolve.
+      if (err instanceof Error && /email not confirmed/i.test(err.message)) {
+        navigate('/verify-email', { state: { email: cleanEmail } });
+        return;
+      }
       setError(err instanceof Error ? err.message : 'Hindi matagumpay ang pag-login.');
     } finally {
       setSubmitting(false);

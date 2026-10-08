@@ -404,22 +404,27 @@ router.post('/teachers', async (req, res) => {
       'ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnpqrstuvwxyz23456789'[crypto.randomInt(57)],
     ).join('');
 
-    const { data: created, error: createErr } = await supabaseAdmin.auth.admin.createUser({
+    // `createUser` deliberately does not send a confirmation message. Generate
+    // a signup OTP instead so a new teacher must prove control of their email
+    // before the account can be used.
+    const { data: created, error: createErr } = await supabaseAdmin.auth.admin.generateLink({
+      type: 'signup',
       email: cleanEmail,
       password,
-      email_confirm: true,
-      user_metadata: { role: 'teacher', full_name: cleanName },
+      options: { data: { role: 'teacher', full_name: cleanName } },
     });
     if (createErr) throw createErr;
 
     const teacherId = created.user.id;
+    const verificationCode = created.properties?.email_otp;
+    if (!verificationCode) throw new Error('Unable to generate the teacher email verification code.');
 
     const { error: profileErr } = await supabaseAdmin.from('users').upsert({
       id: teacherId,
       email: cleanEmail,
       name: cleanName,
       role: 'teacher',
-      email_verified: true,
+      email_verified: false,
       account_status: 'active',
       is_active: true,
     });
@@ -450,8 +455,8 @@ router.post('/teachers', async (req, res) => {
 
     await sendMail({
       to: cleanEmail,
-      subject: 'LinawLetra — Naka-gawa na ang Inyong Teacher Account',
-      text: `Magandang araw, ${cleanName}!\n\nNakagawa na ang inyong teacher account sa LinawLetra.\n\nEmail: ${cleanEmail}\nPassword: ${password}\n\nMangyaring mag-log in at palitan agad ang password para sa seguridad. Itago ang detalyeng ito nang lihim.`,
+      subject: 'LinawLetra — I-verify ang Inyong Teacher Account',
+      text: `Magandang araw, ${cleanName}!\n\nNakagawa na ang inyong teacher account sa LinawLetra.\n\nEmail: ${cleanEmail}\nTemporary password: ${password}\nVerification code: ${verificationCode}\n\nMag-login gamit ang email at temporary password, pagkatapos ay ilagay ang verification code para ma-activate ang account. Mangyaring palitan agad ang password para sa seguridad. Itago ang detalyeng ito nang lihim.`,
     });
 
     res.json({ success: true, teacherId });
