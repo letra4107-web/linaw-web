@@ -10,9 +10,9 @@ import ParentMonitoringReference from './ParentMonitoringReference';
 import TeacherMonitoringReference from './TeacherMonitoringReference';
 
 type Role = 'student' | 'parent' | 'teacher';
-type User = { id: string; name: string | null; email: string; account_status: string; lastLoginAt: string | null; profile: { gradeLevel?: number | null } };
+type User = { id: string; name: string | null; email: string; account_status: string; lastLoginAt: string | null; created_at?: string; profile: { gradeLevel?: number | null; gradeLevels?: number[] } };
 type Module = { id: string; title?: string; module_number?: number; state?: 'completed' | 'in_progress' | 'not_started' | 'locked' };
-type Detail = { progress?: { level?: string; activities_completed?: number; accuracy_sum?: number; total_attempts?: number; updated_at?: string }; modules?: Module[]; sessions?: Array<{ word?: string; accuracy_percentage?: number; created_at: string }>; children?: Array<{ id: string; name?: string; grade_level?: number }>; roster?: Array<{ student_id: string; assigned_at: string }>; materials?: Array<{ id: string; title?: string; grade_level?: number; level?: string; created_at: string }>; assignments?: Array<{ id: string; student_id?: string; status?: string; assigned_at?: string }> };
+type Detail = { progress?: { level?: string; activities_completed?: number; accuracy_sum?: number; total_attempts?: number; updated_at?: string }; modules?: Module[]; sessions?: Array<{ word?: string; accuracy_percentage?: number; created_at: string }>; children?: Array<{ id: string; name?: string; grade_level?: number }>; roster?: Array<{ student_id: string; assigned_at: string }>; materials?: Array<{ id: string; title?: string; grade_level?: number; level?: string; created_at: string }>; assignments?: Array<{ id: string; student_id?: string; status?: string; assigned_at?: string }>; sections?: Array<{ id: string; name: string; grade_level: number; is_reading_support: boolean; studentCount: number }>; activity?: Array<{ id: string; action: string; module?: string; created_at: string }> };
 const names: Record<Role, [string, string]> = { student: ['Students', 'Student'], parent: ['Parents', 'Parent'], teacher: ['Teachers', 'Teacher'] };
 const initials = (value?: string | null) => (value || '?').split(/\s+/).slice(0, 2).map((part) => part[0]).join('').toUpperCase();
 const date = (value?: string | null) => value ? new Intl.DateTimeFormat('en-US', { month: 'short', day: 'numeric', year: 'numeric', hour: 'numeric', minute: '2-digit', timeZone: 'Asia/Manila' }).format(new Date(value)) : 'No recorded activity';
@@ -60,7 +60,7 @@ export default function RoleMonitoring({ role }: { role: Role }) {
   }
   // @ts-ignore -- unreachable legacy teacher markup.
   if (role === 'teacher') {
-    return <TeacherMonitoringReference users={users} selected={selected} selectedId={selectedId} onSelect={setSelectedId} loading={directory.isLoading} roster={data.roster || []} materials={data.materials || []} assignments={data.assignments || []} formatDate={date} />;
+    return <TeacherMonitoringReference users={directory.data?.users || []} selected={selected} selectedId={selectedId} onSelect={setSelectedId} loading={directory.isLoading} roster={data.roster || []} materials={data.materials || []} assignments={data.assignments || []} sections={data.sections || []} activity={data.activity || []} formatDate={date} />;
   }
 
   // @ts-ignore -- legacy teacher markup is retained below while the reference layout is active above.

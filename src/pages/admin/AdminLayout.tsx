@@ -17,6 +17,7 @@ const PRIMARY_TABS = [
   { to: '/admin/teachers-monitoring', icon: '🎓', label: 'Teachers' },
   { to: '/admin/users', icon: '👥', label: 'Users' },
   { to: '/admin/teachers', icon: '🎓', label: 'Create teacher' },
+  { to: '/admin/sections', icon: '🏫', label: 'Sections' },
   { to: '/admin/analytics', icon: '▥', label: 'Analytics' },
   { to: '/admin/audit-logs', icon: '📋', label: 'Audit Trail' },
   { to: '/admin/archived', icon: '▣', label: 'Archive' },
@@ -200,7 +201,7 @@ export default function AdminLayout() {
           </header>
           <header className="sticky top-0 z-20 flex h-16 items-center justify-between border-b border-[var(--color-border)] bg-[var(--color-surface)]/90 px-4 backdrop-blur lg:hidden"><div className="flex min-w-0 items-center gap-3"><img src={logo} alt="LinawLetra" className="h-9 w-9 rounded-xl object-cover" /><div className="min-w-0"><p className="truncate text-sm font-extrabold">{current?.label ?? 'Admin'}</p><p className="text-[0.65rem] font-bold tracking-wide text-[var(--color-text-muted)] uppercase">Admin Console</p></div></div><button type="button" onClick={() => setMobileOpen((value) => !value)} aria-expanded={mobileOpen} aria-label="Open menu" className="flex h-10 w-10 items-center justify-center rounded-xl border border-[var(--color-border)] bg-white/65"><AppIcon name={mobileOpen ? '×' : '☰'} /><span className="sr-only">Menu</span></button></header>
           {mobileOpen && <div className="sticky top-16 z-20 flex max-h-[calc(100vh-4rem)] flex-col border-b border-white/15 bg-[var(--color-primary-hover)] lg:hidden"><NavContents collapsed={false} onNavigate={() => setMobileOpen(false)} /><div className="border-t border-white/15 p-2.5"><ProfileMenu collapsed={false} /></div></div>}
-          <main className="w-full max-w-none min-w-0 flex-1 overflow-x-hidden px-4 py-5 sm:px-6 sm:py-6 xl:px-6 xl:py-6"><Outlet /></main>
+          <main className={`w-full max-w-none min-w-0 flex-1 overflow-x-hidden px-4 py-5 sm:px-6 sm:py-6 xl:px-6 ${location.pathname === '/admin/teachers-monitoring' ? 'xl:py-3' : 'xl:py-6'}`}><Outlet /></main>
         </div>
       </div>
     </DashboardShell>

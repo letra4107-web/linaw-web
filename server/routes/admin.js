@@ -67,17 +67,18 @@ router.get('/monitoring/users', async (req, res) => {
   try {
     const role = String(req.query.role || '').toLowerCase();
     if (!['student', 'parent', 'teacher'].includes(role)) return res.status(400).json({ error: 'Invalid monitoring role.' });
-    const [{ data: users, error: usersError }, { data: children, error: childrenError }] = await Promise.all([
+    const [{ data: users, error: usersError }, { data: children, error: childrenError }, { data: teacherProfiles, error: teacherProfilesError }] = await Promise.all([
       supabaseAdmin.from('users').select('id, name, email, role, account_status, created_at, lastLoginAt').eq('role', role).neq('account_status', 'archived').order('name'),
       supabaseAdmin.from('children').select('id, auth_uid, parent_id, name, grade_level'),
+      role === 'teacher' ? supabaseAdmin.from('teacher_profiles').select('user_id, grade_levels') : Promise.resolve({ data: [], error: null }),
     ]);
-    if (usersError || childrenError) throw usersError || childrenError;
+    if (usersError || childrenError || teacherProfilesError) throw usersError || childrenError || teacherProfilesError;
     const ids = (users || []).map((user) => user.id);
     const { data: activities, error: activitiesError } = ids.length
       ? await supabaseAdmin.from('audit_logs').select('id, actor_id, action, module, record_id, status, metadata, created_at').in('actor_id', ids).order('created_at', { ascending: false }).limit(500)
       : { data: [], error: null };
     if (activitiesError) throw activitiesError;
-    const childrenByParent = new Map(); const childByAuth = new Map();
+    const childrenByParent = new Map(); const childByAuth = new Map(); const teacherProfileByUser = new Map((teacherProfiles || []).map((profile) => [profile.user_id, profile]));
     for (const child of children || []) {
       childByAuth.set(child.auth_uid, child);
       if (child.parent_id) childrenByParent.set(child.parent_id, [...(childrenByParent.get(child.parent_id) || []), child]);
@@ -86,7 +87,7 @@ router.get('/monitoring/users', async (req, res) => {
       const child = childByAuth.get(user.id); const ownedChildren = childrenByParent.get(user.id) || [];
       return {
         ...user,
-        profile: role === 'student' ? { childId: child?.id || null, gradeLevel: child?.grade_level || null } : role === 'parent' ? { children: ownedChildren.map((item) => ({ id: item.id, name: item.name, gradeLevel: item.grade_level })) } : {},
+        profile: role === 'student' ? { childId: child?.id || null, gradeLevel: child?.grade_level || null } : role === 'parent' ? { children: ownedChildren.map((item) => ({ id: item.id, name: item.name, gradeLevel: item.grade_level })) } : { gradeLevels: teacherProfileByUser.get(user.id)?.grade_levels || [] },
         activities: (activities || []).filter((item) => item.actor_id === user.id).slice(0, 30),
       };
     }) });
@@ -117,9 +118,13 @@ router.get('/monitoring/users/:id', validateUuidParam('id'), async (req, res) =>
       const ids = (children || []).map((child) => child.id); const { data: progress, error: progressError2 } = ids.length ? await supabaseAdmin.from('child_progress').select('child_id, level, xp, activities_completed, updated_at').in('child_id', ids) : { data: [], error: null }; if (progressError2) throw progressError2;
       return res.json({ user, children: children || [], progress: progress || [], activity: activity || [] });
     }
-    const [{ data: links, error: linksError }, { data: materials, error: materialsError }, { data: assignments, error: assignmentsError }] = await Promise.all([supabaseAdmin.from('teacher_student_links').select('student_id, assigned_at').eq('teacher_id', user.id), supabaseAdmin.from('pdf_materials').select('id, title, grade_level, level, created_at').eq('teacher_id', user.id).order('created_at', { ascending: false }).limit(30), supabaseAdmin.from('pdf_assignments').select('id, student_id, status, assigned_at').eq('assigned_by', user.id).order('assigned_at', { ascending: false }).limit(30)]);
-    if (linksError || materialsError || assignmentsError) throw linksError || materialsError || assignmentsError;
-    return res.json({ user, roster: links || [], materials: materials || [], assignments: assignments || [], activity: activity || [] });
+    const [{ data: links, error: linksError }, { data: materials, error: materialsError }, { data: assignments, error: assignmentsError }, { data: sections, error: sectionsError }] = await Promise.all([supabaseAdmin.from('teacher_student_links').select('student_id, assigned_at').eq('teacher_id', user.id), supabaseAdmin.from('pdf_materials').select('id, title, grade_level, level, created_at').eq('teacher_id', user.id).order('created_at', { ascending: false }).limit(30), supabaseAdmin.from('pdf_assignments').select('id, student_id, status, assigned_at').eq('assigned_by', user.id).order('assigned_at', { ascending: false }).limit(30), supabaseAdmin.from('class_sections').select('id, name, grade_level, is_reading_support').eq('adviser_id', user.id).order('grade_level').order('name')]);
+    if (linksError || materialsError || assignmentsError || sectionsError) throw linksError || materialsError || assignmentsError || sectionsError;
+    const sectionIds = (sections || []).map((section) => section.id);
+    const { data: memberships, error: membershipsError } = sectionIds.length ? await supabaseAdmin.from('section_students').select('section_id').in('section_id', sectionIds) : { data: [], error: null };
+    if (membershipsError) throw membershipsError;
+    const studentCounts = (memberships || []).reduce((counts, membership) => ({ ...counts, [membership.section_id]: (counts[membership.section_id] || 0) + 1 }), {});
+    return res.json({ user, roster: links || [], materials: materials || [], assignments: assignments || [], sections: (sections || []).map((section) => ({ ...section, studentCount: studentCounts[section.id] || 0 })), activity: activity || [] });
   } catch (err) { console.error('[admin/monitoring/user detail]', err); res.status(500).json({ error: 'Unable to load monitoring details.' }); }
 });
 
@@ -469,6 +474,72 @@ router.post('/teachers', async (req, res) => {
 // GET /admin/analytics/students -- the Admin-only drill-down behind the
 // Student Accounts metric. It returns account details and progress together,
 // without exposing credentials or private speech transcripts.
+// Sections are admin-owned. A regular section is capped at 35; a reading
+// support group defaults to 12 and is capped at 15.
+router.get('/sections', async (_req, res) => {
+  try {
+    const [{ data: sections, error: sectionsError }, { data: teachers, error: teachersError }, { data: memberships, error: membershipsError }] = await Promise.all([
+      supabaseAdmin.from('class_sections').select('id, name, grade_level, adviser_id, capacity, is_reading_support, created_at').order('grade_level').order('name'),
+      supabaseAdmin.from('users').select('id, name, email').eq('role', 'teacher').order('name'),
+      supabaseAdmin.from('section_students').select('section_id, student_id'),
+    ]);
+    if (sectionsError || teachersError || membershipsError) throw sectionsError || teachersError || membershipsError;
+    const counts = (memberships || []).reduce((result, row) => ({ ...result, [row.section_id]: (result[row.section_id] || 0) + 1 }), {});
+    res.json({ sections: (sections || []).map((section) => ({ ...section, studentCount: counts[section.id] || 0 })), teachers: teachers || [] });
+  } catch (err) { console.error('[admin/sections]', err); res.status(500).json({ error: 'Unable to load sections.' }); }
+});
+
+router.post('/sections', async (req, res) => {
+  try {
+    const { name, gradeLevel, adviserId, isReadingSupport = false } = req.body || {};
+    const cleanName = String(name || '').trim(); const grade = Number(gradeLevel);
+    if (!isBoundedString(cleanName, 80, { allowEmpty: false }) || !isGrade(grade)) return res.status(400).json({ error: 'A name, grade level, and teacher are required.' });
+    if (typeof adviserId !== 'string' || !/^[0-9a-f-]{36}$/i.test(adviserId)) return res.status(400).json({ error: 'Choose a valid teacher.' });
+    const support = Boolean(isReadingSupport);
+    const { data, error } = await supabaseAdmin.from('class_sections').insert({ name: cleanName, grade_level: grade, adviser_id: adviserId, is_reading_support: support, capacity: support ? 12 : 30 }).select().single();
+    if (error) throw error;
+    res.status(201).json({ section: data });
+  } catch (err) { console.error('[admin/sections create]', err); res.status(500).json({ error: 'Unable to create this section.' }); }
+});
+
+router.get('/sections/:id/students', validateUuidParam('id'), async (req, res) => {
+  try {
+    const { data: section, error: sectionError } = await supabaseAdmin
+      .from('class_sections')
+      .select('id, name, grade_level, capacity')
+      .eq('id', req.params.id)
+      .maybeSingle();
+    if (sectionError) throw sectionError;
+    if (!section) return res.status(404).json({ error: 'Section not found.' });
+
+    const [{ data: students, error: studentsError }, { data: memberships, error: membershipsError }] = await Promise.all([
+      supabaseAdmin.from('children').select('id, name, grade_level').eq('grade_level', section.grade_level).order('name'),
+      supabaseAdmin.from('section_students').select('student_id').eq('section_id', section.id),
+    ]);
+    if (studentsError || membershipsError) throw studentsError || membershipsError;
+    const assignedIds = new Set((memberships || []).map((membership) => membership.student_id));
+    res.json({
+      section,
+      students: (students || []).map((student) => ({ ...student, assigned: assignedIds.has(student.id) })),
+      assignedCount: assignedIds.size,
+    });
+  } catch (err) { console.error('[admin/section students]', err); res.status(500).json({ error: 'Unable to load students for this section.' }); }
+});
+
+router.post('/sections/:id/students', validateUuidParam('id'), async (req, res) => {
+  try {
+    const studentIds = Array.isArray(req.body?.studentIds) ? [...new Set(req.body.studentIds)].filter((id) => typeof id === 'string' && /^[0-9a-f-]{36}$/i.test(id)) : [];
+    if (!studentIds.length || studentIds.length > 35) return res.status(400).json({ error: 'Select one to 35 students.' });
+    const { data: section, error: sectionError } = await supabaseAdmin.from('class_sections').select('id, adviser_id').eq('id', req.params.id).maybeSingle();
+    if (sectionError) throw sectionError; if (!section) return res.status(404).json({ error: 'Section not found.' });
+    const { error: membershipError } = await supabaseAdmin.from('section_students').upsert(studentIds.map((student_id) => ({ section_id: section.id, student_id })), { onConflict: 'section_id,student_id', ignoreDuplicates: true });
+    if (membershipError) throw membershipError;
+    const { error: rosterError } = await supabaseAdmin.from('teacher_student_links').upsert(studentIds.map((student_id) => ({ teacher_id: section.adviser_id, student_id, assigned_by: req.user.id })), { onConflict: 'teacher_id,student_id', ignoreDuplicates: true });
+    if (rosterError) throw rosterError;
+    res.json({ success: true });
+  } catch (err) { console.error('[admin/sections students]', err); res.status(500).json({ error: err.message || 'Unable to add students to this section.' }); }
+});
+
 router.get('/analytics/students', async (_req, res) => {
   try {
     const [studentsResult, childrenResult, progressResult] = await Promise.all([

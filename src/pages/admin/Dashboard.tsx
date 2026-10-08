@@ -26,9 +26,9 @@ const QUICK_ACTIONS = [
 ];
 
 const FILIPINO_QUICK_ACTIONS = [
-  { to: '/admin/users', icon: '👥', label: 'Pamahalaan ang mga Account', desc: 'Maghanap, magsala, at kumilos sa mga account', brand: '--color-brand-lavender' },
-  { to: '/admin/teachers', icon: '🎓', label: 'Gumawa ng Guro', desc: 'Magdagdag ng bagong teacher account', brand: '--color-brand-sun' },
-  { to: '/admin/analytics', icon: '▥', label: 'Tingnan ang Analytics', desc: 'Mga trend at performance ng system', brand: '--color-brand-teal' },
+  { to: '/admin/users', icon: '👥', label: 'Manage Accounts', desc: 'Search, filter, and manage accounts', brand: '--color-brand-lavender' },
+  { to: '/admin/teachers', icon: '🎓', label: 'Create Teacher', desc: 'Add a new teacher account', brand: '--color-brand-sun' },
+  { to: '/admin/analytics', icon: '▥', label: 'View Analytics', desc: 'System trends and performance', brand: '--color-brand-teal' },
 ];
 void FILIPINO_QUICK_ACTIONS;
 
