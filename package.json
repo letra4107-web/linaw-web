@@ -8,6 +8,7 @@
     "build": "tsc -b && vite build",
     "lint": "oxlint",
     "test": "npm --prefix server test",
+    "test:parent-ui": "node --test tests/*.test.mjs",
     "smoke:staging": "node server/scripts/smoke-staging.js",
     "snapshot:readiness": "node server/scripts/production-readiness-snapshot.js",
     "verify:migrations": "node server/scripts/verify-production-migrations.js",

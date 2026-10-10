@@ -24,7 +24,7 @@ export function useNotifications() {
   // parent's children) student_id/child auth_uid -- RLS only allows a plain
   // client-side query to see user_id=auth.uid() rows, so this goes through
   // the backend's service-role-backed union query instead.
-  const { data, isLoading } = useQuery({
+  const { data, isLoading, error, refetch } = useQuery({
     queryKey,
     queryFn: async () => {
       const res = await api<{ notifications: NotificationRow[] }>('/notifications', { auth: true });
@@ -72,5 +72,5 @@ export function useNotifications() {
   const notifications = data ?? [];
   const unreadCount = notifications.filter((n) => !n.is_read).length;
 
-  return { notifications, unreadCount, isLoading, markAsRead, markAllAsRead };
+  return { notifications, unreadCount, isLoading, error, refetch, markAsRead, markAllAsRead };
 }

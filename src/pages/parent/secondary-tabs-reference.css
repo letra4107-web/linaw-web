@@ -1,0 +1,132 @@
+.role-parent :is(.parent-profile-page, .parent-settings-reference, .parent-notifications-page) {
+  display: flex;
+  width: 100%;
+  min-width: 0;
+  max-width: none;
+  flex-direction: column;
+  gap: 14px;
+  padding: 0;
+  color: #122d58;
+  font-family: inherit;
+}
+
+.role-parent :is(.parent-profile-page, .parent-settings-reference, .parent-notifications-page) :is(h1, h2, h3, p) { letter-spacing: normal; }
+.role-parent :is(.parent-profile-page, .parent-settings-reference, .parent-notifications-page) :is(button, input, select) { font: inherit; }
+.role-parent :is(.parent-profile-page, .parent-settings-reference, .parent-notifications-page) :is(button, a, input, select):focus-visible { outline: 3px solid #63cbb7; outline-offset: 3px; }
+.role-parent .parent-notifications-page,
+.role-parent .parent-notifications-page * { font-family: inherit !important; }
+
+:root:not([data-theme="dark"]) .role-parent :is(.parent-profile-hero, .parent-settings-hero, .notification-hero) {
+  position: relative;
+  display: flex;
+  min-height: 180px !important;
+  align-items: center;
+  justify-content: flex-start;
+  overflow: hidden;
+  border: 1px solid #e0efec !important;
+  border-radius: 19px !important;
+  background: linear-gradient(90deg, #f0faf6 0%, #f0faf6ee 28%, #f0faf677 45%, transparent 60%), url("../../assets/parent/parent-bg.png") center 43% / cover !important;
+  padding: 26px 31px !important;
+  box-shadow: 0 6px 20px #27827409 !important;
+}
+
+.role-parent :is(.parent-profile-hero, .parent-settings-hero) > div,
+.role-parent .parent-notifications-page .notification-hero > div:first-child { position: relative; z-index: 1; display: block; max-width: 48%; }
+.role-parent .parent-notifications-page .notification-hero > div[aria-hidden="true"] { display: none !important; }
+.role-parent :is(.parent-profile-hero, .parent-settings-hero) p,
+.role-parent .parent-notifications-page .notification-hero p:first-child { color: #557888; font-size: 11px; font-weight: 700; letter-spacing: .045em; }
+.role-parent :is(.parent-profile-hero, .parent-settings-hero) h1,
+.role-parent .parent-notifications-page .notification-hero h1 { margin: 8px 0; color: #122d58; font-size: clamp(29px, 3vw, 38px) !important; font-weight: 800 !important; line-height: 1.14; letter-spacing: -.02em; }
+.role-parent :is(.parent-profile-hero, .parent-settings-hero) span,
+.role-parent .parent-notifications-page .notification-hero p:last-child { color: #3e6583; font-size: 13px; line-height: 1.6; }
+
+:root:not([data-theme="dark"]) .role-parent .parent-profile-page .profile-card,
+:root:not([data-theme="dark"]) .role-parent .parent-settings-reference .settings-card {
+  border: 1px solid #dfedef;
+  border-radius: 17px;
+  background: #ffffffed;
+  padding: 18px 20px;
+  box-shadow: 0 6px 20px #27827409;
+}
+
+.role-parent :is(.profile-card, .settings-card) > header { display: flex; align-items: center; gap: 11px; }
+.role-parent :is(.profile-card, .settings-card) h2 { color: #142e59; font-size: 17px; font-weight: 800; line-height: 1.4; }
+.role-parent :is(.profile-card, .settings-card) h3 { color: #193759; font-size: 13px; font-weight: 700; line-height: 1.4; }
+.role-parent :is(.profile-card, .settings-card) header p { color: #6c829d; font-size: 12px; line-height: 1.5; }
+.role-parent :is(.profile-icon, .settings-icon) { display: grid; width: 39px; height: 39px; flex-shrink: 0; place-items: center; border-radius: 12px; background: #e5f5ff; color: #1599e8; }
+.role-parent :is(.profile-icon.gold, .settings-icon.gold) { background: #fff2d4; color: #ffaa00; }
+.role-parent :is(.profile-icon.red, .settings-icon.megaphone) { background: #ffe9ee; color: #f4577c; }
+.role-parent :is(.settings-icon.purple) { background: #f0eaff; color: #8a4de0; }
+.role-parent :is(.settings-icon.green, .settings-icon.bars) { background: #e1f8eb; color: #0eaa71; }
+
+.role-parent .parent-profile-page .personal-grid { grid-template-columns: 105px minmax(0, 1fr); align-items: center; gap: 24px; margin: 22px 0 3px; }
+.role-parent .parent-profile-page .profile-avatar { width: 96px; height: 96px; border: 5px solid #f1faf6; border-radius: 50%; background: #daf3e8; color: #008674; font-size: 27px; }
+.role-parent .parent-profile-page .field-grid { gap: 16px 18px; }
+.role-parent .parent-profile-page label { color: #41627b; font-size: 12px; line-height: 1.4; }
+.role-parent .parent-profile-page input.sr-only { width: 1px; height: 1px; min-height: 0; padding: 0; border: 0; }
+.role-parent .parent-profile-page :is(input, select, .verified) { min-height: 42px; border: 1px solid #dce8ed; border-radius: 10px; background: #f9fcfc; padding: 10px 12px; color: #254967; font-size: 13px; font-weight: 400; }
+.role-parent .parent-profile-page .verified { gap: 10px; }
+.role-parent .parent-profile-page .verified > span { min-width: 0; overflow-wrap: anywhere; }
+.role-parent .parent-profile-page .verified b { align-items: center; flex-shrink: 0; color: #08a56f; font-size: 10px; font-weight: 700; }
+.role-parent .parent-profile-page :is(.outline, .add) { display: inline-flex; min-height: 36px; align-items: center; gap: 6px; border: 1px solid #c1e7dd; border-radius: 11px; background: #edfaf5; padding: 8px 12px; color: #007f71; font-size: 12px; font-weight: 700; }
+.role-parent .parent-profile-page .add { border-color: #00998b; background: #008d7e; color: white; }
+.role-parent .parent-profile-page .child-list { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; margin-top: 17px; }
+.role-parent .parent-profile-page .child-list > a { border: 1px solid #e0ecee; border-radius: 13px; background: #fbfdfc; padding: 13px; transition: border-color .2s, background .2s; }
+.role-parent .parent-profile-page .child-list > a:hover { border-color: #8bd9c5; background: #eefaf5; }
+.role-parent .parent-profile-page .child-list > a > span { width: 40px; height: 40px; flex-shrink: 0; border-radius: 50%; background: #e2f6ec; color: #048570; font-weight: 800; }
+.role-parent .parent-profile-page .child-list b { font-size: 13px; }
+.role-parent .parent-profile-page .child-list small { margin-top: 3px; color: #6985a0; font-size: 11px; }
+.profile-empty { grid-column: 1 / -1; border-radius: 12px; background: #f6fbf8; padding: 21px; color: #607e90; font-size: 13px; line-height: 1.6; }
+.profile-secondary-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.role-parent .parent-profile-page .profile-contact-value { margin-top: 17px; color: #315772; font-size: 14px; overflow-wrap: anywhere; }
+.profile-settings-link { display: flex; width: fit-content; align-items: center; gap: 6px; margin-top: 10px; color: #008b79; font-size: 12px; font-weight: 700; text-decoration: none; }
+.role-parent .parent-profile-page .action { gap: 10px; margin-top: 13px; border-top: 1px solid #e5edef; border-radius: 0; background: transparent; padding: 13px 0 0; }
+.role-parent .parent-profile-page .action > svg { color: #ed7991; }
+.role-parent .parent-profile-page .action b { color: #46667d; font-size: 12px; }
+.role-parent .parent-profile-page .action button { border: 1px solid #f1dbe0; border-radius: 10px; background: #fff6f8; padding: 8px 12px; color: #b74a64; font-size: 12px; }
+.role-parent .parent-profile-page .profile-message { margin: 0; border: 1px solid #cceadb; border-radius: 12px; background: #f0faf4; padding: 12px 15px; color: #17835f; font-size: 13px; }
+
+.role-parent .parent-settings-reference .settings-card > header { margin-bottom: 15px; }
+.role-parent .parent-settings-reference .settings-card header aside { display: flex; max-width: 300px; margin-left: auto; border: 1px solid #d3eee5; border-radius: 10px; background: #f0faf6; padding: 10px 12px; color: #528c7b; font-size: 11px; line-height: 1.5; }
+.role-parent .parent-settings-reference .notification-row { grid-template-columns: 39px minmax(0, 1fr) repeat(3, 86px); gap: 12px; border-top: 1px solid #e3edef; border-radius: 0; background: transparent; padding: 17px 0; }
+.role-parent .parent-settings-reference .notification-row p { margin-top: 4px; color: #66819b; font-size: 12px; line-height: 1.5; }
+.role-parent .parent-settings-reference .notification-row label { gap: 8px; border-left: 1px solid #e7eff1; color: #6c879c; font-size: 10px; }
+.role-parent .parent-settings-reference .parent-settings-switch { width: 39px; height: 22px; flex-shrink: 0; border: 0; background: #d1dfe3; padding: 0; }
+.role-parent .parent-settings-reference .parent-settings-switch i { top: 3px; left: 3px; width: 16px; height: 16px; }
+.role-parent .parent-settings-reference .parent-settings-switch.on { background: #00a487; }
+.role-parent .parent-settings-reference .parent-settings-switch.on i { left: 20px; }
+.role-parent .parent-settings-reference .settings-two-grid { gap: 14px; }
+.role-parent .parent-settings-reference .appearance-options { gap: 10px; margin-top: 17px; }
+.role-parent .parent-settings-reference .appearance-options button { min-height: 77px; gap: 7px; border: 1px solid #dce8e9; border-radius: 13px; background: #fff; padding: 12px 8px; color: #5b7791; }
+.role-parent .parent-settings-reference .appearance-options button.selected { border-color: #45bda3; background: #ecfbf4; color: #008973; }
+.role-parent .parent-settings-reference .appearance-options b { font-size: 11px; }
+.role-parent .parent-settings-reference .language-card select { width: 100%; min-height: 45px; margin: 17px 0 0; border: 1px solid #dbe8e8; border-radius: 12px; background: #fff; padding: 10px 13px; color: #325972; font-size: 13px; }
+.role-parent .parent-settings-reference .security-row { gap: 12px; border-top: 1px solid #e3edef; padding: 15px 0 2px; }
+.role-parent .parent-settings-reference .security-row + .security-row { margin-top: 12px; }
+.role-parent .parent-settings-reference .security-row p { color: #66819b; font-size: 12px; line-height: 1.5; }
+.role-parent .parent-settings-reference .security-row :is(a, button:not(.parent-settings-switch)) { border: 1px solid #caeade; border-radius: 11px; background: #effbf5; padding: 9px 12px; color: #008b73; font-size: 12px; font-weight: 700; }
+.secondary-tab-error { border: 1px solid #ffdbd6; border-radius: 12px; background: #fff4f2; padding: 13px; color: #a84135; font-size: 13px; }
+:root[data-theme="dark"] .role-parent :is(.parent-profile-page,.parent-settings-reference,.parent-notifications-page) { color:var(--color-text); }
+:root[data-theme="dark"] .role-parent :is(.profile-card,.settings-card,.parent-notifications-page .notification-row,.parent-notifications-page .notification-tools label,.parent-notifications-page .notification-tools>button,.parent-notifications-page .notification-tabs button) { background:#172536 !important; border-color:#36506b !important; color:#eef7ff !important; }
+:root[data-theme="dark"] .role-parent :is(.profile-card,.settings-card,.parent-notifications-page .notification-row) :is(h2,h3,b,label) { color:#eef7ff; }
+:root[data-theme="dark"] .role-parent :is(.profile-card,.settings-card) :is(p,small) { color:#b8c8da; }
+:root[data-theme="dark"] .role-parent :is(.parent-profile-page .child-list>a,.parent-settings-reference .appearance-options button,.parent-settings-reference .security-row>a,.parent-settings-reference .security-row>button,.parent-profile-page .verified) { background:#20364c; border-color:#36506b; color:#eef7ff; }
+.role-parent .parent-settings-reference .settings-status { color: #008c76; font-size: 12px; }
+
+:root:not([data-theme="dark"]) .role-parent .parent-notifications-page .notification-tabs { gap: 8px !important; }
+:root:not([data-theme="dark"]) .role-parent .parent-notifications-page .notification-tabs button { min-height: 39px; border: 1px solid #dce9e9 !important; border-radius: 12px !important; background: white !important; color: #486b7c !important; font-size: 12px !important; box-shadow: none !important; }
+:root:not([data-theme="dark"]) .role-parent .parent-notifications-page .notification-tabs button.is-active { border-color: #008b7d !important; background: #008b7d !important; color: white !important; }
+.role-parent .parent-notifications-page .notification-tools > button { color: #3d657b; }
+:root:not([data-theme="dark"]) .role-parent .parent-notifications-page .notification-tools label,
+:root:not([data-theme="dark"]) .role-parent .parent-notifications-page .notification-tools > button { min-height: 42px; height: auto !important; border: 1px solid #dce8eb !important; background: #fff !important; color: #52758c; box-shadow: none !important; }
+.role-parent .parent-notifications-page .notification-group h2 { margin: 4px 0 10px; color: #4f7386; font-size: 14px !important; font-weight: 700 !important; }
+:root:not([data-theme="dark"]) .role-parent .parent-notifications-page .notification-row { position: relative; min-height: 80px !important; border: 1px solid #e1eded !important; border-radius: 14px !important; background: #fff !important; box-shadow: 0 4px 12px #267a6707 !important; }
+:root:not([data-theme="dark"]) .role-parent .parent-notifications-page .notification-row:has([aria-label="Hindi pa nabasa"]) { border-color: #b9e8d8 !important; background: #effbf5 !important; }
+.role-parent .parent-notifications-page .notification-row-chevron { color: #00a28c; }
+.role-parent .parent-notifications-page .notification-unread { left: 49px !important; top: 47px !important; border: 2px solid white; width: 10px !important; height: 10px !important; background: #ff714d; }
+.role-parent .parent-notifications-page > button:last-of-type { min-height: 40px; border-color: #cae8df; border-radius: 12px; color: #008e78; font-size: 12px; }
+
+@media (min-width: 1450px) { :root:not([data-theme="dark"]) .role-parent :is(.parent-profile-hero, .parent-settings-hero, .notification-hero) { min-height: 200px !important; } }
+@media (max-width: 1000px) { .role-parent .parent-settings-reference .settings-card header aside { display: none; } .role-parent .parent-settings-reference .notification-row { grid-template-columns: 39px minmax(0, 1fr) repeat(3, 65px); gap: 8px; } .profile-secondary-grid { grid-template-columns: 1fr; } }
+@media (max-width: 760px) { .role-parent :is(.parent-profile-hero, .parent-settings-hero) > div, .role-parent .parent-notifications-page .notification-hero > div:first-child { max-width: 65%; } .role-parent .parent-settings-reference .notification-row { grid-template-columns: 39px minmax(0, 1fr); gap: 11px; } .role-parent .parent-settings-reference .notification-row label { display: flex; grid-column: 2; justify-content: space-between; border: 0; font-size: 11px; } .role-parent .parent-settings-reference .settings-two-grid { grid-template-columns: 1fr; } .role-parent .parent-profile-page .personal-grid { grid-template-columns: 1fr; gap: 17px; } .role-parent .parent-profile-page .profile-avatar { margin: 0 auto; } .role-parent .parent-profile-page .field-grid { grid-template-columns: 1fr 1fr; } .role-parent .parent-profile-page .child-list { grid-template-columns: 1fr; } }
+@media (max-width: 520px) { :root:not([data-theme="dark"]) .role-parent :is(.parent-profile-hero, .parent-settings-hero, .notification-hero) { min-height: 170px !important; padding: 21px !important; } .role-parent :is(.parent-profile-hero, .parent-settings-hero) > div, .role-parent .parent-notifications-page .notification-hero > div:first-child { max-width: 80%; } .role-parent .parent-profile-page .profile-card, .role-parent .parent-settings-reference .settings-card { padding: 16px; } .role-parent .parent-profile-page .field-grid { grid-template-columns: 1fr; } .role-parent .parent-profile-page .profile-card header { flex-wrap: wrap; } .role-parent .parent-profile-page :is(.outline, .add) { margin-left: auto; font-size: 11px; } .role-parent :is(.profile-card, .settings-card) h2 { font-size: 15px; } .role-parent .parent-notifications-page .notification-tools { flex-wrap: wrap !important; } .role-parent .parent-notifications-page .notification-tools label { min-width: 190px; } .role-parent .parent-notifications-page .notification-tools > button { margin-left: auto; } .role-parent .parent-notifications-page .notification-row { grid-template-columns: 40px minmax(0, 1fr) 18px !important; } .role-parent .parent-notifications-page .notification-row-time { display: none !important; } .role-parent .parent-notifications-page .notification-row-chevron { grid-column: 3 !important; } .role-parent .parent-settings-reference .security-row { align-items: flex-start; flex-wrap: wrap; } .role-parent .parent-settings-reference .security-row :is(a, button) { margin-left: auto; } }

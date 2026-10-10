@@ -7,6 +7,7 @@ import App from './App.tsx';
 import { AuthProvider } from './lib/auth/AuthContext';
 import { AccessibilityProvider } from './lib/a11y/AccessibilityContext';
 import { ReadingGuideOverlay } from './components/a11y/ReadingGuideOverlay';
+import { SoftGlowCursor } from './components/a11y/SoftGlowCursor';
 import '@fontsource/opendyslexic/400.css';
 import '@fontsource/opendyslexic/700.css';
 
@@ -25,6 +26,7 @@ createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <QueryClientProvider client={queryClient}>
       <AccessibilityProvider>
+        <SoftGlowCursor />
         <ReadingGuideOverlay />
         <BrowserRouter>
           <AuthProvider>

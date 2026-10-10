@@ -1,39 +1,31 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useId, useRef, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { NavLink, Outlet } from 'react-router-dom';
+import { CalendarDays, ChartNoAxesColumnIncreasing, ChevronRight, Home, Mail, Menu, Users, type LucideIcon } from 'lucide-react';
 import { supabase } from '../../lib/supabaseClient';
 import { useAuth } from '../../lib/auth/AuthContext';
 import { useNotifications } from '../../lib/useNotifications';
 import { useAccessibility, type ThemeMode } from '../../lib/a11y/AccessibilityContext';
 import { DashboardShell } from '../../components/DashboardShell';
 import logo from '../../assets/Logo.jpg';
-import sidebarPattern from '../../assets/parent/Sidebar background pattern.png';
 import { AppIcon } from '../../components/a11y/AppIcon';
 import { enableParentEnglish } from './parentTranslations';
 import './parent-theme.css';
+import './calendar-reference.css';
 
 const PRIMARY_TABS = [
-  { to: '/parent', end: true, icon: '⌂', label: 'Simula' },
-  { to: '/parent/progress', icon: '▥', label: 'Progreso' },
-  { to: '/parent/schedule', icon: '▦', label: 'Kalendaryo' },
-  { to: '/parent/children', icon: '♟', label: 'Mga Anak Ko' },
-  { to: '/parent/messages', icon: '✉', label: 'Mga Mensahe' },
+  { to: '/parent', end: true, icon: Home, label: 'Simula' },
+  { to: '/parent/progress', icon: ChartNoAxesColumnIncreasing, label: 'Progreso' },
+  { to: '/parent/schedule', icon: CalendarDays, label: 'Kalendaryo' },
+  { to: '/parent/children', icon: Users, label: 'Mga Anak Ko' },
+  { to: '/parent/messages', icon: Mail, label: 'Mga Mensahe' },
 ];
 const englishLabels: Record<string, string> = { Simula: 'Home', Progreso: 'Progress', Kalendaryo: 'Calendar', 'Mga Anak Ko': 'My Children', 'Mga Mensahe': 'Messages' };
 
-function navClass(collapsed: boolean) {
-  return ({ isActive }: { isActive: boolean }) =>
-    `group flex min-h-12 items-center gap-3 rounded-2xl border px-3 py-2.5 text-sm font-bold transition-all ${collapsed ? 'justify-center px-2' : ''} ${
-      isActive
-        ? 'border-white/35 bg-white/15 text-white shadow-card'
-        : 'border-transparent bg-black/10 text-white/90 hover:border-white/15 hover:bg-black/20'
-    }`;
-}
-
-function NavItem({ to, end, icon, label, collapsed, onNavigate }: { to: string; end?: boolean; icon: string; label: string; collapsed: boolean; onNavigate?: () => void }) {
+function NavItem({ to, end, icon: Icon, label, collapsed, onNavigate }: { to: string; end?: boolean; icon: LucideIcon; label: string; collapsed: boolean; onNavigate?: () => void }) {
   return (
-    <NavLink to={to} end={end} title={label} className={navClass(collapsed)} onClick={onNavigate}>
-      <span aria-hidden="true" className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-white/15 transition-transform group-hover:scale-105"><AppIcon name={icon} className="h-5 w-5" /></span>
+    <NavLink to={to} end={end} title={label} className={`parent-nav-item ${collapsed ? 'justify-center' : ''}`} onClick={onNavigate}>
+      <span aria-hidden="true" className="parent-nav-icon"><Icon /></span>
       <span className={collapsed ? 'sr-only' : undefined}>{label}</span>
     </NavLink>
   );
@@ -41,7 +33,11 @@ function NavItem({ to, end, icon, label, collapsed, onNavigate }: { to: string; 
 
 function ProfileMenu({ collapsed, mobile = false }: { collapsed: boolean; mobile?: boolean }) {
   const [open, setOpen] = useState(false);
+  const [signingOut, setSigningOut] = useState(false);
+  const [signOutError, setSignOutError] = useState('');
+  const menuId = useId();
   const menuRef = useRef<HTMLDivElement>(null);
+  const buttonRef = useRef<HTMLButtonElement>(null);
   const { user, identity } = useAuth();
   const { unreadCount } = useNotifications();
   const displayName = identity?.displayName ?? 'Magulang';
@@ -62,17 +58,38 @@ function ProfileMenu({ collapsed, mobile = false }: { collapsed: boolean; mobile
     const onClickOutside = (event: MouseEvent) => {
       if (menuRef.current && !menuRef.current.contains(event.target as Node)) setOpen(false);
     };
+    const onEscape = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') { setOpen(false); buttonRef.current?.focus(); }
+    };
+    menuRef.current?.querySelector<HTMLElement>('[role="menuitem"]')?.focus();
     document.addEventListener('mousedown', onClickOutside);
-    return () => document.removeEventListener('mousedown', onClickOutside);
+    document.addEventListener('keydown', onEscape);
+    return () => { document.removeEventListener('mousedown', onClickOutside); document.removeEventListener('keydown', onEscape); };
   }, [open]);
+
+  async function signOut() {
+    if (signingOut) return;
+    setSigningOut(true);
+    setSignOutError('');
+    try {
+      const { error } = await supabase.auth.signOut();
+      if (error) throw error;
+      setOpen(false);
+    } catch {
+      setSignOutError('Hindi makapag-sign out ngayon. Subukan muli.');
+    } finally { setSigningOut(false); }
+  }
 
   return (
     <div ref={menuRef} className="relative min-w-0">
       <button
+        ref={buttonRef}
         type="button"
         onClick={() => setOpen((value) => !value)}
         aria-expanded={open}
         aria-haspopup="menu"
+        aria-controls={open ? menuId : undefined}
+        aria-label="Aking profile"
         title="Aking profile"
         className={`relative flex min-h-12 w-full min-w-0 items-center gap-3 rounded-2xl border p-2 text-left transition-all ${mobile ? 'border-[var(--color-border)] bg-white/75 text-[var(--color-text)]' : 'border-white/20 bg-black/10 text-white hover:bg-black/20'} ${collapsed ? 'justify-center' : ''}`}
       >
@@ -82,14 +99,22 @@ function ProfileMenu({ collapsed, mobile = false }: { collapsed: boolean; mobile
         {!collapsed && (
           <span className="min-w-0 flex-1">
             <span className="block truncate text-sm font-bold">{displayName}</span>
-            <span className={`block text-xs ${mobile ? 'text-[var(--color-text-muted)]' : 'text-white/65'}`}>Parent account</span>
+            <span className={`block text-xs ${mobile ? 'text-[var(--color-text-muted)]' : 'text-white/65'}`}>Parent</span>
           </span>
         )}
+        {!collapsed && <ChevronRight size={17} aria-hidden="true" />}
         {unreadCount > 0 && <span className="absolute -top-1 -right-1 flex h-5 min-w-5 items-center justify-center rounded-full bg-[var(--color-danger)] px-1 text-[0.65rem] font-bold text-white">{unreadCount > 9 ? '9+' : unreadCount}</span>}
       </button>
 
       {open && (
-        <div role="menu" className={`parent-profile-menu absolute z-50 w-72 max-w-[calc(100vw-2rem)] rounded-3xl border p-3 shadow-raised ${mobile ? 'top-full right-0 mt-2' : 'bottom-full left-0 mb-2'}`}>
+        <div id={menuId} role="menu" aria-label="Mga opsyon sa account" onKeyDown={(event) => {
+          if (!['ArrowDown', 'ArrowUp', 'Home', 'End'].includes(event.key)) return;
+          event.preventDefault();
+          const items = Array.from(event.currentTarget.querySelectorAll<HTMLElement>('[role="menuitem"]:not(:disabled)'));
+          const current = items.indexOf(document.activeElement as HTMLElement);
+          const next = event.key === 'Home' ? 0 : event.key === 'End' ? items.length - 1 : (current + (event.key === 'ArrowDown' ? 1 : -1) + items.length) % items.length;
+          items[next]?.focus();
+        }} className={`parent-profile-menu absolute z-50 w-72 max-w-[calc(100vw-2rem)] rounded-3xl border p-3 shadow-raised ${mobile ? 'top-full right-0 mt-2' : 'bottom-full left-0 mb-2'}`}>
           <div className="parent-profile-menu-header mb-2 flex items-center gap-3 rounded-2xl p-3">
             <span className="flex h-12 w-12 shrink-0 items-center justify-center overflow-hidden rounded-2xl bg-[var(--color-primary)] font-bold text-white">
               {parentRow?.avatar_url ? <img src={parentRow.avatar_url} alt="" className="h-full w-full object-cover" /> : initials}
@@ -100,7 +125,8 @@ function ProfileMenu({ collapsed, mobile = false }: { collapsed: boolean; mobile
           <NavLink to="/parent/notifications" onClick={() => setOpen(false)} role="menuitem" className="flex min-h-11 items-center justify-between rounded-xl px-3 py-2 text-sm font-bold hover:bg-white/70"><span className="flex items-center gap-2"><span aria-hidden="true">🔔</span> Mga Abiso</span>{unreadCount > 0 && <span className="rounded-full bg-[var(--color-danger)] px-2 py-0.5 text-xs text-white">{unreadCount}</span>}</NavLink>
           <NavLink to="/parent/app-settings" onClick={() => setOpen(false)} role="menuitem" className="flex min-h-11 items-center gap-2 rounded-xl px-3 py-2 text-sm font-bold hover:bg-white/70"><AppIcon name="⚙" className="h-4 w-4" /> Mga Setting</NavLink>
           <div className="my-2 border-t border-white/70" />
-          <button type="button" onClick={() => supabase.auth.signOut()} role="menuitem" className="flex min-h-11 w-full items-center gap-2 rounded-xl px-3 py-2 text-sm font-bold text-[var(--color-danger)] hover:bg-[var(--color-danger-soft)]"><span aria-hidden="true">↪</span> Mag-sign out</button>
+          <button type="button" onClick={() => void signOut()} disabled={signingOut} role="menuitem" className="flex min-h-11 w-full items-center gap-2 rounded-xl px-3 py-2 text-sm font-bold text-[var(--color-danger)] hover:bg-[var(--color-danger-soft)]"><span aria-hidden="true">↪</span> {signingOut ? 'Nagsa-sign out...' : 'Mag-sign out'}</button>
+          {signOutError && <p role="alert" className="px-3 text-xs text-[var(--color-danger)]">{signOutError}</p>}
         </div>
       )}
     </div>
@@ -110,10 +136,10 @@ function ProfileMenu({ collapsed, mobile = false }: { collapsed: boolean; mobile
 function NavContents({ collapsed, english }: { collapsed: boolean; english: boolean }) {
   return (
     <>
-      <nav aria-label="Mga bahagi ng parent dashboard" className="flex flex-1 flex-col gap-1.5 overflow-y-auto px-3 py-4">
+      <nav aria-label="Mga bahagi ng parent dashboard" className="parent-sidebar-nav">
         {PRIMARY_TABS.map((tab) => <NavItem key={tab.to} {...tab} label={english ? englishLabels[tab.label] ?? tab.label : tab.label} collapsed={collapsed} />)}
       </nav>
-      <div className="border-t border-white/20 p-3"><ProfileMenu collapsed={collapsed} /></div>
+      <div className="parent-sidebar-profile"><ProfileMenu collapsed={collapsed} /></div>
     </>
   );
 }
@@ -139,33 +165,33 @@ export default function ParentLayout() {
 
   return (
     <DashboardShell roleLabel="Magulang" hideHeader roleTheme="parent">
-      <div ref={portalRef} className="flex min-h-screen min-w-0">
-        <aside style={{ '--parent-sidebar-pattern': `url("${sidebarPattern}")` } as React.CSSProperties} className={`dashboard-sidebar sticky top-0 hidden h-screen shrink-0 flex-col border-r border-white/15 bg-[var(--color-primary-hover)] transition-[width] duration-300 lg:flex ${collapsed ? 'w-[4.75rem]' : 'w-56'}`}>
-          <div className={`flex h-16 items-center gap-2 border-b border-white/20 px-3 ${collapsed ? 'justify-center' : ''}`}>
+      <div ref={portalRef} className="parent-shell">
+        <aside className={`dashboard-sidebar parent-sidebar ${collapsed ? 'is-collapsed' : ''}`}>
+          <div className={`parent-sidebar-brand ${collapsed ? 'justify-center' : ''}`}>
             <button type="button" onClick={() => setCollapsed((value) => !value)} title={collapsed ? 'Palawakin ang sidebar' : 'Paliitin ang sidebar'} className="flex min-w-0 items-center gap-2 rounded-xl p-1 text-white transition-colors hover:bg-white/10">
               <img src={logo} alt="LinawLetra" className="h-10 w-10 shrink-0 rounded-xl object-cover shadow-sm" />
-              {!collapsed && <span className="truncate font-bold">LinawLetra</span>}
+              {!collapsed && <span><strong>LinawLetra</strong><small>PARENT PORTAL</small></span>}
             </button>
           </div>
           <NavContents collapsed={collapsed} english={english} />
         </aside>
 
-        <div className="flex min-w-0 flex-1 flex-col">
-          <header className="sticky top-0 z-40 flex h-16 items-center justify-between border-b border-[var(--color-border)] bg-[var(--color-surface)]/95 px-4 shadow-sm backdrop-blur lg:hidden">
+        <div className="parent-shell-body">
+          <header className="parent-mobile-header">
             <div className="flex min-w-0 items-center gap-2"><img src={logo} alt="LinawLetra" className="h-10 w-10 shrink-0 rounded-xl object-cover" /><span className="truncate font-bold text-[var(--color-primary)]">LinawLetra</span></div>
             <div className="flex items-center gap-2">
               <ProfileMenu collapsed mobile />
-              <button type="button" onClick={() => setMobileOpen((value) => !value)} aria-expanded={mobileOpen} aria-controls="parent-mobile-nav" className="flex h-12 min-w-12 items-center justify-center rounded-2xl border border-[var(--color-border)] bg-white/75"><AppIcon name="☰" /><span className="sr-only">Menu</span></button>
+              <button type="button" onClick={() => setMobileOpen((value) => !value)} aria-expanded={mobileOpen} aria-controls="parent-mobile-nav" className="flex h-12 min-w-12 items-center justify-center rounded-2xl border border-[var(--color-border)] bg-white/75"><Menu size={22} /><span className="sr-only">Menu</span></button>
             </div>
           </header>
           {mobileOpen && (
-            <div id="parent-mobile-nav" className="sticky top-16 z-30 border-b border-white/15 bg-[var(--color-primary-hover)] p-3 shadow-card lg:hidden">
+            <div id="parent-mobile-nav" className="parent-mobile-nav lg:hidden">
               <nav aria-label="Mga bahagi ng parent dashboard" className="grid grid-cols-2 gap-2 sm:grid-cols-3">
                 {PRIMARY_TABS.map((tab) => <NavItem key={tab.to} {...tab} label={english ? englishLabels[tab.label] ?? tab.label : tab.label} collapsed={false} onNavigate={() => setMobileOpen(false)} />)}
               </nav>
             </div>
           )}
-          <main className="mx-auto w-full max-w-6xl min-w-0 flex-1 overflow-x-hidden px-4 py-5 sm:px-6 sm:py-7 lg:px-8 lg:py-8"><Outlet key={english ? 'en' : 'fil'} /></main>
+          <main className="parent-content"><Outlet key={english ? 'en' : 'fil'} /></main>
         </div>
       </div>
     </DashboardShell>

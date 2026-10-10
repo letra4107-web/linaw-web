@@ -10,10 +10,12 @@ const { createSupabaseAuthorizationService } = require('../services/authorizatio
 const { validateUuidParam, isBoundedString } = require('../lib/validation');
 const { credentialLimiter } = require('../lib/rateLimiters');
 const { safeCredentialStatus } = require('../services/credentialSecurity');
+const { createMaterialAccessService } = require('../services/materialAccess');
 
 const router = express.Router();
 router.use(requireAuth, requireRole('parent'));
 const authorization = createSupabaseAuthorizationService(supabaseAdmin);
+const materialAccess = createMaterialAccessService(supabaseAdmin);
 
 // Mirrors mobile's backend/routes/auth.js difficultyFromGrade -- keep these in sync.
 const difficultyFromGrade = (gradeLevel) => {
@@ -291,6 +293,56 @@ router.get('/children/:id/reading-profile', validateUuidParam('id'), async (req,
   } catch (err) {
     console.error('[parent/children/:id/reading-profile]', err);
     res.status(500).json({ error: 'Unable to build the reading profile.' });
+  }
+});
+
+// Share the student's authoritative progress summary with their own parent.
+// The curriculum RPC is also used by the student portal, so module totals and
+// completion states stay consistent across both dashboards.
+router.get('/children/:id/learning-path', validateUuidParam('id'), async (req, res) => {
+  try {
+    const child = await authorization.parentChild(req.user.id, req.params.id);
+    if (!child) return res.status(404).json({ error: 'Child not found for this parent.' });
+    const { data, error } = await supabaseAdmin.rpc('get_student_module_path', { p_student_id: child.id });
+    if (error) throw error;
+    res.json(data);
+  } catch (err) {
+    console.error('[parent/children/:id/learning-path]', err);
+    res.status(500).json({ error: 'Unable to load the learning path.' });
+  }
+});
+
+router.get('/children/:id/materials', validateUuidParam('id'), async (req, res) => {
+  try {
+    const child = await authorization.parentChild(req.user.id, req.params.id);
+    if (!child) return res.status(404).json({ error: 'Child not found for this parent.' });
+    const { data, error } = await supabaseAdmin.from('pdf_assignments')
+      .select('id,status,due_date,assigned_at,pdf_materials(id,title,grade_level,level,archived_at)')
+      .eq('student_id', child.id).order('assigned_at', { ascending: false });
+    if (error) throw error;
+    res.json({ assignments: (data || []).filter((assignment) => assignment.pdf_materials && !assignment.pdf_materials.archived_at) });
+  } catch (err) {
+    console.error('[parent/children/:id/materials]', err);
+    res.status(500).json({ error: 'Unable to load assigned learning materials.' });
+  }
+});
+
+router.get('/children/:id/materials/:assignmentId/access-url', validateUuidParam('id'), validateUuidParam('assignmentId'), async (req, res) => {
+  try {
+    const child = await authorization.parentChild(req.user.id, req.params.id);
+    if (!child) return res.status(404).json({ error: 'Child not found for this parent.' });
+    const { data: assignment, error: assignmentError } = await supabaseAdmin.from('pdf_assignments')
+      .select('pdf_material_id').eq('id', req.params.assignmentId).eq('student_id', child.id).maybeSingle();
+    if (assignmentError) throw assignmentError;
+    if (!assignment) return res.status(404).json({ error: 'Material not assigned to this child.' });
+    const { data: material, error } = await supabaseAdmin.from('pdf_materials')
+      .select('id,storage_path,storage_bucket,file_url,legacy_public_url').eq('id', assignment.pdf_material_id).is('archived_at', null).maybeSingle();
+    if (error) throw error;
+    if (!material) return res.status(404).json({ error: 'Material not found.' });
+    res.json(await materialAccess.accessUrl(material));
+  } catch (err) {
+    console.error('[parent/material access-url]', err);
+    res.status(500).json({ error: 'Unable to open this learning material.' });
   }
 });
 

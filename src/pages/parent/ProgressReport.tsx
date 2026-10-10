@@ -9,6 +9,7 @@ import type { ReadingProfile } from '../../components/ReadingInsightsPanel';
 import { BADGE_CATALOG } from '../../lib/badges';
 import currentModuleArt from '../../assets/parent/current.png';
 import noActivitiesArt from '../../assets/parent/no activities.png';
+import './parent-progress-reference.css';
 
 interface Child { id: string; name: string; grade_level: number; }
 interface PracticeSession { created_at: string; accuracy_percentage: number; is_correct: boolean; duration_seconds: number | null; }

@@ -1,72 +1,105 @@
-import { useState } from 'react';
+import { useState, type CSSProperties, type ReactNode } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { Link } from 'react-router-dom';
-import { ArrowRight, Award, BookOpen, BookOpenCheck, CalendarDays, Check, CheckCircle2, ChevronDown, ChevronLeft, ChevronRight, FileText, Lightbulb, PlayCircle, Sparkles, Target, Trophy, UsersRound } from 'lucide-react';
+import { ArrowRight, BarChart3, BookOpen, CalendarDays, CheckCircle2, ChevronDown, ChevronLeft, ChevronRight, Clock3, FileText, Gamepad2, Heart, Leaf, Lightbulb, Lock, Mic, Plus, Star, Sun, Trophy } from 'lucide-react';
 import { supabase } from '../../lib/supabaseClient';
 import { useAuth } from '../../lib/auth/AuthContext';
-import { api } from '../../lib/api';
-import type { ReadingProfile } from '../../components/ReadingInsightsPanel';
-import heroArt from '../../assets/parent/hero.png';
+import { BADGE_CATALOG } from '../../lib/badges';
+import parentBackground from '../../assets/parent/parent-bg.png';
 import currentModuleArt from '../../assets/parent/current.png';
-import readingBadge from '../../assets/parent/reading.png';
-import streakBadge from '../../assets/parent/streak.png';
-import championBadge from '../../assets/parent/reading_champion.png';
 import noEnrolledChildArt from '../../assets/parent/no enrolled child.png';
 import noActivitiesArt from '../../assets/parent/no activities.png';
+import { formatPracticeTime, learningCategories, modulePercent, useParentChildren, useParentLearningData } from './parentLearningData';
+import './parent-dashboard-reference.css';
 
-interface Child { id: string; name: string; grade_level: number; }
-interface ChildProgress { child_id: string; level: string; word_count: number; streak: number; }
-interface PracticeSession { word: string; accuracy_percentage: number; is_correct: boolean; duration_seconds: number | null; created_at: string; }
-const moduleNames = ['Unang mga Titik', 'Hanay ng Ba', 'Hanay ng Da', 'Hanay ng Ga', 'Hanay ng Ha'];
+interface ScheduledEvent { id: string; title: string; scheduled_date: string; start_time: string | null; activity_type: string }
 
-function formatRelativeDate(iso: string) {
-  const hours = Math.floor((Date.now() - new Date(iso).getTime()) / 3_600_000);
-  if (hours < 1) return 'Kamakailan lang';
-  if (hours < 24) return `${hours} oras ang nakalipas`;
-  return new Date(iso).toLocaleDateString('fil-PH', { month: 'short', day: 'numeric' });
+function Icon({ children, tone = 'blue' }: { children: ReactNode; tone?: string }) {
+  return <span className={`parent-ref-icon ${tone}`} aria-hidden="true">{children}</span>;
 }
-function IconBubble({ children, color = 'blue' }: { children: React.ReactNode; color?: 'blue' | 'green' | 'gold' | 'violet' | 'rose' }) { return <span className={`parent-icon-bubble parent-icon-${color}`}>{children}</span>; }
+
+function Heading({ icon, title, to, tone = 'blue' }: { icon: ReactNode; title: string; to: string; tone?: string }) {
+  return <header className="ref-card-heading"><h2><Icon tone={tone}>{icon}</Icon>{title}</h2><Link to={to}>Tingnan Lahat <ArrowRight size={14} /></Link></header>;
+}
+
+function Metric({ tone, icon, title, value, detail, to = '/parent/progress' }: { tone: string; icon: ReactNode; title: string; value: string | number; detail: string; to?: string }) {
+  return <Link to={to} className={`parent-ref-metric ${tone}`}><Icon tone={tone}>{icon}</Icon><span><b>{title}</b><strong>{value}</strong><small>{detail}</small></span><ChevronRight size={19} /></Link>;
+}
 
 export default function Dashboard() {
   const { user, identity } = useAuth();
-  const [selectedChildId, setSelectedChildId] = useState<string | null>(null);
-  const [calendarMonth, setCalendarMonth] = useState(() => new Date(new Date().getFullYear(), new Date().getMonth(), 1));
-  const { data: children } = useQuery({ queryKey: ['parent-children', user?.id], queryFn: async () => { const { data, error } = await supabase.from('children').select('id, name, grade_level').order('name'); if (error) throw error; return data as Child[]; }, enabled: Boolean(user) });
-  const activeChildId = selectedChildId ?? children?.[0]?.id ?? null;
-  const activeChild = children?.find((child) => child.id === activeChildId) ?? null;
-  const { data: progress } = useQuery({ queryKey: ['parent-child-progress', activeChildId], queryFn: async () => { const { data, error } = await supabase.from('child_progress').select('child_id, level, word_count, streak').eq('child_id', activeChildId!).maybeSingle(); if (error) throw error; return data as ChildProgress | null; }, enabled: Boolean(activeChildId) });
-  const { data: sessions } = useQuery({ queryKey: ['parent-child-sessions', activeChildId], queryFn: async () => { const { data, error } = await supabase.from('pronunciation_practice_sessions').select('word, accuracy_percentage, is_correct, duration_seconds, created_at').eq('student_id', activeChildId!).order('created_at', { ascending: false }).limit(50); if (error) throw error; return data as PracticeSession[]; }, enabled: Boolean(activeChildId) });
-  const { data: readingProfile } = useQuery({ queryKey: ['parent-reading-profile', activeChildId], queryFn: () => api<{ profile: ReadingProfile }>(`/parent/children/${activeChildId}/reading-profile`, { auth: true }), enabled: Boolean(activeChildId) });
-  const { data: upcoming } = useQuery({ queryKey: ['parent-upcoming', activeChildId], queryFn: async () => { const { data, error } = await supabase.from('scheduled_activities').select('id, title, scheduled_date').eq('child_id', activeChildId!).eq('status', 'scheduled').order('scheduled_date', { ascending: true }).limit(3); if (error) throw error; return data as { id: string; title: string; scheduled_date: string }[]; }, enabled: Boolean(activeChildId) });
-  const profile = readingProfile?.profile;
-  const averageAccuracy = profile?.averageAccuracy ?? 0;
-  const completed = profile?.completedContentCount ?? 0;
-  const totalModules = 17;
-  const progressPercent = Math.min(100, Math.round((completed / totalModules) * 100));
-  const currentModuleIndex = Math.min(moduleNames.length - 1, Math.floor(completed / 3));
-  const currentModule = moduleNames[currentModuleIndex];
-  const parentFirstName = identity?.displayName?.split(' ')[0] ?? 'Magulang';
-  const displayName = activeChild?.name ?? 'Iyong Anak';
+  const [childId, setChildId] = useState<string | null>(null);
+  const [month, setMonth] = useState(() => new Date(new Date().getFullYear(), new Date().getMonth(), 1));
+  const childrenQuery = useParentChildren(user?.id);
+  const children = childrenQuery.data?.children ?? [];
+  const child = children.find((item) => item.id === childId) ?? children[0];
+  const activeId = child?.id ?? null;
+  const childLink = (to: string) => activeId ? `${to}${to.includes('?') ? '&' : '?'}child=${encodeURIComponent(activeId)}` : to;
+  const learning = useParentLearningData(activeId);
   const today = new Date();
-  const monthStartDay = calendarMonth.getDay();
-  const daysInCalendarMonth = new Date(calendarMonth.getFullYear(), calendarMonth.getMonth() + 1, 0).getDate();
-  const calendarDays = Array.from({ length: Math.ceil((monthStartDay + daysInCalendarMonth) / 7) * 7 }, (_, index) => index - monthStartDay + 1);
-  const scheduledDays = new Set((upcoming ?? []).filter((item) => { const date = new Date(item.scheduled_date); return date.getFullYear() === calendarMonth.getFullYear() && date.getMonth() === calendarMonth.getMonth(); }).map((item) => new Date(item.scheduled_date).getDate()));
-  if (children && children.length === 0) return <div className="parent-empty-state"><img src={noEnrolledChildArt} alt="" className="parent-empty-art" /><h1>Magsimula sa pag-enroll ng anak</h1><p>Idagdag ang account ng iyong anak upang makita ang kaniyang progreso at mga gawain.</p><Link to="/parent/children">I-enroll ang Unang Anak <ArrowRight size={17} /></Link></div>;
-  return <div className="parent-reference-dashboard">
-    <header className="parent-reference-hero"><div className="parent-hero-copy"><h1><span className="parent-header-family-icon" aria-hidden="true"><UsersRound size={25} /></span>Magandang araw, {parentFirstName}! <span>☀️</span></h1><p>Suportahan natin ang pagkatuto ni {displayName}.<br />Narito ang kanyang kasalukuyang progreso.</p></div><div className="parent-hero-quote"><Sparkles size={22} /><p>Bawat maliit na hakbang ay malaking pag-unlad.</p></div><img src={heroArt} alt="" aria-hidden="true" className="parent-hero-art" /></header>
-    <section className="parent-child-switcher" aria-label="Piliin ang anak"><div><p>Piliin ang Anak</p><label className="parent-child-select"><span className="parent-child-initial">{displayName.charAt(0).toUpperCase()}</span><span><strong>{displayName}</strong><small>Grade {activeChild?.grade_level ?? '—'} • {progress?.level ?? 'Beginner'} Level</small></span><ChevronDown size={18} /><select aria-label="Piliin ang anak" value={activeChildId ?? ''} onChange={(event) => setSelectedChildId(event.target.value)}>{children?.map((child) => <option key={child.id} value={child.id}>{child.name}</option>)}</select></label></div><Link to="/parent/children" className="parent-add-child">＋ Magdagdag ng Anak</Link></section>
-    <div className="parent-dashboard-grid"><div className="parent-dashboard-column">
-      <section className="parent-panel parent-progress-panel"><h2><IconBubble><BookOpen size={20} /></IconBubble>Kabuuang Progreso</h2><div className="parent-progress-body"><div className="parent-donut" style={{ '--progress': `${progressPercent * 3.6}deg` } as React.CSSProperties}><div><strong>{progressPercent}%</strong><small>{completed} / {totalModules}<br />modules</small></div></div><div className="parent-stat-list"><div><IconBubble color="green"><BookOpenCheck size={16} /></IconBubble><p><strong>{completed} / {totalModules}</strong><small>Mga Aktibidad</small></p></div><div><IconBubble color="gold"><Check size={16} /></IconBubble><p><strong>{averageAccuracy}%</strong><small>Average Score</small></p></div><div><IconBubble><Target size={16} /></IconBubble><p><strong>{progress?.level ?? 'Beginner'} Level</strong><small>Kasalukuyang Level</small></p></div><div><IconBubble color="violet"><Award size={16} /></IconBubble><p><strong>{currentModule}</strong><small>Kasalukuyang Modyul</small></p></div></div></div></section>
-      <section className="parent-panel parent-current-module"><div className="parent-panel-head"><h2><IconBubble><BookOpen size={20} /></IconBubble>Kasalukuyang Modyul</h2><Link to="/parent/progress?tab=modules">Magpatuloy <ArrowRight size={16} /></Link></div><div className="parent-module-main"><div className="parent-module-illustration"><img src={currentModuleArt} alt="" /></div><div><h3>{currentModule}</h3><p>Modyul {currentModuleIndex + 1} • {completed} / {totalModules} aktibidad</p><div className="parent-inline-progress"><i style={{ width: `${progressPercent}%` }} /></div><strong>{progressPercent}%</strong></div></div><p className="parent-module-note">Patuloy na sanayin ang pagbasa at pagkilala ng mga tunog.</p></section>
-      <section className="parent-panel parent-module-list"><div className="parent-panel-head"><h2><IconBubble><BookOpen size={20} /></IconBubble>Progreso sa Bawat Modyul</h2><Link to="/parent/progress?tab=modules">Tingnan Lahat <ArrowRight size={15} /></Link></div><ol>{moduleNames.map((name, index) => { const isCurrent = index === currentModuleIndex; const done = index < currentModuleIndex; const value = done ? 100 : isCurrent ? progressPercent : 0; return <li key={name}><Link to="/parent/progress?tab=modules" aria-label={`Tingnan ang progreso ng ${name}`}><span className="parent-module-number">{index + 1}</span><strong>{name}</strong><span className={`parent-module-status ${done ? 'done' : isCurrent ? 'active' : ''}`}>{done ? '✓ Tapos na' : isCurrent ? '◉ Isinasagawa' : 'Hindi Pa Nagsisimula'}</span><div className="parent-row-progress"><i style={{ width: `${value}%` }} /></div><b>{value}%</b><ChevronRight size={18} /></Link></li>; })}</ol></section>
-      <section className="parent-panel parent-schedule-panel"><div className="parent-panel-head"><h2><IconBubble><CalendarDays size={20} /></IconBubble>Iskedyul ng Pag-aaral</h2><Link to="/parent/schedule">Buksan ang Kalendaryo <ArrowRight size={15} /></Link></div><div className="parent-schedule-content"><div className="parent-calendar"><div className="parent-calendar-controls"><button type="button" aria-label="Nakaraang buwan" onClick={() => setCalendarMonth((month) => new Date(month.getFullYear(), month.getMonth() - 1, 1))}><ChevronLeft size={16} /></button><strong>{calendarMonth.toLocaleDateString('fil-PH', { month: 'long', year: 'numeric' })}</strong><button type="button" aria-label="Susunod na buwan" onClick={() => setCalendarMonth((month) => new Date(month.getFullYear(), month.getMonth() + 1, 1))}><ChevronRight size={16} /></button></div><div className="parent-calendar-grid">{['Lin', 'Lun', 'Mar', 'Miy', 'Huy', 'Biy', 'Sab'].map((day) => <b key={day}>{day}</b>)}{calendarDays.map((day, index) => day < 1 || day > daysInCalendarMonth ? <span className="calendar-empty" key={`blank-${index}`} /> : <Link to="/parent/schedule" aria-label={`Tingnan ang iskedyul sa ${day} ${calendarMonth.toLocaleDateString('fil-PH', { month: 'long', year: 'numeric' })}`} className={`${day === today.getDate() && calendarMonth.getMonth() === today.getMonth() && calendarMonth.getFullYear() === today.getFullYear() ? 'today' : ''} ${scheduledDays.has(day) ? 'has-schedule' : ''}`} key={day}>{day}</Link>)}</div></div><div className="parent-upcoming-list"><h3>Mga Naka-iskedyul na Gawain</h3>{upcoming?.length ? upcoming.map((item) => <Link to="/parent/schedule" key={item.id}><IconBubble color="violet"><BookOpen size={15} /></IconBubble><p><strong>{item.title}</strong><small>{new Date(item.scheduled_date).toLocaleString('fil-PH', { dateStyle: 'medium', timeStyle: 'short' })}</small></p></Link>) : <p className="parent-muted">Wala pang naka-iskedyul na gawain.</p>}</div></div></section>
-    </div><aside className="parent-dashboard-column">
-      <section className="parent-panel parent-achievements"><div className="parent-panel-head"><h2><IconBubble color="gold"><Trophy size={20} /></IconBubble>Mga Kamakailang Nakamit</h2><Link to="/parent/progress">Tingnan Lahat <ArrowRight size={15} /></Link></div><div className="parent-badges"><div><img src={readingBadge} alt="" /><strong>Mahusay na Simula</strong></div><div><img src={streakBadge} alt="" /><strong>{progress?.streak ?? 0}-Day Reading Streak</strong></div><div><img src={championBadge} alt="" /><strong>Patuloy na Pagsisikap</strong></div></div><div className="parent-cheer"><span>👏</span><div><strong>Mahusay, {displayName}!</strong><p>Patuloy ang iyong pag-unlad sa pagbabasa.</p></div></div></section>
-      <section className="parent-panel parent-quick-actions"><h2><IconBubble><Sparkles size={20} /></IconBubble>Mabilis na Pagkilos</h2><div><Link to="/parent/progress?tab=modules"><BookOpenCheck size={27} /><span>Tingnan ang<br />Buong Progreso</span></Link><Link to="/parent/schedule"><CalendarDays size={27} /><span>Tingnan ang<br />Iskedyul</span></Link><Link to="/parent/progress?tab=activities"><FileText size={27} /><span>Mga Gawain<br />at PDF</span></Link></div><Link to="/parent/progress?tab=modules" className="parent-recommendation"><IconBubble color="gold"><Lightbulb size={21} /></IconBubble><span><strong>Mga Rekomendasyon</strong><small>para kay {displayName}</small></span></Link></section>
-      <section className="parent-panel parent-recent"><div className="parent-panel-head"><h2><IconBubble><PlayCircle size={20} /></IconBubble>Kamakailang Aktibidad</h2><Link to="/parent/progress">Tingnan Lahat <ArrowRight size={15} /></Link></div><div className="parent-activity-list">{sessions?.length ? sessions.slice(0, 5).map((session, index) => <div key={`${session.created_at}-${index}`}><IconBubble color={session.is_correct ? 'green' : 'blue'}>{session.is_correct ? <CheckCircle2 size={17} /> : <PlayCircle size={17} />}</IconBubble><p><strong>{session.is_correct ? 'Natapos na ang Practice' : 'Sinimulan ang Practice'}</strong><small>{session.word} • {session.accuracy_percentage}% kawastuhan</small></p><time>{formatRelativeDate(session.created_at)}</time></div>) : <div className="parent-empty-inline"><img src={noActivitiesArt} alt="" /><p className="parent-muted">Wala pang aktibidad.</p></div>}</div></section>
-      <section className="parent-panel parent-tips"><h2><IconBubble color="gold"><Lightbulb size={20} /></IconBubble>Mga Rekomendasyon</h2><div><IconBubble><BookOpenCheck size={18} /></IconBubble><p><strong>Magpatuloy sa {currentModule}</strong><small>{profile?.recommendedHomePractice ?? 'Tapusin ang mga natitirang aktibidad.'}</small></p><ChevronRight size={18} /></div><div><IconBubble color="green"><FileText size={18} /></IconBubble><p><strong>Karagdagang Practice</strong><small>Magkaroon ng 10 minuto araw-araw na pagbasa.</small></p><ChevronRight size={18} /></div><div><IconBubble color="gold"><UsersRound size={18} /></IconBubble><p><strong>Review sa Bahay</strong><small>Magbalik sa ilang natapos na gawain para mas tumibay ang pagkatuto.</small></p><ChevronRight size={18} /></div></section>
-    </aside></div>
-    <section className="parent-panel parent-resources"><div className="parent-panel-head"><div><h2><IconBubble><BookOpen size={20} /></IconBubble>Mga Karagdagang Resources</h2><p>Mga materyal na makakatulong sa pagkatuto ni {displayName} sa bahay.</p></div><Link to="/parent/progress">Tingnan Lahat <ArrowRight size={15} /></Link></div><div className="parent-resource-grid"><Link to="/parent/progress"><IconBubble color="gold"><FileText size={22} /></IconBubble><span><strong>Worksheets</strong><small>I-download ang mga practice worksheets.</small></span></Link><Link to="/parent/progress"><IconBubble color="green"><BookOpen size={22} /></IconBubble><span><strong>Mga Flashcards</strong><small>Para sa mas masayang pag-aaral.</small></span></Link><Link to="/parent/messages"><IconBubble color="gold"><UsersRound size={22} /></IconBubble><span><strong>Gabay sa Magulang</strong><small>Mga tips at strategies.</small></span></Link><Link to="/parent/progress"><IconBubble color="rose"><PlayCircle size={22} /></IconBubble><span><strong>Mga Video</strong><small>Maikling aralin at gabay.</small></span></Link></div></section>
+  const dayKey = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
+  const { data: events = [] } = useQuery({
+    queryKey: ['parent-home-upcoming', activeId, dayKey],
+    queryFn: async () => {
+      const { data, error } = await supabase.from('scheduled_activities')
+        .select('id,title,scheduled_date,start_time,activity_type').eq('child_id', activeId!)
+        .eq('status', 'scheduled').gte('scheduled_date', dayKey)
+        .order('scheduled_date').order('start_time').limit(3);
+      if (error) throw error;
+      return data as ScheduledEvent[];
+    },
+    enabled: Boolean(activeId),
+  });
+  const profile = learning.profile.data?.profile;
+  const completed = learning.path.data ? learning.completed : profile?.completedContentCount ?? 0;
+  const percent = learning.total > 0 ? Math.min(100, Math.round(learning.completed / learning.total * 100)) : 0;
+  const sessions = learning.practice.data ?? [];
+  const weekAgo = new Date(today.getTime() - 7 * 86400000);
+  const weeklySessions = sessions.filter((session) => new Date(session.created_at) >= weekAgo);
+  const categories = learningCategories(learning.modules, profile);
+  const badges = [...BADGE_CATALOG.filter((badge) => learning.earned.includes(badge.id)), ...BADGE_CATALOG.filter((badge) => !learning.earned.includes(badge.id))].slice(0, 4);
+  const monthStart = month.getDay();
+  const monthEnd = new Date(month.getFullYear(), month.getMonth() + 1, 0).getDate();
+  const days = Array.from({ length: Math.ceil((monthStart + monthEnd) / 7) * 7 }, (_, index) => index - monthStart + 1);
+
+  if (childrenQuery.isLoading) return <div className="parent-home-reference"><div className="ref-loading" role="status">Inihahanda ang iyong dashboard...</div></div>;
+  if (childrenQuery.error) return <div className="parent-home-reference"><div className="ref-loading" role="alert">Hindi ma-load ang dashboard. <button onClick={() => void childrenQuery.refetch()}>Subukan muli</button></div></div>;
+  if (!children.length) return <div className="parent-home-reference"><section className="ref-welcome-empty"><img src={noEnrolledChildArt} alt="" /><h1>Maligayang pagdating sa LinawLetra!</h1><p>Idagdag ang iyong anak para masubaybayan ang kanyang paglalakbay sa pagbabasa.</p><Link to="/parent/children"><Plus size={18} /> Magdagdag ng Anak</Link></section></div>;
+
+  return <div className="parent-home-reference">
+    <header className="parent-ref-hero" style={{ backgroundImage: `linear-gradient(90deg,rgba(255,253,247,.96),rgba(255,253,247,.81) 30%,rgba(255,255,255,0) 57%),url("${parentBackground}")` }}>
+      <div><p><Leaf size={20} /> Good day,</p><h1>{identity?.displayName || 'Magulang'}! <Sun className="ref-hero-sun" aria-hidden="true" /></h1><span>Patuloy nating suportahan si {child?.name} sa kanyang paglalakbay sa pagbabasa. Maliit na hakbang, malaking progreso!</span></div>
+      <aside><Heart size={21} fill="currentColor" aria-hidden="true" />Kasama ka namin sa bawat pag-unlad!</aside>
+    </header>
+
+    <section className="parent-ref-child"><div><b>Piliin ang Anak</b><label><span aria-hidden="true">{child?.name[0]}</span><p><strong>{child?.name}</strong><small>Grade {child?.grade_level} · {learning.path.data?.effective_level ?? child?.level}</small></p><ChevronDown size={18} /><select aria-label="Piliin ang anak" value={activeId ?? ''} onChange={(event) => setChildId(event.target.value)}>{children.map((item) => <option key={item.id} value={item.id}>{item.name}</option>)}</select></label></div><Link to="/parent/children"><Plus size={18} /> Magdagdag ng Anak</Link></section>
+
+    <section className="parent-ref-metrics" aria-label="Buod ng pag-aaral">
+      <Metric tone="violet" icon={<BookOpen />} title="Kabuuang Aralin" value={completed} detail={learning.total ? `ng ${learning.total} aralin` : 'nakumpletong aralin'} to={childLink('/parent/progress')} />
+      <Metric tone="green" icon={<BarChart3 />} title="Average Score" value={profile?.averageAccuracy == null ? '—' : `${profile.averageAccuracy}%`} detail={profile?.sessionCount ? `${profile.weeklyAccuracyTrendPoints > 0 ? '+' : ''}${profile.weeklyAccuracyTrendPoints} puntos ngayong linggo` : 'Wala pang practice score'} to={childLink('/parent/progress?tab=results')} />
+      <Metric tone="gold" icon={<Clock3 />} title="Oras sa Pag-aaral" value={formatPracticeTime(weeklySessions)} detail="ngayong linggo" to={childLink('/parent/progress?tab=practice')} />
+      <Metric tone="rose" icon={<Star />} title="Mga Badge" value={learning.earned.length} detail="natanggap" to={childLink('/parent/progress?tab=results')} />
+    </section>
+
+    <section className="parent-ref-grid">
+      <div className="parent-ref-column">
+      <article className="parent-ref-card ref-progress"><Heading icon={<BarChart3 />} title="Kabuuang Progreso" to={childLink('/parent/progress')} /><div className="ref-progress-body"><div className="ref-donut" style={{ '--value': `${percent * 3.6}deg` } as CSSProperties} role="img" aria-label={`${percent}% ng kasalukuyang learning path`}><div><b>{learning.total ? `${percent}%` : '—'}</b><small>{learning.total ? `${learning.completed} sa ${learning.total}` : 'Wala pang learning path'}<br />{learning.total ? 'aralin' : ''}</small></div></div><div className="ref-bars">{categories.map((category) => <div key={category.label} className={category.tone}><Icon tone={category.tone}>{category.tone === 'blue' ? <Mic size={16} /> : category.tone === 'rose' ? <FileText size={16} /> : <BookOpen size={16} />}</Icon><span>{category.label}</span><i><em style={{ width: `${category.value ?? 0}%` }} /></i><b title={category.value == null ? 'Wala pang naitalang datos sa kategoryang ito' : undefined}>{category.value == null ? '—' : `${category.value}%`}</b></div>)}</div></div></article>
+
+      <article className="parent-ref-card ref-learning"><Heading icon={<BookOpen />} tone="green" title="Kasalukuyang Learning Path" to={childLink('/parent/progress')} /><div className="ref-learning-inner"><img src={currentModuleArt} alt="" /><div><h3>{learning.current?.title ?? 'Naghahanda ang learning path'}</h3><p>{learning.current ? `Modyul ${learning.current.module_number} · ${learning.path.data?.effective_level ?? child?.level}` : 'Mga araling naaayon sa antas ng iyong anak'}</p><span><i><em style={{ width: `${modulePercent(learning.current)}%` }} /></i><b>{learning.current ? `${learning.current.completed_content_item_count} / ${learning.current.content_item_count} aralin` : '—'}</b></span><Link to={childLink('/parent/progress')}>Tingnan ang Pag-aaral <ArrowRight size={16} /></Link></div></div></article>
+
+      <article className="parent-ref-card ref-schedule"><Heading icon={<CalendarDays />} title="Iskedyul ng Aktibidad" to={childLink('/parent/schedule')} /><div className="ref-schedule-body"><div className="ref-calendar"><header><button type="button" aria-label="Nakaraang buwan" onClick={() => setMonth((value) => new Date(value.getFullYear(), value.getMonth() - 1, 1))}><ChevronLeft size={16} /></button><b>{month.toLocaleDateString('fil-PH', { month: 'long', year: 'numeric' })}</b><button type="button" aria-label="Susunod na buwan" onClick={() => setMonth((value) => new Date(value.getFullYear(), value.getMonth() + 1, 1))}><ChevronRight size={16} /></button></header><div>{['Lin', 'Lun', 'Mar', 'Miy', 'Huw', 'Biy', 'Sab'].map((day) => <b key={day}>{day}</b>)}{days.map((day, index) => day < 1 || day > monthEnd ? <span key={`empty-${index}`} /> : <span className={day === today.getDate() && month.getMonth() === today.getMonth() && month.getFullYear() === today.getFullYear() ? 'today' : ''} key={day}>{day}</span>)}</div></div><div className="ref-events">{events.length ? events.map((event, index) => <Link to={childLink(`/parent/schedule?date=${event.scheduled_date.slice(0, 10)}`)} key={event.id}><Icon tone={index === 1 ? 'blue' : index === 2 ? 'rose' : 'violet'}>{event.activity_type === 'practice' ? <Mic size={19} /> : <BookOpen size={19} />}</Icon><span><b>{event.title}</b><small>{new Date(`${event.scheduled_date.slice(0, 10)}T${event.start_time ?? '00:00'}`).toLocaleString('fil-PH', { month: 'short', day: 'numeric', ...(event.start_time ? { hour: 'numeric', minute: '2-digit' } : {}) })}</small></span><ChevronRight size={16} /></Link>) : <div className="ref-schedule-empty"><CalendarDays size={28} /><p>Wala pang naka-iskedyul na gawain.</p><Link to={childLink('/parent/schedule')}>Magplano ng aktibidad <ArrowRight size={14} /></Link></div>}</div></div></article>
+      </div>
+      <div className="parent-ref-column">
+      <article className="parent-ref-card ref-activity"><Heading icon={<Star />} tone="gold" title="Kamakailang Aktibidad" to={childLink('/parent/progress?tab=activities')} />{sessions.length ? <div className="ref-activity-list">{sessions.slice(0, 4).map((session) => <Link to={childLink('/parent/progress?tab=activities')} key={session.id}><Icon tone={session.is_correct ? 'gold' : 'violet'}>{session.is_correct ? <CheckCircle2 size={21} /> : <Mic size={21} />}</Icon><span><b>{session.is_correct ? 'Nakumpleto ang pagsasanay' : 'Nag-practice sa Pagbigkas'}{session.word ? `: ${session.word}` : ''}</b><small>{new Date(session.created_at).toLocaleString('fil-PH', { month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' })}</small></span><ChevronRight size={16} /></Link>)}</div> : <div className="ref-empty"><img src={noActivitiesArt} alt="" /><span>Wala pang aktibidad.<small>Dito lilitaw ang kanyang unang pagsasanay.</small></span></div>}</article>
+
+      <article className="parent-ref-card ref-badges"><Heading icon={<Trophy />} tone="gold" title="Mga Nakuhang Badge" to={childLink('/parent/progress?tab=results')} /><div className="ref-badge-row">{badges.map((badge) => <div className={learning.earned.includes(badge.id) ? 'earned' : 'locked'} key={badge.id} title={badge.criteria}><span><img src={badge.image} alt="" />{!learning.earned.includes(badge.id) && <Lock size={22} aria-hidden="true" />}</span><b>{badge.title}</b></div>)}</div></article>
+
+      <article className="parent-ref-card ref-recommendations"><Heading icon={<Lightbulb />} tone="gold" title="Mga Rekomendasyon" to={childLink('/parent/progress?tab=practice')} /><div>{[
+        { icon: <BookOpen size={21} />, title: 'Karagdagang Pagsasanay sa Pagbasa', detail: profile?.recommendedHomePractice ?? 'Magbasa nang malakas nang 5 minuto kasama ang iyong anak.', tone: 'blue', to: '/parent/progress?tab=practice' },
+        { icon: <Gamepad2 size={21} />, title: 'Mga Laro para sa Pagbigkas', detail: 'Balikan ang mga tunog at salitang kailangan pang sanayin.', tone: 'violet', to: '/parent/progress?tab=results' },
+        { icon: <BookOpen size={21} />, title: 'Basahin ang Kuwento ngayong Linggo', detail: 'Pumili ng materyal na babasahin ninyo nang magkasama.', tone: 'gold', to: '/parent/materials' },
+      ].map((recommendation) => <Link to={childLink(recommendation.to)} key={recommendation.title}><Icon tone={recommendation.tone}>{recommendation.icon}</Icon><span><b>{recommendation.title}</b><small>{recommendation.detail}</small></span><ChevronRight size={16} /></Link>)}</div></article>
+      </div>
+    </section>
   </div>;
 }

@@ -9,13 +9,14 @@ import Messages from '../pages/parent/Messages';
 import Settings from '../pages/parent/Settings';
 import Notifications from '../pages/parent/Notifications';
 import AppSettings from '../pages/parent/AppSettings';
+import Materials from '../pages/parent/Materials';
 
-const ProgressReport = lazy(() => import('../pages/parent/ProgressReport'));
+const ProgressReport = lazy(() => import('../pages/parent/ProgressReference'));
 
 export default function ParentArea() {
   return <Routes><Route element={<ProtectedRoute role="parent"><ParentLayout /></ProtectedRoute>}>
     <Route index element={<Dashboard />} /><Route path="children" element={<MyChildren />} /><Route path="progress" element={<Suspense fallback={<p className="p-6">Loading report…</p>}><ProgressReport /></Suspense>} />
     <Route path="schedule" element={<Schedule />} /><Route path="messages" element={<Messages />} /><Route path="settings" element={<Settings />} />
-    <Route path="notifications" element={<Notifications />} /><Route path="app-settings" element={<AppSettings />} />
+    <Route path="notifications" element={<Notifications />} /><Route path="app-settings" element={<AppSettings />} /><Route path="materials" element={<Materials />} />
   </Route></Routes>;
 }

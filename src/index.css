@@ -1,6 +1,18 @@
 @import "tailwindcss";
 @import "./App.css";
 
+/* Global reading affordances: a quiet cursor halo and a gentle highlight for
+   prose. The native cursor stays intact, and both effects opt out for touch
+   screens and readers who request reduced motion. */
+.soft-glow-cursor{position:fixed;z-index:998;top:-4.75rem;left:-4.75rem;width:9.5rem;height:9.5rem;pointer-events:none;opacity:.72;transform:translate3d(-160px,-160px,0);will-change:transform;border-radius:50%;background:radial-gradient(circle,rgba(120,178,255,.16) 0%,rgba(151,116,235,.1) 31%,rgba(151,116,235,0) 70%);filter:blur(1px);transition:opacity .2s ease}
+
+@media (hover:hover) and (pointer:fine){
+  main :is(p,blockquote,figcaption,td,th,.reading-highlight){border-radius:.38rem;transition:background-color .18s ease,box-shadow .18s ease,color .18s ease}
+  main :is(p,blockquote,figcaption,td,th,.reading-highlight):hover{background-color:rgba(132,190,255,.12);box-shadow:inset .18rem 0 0 rgba(104,156,229,.52);color:inherit}
+}
+
+@media (hover:none),(pointer:coarse),(prefers-reduced-motion:reduce){.soft-glow-cursor{display:none}}
+
 .teacher-notification-list{display:grid;overflow:hidden;border:1px solid #eee9f8;border-radius:.8rem}.teacher-notification-list .teacher-notification-toggle{border:0!important;border-radius:0!important;border-top:1px solid #eee9f8!important}.teacher-notification-list .teacher-notification-toggle:first-child{border-top:0!important}.teacher-notification-list .teacher-notification-toggle:nth-child(2)>svg{color:#2393e6}.teacher-notification-list .teacher-notification-toggle:nth-child(3)>svg{color:#ed9e13}.teacher-notification-card,.teacher-theme-card{min-height:15rem!important}.teacher-settings-grid{align-items:stretch}.teacher-theme-options button:nth-child(3)>svg:first-child{color:#56617b}
 
 /* Real teacher avatar control in the Settings header. */
@@ -304,7 +316,7 @@
 /* Parent portal typography: apply one consistent family to every page, modal,
    navigation item, form control, and dynamically-rendered data table. */
 .role-parent, .role-parent :is(button, input, select, textarea, h1, h2, h3, h4, h5, h6, p, a, label, small, strong, b, span, time) {
-  font-family: "Comic Sans MS", "Comic Sans", cursive !important;
+  font-family: var(--parent-font, "Trebuchet MS", "Segoe UI", sans-serif) !important;
   letter-spacing: 0 !important;
   word-spacing: normal !important;
 }

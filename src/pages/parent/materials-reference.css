@@ -1,0 +1,61 @@
+.role-parent .parent-materials-reference { display: flex; min-width: 0; flex-direction: column; gap: 16px; color: var(--color-text); }
+.materials-hero { position: relative; min-height: 202px; overflow: hidden; border: 1px solid #deedf1; border-radius: 20px; padding: 30px; background-size: cover; background-position: center 44%; }
+.materials-hero > div { position: relative; z-index: 1; max-width: 480px; }
+.materials-hero p { margin: 0 0 10px; color: #14776c; font-size: 11px; font-weight: 800; }
+.materials-hero h1 { display: flex; align-items: center; gap: 12px; margin: 0 0 12px; font-size: clamp(27px,3vw,38px); }
+.materials-hero h1 svg { color: #148d73; }
+.materials-hero span { display: block; max-width: 440px; font-size: 14px; line-height: 1.5; }
+.materials-hero aside { position: absolute; right: 24px; top: 30px; display: flex; width: 150px; align-items: flex-start; gap: 6px; border-radius: 12px; padding: 18px; background: #fffcef; font-size: 13px; transform: rotate(-6deg); box-shadow: 0 5px 18px #476a5625; }
+.materials-hero aside svg { flex: 0 0 auto; color: #f45c81; }
+.materials-child-picker { display: flex; align-items: center; justify-content: space-between; gap: 16px; border: 1px solid #deedf1; border-radius: 18px; padding: 14px 18px; background: #fff; }
+.materials-child-picker > div > b { font-size: 12px; }
+.materials-child-picker label { position: relative; display: flex; width: 330px; align-items: center; gap: 10px; margin-top: 5px; border: 1px solid #dce9f0; border-radius: 12px; padding: 7px 10px; }
+.materials-child-picker i { display: grid; width: 35px; height: 35px; place-items: center; border-radius: 50%; background: #fff0cc; color: #9a671b; font-style: normal; font-weight: 800; }
+.materials-child-picker span { flex: 1; }
+.materials-child-picker strong, .materials-child-picker small { display: block; font-size: 13px; }
+.materials-child-picker small { color: #69819a; font-size: 11px; }
+.materials-child-picker select { position: absolute; inset: 0; width: 100%; opacity: 0; cursor: pointer; }
+.materials-child-picker a { border-radius: 11px; padding: 11px 16px; background: #087f75; color: #fff; font-size: 12px; font-weight: 800; text-decoration: none; }
+.materials-metrics { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
+.materials-metrics article { display: flex; align-items: center; gap: 14px; border: 1px solid #d9d0f9; border-radius: 16px; padding: 20px; background: #f6f1ff; }
+.materials-metrics article:nth-child(2) { border-color: #f5dfa8; background: #fff9e9; }
+.materials-metrics article:nth-child(3) { border-color: #c3ead9; background: #effcf5; }
+.materials-metrics i { display: grid; width: 44px; height: 44px; place-items: center; border-radius: 50%; background: #eee2ff; color: #9455da; }
+.materials-metrics article:nth-child(2) i { background: #fff0c8; color: #e6a011; }
+.materials-metrics article:nth-child(3) i { background: #d5f5e3; color: #12a36d; }
+.materials-metrics b { display: block; font-size: 26px; line-height: 1.2; }
+.materials-metrics span { color: #627993; font-size: 12px; }
+.materials-grid { display: grid; grid-template-columns: minmax(0, 1fr) 300px; gap: 16px; align-items: start; }
+.materials-library { min-width: 0; overflow: hidden; border: 1px solid #deedf1; border-radius: 18px; padding: 20px; background: #fff; box-shadow: 0 5px 16px #1a697507; }
+.materials-library h2, .materials-reading-tip h2 { display: flex; align-items: center; gap: 8px; margin: 0; font-size: 18px; }
+.materials-library h2 svg { color: #0599e9; }
+.materials-library nav { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 16px; }
+.materials-library nav button { border: 0; border-radius: 9px; padding: 8px 12px; background: #f0f6f8; color: #59758e; font-size: 11px; font-weight: 700; }
+.materials-library nav button[aria-pressed='true'] { background: #d9f3eb; color: #087868; }
+.materials-list { margin-top: 16px; }
+.materials-list article { display: flex; align-items: center; gap: 14px; border-top: 1px solid #e7f0f2; padding: 16px 0; }
+.material-document { display: grid; width: 46px; height: 56px; flex: 0 0 auto; place-items: center; border-radius: 10px; background: #edf5ff; color: #3396dc; }
+.materials-list article > div { min-width: 0; flex: 1; }
+.materials-list h3 { margin: 0; font-size: 14px; }
+.materials-list p { margin: 4px 0; color: #66839a; font-size: 12px; }
+.materials-list small { color: #7990a5; font-size: 11px; }
+.materials-list em { border-radius: 8px; padding: 5px 8px; background: #fff0c7; color: #a97308; font-size: 10px; font-style: normal; white-space: nowrap; }
+.materials-list em.completed, .materials-list em.reviewed { background: #d9f7e6; color: #0a8a59; }
+.materials-list em.in_progress { background: #e9e3ff; color: #8457c2; }
+.materials-list em.submitted { background: #e4f2ff; color: #1972a8; }
+.materials-list em.needs_review { background: #fff0e4; color: #a05c14; }
+.materials-list button, .materials-list a { display: inline-flex; align-items: center; gap: 5px; border: 1px solid #d5e9ec; border-radius: 9px; padding: 8px 10px; background: #f6fcfd; color: #087c76; font-size: 11px; text-decoration: none; }
+.materials-empty { display: flex; min-height: 270px; flex-direction: column; align-items: center; justify-content: center; gap: 12px; color: #657f94; text-align: center; }
+.materials-empty h3 { margin: 0; color: #284863; font-size: 16px; }
+.materials-empty p { max-width: 310px; margin: 0; font-size: 13px; }
+.materials-error { border-radius: 10px; padding: 12px; background: #fff0f3; color: #b64460; }
+.materials-reading-tip { overflow: hidden; border: 1px solid #f2dfac; border-radius: 18px; background: #fffae9; }
+.materials-reading-tip > div { padding: 22px; }
+.materials-reading-tip h2 { font-size: 17px; }
+.materials-reading-tip h2 svg { color: #e6a011; }
+.materials-reading-tip p { margin: 16px 0; color: #637783; font-size: 13px; line-height: 1.6; }
+.materials-reading-tip a { color: #078573; font-size: 12px; font-weight: 800; }
+.materials-reading-tip img { display: block; width: 100%; max-height: 235px; object-fit: contain; }
+:root[data-theme='dark'] .role-parent :is(.materials-child-picker, .materials-library, .materials-reading-tip, .materials-metrics article) { border-color: #36506b; background: #172536; }
+@media(max-width: 1100px) { .materials-grid { grid-template-columns: minmax(0,1fr) 250px; } .materials-list article { flex-wrap: wrap; } }
+@media(max-width: 700px) { .materials-hero { min-height: 195px; padding: 24px; } .materials-hero > div { max-width: 80%; } .materials-hero aside { display: none; } .materials-child-picker { align-items: stretch; flex-direction: column; } .materials-child-picker label { width: 100%; } .materials-metrics article { gap: 8px; padding: 12px; } .materials-metrics i { width: 32px; height: 32px; } .materials-metrics span { font-size: 10px; } .materials-grid { grid-template-columns: 1fr; } }
