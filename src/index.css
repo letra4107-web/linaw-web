@@ -840,6 +840,12 @@
   --shadow-card: 0 4px 16px rgba(30, 70, 65, .06); --shadow-raised: 0 10px 24px rgba(52, 125, 115, .15);
 }
 
+/* Keep the playful type treatment contained to the complete admin area. */
+.role-admin,
+.role-admin * {
+  font-family: "Comic Sans MS", "Comic Sans", cursive !important;
+}
+
 :is(.role-parent, .role-teacher, .role-admin) .dashboard-sidebar {
   background: linear-gradient(180deg, var(--color-hero-from) 0%, var(--color-hero-via) 55%, var(--color-hero-to) 100%) !important;
 }
