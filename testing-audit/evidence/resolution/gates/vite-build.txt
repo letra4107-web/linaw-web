@@ -1,0 +1,102 @@
+vite v8.3.5 building client environment for production...
+transforming...
+✓ 2703 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                                                   2.27 kB │ gzip:   0.79 kB
+dist/assets/Masigasig na Mambabasa-BQCmUemR.png                  31.10 kB
+dist/assets/Unang Hakbang-BmI1afoH.png                           37.58 kB
+dist/assets/Batang Mambabasa-D8GQHbGT.png                        45.10 kB
+dist/assets/Unang Bigkas-BrmnJMG1.png                            45.83 kB
+dist/assets/Malinaw Magsalita-CapvWAMe.png                       50.42 kB
+dist/assets/Kampeon sa Pagbasa-CWhBsbqp.png                      51.05 kB
+dist/assets/Dalubhasa sa Pagbasa-BnclDDid.png                    51.39 kB
+dist/assets/Bigkas Champion-D9UGrUv4.png                         55.30 kB
+dist/assets/Tamang Bigkas-USnMWxRj.png                           61.44 kB
+dist/assets/Unang Araw-i5yUxiTU.png                              64.02 kB
+dist/assets/Aking Unang Tagumpay-DHoKZfcf.png                    64.79 kB
+dist/assets/Boses ng Tagumpay-b-Sszd1F.png                       64.88 kB
+dist/assets/Tuloy-Tuloy!-DH1ihHDH.png                            65.33 kB
+dist/assets/Patuloy na Umuunlad-BBL9Elmk.png                     67.34 kB
+dist/assets/Hindi Ako Susuko-D68ILHoG.png                        69.05 kB
+dist/assets/Buwan ng Pagsisikap-C42kdVYK.png                     69.18 kB
+dist/assets/Lakas ng Loob-D-PhBxY4.png                           69.85 kB
+dist/assets/Lingguhang Bayani-ByOwSKsB.png                       72.24 kB
+dist/assets/Matalinong Mag-aaral-Bm1QFufQ.png                    76.64 kB
+dist/assets/Alamat ng Pagbasa-DGzArMar.png                       77.21 kB
+dist/assets/opendyslexic-latin-400-normal-nUhe5EwG.woff2        115.28 kB
+dist/assets/opendyslexic-latin-700-normal-Bnmt45Ln.woff2        120.35 kB
+dist/assets/opendyslexic-latin-400-normal-Cv3YY6GF.woff         128.78 kB
+dist/assets/opendyslexic-latin-700-normal-wYUJcbXi.woff         135.07 kB
+dist/assets/Logo-BJPtDbbX.jpg                                   296.21 kB
+dist/assets/Hero Left Purple Decorative Shape-DmvXjYNT.png      721.87 kB
+dist/assets/listen-DKhfHXUr.png                               1,086.09 kB
+dist/assets/aralin-mascot-guide-C6vtPPPH.png                  1,349.67 kB
+dist/assets/owl-mascot-CwddG8AW.png                           1,398.58 kB
+dist/assets/sidebar-foliage-right-CQGJ07rn.png                1,407.01 kB
+dist/assets/reading-B3d_Klgj.png                              1,466.66 kB
+dist/assets/email-D0q0pUTa.png                                1,471.86 kB
+dist/assets/Teacher Illustration-okwmnK0x.png                 1,516.53 kB
+dist/assets/sidebar-foliage-left-D2XwCOJM.png                 1,569.50 kB
+dist/assets/books-stack-CIPguUlZ.png                          1,634.92 kB
+dist/assets/aralin-header-books-B9Q3-1aq.png                  1,671.54 kB
+dist/assets/sidebar-background-DO6pMjLt.png                   1,678.81 kB
+dist/assets/aralin-journey-background-BgVfLWCt.png            1,690.31 kB
+dist/assets/owl-admin-mascot-DbX_Fxlm.png                     1,744.58 kB
+dist/assets/Purple Sidebar Bottom Plants-DrjMLvrI.png         1,773.85 kB
+dist/assets/student-hero-bg-9GdRIMjA.png                      1,833.37 kB
+dist/assets/Teacher Home Hero Banner Background-BNcjkxAM.png  1,851.19 kB
+dist/assets/deadline-card-decoration-DaSvZQ3a.png             1,871.83 kB
+dist/assets/no activities-CNRsEYZA.png                        1,890.76 kB
+dist/assets/admin-hero-background-Cypg2enN.png                1,892.43 kB
+dist/assets/word-practice-background-v2-8hfbB--W.png          1,914.48 kB
+dist/assets/aralin-phonics-blocks-BEA4C-X7.png                1,979.21 kB
+dist/assets/aralin-module-path-PaotB6kP.png                   1,984.90 kB
+dist/assets/no enrolled child-Doq0PZwu.png                    1,991.64 kB
+dist/assets/aralin-pencil-stars-DJ64lmO_.png                  2,013.10 kB
+dist/assets/lesson-progress-decoration-CEpz0iWB.png           2,023.62 kB
+dist/assets/student-hero-character-EnmKrPng.png               2,043.50 kB
+dist/assets/empty-state-illustration-MctkQo5D.png             2,065.43 kB
+dist/assets/aralin-current-CNheGEKE.png                       2,095.92 kB
+dist/assets/current-C8ySTo5O.png                              2,108.32 kB
+dist/assets/aralin-reading-book-DKwQvc-k.png                  2,126.14 kB
+dist/assets/left-CQ0dEqXa.png                                 2,333.62 kB
+dist/assets/parent-bg-CYVQ0b5Q.png                            2,381.40 kB
+dist/assets/StudentArea-CJRzeWfu.css                             12.88 kB │ gzip:   2.61 kB
+dist/assets/ProgressReference-IuU18siA.css                       27.00 kB │ gzip:   5.40 kB
+dist/assets/ParentArea-DY8dV9uv.css                             134.43 kB │ gzip:  23.68 kB
+dist/assets/index-CfDZfzK_.css                                  401.05 kB │ gzip:  70.32 kB
+dist/assets/owl-mascot-D-0EYbpp.js                                0.05 kB │ gzip:   0.07 kB
+dist/assets/Teacher Illustration-CCn01k2_.js                      0.13 kB │ gzip:   0.13 kB
+dist/assets/cardStyle-iaU5tt7J.js                                 0.30 kB │ gzip:   0.17 kB
+dist/assets/trophy-DduKegWg.js                                    0.53 kB │ gzip:   0.31 kB
+dist/assets/users-round-D4bAXEya.js                               0.68 kB │ gzip:   0.37 kB
+dist/assets/sidebar-foliage-left-CejvEIqx.js                      0.74 kB │ gzip:   0.45 kB
+dist/assets/emptyImage-CIGGCXHL.js                                1.09 kB │ gzip:   0.61 kB
+dist/assets/sun-BvTNFFxT.js                                       2.61 kB │ gzip:   1.07 kB
+dist/assets/TTSButton-CnH4s4XS.js                                 2.98 kB │ gzip:   1.52 kB
+dist/assets/lightbulb-CJBSx7UN.js                                 3.64 kB │ gzip:   1.76 kB
+dist/assets/badges-CraCIruI.js                                    3.90 kB │ gzip:   1.50 kB
+dist/assets/Analytics-BttOUVNc.js                                 7.64 kB │ gzip:   2.51 kB
+dist/assets/PdfReadingAssistant-CHiMTrwh.js                      13.59 kB │ gzip:   5.23 kB
+dist/assets/NotFound-iLoOm0Qh.js                                 15.10 kB │ gzip:   5.81 kB
+dist/assets/DashboardShell-DvRlYjpk.js                           17.85 kB │ gzip:   6.08 kB
+dist/assets/BarChart-mWle7_wK.js                                 20.94 kB │ gzip:   6.92 kB
+dist/assets/ProgressReference-D3-3rjG0.js                        22.69 kB │ gzip:   6.19 kB
+dist/assets/ProgressReports-HiK6nfUt.js                          30.36 kB │ gzip:   9.14 kB
+dist/assets/PublicArea-CK8hxaHE.js                               65.02 kB │ gzip:  16.29 kB
+dist/assets/TeacherArea-DdbsB7bX.js                              81.35 kB │ gzip:  19.11 kB
+dist/assets/StudentArea-JMZ0Foib.js                             113.11 kB │ gzip:  26.41 kB
+dist/assets/ParentArea-BhO_AZzv.js                              131.42 kB │ gzip:  35.23 kB
+dist/assets/AdminArea-D_bkz2hG.js                               180.54 kB │ gzip:  38.39 kB
+dist/assets/CartesianChart-BKHosK4K.js                          338.24 kB │ gzip:  99.02 kB
+dist/assets/index-CaBmHGIW.js                                   475.05 kB │ gzip: 138.68 kB
+
+✓ built in 7.35s
+[33m[PLUGIN_TIMINGS] [0mJavaScript callbacks ran for 6.5s of this 7.3s build (88%).
+3 callbacks are listed without a time. Their calls overlapped, so the time inside one call includes work from other calls. To find their cost, profile the build with `node --cpu-prof`:
+  - plugin vite:asset load (53 calls)
+  - plugin vite:css transform (17 calls)
+  - plugin @tailwindcss/vite:generate:build transform (17 calls)
+See https://rolldown.rs/reference/InputOptions.checks#bundlertimings for more details.
+

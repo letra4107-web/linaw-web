@@ -13,9 +13,10 @@ const transporter = smtpConfigured
 
 async function sendMail({ to, subject, html, text }) {
   if (!smtpConfigured) {
-    // Dev fallback: no SMTP credentials configured yet for this project.
-    console.warn(`[mailer] SMTP not configured — would send "${subject}" to ${to}:\n${text ?? html}`);
-    return { queued: false, devFallback: true };
+    // Never log a credential/OTP email, even in development. Parent enrollment
+    // can still deliver a one-time password on screen; teacher creation must
+    // surface delivery failure instead of claiming the message was sent.
+    throw new Error('Email service is not configured.');
   }
   await transporter.sendMail({
     from: process.env.EMAIL_FROM || process.env.SMTP_FROM || 'LinawLetra <no-reply@linawletra.app>',

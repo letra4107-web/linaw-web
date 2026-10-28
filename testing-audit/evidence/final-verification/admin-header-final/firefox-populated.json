@@ -1,0 +1,1235 @@
+{
+  "startedAt": "2026-10-21T13:33:28.589Z",
+  "scope": "Real role UI and frontend auth/role middleware with synthetic sessions and explicitly mocked Supabase/API persistence. Not real Supabase Auth, RLS, delivery or durable CRUD.",
+  "browser": "firefox",
+  "rows": [
+    {
+      "id": "ROLE-firefox-001",
+      "role": "admin",
+      "module": "Authenticated UI with mocked boundaries",
+      "feature": "Render /admin with no route crash or cross-role redirect",
+      "preconditions": "firefox, 1440px, populated synthetic session/data",
+      "steps": "Render /admin with no route crash or cross-role redirect",
+      "expected": "Named UI assertions pass; no remote service request",
+      "evidence": "firefox-populated.json",
+      "actual": {
+        "text": "Good morning,Admin!Here is a quick summary of LinawLetra users and activity today.ABC ✦✎Good morning! ✦Welcome back, QA admin!Here is the quick story of LinawLe",
+        "width": 1440,
+        "content": 1440,
+        "navigation": [
+          {
+            "domContentLoadedMs": 1469,
+            "loadMs": 2347
+          }
+        ],
+        "unexpected": [],
+        "queryFailures": []
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "ROLE-firefox-002",
+      "role": "admin",
+      "module": "Authenticated UI with mocked boundaries",
+      "feature": "Wrong-role URL redirects to the signed-in role dashboard",
+      "preconditions": "firefox, 1440px, populated synthetic session/data",
+      "steps": "Wrong-role URL redirects to the signed-in role dashboard",
+      "expected": "Named UI assertions pass; no remote service request",
+      "evidence": "firefox-populated.json",
+      "actual": "Named assertions passed",
+      "status": "PASS"
+    },
+    {
+      "id": "ROLE-firefox-003",
+      "role": "admin",
+      "module": "Authenticated UI with mocked boundaries",
+      "feature": "System settings edit submits and displays success with mocked persistence",
+      "preconditions": "firefox, 1440px, populated synthetic session/data",
+      "steps": "System settings edit submits and displays success with mocked persistence",
+      "expected": "Named UI assertions pass; no remote service request",
+      "evidence": "firefox-populated.json",
+      "actual": "Named assertions passed",
+      "status": "PASS"
+    },
+    {
+      "id": "ROLE-firefox-004",
+      "role": "admin",
+      "module": "Authenticated UI with mocked boundaries",
+      "feature": "Admin navigation search reports no match, dismisses with Escape and navigates with Enter",
+      "preconditions": "firefox, 1440px, populated synthetic session/data",
+      "steps": "Admin navigation search reports no match, dismisses with Escape and navigates with Enter",
+      "expected": "Named UI assertions pass; no remote service request",
+      "evidence": "firefox-populated.json",
+      "actual": "Named assertions passed",
+      "status": "PASS"
+    },
+    {
+      "id": "ROLE-firefox-005",
+      "role": "admin",
+      "module": "Authenticated UI with mocked boundaries",
+      "feature": "Automated accessibility scan of role dashboard",
+      "preconditions": "firefox, 1440px, populated synthetic session/data",
+      "steps": "Automated accessibility scan of role dashboard",
+      "expected": "Named UI assertions pass; no remote service request",
+      "evidence": "firefox-populated.json",
+      "actual": "Named assertions passed",
+      "status": "PASS"
+    },
+    {
+      "id": "ROLE-firefox-006",
+      "role": "admin",
+      "module": "Authenticated UI with mocked boundaries",
+      "feature": "Render /admin with no route crash or cross-role redirect",
+      "preconditions": "firefox, 375px, populated synthetic session/data",
+      "steps": "Render /admin with no route crash or cross-role redirect",
+      "expected": "Named UI assertions pass; no remote service request",
+      "evidence": "firefox-populated.json",
+      "actual": {
+        "text": "Good morning,Admin!Here is a quick summary of LinawLetra users and activity today.ABC ✦✎Good morning! ✦Welcome back, QA admin!Here is the quick story of LinawLe",
+        "width": 375,
+        "content": 375,
+        "navigation": [
+          {
+            "domContentLoadedMs": 435,
+            "loadMs": 987
+          }
+        ],
+        "unexpected": [],
+        "queryFailures": []
+      },
+      "status": "PASS"
+    }
+  ],
+  "accessibility": [
+    {
+      "role": "admin",
+      "width": 1440,
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "nodes": 49
+        }
+      ],
+      "passes": 23
+    }
+  ],
+  "controls": [
+    {
+      "role": "admin",
+      "variant": "populated",
+      "width": 1440,
+      "path": "/admin",
+      "controls": [
+        {
+          "tag": "BUTTON",
+          "name": "Close sidebar",
+          "disabled": false,
+          "type": "button",
+          "href": null,
+          "status": "NOT RUN",
+          "actual": "Visible control inventory; rendering does not verify its action"
+        },
+        {
+          "tag": "A",
+          "name": "Home",
+          "disabled": false,
+          "type": "",
+          "href": "/admin",
+          "status": "NOT RUN",
+          "actual": "Visible control inventory; rendering does not verify its action"
+        },
+        {
+          "tag": "A",
+          "name": "Students",
+          "disabled": false,
+          "type": "",
+          "href": "/admin/students",
+          "status": "NOT RUN",
+          "actual": "Visible control inventory; rendering does not verify its action"
+        },
+        {
+          "tag": "A",
+          "name": "Parents",
+          "disabled": false,
+          "type": "",
+          "href": "/admin/parents",
+          "status": "NOT RUN",
+          "actual": "Visible control inventory; rendering does not verify its action"
+        },
+        {
+          "tag": "A",
+          "name": "Teachers",
+          "disabled": false,
+          "type": "",
+          "href": "/admin/teachers-monitoring",
+          "status": "NOT RUN",
+          "actual": "Visible control inventory; rendering does not verify its action"
+        },
+        {
+          "tag": "A",
+          "name": "Users",
+          "disabled": false,
+          "type": "",
+          "href": "/admin/users",
+          "status": "NOT RUN",
+          "actual": "Visible control inventory; rendering does not verify its action"
+        },
+        {
+          "tag": "A",
+          "name": "Create teacher",
+          "disabled": false,
+          "type": "",
+          "href": "/admin/teachers",
+          "status": "NOT RUN",
+          "actual": "Visible control inventory; rendering does not verify its action"
+        },
+        {
+          "tag": "A",
+          "name": "Sections",
+          "disabled": false,
+          "type": "",
+          "href": "/admin/sections",
+          "status": "NOT RUN",
+          "actual": "Visible control inventory; rendering does not verify its action"
+        },
+        {
+          "tag": "A",
+          "name": "Analytics",
+          "disabled": false,
+          "type": "",
+          "href": "/admin/analytics",
+          "status": "NOT RUN",
+          "actual": "Visible control inventory; rendering does not verify its action"
+        },
+        {
+          "tag": "A",
+          "name": "Audit Trail",
+          "disabled": false,
+          "type": "",
+          "href": "/admin/audit-logs",
+          "status": "NOT RUN",
+          "actual": "Visible control inventory; rendering does not verify its action"
+        },
+        {
+          "tag": "A",
+          "name": "Archive",
+          "disabled": false,
+          "type": "",
+          "href": "/admin/archived",
+          "status": "NOT RUN",
+          "actual": "Visible control inventory; rendering does not verify its action"
+        },
+        {
+          "tag": "A",
+          "name": "Notifications",
+          "disabled": false,
+          "type": "",
+          "href": "/admin/notifications",
+          "status": "NOT RUN",
+          "actual": "Visible control inventory; rendering does not verify its action"
+        },
+        {
+          "tag": "A",
+          "name": "Settings",
+          "disabled": false,
+          "type": "",
+          "href": "/admin/settings",
+          "status": "NOT RUN",
+          "actual": "Visible control inventory; rendering does not verify its action"
+        },
+        {
+          "tag": "A",
+          "name": "Profile",
+          "disabled": false,
+          "type": "",
+          "href": "/admin/profile",
+          "status": "NOT RUN",
+          "actual": "Visible control inventory; rendering does not verify its action"
+        },
+        {
+          "tag": "BUTTON",
+          "name": "QAQA adminAdministrator⌃",
+          "disabled": false,
+          "type": "button",
+          "href": null,
+          "status": "NOT RUN",
+          "actual": "Visible control inventory; rendering does not verify its action"
+        },
+        {
+          "tag": "INPUT",
+          "name": "Search admin pages",
+          "disabled": false,
+          "type": "search",
+          "href": null,
+          "status": "NOT RUN",
+          "actual": "Visible control inventory; rendering does not verify its action"
+        },
+        {
+          "tag": "A",
+          "name": "Notifications",
+          "disabled": false,
+          "type": "",
+          "href": "/admin/notifications",
+          "status": "NOT RUN",
+          "actual": "Visible control inventory; rendering does not verify its action"
+        },
+        {
+          "tag": "A",
+          "name": "View all →",
+          "disabled": false,
+          "type": "",
+          "href": "/admin/users",
+          "status": "NOT RUN",
+          "actual": "Visible control inventory; rendering does not verify its action"
+        },
+        {
+          "tag": "A",
+          "name": "👥Manage usersSearch, filter, and account actions→",
+          "disabled": false,
+          "type": "",
+          "href": "/admin/users",
+          "status": "NOT RUN",
+          "actual": "Visible control inventory; rendering does not verify its action"
+        },
+        {
+          "tag": "A",
+          "name": "🎓Create a teacherCreate a teacher account→",
+          "disabled": false,
+          "type": "",
+          "href": "/admin/teachers",
+          "status": "NOT RUN",
+          "actual": "Visible control inventory; rendering does not verify its action"
+        },
+        {
+          "tag": "A",
+          "name": "▥Open analyticsTrends and system performance→",
+          "disabled": false,
+          "type": "",
+          "href": "/admin/analytics",
+          "status": "NOT RUN",
+          "actual": "Visible control inventory; rendering does not verify its action"
+        }
+      ]
+    },
+    {
+      "role": "admin",
+      "variant": "populated",
+      "width": 375,
+      "path": "/admin",
+      "controls": [
+        {
+          "tag": "BUTTON",
+          "name": "Open menu",
+          "disabled": false,
+          "type": "button",
+          "href": null,
+          "status": "NOT RUN",
+          "actual": "Visible control inventory; rendering does not verify its action"
+        },
+        {
+          "tag": "A",
+          "name": "View all →",
+          "disabled": false,
+          "type": "",
+          "href": "/admin/users",
+          "status": "NOT RUN",
+          "actual": "Visible control inventory; rendering does not verify its action"
+        },
+        {
+          "tag": "A",
+          "name": "👥Manage usersSearch, filter, and account actions→",
+          "disabled": false,
+          "type": "",
+          "href": "/admin/users",
+          "status": "NOT RUN",
+          "actual": "Visible control inventory; rendering does not verify its action"
+        },
+        {
+          "tag": "A",
+          "name": "🎓Create a teacherCreate a teacher account→",
+          "disabled": false,
+          "type": "",
+          "href": "/admin/teachers",
+          "status": "NOT RUN",
+          "actual": "Visible control inventory; rendering does not verify its action"
+        },
+        {
+          "tag": "A",
+          "name": "▥Open analyticsTrends and system performance→",
+          "disabled": false,
+          "type": "",
+          "href": "/admin/analytics",
+          "status": "NOT RUN",
+          "actual": "Visible control inventory; rendering does not verify its action"
+        }
+      ]
+    }
+  ],
+  "contextReports": [
+    {
+      "role": "admin",
+      "variant": "populated",
+      "width": 1440,
+      "runtimeErrors": [],
+      "failedRequests": [
+        {
+          "url": "https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Lexend:wght@400;500;700&display=swap",
+          "error": "NS_ERROR_FAILURE"
+        },
+        {
+          "url": "http://127.0.0.1:4173/assets/sidebar-foliage-left-D2XwCOJM.png",
+          "error": "NS_BINDING_ABORTED"
+        },
+        {
+          "url": "http://127.0.0.1:4173/assets/sidebar-foliage-right-CQGJ07rn.png",
+          "error": "NS_BINDING_ABORTED"
+        },
+        {
+          "url": "https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Lexend:wght@400;500;700&display=swap",
+          "error": "NS_ERROR_FAILURE"
+        },
+        {
+          "url": "http://127.0.0.1:4173/assets/admin-hero-background-Cypg2enN.png",
+          "error": "NS_BINDING_ABORTED"
+        },
+        {
+          "url": "https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Lexend:wght@400;500;700&display=swap",
+          "error": "NS_ERROR_FAILURE"
+        },
+        {
+          "url": "http://127.0.0.1:4173/assets/sidebar-foliage-left-D2XwCOJM.png",
+          "error": "NS_BINDING_ABORTED"
+        },
+        {
+          "url": "https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Lexend:wght@400;500;700&display=swap",
+          "error": "NS_ERROR_FAILURE"
+        },
+        {
+          "url": "http://127.0.0.1:4173/assets/admin-hero-background-Cypg2enN.png",
+          "error": "NS_BINDING_ABORTED"
+        },
+        {
+          "url": "http://127.0.0.1:4173/assets/books-stack-CIPguUlZ.png",
+          "error": "NS_BINDING_ABORTED"
+        },
+        {
+          "url": "https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Lexend:wght@400;500;700&display=swap",
+          "error": "NS_ERROR_FAILURE"
+        },
+        {
+          "url": "https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Lexend:wght@400;500;700&display=swap",
+          "error": "NS_ERROR_FAILURE"
+        }
+      ],
+      "escapedRequests": [
+        {
+          "method": "GET",
+          "url": "https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Lexend:wght@400;500;700&display=swap"
+        },
+        {
+          "method": "GET",
+          "url": "https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Lexend:wght@400;500;700&display=swap"
+        },
+        {
+          "method": "GET",
+          "url": "https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Lexend:wght@400;500;700&display=swap"
+        },
+        {
+          "method": "GET",
+          "url": "https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Lexend:wght@400;500;700&display=swap"
+        },
+        {
+          "method": "GET",
+          "url": "https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Lexend:wght@400;500;700&display=swap"
+        },
+        {
+          "method": "GET",
+          "url": "https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Lexend:wght@400;500;700&display=swap"
+        }
+      ],
+      "api": [
+        {
+          "kind": "api",
+          "method": "POST",
+          "path": "/auth/events",
+          "body": {
+            "type": "login",
+            "platform": "web",
+            "sessionId": "37b0d653-83c1-4267-915c-b1d4fb5eb24f"
+          }
+        },
+        {
+          "kind": "api",
+          "method": "GET",
+          "path": "/notifications",
+          "body": {}
+        },
+        {
+          "kind": "api",
+          "method": "GET",
+          "path": "/admin/analytics",
+          "body": {}
+        },
+        {
+          "kind": "api",
+          "method": "GET",
+          "path": "/admin/users",
+          "body": {}
+        },
+        {
+          "kind": "api",
+          "method": "GET",
+          "path": "/admin/credential-security",
+          "body": {}
+        },
+        {
+          "kind": "api",
+          "method": "POST",
+          "path": "/auth/events",
+          "body": {
+            "type": "login",
+            "platform": "web",
+            "sessionId": "37b0d653-83c1-4267-915c-b1d4fb5eb24f"
+          }
+        },
+        {
+          "kind": "api",
+          "method": "GET",
+          "path": "/notifications",
+          "body": {}
+        },
+        {
+          "kind": "api",
+          "method": "GET",
+          "path": "/admin/analytics",
+          "body": {}
+        },
+        {
+          "kind": "api",
+          "method": "GET",
+          "path": "/admin/users",
+          "body": {}
+        },
+        {
+          "kind": "api",
+          "method": "GET",
+          "path": "/admin/credential-security",
+          "body": {}
+        },
+        {
+          "kind": "api",
+          "method": "POST",
+          "path": "/auth/events",
+          "body": {
+            "type": "login",
+            "platform": "web",
+            "sessionId": "37b0d653-83c1-4267-915c-b1d4fb5eb24f"
+          }
+        },
+        {
+          "kind": "api",
+          "method": "GET",
+          "path": "/notifications",
+          "body": {}
+        },
+        {
+          "kind": "api",
+          "method": "GET",
+          "path": "/admin/system-settings",
+          "body": {}
+        },
+        {
+          "kind": "api",
+          "method": "PATCH",
+          "path": "/admin/system-settings",
+          "body": {
+            "systemName": "QA Updated",
+            "organizationName": "Isolated QA",
+            "defaultLanguage": "fil",
+            "timezone": "Asia/Manila",
+            "sequentialModules": true,
+            "passingScore": 75,
+            "completionRequirement": 80,
+            "allowActivityRetry": true,
+            "autoSaveProgress": true,
+            "xpPerActivity": 10,
+            "xpPerModule": 50,
+            "enableBadges": true,
+            "enableDailyStreak": true,
+            "enableAchievementRewards": true,
+            "studentProgressAlerts": true,
+            "newAccountNotifications": true,
+            "teacherNotifications": true,
+            "systemAnnouncements": true,
+            "sessionTimeout": "30",
+            "failedLoginLimit": 5,
+            "requireStrongPassword": true,
+            "lockAfterFailures": true,
+            "maintenanceMode": false,
+            "announcement": "",
+            "readOnlyMode": false
+          }
+        },
+        {
+          "kind": "api",
+          "method": "POST",
+          "path": "/auth/events",
+          "body": {
+            "type": "login",
+            "platform": "web",
+            "sessionId": "37b0d653-83c1-4267-915c-b1d4fb5eb24f"
+          }
+        },
+        {
+          "kind": "api",
+          "method": "GET",
+          "path": "/notifications",
+          "body": {}
+        },
+        {
+          "kind": "api",
+          "method": "GET",
+          "path": "/admin/analytics",
+          "body": {}
+        },
+        {
+          "kind": "api",
+          "method": "GET",
+          "path": "/admin/users",
+          "body": {}
+        },
+        {
+          "kind": "api",
+          "method": "GET",
+          "path": "/admin/credential-security",
+          "body": {}
+        },
+        {
+          "kind": "api",
+          "method": "GET",
+          "path": "/admin/sections",
+          "body": {}
+        },
+        {
+          "kind": "api",
+          "method": "POST",
+          "path": "/auth/events",
+          "body": {
+            "type": "login",
+            "platform": "web",
+            "sessionId": "37b0d653-83c1-4267-915c-b1d4fb5eb24f"
+          }
+        },
+        {
+          "kind": "api",
+          "method": "GET",
+          "path": "/notifications",
+          "body": {}
+        },
+        {
+          "kind": "api",
+          "method": "GET",
+          "path": "/admin/analytics",
+          "body": {}
+        },
+        {
+          "kind": "api",
+          "method": "GET",
+          "path": "/admin/users",
+          "body": {}
+        },
+        {
+          "kind": "api",
+          "method": "GET",
+          "path": "/admin/credential-security",
+          "body": {}
+        }
+      ],
+      "unexpectedApi": [],
+      "consoleErrors": [
+        "[JavaScript Error: \"Cross-Origin Request Blocked: The Same Origin Policy disallows reading the remote resource at https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Lexend:wght@400;500;700&display=swap. (Reason: CORS request did not succeed). Status code: (null).\"]"
+      ]
+    },
+    {
+      "role": "admin",
+      "variant": "populated",
+      "width": 375,
+      "runtimeErrors": [],
+      "failedRequests": [
+        {
+          "url": "https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Lexend:wght@400;500;700&display=swap",
+          "error": "NS_ERROR_FAILURE"
+        }
+      ],
+      "escapedRequests": [
+        {
+          "method": "GET",
+          "url": "https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Lexend:wght@400;500;700&display=swap"
+        }
+      ],
+      "api": [
+        {
+          "kind": "api",
+          "method": "POST",
+          "path": "/auth/events",
+          "body": {
+            "type": "login",
+            "platform": "web",
+            "sessionId": "a527a5f6-fb1c-41f2-b2be-c222ca372db0"
+          }
+        },
+        {
+          "kind": "api",
+          "method": "GET",
+          "path": "/notifications",
+          "body": {}
+        },
+        {
+          "kind": "api",
+          "method": "GET",
+          "path": "/admin/analytics",
+          "body": {}
+        },
+        {
+          "kind": "api",
+          "method": "GET",
+          "path": "/admin/users",
+          "body": {}
+        },
+        {
+          "kind": "api",
+          "method": "GET",
+          "path": "/admin/credential-security",
+          "body": {}
+        }
+      ],
+      "unexpectedApi": []
+    }
+  ],
+  "requests": [
+    {
+      "path": "/admin",
+      "time": 1792589615549
+    },
+    {
+      "path": "/assets/index-KS_Wt2Ut.js",
+      "time": 1792589616365
+    },
+    {
+      "path": "/assets/index-jSbYN_xi.css",
+      "time": 1792589616370
+    },
+    {
+      "path": "/assets/AdminArea-A9H7GK7C.js",
+      "time": 1792589617235
+    },
+    {
+      "path": "/assets/DashboardShell-6ut9fgwF.js",
+      "time": 1792589617237
+    },
+    {
+      "path": "/assets/lightbulb-d21_X-jf.js",
+      "time": 1792589617251
+    },
+    {
+      "path": "/assets/NotFound-BUQJp_tp.js",
+      "time": 1792589617312
+    },
+    {
+      "path": "/assets/CartesianChart-JzonCTf0.js",
+      "time": 1792589617314
+    },
+    {
+      "path": "/assets/sidebar-foliage-left-DIBGS1q3.js",
+      "time": 1792589617320
+    },
+    {
+      "path": "/assets/users-round-BcS3TAq0.js",
+      "time": 1792589617323
+    },
+    {
+      "path": "/assets/Teacher%20Illustration-CCn01k2_.js",
+      "time": 1792589617325
+    },
+    {
+      "path": "/assets/cardStyle-iaU5tt7J.js",
+      "time": 1792589617326
+    },
+    {
+      "path": "/assets/QueryErrorNotice-Cp2x4wgl.js",
+      "time": 1792589617354
+    },
+    {
+      "path": "/assets/opendyslexic-latin-400-normal-nUhe5EwG.woff2",
+      "time": 1792589617355
+    },
+    {
+      "path": "/assets/Logo-BJPtDbbX.jpg",
+      "time": 1792589617356
+    },
+    {
+      "path": "/favicon.jpg",
+      "time": 1792589617465
+    },
+    {
+      "path": "/favicon.svg",
+      "time": 1792589617466
+    },
+    {
+      "path": "/assets/owl-admin-mascot-DbX_Fxlm.png",
+      "time": 1792589617933
+    },
+    {
+      "path": "/assets/sidebar-foliage-left-D2XwCOJM.png",
+      "time": 1792589617936
+    },
+    {
+      "path": "/assets/sidebar-foliage-right-CQGJ07rn.png",
+      "time": 1792589617940
+    },
+    {
+      "path": "/assets/admin-hero-background-Cypg2enN.png",
+      "time": 1792589617942
+    },
+    {
+      "path": "/teacher",
+      "time": 1792589620028
+    },
+    {
+      "path": "/assets/index-KS_Wt2Ut.js",
+      "time": 1792589621845
+    },
+    {
+      "path": "/assets/index-jSbYN_xi.css",
+      "time": 1792589621848
+    },
+    {
+      "path": "/assets/TeacherArea-DhknhP8L.js",
+      "time": 1792589622121
+    },
+    {
+      "path": "/assets/DashboardShell-6ut9fgwF.js",
+      "time": 1792589622126
+    },
+    {
+      "path": "/assets/lightbulb-d21_X-jf.js",
+      "time": 1792589622128
+    },
+    {
+      "path": "/assets/NotFound-BUQJp_tp.js",
+      "time": 1792589622134
+    },
+    {
+      "path": "/assets/sun-DrUQinFq.js",
+      "time": 1792589622146
+    },
+    {
+      "path": "/assets/users-round-BcS3TAq0.js",
+      "time": 1792589622149
+    },
+    {
+      "path": "/assets/Teacher%20Illustration-CCn01k2_.js",
+      "time": 1792589622171
+    },
+    {
+      "path": "/assets/cardStyle-iaU5tt7J.js",
+      "time": 1792589622173
+    },
+    {
+      "path": "/assets/QueryErrorNotice-Cp2x4wgl.js",
+      "time": 1792589622175
+    },
+    {
+      "path": "/assets/PdfReadingAssistant-jyb4x165.js",
+      "time": 1792589622178
+    },
+    {
+      "path": "/assets/TTSButton-B0_QR_VU.js",
+      "time": 1792589622182
+    },
+    {
+      "path": "/assets/opendyslexic-latin-400-normal-nUhe5EwG.woff2",
+      "time": 1792589622196
+    },
+    {
+      "path": "/assets/Logo-BJPtDbbX.jpg",
+      "time": 1792589622200
+    },
+    {
+      "path": "/favicon.jpg",
+      "time": 1792589622228
+    },
+    {
+      "path": "/favicon.svg",
+      "time": 1792589622230
+    },
+    {
+      "path": "/assets/AdminArea-A9H7GK7C.js",
+      "time": 1792589622361
+    },
+    {
+      "path": "/assets/CartesianChart-JzonCTf0.js",
+      "time": 1792589622371
+    },
+    {
+      "path": "/assets/sidebar-foliage-left-DIBGS1q3.js",
+      "time": 1792589622373
+    },
+    {
+      "path": "/assets/sidebar-foliage-left-D2XwCOJM.png",
+      "time": 1792589622672
+    },
+    {
+      "path": "/assets/sidebar-foliage-right-CQGJ07rn.png",
+      "time": 1792589622673
+    },
+    {
+      "path": "/assets/owl-admin-mascot-DbX_Fxlm.png",
+      "time": 1792589622766
+    },
+    {
+      "path": "/assets/admin-hero-background-Cypg2enN.png",
+      "time": 1792589622792
+    },
+    {
+      "path": "/admin/settings",
+      "time": 1792589623094
+    },
+    {
+      "path": "/assets/index-KS_Wt2Ut.js",
+      "time": 1792589623168
+    },
+    {
+      "path": "/assets/index-jSbYN_xi.css",
+      "time": 1792589623169
+    },
+    {
+      "path": "/assets/AdminArea-A9H7GK7C.js",
+      "time": 1792589623432
+    },
+    {
+      "path": "/assets/DashboardShell-6ut9fgwF.js",
+      "time": 1792589623436
+    },
+    {
+      "path": "/assets/lightbulb-d21_X-jf.js",
+      "time": 1792589623438
+    },
+    {
+      "path": "/assets/NotFound-BUQJp_tp.js",
+      "time": 1792589623440
+    },
+    {
+      "path": "/assets/CartesianChart-JzonCTf0.js",
+      "time": 1792589623460
+    },
+    {
+      "path": "/assets/sidebar-foliage-left-DIBGS1q3.js",
+      "time": 1792589623462
+    },
+    {
+      "path": "/assets/users-round-BcS3TAq0.js",
+      "time": 1792589623476
+    },
+    {
+      "path": "/assets/Teacher%20Illustration-CCn01k2_.js",
+      "time": 1792589623478
+    },
+    {
+      "path": "/assets/cardStyle-iaU5tt7J.js",
+      "time": 1792589623479
+    },
+    {
+      "path": "/assets/QueryErrorNotice-Cp2x4wgl.js",
+      "time": 1792589623482
+    },
+    {
+      "path": "/assets/opendyslexic-latin-400-normal-nUhe5EwG.woff2",
+      "time": 1792589623486
+    },
+    {
+      "path": "/assets/Logo-BJPtDbbX.jpg",
+      "time": 1792589623502
+    },
+    {
+      "path": "/favicon.jpg",
+      "time": 1792589623546
+    },
+    {
+      "path": "/favicon.svg",
+      "time": 1792589623548
+    },
+    {
+      "path": "/assets/sidebar-foliage-left-D2XwCOJM.png",
+      "time": 1792589623813
+    },
+    {
+      "path": "/assets/sidebar-foliage-right-CQGJ07rn.png",
+      "time": 1792589623822
+    },
+    {
+      "path": "/admin",
+      "time": 1792589624394
+    },
+    {
+      "path": "/assets/index-KS_Wt2Ut.js",
+      "time": 1792589624462
+    },
+    {
+      "path": "/assets/index-jSbYN_xi.css",
+      "time": 1792589624464
+    },
+    {
+      "path": "/assets/AdminArea-A9H7GK7C.js",
+      "time": 1792589624698
+    },
+    {
+      "path": "/assets/DashboardShell-6ut9fgwF.js",
+      "time": 1792589624700
+    },
+    {
+      "path": "/assets/lightbulb-d21_X-jf.js",
+      "time": 1792589624710
+    },
+    {
+      "path": "/assets/NotFound-BUQJp_tp.js",
+      "time": 1792589624715
+    },
+    {
+      "path": "/assets/CartesianChart-JzonCTf0.js",
+      "time": 1792589624726
+    },
+    {
+      "path": "/assets/sidebar-foliage-left-DIBGS1q3.js",
+      "time": 1792589624729
+    },
+    {
+      "path": "/assets/users-round-BcS3TAq0.js",
+      "time": 1792589624751
+    },
+    {
+      "path": "/assets/Teacher%20Illustration-CCn01k2_.js",
+      "time": 1792589624753
+    },
+    {
+      "path": "/assets/cardStyle-iaU5tt7J.js",
+      "time": 1792589624759
+    },
+    {
+      "path": "/assets/QueryErrorNotice-Cp2x4wgl.js",
+      "time": 1792589624761
+    },
+    {
+      "path": "/assets/opendyslexic-latin-400-normal-nUhe5EwG.woff2",
+      "time": 1792589624765
+    },
+    {
+      "path": "/assets/Logo-BJPtDbbX.jpg",
+      "time": 1792589624771
+    },
+    {
+      "path": "/favicon.jpg",
+      "time": 1792589624805
+    },
+    {
+      "path": "/favicon.svg",
+      "time": 1792589624806
+    },
+    {
+      "path": "/assets/sidebar-foliage-left-D2XwCOJM.png",
+      "time": 1792589625072
+    },
+    {
+      "path": "/assets/sidebar-foliage-right-CQGJ07rn.png",
+      "time": 1792589625073
+    },
+    {
+      "path": "/assets/owl-admin-mascot-DbX_Fxlm.png",
+      "time": 1792589625134
+    },
+    {
+      "path": "/assets/admin-hero-background-Cypg2enN.png",
+      "time": 1792589625136
+    },
+    {
+      "path": "/admin",
+      "time": 1792589625752
+    },
+    {
+      "path": "/assets/books-stack-CIPguUlZ.png",
+      "time": 1792589625784
+    },
+    {
+      "path": "/assets/books-stack-CIPguUlZ.png",
+      "time": 1792589625800
+    },
+    {
+      "path": "/assets/index-KS_Wt2Ut.js",
+      "time": 1792589625940
+    },
+    {
+      "path": "/assets/index-jSbYN_xi.css",
+      "time": 1792589625948
+    },
+    {
+      "path": "/assets/AdminArea-A9H7GK7C.js",
+      "time": 1792589626161
+    },
+    {
+      "path": "/assets/DashboardShell-6ut9fgwF.js",
+      "time": 1792589626181
+    },
+    {
+      "path": "/assets/lightbulb-d21_X-jf.js",
+      "time": 1792589626188
+    },
+    {
+      "path": "/assets/NotFound-BUQJp_tp.js",
+      "time": 1792589626190
+    },
+    {
+      "path": "/assets/CartesianChart-JzonCTf0.js",
+      "time": 1792589626193
+    },
+    {
+      "path": "/assets/sidebar-foliage-left-DIBGS1q3.js",
+      "time": 1792589626198
+    },
+    {
+      "path": "/assets/users-round-BcS3TAq0.js",
+      "time": 1792589626200
+    },
+    {
+      "path": "/assets/Teacher%20Illustration-CCn01k2_.js",
+      "time": 1792589626203
+    },
+    {
+      "path": "/assets/cardStyle-iaU5tt7J.js",
+      "time": 1792589626208
+    },
+    {
+      "path": "/assets/QueryErrorNotice-Cp2x4wgl.js",
+      "time": 1792589626212
+    },
+    {
+      "path": "/assets/opendyslexic-latin-400-normal-nUhe5EwG.woff2",
+      "time": 1792589626217
+    },
+    {
+      "path": "/assets/Logo-BJPtDbbX.jpg",
+      "time": 1792589626232
+    },
+    {
+      "path": "/favicon.jpg",
+      "time": 1792589626270
+    },
+    {
+      "path": "/favicon.svg",
+      "time": 1792589626271
+    },
+    {
+      "path": "/assets/owl-admin-mascot-DbX_Fxlm.png",
+      "time": 1792589626498
+    },
+    {
+      "path": "/assets/sidebar-foliage-left-D2XwCOJM.png",
+      "time": 1792589626507
+    },
+    {
+      "path": "/assets/sidebar-foliage-right-CQGJ07rn.png",
+      "time": 1792589626510
+    },
+    {
+      "path": "/assets/admin-hero-background-Cypg2enN.png",
+      "time": 1792589626511
+    },
+    {
+      "path": "/admin",
+      "time": 1792589628949
+    },
+    {
+      "path": "/assets/index-KS_Wt2Ut.js",
+      "time": 1792589629081
+    },
+    {
+      "path": "/assets/index-jSbYN_xi.css",
+      "time": 1792589629086
+    },
+    {
+      "path": "/assets/AdminArea-A9H7GK7C.js",
+      "time": 1792589629475
+    },
+    {
+      "path": "/assets/DashboardShell-6ut9fgwF.js",
+      "time": 1792589629482
+    },
+    {
+      "path": "/assets/lightbulb-d21_X-jf.js",
+      "time": 1792589629485
+    },
+    {
+      "path": "/assets/NotFound-BUQJp_tp.js",
+      "time": 1792589629490
+    },
+    {
+      "path": "/assets/CartesianChart-JzonCTf0.js",
+      "time": 1792589629492
+    },
+    {
+      "path": "/assets/sidebar-foliage-left-DIBGS1q3.js",
+      "time": 1792589629495
+    },
+    {
+      "path": "/assets/users-round-BcS3TAq0.js",
+      "time": 1792589629496
+    },
+    {
+      "path": "/assets/Teacher%20Illustration-CCn01k2_.js",
+      "time": 1792589629499
+    },
+    {
+      "path": "/assets/cardStyle-iaU5tt7J.js",
+      "time": 1792589629507
+    },
+    {
+      "path": "/assets/QueryErrorNotice-Cp2x4wgl.js",
+      "time": 1792589629536
+    },
+    {
+      "path": "/assets/Logo-BJPtDbbX.jpg",
+      "time": 1792589629541
+    },
+    {
+      "path": "/assets/opendyslexic-latin-400-normal-nUhe5EwG.woff2",
+      "time": 1792589629544
+    },
+    {
+      "path": "/favicon.jpg",
+      "time": 1792589629577
+    },
+    {
+      "path": "/favicon.svg",
+      "time": 1792589629579
+    },
+    {
+      "path": "/assets/sidebar-foliage-left-D2XwCOJM.png",
+      "time": 1792589629988
+    },
+    {
+      "path": "/assets/sidebar-foliage-right-CQGJ07rn.png",
+      "time": 1792589629990
+    },
+    {
+      "path": "/assets/owl-admin-mascot-DbX_Fxlm.png",
+      "time": 1792589630143
+    },
+    {
+      "path": "/assets/admin-hero-background-Cypg2enN.png",
+      "time": 1792589630144
+    }
+  ],
+  "base": "http://127.0.0.1:4173",
+  "version": "157.0",
+  "completedAt": "2026-10-21T13:33:52.235Z"
+}

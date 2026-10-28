@@ -12,6 +12,7 @@ import Notifications from '../pages/admin/Notifications';
 import AuditLogs from '../pages/admin/AuditLogs';
 import RoleMonitoring from '../pages/admin/RoleMonitoring';
 import Sections from '../pages/admin/Sections';
+import NotFound from '../pages/NotFound';
 
 const Analytics = lazy(() => import('../pages/admin/Analytics'));
 
@@ -24,5 +25,6 @@ export default function AdminArea() {
     <Route path="students" element={<RoleMonitoring role="student" />} />
     <Route path="parents" element={<RoleMonitoring role="parent" />} />
     <Route path="teachers-monitoring" element={<RoleMonitoring role="teacher" />} />
+    <Route path="*" element={<NotFound />} />
   </Route></Routes>;
 }

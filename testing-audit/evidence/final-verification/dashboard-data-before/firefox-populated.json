@@ -1,0 +1,2889 @@
+{
+  "startedAt": "2026-10-21T12:25:28.540Z",
+  "scope": "Real role UI and frontend auth/role middleware with synthetic sessions and explicitly mocked Supabase/API persistence. Not real Supabase Auth, RLS, delivery or durable CRUD.",
+  "browser": "firefox",
+  "rows": [
+    {
+      "id": "ROLE-firefox-001",
+      "role": "admin",
+      "module": "Authenticated UI with mocked boundaries",
+      "feature": "Render /admin with no route crash or cross-role redirect",
+      "preconditions": "firefox, 1440px, populated synthetic session/data",
+      "steps": "Render /admin with no route crash or cross-role redirect",
+      "expected": "Named UI assertions pass; no remote service request",
+      "evidence": "firefox-populated.json",
+      "actual": {
+        "text": "Good morning,Admin!Here is a quick summary of LinawLetra users and activity today.ABC ✦✎Good morning! ✦Welcome back, QA admin!Here is the quick story of LinawLe",
+        "width": 1440,
+        "content": 1440,
+        "unexpected": [],
+        "queryFailures": []
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "ROLE-firefox-002",
+      "role": "admin",
+      "module": "Authenticated UI with mocked boundaries",
+      "feature": "Wrong-role URL redirects to the signed-in role dashboard",
+      "preconditions": "firefox, 1440px, populated synthetic session/data",
+      "steps": "Wrong-role URL redirects to the signed-in role dashboard",
+      "expected": "Named UI assertions pass; no remote service request",
+      "evidence": "firefox-populated.json",
+      "actual": "Named assertions passed",
+      "status": "PASS"
+    },
+    {
+      "id": "ROLE-firefox-003",
+      "role": "admin",
+      "module": "Authenticated UI with mocked boundaries",
+      "feature": "System settings edit submits and displays success with mocked persistence",
+      "preconditions": "firefox, 1440px, populated synthetic session/data",
+      "steps": "System settings edit submits and displays success with mocked persistence",
+      "expected": "Named UI assertions pass; no remote service request",
+      "evidence": "firefox-populated.json",
+      "actual": "Named assertions passed",
+      "status": "PASS"
+    },
+    {
+      "id": "ROLE-firefox-004",
+      "role": "admin",
+      "module": "Authenticated UI with mocked boundaries",
+      "feature": "Automated accessibility scan of role dashboard",
+      "preconditions": "firefox, 1440px, populated synthetic session/data",
+      "steps": "Automated accessibility scan of role dashboard",
+      "expected": "Named UI assertions pass; no remote service request",
+      "evidence": "firefox-populated.json",
+      "actual": "page.waitForFunction: Timeout 8000ms exceeded.",
+      "status": "FAIL"
+    },
+    {
+      "id": "ROLE-firefox-005",
+      "role": "teacher",
+      "module": "Authenticated UI with mocked boundaries",
+      "feature": "Render /teacher with no route crash or cross-role redirect",
+      "preconditions": "firefox, 1440px, populated synthetic session/data",
+      "steps": "Render /teacher with no route crash or cross-role redirect",
+      "expected": "Named UI assertions pass; no remote service request",
+      "evidence": "firefox-populated.json",
+      "actual": {
+        "text": "Good morning,Teacher QA!Every small progress your students make is a meaningful step toward more confident reading.“A clear lesson today can make a brighter rea",
+        "width": 1440,
+        "content": 1440,
+        "unexpected": [],
+        "queryFailures": []
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "ROLE-firefox-006",
+      "role": "teacher",
+      "module": "Authenticated UI with mocked boundaries",
+      "feature": "Wrong-role URL redirects to the signed-in role dashboard",
+      "preconditions": "firefox, 1440px, populated synthetic session/data",
+      "steps": "Wrong-role URL redirects to the signed-in role dashboard",
+      "expected": "Named UI assertions pass; no remote service request",
+      "evidence": "firefox-populated.json",
+      "actual": "Named assertions passed",
+      "status": "PASS"
+    },
+    {
+      "id": "ROLE-firefox-007",
+      "role": "teacher",
+      "module": "Authenticated UI with mocked boundaries",
+      "feature": "Teacher sends a message through the actual UI to the synthetic roster parent",
+      "preconditions": "firefox, 1440px, populated synthetic session/data",
+      "steps": "Teacher sends a message through the actual UI to the synthetic roster parent",
+      "expected": "Named UI assertions pass; no remote service request",
+      "evidence": "firefox-populated.json",
+      "actual": "locator.waitFor: Error: strict mode violation: getByText('QA local message', { exact: true }) resolved to 2 elements:\n    1) <small>QA local message</small> aka getByRole('button', { name: 'QP QA parent QA local message' })\n    2) <p>QA local message</p> aka getByRole('article').getByText('QA local message')\n\nCall log:\n\u001b[2m  - waiting for getByText('QA local message', { exact: true }) to be visible\u001b[22m\n",
+      "status": "FAIL"
+    },
+    {
+      "id": "ROLE-firefox-008",
+      "role": "teacher",
+      "module": "Authenticated UI with mocked boundaries",
+      "feature": "Automated accessibility scan of role dashboard",
+      "preconditions": "firefox, 1440px, populated synthetic session/data",
+      "steps": "Automated accessibility scan of role dashboard",
+      "expected": "Named UI assertions pass; no remote service request",
+      "evidence": "firefox-populated.json",
+      "actual": "Expected values to be strictly deep-equal:\n+ actual - expected\n\n+ [\n+   {\n+     help: 'Elements must meet minimum color contrast ratio thresholds',\n+     id: 'color-contrast',\n+     impact: 'serious',\n+     nodes: [\n+       {\n+         failureSummary: 'Fix any of the following:\\n' +\n+           '  Element has insufficient color contrast of 2.75 (foreground color: #ffffff, background color: #9d92df, font size: 12.8pt (17px), font weight: bold). Expected contrast ratio of 4.5:1',\n+         target: [\n+           '.bg-white\\\\/10 > .bg-\\\\[var\\\\(--color-brand-sage\\\\)\\\\].shadow-sm.h-10'\n+         ]\n+       },\n+       {\n+         failureSummary: 'Fix any of the following:\\n' +\n+           '  Element has insufficient color contrast of 4.47 (foreground color: #777398, background color: #ffffff, font size: 9.0pt (12px), font weight: normal). Expected contrast ratio of 4.5:1',\n+         target: [\n+           '.teacher-progress-card > header > div > p'\n+         ]\n+       },\n+       {\n+         failureSummary: 'Fix any of the following:\\n' +\n+           '  Element has insufficient color contrast of 3.76 (foreground color: #718792, background color: #ffffff, font size: 9.0pt (12px), font weight: normal). Expected contrast ratio of 4.5:1',\n+         target: [\n+           '.teacher-activity-card > .teacher-empty'\n+         ]\n+       },\n+       {\n+         failureSummary: 'Fix any of the following:\\n' +\n+           '  Element has insufficient color contrast of 3.76 (foreground color: #718792, background color: #ffffff, font size: 9.0pt (12px), font weight: normal). Expected contrast ratio of 4.5:1',\n+         target: [\n+           '.teacher-attention-card > .teacher-empty'\n+         ]\n+       }\n+     ]\n+   }\n+ ]\n- []\n",
+      "status": "FAIL"
+    },
+    {
+      "id": "ROLE-firefox-009",
+      "role": "parent",
+      "module": "Authenticated UI with mocked boundaries",
+      "feature": "Render /parent with no route crash or cross-role redirect",
+      "preconditions": "firefox, 1440px, populated synthetic session/data",
+      "steps": "Render /parent with no route crash or cross-role redirect",
+      "expected": "Named UI assertions pass; no remote service request",
+      "evidence": "firefox-populated.json",
+      "actual": {
+        "text": "Good day,QA parent! Patuloy nating suportahan si QA Learner sa kanyang paglalakbay sa pagbabasa. Maliit na hakbang, malaking progreso!Kasama ka namin sa bawat p",
+        "width": 1440,
+        "content": 1440,
+        "unexpected": [],
+        "queryFailures": []
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "ROLE-firefox-010",
+      "role": "parent",
+      "module": "Authenticated UI with mocked boundaries",
+      "feature": "Wrong-role URL redirects to the signed-in role dashboard",
+      "preconditions": "firefox, 1440px, populated synthetic session/data",
+      "steps": "Wrong-role URL redirects to the signed-in role dashboard",
+      "expected": "Named UI assertions pass; no remote service request",
+      "evidence": "firefox-populated.json",
+      "actual": "Named assertions passed",
+      "status": "PASS"
+    },
+    {
+      "id": "ROLE-firefox-011",
+      "role": "parent",
+      "module": "Authenticated UI with mocked boundaries",
+      "feature": "Automated accessibility scan of role dashboard",
+      "preconditions": "firefox, 1440px, populated synthetic session/data",
+      "steps": "Automated accessibility scan of role dashboard",
+      "expected": "Named UI assertions pass; no remote service request",
+      "evidence": "firefox-populated.json",
+      "actual": "Expected values to be strictly deep-equal:\n+ actual - expected\n\n+ [\n+   {\n+     help: 'Elements must meet minimum color contrast ratio thresholds',\n+     id: 'color-contrast',\n+     impact: 'serious',\n+     nodes: [\n+       {\n+         failureSummary: 'Fix any of the following:\\n' +\n+           '  Element has insufficient color contrast of 4.35 (foreground color: #607b9e, background color: #ffffff, font size: 9.0pt (12px), font weight: normal). Expected contrast ratio of 4.5:1',\n+         target: [\n+           'p > small'\n+         ]\n+       },\n+       {\n+         failureSummary: 'Fix any of the following:\\n' +\n+           '  Element has insufficient color contrast of 3.44 (foreground color: #008df3, background color: #ffffff, font size: 8.3pt (11px), font weight: normal). Expected contrast ratio of 4.5:1',\n+         target: [\n+           '.ref-progress > .ref-card-heading > a'\n+         ]\n+       },\n+       {\n+         failureSummary: 'Fix any of the following:\\n' +\n+           '  Element has insufficient color contrast of 3.44 (foreground color: #008df3, background color: #ffffff, font size: 8.3pt (11px), font weight: normal). Expected contrast ratio of 4.5:1',\n+         target: [\n+           '.ref-learning > .ref-card-heading > a'\n+         ]\n+       },\n+       {\n+         failureSummary: 'Fix any of the following:\\n' +\n+           '  Element has insufficient color contrast of 3.44 (foreground color: #008df3, background color: #ffffff, font size: 8.3pt (11px), font weight: normal). Expected contrast ratio of 4.5:1',\n+         target: [\n+           '.ref-schedule > .ref-card-heading > a'\n+         ]\n+       },\n+       {\n+         failureSummary: 'Fix any of the following:\\n' +\n+           '  Element has insufficient color contrast of 4 (foreground color: #ffffff, background color: #088f7f, font size: 8.3pt (11px), font weight: normal). Expected contrast ratio of 4.5:1',\n+         target: [\n+           '.today'\n+         ]\n+       },\n+       {\n+         failureSummary: 'Fix any of the following:\\n' +\n+           '  Element has insufficient color contrast of 4.35 (foreground color: #607b9e, background color: #ffffff, font size: 9.0pt (12px), font weight: normal). Expected contrast ratio of 4.5:1',\n+         target: [\n+           '.ref-schedule-empty > p'\n+         ]\n+       },\n+       {\n+         failureSummary: 'Fix any of the following:\\n' +\n+           '  Element has insufficient color contrast of 3.84 (foreground color: #0a9285, background color: #ffffff, font size: 8.3pt (11px), font weight: normal). Expected contrast ratio of 4.5:1',\n+         target: [\n+           '.ref-schedule-empty > a'\n+         ]\n+       },\n+       {\n+         failureSummary: 'Fix any of the following:\\n' +\n+           '  Element has insufficient color contrast of 3.44 (foreground color: #008df3, background color: #ffffff, font size: 8.3pt (11px), font weight: normal). Expected contrast ratio of 4.5:1',\n+         target: [\n+           '.ref-activity > .ref-card-heading > a'\n+         ]\n+       },\n+       {\n+         failureSummary: 'Fix any of the following:\\n' +\n+           '  Element has insufficient color contrast of 4.35 (foreground color: #607b9e, background color: #ffffff, font size: 9.8pt (13px), font weight: normal). Expected contrast ratio of 4.5:1',\n+         target: [\n+           '.ref-empty > span'\n+         ]\n+       },\n+       {\n+         failureSummary: 'Fix any of the following:\\n' +\n+           '  Element has insufficient color contrast of 4.35 (foreground color: #607b9e, background color: #ffffff, font size: 9.0pt (12px), font weight: normal). Expected contrast ratio of 4.5:1',\n+         target: [\n+           '.ref-empty > span > small'\n+         ]\n+       },\n+       {\n+         failureSummary: 'Fix any of the following:\\n' +\n+           '  Element has insufficient color contrast of 3.44 (foreground color: #008df3, background color: #ffffff, font size: 8.3pt (11px), font weight: normal). Expected contrast ratio of 4.5:1',\n+         target: [\n+           '.ref-badges > .ref-card-heading > a'\n+         ]\n+       },\n+       {\n+         failureSummary: 'Fix any of the following:\\n' +\n+           '  Element has insufficient color contrast of 4.35 (foreground color: #607b9e, background color: #ffffff, font size: 7.5pt (10px), font weight: normal). Expected contrast ratio of 4.5:1',\n+         target: [\n+           'div[title=\"Tapusin ang unang gawain.\"] > b'\n+         ]\n+       },\n+       {\n+         failureSummary: 'Fix any of the following:\\n' +\n+           '  Element has insufficient color contrast of 4.35 (foreground color: #607b9e, background color: #ffffff, font size: 7.5pt (10px), font weight: normal). Expected contrast ratio of 4.5:1',\n+         target: [\n+           'div[title=\"Tapusin ang 5 gawain.\"] > b'\n+         ]\n+       },\n+       {\n+         failureSummary: 'Fix any of the following:\\n' +\n+           '  Element has insufficient color contrast of 4.35 (foreground color: #607b9e, background color: #ffffff, font size: 7.5pt (10px), font weight: normal). Expected contrast ratio of 4.5:1',\n+         target: [\n+           'div[title=\"Tapusin ang 10 gawain.\"] > b'\n+         ]\n+       },\n+       {\n+         failureSummary: 'Fix any of the following:\\n' +\n+           '  Element has insufficient color contrast of 4.35 (foreground color: #607b9e, background color: #ffffff, font size: 7.5pt (10px), font weight: normal). Expected contrast ratio of 4.5:1',\n+         target: [\n+           'div[title=\"Tapusin ang 25 gawain.\"] > b'\n+         ]\n+       },\n+       {\n+         failureSummary: 'Fix any of the following:\\n' +\n+           '  Element has insufficient color contrast of 3.44 (foreground color: #008df3, background color: #ffffff, font size: 8.3pt (11px), font weight: normal). Expected contrast ratio of 4.5:1',\n+         target: [\n+           '.ref-recommendations > .ref-card-heading > a'\n+         ]\n+       },\n+       {\n+         failureSummary: 'Fix any of the following:\\n' +\n+           '  Element has insufficient color contrast of 4.07 (foreground color: #607b9e, background color: #f4f8fa, font size: 7.5pt (10px), font weight: normal). Expected contrast ratio of 4.5:1',\n+         target: [\n+           'div > a:nth-child(1) > span:nth-child(2) > small'\n+         ]\n+       },\n+       {\n+         failureSummary: 'Fix any of the following:\\n' +\n+           '  Element has insufficient color contrast of 4.07 (foreground color: #607b9e, background color: #f4f8fa, font size: 7.5pt (10px), font weight: normal). Expected contrast ratio of 4.5:1',\n+         target: [\n+           'div > a:nth-child(2) > span:nth-child(2) > small'\n+         ]\n+       },\n+       {\n+         failureSummary: 'Fix any of the following:\\n' +\n+           '  Element has insufficient color contrast of 4.07 (foreground color: #607b9e, background color: #f4f8fa, font size: 7.5pt (10px), font weight: normal). Expected contrast ratio of 4.5:1',\n+         target: [\n+           'div > a:nth-child(3) > span:nth-child(2) > small'\n+         ]\n+       }\n+     ]\n+   }\n+ ]\n- []\n",
+      "status": "FAIL"
+    },
+    {
+      "id": "ROLE-firefox-012",
+      "role": "student",
+      "module": "Authenticated UI with mocked boundaries",
+      "feature": "Render /student with no route crash or cross-role redirect",
+      "preconditions": "firefox, 1440px, populated synthetic session/data",
+      "steps": "Render /student with no route crash or cross-role redirect",
+      "expected": "Named UI assertions pass; no remote service request",
+      "evidence": "firefox-populated.json",
+      "actual": "Unsupported fixture table is a harness gap, not a verified application defect\n+ actual - expected\n\n+ [\n+   {\n+     table: 'word_definitions'\n+   }\n+ ]\n- []\n",
+      "status": "FAIL"
+    },
+    {
+      "id": "ROLE-firefox-013",
+      "role": "student",
+      "module": "Authenticated UI with mocked boundaries",
+      "feature": "Wrong-role URL redirects to the signed-in role dashboard",
+      "preconditions": "firefox, 1440px, populated synthetic session/data",
+      "steps": "Wrong-role URL redirects to the signed-in role dashboard",
+      "expected": "Named UI assertions pass; no remote service request",
+      "evidence": "firefox-populated.json",
+      "actual": "Named assertions passed",
+      "status": "PASS"
+    },
+    {
+      "id": "ROLE-firefox-014",
+      "role": "student",
+      "module": "Authenticated UI with mocked boundaries",
+      "feature": "Automated accessibility scan of role dashboard",
+      "preconditions": "firefox, 1440px, populated synthetic session/data",
+      "steps": "Automated accessibility scan of role dashboard",
+      "expected": "Named UI assertions pass; no remote service request",
+      "evidence": "firefox-populated.json",
+      "actual": "Named assertions passed",
+      "status": "PASS"
+    }
+  ],
+  "accessibility": [
+    {
+      "role": "teacher",
+      "width": 1440,
+      "violations": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "nodes": [
+            {
+              "target": [
+                ".bg-white\\/10 > .bg-\\[var\\(--color-brand-sage\\)\\].shadow-sm.h-10"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 2.75 (foreground color: #ffffff, background color: #9d92df, font size: 12.8pt (17px), font weight: bold). Expected contrast ratio of 4.5:1"
+            },
+            {
+              "target": [
+                ".teacher-progress-card > header > div > p"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 4.47 (foreground color: #777398, background color: #ffffff, font size: 9.0pt (12px), font weight: normal). Expected contrast ratio of 4.5:1"
+            },
+            {
+              "target": [
+                ".teacher-activity-card > .teacher-empty"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 3.76 (foreground color: #718792, background color: #ffffff, font size: 9.0pt (12px), font weight: normal). Expected contrast ratio of 4.5:1"
+            },
+            {
+              "target": [
+                ".teacher-attention-card > .teacher-empty"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 3.76 (foreground color: #718792, background color: #ffffff, font size: 9.0pt (12px), font weight: normal). Expected contrast ratio of 4.5:1"
+            }
+          ]
+        }
+      ],
+      "incomplete": [
+        {
+          "id": "aria-prohibited-attr",
+          "nodes": 1
+        },
+        {
+          "id": "color-contrast",
+          "nodes": 15
+        }
+      ],
+      "passes": 18
+    },
+    {
+      "role": "parent",
+      "width": 1440,
+      "violations": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "nodes": [
+            {
+              "target": [
+                "p > small"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 4.35 (foreground color: #607b9e, background color: #ffffff, font size: 9.0pt (12px), font weight: normal). Expected contrast ratio of 4.5:1"
+            },
+            {
+              "target": [
+                ".ref-progress > .ref-card-heading > a"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 3.44 (foreground color: #008df3, background color: #ffffff, font size: 8.3pt (11px), font weight: normal). Expected contrast ratio of 4.5:1"
+            },
+            {
+              "target": [
+                ".ref-learning > .ref-card-heading > a"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 3.44 (foreground color: #008df3, background color: #ffffff, font size: 8.3pt (11px), font weight: normal). Expected contrast ratio of 4.5:1"
+            },
+            {
+              "target": [
+                ".ref-schedule > .ref-card-heading > a"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 3.44 (foreground color: #008df3, background color: #ffffff, font size: 8.3pt (11px), font weight: normal). Expected contrast ratio of 4.5:1"
+            },
+            {
+              "target": [
+                ".today"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 4 (foreground color: #ffffff, background color: #088f7f, font size: 8.3pt (11px), font weight: normal). Expected contrast ratio of 4.5:1"
+            },
+            {
+              "target": [
+                ".ref-schedule-empty > p"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 4.35 (foreground color: #607b9e, background color: #ffffff, font size: 9.0pt (12px), font weight: normal). Expected contrast ratio of 4.5:1"
+            },
+            {
+              "target": [
+                ".ref-schedule-empty > a"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 3.84 (foreground color: #0a9285, background color: #ffffff, font size: 8.3pt (11px), font weight: normal). Expected contrast ratio of 4.5:1"
+            },
+            {
+              "target": [
+                ".ref-activity > .ref-card-heading > a"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 3.44 (foreground color: #008df3, background color: #ffffff, font size: 8.3pt (11px), font weight: normal). Expected contrast ratio of 4.5:1"
+            },
+            {
+              "target": [
+                ".ref-empty > span"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 4.35 (foreground color: #607b9e, background color: #ffffff, font size: 9.8pt (13px), font weight: normal). Expected contrast ratio of 4.5:1"
+            },
+            {
+              "target": [
+                ".ref-empty > span > small"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 4.35 (foreground color: #607b9e, background color: #ffffff, font size: 9.0pt (12px), font weight: normal). Expected contrast ratio of 4.5:1"
+            },
+            {
+              "target": [
+                ".ref-badges > .ref-card-heading > a"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 3.44 (foreground color: #008df3, background color: #ffffff, font size: 8.3pt (11px), font weight: normal). Expected contrast ratio of 4.5:1"
+            },
+            {
+              "target": [
+                "div[title=\"Tapusin ang unang gawain.\"] > b"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 4.35 (foreground color: #607b9e, background color: #ffffff, font size: 7.5pt (10px), font weight: normal). Expected contrast ratio of 4.5:1"
+            },
+            {
+              "target": [
+                "div[title=\"Tapusin ang 5 gawain.\"] > b"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 4.35 (foreground color: #607b9e, background color: #ffffff, font size: 7.5pt (10px), font weight: normal). Expected contrast ratio of 4.5:1"
+            },
+            {
+              "target": [
+                "div[title=\"Tapusin ang 10 gawain.\"] > b"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 4.35 (foreground color: #607b9e, background color: #ffffff, font size: 7.5pt (10px), font weight: normal). Expected contrast ratio of 4.5:1"
+            },
+            {
+              "target": [
+                "div[title=\"Tapusin ang 25 gawain.\"] > b"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 4.35 (foreground color: #607b9e, background color: #ffffff, font size: 7.5pt (10px), font weight: normal). Expected contrast ratio of 4.5:1"
+            },
+            {
+              "target": [
+                ".ref-recommendations > .ref-card-heading > a"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 3.44 (foreground color: #008df3, background color: #ffffff, font size: 8.3pt (11px), font weight: normal). Expected contrast ratio of 4.5:1"
+            },
+            {
+              "target": [
+                "div > a:nth-child(1) > span:nth-child(2) > small"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 4.07 (foreground color: #607b9e, background color: #f4f8fa, font size: 7.5pt (10px), font weight: normal). Expected contrast ratio of 4.5:1"
+            },
+            {
+              "target": [
+                "div > a:nth-child(2) > span:nth-child(2) > small"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 4.07 (foreground color: #607b9e, background color: #f4f8fa, font size: 7.5pt (10px), font weight: normal). Expected contrast ratio of 4.5:1"
+            },
+            {
+              "target": [
+                "div > a:nth-child(3) > span:nth-child(2) > small"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 4.07 (foreground color: #607b9e, background color: #f4f8fa, font size: 7.5pt (10px), font weight: normal). Expected contrast ratio of 4.5:1"
+            }
+          ]
+        }
+      ],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "nodes": 31
+        }
+      ],
+      "passes": 24
+    },
+    {
+      "role": "student",
+      "width": 1440,
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "nodes": 35
+        }
+      ],
+      "passes": 24
+    }
+  ],
+  "controls": [
+    {
+      "role": "admin",
+      "variant": "populated",
+      "width": 1440,
+      "path": "/admin",
+      "controls": [
+        {
+          "tag": "BUTTON",
+          "name": "Close sidebar",
+          "disabled": false,
+          "type": "button",
+          "href": null,
+          "status": "NOT RUN",
+          "actual": "Visible control inventory; rendering does not verify its action"
+        },
+        {
+          "tag": "A",
+          "name": "Home",
+          "disabled": false,
+          "type": "",
+          "href": "/admin",
+          "status": "NOT RUN",
+          "actual": "Visible control inventory; rendering does not verify its action"
+        },
+        {
+          "tag": "A",
+          "name": "Students",
+          "disabled": false,
+          "type": "",
+          "href": "/admin/students",
+          "status": "NOT RUN",
+          "actual": "Visible control inventory; rendering does not verify its action"
+        },
+        {
+          "tag": "A",
+          "name": "Parents",
+          "disabled": false,
+          "type": "",
+          "href": "/admin/parents",
+          "status": "NOT RUN",
+          "actual": "Visible control inventory; rendering does not verify its action"
+        },
+        {
+          "tag": "A",
+          "name": "Teachers",
+          "disabled": false,
+          "type": "",
+          "href": "/admin/teachers-monitoring",
+          "status": "NOT RUN",
+          "actual": "Visible control inventory; rendering does not verify its action"
+        },
+        {
+          "tag": "A",
+          "name": "Users",
+          "disabled": false,
+          "type": "",
+          "href": "/admin/users",
+          "status": "NOT RUN",
+          "actual": "Visible control inventory; rendering does not verify its action"
+        },
+        {
+          "tag": "A",
+          "name": "Create teacher",
+          "disabled": false,
+          "type": "",
+          "href": "/admin/teachers",
+          "status": "NOT RUN",
+          "actual": "Visible control inventory; rendering does not verify its action"
+        },
+        {
+          "tag": "A",
+          "name": "Sections",
+          "disabled": false,
+          "type": "",
+          "href": "/admin/sections",
+          "status": "NOT RUN",
+          "actual": "Visible control inventory; rendering does not verify its action"
+        },
+        {
+          "tag": "A",
+          "name": "Analytics",
+          "disabled": false,
+          "type": "",
+          "href": "/admin/analytics",
+          "status": "NOT RUN",
+          "actual": "Visible control inventory; rendering does not verify its action"
+        },
+        {
+          "tag": "A",
+          "name": "Audit Trail",
+          "disabled": false,
+          "type": "",
+          "href": "/admin/audit-logs",
+          "status": "NOT RUN",
+          "actual": "Visible control inventory; rendering does not verify its action"
+        },
+        {
+          "tag": "A",
+          "name": "Archive",
+          "disabled": false,
+          "type": "",
+          "href": "/admin/archived",
+          "status": "NOT RUN",
+          "actual": "Visible control inventory; rendering does not verify its action"
+        },
+        {
+          "tag": "A",
+          "name": "Notifications",
+          "disabled": false,
+          "type": "",
+          "href": "/admin/notifications",
+          "status": "NOT RUN",
+          "actual": "Visible control inventory; rendering does not verify its action"
+        },
+        {
+          "tag": "A",
+          "name": "Settings",
+          "disabled": false,
+          "type": "",
+          "href": "/admin/settings",
+          "status": "NOT RUN",
+          "actual": "Visible control inventory; rendering does not verify its action"
+        },
+        {
+          "tag": "A",
+          "name": "Profile",
+          "disabled": false,
+          "type": "",
+          "href": "/admin/profile",
+          "status": "NOT RUN",
+          "actual": "Visible control inventory; rendering does not verify its action"
+        },
+        {
+          "tag": "BUTTON",
+          "name": "QAQA adminAdministrator⌃",
+          "disabled": false,
+          "type": "button",
+          "href": null,
+          "status": "NOT RUN",
+          "actual": "Visible control inventory; rendering does not verify its action"
+        },
+        {
+          "tag": "A",
+          "name": "View all →",
+          "disabled": false,
+          "type": "",
+          "href": "/admin/users",
+          "status": "NOT RUN",
+          "actual": "Visible control inventory; rendering does not verify its action"
+        },
+        {
+          "tag": "A",
+          "name": "👥Manage usersSearch, filter, and account actions→",
+          "disabled": false,
+          "type": "",
+          "href": "/admin/users",
+          "status": "NOT RUN",
+          "actual": "Visible control inventory; rendering does not verify its action"
+        },
+        {
+          "tag": "A",
+          "name": "🎓Create a teacherCreate a teacher account→",
+          "disabled": false,
+          "type": "",
+          "href": "/admin/teachers",
+          "status": "NOT RUN",
+          "actual": "Visible control inventory; rendering does not verify its action"
+        },
+        {
+          "tag": "A",
+          "name": "▥Open analyticsTrends and system performance→",
+          "disabled": false,
+          "type": "",
+          "href": "/admin/analytics",
+          "status": "NOT RUN",
+          "actual": "Visible control inventory; rendering does not verify its action"
+        }
+      ]
+    },
+    {
+      "role": "teacher",
+      "variant": "populated",
+      "width": 1440,
+      "path": "/teacher",
+      "controls": [
+        {
+          "tag": "BUTTON",
+          "name": "LinawLetraTanggapan ng Guro",
+          "disabled": false,
+          "type": "button",
+          "href": null,
+          "status": "NOT RUN",
+          "actual": "Visible control inventory; rendering does not verify its action"
+        },
+        {
+          "tag": "A",
+          "name": "Simula",
+          "disabled": false,
+          "type": "",
+          "href": "/teacher",
+          "status": "NOT RUN",
+          "actual": "Visible control inventory; rendering does not verify its action"
+        },
+        {
+          "tag": "A",
+          "name": "Mga Mag-aaral",
+          "disabled": false,
+          "type": "",
+          "href": "/teacher/students",
+          "status": "NOT RUN",
+          "actual": "Visible control inventory; rendering does not verify its action"
+        },
+        {
+          "tag": "A",
+          "name": "Mga Aralin",
+          "disabled": false,
+          "type": "",
+          "href": "/teacher/lessons",
+          "status": "NOT RUN",
+          "actual": "Visible control inventory; rendering does not verify its action"
+        },
+        {
+          "tag": "A",
+          "name": "Pagsusuri",
+          "disabled": false,
+          "type": "",
+          "href": "/teacher/progress-reports",
+          "status": "NOT RUN",
+          "actual": "Visible control inventory; rendering does not verify its action"
+        },
+        {
+          "tag": "A",
+          "name": "Mga Mensahe",
+          "disabled": false,
+          "type": "",
+          "href": "/teacher/messages",
+          "status": "NOT RUN",
+          "actual": "Visible control inventory; rendering does not verify its action"
+        },
+        {
+          "tag": "BUTTON",
+          "name": "QTQA teacherAccount ng guro",
+          "disabled": false,
+          "type": "button",
+          "href": null,
+          "status": "NOT RUN",
+          "actual": "Visible control inventory; rendering does not verify its action"
+        },
+        {
+          "tag": "A",
+          "name": "View reports",
+          "disabled": false,
+          "type": "",
+          "href": "/teacher/progress-reports",
+          "status": "NOT RUN",
+          "actual": "Visible control inventory; rendering does not verify its action"
+        },
+        {
+          "tag": "A",
+          "name": "View all",
+          "disabled": false,
+          "type": "",
+          "href": "/teacher/progress-reports",
+          "status": "NOT RUN",
+          "actual": "Visible control inventory; rendering does not verify its action"
+        },
+        {
+          "tag": "A",
+          "name": "View all",
+          "disabled": false,
+          "type": "",
+          "href": "/teacher/progress-reports",
+          "status": "NOT RUN",
+          "actual": "Visible control inventory; rendering does not verify its action"
+        },
+        {
+          "tag": "A",
+          "name": "View all",
+          "disabled": false,
+          "type": "",
+          "href": "/teacher/lessons?tab=pdf",
+          "status": "NOT RUN",
+          "actual": "Visible control inventory; rendering does not verify its action"
+        },
+        {
+          "tag": "A",
+          "name": "Manage assignments",
+          "disabled": false,
+          "type": "",
+          "href": "/teacher/lessons?tab=pdf",
+          "status": "NOT RUN",
+          "actual": "Visible control inventory; rendering does not verify its action"
+        },
+        {
+          "tag": "A",
+          "name": "Add student",
+          "disabled": false,
+          "type": "",
+          "href": "/teacher/students",
+          "status": "NOT RUN",
+          "actual": "Visible control inventory; rendering does not verify its action"
+        },
+        {
+          "tag": "A",
+          "name": "Create lesson",
+          "disabled": false,
+          "type": "",
+          "href": "/teacher/lessons?tab=lessons",
+          "status": "NOT RUN",
+          "actual": "Visible control inventory; rendering does not verify its action"
+        },
+        {
+          "tag": "A",
+          "name": "Upload material",
+          "disabled": false,
+          "type": "",
+          "href": "/teacher/lessons?tab=pdf",
+          "status": "NOT RUN",
+          "actual": "Visible control inventory; rendering does not verify its action"
+        },
+        {
+          "tag": "A",
+          "name": "Send message",
+          "disabled": false,
+          "type": "",
+          "href": "/teacher/messages",
+          "status": "NOT RUN",
+          "actual": "Visible control inventory; rendering does not verify its action"
+        }
+      ]
+    },
+    {
+      "role": "parent",
+      "variant": "populated",
+      "width": 1440,
+      "path": "/parent",
+      "controls": [
+        {
+          "tag": "BUTTON",
+          "name": "LinawLetraPARENT PORTAL",
+          "disabled": false,
+          "type": "button",
+          "href": null,
+          "status": "NOT RUN",
+          "actual": "Visible control inventory; rendering does not verify its action"
+        },
+        {
+          "tag": "A",
+          "name": "Simula",
+          "disabled": false,
+          "type": "",
+          "href": "/parent",
+          "status": "NOT RUN",
+          "actual": "Visible control inventory; rendering does not verify its action"
+        },
+        {
+          "tag": "A",
+          "name": "Progreso",
+          "disabled": false,
+          "type": "",
+          "href": "/parent/progress",
+          "status": "NOT RUN",
+          "actual": "Visible control inventory; rendering does not verify its action"
+        },
+        {
+          "tag": "A",
+          "name": "Kalendaryo",
+          "disabled": false,
+          "type": "",
+          "href": "/parent/schedule",
+          "status": "NOT RUN",
+          "actual": "Visible control inventory; rendering does not verify its action"
+        },
+        {
+          "tag": "A",
+          "name": "Mga Anak Ko",
+          "disabled": false,
+          "type": "",
+          "href": "/parent/children",
+          "status": "NOT RUN",
+          "actual": "Visible control inventory; rendering does not verify its action"
+        },
+        {
+          "tag": "A",
+          "name": "Mga Mensahe",
+          "disabled": false,
+          "type": "",
+          "href": "/parent/messages",
+          "status": "NOT RUN",
+          "actual": "Visible control inventory; rendering does not verify its action"
+        },
+        {
+          "tag": "BUTTON",
+          "name": "Aking profile",
+          "disabled": false,
+          "type": "button",
+          "href": null,
+          "status": "NOT RUN",
+          "actual": "Visible control inventory; rendering does not verify its action"
+        },
+        {
+          "tag": "SELECT",
+          "name": "Piliin ang anak",
+          "disabled": false,
+          "type": "select-one",
+          "href": null,
+          "status": "NOT RUN",
+          "actual": "Visible control inventory; rendering does not verify its action"
+        },
+        {
+          "tag": "A",
+          "name": "Magdagdag ng Anak",
+          "disabled": false,
+          "type": "",
+          "href": "/parent/children",
+          "status": "NOT RUN",
+          "actual": "Visible control inventory; rendering does not verify its action"
+        },
+        {
+          "tag": "A",
+          "name": "Kabuuang Aralin0ng 1 aralin",
+          "disabled": false,
+          "type": "",
+          "href": "/parent/progress?child=00000000-0000-4000-8000-000000000005",
+          "status": "NOT RUN",
+          "actual": "Visible control inventory; rendering does not verify its action"
+        },
+        {
+          "tag": "A",
+          "name": "Average Score80%0 puntos ngayong linggo",
+          "disabled": false,
+          "type": "",
+          "href": "/parent/progress?tab=results&child=00000000-0000-4000-8000-000000000005",
+          "status": "NOT RUN",
+          "actual": "Visible control inventory; rendering does not verify its action"
+        },
+        {
+          "tag": "A",
+          "name": "Oras sa Pag-aaral0mngayong linggo",
+          "disabled": false,
+          "type": "",
+          "href": "/parent/progress?tab=practice&child=00000000-0000-4000-8000-000000000005",
+          "status": "NOT RUN",
+          "actual": "Visible control inventory; rendering does not verify its action"
+        },
+        {
+          "tag": "A",
+          "name": "Mga Badge0natanggap",
+          "disabled": false,
+          "type": "",
+          "href": "/parent/progress?tab=results&child=00000000-0000-4000-8000-000000000005",
+          "status": "NOT RUN",
+          "actual": "Visible control inventory; rendering does not verify its action"
+        },
+        {
+          "tag": "A",
+          "name": "Tingnan Lahat",
+          "disabled": false,
+          "type": "",
+          "href": "/parent/progress?child=00000000-0000-4000-8000-000000000005",
+          "status": "NOT RUN",
+          "actual": "Visible control inventory; rendering does not verify its action"
+        },
+        {
+          "tag": "A",
+          "name": "Tingnan Lahat",
+          "disabled": false,
+          "type": "",
+          "href": "/parent/progress?child=00000000-0000-4000-8000-000000000005",
+          "status": "NOT RUN",
+          "actual": "Visible control inventory; rendering does not verify its action"
+        },
+        {
+          "tag": "A",
+          "name": "Tingnan ang Pag-aaral",
+          "disabled": false,
+          "type": "",
+          "href": "/parent/progress?child=00000000-0000-4000-8000-000000000005",
+          "status": "NOT RUN",
+          "actual": "Visible control inventory; rendering does not verify its action"
+        },
+        {
+          "tag": "A",
+          "name": "Tingnan Lahat",
+          "disabled": false,
+          "type": "",
+          "href": "/parent/schedule?child=00000000-0000-4000-8000-000000000005",
+          "status": "NOT RUN",
+          "actual": "Visible control inventory; rendering does not verify its action"
+        },
+        {
+          "tag": "BUTTON",
+          "name": "Nakaraang buwan",
+          "disabled": false,
+          "type": "button",
+          "href": null,
+          "status": "NOT RUN",
+          "actual": "Visible control inventory; rendering does not verify its action"
+        },
+        {
+          "tag": "BUTTON",
+          "name": "Susunod na buwan",
+          "disabled": false,
+          "type": "button",
+          "href": null,
+          "status": "NOT RUN",
+          "actual": "Visible control inventory; rendering does not verify its action"
+        },
+        {
+          "tag": "A",
+          "name": "Magplano ng aktibidad",
+          "disabled": false,
+          "type": "",
+          "href": "/parent/schedule?child=00000000-0000-4000-8000-000000000005",
+          "status": "NOT RUN",
+          "actual": "Visible control inventory; rendering does not verify its action"
+        },
+        {
+          "tag": "A",
+          "name": "Tingnan Lahat",
+          "disabled": false,
+          "type": "",
+          "href": "/parent/progress?tab=activities&child=00000000-0000-4000-8000-000000000005",
+          "status": "NOT RUN",
+          "actual": "Visible control inventory; rendering does not verify its action"
+        },
+        {
+          "tag": "A",
+          "name": "Tingnan Lahat",
+          "disabled": false,
+          "type": "",
+          "href": "/parent/progress?tab=results&child=00000000-0000-4000-8000-000000000005",
+          "status": "NOT RUN",
+          "actual": "Visible control inventory; rendering does not verify its action"
+        },
+        {
+          "tag": "A",
+          "name": "Tingnan Lahat",
+          "disabled": false,
+          "type": "",
+          "href": "/parent/progress?tab=practice&child=00000000-0000-4000-8000-000000000005",
+          "status": "NOT RUN",
+          "actual": "Visible control inventory; rendering does not verify its action"
+        },
+        {
+          "tag": "A",
+          "name": "Karagdagang Pagsasanay sa PagbasaSynthetic home practice",
+          "disabled": false,
+          "type": "",
+          "href": "/parent/progress?tab=practice&child=00000000-0000-4000-8000-000000000005",
+          "status": "NOT RUN",
+          "actual": "Visible control inventory; rendering does not verify its action"
+        },
+        {
+          "tag": "A",
+          "name": "Mga Laro para sa PagbigkasBalikan ang mga tunog at salitang kailangan ",
+          "disabled": false,
+          "type": "",
+          "href": "/parent/progress?tab=results&child=00000000-0000-4000-8000-000000000005",
+          "status": "NOT RUN",
+          "actual": "Visible control inventory; rendering does not verify its action"
+        },
+        {
+          "tag": "A",
+          "name": "Basahin ang Kuwento ngayong LinggoPumili ng materyal na babasahin niny",
+          "disabled": false,
+          "type": "",
+          "href": "/parent/materials?child=00000000-0000-4000-8000-000000000005",
+          "status": "NOT RUN",
+          "actual": "Visible control inventory; rendering does not verify its action"
+        }
+      ]
+    }
+  ],
+  "contextReports": [
+    {
+      "role": "admin",
+      "variant": "populated",
+      "width": 1440,
+      "runtimeErrors": [],
+      "failedRequests": [
+        {
+          "url": "https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Lexend:wght@400;500;700&display=swap",
+          "error": "NS_ERROR_FAILURE"
+        },
+        {
+          "url": "http://127.0.0.1:49690/assets/admin-hero-background-Cypg2enN.png",
+          "error": "NS_BINDING_ABORTED"
+        },
+        {
+          "url": "https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Lexend:wght@400;500;700&display=swap",
+          "error": "NS_ERROR_FAILURE"
+        },
+        {
+          "url": "http://127.0.0.1:49690/api/admin/users?",
+          "error": "NS_BINDING_ABORTED"
+        },
+        {
+          "url": "http://127.0.0.1:49690/api/admin/credential-security",
+          "error": "NS_BINDING_ABORTED"
+        },
+        {
+          "url": "http://127.0.0.1:49690/api/notifications",
+          "error": "NS_BINDING_ABORTED"
+        },
+        {
+          "url": "http://127.0.0.1:49690/api/admin/analytics",
+          "error": "NS_BINDING_ABORTED"
+        },
+        {
+          "url": "https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Lexend:wght@400;500;700&display=swap",
+          "error": "NS_ERROR_FAILURE"
+        },
+        {
+          "url": "https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Lexend:wght@400;500;700&display=swap",
+          "error": "NS_ERROR_FAILURE"
+        }
+      ],
+      "escapedRequests": [
+        {
+          "method": "GET",
+          "url": "https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Lexend:wght@400;500;700&display=swap"
+        },
+        {
+          "method": "GET",
+          "url": "https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Lexend:wght@400;500;700&display=swap"
+        },
+        {
+          "method": "GET",
+          "url": "https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Lexend:wght@400;500;700&display=swap"
+        },
+        {
+          "method": "GET",
+          "url": "https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Lexend:wght@400;500;700&display=swap"
+        }
+      ],
+      "api": [
+        {
+          "kind": "api",
+          "method": "POST",
+          "path": "/auth/events",
+          "body": {
+            "type": "login",
+            "platform": "web",
+            "sessionId": "0ab0bcda-f2f9-4f21-9408-281e248f647c"
+          }
+        },
+        {
+          "kind": "api",
+          "method": "GET",
+          "path": "/notifications",
+          "body": {}
+        },
+        {
+          "kind": "api",
+          "method": "GET",
+          "path": "/admin/analytics",
+          "body": {}
+        },
+        {
+          "kind": "api",
+          "method": "GET",
+          "path": "/admin/users",
+          "body": {}
+        },
+        {
+          "kind": "api",
+          "method": "GET",
+          "path": "/admin/credential-security",
+          "body": {}
+        },
+        {
+          "kind": "api",
+          "method": "POST",
+          "path": "/auth/events",
+          "body": {
+            "type": "login",
+            "platform": "web",
+            "sessionId": "0ab0bcda-f2f9-4f21-9408-281e248f647c"
+          }
+        },
+        {
+          "kind": "api",
+          "method": "GET",
+          "path": "/notifications",
+          "body": {}
+        },
+        {
+          "kind": "api",
+          "method": "GET",
+          "path": "/admin/analytics",
+          "body": {}
+        },
+        {
+          "kind": "api",
+          "method": "GET",
+          "path": "/admin/users",
+          "body": {}
+        },
+        {
+          "kind": "api",
+          "method": "GET",
+          "path": "/admin/credential-security",
+          "body": {}
+        },
+        {
+          "kind": "api",
+          "method": "POST",
+          "path": "/auth/events",
+          "body": {
+            "type": "login",
+            "platform": "web",
+            "sessionId": "0ab0bcda-f2f9-4f21-9408-281e248f647c"
+          }
+        },
+        {
+          "kind": "api",
+          "method": "GET",
+          "path": "/notifications",
+          "body": {}
+        },
+        {
+          "kind": "api",
+          "method": "GET",
+          "path": "/admin/system-settings",
+          "body": {}
+        },
+        {
+          "kind": "api",
+          "method": "PATCH",
+          "path": "/admin/system-settings",
+          "body": {
+            "systemName": "QA Updated",
+            "organizationName": "Isolated QA",
+            "defaultLanguage": "fil",
+            "timezone": "Asia/Manila",
+            "sequentialModules": true,
+            "passingScore": 75,
+            "completionRequirement": 80,
+            "allowActivityRetry": true,
+            "autoSaveProgress": true,
+            "xpPerActivity": 10,
+            "xpPerModule": 50,
+            "enableBadges": true,
+            "enableDailyStreak": true,
+            "enableAchievementRewards": true,
+            "studentProgressAlerts": true,
+            "newAccountNotifications": true,
+            "teacherNotifications": true,
+            "systemAnnouncements": true,
+            "sessionTimeout": "30",
+            "failedLoginLimit": 5,
+            "requireStrongPassword": true,
+            "lockAfterFailures": true,
+            "maintenanceMode": false,
+            "announcement": "",
+            "readOnlyMode": false
+          }
+        }
+      ],
+      "unexpectedApi": []
+    },
+    {
+      "role": "teacher",
+      "variant": "populated",
+      "width": 1440,
+      "runtimeErrors": [],
+      "failedRequests": [
+        {
+          "url": "https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Lexend:wght@400;500;700&display=swap",
+          "error": "NS_ERROR_FAILURE"
+        },
+        {
+          "url": "http://127.0.0.1:49690/assets/Teacher%20Home%20Hero%20Banner%20Background-BNcjkxAM.png",
+          "error": "NS_BINDING_ABORTED"
+        },
+        {
+          "url": "http://127.0.0.1:49690/assets/Teacher%20Illustration-okwmnK0x.png",
+          "error": "NS_BINDING_ABORTED"
+        },
+        {
+          "url": "https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Lexend:wght@400;500;700&display=swap",
+          "error": "NS_ERROR_FAILURE"
+        },
+        {
+          "url": "http://127.0.0.1:49690/assets/Purple%20Sidebar%20Bottom%20Plants-DrjMLvrI.png",
+          "error": "NS_BINDING_ABORTED"
+        },
+        {
+          "url": "http://127.0.0.1:49690/assets/Teacher%20Home%20Hero%20Banner%20Background-BNcjkxAM.png",
+          "error": "NS_BINDING_ABORTED"
+        },
+        {
+          "url": "http://127.0.0.1:49690/assets/Teacher%20Illustration-okwmnK0x.png",
+          "error": "NS_BINDING_ABORTED"
+        },
+        {
+          "url": "http://127.0.0.1:49690/assets/Teacher%20Home%20Hero%20Banner%20Background-BNcjkxAM.png",
+          "error": "NS_BINDING_ABORTED"
+        },
+        {
+          "url": "http://127.0.0.1:49690/assets/Purple%20Sidebar%20Bottom%20Plants-DrjMLvrI.png",
+          "error": "NS_BINDING_ABORTED"
+        },
+        {
+          "url": "http://127.0.0.1:49690/assets/Teacher%20Illustration-okwmnK0x.png",
+          "error": "NS_BINDING_ABORTED"
+        },
+        {
+          "url": "https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Lexend:wght@400;500;700&display=swap",
+          "error": "NS_ERROR_FAILURE"
+        },
+        {
+          "url": "http://127.0.0.1:49690/assets/Purple%20Sidebar%20Bottom%20Plants-DrjMLvrI.png",
+          "error": "NS_BINDING_ABORTED"
+        },
+        {
+          "url": "https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Lexend:wght@400;500;700&display=swap",
+          "error": "NS_ERROR_FAILURE"
+        },
+        {
+          "url": "http://127.0.0.1:49690/assets/Purple%20Sidebar%20Bottom%20Plants-DrjMLvrI.png",
+          "error": "NS_BINDING_ABORTED"
+        },
+        {
+          "url": "http://127.0.0.1:49690/assets/Teacher%20Home%20Hero%20Banner%20Background-BNcjkxAM.png",
+          "error": "NS_BINDING_ABORTED"
+        },
+        {
+          "url": "http://127.0.0.1:49690/assets/Teacher%20Illustration-okwmnK0x.png",
+          "error": "NS_BINDING_ABORTED"
+        },
+        {
+          "url": "https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Lexend:wght@400;500;700&display=swap",
+          "error": "NS_ERROR_FAILURE"
+        }
+      ],
+      "escapedRequests": [
+        {
+          "method": "GET",
+          "url": "https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Lexend:wght@400;500;700&display=swap"
+        },
+        {
+          "method": "GET",
+          "url": "https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Lexend:wght@400;500;700&display=swap"
+        },
+        {
+          "method": "GET",
+          "url": "https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Lexend:wght@400;500;700&display=swap"
+        },
+        {
+          "method": "GET",
+          "url": "https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Lexend:wght@400;500;700&display=swap"
+        },
+        {
+          "method": "GET",
+          "url": "https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Lexend:wght@400;500;700&display=swap"
+        }
+      ],
+      "api": [
+        {
+          "kind": "api",
+          "method": "POST",
+          "path": "/auth/events",
+          "body": {
+            "type": "login",
+            "platform": "web",
+            "sessionId": "85721be0-2e0b-45ec-bc13-c6b0f7814fa5"
+          }
+        },
+        {
+          "kind": "api",
+          "method": "POST",
+          "path": "/auth/events",
+          "body": {
+            "type": "login",
+            "platform": "web",
+            "sessionId": "85721be0-2e0b-45ec-bc13-c6b0f7814fa5"
+          }
+        },
+        {
+          "kind": "api",
+          "method": "POST",
+          "path": "/auth/events",
+          "body": {
+            "type": "login",
+            "platform": "web",
+            "sessionId": "85721be0-2e0b-45ec-bc13-c6b0f7814fa5"
+          }
+        },
+        {
+          "kind": "api",
+          "method": "POST",
+          "path": "/auth/events",
+          "body": {
+            "type": "login",
+            "platform": "web",
+            "sessionId": "85721be0-2e0b-45ec-bc13-c6b0f7814fa5"
+          }
+        }
+      ],
+      "unexpectedApi": []
+    },
+    {
+      "role": "parent",
+      "variant": "populated",
+      "width": 1440,
+      "runtimeErrors": [],
+      "failedRequests": [
+        {
+          "url": "https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Lexend:wght@400;500;700&display=swap",
+          "error": "NS_ERROR_FAILURE"
+        },
+        {
+          "url": "https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Lexend:wght@400;500;700&display=swap",
+          "error": "NS_ERROR_FAILURE"
+        },
+        {
+          "url": "http://127.0.0.1:49690/assets/Batang%20Mambabasa-D8GQHbGT.png",
+          "error": "NS_BINDING_ABORTED"
+        },
+        {
+          "url": "http://127.0.0.1:49690/assets/no%20activities-CNRsEYZA.png",
+          "error": "NS_BINDING_ABORTED"
+        },
+        {
+          "url": "http://127.0.0.1:49690/assets/current-C8ySTo5O.png",
+          "error": "NS_BINDING_ABORTED"
+        },
+        {
+          "url": "http://127.0.0.1:49690/assets/Masigasig%20na%20Mambabasa-BQCmUemR.png",
+          "error": "NS_BINDING_ABORTED"
+        },
+        {
+          "url": "http://127.0.0.1:49690/assets/Kampeon%20sa%20Pagbasa-CWhBsbqp.png",
+          "error": "NS_BINDING_ABORTED"
+        },
+        {
+          "url": "https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Lexend:wght@400;500;700&display=swap",
+          "error": "NS_ERROR_FAILURE"
+        },
+        {
+          "url": "https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Lexend:wght@400;500;700&display=swap",
+          "error": "NS_ERROR_FAILURE"
+        }
+      ],
+      "escapedRequests": [
+        {
+          "method": "GET",
+          "url": "https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Lexend:wght@400;500;700&display=swap"
+        },
+        {
+          "method": "GET",
+          "url": "https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Lexend:wght@400;500;700&display=swap"
+        },
+        {
+          "method": "GET",
+          "url": "https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Lexend:wght@400;500;700&display=swap"
+        },
+        {
+          "method": "GET",
+          "url": "https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Lexend:wght@400;500;700&display=swap"
+        }
+      ],
+      "api": [
+        {
+          "kind": "api",
+          "method": "POST",
+          "path": "/auth/events",
+          "body": {
+            "type": "login",
+            "platform": "web",
+            "sessionId": "74cee81f-7669-4bee-a922-32dce220e4cd"
+          }
+        },
+        {
+          "kind": "api",
+          "method": "GET",
+          "path": "/notifications",
+          "body": {}
+        },
+        {
+          "kind": "api",
+          "method": "GET",
+          "path": "/parent/children",
+          "body": {}
+        },
+        {
+          "kind": "api",
+          "method": "GET",
+          "path": "/parent/children/00000000-0000-4000-8000-000000000005/reading-profile",
+          "body": {}
+        },
+        {
+          "kind": "api",
+          "method": "GET",
+          "path": "/parent/children/00000000-0000-4000-8000-000000000005/learning-path",
+          "body": {}
+        },
+        {
+          "kind": "api",
+          "method": "POST",
+          "path": "/auth/events",
+          "body": {
+            "type": "login",
+            "platform": "web",
+            "sessionId": "74cee81f-7669-4bee-a922-32dce220e4cd"
+          }
+        },
+        {
+          "kind": "api",
+          "method": "GET",
+          "path": "/notifications",
+          "body": {}
+        },
+        {
+          "kind": "api",
+          "method": "GET",
+          "path": "/parent/children",
+          "body": {}
+        },
+        {
+          "kind": "api",
+          "method": "GET",
+          "path": "/parent/children/00000000-0000-4000-8000-000000000005/reading-profile",
+          "body": {}
+        },
+        {
+          "kind": "api",
+          "method": "GET",
+          "path": "/parent/children/00000000-0000-4000-8000-000000000005/learning-path",
+          "body": {}
+        },
+        {
+          "kind": "api",
+          "method": "POST",
+          "path": "/auth/events",
+          "body": {
+            "type": "login",
+            "platform": "web",
+            "sessionId": "74cee81f-7669-4bee-a922-32dce220e4cd"
+          }
+        },
+        {
+          "kind": "api",
+          "method": "GET",
+          "path": "/notifications",
+          "body": {}
+        },
+        {
+          "kind": "api",
+          "method": "GET",
+          "path": "/parent/children",
+          "body": {}
+        },
+        {
+          "kind": "api",
+          "method": "GET",
+          "path": "/parent/children/00000000-0000-4000-8000-000000000005/reading-profile",
+          "body": {}
+        },
+        {
+          "kind": "api",
+          "method": "GET",
+          "path": "/parent/children/00000000-0000-4000-8000-000000000005/learning-path",
+          "body": {}
+        }
+      ],
+      "unexpectedApi": []
+    },
+    {
+      "role": "student",
+      "variant": "populated",
+      "width": 1440,
+      "runtimeErrors": [],
+      "failedRequests": [
+        {
+          "url": "https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Lexend:wght@400;500;700&display=swap",
+          "error": "NS_ERROR_FAILURE"
+        },
+        {
+          "url": "https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Lexend:wght@400;500;700&display=swap",
+          "error": "NS_ERROR_FAILURE"
+        },
+        {
+          "url": "http://127.0.0.1:49690/assets/student-hero-character-EnmKrPng.png",
+          "error": "NS_BINDING_ABORTED"
+        },
+        {
+          "url": "http://127.0.0.1:49690/assets/lesson-progress-decoration-CEpz0iWB.png",
+          "error": "NS_BINDING_ABORTED"
+        },
+        {
+          "url": "http://127.0.0.1:49690/assets/student-hero-character-EnmKrPng.png",
+          "error": "NS_BINDING_ABORTED"
+        },
+        {
+          "url": "http://127.0.0.1:49690/assets/empty-state-illustration-MctkQo5D.png",
+          "error": "NS_BINDING_ABORTED"
+        },
+        {
+          "url": "http://127.0.0.1:49690/assets/lesson-progress-decoration-CEpz0iWB.png",
+          "error": "NS_BINDING_ABORTED"
+        },
+        {
+          "url": "http://127.0.0.1:49690/assets/opendyslexic-latin-700-normal-Bnmt45Ln.woff2",
+          "error": "NS_BINDING_ABORTED"
+        },
+        {
+          "url": "https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Lexend:wght@400;500;700&display=swap",
+          "error": "NS_ERROR_FAILURE"
+        },
+        {
+          "url": "https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Lexend:wght@400;500;700&display=swap",
+          "error": "NS_ERROR_FAILURE"
+        }
+      ],
+      "escapedRequests": [
+        {
+          "method": "GET",
+          "url": "https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Lexend:wght@400;500;700&display=swap"
+        },
+        {
+          "method": "GET",
+          "url": "https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Lexend:wght@400;500;700&display=swap"
+        },
+        {
+          "method": "GET",
+          "url": "https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Lexend:wght@400;500;700&display=swap"
+        },
+        {
+          "method": "GET",
+          "url": "https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Lexend:wght@400;500;700&display=swap"
+        }
+      ],
+      "api": [
+        {
+          "kind": "api",
+          "method": "POST",
+          "path": "/auth/events",
+          "body": {
+            "type": "login",
+            "platform": "web",
+            "sessionId": "3232efab-938b-4c1f-8c17-c4d4973e0535"
+          }
+        },
+        {
+          "kind": "api",
+          "method": "GET",
+          "path": "/student/learn/path",
+          "body": {}
+        },
+        {
+          "kind": "api",
+          "method": "GET",
+          "path": "/student/reading-profile",
+          "body": {}
+        },
+        {
+          "kind": "api",
+          "method": "POST",
+          "path": "/auth/events",
+          "body": {
+            "type": "login",
+            "platform": "web",
+            "sessionId": "3232efab-938b-4c1f-8c17-c4d4973e0535"
+          }
+        },
+        {
+          "kind": "api",
+          "method": "GET",
+          "path": "/student/learn/path",
+          "body": {}
+        },
+        {
+          "kind": "api",
+          "method": "GET",
+          "path": "/student/reading-profile",
+          "body": {}
+        },
+        {
+          "kind": "api",
+          "method": "POST",
+          "path": "/auth/events",
+          "body": {
+            "type": "login",
+            "platform": "web",
+            "sessionId": "3232efab-938b-4c1f-8c17-c4d4973e0535"
+          }
+        },
+        {
+          "kind": "api",
+          "method": "GET",
+          "path": "/student/learn/path",
+          "body": {}
+        },
+        {
+          "kind": "api",
+          "method": "GET",
+          "path": "/student/reading-profile",
+          "body": {}
+        }
+      ],
+      "unexpectedApi": []
+    }
+  ],
+  "requests": [
+    {
+      "path": "/admin",
+      "time": 1792585536001
+    },
+    {
+      "path": "/assets/index-BBTJmuUn.js",
+      "time": 1792585536807
+    },
+    {
+      "path": "/assets/index-CfDZfzK_.css",
+      "time": 1792585536813
+    },
+    {
+      "path": "/favicon.jpg",
+      "time": 1792585537937
+    },
+    {
+      "path": "/assets/AdminArea-Bf1QVszI.js",
+      "time": 1792585537993
+    },
+    {
+      "path": "/assets/DashboardShell-DhYE8mco.js",
+      "time": 1792585538060
+    },
+    {
+      "path": "/assets/lightbulb--V1e9R1N.js",
+      "time": 1792585538126
+    },
+    {
+      "path": "/assets/NotFound-BcOQRTfa.js",
+      "time": 1792585538226
+    },
+    {
+      "path": "/assets/CartesianChart-C_KoSvHD.js",
+      "time": 1792585538245
+    },
+    {
+      "path": "/assets/sidebar-foliage-left-4El0v2uW.js",
+      "time": 1792585538250
+    },
+    {
+      "path": "/assets/users-round-BEkwP9vv.js",
+      "time": 1792585538252
+    },
+    {
+      "path": "/assets/Teacher%20Illustration-CCn01k2_.js",
+      "time": 1792585538315
+    },
+    {
+      "path": "/assets/cardStyle-iaU5tt7J.js",
+      "time": 1792585538352
+    },
+    {
+      "path": "/assets/opendyslexic-latin-400-normal-nUhe5EwG.woff2",
+      "time": 1792585538354
+    },
+    {
+      "path": "/assets/Logo-BJPtDbbX.jpg",
+      "time": 1792585538359
+    },
+    {
+      "path": "/favicon.svg",
+      "time": 1792585538762
+    },
+    {
+      "path": "/assets/sidebar-foliage-left-D2XwCOJM.png",
+      "time": 1792585539454
+    },
+    {
+      "path": "/assets/sidebar-foliage-right-CQGJ07rn.png",
+      "time": 1792585539456
+    },
+    {
+      "path": "/assets/owl-admin-mascot-DbX_Fxlm.png",
+      "time": 1792585539665
+    },
+    {
+      "path": "/assets/admin-hero-background-Cypg2enN.png",
+      "time": 1792585539730
+    },
+    {
+      "path": "/teacher",
+      "time": 1792585543280
+    },
+    {
+      "path": "/assets/index-BBTJmuUn.js",
+      "time": 1792585551471
+    },
+    {
+      "path": "/assets/index-CfDZfzK_.css",
+      "time": 1792585551475
+    },
+    {
+      "path": "/assets/TeacherArea-D2U165x-.js",
+      "time": 1792585551893
+    },
+    {
+      "path": "/assets/DashboardShell-DhYE8mco.js",
+      "time": 1792585551914
+    },
+    {
+      "path": "/assets/lightbulb--V1e9R1N.js",
+      "time": 1792585551962
+    },
+    {
+      "path": "/assets/NotFound-BcOQRTfa.js",
+      "time": 1792585552027
+    },
+    {
+      "path": "/assets/sun-B5AIUJmH.js",
+      "time": 1792585552068
+    },
+    {
+      "path": "/assets/users-round-BEkwP9vv.js",
+      "time": 1792585552077
+    },
+    {
+      "path": "/assets/Teacher%20Illustration-CCn01k2_.js",
+      "time": 1792585552121
+    },
+    {
+      "path": "/assets/cardStyle-iaU5tt7J.js",
+      "time": 1792585552123
+    },
+    {
+      "path": "/assets/PdfReadingAssistant-CjvbWkPd.js",
+      "time": 1792585552132
+    },
+    {
+      "path": "/assets/TTSButton-CXqS_QHU.js",
+      "time": 1792585552139
+    },
+    {
+      "path": "/assets/opendyslexic-latin-400-normal-nUhe5EwG.woff2",
+      "time": 1792585552173
+    },
+    {
+      "path": "/assets/Logo-BJPtDbbX.jpg",
+      "time": 1792585552182
+    },
+    {
+      "path": "/favicon.jpg",
+      "time": 1792585552485
+    },
+    {
+      "path": "/favicon.svg",
+      "time": 1792585552487
+    },
+    {
+      "path": "/assets/AdminArea-Bf1QVszI.js",
+      "time": 1792585552510
+    },
+    {
+      "path": "/assets/CartesianChart-C_KoSvHD.js",
+      "time": 1792585552522
+    },
+    {
+      "path": "/assets/sidebar-foliage-left-4El0v2uW.js",
+      "time": 1792585552549
+    },
+    {
+      "path": "/assets/sidebar-foliage-left-D2XwCOJM.png",
+      "time": 1792585553354
+    },
+    {
+      "path": "/assets/sidebar-foliage-right-CQGJ07rn.png",
+      "time": 1792585553524
+    },
+    {
+      "path": "/assets/owl-admin-mascot-DbX_Fxlm.png",
+      "time": 1792585553710
+    },
+    {
+      "path": "/assets/admin-hero-background-Cypg2enN.png",
+      "time": 1792585553739
+    },
+    {
+      "path": "/admin/settings",
+      "time": 1792585554480
+    },
+    {
+      "path": "/assets/index-BBTJmuUn.js",
+      "time": 1792585554822
+    },
+    {
+      "path": "/assets/index-CfDZfzK_.css",
+      "time": 1792585554825
+    },
+    {
+      "path": "/assets/AdminArea-Bf1QVszI.js",
+      "time": 1792585556382
+    },
+    {
+      "path": "/assets/DashboardShell-DhYE8mco.js",
+      "time": 1792585556391
+    },
+    {
+      "path": "/assets/lightbulb--V1e9R1N.js",
+      "time": 1792585556395
+    },
+    {
+      "path": "/assets/NotFound-BcOQRTfa.js",
+      "time": 1792585556675
+    },
+    {
+      "path": "/assets/CartesianChart-C_KoSvHD.js",
+      "time": 1792585556915
+    },
+    {
+      "path": "/assets/sidebar-foliage-left-4El0v2uW.js",
+      "time": 1792585556941
+    },
+    {
+      "path": "/assets/users-round-BEkwP9vv.js",
+      "time": 1792585557041
+    },
+    {
+      "path": "/assets/Teacher%20Illustration-CCn01k2_.js",
+      "time": 1792585557192
+    },
+    {
+      "path": "/assets/cardStyle-iaU5tt7J.js",
+      "time": 1792585557311
+    },
+    {
+      "path": "/assets/opendyslexic-latin-400-normal-nUhe5EwG.woff2",
+      "time": 1792585557336
+    },
+    {
+      "path": "/assets/Logo-BJPtDbbX.jpg",
+      "time": 1792585557379
+    },
+    {
+      "path": "/favicon.jpg",
+      "time": 1792585559140
+    },
+    {
+      "path": "/favicon.svg",
+      "time": 1792585559142
+    },
+    {
+      "path": "/assets/sidebar-foliage-left-D2XwCOJM.png",
+      "time": 1792585560742
+    },
+    {
+      "path": "/assets/sidebar-foliage-right-CQGJ07rn.png",
+      "time": 1792585560784
+    },
+    {
+      "path": "/admin",
+      "time": 1792585566644
+    },
+    {
+      "path": "/assets/index-BBTJmuUn.js",
+      "time": 1792585567946
+    },
+    {
+      "path": "/assets/index-CfDZfzK_.css",
+      "time": 1792585568316
+    },
+    {
+      "path": "/teacher",
+      "time": 1792585600978
+    },
+    {
+      "path": "/assets/index-BBTJmuUn.js",
+      "time": 1792585602326
+    },
+    {
+      "path": "/assets/index-CfDZfzK_.css",
+      "time": 1792585602345
+    },
+    {
+      "path": "/assets/TeacherArea-D2U165x-.js",
+      "time": 1792585603077
+    },
+    {
+      "path": "/assets/DashboardShell-DhYE8mco.js",
+      "time": 1792585603085
+    },
+    {
+      "path": "/assets/lightbulb--V1e9R1N.js",
+      "time": 1792585603094
+    },
+    {
+      "path": "/assets/NotFound-BcOQRTfa.js",
+      "time": 1792585603110
+    },
+    {
+      "path": "/assets/sun-B5AIUJmH.js",
+      "time": 1792585603112
+    },
+    {
+      "path": "/assets/users-round-BEkwP9vv.js",
+      "time": 1792585603196
+    },
+    {
+      "path": "/assets/Teacher%20Illustration-CCn01k2_.js",
+      "time": 1792585603198
+    },
+    {
+      "path": "/assets/cardStyle-iaU5tt7J.js",
+      "time": 1792585603302
+    },
+    {
+      "path": "/assets/PdfReadingAssistant-CjvbWkPd.js",
+      "time": 1792585603313
+    },
+    {
+      "path": "/assets/TTSButton-CXqS_QHU.js",
+      "time": 1792585603323
+    },
+    {
+      "path": "/assets/opendyslexic-latin-400-normal-nUhe5EwG.woff2",
+      "time": 1792585603326
+    },
+    {
+      "path": "/assets/Logo-BJPtDbbX.jpg",
+      "time": 1792585603392
+    },
+    {
+      "path": "/assets/Purple%20Sidebar%20Bottom%20Plants-DrjMLvrI.png",
+      "time": 1792585603617
+    },
+    {
+      "path": "/assets/Teacher%20Home%20Hero%20Banner%20Background-BNcjkxAM.png",
+      "time": 1792585603723
+    },
+    {
+      "path": "/assets/Teacher%20Illustration-okwmnK0x.png",
+      "time": 1792585603751
+    },
+    {
+      "path": "/assets/Teacher%20Home%20Hero%20Banner%20Background-BNcjkxAM.png",
+      "time": 1792585603923
+    },
+    {
+      "path": "/assets/Teacher%20Illustration-okwmnK0x.png",
+      "time": 1792585603933
+    },
+    {
+      "path": "/favicon.jpg",
+      "time": 1792585604226
+    },
+    {
+      "path": "/favicon.svg",
+      "time": 1792585604392
+    },
+    {
+      "path": "/admin",
+      "time": 1792585606450
+    },
+    {
+      "path": "/assets/index-BBTJmuUn.js",
+      "time": 1792585606759
+    },
+    {
+      "path": "/assets/index-CfDZfzK_.css",
+      "time": 1792585606790
+    },
+    {
+      "path": "/assets/AdminArea-Bf1QVszI.js",
+      "time": 1792585607483
+    },
+    {
+      "path": "/assets/DashboardShell-DhYE8mco.js",
+      "time": 1792585607485
+    },
+    {
+      "path": "/assets/lightbulb--V1e9R1N.js",
+      "time": 1792585607493
+    },
+    {
+      "path": "/assets/NotFound-BcOQRTfa.js",
+      "time": 1792585607496
+    },
+    {
+      "path": "/assets/CartesianChart-C_KoSvHD.js",
+      "time": 1792585607523
+    },
+    {
+      "path": "/assets/sidebar-foliage-left-4El0v2uW.js",
+      "time": 1792585607587
+    },
+    {
+      "path": "/assets/users-round-BEkwP9vv.js",
+      "time": 1792585607601
+    },
+    {
+      "path": "/assets/Teacher%20Illustration-CCn01k2_.js",
+      "time": 1792585607603
+    },
+    {
+      "path": "/assets/cardStyle-iaU5tt7J.js",
+      "time": 1792585607624
+    },
+    {
+      "path": "/assets/opendyslexic-latin-400-normal-nUhe5EwG.woff2",
+      "time": 1792585607630
+    },
+    {
+      "path": "/assets/Logo-BJPtDbbX.jpg",
+      "time": 1792585607664
+    },
+    {
+      "path": "/favicon.jpg",
+      "time": 1792585607781
+    },
+    {
+      "path": "/favicon.svg",
+      "time": 1792585607789
+    },
+    {
+      "path": "/assets/TeacherArea-D2U165x-.js",
+      "time": 1792585608431
+    },
+    {
+      "path": "/assets/sun-B5AIUJmH.js",
+      "time": 1792585608675
+    },
+    {
+      "path": "/assets/PdfReadingAssistant-CjvbWkPd.js",
+      "time": 1792585608695
+    },
+    {
+      "path": "/assets/TTSButton-CXqS_QHU.js",
+      "time": 1792585608702
+    },
+    {
+      "path": "/assets/Purple%20Sidebar%20Bottom%20Plants-DrjMLvrI.png",
+      "time": 1792585608932
+    },
+    {
+      "path": "/assets/Purple%20Sidebar%20Bottom%20Plants-DrjMLvrI.png",
+      "time": 1792585609122
+    },
+    {
+      "path": "/assets/Teacher%20Home%20Hero%20Banner%20Background-BNcjkxAM.png",
+      "time": 1792585609144
+    },
+    {
+      "path": "/assets/Teacher%20Illustration-okwmnK0x.png",
+      "time": 1792585609166
+    },
+    {
+      "path": "/teacher/messages",
+      "time": 1792585610056
+    },
+    {
+      "path": "/assets/index-BBTJmuUn.js",
+      "time": 1792585610436
+    },
+    {
+      "path": "/assets/index-CfDZfzK_.css",
+      "time": 1792585610501
+    },
+    {
+      "path": "/assets/TeacherArea-D2U165x-.js",
+      "time": 1792585611416
+    },
+    {
+      "path": "/assets/DashboardShell-DhYE8mco.js",
+      "time": 1792585611420
+    },
+    {
+      "path": "/assets/lightbulb--V1e9R1N.js",
+      "time": 1792585611471
+    },
+    {
+      "path": "/assets/NotFound-BcOQRTfa.js",
+      "time": 1792585611591
+    },
+    {
+      "path": "/assets/sun-B5AIUJmH.js",
+      "time": 1792585611602
+    },
+    {
+      "path": "/assets/users-round-BEkwP9vv.js",
+      "time": 1792585611623
+    },
+    {
+      "path": "/assets/Teacher%20Illustration-CCn01k2_.js",
+      "time": 1792585611631
+    },
+    {
+      "path": "/assets/cardStyle-iaU5tt7J.js",
+      "time": 1792585611638
+    },
+    {
+      "path": "/assets/PdfReadingAssistant-CjvbWkPd.js",
+      "time": 1792585611652
+    },
+    {
+      "path": "/assets/TTSButton-CXqS_QHU.js",
+      "time": 1792585611661
+    },
+    {
+      "path": "/assets/opendyslexic-latin-400-normal-nUhe5EwG.woff2",
+      "time": 1792585611670
+    },
+    {
+      "path": "/assets/Logo-BJPtDbbX.jpg",
+      "time": 1792585611706
+    },
+    {
+      "path": "/assets/Purple%20Sidebar%20Bottom%20Plants-DrjMLvrI.png",
+      "time": 1792585611813
+    },
+    {
+      "path": "/favicon.jpg",
+      "time": 1792585611917
+    },
+    {
+      "path": "/favicon.svg",
+      "time": 1792585611919
+    },
+    {
+      "path": "/assets/Purple%20Sidebar%20Bottom%20Plants-DrjMLvrI.png",
+      "time": 1792585612060
+    },
+    {
+      "path": "/assets/Teacher%20Home%20Hero%20Banner%20Background-BNcjkxAM.png",
+      "time": 1792585612062
+    },
+    {
+      "path": "/assets/Teacher%20Illustration-okwmnK0x.png",
+      "time": 1792585612071
+    },
+    {
+      "path": "/teacher",
+      "time": 1792585613691
+    },
+    {
+      "path": "/assets/index-BBTJmuUn.js",
+      "time": 1792585613872
+    },
+    {
+      "path": "/assets/index-CfDZfzK_.css",
+      "time": 1792585613892
+    },
+    {
+      "path": "/assets/TeacherArea-D2U165x-.js",
+      "time": 1792585614151
+    },
+    {
+      "path": "/assets/DashboardShell-DhYE8mco.js",
+      "time": 1792585614203
+    },
+    {
+      "path": "/assets/lightbulb--V1e9R1N.js",
+      "time": 1792585614213
+    },
+    {
+      "path": "/assets/NotFound-BcOQRTfa.js",
+      "time": 1792585614235
+    },
+    {
+      "path": "/assets/sun-B5AIUJmH.js",
+      "time": 1792585614237
+    },
+    {
+      "path": "/assets/users-round-BEkwP9vv.js",
+      "time": 1792585614246
+    },
+    {
+      "path": "/assets/Teacher%20Illustration-CCn01k2_.js",
+      "time": 1792585614258
+    },
+    {
+      "path": "/assets/cardStyle-iaU5tt7J.js",
+      "time": 1792585614259
+    },
+    {
+      "path": "/assets/PdfReadingAssistant-CjvbWkPd.js",
+      "time": 1792585614269
+    },
+    {
+      "path": "/assets/TTSButton-CXqS_QHU.js",
+      "time": 1792585614270
+    },
+    {
+      "path": "/assets/opendyslexic-latin-400-normal-nUhe5EwG.woff2",
+      "time": 1792585614279
+    },
+    {
+      "path": "/assets/Logo-BJPtDbbX.jpg",
+      "time": 1792585614304
+    },
+    {
+      "path": "/favicon.jpg",
+      "time": 1792585614346
+    },
+    {
+      "path": "/favicon.svg",
+      "time": 1792585614352
+    },
+    {
+      "path": "/assets/Purple%20Sidebar%20Bottom%20Plants-DrjMLvrI.png",
+      "time": 1792585614406
+    },
+    {
+      "path": "/assets/Purple%20Sidebar%20Bottom%20Plants-DrjMLvrI.png",
+      "time": 1792585614540
+    },
+    {
+      "path": "/assets/Teacher%20Home%20Hero%20Banner%20Background-BNcjkxAM.png",
+      "time": 1792585614693
+    },
+    {
+      "path": "/assets/Teacher%20Illustration-okwmnK0x.png",
+      "time": 1792585614704
+    },
+    {
+      "path": "/parent",
+      "time": 1792585618746
+    },
+    {
+      "path": "/assets/index-BBTJmuUn.js",
+      "time": 1792585618973
+    },
+    {
+      "path": "/assets/index-CfDZfzK_.css",
+      "time": 1792585618990
+    },
+    {
+      "path": "/assets/ParentArea-BeVUeBy1.js",
+      "time": 1792585619617
+    },
+    {
+      "path": "/assets/DashboardShell-DhYE8mco.js",
+      "time": 1792585619619
+    },
+    {
+      "path": "/assets/lightbulb--V1e9R1N.js",
+      "time": 1792585619627
+    },
+    {
+      "path": "/assets/NotFound-BcOQRTfa.js",
+      "time": 1792585619631
+    },
+    {
+      "path": "/assets/sidebar-foliage-left-4El0v2uW.js",
+      "time": 1792585619633
+    },
+    {
+      "path": "/assets/sun-B5AIUJmH.js",
+      "time": 1792585619649
+    },
+    {
+      "path": "/assets/users-round-BEkwP9vv.js",
+      "time": 1792585619650
+    },
+    {
+      "path": "/assets/badges-BOuCeDi_.js",
+      "time": 1792585619655
+    },
+    {
+      "path": "/assets/trophy-D9ozHVTA.js",
+      "time": 1792585619660
+    },
+    {
+      "path": "/assets/owl-mascot-D-0EYbpp.js",
+      "time": 1792585619691
+    },
+    {
+      "path": "/assets/ParentArea-DY8dV9uv.css",
+      "time": 1792585619720
+    },
+    {
+      "path": "/assets/opendyslexic-latin-400-normal-nUhe5EwG.woff2",
+      "time": 1792585619737
+    },
+    {
+      "path": "/assets/Logo-BJPtDbbX.jpg",
+      "time": 1792585619853
+    },
+    {
+      "path": "/favicon.jpg",
+      "time": 1792585620142
+    },
+    {
+      "path": "/favicon.svg",
+      "time": 1792585620143
+    },
+    {
+      "path": "/assets/sidebar-foliage-left-D2XwCOJM.png",
+      "time": 1792585620194
+    },
+    {
+      "path": "/assets/current-C8ySTo5O.png",
+      "time": 1792585620451
+    },
+    {
+      "path": "/assets/no%20activities-CNRsEYZA.png",
+      "time": 1792585620457
+    },
+    {
+      "path": "/assets/Unang%20Hakbang-BmI1afoH.png",
+      "time": 1792585620471
+    },
+    {
+      "path": "/assets/Batang%20Mambabasa-D8GQHbGT.png",
+      "time": 1792585620597
+    },
+    {
+      "path": "/assets/Masigasig%20na%20Mambabasa-BQCmUemR.png",
+      "time": 1792585620644
+    },
+    {
+      "path": "/assets/Kampeon%20sa%20Pagbasa-CWhBsbqp.png",
+      "time": 1792585620692
+    },
+    {
+      "path": "/assets/parent-bg-CYVQ0b5Q.png",
+      "time": 1792585620713
+    },
+    {
+      "path": "/admin",
+      "time": 1792585622699
+    },
+    {
+      "path": "/assets/index-BBTJmuUn.js",
+      "time": 1792585623000
+    },
+    {
+      "path": "/assets/index-CfDZfzK_.css",
+      "time": 1792585623080
+    },
+    {
+      "path": "/assets/AdminArea-Bf1QVszI.js",
+      "time": 1792585624200
+    },
+    {
+      "path": "/assets/DashboardShell-DhYE8mco.js",
+      "time": 1792585624225
+    },
+    {
+      "path": "/assets/lightbulb--V1e9R1N.js",
+      "time": 1792585624293
+    },
+    {
+      "path": "/assets/NotFound-BcOQRTfa.js",
+      "time": 1792585624310
+    },
+    {
+      "path": "/assets/CartesianChart-C_KoSvHD.js",
+      "time": 1792585624312
+    },
+    {
+      "path": "/assets/sidebar-foliage-left-4El0v2uW.js",
+      "time": 1792585624707
+    },
+    {
+      "path": "/assets/users-round-BEkwP9vv.js",
+      "time": 1792585624710
+    },
+    {
+      "path": "/assets/Teacher%20Illustration-CCn01k2_.js",
+      "time": 1792585624712
+    },
+    {
+      "path": "/assets/cardStyle-iaU5tt7J.js",
+      "time": 1792585624714
+    },
+    {
+      "path": "/assets/opendyslexic-latin-400-normal-nUhe5EwG.woff2",
+      "time": 1792585624755
+    },
+    {
+      "path": "/assets/Logo-BJPtDbbX.jpg",
+      "time": 1792585624791
+    },
+    {
+      "path": "/favicon.jpg",
+      "time": 1792585625242
+    },
+    {
+      "path": "/favicon.svg",
+      "time": 1792585625281
+    },
+    {
+      "path": "/assets/ParentArea-BeVUeBy1.js",
+      "time": 1792585625335
+    },
+    {
+      "path": "/assets/sun-B5AIUJmH.js",
+      "time": 1792585625414
+    },
+    {
+      "path": "/assets/badges-BOuCeDi_.js",
+      "time": 1792585625431
+    },
+    {
+      "path": "/assets/trophy-D9ozHVTA.js",
+      "time": 1792585625466
+    },
+    {
+      "path": "/assets/owl-mascot-D-0EYbpp.js",
+      "time": 1792585625548
+    },
+    {
+      "path": "/assets/ParentArea-DY8dV9uv.css",
+      "time": 1792585625554
+    },
+    {
+      "path": "/assets/sidebar-foliage-left-D2XwCOJM.png",
+      "time": 1792585626165
+    },
+    {
+      "path": "/assets/current-C8ySTo5O.png",
+      "time": 1792585626781
+    },
+    {
+      "path": "/assets/no%20activities-CNRsEYZA.png",
+      "time": 1792585626790
+    },
+    {
+      "path": "/assets/Unang%20Hakbang-BmI1afoH.png",
+      "time": 1792585626820
+    },
+    {
+      "path": "/assets/Batang%20Mambabasa-D8GQHbGT.png",
+      "time": 1792585626831
+    },
+    {
+      "path": "/assets/Masigasig%20na%20Mambabasa-BQCmUemR.png",
+      "time": 1792585626907
+    },
+    {
+      "path": "/assets/Kampeon%20sa%20Pagbasa-CWhBsbqp.png",
+      "time": 1792585627025
+    },
+    {
+      "path": "/assets/parent-bg-CYVQ0b5Q.png",
+      "time": 1792585627195
+    },
+    {
+      "path": "/parent",
+      "time": 1792585627320
+    },
+    {
+      "path": "/assets/index-BBTJmuUn.js",
+      "time": 1792585627803
+    },
+    {
+      "path": "/assets/index-CfDZfzK_.css",
+      "time": 1792585627815
+    },
+    {
+      "path": "/assets/ParentArea-BeVUeBy1.js",
+      "time": 1792585628261
+    },
+    {
+      "path": "/assets/DashboardShell-DhYE8mco.js",
+      "time": 1792585628262
+    },
+    {
+      "path": "/assets/lightbulb--V1e9R1N.js",
+      "time": 1792585628276
+    },
+    {
+      "path": "/assets/NotFound-BcOQRTfa.js",
+      "time": 1792585628303
+    },
+    {
+      "path": "/assets/sidebar-foliage-left-4El0v2uW.js",
+      "time": 1792585628306
+    },
+    {
+      "path": "/assets/sun-B5AIUJmH.js",
+      "time": 1792585628371
+    },
+    {
+      "path": "/assets/users-round-BEkwP9vv.js",
+      "time": 1792585628390
+    },
+    {
+      "path": "/assets/badges-BOuCeDi_.js",
+      "time": 1792585628392
+    },
+    {
+      "path": "/assets/trophy-D9ozHVTA.js",
+      "time": 1792585628393
+    },
+    {
+      "path": "/assets/owl-mascot-D-0EYbpp.js",
+      "time": 1792585628396
+    },
+    {
+      "path": "/assets/ParentArea-DY8dV9uv.css",
+      "time": 1792585628430
+    },
+    {
+      "path": "/assets/opendyslexic-latin-400-normal-nUhe5EwG.woff2",
+      "time": 1792585628462
+    },
+    {
+      "path": "/assets/Logo-BJPtDbbX.jpg",
+      "time": 1792585628480
+    },
+    {
+      "path": "/favicon.jpg",
+      "time": 1792585628829
+    },
+    {
+      "path": "/favicon.svg",
+      "time": 1792585628831
+    },
+    {
+      "path": "/assets/sidebar-foliage-left-D2XwCOJM.png",
+      "time": 1792585628935
+    },
+    {
+      "path": "/assets/current-C8ySTo5O.png",
+      "time": 1792585629520
+    },
+    {
+      "path": "/assets/no%20activities-CNRsEYZA.png",
+      "time": 1792585629581
+    },
+    {
+      "path": "/assets/Unang%20Hakbang-BmI1afoH.png",
+      "time": 1792585629628
+    },
+    {
+      "path": "/assets/Batang%20Mambabasa-D8GQHbGT.png",
+      "time": 1792585629632
+    },
+    {
+      "path": "/assets/Masigasig%20na%20Mambabasa-BQCmUemR.png",
+      "time": 1792585629733
+    },
+    {
+      "path": "/assets/Kampeon%20sa%20Pagbasa-CWhBsbqp.png",
+      "time": 1792585629762
+    },
+    {
+      "path": "/assets/parent-bg-CYVQ0b5Q.png",
+      "time": 1792585629833
+    },
+    {
+      "path": "/student",
+      "time": 1792585633422
+    },
+    {
+      "path": "/assets/index-BBTJmuUn.js",
+      "time": 1792585633617
+    },
+    {
+      "path": "/assets/index-CfDZfzK_.css",
+      "time": 1792585633628
+    },
+    {
+      "path": "/assets/StudentArea-B-__PxIu.js",
+      "time": 1792585634006
+    },
+    {
+      "path": "/assets/DashboardShell-DhYE8mco.js",
+      "time": 1792585634008
+    },
+    {
+      "path": "/assets/lightbulb--V1e9R1N.js",
+      "time": 1792585634046
+    },
+    {
+      "path": "/assets/NotFound-BcOQRTfa.js",
+      "time": 1792585634049
+    },
+    {
+      "path": "/assets/badges-BOuCeDi_.js",
+      "time": 1792585634050
+    },
+    {
+      "path": "/assets/trophy-D9ozHVTA.js",
+      "time": 1792585634053
+    },
+    {
+      "path": "/assets/cardStyle-iaU5tt7J.js",
+      "time": 1792585634091
+    },
+    {
+      "path": "/assets/owl-mascot-D-0EYbpp.js",
+      "time": 1792585634112
+    },
+    {
+      "path": "/assets/TTSButton-CXqS_QHU.js",
+      "time": 1792585634113
+    },
+    {
+      "path": "/assets/emptyImage-CIGGCXHL.js",
+      "time": 1792585634152
+    },
+    {
+      "path": "/assets/PdfReadingAssistant-CjvbWkPd.js",
+      "time": 1792585634154
+    },
+    {
+      "path": "/assets/StudentArea-CJRzeWfu.css",
+      "time": 1792585634161
+    },
+    {
+      "path": "/assets/opendyslexic-latin-400-normal-nUhe5EwG.woff2",
+      "time": 1792585634184
+    },
+    {
+      "path": "/assets/Logo-BJPtDbbX.jpg",
+      "time": 1792585634203
+    },
+    {
+      "path": "/assets/owl-mascot-CwddG8AW.png",
+      "time": 1792585634310
+    },
+    {
+      "path": "/assets/student-hero-character-EnmKrPng.png",
+      "time": 1792585634314
+    },
+    {
+      "path": "/favicon.jpg",
+      "time": 1792585634401
+    },
+    {
+      "path": "/favicon.svg",
+      "time": 1792585634403
+    },
+    {
+      "path": "/assets/lesson-progress-decoration-CEpz0iWB.png",
+      "time": 1792585634461
+    },
+    {
+      "path": "/assets/empty-state-illustration-MctkQo5D.png",
+      "time": 1792585634802
+    },
+    {
+      "path": "/assets/opendyslexic-latin-700-normal-Bnmt45Ln.woff2",
+      "time": 1792585634846
+    },
+    {
+      "path": "/assets/sidebar-background-DO6pMjLt.png",
+      "time": 1792585634885
+    },
+    {
+      "path": "/assets/student-hero-bg-9GdRIMjA.png",
+      "time": 1792585634887
+    },
+    {
+      "path": "/assets/word-practice-background-v2-8hfbB--W.png",
+      "time": 1792585635124
+    },
+    {
+      "path": "/admin",
+      "time": 1792585635742
+    },
+    {
+      "path": "/assets/index-BBTJmuUn.js",
+      "time": 1792585636056
+    },
+    {
+      "path": "/assets/index-CfDZfzK_.css",
+      "time": 1792585636060
+    },
+    {
+      "path": "/assets/AdminArea-Bf1QVszI.js",
+      "time": 1792585636997
+    },
+    {
+      "path": "/assets/DashboardShell-DhYE8mco.js",
+      "time": 1792585637104
+    },
+    {
+      "path": "/assets/lightbulb--V1e9R1N.js",
+      "time": 1792585637106
+    },
+    {
+      "path": "/assets/NotFound-BcOQRTfa.js",
+      "time": 1792585637253
+    },
+    {
+      "path": "/assets/CartesianChart-C_KoSvHD.js",
+      "time": 1792585637322
+    },
+    {
+      "path": "/assets/sidebar-foliage-left-4El0v2uW.js",
+      "time": 1792585637382
+    },
+    {
+      "path": "/assets/users-round-BEkwP9vv.js",
+      "time": 1792585637406
+    },
+    {
+      "path": "/assets/Teacher%20Illustration-CCn01k2_.js",
+      "time": 1792585637521
+    },
+    {
+      "path": "/assets/cardStyle-iaU5tt7J.js",
+      "time": 1792585637524
+    },
+    {
+      "path": "/assets/opendyslexic-latin-400-normal-nUhe5EwG.woff2",
+      "time": 1792585637547
+    },
+    {
+      "path": "/assets/Logo-BJPtDbbX.jpg",
+      "time": 1792585637606
+    },
+    {
+      "path": "/favicon.jpg",
+      "time": 1792585638404
+    },
+    {
+      "path": "/assets/StudentArea-B-__PxIu.js",
+      "time": 1792585638433
+    },
+    {
+      "path": "/assets/badges-BOuCeDi_.js",
+      "time": 1792585638513
+    },
+    {
+      "path": "/assets/trophy-D9ozHVTA.js",
+      "time": 1792585638531
+    },
+    {
+      "path": "/assets/owl-mascot-D-0EYbpp.js",
+      "time": 1792585638559
+    },
+    {
+      "path": "/assets/TTSButton-CXqS_QHU.js",
+      "time": 1792585638575
+    },
+    {
+      "path": "/assets/emptyImage-CIGGCXHL.js",
+      "time": 1792585638610
+    },
+    {
+      "path": "/favicon.svg",
+      "time": 1792585638773
+    },
+    {
+      "path": "/assets/PdfReadingAssistant-CjvbWkPd.js",
+      "time": 1792585638785
+    },
+    {
+      "path": "/assets/StudentArea-CJRzeWfu.css",
+      "time": 1792585638791
+    },
+    {
+      "path": "/assets/owl-mascot-CwddG8AW.png",
+      "time": 1792585638974
+    },
+    {
+      "path": "/assets/student-hero-character-EnmKrPng.png",
+      "time": 1792585639046
+    },
+    {
+      "path": "/assets/lesson-progress-decoration-CEpz0iWB.png",
+      "time": 1792585639052
+    },
+    {
+      "path": "/assets/student-hero-character-EnmKrPng.png",
+      "time": 1792585639295
+    },
+    {
+      "path": "/assets/lesson-progress-decoration-CEpz0iWB.png",
+      "time": 1792585639302
+    },
+    {
+      "path": "/assets/empty-state-illustration-MctkQo5D.png",
+      "time": 1792585639330
+    },
+    {
+      "path": "/assets/sidebar-background-DO6pMjLt.png",
+      "time": 1792585639376
+    },
+    {
+      "path": "/assets/student-hero-bg-9GdRIMjA.png",
+      "time": 1792585639405
+    },
+    {
+      "path": "/student",
+      "time": 1792585639459
+    },
+    {
+      "path": "/assets/opendyslexic-latin-700-normal-wYUJcbXi.woff",
+      "time": 1792585639499
+    },
+    {
+      "path": "/assets/index-BBTJmuUn.js",
+      "time": 1792585639625
+    },
+    {
+      "path": "/assets/index-CfDZfzK_.css",
+      "time": 1792585639628
+    },
+    {
+      "path": "/assets/StudentArea-B-__PxIu.js",
+      "time": 1792585639940
+    },
+    {
+      "path": "/assets/DashboardShell-DhYE8mco.js",
+      "time": 1792585639944
+    },
+    {
+      "path": "/assets/lightbulb--V1e9R1N.js",
+      "time": 1792585639959
+    },
+    {
+      "path": "/assets/NotFound-BcOQRTfa.js",
+      "time": 1792585639969
+    },
+    {
+      "path": "/assets/badges-BOuCeDi_.js",
+      "time": 1792585639976
+    },
+    {
+      "path": "/assets/trophy-D9ozHVTA.js",
+      "time": 1792585639980
+    },
+    {
+      "path": "/assets/cardStyle-iaU5tt7J.js",
+      "time": 1792585640004
+    },
+    {
+      "path": "/assets/owl-mascot-D-0EYbpp.js",
+      "time": 1792585640013
+    },
+    {
+      "path": "/assets/TTSButton-CXqS_QHU.js",
+      "time": 1792585640025
+    },
+    {
+      "path": "/assets/emptyImage-CIGGCXHL.js",
+      "time": 1792585640026
+    },
+    {
+      "path": "/assets/PdfReadingAssistant-CjvbWkPd.js",
+      "time": 1792585640031
+    },
+    {
+      "path": "/assets/StudentArea-CJRzeWfu.css",
+      "time": 1792585640045
+    },
+    {
+      "path": "/assets/opendyslexic-latin-400-normal-nUhe5EwG.woff2",
+      "time": 1792585640091
+    },
+    {
+      "path": "/assets/Logo-BJPtDbbX.jpg",
+      "time": 1792585640096
+    },
+    {
+      "path": "/favicon.jpg",
+      "time": 1792585640338
+    },
+    {
+      "path": "/favicon.svg",
+      "time": 1792585640341
+    },
+    {
+      "path": "/assets/owl-mascot-CwddG8AW.png",
+      "time": 1792585640359
+    },
+    {
+      "path": "/assets/student-hero-character-EnmKrPng.png",
+      "time": 1792585640373
+    },
+    {
+      "path": "/assets/lesson-progress-decoration-CEpz0iWB.png",
+      "time": 1792585640464
+    },
+    {
+      "path": "/assets/empty-state-illustration-MctkQo5D.png",
+      "time": 1792585640492
+    },
+    {
+      "path": "/assets/opendyslexic-latin-700-normal-Bnmt45Ln.woff2",
+      "time": 1792585640844
+    },
+    {
+      "path": "/assets/sidebar-background-DO6pMjLt.png",
+      "time": 1792585640846
+    },
+    {
+      "path": "/assets/student-hero-bg-9GdRIMjA.png",
+      "time": 1792585640864
+    },
+    {
+      "path": "/assets/word-practice-background-v2-8hfbB--W.png",
+      "time": 1792585641042
+    }
+  ],
+  "base": "http://127.0.0.1:49690",
+  "version": "157.0",
+  "completedAt": "2026-10-21T12:27:26.041Z"
+}

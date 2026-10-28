@@ -1,0 +1,57 @@
+TAP version 13
+# Subtest: QA section assignment deduplicates IDs and calls one atomic RPC
+ok 1 - QA section assignment deduplicates IDs and calls one atomic RPC
+  ---
+  duration_ms: 520.2215
+  type: 'test'
+  ...
+# Subtest: QA section assignment rejects empty selections before persistence
+ok 2 - QA section assignment rejects empty selections before persistence
+  ---
+  duration_ms: 43.8814
+  type: 'test'
+  ...
+# Subtest: QA section assignment rejects malformed UUIDs before persistence
+not ok 3 - QA section assignment rejects malformed UUIDs before persistence
+  ---
+  duration_ms: 57.3886
+  type: 'test'
+  location: 'C:\\Users\\Samantha\\OneDrive\\Desktop\\web\\server\\tests\\sectionAssignmentQa.test.js:24:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    
+    200 !== 400
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 400
+  actual: 200
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (C:\Users\Samantha\OneDrive\Desktop\web\server\tests\sectionAssignmentQa.test.js:24:211)
+    process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: QA section assignment returns actionable capacity and missing-section errors
+ok 4 - QA section assignment returns actionable capacity and missing-section errors
+  ---
+  duration_ms: 64.2489
+  type: 'test'
+  ...
+# Subtest: QA section assignment reports RPC failure without claiming success or issuing fallback writes
+ok 5 - QA section assignment reports RPC failure without claiming success or issuing fallback writes
+  ---
+  duration_ms: 40.2611
+  type: 'test'
+  ...
+1..5
+# tests 5
+# suites 0
+# pass 4
+# fail 1
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 2247.6291

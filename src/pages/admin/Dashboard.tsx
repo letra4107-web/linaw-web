@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { Area, AreaChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 import { useAuth } from '../../lib/auth/AuthContext';
 import { api } from '../../lib/api';
+import { QueryErrorNotice } from '../../components/QueryErrorNotice';
 import { cardStyle } from '../../lib/cardStyle';
 import { AppIcon } from '../../components/a11y/AppIcon';
 import heroBackground from '../../assets/admin_design/admin-hero-background.png';
@@ -75,11 +76,7 @@ export default function AdminDashboard() {
         <div className="relative flex flex-wrap items-end justify-between gap-4"><div><p className="text-xs font-extrabold tracking-[.14em] text-white/70 uppercase">Good morning! ✦</p><h1 className="mt-1 text-2xl font-extrabold sm:text-3xl">Welcome back, {identity?.displayName ?? 'Admin'}!</h1><p className="mt-2 max-w-2xl text-sm leading-relaxed text-white/80 sm:text-base">Here is the quick story of LinawLetra today: learner progress, new accounts, and reading activity.</p></div><Link to="/admin/users" className="inline-flex min-h-11 items-center rounded-full bg-white px-5 text-sm font-extrabold text-[var(--color-brand-navy)] shadow-card transition-transform hover:-translate-y-0.5">View users →</Link></div>
       </header>
 
-      {import.meta.env.DEV && loadError instanceof Error && (
-        <div role="alert" className="rounded-2xl border border-red-300 bg-red-50 px-4 py-3 text-sm font-medium text-red-800">
-          Unable to load admin data: {loadError.message}
-        </div>
-      )}
+      <QueryErrorNotice error={loadError} message="Unable to load some dashboard information. Please try again." onRetry={() => { void analytics.refetch(); void usersQuery.refetch(); void credentialsQuery.refetch(); }} />
 
       {(analytics.isLoading || usersQuery.isLoading) ? <div className="grid grid-cols-2 gap-3 lg:grid-cols-5">{Array.from({ length: 5 }, (_, index) => <LoadingCard key={index} />)}</div> : data ? <section aria-label="Key statistics" className="grid grid-cols-2 gap-3 lg:grid-cols-5">{localizedStats.map((stat) => <article key={stat.label} className="admin-stat-card min-w-0 rounded-3xl border p-4 shadow-card transition-all hover:-translate-y-0.5 hover:shadow-raised" style={cardStyle(stat.brand, 7, 26)}><div className="flex items-start justify-between gap-2"><span className="flex h-10 w-10 items-center justify-center rounded-2xl bg-white/70 text-[var(--color-primary)]" aria-hidden="true"><AppIcon name={stat.icon} className="h-5 w-5" /></span><span className="admin-stat-arrow" aria-hidden="true">›</span></div><p className="mt-3 text-2xl font-extrabold tabular-nums sm:text-3xl">{stat.value.toLocaleString()}</p><p className="mt-1 text-sm font-bold">{stat.label}</p><p className="mt-1 truncate text-xs text-[var(--color-text-muted)]">{stat.detail}</p></article>)}</section> : <section role="alert" className="rounded-3xl border border-amber-200 bg-amber-50 p-5 text-sm text-amber-900">Unable to load dashboard data. Check your admin session and refresh the page.</section>}
 

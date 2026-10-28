@@ -1,0 +1,5 @@
+{
+  "scope": "Dedicated Supabase test accounts only; no shared environment mutations",
+  "status": "BLOCKED",
+  "actual": "Missing isolated configuration: E2E_API_URL, E2E_FRONTEND_URL, E2E_SUPABASE_URL, E2E_SUPABASE_ANON_KEY"
+}

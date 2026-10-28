@@ -1,0 +1,1059 @@
+{
+  "startedAt": "2026-10-21T12:35:47.308Z",
+  "scope": "Real role UI and frontend auth/role middleware with synthetic sessions and explicitly mocked Supabase/API persistence. Not real Supabase Auth, RLS, delivery or durable CRUD.",
+  "browser": "firefox",
+  "rows": [
+    {
+      "id": "ROLE-firefox-001",
+      "role": "admin",
+      "module": "Authenticated UI with mocked boundaries",
+      "feature": "Render /admin with no route crash or cross-role redirect",
+      "preconditions": "firefox, 1440px, error synthetic session/data",
+      "steps": "Render /admin with no route crash or cross-role redirect",
+      "expected": "Named UI assertions pass; no remote service request",
+      "evidence": "firefox-error.json",
+      "actual": {
+        "text": "Good morning,Admin!Here is a quick summary of LinawLetra users and activity today.ABC ✦✎Good morning! ✦Welcome back, QA admin!Here is the quick story of LinawLe",
+        "width": 1440,
+        "content": 1440,
+        "unexpected": [],
+        "queryFailures": [
+          {
+            "key": [
+              "notifications",
+              "00000000-0000-4000-8000-000000000001"
+            ],
+            "error": "Isolated service unavailable. Please retry."
+          },
+          {
+            "key": [
+              "admin-analytics"
+            ],
+            "error": "Isolated service unavailable. Please retry."
+          },
+          {
+            "key": [
+              "admin-users",
+              "",
+              ""
+            ],
+            "error": "Isolated service unavailable. Please retry."
+          },
+          {
+            "key": [
+              "admin-credential-security"
+            ],
+            "error": "Isolated service unavailable. Please retry."
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "ROLE-firefox-002",
+      "role": "admin",
+      "module": "Authenticated UI with mocked boundaries",
+      "feature": "Dashboard retry recovers after the isolated service becomes available",
+      "preconditions": "firefox, 1440px, error synthetic session/data",
+      "steps": "Dashboard retry recovers after the isolated service becomes available",
+      "expected": "Named UI assertions pass; no remote service request",
+      "evidence": "firefox-error.json",
+      "actual": "Named assertions passed",
+      "status": "PASS"
+    },
+    {
+      "id": "ROLE-firefox-003",
+      "role": "teacher",
+      "module": "Authenticated UI with mocked boundaries",
+      "feature": "Render /teacher with no route crash or cross-role redirect",
+      "preconditions": "firefox, 1440px, error synthetic session/data",
+      "steps": "Render /teacher with no route crash or cross-role redirect",
+      "expected": "Named UI assertions pass; no remote service request",
+      "evidence": "firefox-error.json",
+      "actual": {
+        "text": "Hindi ma-load ang ilang impormasyon. Pakisubukang muli.Subukan muliGood morning,Teacher QA!Every small progress your students make is a meaningful step toward m",
+        "width": 1440,
+        "content": 1440,
+        "unexpected": [],
+        "queryFailures": [
+          {
+            "key": [
+              "teacher-roster-summary",
+              "00000000-0000-4000-8000-000000000002"
+            ],
+            "error": "Isolated persistence unavailable"
+          },
+          {
+            "key": [
+              "teacher-pending-assignments",
+              "00000000-0000-4000-8000-000000000002"
+            ],
+            "error": "Isolated persistence unavailable"
+          },
+          {
+            "key": [
+              "teacher-materials-count",
+              "00000000-0000-4000-8000-000000000002"
+            ],
+            "error": "Isolated persistence unavailable"
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "ROLE-firefox-004",
+      "role": "teacher",
+      "module": "Authenticated UI with mocked boundaries",
+      "feature": "Dashboard retry recovers after the isolated service becomes available",
+      "preconditions": "firefox, 1440px, error synthetic session/data",
+      "steps": "Dashboard retry recovers after the isolated service becomes available",
+      "expected": "Named UI assertions pass; no remote service request",
+      "evidence": "firefox-error.json",
+      "actual": "Named assertions passed",
+      "status": "PASS"
+    },
+    {
+      "id": "ROLE-firefox-005",
+      "role": "parent",
+      "module": "Authenticated UI with mocked boundaries",
+      "feature": "Render /parent with no route crash or cross-role redirect",
+      "preconditions": "firefox, 1440px, error synthetic session/data",
+      "steps": "Render /parent with no route crash or cross-role redirect",
+      "expected": "Named UI assertions pass; no remote service request",
+      "evidence": "firefox-error.json",
+      "actual": {
+        "text": "Hindi ma-load ang dashboard. Subukan muli",
+        "width": 1440,
+        "content": 1440,
+        "unexpected": [],
+        "queryFailures": [
+          {
+            "key": [
+              "parent-layout-language",
+              "00000000-0000-4000-8000-000000000003"
+            ],
+            "error": "Isolated persistence unavailable"
+          },
+          {
+            "key": [
+              "notifications",
+              "00000000-0000-4000-8000-000000000003"
+            ],
+            "error": "Isolated service unavailable. Please retry."
+          },
+          {
+            "key": [
+              "parent-profile",
+              "00000000-0000-4000-8000-000000000003"
+            ],
+            "error": "Isolated persistence unavailable"
+          },
+          {
+            "key": [
+              "parent-overview-children",
+              "00000000-0000-4000-8000-000000000003"
+            ],
+            "error": "Isolated service unavailable. Please retry."
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "ROLE-firefox-006",
+      "role": "parent",
+      "module": "Authenticated UI with mocked boundaries",
+      "feature": "Dashboard retry recovers after the isolated service becomes available",
+      "preconditions": "firefox, 1440px, error synthetic session/data",
+      "steps": "Dashboard retry recovers after the isolated service becomes available",
+      "expected": "Named UI assertions pass; no remote service request",
+      "evidence": "firefox-error.json",
+      "actual": "Named assertions passed",
+      "status": "PASS"
+    },
+    {
+      "id": "ROLE-firefox-007",
+      "role": "student",
+      "module": "Authenticated UI with mocked boundaries",
+      "feature": "Render /student with no route crash or cross-role redirect",
+      "preconditions": "firefox, 1440px, error synthetic session/data",
+      "steps": "Render /student with no route crash or cross-role redirect",
+      "expected": "Named UI assertions pass; no remote service request",
+      "evidence": "firefox-error.json",
+      "actual": "page.goto: Timeout 15000ms exceeded.\nCall log:\n\u001b[2m  - navigating to \"http://127.0.0.1:50088/student\", waiting until \"domcontentloaded\"\u001b[22m\n",
+      "status": "FAIL"
+    },
+    {
+      "id": "ROLE-firefox-008",
+      "role": "student",
+      "module": "Authenticated UI with mocked boundaries",
+      "feature": "Dashboard retry recovers after the isolated service becomes available",
+      "preconditions": "firefox, 1440px, error synthetic session/data",
+      "steps": "Dashboard retry recovers after the isolated service becomes available",
+      "expected": "Named UI assertions pass; no remote service request",
+      "evidence": "firefox-error.json",
+      "actual": "page.evaluate: Execution context was destroyed, most likely because of a navigation",
+      "status": "FAIL"
+    }
+  ],
+  "accessibility": [],
+  "controls": [
+    {
+      "role": "admin",
+      "variant": "error",
+      "width": 1440,
+      "path": "/admin",
+      "controls": [
+        {
+          "tag": "BUTTON",
+          "name": "Close sidebar",
+          "disabled": false,
+          "type": "button",
+          "href": null,
+          "status": "NOT RUN",
+          "actual": "Visible control inventory; rendering does not verify its action"
+        },
+        {
+          "tag": "A",
+          "name": "Home",
+          "disabled": false,
+          "type": "",
+          "href": "/admin",
+          "status": "NOT RUN",
+          "actual": "Visible control inventory; rendering does not verify its action"
+        },
+        {
+          "tag": "A",
+          "name": "Students",
+          "disabled": false,
+          "type": "",
+          "href": "/admin/students",
+          "status": "NOT RUN",
+          "actual": "Visible control inventory; rendering does not verify its action"
+        },
+        {
+          "tag": "A",
+          "name": "Parents",
+          "disabled": false,
+          "type": "",
+          "href": "/admin/parents",
+          "status": "NOT RUN",
+          "actual": "Visible control inventory; rendering does not verify its action"
+        },
+        {
+          "tag": "A",
+          "name": "Teachers",
+          "disabled": false,
+          "type": "",
+          "href": "/admin/teachers-monitoring",
+          "status": "NOT RUN",
+          "actual": "Visible control inventory; rendering does not verify its action"
+        },
+        {
+          "tag": "A",
+          "name": "Users",
+          "disabled": false,
+          "type": "",
+          "href": "/admin/users",
+          "status": "NOT RUN",
+          "actual": "Visible control inventory; rendering does not verify its action"
+        },
+        {
+          "tag": "A",
+          "name": "Create teacher",
+          "disabled": false,
+          "type": "",
+          "href": "/admin/teachers",
+          "status": "NOT RUN",
+          "actual": "Visible control inventory; rendering does not verify its action"
+        },
+        {
+          "tag": "A",
+          "name": "Sections",
+          "disabled": false,
+          "type": "",
+          "href": "/admin/sections",
+          "status": "NOT RUN",
+          "actual": "Visible control inventory; rendering does not verify its action"
+        },
+        {
+          "tag": "A",
+          "name": "Analytics",
+          "disabled": false,
+          "type": "",
+          "href": "/admin/analytics",
+          "status": "NOT RUN",
+          "actual": "Visible control inventory; rendering does not verify its action"
+        },
+        {
+          "tag": "A",
+          "name": "Audit Trail",
+          "disabled": false,
+          "type": "",
+          "href": "/admin/audit-logs",
+          "status": "NOT RUN",
+          "actual": "Visible control inventory; rendering does not verify its action"
+        },
+        {
+          "tag": "A",
+          "name": "Archive",
+          "disabled": false,
+          "type": "",
+          "href": "/admin/archived",
+          "status": "NOT RUN",
+          "actual": "Visible control inventory; rendering does not verify its action"
+        },
+        {
+          "tag": "A",
+          "name": "Notifications",
+          "disabled": false,
+          "type": "",
+          "href": "/admin/notifications",
+          "status": "NOT RUN",
+          "actual": "Visible control inventory; rendering does not verify its action"
+        },
+        {
+          "tag": "A",
+          "name": "Settings",
+          "disabled": false,
+          "type": "",
+          "href": "/admin/settings",
+          "status": "NOT RUN",
+          "actual": "Visible control inventory; rendering does not verify its action"
+        },
+        {
+          "tag": "A",
+          "name": "Profile",
+          "disabled": false,
+          "type": "",
+          "href": "/admin/profile",
+          "status": "NOT RUN",
+          "actual": "Visible control inventory; rendering does not verify its action"
+        },
+        {
+          "tag": "BUTTON",
+          "name": "QAQA adminAdministrator⌃",
+          "disabled": false,
+          "type": "button",
+          "href": null,
+          "status": "NOT RUN",
+          "actual": "Visible control inventory; rendering does not verify its action"
+        },
+        {
+          "tag": "BUTTON",
+          "name": "Subukan muli",
+          "disabled": false,
+          "type": "button",
+          "href": null,
+          "status": "NOT RUN",
+          "actual": "Visible control inventory; rendering does not verify its action"
+        },
+        {
+          "tag": "A",
+          "name": "View all →",
+          "disabled": false,
+          "type": "",
+          "href": "/admin/users",
+          "status": "NOT RUN",
+          "actual": "Visible control inventory; rendering does not verify its action"
+        }
+      ]
+    },
+    {
+      "role": "teacher",
+      "variant": "error",
+      "width": 1440,
+      "path": "/teacher",
+      "controls": [
+        {
+          "tag": "BUTTON",
+          "name": "LinawLetraTanggapan ng Guro",
+          "disabled": false,
+          "type": "button",
+          "href": null,
+          "status": "NOT RUN",
+          "actual": "Visible control inventory; rendering does not verify its action"
+        },
+        {
+          "tag": "A",
+          "name": "Simula",
+          "disabled": false,
+          "type": "",
+          "href": "/teacher",
+          "status": "NOT RUN",
+          "actual": "Visible control inventory; rendering does not verify its action"
+        },
+        {
+          "tag": "A",
+          "name": "Mga Mag-aaral",
+          "disabled": false,
+          "type": "",
+          "href": "/teacher/students",
+          "status": "NOT RUN",
+          "actual": "Visible control inventory; rendering does not verify its action"
+        },
+        {
+          "tag": "A",
+          "name": "Mga Aralin",
+          "disabled": false,
+          "type": "",
+          "href": "/teacher/lessons",
+          "status": "NOT RUN",
+          "actual": "Visible control inventory; rendering does not verify its action"
+        },
+        {
+          "tag": "A",
+          "name": "Pagsusuri",
+          "disabled": false,
+          "type": "",
+          "href": "/teacher/progress-reports",
+          "status": "NOT RUN",
+          "actual": "Visible control inventory; rendering does not verify its action"
+        },
+        {
+          "tag": "A",
+          "name": "Mga Mensahe",
+          "disabled": false,
+          "type": "",
+          "href": "/teacher/messages",
+          "status": "NOT RUN",
+          "actual": "Visible control inventory; rendering does not verify its action"
+        },
+        {
+          "tag": "BUTTON",
+          "name": "QTQA teacherAccount ng guro",
+          "disabled": false,
+          "type": "button",
+          "href": null,
+          "status": "NOT RUN",
+          "actual": "Visible control inventory; rendering does not verify its action"
+        },
+        {
+          "tag": "BUTTON",
+          "name": "Subukan muli",
+          "disabled": false,
+          "type": "button",
+          "href": null,
+          "status": "NOT RUN",
+          "actual": "Visible control inventory; rendering does not verify its action"
+        },
+        {
+          "tag": "A",
+          "name": "View reports",
+          "disabled": false,
+          "type": "",
+          "href": "/teacher/progress-reports",
+          "status": "NOT RUN",
+          "actual": "Visible control inventory; rendering does not verify its action"
+        },
+        {
+          "tag": "A",
+          "name": "View all",
+          "disabled": false,
+          "type": "",
+          "href": "/teacher/progress-reports",
+          "status": "NOT RUN",
+          "actual": "Visible control inventory; rendering does not verify its action"
+        },
+        {
+          "tag": "A",
+          "name": "View all",
+          "disabled": false,
+          "type": "",
+          "href": "/teacher/progress-reports",
+          "status": "NOT RUN",
+          "actual": "Visible control inventory; rendering does not verify its action"
+        },
+        {
+          "tag": "A",
+          "name": "View all",
+          "disabled": false,
+          "type": "",
+          "href": "/teacher/lessons?tab=pdf",
+          "status": "NOT RUN",
+          "actual": "Visible control inventory; rendering does not verify its action"
+        },
+        {
+          "tag": "A",
+          "name": "Manage assignments",
+          "disabled": false,
+          "type": "",
+          "href": "/teacher/lessons?tab=pdf",
+          "status": "NOT RUN",
+          "actual": "Visible control inventory; rendering does not verify its action"
+        },
+        {
+          "tag": "A",
+          "name": "Add student",
+          "disabled": false,
+          "type": "",
+          "href": "/teacher/students",
+          "status": "NOT RUN",
+          "actual": "Visible control inventory; rendering does not verify its action"
+        },
+        {
+          "tag": "A",
+          "name": "Create lesson",
+          "disabled": false,
+          "type": "",
+          "href": "/teacher/lessons?tab=lessons",
+          "status": "NOT RUN",
+          "actual": "Visible control inventory; rendering does not verify its action"
+        },
+        {
+          "tag": "A",
+          "name": "Upload material",
+          "disabled": false,
+          "type": "",
+          "href": "/teacher/lessons?tab=pdf",
+          "status": "NOT RUN",
+          "actual": "Visible control inventory; rendering does not verify its action"
+        },
+        {
+          "tag": "A",
+          "name": "Send message",
+          "disabled": false,
+          "type": "",
+          "href": "/teacher/messages",
+          "status": "NOT RUN",
+          "actual": "Visible control inventory; rendering does not verify its action"
+        }
+      ]
+    },
+    {
+      "role": "parent",
+      "variant": "error",
+      "width": 1440,
+      "path": "/parent",
+      "controls": [
+        {
+          "tag": "BUTTON",
+          "name": "LinawLetraPARENT PORTAL",
+          "disabled": false,
+          "type": "button",
+          "href": null,
+          "status": "NOT RUN",
+          "actual": "Visible control inventory; rendering does not verify its action"
+        },
+        {
+          "tag": "A",
+          "name": "Simula",
+          "disabled": false,
+          "type": "",
+          "href": "/parent",
+          "status": "NOT RUN",
+          "actual": "Visible control inventory; rendering does not verify its action"
+        },
+        {
+          "tag": "A",
+          "name": "Progreso",
+          "disabled": false,
+          "type": "",
+          "href": "/parent/progress",
+          "status": "NOT RUN",
+          "actual": "Visible control inventory; rendering does not verify its action"
+        },
+        {
+          "tag": "A",
+          "name": "Kalendaryo",
+          "disabled": false,
+          "type": "",
+          "href": "/parent/schedule",
+          "status": "NOT RUN",
+          "actual": "Visible control inventory; rendering does not verify its action"
+        },
+        {
+          "tag": "A",
+          "name": "Mga Anak Ko",
+          "disabled": false,
+          "type": "",
+          "href": "/parent/children",
+          "status": "NOT RUN",
+          "actual": "Visible control inventory; rendering does not verify its action"
+        },
+        {
+          "tag": "A",
+          "name": "Mga Mensahe",
+          "disabled": false,
+          "type": "",
+          "href": "/parent/messages",
+          "status": "NOT RUN",
+          "actual": "Visible control inventory; rendering does not verify its action"
+        },
+        {
+          "tag": "BUTTON",
+          "name": "Aking profile",
+          "disabled": false,
+          "type": "button",
+          "href": null,
+          "status": "NOT RUN",
+          "actual": "Visible control inventory; rendering does not verify its action"
+        },
+        {
+          "tag": "BUTTON",
+          "name": "Subukan muli",
+          "disabled": false,
+          "type": "submit",
+          "href": null,
+          "status": "NOT RUN",
+          "actual": "Visible control inventory; rendering does not verify its action"
+        }
+      ]
+    }
+  ],
+  "contextReports": [
+    {
+      "role": "admin",
+      "variant": "error",
+      "width": 1440,
+      "runtimeErrors": [],
+      "failedRequests": [
+        {
+          "url": "https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Lexend:wght@400;500;700&display=swap",
+          "error": "NS_ERROR_FAILURE"
+        }
+      ],
+      "escapedRequests": [
+        {
+          "method": "GET",
+          "url": "https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Lexend:wght@400;500;700&display=swap"
+        }
+      ],
+      "api": [
+        {
+          "kind": "api",
+          "method": "POST",
+          "path": "/auth/events",
+          "body": {
+            "type": "login",
+            "platform": "web",
+            "sessionId": "239845e9-5121-4f42-b0f3-5fbb12efe306"
+          }
+        },
+        {
+          "kind": "api",
+          "method": "GET",
+          "path": "/notifications",
+          "body": {}
+        },
+        {
+          "kind": "api",
+          "method": "GET",
+          "path": "/admin/analytics",
+          "body": {}
+        },
+        {
+          "kind": "api",
+          "method": "GET",
+          "path": "/admin/users",
+          "body": {}
+        },
+        {
+          "kind": "api",
+          "method": "GET",
+          "path": "/admin/credential-security",
+          "body": {}
+        },
+        {
+          "kind": "api",
+          "method": "GET",
+          "path": "/notifications",
+          "body": {}
+        },
+        {
+          "kind": "api",
+          "method": "GET",
+          "path": "/admin/analytics",
+          "body": {}
+        },
+        {
+          "kind": "api",
+          "method": "GET",
+          "path": "/admin/users",
+          "body": {}
+        },
+        {
+          "kind": "api",
+          "method": "GET",
+          "path": "/admin/credential-security",
+          "body": {}
+        },
+        {
+          "kind": "api",
+          "method": "GET",
+          "path": "/admin/analytics",
+          "body": {}
+        },
+        {
+          "kind": "api",
+          "method": "GET",
+          "path": "/admin/users",
+          "body": {}
+        },
+        {
+          "kind": "api",
+          "method": "GET",
+          "path": "/admin/credential-security",
+          "body": {}
+        }
+      ],
+      "unexpectedApi": []
+    },
+    {
+      "role": "teacher",
+      "variant": "error",
+      "width": 1440,
+      "runtimeErrors": [],
+      "failedRequests": [
+        {
+          "url": "https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Lexend:wght@400;500;700&display=swap",
+          "error": "NS_ERROR_FAILURE"
+        }
+      ],
+      "escapedRequests": [
+        {
+          "method": "GET",
+          "url": "https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Lexend:wght@400;500;700&display=swap"
+        }
+      ],
+      "api": [
+        {
+          "kind": "api",
+          "method": "POST",
+          "path": "/auth/events",
+          "body": {
+            "type": "login",
+            "platform": "web",
+            "sessionId": "e028459d-3a6c-4550-b418-c6539d742a0d"
+          }
+        }
+      ],
+      "unexpectedApi": []
+    },
+    {
+      "role": "parent",
+      "variant": "error",
+      "width": 1440,
+      "runtimeErrors": [],
+      "failedRequests": [
+        {
+          "url": "https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Lexend:wght@400;500;700&display=swap",
+          "error": "NS_ERROR_FAILURE"
+        }
+      ],
+      "escapedRequests": [
+        {
+          "method": "GET",
+          "url": "https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Lexend:wght@400;500;700&display=swap"
+        }
+      ],
+      "api": [
+        {
+          "kind": "api",
+          "method": "POST",
+          "path": "/auth/events",
+          "body": {
+            "type": "login",
+            "platform": "web",
+            "sessionId": "2e431e11-8547-4d89-a77a-3ca149d4938c"
+          }
+        },
+        {
+          "kind": "api",
+          "method": "GET",
+          "path": "/notifications",
+          "body": {}
+        },
+        {
+          "kind": "api",
+          "method": "GET",
+          "path": "/parent/children",
+          "body": {}
+        },
+        {
+          "kind": "api",
+          "method": "GET",
+          "path": "/notifications",
+          "body": {}
+        },
+        {
+          "kind": "api",
+          "method": "GET",
+          "path": "/parent/children",
+          "body": {}
+        },
+        {
+          "kind": "api",
+          "method": "GET",
+          "path": "/parent/children",
+          "body": {}
+        }
+      ],
+      "unexpectedApi": []
+    },
+    {
+      "role": "student",
+      "variant": "error",
+      "width": 1440,
+      "runtimeErrors": [],
+      "failedRequests": [],
+      "escapedRequests": [],
+      "api": [],
+      "unexpectedApi": []
+    }
+  ],
+  "requests": [
+    {
+      "path": "/admin",
+      "time": 1792586158712
+    },
+    {
+      "path": "/assets/index-D4N8jWkT.js",
+      "time": 1792586160507
+    },
+    {
+      "path": "/assets/index-DliEuk5c.css",
+      "time": 1792586160533
+    },
+    {
+      "path": "/assets/AdminArea-ZF3kTIaW.js",
+      "time": 1792586162434
+    },
+    {
+      "path": "/assets/DashboardShell-kREOZslk.js",
+      "time": 1792586162457
+    },
+    {
+      "path": "/assets/lightbulb-CMXuxEuJ.js",
+      "time": 1792586162549
+    },
+    {
+      "path": "/assets/NotFound-B_VpAeXq.js",
+      "time": 1792586162825
+    },
+    {
+      "path": "/assets/CartesianChart-BUwZfee-.js",
+      "time": 1792586162834
+    },
+    {
+      "path": "/assets/sidebar-foliage-left-CeGKysO_.js",
+      "time": 1792586162923
+    },
+    {
+      "path": "/assets/users-round-CBce1ggK.js",
+      "time": 1792586162942
+    },
+    {
+      "path": "/assets/Teacher%20Illustration-CCn01k2_.js",
+      "time": 1792586162953
+    },
+    {
+      "path": "/assets/cardStyle-iaU5tt7J.js",
+      "time": 1792586162961
+    },
+    {
+      "path": "/assets/QueryErrorNotice-CjVrN_Ur.js",
+      "time": 1792586163004
+    },
+    {
+      "path": "/assets/opendyslexic-latin-400-normal-nUhe5EwG.woff2",
+      "time": 1792586163014
+    },
+    {
+      "path": "/assets/Logo-BJPtDbbX.jpg",
+      "time": 1792586163018
+    },
+    {
+      "path": "/favicon.jpg",
+      "time": 1792586163366
+    },
+    {
+      "path": "/favicon.svg",
+      "time": 1792586163369
+    },
+    {
+      "path": "/assets/owl-admin-mascot-DbX_Fxlm.png",
+      "time": 1792586165354
+    },
+    {
+      "path": "/assets/sidebar-foliage-left-D2XwCOJM.png",
+      "time": 1792586165357
+    },
+    {
+      "path": "/assets/sidebar-foliage-right-CQGJ07rn.png",
+      "time": 1792586165361
+    },
+    {
+      "path": "/assets/admin-hero-background-Cypg2enN.png",
+      "time": 1792586165362
+    },
+    {
+      "path": "/teacher",
+      "time": 1792586180330
+    },
+    {
+      "path": "/assets/index-D4N8jWkT.js",
+      "time": 1792586180713
+    },
+    {
+      "path": "/assets/index-DliEuk5c.css",
+      "time": 1792586180726
+    },
+    {
+      "path": "/assets/TeacherArea-D_mEf6KD.js",
+      "time": 1792586181324
+    },
+    {
+      "path": "/assets/DashboardShell-kREOZslk.js",
+      "time": 1792586181376
+    },
+    {
+      "path": "/assets/lightbulb-CMXuxEuJ.js",
+      "time": 1792586181383
+    },
+    {
+      "path": "/assets/NotFound-B_VpAeXq.js",
+      "time": 1792586181395
+    },
+    {
+      "path": "/assets/sun-BK0UDMm0.js",
+      "time": 1792586181419
+    },
+    {
+      "path": "/assets/users-round-CBce1ggK.js",
+      "time": 1792586181546
+    },
+    {
+      "path": "/assets/Teacher%20Illustration-CCn01k2_.js",
+      "time": 1792586181554
+    },
+    {
+      "path": "/assets/cardStyle-iaU5tt7J.js",
+      "time": 1792586181587
+    },
+    {
+      "path": "/assets/QueryErrorNotice-CjVrN_Ur.js",
+      "time": 1792586181598
+    },
+    {
+      "path": "/assets/PdfReadingAssistant-CcMtpXKX.js",
+      "time": 1792586181628
+    },
+    {
+      "path": "/assets/TTSButton-C-7B9HUw.js",
+      "time": 1792586181635
+    },
+    {
+      "path": "/assets/opendyslexic-latin-400-normal-nUhe5EwG.woff2",
+      "time": 1792586181647
+    },
+    {
+      "path": "/assets/Logo-BJPtDbbX.jpg",
+      "time": 1792586181701
+    },
+    {
+      "path": "/favicon.jpg",
+      "time": 1792586181802
+    },
+    {
+      "path": "/favicon.svg",
+      "time": 1792586181805
+    },
+    {
+      "path": "/assets/Purple%20Sidebar%20Bottom%20Plants-DrjMLvrI.png",
+      "time": 1792586181811
+    },
+    {
+      "path": "/assets/Teacher%20Home%20Hero%20Banner%20Background-BNcjkxAM.png",
+      "time": 1792586181922
+    },
+    {
+      "path": "/assets/Teacher%20Illustration-okwmnK0x.png",
+      "time": 1792586181923
+    },
+    {
+      "path": "/parent",
+      "time": 1792586187986
+    },
+    {
+      "path": "/assets/index-D4N8jWkT.js",
+      "time": 1792586189298
+    },
+    {
+      "path": "/assets/index-DliEuk5c.css",
+      "time": 1792586189315
+    },
+    {
+      "path": "/assets/ParentArea-MbkIkzNT.js",
+      "time": 1792586190110
+    },
+    {
+      "path": "/assets/DashboardShell-kREOZslk.js",
+      "time": 1792586190143
+    },
+    {
+      "path": "/assets/lightbulb-CMXuxEuJ.js",
+      "time": 1792586190146
+    },
+    {
+      "path": "/assets/NotFound-B_VpAeXq.js",
+      "time": 1792586190149
+    },
+    {
+      "path": "/assets/sidebar-foliage-left-CeGKysO_.js",
+      "time": 1792586190184
+    },
+    {
+      "path": "/assets/sun-BK0UDMm0.js",
+      "time": 1792586190192
+    },
+    {
+      "path": "/assets/users-round-CBce1ggK.js",
+      "time": 1792586190258
+    },
+    {
+      "path": "/assets/badges-DfnYr4_i.js",
+      "time": 1792586190261
+    },
+    {
+      "path": "/assets/trophy-BdnskDA3.js",
+      "time": 1792586190264
+    },
+    {
+      "path": "/assets/owl-mascot-D-0EYbpp.js",
+      "time": 1792586190285
+    },
+    {
+      "path": "/assets/ParentArea-o0Perrz8.css",
+      "time": 1792586190311
+    },
+    {
+      "path": "/assets/opendyslexic-latin-400-normal-nUhe5EwG.woff2",
+      "time": 1792586190346
+    },
+    {
+      "path": "/assets/Logo-BJPtDbbX.jpg",
+      "time": 1792586190443
+    },
+    {
+      "path": "/favicon.jpg",
+      "time": 1792586190789
+    },
+    {
+      "path": "/favicon.svg",
+      "time": 1792586190801
+    },
+    {
+      "path": "/assets/sidebar-foliage-left-D2XwCOJM.png",
+      "time": 1792586191016
+    },
+    {
+      "path": "/student",
+      "time": 1792586214460
+    }
+  ],
+  "base": "http://127.0.0.1:50088",
+  "version": "157.0",
+  "completedAt": "2026-10-21T12:37:40.150Z"
+}

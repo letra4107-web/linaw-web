@@ -1,0 +1,244 @@
+TAP version 13
+# Subtest: admin navigation search filters pages and Enter opens the first matching route
+ok 1 - admin navigation search filters pages and Enter opens the first matching route
+  ---
+  duration_ms: 376.3896
+  type: 'test'
+  ...
+# Subtest: admin navigation search explains empty results and never navigates on an unmatched query
+ok 2 - admin navigation search explains empty results and never navigates on an unmatched query
+  ---
+  duration_ms: 95.0888
+  type: 'test'
+  ...
+# Subtest: admin navigation search supports selecting a result and dismissing with Escape
+ok 3 - admin navigation search supports selecting a result and dismissing with Escape
+  ---
+  duration_ms: 68.313
+  type: 'test'
+  ...
+# Subtest: QA email validation accepts single addresses and rejects embedded or whitespace addresses
+ok 4 - QA email validation accepts single addresses and rejects embedded or whitespace addresses
+  ---
+  duration_ms: 911.8456
+  type: 'test'
+  ...
+# Subtest: QA role resolution never repairs over a failed authoritative profile lookup
+ok 5 - QA role resolution never repairs over a failed authoritative profile lookup
+  ---
+  duration_ms: 101.852
+  type: 'test'
+  ...
+# Subtest: QA role resolution never repairs when child identity lookup fails
+ok 6 - QA role resolution never repairs when child identity lookup fails
+  ---
+  duration_ms: 59.88
+  type: 'test'
+  ...
+# Subtest: QA role resolution preserves authoritative teacher and child roles
+ok 7 - QA role resolution preserves authoritative teacher and child roles
+  ---
+  duration_ms: 101.1932
+  type: 'test'
+  ...
+# Subtest: QA parent profile repair reports persistence failure
+ok 8 - QA parent profile repair reports persistence failure
+  ---
+  duration_ms: 59.1705
+  type: 'test'
+  ...
+# Subtest: QA confirmed parent repair preserves signup name; unconfirmed accounts are not repaired
+ok 9 - QA confirmed parent repair preserves signup name; unconfirmed accounts are not repaired
+  ---
+  duration_ms: 83.7316
+  type: 'test'
+  ...
+# Subtest: QA saved-profile picker ignores malformed entries without crashing
+ok 10 - QA saved-profile picker ignores malformed entries without crashing
+  ---
+  duration_ms: 55.0106
+  type: 'test'
+  ...
+# Subtest: QA saved profiles enforce expiration, student replacement, and profile limit
+ok 11 - QA saved profiles enforce expiration, student replacement, and profile limit
+  ---
+  duration_ms: 51.7928
+  type: 'test'
+  ...
+# Subtest: QA unavailable optional profile storage does not break login/logout
+ok 12 - QA unavailable optional profile storage does not break login/logout
+  ---
+  duration_ms: 36.2683
+  type: 'test'
+  ...
+# Subtest: QA signup without a session reaches verification without an unauthenticated profile write
+ok 13 - QA signup without a session reaches verification without an unauthenticated profile write
+  ---
+  duration_ms: 244.9564
+  type: 'test'
+  ...
+# Subtest: QA signup with a session persists its parent profile
+ok 14 - QA signup with a session persists its parent profile
+  ---
+  duration_ms: 159.5418
+  type: 'test'
+  ...
+# Subtest: QA account switching cannot publish an older asynchronous identity
+ok 15 - QA account switching cannot publish an older asynchronous identity
+  ---
+  duration_ms: 100.2555
+  type: 'test'
+  ...
+# Subtest: Main verifier refuses incomplete or disabled connection setup before networking
+ok 16 - Main verifier refuses incomplete or disabled connection setup before networking
+  ---
+  duration_ms: 5.2304
+  type: 'test'
+  ...
+# Subtest: Main verifier rejects administrator identities, wrong targets and transaction pooler configuration
+ok 17 - Main verifier rejects administrator identities, wrong targets and transaction pooler configuration
+  ---
+  duration_ms: 1.3524
+  type: 'test'
+  ...
+# Subtest: Main verifier rejects actual elevated roles, impersonated sessions and writable transactions
+ok 18 - Main verifier rejects actual elevated roles, impersonated sessions and writable transactions
+  ---
+  duration_ms: 1.7071
+  type: 'test'
+  ...
+# Subtest: Main integrity checks require proven unfiltered visibility across every joined table
+ok 19 - Main integrity checks require proven unfiltered visibility across every joined table
+  ---
+  duration_ms: 1.3931
+  type: 'test'
+  ...
+# Subtest: Main integrity checks refuse reader ownership or inherited write privileges
+ok 20 - Main integrity checks refuse reader ownership or inherited write privileges
+  ---
+  duration_ms: 1.2602
+  type: 'test'
+  ...
+# Subtest: parent badges accept current atomic award records
+ok 21 - parent badges accept current atomic award records
+  ---
+  duration_ms: 5.4892
+  type: 'test'
+  ...
+# Subtest: parent badges accept legacy keyed achievements
+ok 22 - parent badges accept legacy keyed achievements
+  ---
+  duration_ms: 0.5924
+  type: 'test'
+  ...
+# Subtest: parent badges merge legacy strings without duplicate unlocks
+ok 23 - parent badges merge legacy strings without duplicate unlocks
+  ---
+  duration_ms: 0.5805
+  type: 'test'
+  ...
+# Subtest: parent badges ignore absent or malformed records
+ok 24 - parent badges ignore absent or malformed records
+  ---
+  duration_ms: 0.4452
+  type: 'test'
+  ...
+# Subtest: parent async button callbacks invoke actions instead of discarding function references
+ok 25 - parent async button callbacks invoke actions instead of discarding function references
+  ---
+  duration_ms: 812.886
+  type: 'test'
+  ...
+# Subtest: module table defaults to five rows with a correct visible range
+ok 26 - module table defaults to five rows with a correct visible range
+  ---
+  duration_ms: 11.7634
+  type: 'test'
+  ...
+# Subtest: next and last pages show distinct rows and the partial final range
+ok 27 - next and last pages show distinct rows and the partial final range
+  ---
+  duration_ms: 0.8236
+  type: 'test'
+  ...
+# Subtest: changing page size shows the selected number of modules
+ok 28 - changing page size shows the selected number of modules
+  ---
+  duration_ms: 0.9202
+  type: 'test'
+  ...
+# Subtest: a shrinking report clamps the page instead of producing an empty page
+ok 29 - a shrinking report clamps the page instead of producing an empty page
+  ---
+  duration_ms: 0.9939
+  type: 'test'
+  ...
+# Subtest: empty reports and invalid page requests remain in a valid state
+ok 30 - empty reports and invalid page requests remain in a valid state
+  ---
+  duration_ms: 1.2497
+  type: 'test'
+  ...
+# Subtest: large reports retain first, last, and adjacent page buttons
+ok 31 - large reports retain first, last, and adjacent page buttons
+  ---
+  duration_ms: 4.9947
+  type: 'test'
+  ...
+# Subtest: opening a module preserves child and selected month
+ok 32 - opening a module preserves child and selected month
+  ---
+  duration_ms: 4.4164
+  type: 'test'
+  ...
+# Subtest: returning to the module list clears only detail state
+ok 33 - returning to the module list clears only detail state
+  ---
+  duration_ms: 0.9281
+  type: 'test'
+  ...
+# Subtest: report tabs cannot accidentally retain a module filter
+ok 34 - report tabs cannot accidentally retain a module filter
+  ---
+  duration_ms: 0.8677
+  type: 'test'
+  ...
+# Subtest: practice record navigation retains its intended record
+ok 35 - practice record navigation retains its intended record
+  ---
+  duration_ms: 0.6115
+  type: 'test'
+  ...
+# Subtest: month selection accepts valid values and safely defaults malformed query dates
+ok 36 - month selection accepts valid values and safely defaults malformed query dates
+  ---
+  duration_ms: 8.4393
+  type: 'test'
+  ...
+# Subtest: QA environment permits an independently isolated local stack
+ok 37 - QA environment permits an independently isolated local stack
+  ---
+  duration_ms: 10.783
+  type: 'test'
+  ...
+# Subtest: QA environment refuses shared Supabase even with an explicit hostname allowlist
+ok 38 - QA environment refuses shared Supabase even with an explicit hostname allowlist
+  ---
+  duration_ms: 5.8368
+  type: 'test'
+  ...
+# Subtest: QA environment refuses missing, disabled, production and path-spoofed targets
+ok 39 - QA environment refuses missing, disabled, production and path-spoofed targets
+  ---
+  duration_ms: 2.4626
+  type: 'test'
+  ...
+1..39
+# tests 39
+# suites 0
+# pass 39
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 4108.5895

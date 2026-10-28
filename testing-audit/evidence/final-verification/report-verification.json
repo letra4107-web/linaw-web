@@ -1,0 +1,36 @@
+{
+  "generatedAt": "2026-10-21T13:43:37.892Z",
+  "reports": 10,
+  "cases": 1058,
+  "missingLinks": [],
+  "caseFieldGaps": [],
+  "duplicateCaseIds": 0,
+  "unitPass": 548,
+  "newUnitCases": 70,
+  "publicBrowsers": [
+    {
+      "name": "public-firefox",
+      "file": "public-final/local-firefox.json",
+      "counts": {
+        "PASS": 58
+      }
+    },
+    {
+      "name": "public-edge",
+      "file": "public-edge-fixed-port/local-edge.json",
+      "counts": {
+        "FAIL": 3,
+        "PASS": 55
+      }
+    },
+    {
+      "name": "public-chromium",
+      "file": "public-chromium-fixed-port/local-chromium.json",
+      "counts": {
+        "PASS": 57,
+        "FAIL": 1
+      }
+    }
+  ],
+  "status": "PASS"
+}

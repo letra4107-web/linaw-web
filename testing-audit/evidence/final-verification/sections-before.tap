@@ -1,0 +1,71 @@
+TAP version 13
+# Subtest: QA section assignment deduplicates IDs and calls one atomic RPC
+ok 1 - QA section assignment deduplicates IDs and calls one atomic RPC
+  ---
+  duration_ms: 391.0004
+  type: 'test'
+  ...
+# Subtest: QA section assignment rejects empty selections before persistence
+ok 2 - QA section assignment rejects empty selections before persistence
+  ---
+  duration_ms: 36.2542
+  type: 'test'
+  ...
+# Subtest: QA section assignment rejects malformed UUIDs before persistence
+ok 3 - QA section assignment rejects malformed UUIDs before persistence
+  ---
+  duration_ms: 37.8827
+  type: 'test'
+  ...
+# Subtest: QA section assignment returns actionable capacity and missing-section errors
+ok 4 - QA section assignment returns actionable capacity and missing-section errors
+  ---
+  duration_ms: 35.5689
+  type: 'test'
+  ...
+# Subtest: QA section assignment reports RPC failure without claiming success or issuing fallback writes
+ok 5 - QA section assignment reports RPC failure without claiming success or issuing fallback writes
+  ---
+  duration_ms: 21.7488
+  type: 'test'
+  ...
+# Subtest: final verification section assignment sanitizes unexpected persistence diagnostics
+not ok 6 - final verification section assignment sanitizes unexpected persistence diagnostics
+  ---
+  duration_ms: 28.781
+  type: 'test'
+  location: 'C:\\Users\\Samantha\\OneDrive\\Desktop\\web\\server\\tests\\sectionAssignmentQa.test.js:28:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    + actual - expected
+    
+    + 'isolated internal database diagnostic'
+    - 'Unable to add students to this section.'
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 'Unable to add students to this section.'
+  actual: 'isolated internal database diagnostic'
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (C:\Users\Samantha\OneDrive\Desktop\web\server\tests\sectionAssignmentQa.test.js:32:10)
+    process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: QA section assignment reports concurrent transaction conflicts as retryable
+ok 7 - QA section assignment reports concurrent transaction conflicts as retryable
+  ---
+  duration_ms: 93.6424
+  type: 'test'
+  ...
+1..7
+# tests 7
+# suites 0
+# pass 6
+# fail 1
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 1669.4472

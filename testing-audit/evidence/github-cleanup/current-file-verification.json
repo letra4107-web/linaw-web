@@ -1,0 +1,110 @@
+{
+  "generatedAt": "2026-10-21T11:43:23.145Z",
+  "scannedFiles": 882,
+  "credentialShapedFindings": [],
+  "candidates": [
+    {
+      "file": "tests/authQa.test.mjs",
+      "tracked": false,
+      "findings": [
+        {
+          "category": "Inline password/token literal (manual review)",
+          "line": 107,
+          "confidence": "candidate; may be fixture or documentation"
+        }
+      ]
+    },
+    {
+      "file": "src/pages/auth/Login.tsx",
+      "tracked": true,
+      "findings": [
+        {
+          "category": "Inline password/token literal (manual review)",
+          "line": 138,
+          "confidence": "candidate; may be fixture or documentation"
+        }
+      ]
+    },
+    {
+      "file": "src/pages/auth/SignUp.tsx",
+      "tracked": true,
+      "findings": [
+        {
+          "category": "Inline password/token literal (manual review)",
+          "line": 46,
+          "confidence": "candidate; may be fixture or documentation"
+        },
+        {
+          "category": "Inline password/token literal (manual review)",
+          "line": 47,
+          "confidence": "candidate; may be fixture or documentation"
+        },
+        {
+          "category": "Inline password/token literal (manual review)",
+          "line": 49,
+          "confidence": "candidate; may be fixture or documentation"
+        }
+      ]
+    }
+  ],
+  "examples": [
+    {
+      "file": ".env.example",
+      "scope": "working tree",
+      "placeholderCheck": "PASS"
+    },
+    {
+      "file": ".env.example",
+      "scope": "index",
+      "placeholderCheck": "PASS"
+    },
+    {
+      "file": ".env.example",
+      "scope": "HEAD",
+      "placeholderCheck": "PASS"
+    },
+    {
+      "file": "server/.env.example",
+      "scope": "working tree",
+      "placeholderCheck": "PASS"
+    },
+    {
+      "file": "server/.env.example",
+      "scope": "index",
+      "placeholderCheck": "PASS"
+    },
+    {
+      "file": "server/.env.example",
+      "scope": "HEAD",
+      "placeholderCheck": "PASS"
+    }
+  ],
+  "privatePaths": [
+    {
+      "file": ".env",
+      "ignored": true,
+      "tracked": false
+    },
+    {
+      "file": ".env.production",
+      "ignored": true,
+      "tracked": false
+    },
+    {
+      "file": "server/.env",
+      "ignored": true,
+      "tracked": false
+    },
+    {
+      "file": ".qa/staging.env",
+      "ignored": true,
+      "tracked": false
+    }
+  ],
+  "trackedSensitivePaths": [],
+  "limitations": [
+    "Final current-file byte/text pass; full stored-history and PDF extraction results remain in scan.json",
+    "Ignores private local files; no values or hashes serialized",
+    "Heuristic result, not universal credential or personal-data certification"
+  ]
+}

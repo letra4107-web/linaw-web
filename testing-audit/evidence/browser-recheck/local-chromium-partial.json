@@ -1,0 +1,956 @@
+{
+  "version": "156.0.8078.4",
+  "rows": [
+    {
+      "id": "CHROME-BR-001",
+      "module": "Local Chromium browser",
+      "scenario": "/ renders without horizontal overflow at 375px",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "testing-audit/evidence/browser-recheck/local-chromium.json",
+      "actual": {
+        "path": "/",
+        "width": 375,
+        "content": 375,
+        "title": "Mas malinaw na pagbasa, mas masayang pagkatuto.",
+        "navigation": [
+          {
+            "loadMs": 344,
+            "domContentLoadedMs": 342
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "CHROME-BR-002",
+      "module": "Local Chromium browser",
+      "scenario": "/login renders without horizontal overflow at 375px",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "testing-audit/evidence/browser-recheck/local-chromium.json",
+      "actual": {
+        "path": "/login",
+        "width": 375,
+        "content": 375,
+        "title": "Handa ka na bang magbasa?",
+        "navigation": [
+          {
+            "loadMs": 205,
+            "domContentLoadedMs": 205
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "CHROME-BR-003",
+      "module": "Local Chromium browser",
+      "scenario": "/signup renders without horizontal overflow at 375px",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "testing-audit/evidence/browser-recheck/local-chromium.json",
+      "actual": {
+        "path": "/signup",
+        "width": 375,
+        "content": 375,
+        "title": "Gumawa ng account",
+        "navigation": [
+          {
+            "loadMs": 401,
+            "domContentLoadedMs": 401
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "CHROME-BR-004",
+      "module": "Local Chromium browser",
+      "scenario": "/forgot-password renders without horizontal overflow at 375px",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "testing-audit/evidence/browser-recheck/local-chromium.json",
+      "actual": {
+        "path": "/forgot-password",
+        "width": 375,
+        "content": 375,
+        "title": "Nakalimutan ang Password?",
+        "navigation": [
+          {
+            "loadMs": 274,
+            "domContentLoadedMs": 274
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "CHROME-BR-005",
+      "module": "Local Chromium browser",
+      "scenario": "/reset-password renders without horizontal overflow at 375px",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "testing-audit/evidence/browser-recheck/local-chromium.json",
+      "actual": {
+        "path": "/reset-password",
+        "width": 375,
+        "content": 375,
+        "title": "I-reset ang iyong password",
+        "navigation": [
+          {
+            "loadMs": 376,
+            "domContentLoadedMs": 375
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "CHROME-BR-006",
+      "module": "Local Chromium browser",
+      "scenario": "/verify-email renders without horizontal overflow at 375px",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "testing-audit/evidence/browser-recheck/local-chromium.json",
+      "actual": {
+        "path": "/verify-email",
+        "width": 375,
+        "content": 375,
+        "title": "I-verify ang iyong email",
+        "navigation": [
+          {
+            "loadMs": 364,
+            "domContentLoadedMs": 362
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "CHROME-BR-007",
+      "module": "Local Chromium browser",
+      "scenario": "/resend-verification renders without horizontal overflow at 375px",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "testing-audit/evidence/browser-recheck/local-chromium.json",
+      "actual": {
+        "path": "/resend-verification",
+        "width": 375,
+        "content": 375,
+        "title": "Muling ipadala ang code",
+        "navigation": [
+          {
+            "loadMs": 266,
+            "domContentLoadedMs": 266
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "CHROME-BR-008",
+      "module": "Local Chromium browser",
+      "scenario": "/privacy renders without horizontal overflow at 375px",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "testing-audit/evidence/browser-recheck/local-chromium.json",
+      "actual": {
+        "path": "/privacy",
+        "width": 375,
+        "content": 375,
+        "title": "Patakaran sa Privacy",
+        "navigation": [
+          {
+            "loadMs": 244,
+            "domContentLoadedMs": 243
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "CHROME-BR-009",
+      "module": "Local Chromium browser",
+      "scenario": "/terms renders without horizontal overflow at 375px",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "testing-audit/evidence/browser-recheck/local-chromium.json",
+      "actual": {
+        "path": "/terms",
+        "width": 375,
+        "content": 375,
+        "title": "Mga Tuntunin ng Serbisyo",
+        "navigation": [
+          {
+            "loadMs": 229,
+            "domContentLoadedMs": 229
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "CHROME-BR-010",
+      "module": "Local Chromium browser",
+      "scenario": "/child-data renders without horizontal overflow at 375px",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "testing-audit/evidence/browser-recheck/local-chromium.json",
+      "actual": {
+        "path": "/child-data",
+        "width": 375,
+        "content": 375,
+        "title": "Data ng Bata at Pahintulot ng Magulang",
+        "navigation": [
+          {
+            "loadMs": 421,
+            "domContentLoadedMs": 421
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "CHROME-BR-011",
+      "module": "Local Chromium browser",
+      "scenario": "/account-deletion renders without horizontal overflow at 375px",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "testing-audit/evidence/browser-recheck/local-chromium.json",
+      "actual": {
+        "path": "/account-deletion",
+        "width": 375,
+        "content": 375,
+        "title": "Pag-delete ng Account",
+        "navigation": [
+          {
+            "loadMs": 255,
+            "domContentLoadedMs": 254
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "CHROME-BR-012",
+      "module": "Local Chromium browser",
+      "scenario": "/accessibility renders without horizontal overflow at 375px",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "testing-audit/evidence/browser-recheck/local-chromium.json",
+      "actual": {
+        "path": "/accessibility",
+        "width": 375,
+        "content": 375,
+        "title": "Pahayag sa Accessibility",
+        "navigation": [
+          {
+            "loadMs": 279,
+            "domContentLoadedMs": 277
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "CHROME-BR-013",
+      "module": "Local Chromium browser",
+      "scenario": "/not-a-real-page renders without horizontal overflow at 375px",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "testing-audit/evidence/browser-recheck/local-chromium.json",
+      "actual": {
+        "path": "/not-a-real-page",
+        "width": 375,
+        "content": 375,
+        "title": "Naligaw ang pahina",
+        "navigation": [
+          {
+            "loadMs": 209,
+            "domContentLoadedMs": 209
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "CHROME-BR-014",
+      "module": "Local Chromium browser",
+      "scenario": "/ renders without horizontal overflow at 768px",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "testing-audit/evidence/browser-recheck/local-chromium.json",
+      "actual": {
+        "path": "/",
+        "width": 768,
+        "content": 768,
+        "title": "Mas malinaw na pagbasa, mas masayang pagkatuto.",
+        "navigation": [
+          {
+            "loadMs": 207,
+            "domContentLoadedMs": 206
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "CHROME-BR-015",
+      "module": "Local Chromium browser",
+      "scenario": "/login renders without horizontal overflow at 768px",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "testing-audit/evidence/browser-recheck/local-chromium.json",
+      "actual": {
+        "path": "/login",
+        "width": 768,
+        "content": 768,
+        "title": "Handa ka na bang magbasa?",
+        "navigation": [
+          {
+            "loadMs": 280,
+            "domContentLoadedMs": 279
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "CHROME-BR-016",
+      "module": "Local Chromium browser",
+      "scenario": "/signup renders without horizontal overflow at 768px",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "testing-audit/evidence/browser-recheck/local-chromium.json",
+      "actual": {
+        "path": "/signup",
+        "width": 768,
+        "content": 768,
+        "title": "Gumawa ng account",
+        "navigation": [
+          {
+            "loadMs": 274,
+            "domContentLoadedMs": 273
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "CHROME-BR-017",
+      "module": "Local Chromium browser",
+      "scenario": "/forgot-password renders without horizontal overflow at 768px",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "testing-audit/evidence/browser-recheck/local-chromium.json",
+      "actual": {
+        "path": "/forgot-password",
+        "width": 768,
+        "content": 768,
+        "title": "Nakalimutan ang Password?",
+        "navigation": [
+          {
+            "loadMs": 303,
+            "domContentLoadedMs": 302
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "CHROME-BR-018",
+      "module": "Local Chromium browser",
+      "scenario": "/reset-password renders without horizontal overflow at 768px",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "testing-audit/evidence/browser-recheck/local-chromium.json",
+      "actual": {
+        "path": "/reset-password",
+        "width": 768,
+        "content": 768,
+        "title": "I-reset ang iyong password",
+        "navigation": [
+          {
+            "loadMs": 405,
+            "domContentLoadedMs": 404
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "CHROME-BR-019",
+      "module": "Local Chromium browser",
+      "scenario": "/verify-email renders without horizontal overflow at 768px",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "testing-audit/evidence/browser-recheck/local-chromium.json",
+      "actual": {
+        "path": "/verify-email",
+        "width": 768,
+        "content": 768,
+        "title": "I-verify ang iyong email",
+        "navigation": [
+          {
+            "loadMs": 351,
+            "domContentLoadedMs": 350
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "CHROME-BR-020",
+      "module": "Local Chromium browser",
+      "scenario": "/resend-verification renders without horizontal overflow at 768px",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "testing-audit/evidence/browser-recheck/local-chromium.json",
+      "actual": {
+        "path": "/resend-verification",
+        "width": 768,
+        "content": 768,
+        "title": "Muling ipadala ang code",
+        "navigation": [
+          {
+            "loadMs": 280,
+            "domContentLoadedMs": 280
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "CHROME-BR-021",
+      "module": "Local Chromium browser",
+      "scenario": "/privacy renders without horizontal overflow at 768px",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "testing-audit/evidence/browser-recheck/local-chromium.json",
+      "actual": {
+        "path": "/privacy",
+        "width": 768,
+        "content": 768,
+        "title": "Patakaran sa Privacy",
+        "navigation": [
+          {
+            "loadMs": 322,
+            "domContentLoadedMs": 322
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "CHROME-BR-022",
+      "module": "Local Chromium browser",
+      "scenario": "/terms renders without horizontal overflow at 768px",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "testing-audit/evidence/browser-recheck/local-chromium.json",
+      "actual": {
+        "path": "/terms",
+        "width": 768,
+        "content": 768,
+        "title": "Mga Tuntunin ng Serbisyo",
+        "navigation": [
+          {
+            "loadMs": 349,
+            "domContentLoadedMs": 349
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "CHROME-BR-023",
+      "module": "Local Chromium browser",
+      "scenario": "/child-data renders without horizontal overflow at 768px",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "testing-audit/evidence/browser-recheck/local-chromium.json",
+      "actual": {
+        "path": "/child-data",
+        "width": 768,
+        "content": 768,
+        "title": "Data ng Bata at Pahintulot ng Magulang",
+        "navigation": [
+          {
+            "loadMs": 415,
+            "domContentLoadedMs": 414
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "CHROME-BR-024",
+      "module": "Local Chromium browser",
+      "scenario": "/account-deletion renders without horizontal overflow at 768px",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "testing-audit/evidence/browser-recheck/local-chromium.json",
+      "actual": {
+        "path": "/account-deletion",
+        "width": 768,
+        "content": 768,
+        "title": "Pag-delete ng Account",
+        "navigation": [
+          {
+            "loadMs": 730,
+            "domContentLoadedMs": 729
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "CHROME-BR-025",
+      "module": "Local Chromium browser",
+      "scenario": "/accessibility renders without horizontal overflow at 768px",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "testing-audit/evidence/browser-recheck/local-chromium.json",
+      "actual": {
+        "path": "/accessibility",
+        "width": 768,
+        "content": 768,
+        "title": "Pahayag sa Accessibility",
+        "navigation": [
+          {
+            "loadMs": 679,
+            "domContentLoadedMs": 678
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "CHROME-BR-026",
+      "module": "Local Chromium browser",
+      "scenario": "/not-a-real-page renders without horizontal overflow at 768px",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "testing-audit/evidence/browser-recheck/local-chromium.json",
+      "actual": {
+        "path": "/not-a-real-page",
+        "width": 768,
+        "content": 768,
+        "title": "Naligaw ang pahina",
+        "navigation": [
+          {
+            "loadMs": 683,
+            "domContentLoadedMs": 682
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "CHROME-BR-027",
+      "module": "Local Chromium browser",
+      "scenario": "/ renders without horizontal overflow at 1440px",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "testing-audit/evidence/browser-recheck/local-chromium.json",
+      "actual": {
+        "path": "/",
+        "width": 1440,
+        "content": 1440,
+        "title": "Mas malinaw na pagbasa, mas masayang pagkatuto.",
+        "navigation": [
+          {
+            "loadMs": 802,
+            "domContentLoadedMs": 801
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "CHROME-BR-028",
+      "module": "Local Chromium browser",
+      "scenario": "/login renders without horizontal overflow at 1440px",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "testing-audit/evidence/browser-recheck/local-chromium.json",
+      "actual": {
+        "path": "/login",
+        "width": 1440,
+        "content": 1440,
+        "title": "Handa ka na bang magbasa?",
+        "navigation": [
+          {
+            "loadMs": 765,
+            "domContentLoadedMs": 734
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "CHROME-BR-029",
+      "module": "Local Chromium browser",
+      "scenario": "/signup renders without horizontal overflow at 1440px",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "testing-audit/evidence/browser-recheck/local-chromium.json",
+      "actual": {
+        "path": "/signup",
+        "width": 1440,
+        "content": 1440,
+        "title": "Gumawa ng account",
+        "navigation": [
+          {
+            "loadMs": 523,
+            "domContentLoadedMs": 523
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "CHROME-BR-030",
+      "module": "Local Chromium browser",
+      "scenario": "/forgot-password renders without horizontal overflow at 1440px",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "testing-audit/evidence/browser-recheck/local-chromium.json",
+      "actual": {
+        "path": "/forgot-password",
+        "width": 1440,
+        "content": 1440,
+        "title": "Nakalimutan ang Password?",
+        "navigation": [
+          {
+            "loadMs": 855,
+            "domContentLoadedMs": 853
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "CHROME-BR-031",
+      "module": "Local Chromium browser",
+      "scenario": "/reset-password renders without horizontal overflow at 1440px",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "testing-audit/evidence/browser-recheck/local-chromium.json",
+      "actual": {
+        "path": "/reset-password",
+        "width": 1440,
+        "content": 1440,
+        "title": "I-reset ang iyong password",
+        "navigation": [
+          {
+            "loadMs": 728,
+            "domContentLoadedMs": 727
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "CHROME-BR-032",
+      "module": "Local Chromium browser",
+      "scenario": "/verify-email renders without horizontal overflow at 1440px",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "testing-audit/evidence/browser-recheck/local-chromium.json",
+      "actual": {
+        "path": "/verify-email",
+        "width": 1440,
+        "content": 1440,
+        "title": "I-verify ang iyong email",
+        "navigation": [
+          {
+            "loadMs": 599,
+            "domContentLoadedMs": 599
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "CHROME-BR-033",
+      "module": "Local Chromium browser",
+      "scenario": "/resend-verification renders without horizontal overflow at 1440px",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "testing-audit/evidence/browser-recheck/local-chromium.json",
+      "actual": {
+        "path": "/resend-verification",
+        "width": 1440,
+        "content": 1440,
+        "title": "Muling ipadala ang code",
+        "navigation": [
+          {
+            "loadMs": 885,
+            "domContentLoadedMs": 884
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "CHROME-BR-034",
+      "module": "Local Chromium browser",
+      "scenario": "/privacy renders without horizontal overflow at 1440px",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "testing-audit/evidence/browser-recheck/local-chromium.json",
+      "actual": {
+        "path": "/privacy",
+        "width": 1440,
+        "content": 1440,
+        "title": "Patakaran sa Privacy",
+        "navigation": [
+          {
+            "loadMs": 564,
+            "domContentLoadedMs": 563
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "CHROME-BR-035",
+      "module": "Local Chromium browser",
+      "scenario": "/terms renders without horizontal overflow at 1440px",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "testing-audit/evidence/browser-recheck/local-chromium.json",
+      "actual": {
+        "path": "/terms",
+        "width": 1440,
+        "content": 1440,
+        "title": "Mga Tuntunin ng Serbisyo",
+        "navigation": [
+          {
+            "loadMs": 756,
+            "domContentLoadedMs": 756
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "CHROME-BR-036",
+      "module": "Local Chromium browser",
+      "scenario": "/child-data renders without horizontal overflow at 1440px",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "testing-audit/evidence/browser-recheck/local-chromium.json",
+      "actual": {
+        "path": "/child-data",
+        "width": 1440,
+        "content": 1440,
+        "title": "Data ng Bata at Pahintulot ng Magulang",
+        "navigation": [
+          {
+            "loadMs": 593,
+            "domContentLoadedMs": 593
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "CHROME-BR-037",
+      "module": "Local Chromium browser",
+      "scenario": "/account-deletion renders without horizontal overflow at 1440px",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "testing-audit/evidence/browser-recheck/local-chromium.json",
+      "actual": {
+        "path": "/account-deletion",
+        "width": 1440,
+        "content": 1440,
+        "title": "Pag-delete ng Account",
+        "navigation": [
+          {
+            "loadMs": 607,
+            "domContentLoadedMs": 605
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "CHROME-BR-038",
+      "module": "Local Chromium browser",
+      "scenario": "/accessibility renders without horizontal overflow at 1440px",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "testing-audit/evidence/browser-recheck/local-chromium.json",
+      "actual": {
+        "path": "/accessibility",
+        "width": 1440,
+        "content": 1440,
+        "title": "Pahayag sa Accessibility",
+        "navigation": [
+          {
+            "loadMs": 579,
+            "domContentLoadedMs": 578
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "CHROME-BR-039",
+      "module": "Local Chromium browser",
+      "scenario": "/not-a-real-page renders without horizontal overflow at 1440px",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "testing-audit/evidence/browser-recheck/local-chromium.json",
+      "actual": {
+        "path": "/not-a-real-page",
+        "width": 1440,
+        "content": 1440,
+        "title": "Naligaw ang pahina",
+        "navigation": [
+          {
+            "loadMs": 669,
+            "domContentLoadedMs": 668
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "CHROME-BR-040",
+      "module": "Local Chromium browser",
+      "scenario": "Anonymous admin redirects to login",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "testing-audit/evidence/browser-recheck/local-chromium.json",
+      "actual": "Assertions passed",
+      "status": "PASS"
+    },
+    {
+      "id": "CHROME-BR-041",
+      "module": "Local Chromium browser",
+      "scenario": "Anonymous admin/settings redirects to login",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "testing-audit/evidence/browser-recheck/local-chromium.json",
+      "actual": "Assertions passed",
+      "status": "PASS"
+    },
+    {
+      "id": "CHROME-BR-042",
+      "module": "Local Chromium browser",
+      "scenario": "Anonymous admin/not-a-real-page redirects to login",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "testing-audit/evidence/browser-recheck/local-chromium.json",
+      "actual": "Assertions passed",
+      "status": "PASS"
+    },
+    {
+      "id": "CHROME-BR-043",
+      "module": "Local Chromium browser",
+      "scenario": "Anonymous teacher redirects to login",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "testing-audit/evidence/browser-recheck/local-chromium.json",
+      "actual": "Assertions passed",
+      "status": "PASS"
+    },
+    {
+      "id": "CHROME-BR-044",
+      "module": "Local Chromium browser",
+      "scenario": "Anonymous teacher/settings redirects to login",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "testing-audit/evidence/browser-recheck/local-chromium.json",
+      "actual": "Assertions passed",
+      "status": "PASS"
+    },
+    {
+      "id": "CHROME-BR-045",
+      "module": "Local Chromium browser",
+      "scenario": "Anonymous teacher/not-a-real-page redirects to login",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "testing-audit/evidence/browser-recheck/local-chromium.json",
+      "actual": "Assertions passed",
+      "status": "PASS"
+    },
+    {
+      "id": "CHROME-BR-046",
+      "module": "Local Chromium browser",
+      "scenario": "Anonymous parent redirects to login",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "testing-audit/evidence/browser-recheck/local-chromium.json",
+      "actual": "Assertions passed",
+      "status": "PASS"
+    },
+    {
+      "id": "CHROME-BR-047",
+      "module": "Local Chromium browser",
+      "scenario": "Anonymous parent/settings redirects to login",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "testing-audit/evidence/browser-recheck/local-chromium.json",
+      "actual": "Assertions passed",
+      "status": "PASS"
+    },
+    {
+      "id": "CHROME-BR-048",
+      "module": "Local Chromium browser",
+      "scenario": "Anonymous parent/not-a-real-page redirects to login",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "testing-audit/evidence/browser-recheck/local-chromium.json",
+      "actual": "Assertions passed",
+      "status": "PASS"
+    },
+    {
+      "id": "CHROME-BR-049",
+      "module": "Local Chromium browser",
+      "scenario": "Anonymous student redirects to login",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "testing-audit/evidence/browser-recheck/local-chromium.json",
+      "actual": "Assertions passed",
+      "status": "PASS"
+    },
+    {
+      "id": "CHROME-BR-050",
+      "module": "Local Chromium browser",
+      "scenario": "Anonymous student/settings redirects to login",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "testing-audit/evidence/browser-recheck/local-chromium.json",
+      "actual": "Assertions passed",
+      "status": "PASS"
+    },
+    {
+      "id": "CHROME-BR-051",
+      "module": "Local Chromium browser",
+      "scenario": "Anonymous student/not-a-real-page redirects to login",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "testing-audit/evidence/browser-recheck/local-chromium.json",
+      "actual": "Assertions passed",
+      "status": "PASS"
+    },
+    {
+      "id": "CHROME-BR-052",
+      "module": "Local Chromium browser",
+      "scenario": "Empty login submission displays validation; password visibility and keyboard toggle work",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "testing-audit/evidence/browser-recheck/local-chromium.json",
+      "actual": "Assertions passed",
+      "status": "PASS"
+    },
+    {
+      "id": "CHROME-BR-053",
+      "module": "Local Chromium browser",
+      "scenario": "Empty signup submission displays required-field errors",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "testing-audit/evidence/browser-recheck/local-chromium.json",
+      "actual": "Assertions passed",
+      "status": "PASS"
+    },
+    {
+      "id": "CHROME-BR-054",
+      "module": "Local Chromium browser",
+      "scenario": "OTP keyboard navigation and nonnumeric input validation",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "testing-audit/evidence/browser-recheck/local-chromium.json",
+      "actual": "Assertions passed",
+      "status": "PASS"
+    },
+    {
+      "id": "CHROME-BR-055",
+      "module": "Local Chromium browser",
+      "scenario": "Public forms have accessible names for visible input controls",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "testing-audit/evidence/browser-recheck/local-chromium.json",
+      "actual": "Assertions passed",
+      "status": "PASS"
+    },
+    {
+      "id": "CHROME-BR-056",
+      "module": "Local Chromium browser",
+      "scenario": "No uncaught JavaScript exceptions during tested navigation and actions",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "testing-audit/evidence/browser-recheck/local-chromium.json",
+      "actual": "Assertions passed",
+      "status": "PASS"
+    },
+    {
+      "id": "CHROME-BR-057",
+      "module": "Local Chromium browser",
+      "scenario": "A failed route-bundle download displays retry feedback and recovers after reloading",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "testing-audit/evidence/browser-recheck/local-chromium.json",
+      "actual": "Assertions passed",
+      "status": "PASS"
+    },
+    {
+      "id": "CHROME-BR-058",
+      "module": "Local Chromium browser",
+      "scenario": "Ten fresh browser contexts render the cold mobile home route without asset failures",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "testing-audit/evidence/browser-recheck/local-chromium.json",
+      "actual": "[{\"context\":0,\"errorScreen\":false,\"failed\":[],\"overflow\":false},{\"context\":1,\"errorScreen\":false,\"failed\":[],\"overflow\":false},{\"context\":2,\"errorScreen\":false,\"failed\":[],\"overflow\":false},{\"context\":3,\"errorScreen\":false,\"failed\":[],\"overflow\":false},{\"context\":4,\"errorScreen\":false,\"failed\":[{\"url\":\"http://127.0.0.1:60877/assets/index-DPxzF1W9.css\",\"error\":\"net::ERR_NETWORK_ACCESS_DENIED\"}],\"overflow\":true},{\"context\":5,\"errorScreen\":false,\"failed\":[{\"url\":\"http://127.0.0.1:60877/assets/TTSButton-B53ci3nv.js\",\"error\":\"net::ERR_NETWORK_ACCESS_DENIED\"}],\"overflow\":false},{\"context\":6,\"errorScreen\":false,\"failed\":[],\"overflow\":false},{\"context\":7,\"errorScreen\":false,\"failed\":[],\"overflow\":false},{\"context\":8,\"errorScreen\":false,\"failed\":[],\"overflow\":false},{\"context\":9,\"errorScreen\":false,\"failed\":[],\"overflow\":false}]",
+      "status": "FAIL"
+    }
+  ]
+}

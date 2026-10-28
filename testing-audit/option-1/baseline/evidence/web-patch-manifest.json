@@ -1,0 +1,446 @@
+{
+  "target": "C:\\Users\\Samantha\\OneDrive\\Desktop\\web",
+  "staged": "C:\\Users\\Samantha\\OneDrive\\Desktop\\LinawLm\\LinawLm\\testing-audit\\xp-progress\\web-worktree",
+  "files": [
+    {
+      "file": "server/routes/student.js",
+      "previousSha256": "02e655b66be40f98b2e31baa9b356c7c7a86faf41caa2f0c9a923d4b75d7f111",
+      "nextSha256": "a2eeda8801099592f4d33abf1265962807ebc55981dfaa18938586776579a387",
+      "bytes": 28230
+    },
+    {
+      "file": "server/lib/badgeEngine.js",
+      "previousSha256": "b9306a03cbc667b3c768839ceef727cb474beebd0e333072ddaf1cc1017fd8bf",
+      "nextSha256": "2f37a3711e5aabe90debd8f0ac542a49f3ccc0b49661f1ad4b7124ba33bbf286",
+      "bytes": 448
+    },
+    {
+      "file": "server/services/progressEvents.js",
+      "previousSha256": null,
+      "nextSha256": "381e613c8ce0e5405a1e91734637ba3294f87fa6bcefe6238377977182a5ef1a",
+      "bytes": 5603
+    },
+    {
+      "file": "server/services/mobileSpeechScoring.js",
+      "previousSha256": null,
+      "nextSha256": "7358f16b6e5d9fa1336d0eae8ff1517c4dbe5b23bce5b660a634ec2e3131dfc8",
+      "bytes": 4304
+    },
+    {
+      "file": "server/services/wordOfDayInitialization.js",
+      "previousSha256": null,
+      "nextSha256": "bb4e0c87a53d60112678af5e75e5e6eaf7ec3a626baad4208d0fe692d823c4ab",
+      "bytes": 1605
+    },
+    {
+      "file": "server/tests/businessQa.test.js",
+      "previousSha256": "6aa239137639499d9ad7e245a857b9e82c0b85f9c929d411a66d83e18c18098e",
+      "nextSha256": "cb57c45c13e2028cc25b703393a09610e8acef438deca025308c0ef657e6226d",
+      "bytes": 4076
+    },
+    {
+      "file": "server/tests/security.test.js",
+      "previousSha256": "fca5ee02748714a8c6103fb0c8c445ed5e669b52d7b613ad7a8a4a204c5fed1c",
+      "nextSha256": "14c1d6a3e1a815b54d74a1e5fb7bc09f5a6c293437fe269e23c33c63229549d7",
+      "bytes": 21870
+    },
+    {
+      "file": "server/tests/progressEvents.test.js",
+      "previousSha256": null,
+      "nextSha256": "d7cbfb94756a0b5a57285bb984babf8d215ad8680fa6190f0a43fd2ed66006d7",
+      "bytes": 4283
+    },
+    {
+      "file": "src/lib/api.ts",
+      "previousSha256": "52b4747905fc721613de5cf39ee11ba4fd5fba9b49321da9aeb2f35307850565",
+      "nextSha256": "48fbc1c29a412c306d2e75d7bf54e7b896dc9ff08a88bccb2e36158311e1eb2a",
+      "bytes": 2028
+    },
+    {
+      "file": "src/lib/progressEvents.ts",
+      "previousSha256": null,
+      "nextSha256": "ef239eb40ebc2a01769b79360e612939d5edcd38c7a110463044085122bcc13d",
+      "bytes": 2776
+    },
+    {
+      "file": "src/lib/wordOfDay.ts",
+      "previousSha256": "492dcdc4dfd227179ebd253a3dc2859e104501c436616d9aab7292a4db7489f5",
+      "nextSha256": "b67405072c807ceca4c4e08a14cef375cd2edcd9df73250fc89b5c42e03b09b3",
+      "bytes": 912
+    },
+    {
+      "file": "src/pages/student/Assessment.tsx",
+      "previousSha256": "94e18bc607bbc1afc9058399b02522980b6b9987b2566f2ed7ab154813b1fcba",
+      "nextSha256": "8c408d9d07e09ded57b95e28a0ed4b54114ecad0ee2255b3a3b99b4e767486e2",
+      "bytes": 12061
+    },
+    {
+      "file": "src/pages/student/Module.tsx",
+      "previousSha256": "24fc12ba2db21d00dff4376e4c4fae30911c091be85e93632825c8cc3bf51962",
+      "nextSha256": "b57544f4a6e7fea2574846de92248911c0e2de664800664624063f8ef71e6a34",
+      "bytes": 16475
+    },
+    {
+      "file": "src/pages/student/Practice.tsx",
+      "previousSha256": "1c03473e9a652dccea1174320b3badc501390d6c5af0dfba9c3659992e7d8e22",
+      "nextSha256": "860c63852f54dcf7ae22840e6bb6ba051bc405ea28f678c125c4b70eed8c157a",
+      "bytes": 20157
+    },
+    {
+      "file": "tests/finalClientContracts.test.mjs",
+      "previousSha256": "ade99e388cef2180fdfcaf5522b468505c8561c06112633e83e21d0f49af055a",
+      "nextSha256": "886e795442b13cd8345fc22bbfe323263a8009a34cc0d129586db52b57d6f354",
+      "bytes": 7257
+    },
+    {
+      "file": "testing-audit/DEFECT_RESOLUTION.md",
+      "previousSha256": "ae88ae9f10ed593a6aef0d79abde69621beb7b0e19c83491041c17a4b698557e",
+      "nextSha256": "84027d68e730d1e65c4a7368626ec3ffe953ab86c72e294290095915867304b6",
+      "bytes": 14001
+    },
+    {
+      "file": "testing-audit/FINAL_TESTING_REPORT.md",
+      "previousSha256": "856639ae533d20cfec7c877e174a27575ea52892cbf74fdbc8c84c85282e0fe4",
+      "nextSha256": "3d112223541d1dc3789038b2b90093fc50019ca65b3691c77d436d9519187874",
+      "bytes": 18484
+    },
+    {
+      "file": "testing-audit/FUNCTIONAL_TEST_CASES.md",
+      "previousSha256": "3d01eb5ccba6456b70d166bfff2242538afeb75cf1ed10f64e18b9a0024f794f",
+      "nextSha256": "a44ba72578f18bff57bf4e3efc3652869a2e073145908be6e05950e95a7688b9",
+      "bytes": 17649
+    },
+    {
+      "file": "testing-audit/NON_FUNCTIONAL_TEST_CASES.md",
+      "previousSha256": "0e8f519fb1c82e6fbf4757f2b40c5488022220eee45eb2d76a4e7b1d1e6b1b17",
+      "nextSha256": "38c5459068433b9b98bf352e96c6cd292a67306c8dfed69fe74f66476d0a8556",
+      "bytes": 9174
+    },
+    {
+      "file": "testing-audit/progress-events-rollback.PROPOSED.sql",
+      "previousSha256": null,
+      "nextSha256": "e7d3ce31e1e7a71495c1290a7a9b5825e7589de90ac9fa8676d0f1ef5a0420b0",
+      "bytes": 701
+    },
+    {
+      "file": "testing-audit/progress-events.PROPOSED.sql",
+      "previousSha256": null,
+      "nextSha256": "fb1da04e566cacb37eb5d56dee126ad32ab71f6424fd65ce4ec2ebafe5db9e69",
+      "bytes": 20570
+    },
+    {
+      "file": "testing-audit/progress-preflight.READONLY.sql",
+      "previousSha256": null,
+      "nextSha256": "ab80e1e25f8b00ab07b58953a007dbe6136cdc144ff68062c6ae8dc703059e5c",
+      "bytes": 2485
+    },
+    {
+      "file": "testing-audit/WORD_OF_DAY_REVIEW.md",
+      "previousSha256": "92a87dc14d5a63638551708d18359f6946c74e3a8b35fd117e6ceed6addee0b6",
+      "nextSha256": "7de274e3a9587ccdf0537e46b762056b7ec5e2d73b92a59cc46355264d5bc720",
+      "bytes": 6363
+    },
+    {
+      "file": "testing-audit/XP_PROGRESS_BUG_FIX_REPORT.md",
+      "previousSha256": null,
+      "nextSha256": "5489d03837005e05acf302e55a34b9011e3339343948378c195015b1de616d2d",
+      "bytes": 2558
+    },
+    {
+      "file": "testing-audit/XP_PROGRESS_CONTRACT.md",
+      "previousSha256": null,
+      "nextSha256": "c9c135a21f708274f56d5f5fd956e2253d5b5e95811d2bf74bfdf8bacf9c675b",
+      "bytes": 5802
+    },
+    {
+      "file": "testing-audit/XP_PROGRESS_DATABASE_READINESS.md",
+      "previousSha256": null,
+      "nextSha256": "6c7ab9a0e7755487d2afc3a882c165d1a010f6f490c0df47c883f04aa88d21dd",
+      "bytes": 3927
+    },
+    {
+      "file": "testing-audit/XP_PROGRESS_FINAL_STATUS.md",
+      "previousSha256": null,
+      "nextSha256": "0470e87401e2fa822f9fa35bb90c45dcd4d7d1462329263dac4946e7c47b2c68",
+      "bytes": 3078
+    },
+    {
+      "file": "testing-audit/XP_PROGRESS_REGRESSION_RESULTS.md",
+      "previousSha256": null,
+      "nextSha256": "1838d62ad7e99a8a9acd6f08199397552eb14c658f61ec0d05399ddb196b6e75",
+      "bytes": 5416
+    },
+    {
+      "file": "testing-audit/XP_PROGRESS_SECURITY_AUDIT.md",
+      "previousSha256": null,
+      "nextSha256": "b3231c0be5a1de90cf509d3fbbabe0891084382c3ad14f9b16dfbaa124dd4ebf",
+      "bytes": 6660
+    },
+    {
+      "file": "testing-audit/evidence/xp-progress/backend-checks.json",
+      "previousSha256": null,
+      "nextSha256": "1fdb726856c9897812be3b1c1d77d3754ace9f59e477a3bd1ed1e2ed7dd63ec3",
+      "bytes": 1343
+    },
+    {
+      "file": "testing-audit/evidence/xp-progress/backend-date_utils.test.js.log",
+      "previousSha256": null,
+      "nextSha256": "2bf253560e1260758ea7b6a6c08b2485cf99632b9b9739f4c6d595bc05deb946",
+      "bytes": 26
+    },
+    {
+      "file": "testing-audit/evidence/xp-progress/backend-env_validation.test.js.log",
+      "previousSha256": null,
+      "nextSha256": "3c31295bfebbb6f32308cd34aeb3798d0594dcf289d84c77df72f877bf063ed7",
+      "bytes": 30
+    },
+    {
+      "file": "testing-audit/evidence/xp-progress/backend-mobile_auth_audit.test.js.log",
+      "previousSha256": null,
+      "nextSha256": "600f9fc51a5f371391dc760bd379d2ddea223608f35c578271f84ef35d603a67",
+      "bytes": 12131
+    },
+    {
+      "file": "testing-audit/evidence/xp-progress/backend-personalization.test.js.log",
+      "previousSha256": null,
+      "nextSha256": "8bd179ea35e7f0474cf95f1f78cb7e4d2f243b5fbcfa943f3f92f525ff8291ad",
+      "bytes": 1977
+    },
+    {
+      "file": "testing-audit/evidence/xp-progress/backend-practice_auth.test.js.log",
+      "previousSha256": null,
+      "nextSha256": "08a97fecec2d5ef66c06ccc1b787c786634d6d3055a784c0341c12a33035183e",
+      "bytes": 125
+    },
+    {
+      "file": "testing-audit/evidence/xp-progress/backend-progress_auth.test.js.log",
+      "previousSha256": null,
+      "nextSha256": "06877211a9f727f1a1d49c267eb5f8b6487801176599d153176a2af42014f81a",
+      "bytes": 125
+    },
+    {
+      "file": "testing-audit/evidence/xp-progress/backend-progress_security.test.js.log",
+      "previousSha256": null,
+      "nextSha256": "e28bd0c0b3cb79d63b173552387eba7ee683135847c69d1b4acff4206d9c5a96",
+      "bytes": 6014
+    },
+    {
+      "file": "testing-audit/evidence/xp-progress/backend-pronunciation_tests.js.log",
+      "previousSha256": null,
+      "nextSha256": "bcd1ef11099b62679b5f22f414f4f199abcc003e6be719a97201ef77ebca30e1",
+      "bytes": 343
+    },
+    {
+      "file": "testing-audit/evidence/xp-progress/backend-reading_insights.test.js.log",
+      "previousSha256": null,
+      "nextSha256": "f453a9167e37bdbcb050735c9803897ddf3de05eca31d78205bee185df91b97d",
+      "bytes": 32
+    },
+    {
+      "file": "testing-audit/evidence/xp-progress/backend-server_smoke.test.js.log",
+      "previousSha256": null,
+      "nextSha256": "3b9ab0d73d0f65a65fe64c57922ac74421d221cf1b9c0252128239041479107e",
+      "bytes": 1870
+    },
+    {
+      "file": "testing-audit/evidence/xp-progress/backend-words_level_isolation.test.js.log",
+      "previousSha256": null,
+      "nextSha256": "db12ea1584d4683be2efe80bcf7d86bcc25764f4820b7f7f6dbe9fcd9106ed49",
+      "bytes": 133
+    },
+    {
+      "file": "testing-audit/evidence/xp-progress/backend-word_of_day_progress_security.test.js.log",
+      "previousSha256": null,
+      "nextSha256": "5771f93c7c05eda4e556001296d762ab883c8535005f24c55ab27cf6642dfd04",
+      "bytes": 1919
+    },
+    {
+      "file": "testing-audit/evidence/xp-progress/backend-word_of_day_scoring.test.js.log",
+      "previousSha256": null,
+      "nextSha256": "2d7cbe046eb43eb39cfdeb6021f2e424e56ffdd7f28dca030518838dee304c93",
+      "bytes": 131
+    },
+    {
+      "file": "testing-audit/evidence/xp-progress/before-vectors.json",
+      "previousSha256": null,
+      "nextSha256": "5615971f05083ce878c9ab08bc80f77a60687b09df9fc41dd8eaaacf3c6eba74",
+      "bytes": 1333
+    },
+    {
+      "file": "testing-audit/evidence/xp-progress/bundle-checks.json",
+      "previousSha256": null,
+      "nextSha256": "2ad3b2ed6804d78697948184dbf8fd667f010f7505feae9bb36e5a2b1170ca80",
+      "bytes": 91
+    },
+    {
+      "file": "testing-audit/evidence/xp-progress/coverage/coverage-summary.json",
+      "previousSha256": null,
+      "nextSha256": "6d6f3e064a6222ed670a6929afe78e51b86475753d3e732b88e2ef4b8c29cdcb",
+      "bytes": 19972
+    },
+    {
+      "file": "testing-audit/evidence/xp-progress/coverage/source-summary.json",
+      "previousSha256": null,
+      "nextSha256": "80d518315cb735fa3041ca58f445af90f404caca24048b95b3a81070fa12b936",
+      "bytes": 327
+    },
+    {
+      "file": "testing-audit/evidence/xp-progress/mobile-checks.json",
+      "previousSha256": null,
+      "nextSha256": "00fcb487f91249eb609970b58e25b75be85d5e4785377c1e3da093a050deb071",
+      "bytes": 231
+    },
+    {
+      "file": "testing-audit/evidence/xp-progress/mobile-jest.json",
+      "previousSha256": null,
+      "nextSha256": "5663e001ebc9f97b2f8a8e66beee04699fa71cb65fec465e7d82accdadfd193b",
+      "bytes": 611523
+    },
+    {
+      "file": "testing-audit/evidence/xp-progress/mobile-jest.log",
+      "previousSha256": null,
+      "nextSha256": "f28f83bcd93203f891859a2048258674a2225ed37b2095b0c3af47a6d520059c",
+      "bytes": 11283
+    },
+    {
+      "file": "testing-audit/evidence/xp-progress/mobile-lint-summary.json",
+      "previousSha256": null,
+      "nextSha256": "c0a2208b0815b8fa2981aadcb594db063a2d64bc762d1034b24158707347b2fe",
+      "bytes": 4635
+    },
+    {
+      "file": "testing-audit/evidence/xp-progress/mobile-lint.log",
+      "previousSha256": null,
+      "nextSha256": "d0b0e21c43048cb5d72cd58f89f82911ad84890c35ca646d26ef08158288d354",
+      "bytes": 567136
+    },
+    {
+      "file": "testing-audit/evidence/xp-progress/mobile-production-export.log",
+      "previousSha256": null,
+      "nextSha256": "aa6ffb3d2930f1b76cadfcd794a7d6e074e1142fade7cc317379b4420b4cb07a",
+      "bytes": 7014
+    },
+    {
+      "file": "testing-audit/evidence/xp-progress/mobile-types.log",
+      "previousSha256": null,
+      "nextSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "file": "testing-audit/evidence/xp-progress/open-01-before.json",
+      "previousSha256": null,
+      "nextSha256": "a986d32557461070dcd1ba97641976a7647c6caac1a782c40e5cea2d32ed91f8",
+      "bytes": 527
+    },
+    {
+      "file": "testing-audit/evidence/xp-progress/open-01-probe.log",
+      "previousSha256": null,
+      "nextSha256": "4c8e3894623d8f1f52a4eeb3f95c50924bf69dd9c2609cb92a0ff16066e0c201",
+      "bytes": 428
+    },
+    {
+      "file": "testing-audit/evidence/xp-progress/sql-engine.json",
+      "previousSha256": null,
+      "nextSha256": "42c5bcc5700f2bb98ae064911b5ece82909df211aee21db6f263d6e7e85070e0",
+      "bytes": 217
+    },
+    {
+      "file": "testing-audit/evidence/xp-progress/sql-results.json",
+      "previousSha256": null,
+      "nextSha256": "a1b94e1b00275a286fb8c1d97dc4f6ee2d5b68f8212cf49d877e5655e5a3f798",
+      "bytes": 8694
+    },
+    {
+      "file": "testing-audit/evidence/xp-progress/summary.json",
+      "previousSha256": null,
+      "nextSha256": "8cb5c6f153dfff58eee642491ab7cc27ec4e2f0a065742b2251d1298ada4adda",
+      "bytes": 2765
+    },
+    {
+      "file": "testing-audit/evidence/xp-progress/test-cases.csv",
+      "previousSha256": null,
+      "nextSha256": "f7154df45b7b507900e3191182c91f16f044b90195c92734f66e0ffb3e60b450",
+      "bytes": 406556
+    },
+    {
+      "file": "testing-audit/evidence/xp-progress/test-cases.json",
+      "previousSha256": null,
+      "nextSha256": "6f2162edb4a1e80f06d7f3824f9b272053e5df5c3874de204ed73a585096664f",
+      "bytes": 541030
+    },
+    {
+      "file": "testing-audit/evidence/xp-progress/web-build.log",
+      "previousSha256": null,
+      "nextSha256": "db2fa1abf47b34ae285b803054d5fc6c5b1f712f715099bae3f0965a9db17faa",
+      "bytes": 9056
+    },
+    {
+      "file": "testing-audit/evidence/xp-progress/web-checks.json",
+      "previousSha256": null,
+      "nextSha256": "d9f87eaf1f9acaaeea4562e7b30464a14fc503ae2ea9335c409a8b797acfc1c1",
+      "bytes": 452
+    },
+    {
+      "file": "testing-audit/evidence/xp-progress/web-lint.log",
+      "previousSha256": null,
+      "nextSha256": "9620d07d86d6171d32776a09c56cf8a45c2c5cdf08feae5c173a8d4f2df07aaf",
+      "bytes": 1706
+    },
+    {
+      "file": "testing-audit/evidence/xp-progress/web-patch-manifest.json",
+      "previousSha256": null,
+      "nextSha256": "361dacbffb0fbb50b0a7f2531c6b924b314e9de92ab94f2dd1887be978050f37",
+      "bytes": 17039
+    },
+    {
+      "file": "testing-audit/evidence/xp-progress/web-server.log",
+      "previousSha256": null,
+      "nextSha256": "9fbd4bb426fa05ec765df9694c23dd7b84c71a8d6e1a7f46afaa3231dbccd09f",
+      "bytes": 128930
+    },
+    {
+      "file": "testing-audit/evidence/xp-progress/web-types-app.log",
+      "previousSha256": null,
+      "nextSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "file": "testing-audit/evidence/xp-progress/web-types-node.log",
+      "previousSha256": null,
+      "nextSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "file": "testing-audit/evidence/xp-progress/web-ui.log",
+      "previousSha256": null,
+      "nextSha256": "345925d991963c9fb725ed0a34f791eed2f5c373e41aae57d853587f399c0595",
+      "bytes": 11909
+    },
+    {
+      "file": "testing-audit/evidence/xp-progress/writer-references.json",
+      "previousSha256": null,
+      "nextSha256": "8b1801f3e7d5a38e7434709691f18f7eb7cd2d9258618ce942d00935d70984e6",
+      "bytes": 150275
+    }
+  ],
+  "sourceFiles": [
+    "server/routes/student.js",
+    "server/lib/badgeEngine.js",
+    "server/services/progressEvents.js",
+    "server/services/mobileSpeechScoring.js",
+    "server/services/wordOfDayInitialization.js",
+    "server/tests/businessQa.test.js",
+    "server/tests/security.test.js",
+    "server/tests/progressEvents.test.js",
+    "src/lib/api.ts",
+    "src/lib/progressEvents.ts",
+    "src/lib/wordOfDay.ts",
+    "src/pages/student/Assessment.tsx",
+    "src/pages/student/Module.tsx",
+    "src/pages/student/Practice.tsx",
+    "tests/finalClientContracts.test.mjs"
+  ],
+  "totalBytes": 2778281,
+  "sharedDatabaseChanges": false,
+  "deployment": false
+}

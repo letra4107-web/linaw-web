@@ -1,0 +1,1246 @@
+{
+  "scope": "Public/anonymous browser behavior only; no account login, emails, TTS or database writes.",
+  "browserVersion": {
+    "protocolVersion": "1.3",
+    "product": "Edg/155.0.4283.62",
+    "revision": "@aa3a7406ba8c53a83536df539f07124d73c899bd",
+    "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/155.0.0.0 Safari/537.36 Edg/155.0.0.0",
+    "jsVersion": "15.5.9.7"
+  },
+  "runtimeErrors": [],
+  "networkFailures": [
+    {
+      "type": "Stylesheet",
+      "error": "",
+      "blockedReason": "inspector"
+    },
+    {
+      "type": "Script",
+      "error": "net::ERR_NETWORK_ACCESS_DENIED"
+    },
+    {
+      "type": "Stylesheet",
+      "error": "",
+      "blockedReason": "inspector"
+    },
+    {
+      "type": "Stylesheet",
+      "error": "",
+      "blockedReason": "inspector"
+    },
+    {
+      "type": "Stylesheet",
+      "error": "",
+      "blockedReason": "inspector"
+    },
+    {
+      "type": "Stylesheet",
+      "error": "",
+      "blockedReason": "inspector"
+    },
+    {
+      "type": "Stylesheet",
+      "error": "",
+      "blockedReason": "inspector"
+    },
+    {
+      "type": "Stylesheet",
+      "error": "",
+      "blockedReason": "inspector"
+    },
+    {
+      "type": "Stylesheet",
+      "error": "",
+      "blockedReason": "inspector"
+    },
+    {
+      "type": "Stylesheet",
+      "error": "",
+      "blockedReason": "inspector"
+    },
+    {
+      "type": "Stylesheet",
+      "error": "",
+      "blockedReason": "inspector"
+    },
+    {
+      "type": "Stylesheet",
+      "error": "",
+      "blockedReason": "inspector"
+    },
+    {
+      "type": "Stylesheet",
+      "error": "",
+      "blockedReason": "inspector"
+    },
+    {
+      "type": "Stylesheet",
+      "error": "",
+      "blockedReason": "inspector"
+    },
+    {
+      "type": "Stylesheet",
+      "error": "",
+      "blockedReason": "inspector"
+    },
+    {
+      "type": "Stylesheet",
+      "error": "",
+      "blockedReason": "inspector"
+    },
+    {
+      "type": "Stylesheet",
+      "error": "",
+      "blockedReason": "inspector"
+    },
+    {
+      "type": "Stylesheet",
+      "error": "",
+      "blockedReason": "inspector"
+    },
+    {
+      "type": "Stylesheet",
+      "error": "",
+      "blockedReason": "inspector"
+    },
+    {
+      "type": "Stylesheet",
+      "error": "",
+      "blockedReason": "inspector"
+    },
+    {
+      "type": "Stylesheet",
+      "error": "",
+      "blockedReason": "inspector"
+    },
+    {
+      "type": "Stylesheet",
+      "error": "",
+      "blockedReason": "inspector"
+    },
+    {
+      "type": "Stylesheet",
+      "error": "",
+      "blockedReason": "inspector"
+    },
+    {
+      "type": "Stylesheet",
+      "error": "",
+      "blockedReason": "inspector"
+    },
+    {
+      "type": "Stylesheet",
+      "error": "",
+      "blockedReason": "inspector"
+    },
+    {
+      "type": "Stylesheet",
+      "error": "",
+      "blockedReason": "inspector"
+    },
+    {
+      "type": "Stylesheet",
+      "error": "",
+      "blockedReason": "inspector"
+    },
+    {
+      "type": "Stylesheet",
+      "error": "",
+      "blockedReason": "inspector"
+    },
+    {
+      "type": "Stylesheet",
+      "error": "",
+      "blockedReason": "inspector"
+    },
+    {
+      "type": "Stylesheet",
+      "error": "",
+      "blockedReason": "inspector"
+    },
+    {
+      "type": "Stylesheet",
+      "error": "",
+      "blockedReason": "inspector"
+    },
+    {
+      "type": "Stylesheet",
+      "error": "",
+      "blockedReason": "inspector"
+    },
+    {
+      "type": "Stylesheet",
+      "error": "",
+      "blockedReason": "inspector"
+    },
+    {
+      "type": "Stylesheet",
+      "error": "",
+      "blockedReason": "inspector"
+    },
+    {
+      "type": "Stylesheet",
+      "error": "",
+      "blockedReason": "inspector"
+    },
+    {
+      "type": "Stylesheet",
+      "error": "",
+      "blockedReason": "inspector"
+    },
+    {
+      "type": "Stylesheet",
+      "error": "",
+      "blockedReason": "inspector"
+    },
+    {
+      "type": "Stylesheet",
+      "error": "",
+      "blockedReason": "inspector"
+    },
+    {
+      "type": "Stylesheet",
+      "error": "",
+      "blockedReason": "inspector"
+    },
+    {
+      "type": "Stylesheet",
+      "error": "",
+      "blockedReason": "inspector"
+    },
+    {
+      "type": "Stylesheet",
+      "error": "",
+      "blockedReason": "inspector"
+    },
+    {
+      "type": "Stylesheet",
+      "error": "",
+      "blockedReason": "inspector"
+    },
+    {
+      "type": "Stylesheet",
+      "error": "",
+      "blockedReason": "inspector"
+    },
+    {
+      "type": "Stylesheet",
+      "error": "",
+      "blockedReason": "inspector"
+    },
+    {
+      "type": "Stylesheet",
+      "error": "",
+      "blockedReason": "inspector"
+    },
+    {
+      "type": "Stylesheet",
+      "error": "",
+      "blockedReason": "inspector"
+    },
+    {
+      "type": "Stylesheet",
+      "error": "",
+      "blockedReason": "inspector"
+    },
+    {
+      "type": "Stylesheet",
+      "error": "",
+      "blockedReason": "inspector"
+    },
+    {
+      "type": "Stylesheet",
+      "error": "",
+      "blockedReason": "inspector"
+    },
+    {
+      "type": "Stylesheet",
+      "error": "",
+      "blockedReason": "inspector"
+    },
+    {
+      "type": "Stylesheet",
+      "error": "",
+      "blockedReason": "inspector"
+    },
+    {
+      "type": "Stylesheet",
+      "error": "",
+      "blockedReason": "inspector"
+    },
+    {
+      "type": "Stylesheet",
+      "error": "",
+      "blockedReason": "inspector"
+    },
+    {
+      "type": "Stylesheet",
+      "error": "",
+      "blockedReason": "inspector"
+    },
+    {
+      "type": "Stylesheet",
+      "error": "",
+      "blockedReason": "inspector"
+    },
+    {
+      "type": "Stylesheet",
+      "error": "",
+      "blockedReason": "inspector"
+    },
+    {
+      "type": "Stylesheet",
+      "error": "",
+      "blockedReason": "inspector"
+    },
+    {
+      "type": "Stylesheet",
+      "error": "",
+      "blockedReason": "inspector"
+    },
+    {
+      "type": "Stylesheet",
+      "error": "",
+      "blockedReason": "inspector"
+    },
+    {
+      "type": "Stylesheet",
+      "error": "",
+      "blockedReason": "inspector"
+    },
+    {
+      "type": "Stylesheet",
+      "error": "",
+      "blockedReason": "inspector"
+    },
+    {
+      "type": "Stylesheet",
+      "error": "",
+      "blockedReason": "inspector"
+    },
+    {
+      "type": "Script",
+      "error": "",
+      "blockedReason": "inspector"
+    },
+    {
+      "type": "Stylesheet",
+      "error": "",
+      "blockedReason": "inspector"
+    }
+  ],
+  "rows": [
+    {
+      "id": "BR-001",
+      "module": "Local Edge browser",
+      "scenario": "/ renders without horizontal overflow at 375px",
+      "expected": "Expected UI behavior",
+      "actual": "The page rendered an error screen\n\ntrue !== false\n",
+      "status": "FAIL"
+    },
+    {
+      "id": "BR-002",
+      "module": "Local Edge browser",
+      "scenario": "/login renders without horizontal overflow at 375px",
+      "expected": "Expected UI behavior without authenticated data access",
+      "actual": {
+        "width": 375,
+        "content": 375,
+        "title": "Handa ka na bang magbasa?",
+        "path": "/login",
+        "navigation": [
+          {
+            "domContentLoadedMs": 95,
+            "loadMs": 95,
+            "transferBytes": 2579
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "BR-003",
+      "module": "Local Edge browser",
+      "scenario": "/signup renders without horizontal overflow at 375px",
+      "expected": "Expected UI behavior without authenticated data access",
+      "actual": {
+        "width": 375,
+        "content": 375,
+        "title": "Gumawa ng account",
+        "path": "/signup",
+        "navigation": [
+          {
+            "domContentLoadedMs": 102,
+            "loadMs": 103,
+            "transferBytes": 2579
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "BR-004",
+      "module": "Local Edge browser",
+      "scenario": "/forgot-password renders without horizontal overflow at 375px",
+      "expected": "Expected UI behavior without authenticated data access",
+      "actual": {
+        "width": 375,
+        "content": 375,
+        "title": "Nakalimutan ang Password?",
+        "path": "/forgot-password",
+        "navigation": [
+          {
+            "domContentLoadedMs": 82,
+            "loadMs": 82,
+            "transferBytes": 2579
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "BR-005",
+      "module": "Local Edge browser",
+      "scenario": "/reset-password renders without horizontal overflow at 375px",
+      "expected": "Expected UI behavior without authenticated data access",
+      "actual": {
+        "width": 375,
+        "content": 375,
+        "title": "I-reset ang iyong password",
+        "path": "/reset-password",
+        "navigation": [
+          {
+            "domContentLoadedMs": 68,
+            "loadMs": 68,
+            "transferBytes": 2579
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "BR-006",
+      "module": "Local Edge browser",
+      "scenario": "/verify-email renders without horizontal overflow at 375px",
+      "expected": "Expected UI behavior without authenticated data access",
+      "actual": {
+        "width": 375,
+        "content": 375,
+        "title": "I-verify ang iyong email",
+        "path": "/verify-email",
+        "navigation": [
+          {
+            "domContentLoadedMs": 61,
+            "loadMs": 61,
+            "transferBytes": 2579
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "BR-007",
+      "module": "Local Edge browser",
+      "scenario": "/resend-verification renders without horizontal overflow at 375px",
+      "expected": "Expected UI behavior without authenticated data access",
+      "actual": {
+        "width": 375,
+        "content": 375,
+        "title": "Muling ipadala ang code",
+        "path": "/resend-verification",
+        "navigation": [
+          {
+            "domContentLoadedMs": 76,
+            "loadMs": 76,
+            "transferBytes": 2579
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "BR-008",
+      "module": "Local Edge browser",
+      "scenario": "/privacy renders without horizontal overflow at 375px",
+      "expected": "Expected UI behavior without authenticated data access",
+      "actual": {
+        "width": 714,
+        "content": 714,
+        "title": "Patakaran sa Privacy",
+        "path": "/privacy",
+        "navigation": [
+          {
+            "domContentLoadedMs": 112,
+            "loadMs": 112,
+            "transferBytes": 2579
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "BR-009",
+      "module": "Local Edge browser",
+      "scenario": "/terms renders without horizontal overflow at 375px",
+      "expected": "Expected UI behavior without authenticated data access",
+      "actual": {
+        "width": 714,
+        "content": 714,
+        "title": "Mga Tuntunin ng Serbisyo",
+        "path": "/terms",
+        "navigation": [
+          {
+            "domContentLoadedMs": 60,
+            "loadMs": 60,
+            "transferBytes": 2579
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "BR-010",
+      "module": "Local Edge browser",
+      "scenario": "/child-data renders without horizontal overflow at 375px",
+      "expected": "Expected UI behavior without authenticated data access",
+      "actual": {
+        "width": 714,
+        "content": 714,
+        "title": "Data ng Bata at Pahintulot ng Magulang",
+        "path": "/child-data",
+        "navigation": [
+          {
+            "domContentLoadedMs": 50,
+            "loadMs": 50,
+            "transferBytes": 2579
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "BR-011",
+      "module": "Local Edge browser",
+      "scenario": "/account-deletion renders without horizontal overflow at 375px",
+      "expected": "Expected UI behavior without authenticated data access",
+      "actual": {
+        "width": 587,
+        "content": 587,
+        "title": "Pag-delete ng Account",
+        "path": "/account-deletion",
+        "navigation": [
+          {
+            "domContentLoadedMs": 47,
+            "loadMs": 47,
+            "transferBytes": 2579
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "BR-012",
+      "module": "Local Edge browser",
+      "scenario": "/accessibility renders without horizontal overflow at 375px",
+      "expected": "Expected UI behavior without authenticated data access",
+      "actual": {
+        "width": 587,
+        "content": 587,
+        "title": "Pahayag sa Accessibility",
+        "path": "/accessibility",
+        "navigation": [
+          {
+            "domContentLoadedMs": 77,
+            "loadMs": 77,
+            "transferBytes": 2579
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "BR-013",
+      "module": "Local Edge browser",
+      "scenario": "/not-a-real-page renders without horizontal overflow at 375px",
+      "expected": "Expected UI behavior without authenticated data access",
+      "actual": {
+        "width": 375,
+        "content": 375,
+        "title": "Naligaw ang pahina",
+        "path": "/not-a-real-page",
+        "navigation": [
+          {
+            "domContentLoadedMs": 89,
+            "loadMs": 90,
+            "transferBytes": 2579
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "BR-014",
+      "module": "Local Edge browser",
+      "scenario": "/ renders without horizontal overflow at 768px",
+      "expected": "Expected UI behavior without authenticated data access",
+      "actual": {
+        "width": 768,
+        "content": 758,
+        "title": "Mas malinaw na pagbasa, mas masayang pagkatuto.",
+        "path": "/",
+        "navigation": [
+          {
+            "domContentLoadedMs": 61,
+            "loadMs": 61,
+            "transferBytes": 2579
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "BR-015",
+      "module": "Local Edge browser",
+      "scenario": "/login renders without horizontal overflow at 768px",
+      "expected": "Expected UI behavior without authenticated data access",
+      "actual": {
+        "width": 768,
+        "content": 758,
+        "title": "Handa ka na bang magbasa?",
+        "path": "/login",
+        "navigation": [
+          {
+            "domContentLoadedMs": 160,
+            "loadMs": 160,
+            "transferBytes": 2579
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "BR-016",
+      "module": "Local Edge browser",
+      "scenario": "/signup renders without horizontal overflow at 768px",
+      "expected": "Expected UI behavior without authenticated data access",
+      "actual": {
+        "width": 768,
+        "content": 758,
+        "title": "Gumawa ng account",
+        "path": "/signup",
+        "navigation": [
+          {
+            "domContentLoadedMs": 55,
+            "loadMs": 55,
+            "transferBytes": 2579
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "BR-017",
+      "module": "Local Edge browser",
+      "scenario": "/forgot-password renders without horizontal overflow at 768px",
+      "expected": "Expected UI behavior without authenticated data access",
+      "actual": {
+        "width": 768,
+        "content": 768,
+        "title": "Nakalimutan ang Password?",
+        "path": "/forgot-password",
+        "navigation": [
+          {
+            "domContentLoadedMs": 67,
+            "loadMs": 67,
+            "transferBytes": 2579
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "BR-018",
+      "module": "Local Edge browser",
+      "scenario": "/reset-password renders without horizontal overflow at 768px",
+      "expected": "Expected UI behavior without authenticated data access",
+      "actual": {
+        "width": 768,
+        "content": 768,
+        "title": "I-reset ang iyong password",
+        "path": "/reset-password",
+        "navigation": [
+          {
+            "domContentLoadedMs": 75,
+            "loadMs": 75,
+            "transferBytes": 2579
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "BR-019",
+      "module": "Local Edge browser",
+      "scenario": "/verify-email renders without horizontal overflow at 768px",
+      "expected": "Expected UI behavior without authenticated data access",
+      "actual": {
+        "width": 768,
+        "content": 768,
+        "title": "I-verify ang iyong email",
+        "path": "/verify-email",
+        "navigation": [
+          {
+            "domContentLoadedMs": 84,
+            "loadMs": 84,
+            "transferBytes": 2579
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "BR-020",
+      "module": "Local Edge browser",
+      "scenario": "/resend-verification renders without horizontal overflow at 768px",
+      "expected": "Expected UI behavior without authenticated data access",
+      "actual": {
+        "width": 768,
+        "content": 768,
+        "title": "Muling ipadala ang code",
+        "path": "/resend-verification",
+        "navigation": [
+          {
+            "domContentLoadedMs": 59,
+            "loadMs": 60,
+            "transferBytes": 2579
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "BR-021",
+      "module": "Local Edge browser",
+      "scenario": "/privacy renders without horizontal overflow at 768px",
+      "expected": "Expected UI behavior without authenticated data access",
+      "actual": {
+        "width": 768,
+        "content": 758,
+        "title": "Patakaran sa Privacy",
+        "path": "/privacy",
+        "navigation": [
+          {
+            "domContentLoadedMs": 45,
+            "loadMs": 46,
+            "transferBytes": 2579
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "BR-022",
+      "module": "Local Edge browser",
+      "scenario": "/terms renders without horizontal overflow at 768px",
+      "expected": "Expected UI behavior without authenticated data access",
+      "actual": {
+        "width": 768,
+        "content": 758,
+        "title": "Mga Tuntunin ng Serbisyo",
+        "path": "/terms",
+        "navigation": [
+          {
+            "domContentLoadedMs": 49,
+            "loadMs": 49,
+            "transferBytes": 2579
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "BR-023",
+      "module": "Local Edge browser",
+      "scenario": "/child-data renders without horizontal overflow at 768px",
+      "expected": "Expected UI behavior without authenticated data access",
+      "actual": {
+        "width": 768,
+        "content": 758,
+        "title": "Data ng Bata at Pahintulot ng Magulang",
+        "path": "/child-data",
+        "navigation": [
+          {
+            "domContentLoadedMs": 51,
+            "loadMs": 51,
+            "transferBytes": 2579
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "BR-024",
+      "module": "Local Edge browser",
+      "scenario": "/account-deletion renders without horizontal overflow at 768px",
+      "expected": "Expected UI behavior without authenticated data access",
+      "actual": {
+        "width": 768,
+        "content": 758,
+        "title": "Pag-delete ng Account",
+        "path": "/account-deletion",
+        "navigation": [
+          {
+            "domContentLoadedMs": 69,
+            "loadMs": 69,
+            "transferBytes": 2579
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "BR-025",
+      "module": "Local Edge browser",
+      "scenario": "/accessibility renders without horizontal overflow at 768px",
+      "expected": "Expected UI behavior without authenticated data access",
+      "actual": {
+        "width": 768,
+        "content": 758,
+        "title": "Pahayag sa Accessibility",
+        "path": "/accessibility",
+        "navigation": [
+          {
+            "domContentLoadedMs": 53,
+            "loadMs": 53,
+            "transferBytes": 2579
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "BR-026",
+      "module": "Local Edge browser",
+      "scenario": "/not-a-real-page renders without horizontal overflow at 768px",
+      "expected": "Expected UI behavior without authenticated data access",
+      "actual": {
+        "width": 768,
+        "content": 768,
+        "title": "Naligaw ang pahina",
+        "path": "/not-a-real-page",
+        "navigation": [
+          {
+            "domContentLoadedMs": 53,
+            "loadMs": 53,
+            "transferBytes": 2579
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "BR-027",
+      "module": "Local Edge browser",
+      "scenario": "/ renders without horizontal overflow at 1440px",
+      "expected": "Expected UI behavior without authenticated data access",
+      "actual": {
+        "width": 1440,
+        "content": 1430,
+        "title": "Mas malinaw na pagbasa, mas masayang pagkatuto.",
+        "path": "/",
+        "navigation": [
+          {
+            "domContentLoadedMs": 53,
+            "loadMs": 53,
+            "transferBytes": 2579
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "BR-028",
+      "module": "Local Edge browser",
+      "scenario": "/login renders without horizontal overflow at 1440px",
+      "expected": "Expected UI behavior without authenticated data access",
+      "actual": {
+        "width": 1440,
+        "content": 1440,
+        "title": "Handa ka na bang magbasa?",
+        "path": "/login",
+        "navigation": [
+          {
+            "domContentLoadedMs": 77,
+            "loadMs": 77,
+            "transferBytes": 2579
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "BR-029",
+      "module": "Local Edge browser",
+      "scenario": "/signup renders without horizontal overflow at 1440px",
+      "expected": "Expected UI behavior without authenticated data access",
+      "actual": {
+        "width": 1440,
+        "content": 1440,
+        "title": "Gumawa ng account",
+        "path": "/signup",
+        "navigation": [
+          {
+            "domContentLoadedMs": 70,
+            "loadMs": 71,
+            "transferBytes": 2579
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "BR-030",
+      "module": "Local Edge browser",
+      "scenario": "/forgot-password renders without horizontal overflow at 1440px",
+      "expected": "Expected UI behavior without authenticated data access",
+      "actual": {
+        "width": 1440,
+        "content": 1440,
+        "title": "Nakalimutan ang Password?",
+        "path": "/forgot-password",
+        "navigation": [
+          {
+            "domContentLoadedMs": 55,
+            "loadMs": 55,
+            "transferBytes": 2579
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "BR-031",
+      "module": "Local Edge browser",
+      "scenario": "/reset-password renders without horizontal overflow at 1440px",
+      "expected": "Expected UI behavior without authenticated data access",
+      "actual": {
+        "width": 1440,
+        "content": 1440,
+        "title": "I-reset ang iyong password",
+        "path": "/reset-password",
+        "navigation": [
+          {
+            "domContentLoadedMs": 60,
+            "loadMs": 60,
+            "transferBytes": 2579
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "BR-032",
+      "module": "Local Edge browser",
+      "scenario": "/verify-email renders without horizontal overflow at 1440px",
+      "expected": "Expected UI behavior without authenticated data access",
+      "actual": {
+        "width": 1440,
+        "content": 1440,
+        "title": "I-verify ang iyong email",
+        "path": "/verify-email",
+        "navigation": [
+          {
+            "domContentLoadedMs": 69,
+            "loadMs": 69,
+            "transferBytes": 2579
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "BR-033",
+      "module": "Local Edge browser",
+      "scenario": "/resend-verification renders without horizontal overflow at 1440px",
+      "expected": "Expected UI behavior without authenticated data access",
+      "actual": {
+        "width": 1440,
+        "content": 1440,
+        "title": "Muling ipadala ang code",
+        "path": "/resend-verification",
+        "navigation": [
+          {
+            "domContentLoadedMs": 63,
+            "loadMs": 63,
+            "transferBytes": 2579
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "BR-034",
+      "module": "Local Edge browser",
+      "scenario": "/privacy renders without horizontal overflow at 1440px",
+      "expected": "Expected UI behavior without authenticated data access",
+      "actual": {
+        "width": 1440,
+        "content": 1430,
+        "title": "Patakaran sa Privacy",
+        "path": "/privacy",
+        "navigation": [
+          {
+            "domContentLoadedMs": 59,
+            "loadMs": 60,
+            "transferBytes": 2579
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "BR-035",
+      "module": "Local Edge browser",
+      "scenario": "/terms renders without horizontal overflow at 1440px",
+      "expected": "Expected UI behavior without authenticated data access",
+      "actual": {
+        "width": 1440,
+        "content": 1430,
+        "title": "Mga Tuntunin ng Serbisyo",
+        "path": "/terms",
+        "navigation": [
+          {
+            "domContentLoadedMs": 58,
+            "loadMs": 58,
+            "transferBytes": 2579
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "BR-036",
+      "module": "Local Edge browser",
+      "scenario": "/child-data renders without horizontal overflow at 1440px",
+      "expected": "Expected UI behavior without authenticated data access",
+      "actual": {
+        "width": 1440,
+        "content": 1430,
+        "title": "Data ng Bata at Pahintulot ng Magulang",
+        "path": "/child-data",
+        "navigation": [
+          {
+            "domContentLoadedMs": 75,
+            "loadMs": 75,
+            "transferBytes": 2579
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "BR-037",
+      "module": "Local Edge browser",
+      "scenario": "/account-deletion renders without horizontal overflow at 1440px",
+      "expected": "Expected UI behavior without authenticated data access",
+      "actual": {
+        "width": 1440,
+        "content": 1430,
+        "title": "Pag-delete ng Account",
+        "path": "/account-deletion",
+        "navigation": [
+          {
+            "domContentLoadedMs": 46,
+            "loadMs": 46,
+            "transferBytes": 2579
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "BR-038",
+      "module": "Local Edge browser",
+      "scenario": "/accessibility renders without horizontal overflow at 1440px",
+      "expected": "Expected UI behavior without authenticated data access",
+      "actual": {
+        "width": 1440,
+        "content": 1430,
+        "title": "Pahayag sa Accessibility",
+        "path": "/accessibility",
+        "navigation": [
+          {
+            "domContentLoadedMs": 54,
+            "loadMs": 55,
+            "transferBytes": 2579
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "BR-039",
+      "module": "Local Edge browser",
+      "scenario": "/not-a-real-page renders without horizontal overflow at 1440px",
+      "expected": "Expected UI behavior without authenticated data access",
+      "actual": {
+        "width": 1440,
+        "content": 1440,
+        "title": "Naligaw ang pahina",
+        "path": "/not-a-real-page",
+        "navigation": [
+          {
+            "domContentLoadedMs": 62,
+            "loadMs": 62,
+            "transferBytes": 2579
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "BR-040",
+      "module": "Local Edge browser",
+      "scenario": "Anonymous admin redirects to login",
+      "expected": "Expected UI behavior without authenticated data access",
+      "actual": "Assertions passed",
+      "status": "PASS"
+    },
+    {
+      "id": "BR-041",
+      "module": "Local Edge browser",
+      "scenario": "Anonymous admin/settings redirects to login",
+      "expected": "Expected UI behavior without authenticated data access",
+      "actual": "Assertions passed",
+      "status": "PASS"
+    },
+    {
+      "id": "BR-042",
+      "module": "Local Edge browser",
+      "scenario": "Anonymous admin/not-a-real-page redirects to login",
+      "expected": "Expected UI behavior without authenticated data access",
+      "actual": "Assertions passed",
+      "status": "PASS"
+    },
+    {
+      "id": "BR-043",
+      "module": "Local Edge browser",
+      "scenario": "Anonymous teacher redirects to login",
+      "expected": "Expected UI behavior without authenticated data access",
+      "actual": "Assertions passed",
+      "status": "PASS"
+    },
+    {
+      "id": "BR-044",
+      "module": "Local Edge browser",
+      "scenario": "Anonymous teacher/settings redirects to login",
+      "expected": "Expected UI behavior without authenticated data access",
+      "actual": "Assertions passed",
+      "status": "PASS"
+    },
+    {
+      "id": "BR-045",
+      "module": "Local Edge browser",
+      "scenario": "Anonymous teacher/not-a-real-page redirects to login",
+      "expected": "Expected UI behavior without authenticated data access",
+      "actual": "Assertions passed",
+      "status": "PASS"
+    },
+    {
+      "id": "BR-046",
+      "module": "Local Edge browser",
+      "scenario": "Anonymous parent redirects to login",
+      "expected": "Expected UI behavior without authenticated data access",
+      "actual": "Assertions passed",
+      "status": "PASS"
+    },
+    {
+      "id": "BR-047",
+      "module": "Local Edge browser",
+      "scenario": "Anonymous parent/settings redirects to login",
+      "expected": "Expected UI behavior without authenticated data access",
+      "actual": "Assertions passed",
+      "status": "PASS"
+    },
+    {
+      "id": "BR-048",
+      "module": "Local Edge browser",
+      "scenario": "Anonymous parent/not-a-real-page redirects to login",
+      "expected": "Expected UI behavior without authenticated data access",
+      "actual": "Assertions passed",
+      "status": "PASS"
+    },
+    {
+      "id": "BR-049",
+      "module": "Local Edge browser",
+      "scenario": "Anonymous student redirects to login",
+      "expected": "Expected UI behavior without authenticated data access",
+      "actual": "Assertions passed",
+      "status": "PASS"
+    },
+    {
+      "id": "BR-050",
+      "module": "Local Edge browser",
+      "scenario": "Anonymous student/settings redirects to login",
+      "expected": "Expected UI behavior without authenticated data access",
+      "actual": "Assertions passed",
+      "status": "PASS"
+    },
+    {
+      "id": "BR-051",
+      "module": "Local Edge browser",
+      "scenario": "Anonymous student/not-a-real-page redirects to login",
+      "expected": "Expected UI behavior without authenticated data access",
+      "actual": "Assertions passed",
+      "status": "PASS"
+    },
+    {
+      "id": "BR-052",
+      "module": "Local Edge browser",
+      "scenario": "Empty login submission displays validation; password visibility and keyboard toggle work",
+      "expected": "Expected UI behavior without authenticated data access",
+      "actual": "Assertions passed",
+      "status": "PASS"
+    },
+    {
+      "id": "BR-053",
+      "module": "Local Edge browser",
+      "scenario": "Empty signup submission displays required-field errors",
+      "expected": "Expected UI behavior without authenticated data access",
+      "actual": "Assertions passed",
+      "status": "PASS"
+    },
+    {
+      "id": "BR-054",
+      "module": "Local Edge browser",
+      "scenario": "OTP keyboard navigation and nonnumeric input validation",
+      "expected": "Expected UI behavior without authenticated data access",
+      "actual": "Assertions passed",
+      "status": "PASS"
+    },
+    {
+      "id": "BR-055",
+      "module": "Local Edge browser",
+      "scenario": "Public forms have accessible names for visible input controls",
+      "expected": "Expected UI behavior without authenticated data access",
+      "actual": "Assertions passed",
+      "status": "PASS"
+    },
+    {
+      "id": "BR-056",
+      "module": "Local Edge browser",
+      "scenario": "No uncaught JavaScript exceptions during the tested navigation and actions",
+      "expected": "Expected UI behavior without authenticated data access",
+      "actual": "Assertions passed",
+      "status": "PASS"
+    },
+    {
+      "id": "BR-057",
+      "module": "Local Edge browser",
+      "scenario": "A failed route-bundle download displays retry feedback and recovers after reloading",
+      "expected": "Expected UI behavior without authenticated data access",
+      "actual": "Assertions passed",
+      "status": "PASS"
+    }
+  ]
+}

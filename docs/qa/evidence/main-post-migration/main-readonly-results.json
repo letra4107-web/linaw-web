@@ -1,0 +1,12 @@
+{
+  "timestamp": "2026-10-18T08:41:01.769Z",
+  "scope": "Main-project catalog inspection and permitted aggregate-only integrity checks in REPEATABLE READ READ ONLY. No migration, write-capable RPC, Auth or Storage operation.",
+  "connectionAttempted": false,
+  "connected": false,
+  "catalogRead": false,
+  "aggregatesRead": false,
+  "catalogStatus": "BLOCKED",
+  "integrityStatus": "BLOCKED",
+  "checks": [],
+  "reason": "Private read-only connection configuration is incomplete."
+}

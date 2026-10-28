@@ -1,0 +1,56 @@
+[
+  {
+    "id": "BEFORE-1",
+    "feature": "extreme",
+    "status": "FAIL",
+    "httpStatus": 200,
+    "storedXp": 1000000000,
+    "storedAttempts": 1000000000,
+    "scope": "Pre-fix actual Express router, mocked database"
+  },
+  {
+    "id": "BEFORE-2",
+    "feature": "negative",
+    "status": "FAIL",
+    "httpStatus": 200,
+    "storedXp": -100,
+    "storedAttempts": -10,
+    "scope": "Pre-fix actual Express router, mocked database"
+  },
+  {
+    "id": "BEFORE-3",
+    "feature": "nonfinite_string",
+    "status": "FAIL",
+    "httpStatus": 200,
+    "storedXp": 0,
+    "storedAttempts": 0,
+    "scope": "Pre-fix actual Express router, mocked database"
+  },
+  {
+    "id": "BEFORE-4",
+    "feature": "unsafe_integer",
+    "status": "FAIL",
+    "httpStatus": 200,
+    "storedXp": 9007199254740992,
+    "storedAttempts": 9007199254740992,
+    "scope": "Pre-fix actual Express router, mocked database"
+  },
+  {
+    "id": "BEFORE-5",
+    "feature": "forged_badge",
+    "status": "FAIL",
+    "httpStatus": 200,
+    "storedXp": 1000,
+    "storedAttempts": 0,
+    "scope": "Pre-fix actual Express router, mocked database"
+  },
+  {
+    "id": "BEFORE-6",
+    "feature": "stale_replay",
+    "status": "FAIL",
+    "httpStatus": 200,
+    "storedXp": 0,
+    "storedAttempts": 0,
+    "scope": "Pre-fix actual Express router, mocked database"
+  }
+]

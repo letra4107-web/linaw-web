@@ -1,0 +1,17 @@
+[
+  {
+    "file": "server/services/progressEvents.js",
+    "before": "00e8b18752e485e7f57afc9bb07c48bfa3dc48508aaf5890d55d1f0e727e4d0c",
+    "after": "85d9ed1843f6cd6db1bcb6197609f83175a613988d12c430636125346ed68794"
+  },
+  {
+    "file": "server/tests/progressEvents.test.js",
+    "before": "364e1b400e7a12859a803482be1eb2f890d2751d88e8aa7198f3d812142363a1",
+    "after": "70efcec0b1e12c78f863ef841a8f685fda84e6330fbf22896a5073138c5e54ed"
+  },
+  {
+    "file": "src/lib/progressEvents.ts",
+    "before": "f587fc1f3d4bb9a5c39b287cbfa8b66013b79a8f9f397acdafaa2ec7ff7e516f",
+    "after": "fde2236304d91accc2f8cb6e81542c88f655c3d235df8311c58e7040740c3806"
+  }
+]

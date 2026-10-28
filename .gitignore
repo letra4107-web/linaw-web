@@ -11,6 +11,7 @@ node_modules
 dist
 dist-ssr
 dist*.zip
+.qa/
 *.local
 
 # Environment secrets
@@ -20,6 +21,52 @@ dist*.zip
 server/.env
 server/.env.*
 !server/.env.example
+
+# Private credential files (keep actual local configuration on disk)
+*.env
+.envrc
+.direnv/
+*.pem
+*.key
+*.p12
+*.pfx
+*.jks
+*.keystore
+*.kdbx
+id_rsa
+id_ed25519
+.aws/
+.ssh/
+.npmrc
+.pypirc
+.netrc
+.git-credentials
+credentials*.json
+*-credentials.json
+service-account*.json
+service_account*.json
+*-service-account.json
+*firebase-adminsdk*.json
+*.token
+/tokens.json
+/secrets/
+/private-credentials/
+*.tfstate
+*.tfstate.*
+*.tfvars
+
+# Private database snapshots and exports; SQL migrations/QA CSVs stay visible
+*.dump
+*.backup
+*.sqlite
+*.sqlite3
+*.db
+*.sql.gz
+*.sql.zip
+/backups/
+/database-backups/
+/database-exports/
+/exports/
 
 # Editor directories and files
 .vscode/*

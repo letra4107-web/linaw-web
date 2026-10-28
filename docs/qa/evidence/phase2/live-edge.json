@@ -1,0 +1,887 @@
+{
+  "timestamp": "2026-10-17T15:47:38.396Z",
+  "scope": "Public/anonymous navigation, responsive widths and form validation. All non-GET/HEAD requests blocked; local external networking blocked. Desktop engines with resized viewports, not physical mobile devices. No dashboard session or DB access.",
+  "version": "155.0.4283.62",
+  "runtimeErrors": [],
+  "networkFailures": [],
+  "rows": [
+    {
+      "id": "LIVE-BR-001",
+      "module": "Deployed Edge browser",
+      "scenario": "/ renders without horizontal overflow at 375px",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "evidence/phase2/live-edge.json",
+      "actual": {
+        "path": "/",
+        "width": 375,
+        "content": 375,
+        "title": "Checking your browser before accessinglinawletra.com",
+        "navigation": [
+          {
+            "loadMs": 2544,
+            "domContentLoadedMs": 2478
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "LIVE-BR-002",
+      "module": "Deployed Edge browser",
+      "scenario": "/login renders without horizontal overflow at 375px",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "evidence/phase2/live-edge.json",
+      "actual": {
+        "path": "/login",
+        "width": 375,
+        "content": 375,
+        "title": "Handa ka na bang magbasa?",
+        "navigation": [
+          {
+            "loadMs": 329,
+            "domContentLoadedMs": 329
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "LIVE-BR-003",
+      "module": "Deployed Edge browser",
+      "scenario": "/signup renders without horizontal overflow at 375px",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "evidence/phase2/live-edge.json",
+      "actual": {
+        "path": "/signup",
+        "width": 375,
+        "content": 375,
+        "title": "Gumawa ng account",
+        "navigation": [
+          {
+            "loadMs": 158,
+            "domContentLoadedMs": 158
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "LIVE-BR-004",
+      "module": "Deployed Edge browser",
+      "scenario": "/forgot-password renders without horizontal overflow at 375px",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "evidence/phase2/live-edge.json",
+      "actual": {
+        "path": "/forgot-password",
+        "width": 375,
+        "content": 375,
+        "title": "Nakalimutan ang Password?",
+        "navigation": [
+          {
+            "loadMs": 2118,
+            "domContentLoadedMs": 2114
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "LIVE-BR-005",
+      "module": "Deployed Edge browser",
+      "scenario": "/reset-password renders without horizontal overflow at 375px",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "evidence/phase2/live-edge.json",
+      "actual": {
+        "path": "/reset-password",
+        "width": 375,
+        "content": 375,
+        "title": "I-reset ang iyong password",
+        "navigation": [
+          {
+            "loadMs": 154,
+            "domContentLoadedMs": 154
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "LIVE-BR-006",
+      "module": "Deployed Edge browser",
+      "scenario": "/verify-email renders without horizontal overflow at 375px",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "evidence/phase2/live-edge.json",
+      "actual": {
+        "path": "/verify-email",
+        "width": 375,
+        "content": 375,
+        "title": "I-verify ang iyong email",
+        "navigation": [
+          {
+            "loadMs": 160,
+            "domContentLoadedMs": 160
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "LIVE-BR-007",
+      "module": "Deployed Edge browser",
+      "scenario": "/resend-verification renders without horizontal overflow at 375px",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "evidence/phase2/live-edge.json",
+      "actual": {
+        "path": "/resend-verification",
+        "width": 375,
+        "content": 375,
+        "title": "Muling ipadala ang code",
+        "navigation": [
+          {
+            "loadMs": 272,
+            "domContentLoadedMs": 272
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "LIVE-BR-008",
+      "module": "Deployed Edge browser",
+      "scenario": "/privacy renders without horizontal overflow at 375px",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "evidence/phase2/live-edge.json",
+      "actual": "Horizontal overflow 587/375",
+      "status": "FAIL"
+    },
+    {
+      "id": "LIVE-BR-009",
+      "module": "Deployed Edge browser",
+      "scenario": "/terms renders without horizontal overflow at 375px",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "evidence/phase2/live-edge.json",
+      "actual": "Horizontal overflow 587/375",
+      "status": "FAIL"
+    },
+    {
+      "id": "LIVE-BR-010",
+      "module": "Deployed Edge browser",
+      "scenario": "/child-data renders without horizontal overflow at 375px",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "evidence/phase2/live-edge.json",
+      "actual": "Horizontal overflow 587/375",
+      "status": "FAIL"
+    },
+    {
+      "id": "LIVE-BR-011",
+      "module": "Deployed Edge browser",
+      "scenario": "/account-deletion renders without horizontal overflow at 375px",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "evidence/phase2/live-edge.json",
+      "actual": "Horizontal overflow 714/375",
+      "status": "FAIL"
+    },
+    {
+      "id": "LIVE-BR-012",
+      "module": "Deployed Edge browser",
+      "scenario": "/accessibility renders without horizontal overflow at 375px",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "evidence/phase2/live-edge.json",
+      "actual": "Horizontal overflow 587/375",
+      "status": "FAIL"
+    },
+    {
+      "id": "LIVE-BR-013",
+      "module": "Deployed Edge browser",
+      "scenario": "/not-a-real-page renders without horizontal overflow at 375px",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "evidence/phase2/live-edge.json",
+      "actual": {
+        "path": "/not-a-real-page",
+        "width": 375,
+        "content": 375,
+        "title": "Naligaw ang pahina",
+        "navigation": [
+          {
+            "loadMs": 169,
+            "domContentLoadedMs": 169
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "LIVE-BR-014",
+      "module": "Deployed Edge browser",
+      "scenario": "/ renders without horizontal overflow at 768px",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "evidence/phase2/live-edge.json",
+      "actual": {
+        "path": "/",
+        "width": 768,
+        "content": 768,
+        "title": "Mas malinaw na pagbasa, mas masayang pagkatuto.",
+        "navigation": [
+          {
+            "loadMs": 154,
+            "domContentLoadedMs": 154
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "LIVE-BR-015",
+      "module": "Deployed Edge browser",
+      "scenario": "/login renders without horizontal overflow at 768px",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "evidence/phase2/live-edge.json",
+      "actual": {
+        "path": "/login",
+        "width": 768,
+        "content": 768,
+        "title": "Handa ka na bang magbasa?",
+        "navigation": [
+          {
+            "loadMs": 172,
+            "domContentLoadedMs": 172
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "LIVE-BR-016",
+      "module": "Deployed Edge browser",
+      "scenario": "/signup renders without horizontal overflow at 768px",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "evidence/phase2/live-edge.json",
+      "actual": {
+        "path": "/signup",
+        "width": 768,
+        "content": 768,
+        "title": "Gumawa ng account",
+        "navigation": [
+          {
+            "loadMs": 165,
+            "domContentLoadedMs": 165
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "LIVE-BR-017",
+      "module": "Deployed Edge browser",
+      "scenario": "/forgot-password renders without horizontal overflow at 768px",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "evidence/phase2/live-edge.json",
+      "actual": {
+        "path": "/forgot-password",
+        "width": 768,
+        "content": 768,
+        "title": "Nakalimutan ang Password?",
+        "navigation": [
+          {
+            "loadMs": 480,
+            "domContentLoadedMs": 480
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "LIVE-BR-018",
+      "module": "Deployed Edge browser",
+      "scenario": "/reset-password renders without horizontal overflow at 768px",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "evidence/phase2/live-edge.json",
+      "actual": {
+        "path": "/reset-password",
+        "width": 768,
+        "content": 768,
+        "title": "I-reset ang iyong password",
+        "navigation": [
+          {
+            "loadMs": 205,
+            "domContentLoadedMs": 201
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "LIVE-BR-019",
+      "module": "Deployed Edge browser",
+      "scenario": "/verify-email renders without horizontal overflow at 768px",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "evidence/phase2/live-edge.json",
+      "actual": {
+        "path": "/verify-email",
+        "width": 768,
+        "content": 768,
+        "title": "I-verify ang iyong email",
+        "navigation": [
+          {
+            "loadMs": 942,
+            "domContentLoadedMs": 939
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "LIVE-BR-020",
+      "module": "Deployed Edge browser",
+      "scenario": "/resend-verification renders without horizontal overflow at 768px",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "evidence/phase2/live-edge.json",
+      "actual": {
+        "path": "/resend-verification",
+        "width": 768,
+        "content": 768,
+        "title": "Muling ipadala ang code",
+        "navigation": [
+          {
+            "loadMs": 2580,
+            "domContentLoadedMs": 2580
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "LIVE-BR-021",
+      "module": "Deployed Edge browser",
+      "scenario": "/privacy renders without horizontal overflow at 768px",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "evidence/phase2/live-edge.json",
+      "actual": {
+        "path": "/privacy",
+        "width": 768,
+        "content": 768,
+        "title": "Patakaran sa Privacy",
+        "navigation": [
+          {
+            "loadMs": 2232,
+            "domContentLoadedMs": 2228
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "LIVE-BR-022",
+      "module": "Deployed Edge browser",
+      "scenario": "/terms renders without horizontal overflow at 768px",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "evidence/phase2/live-edge.json",
+      "actual": {
+        "path": "/terms",
+        "width": 768,
+        "content": 768,
+        "title": "Mga Tuntunin ng Serbisyo",
+        "navigation": [
+          {
+            "loadMs": 1788,
+            "domContentLoadedMs": 1785
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "LIVE-BR-023",
+      "module": "Deployed Edge browser",
+      "scenario": "/child-data renders without horizontal overflow at 768px",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "evidence/phase2/live-edge.json",
+      "actual": {
+        "path": "/child-data",
+        "width": 768,
+        "content": 768,
+        "title": "Data ng Bata at Pahintulot ng Magulang",
+        "navigation": [
+          {
+            "loadMs": 981,
+            "domContentLoadedMs": 977
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "LIVE-BR-024",
+      "module": "Deployed Edge browser",
+      "scenario": "/account-deletion renders without horizontal overflow at 768px",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "evidence/phase2/live-edge.json",
+      "actual": {
+        "path": "/account-deletion",
+        "width": 768,
+        "content": 768,
+        "title": "Pag-delete ng Account",
+        "navigation": [
+          {
+            "loadMs": 604,
+            "domContentLoadedMs": 604
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "LIVE-BR-025",
+      "module": "Deployed Edge browser",
+      "scenario": "/accessibility renders without horizontal overflow at 768px",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "evidence/phase2/live-edge.json",
+      "actual": {
+        "path": "/accessibility",
+        "width": 768,
+        "content": 768,
+        "title": "Pahayag sa Accessibility",
+        "navigation": [
+          {
+            "loadMs": 811,
+            "domContentLoadedMs": 808
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "LIVE-BR-026",
+      "module": "Deployed Edge browser",
+      "scenario": "/not-a-real-page renders without horizontal overflow at 768px",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "evidence/phase2/live-edge.json",
+      "actual": {
+        "path": "/not-a-real-page",
+        "width": 768,
+        "content": 768,
+        "title": "Naligaw ang pahina",
+        "navigation": [
+          {
+            "loadMs": 2420,
+            "domContentLoadedMs": 2417
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "LIVE-BR-027",
+      "module": "Deployed Edge browser",
+      "scenario": "/ renders without horizontal overflow at 1440px",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "evidence/phase2/live-edge.json",
+      "actual": {
+        "path": "/",
+        "width": 1440,
+        "content": 1440,
+        "title": "Mas malinaw na pagbasa, mas masayang pagkatuto.",
+        "navigation": [
+          {
+            "loadMs": 2315,
+            "domContentLoadedMs": 2315
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "LIVE-BR-028",
+      "module": "Deployed Edge browser",
+      "scenario": "/login renders without horizontal overflow at 1440px",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "evidence/phase2/live-edge.json",
+      "actual": {
+        "path": "/login",
+        "width": 1440,
+        "content": 1440,
+        "title": "Handa ka na bang magbasa?",
+        "navigation": [
+          {
+            "loadMs": 2404,
+            "domContentLoadedMs": 2400
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "LIVE-BR-029",
+      "module": "Deployed Edge browser",
+      "scenario": "/signup renders without horizontal overflow at 1440px",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "evidence/phase2/live-edge.json",
+      "actual": {
+        "path": "/signup",
+        "width": 1440,
+        "content": 1440,
+        "title": "Gumawa ng account",
+        "navigation": [
+          {
+            "loadMs": 1553,
+            "domContentLoadedMs": 1550
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "LIVE-BR-030",
+      "module": "Deployed Edge browser",
+      "scenario": "/forgot-password renders without horizontal overflow at 1440px",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "evidence/phase2/live-edge.json",
+      "actual": {
+        "path": "/forgot-password",
+        "width": 1440,
+        "content": 1440,
+        "title": "Nakalimutan ang Password?",
+        "navigation": [
+          {
+            "loadMs": 1961,
+            "domContentLoadedMs": 1957
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "LIVE-BR-031",
+      "module": "Deployed Edge browser",
+      "scenario": "/reset-password renders without horizontal overflow at 1440px",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "evidence/phase2/live-edge.json",
+      "actual": {
+        "path": "/reset-password",
+        "width": 1440,
+        "content": 1440,
+        "title": "I-reset ang iyong password",
+        "navigation": [
+          {
+            "loadMs": 2196,
+            "domContentLoadedMs": 2196
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "LIVE-BR-032",
+      "module": "Deployed Edge browser",
+      "scenario": "/verify-email renders without horizontal overflow at 1440px",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "evidence/phase2/live-edge.json",
+      "actual": {
+        "path": "/verify-email",
+        "width": 1440,
+        "content": 1440,
+        "title": "I-verify ang iyong email",
+        "navigation": [
+          {
+            "loadMs": 444,
+            "domContentLoadedMs": 443
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "LIVE-BR-033",
+      "module": "Deployed Edge browser",
+      "scenario": "/resend-verification renders without horizontal overflow at 1440px",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "evidence/phase2/live-edge.json",
+      "actual": {
+        "path": "/resend-verification",
+        "width": 1440,
+        "content": 1440,
+        "title": "Muling ipadala ang code",
+        "navigation": [
+          {
+            "loadMs": 322,
+            "domContentLoadedMs": 322
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "LIVE-BR-034",
+      "module": "Deployed Edge browser",
+      "scenario": "/privacy renders without horizontal overflow at 1440px",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "evidence/phase2/live-edge.json",
+      "actual": {
+        "path": "/privacy",
+        "width": 1440,
+        "content": 1440,
+        "title": "Patakaran sa Privacy",
+        "navigation": [
+          {
+            "loadMs": 3050,
+            "domContentLoadedMs": 3050
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "LIVE-BR-035",
+      "module": "Deployed Edge browser",
+      "scenario": "/terms renders without horizontal overflow at 1440px",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "evidence/phase2/live-edge.json",
+      "actual": {
+        "path": "/terms",
+        "width": 1440,
+        "content": 1440,
+        "title": "Mga Tuntunin ng Serbisyo",
+        "navigation": [
+          {
+            "loadMs": 550,
+            "domContentLoadedMs": 550
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "LIVE-BR-036",
+      "module": "Deployed Edge browser",
+      "scenario": "/child-data renders without horizontal overflow at 1440px",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "evidence/phase2/live-edge.json",
+      "actual": {
+        "path": "/child-data",
+        "width": 1440,
+        "content": 1440,
+        "title": "Data ng Bata at Pahintulot ng Magulang",
+        "navigation": [
+          {
+            "loadMs": 660,
+            "domContentLoadedMs": 660
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "LIVE-BR-037",
+      "module": "Deployed Edge browser",
+      "scenario": "/account-deletion renders without horizontal overflow at 1440px",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "evidence/phase2/live-edge.json",
+      "actual": {
+        "path": "/account-deletion",
+        "width": 1440,
+        "content": 1440,
+        "title": "Pag-delete ng Account",
+        "navigation": [
+          {
+            "loadMs": 1323,
+            "domContentLoadedMs": 1323
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "LIVE-BR-038",
+      "module": "Deployed Edge browser",
+      "scenario": "/accessibility renders without horizontal overflow at 1440px",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "evidence/phase2/live-edge.json",
+      "actual": {
+        "path": "/accessibility",
+        "width": 1440,
+        "content": 1440,
+        "title": "Pahayag sa Accessibility",
+        "navigation": [
+          {
+            "loadMs": 1070,
+            "domContentLoadedMs": 1065
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "LIVE-BR-039",
+      "module": "Deployed Edge browser",
+      "scenario": "/not-a-real-page renders without horizontal overflow at 1440px",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "evidence/phase2/live-edge.json",
+      "actual": {
+        "path": "/not-a-real-page",
+        "width": 1440,
+        "content": 1440,
+        "title": "Naligaw ang pahina",
+        "navigation": [
+          {
+            "loadMs": 491,
+            "domContentLoadedMs": 487
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "LIVE-BR-040",
+      "module": "Deployed Edge browser",
+      "scenario": "Anonymous admin redirects to login",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "evidence/phase2/live-edge.json",
+      "actual": "Assertions passed",
+      "status": "PASS"
+    },
+    {
+      "id": "LIVE-BR-041",
+      "module": "Deployed Edge browser",
+      "scenario": "Anonymous admin/settings redirects to login",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "evidence/phase2/live-edge.json",
+      "actual": "Assertions passed",
+      "status": "PASS"
+    },
+    {
+      "id": "LIVE-BR-042",
+      "module": "Deployed Edge browser",
+      "scenario": "Anonymous admin/not-a-real-page redirects to login",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "evidence/phase2/live-edge.json",
+      "actual": "page.waitForURL: Timeout 10000ms exceeded.\n=========================== logs ===========================\nwaiting for navigation until \"load\"\n  navigated to \"https://linawletra.com/admin/not-a-real-page\"\n============================================================",
+      "status": "FAIL"
+    },
+    {
+      "id": "LIVE-BR-043",
+      "module": "Deployed Edge browser",
+      "scenario": "Anonymous teacher redirects to login",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "evidence/phase2/live-edge.json",
+      "actual": "Assertions passed",
+      "status": "PASS"
+    },
+    {
+      "id": "LIVE-BR-044",
+      "module": "Deployed Edge browser",
+      "scenario": "Anonymous teacher/settings redirects to login",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "evidence/phase2/live-edge.json",
+      "actual": "Assertions passed",
+      "status": "PASS"
+    },
+    {
+      "id": "LIVE-BR-045",
+      "module": "Deployed Edge browser",
+      "scenario": "Anonymous teacher/not-a-real-page redirects to login",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "evidence/phase2/live-edge.json",
+      "actual": "page.waitForURL: Timeout 10000ms exceeded.\n=========================== logs ===========================\nwaiting for navigation until \"load\"\n  navigated to \"https://linawletra.com/teacher/not-a-real-page\"\n============================================================",
+      "status": "FAIL"
+    },
+    {
+      "id": "LIVE-BR-046",
+      "module": "Deployed Edge browser",
+      "scenario": "Anonymous parent redirects to login",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "evidence/phase2/live-edge.json",
+      "actual": "Assertions passed",
+      "status": "PASS"
+    },
+    {
+      "id": "LIVE-BR-047",
+      "module": "Deployed Edge browser",
+      "scenario": "Anonymous parent/settings redirects to login",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "evidence/phase2/live-edge.json",
+      "actual": "Assertions passed",
+      "status": "PASS"
+    },
+    {
+      "id": "LIVE-BR-048",
+      "module": "Deployed Edge browser",
+      "scenario": "Anonymous parent/not-a-real-page redirects to login",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "evidence/phase2/live-edge.json",
+      "actual": "page.waitForURL: Timeout 10000ms exceeded.\n=========================== logs ===========================\nwaiting for navigation until \"load\"\n  navigated to \"https://linawletra.com/parent/not-a-real-page\"\n============================================================",
+      "status": "FAIL"
+    },
+    {
+      "id": "LIVE-BR-049",
+      "module": "Deployed Edge browser",
+      "scenario": "Anonymous student redirects to login",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "evidence/phase2/live-edge.json",
+      "actual": "Assertions passed",
+      "status": "PASS"
+    },
+    {
+      "id": "LIVE-BR-050",
+      "module": "Deployed Edge browser",
+      "scenario": "Anonymous student/settings redirects to login",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "evidence/phase2/live-edge.json",
+      "actual": "page.waitForURL: Timeout 10000ms exceeded.\n=========================== logs ===========================\nwaiting for navigation until \"load\"\n  navigated to \"https://linawletra.com/student/settings\"\n============================================================",
+      "status": "FAIL"
+    },
+    {
+      "id": "LIVE-BR-051",
+      "module": "Deployed Edge browser",
+      "scenario": "Anonymous student/not-a-real-page redirects to login",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "evidence/phase2/live-edge.json",
+      "actual": "page.waitForURL: Timeout 10000ms exceeded.\n=========================== logs ===========================\nwaiting for navigation until \"load\"\n  navigated to \"https://linawletra.com/student/not-a-real-page\"\n============================================================",
+      "status": "FAIL"
+    },
+    {
+      "id": "LIVE-BR-052",
+      "module": "Deployed Edge browser",
+      "scenario": "Empty login submission displays validation; password visibility and keyboard toggle work",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "evidence/phase2/live-edge.json",
+      "actual": "Assertions passed",
+      "status": "PASS"
+    },
+    {
+      "id": "LIVE-BR-053",
+      "module": "Deployed Edge browser",
+      "scenario": "Empty signup submission displays required-field errors",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "evidence/phase2/live-edge.json",
+      "actual": "Assertions passed",
+      "status": "PASS"
+    },
+    {
+      "id": "LIVE-BR-054",
+      "module": "Deployed Edge browser",
+      "scenario": "OTP keyboard navigation and nonnumeric input validation",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "evidence/phase2/live-edge.json",
+      "actual": "Assertions passed",
+      "status": "PASS"
+    },
+    {
+      "id": "LIVE-BR-055",
+      "module": "Deployed Edge browser",
+      "scenario": "Public forms have accessible names for visible input controls",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "evidence/phase2/live-edge.json",
+      "actual": "Assertions passed",
+      "status": "PASS"
+    },
+    {
+      "id": "LIVE-BR-056",
+      "module": "Deployed Edge browser",
+      "scenario": "No uncaught JavaScript exceptions during tested navigation and actions",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "evidence/phase2/live-edge.json",
+      "actual": "Assertions passed",
+      "status": "PASS"
+    }
+  ]
+}

@@ -1,0 +1,196 @@
+TAP version 13
+# Subtest: QA email validation accepts single addresses and rejects embedded or whitespace addresses
+ok 1 - QA email validation accepts single addresses and rejects embedded or whitespace addresses
+  ---
+  duration_ms: 2914.2923
+  type: 'test'
+  ...
+# Subtest: QA role resolution never repairs over a failed authoritative profile lookup
+ok 2 - QA role resolution never repairs over a failed authoritative profile lookup
+  ---
+  duration_ms: 188.396
+  type: 'test'
+  ...
+# Subtest: QA role resolution never repairs when child identity lookup fails
+ok 3 - QA role resolution never repairs when child identity lookup fails
+  ---
+  duration_ms: 133.4214
+  type: 'test'
+  ...
+# Subtest: QA role resolution preserves authoritative teacher and child roles
+ok 4 - QA role resolution preserves authoritative teacher and child roles
+  ---
+  duration_ms: 135.5203
+  type: 'test'
+  ...
+# Subtest: QA parent profile repair reports persistence failure
+ok 5 - QA parent profile repair reports persistence failure
+  ---
+  duration_ms: 91.7351
+  type: 'test'
+  ...
+# Subtest: QA confirmed parent repair preserves signup name; unconfirmed accounts are not repaired
+ok 6 - QA confirmed parent repair preserves signup name; unconfirmed accounts are not repaired
+  ---
+  duration_ms: 202.536
+  type: 'test'
+  ...
+# Subtest: QA saved-profile picker ignores malformed entries without crashing
+ok 7 - QA saved-profile picker ignores malformed entries without crashing
+  ---
+  duration_ms: 129.5217
+  type: 'test'
+  ...
+# Subtest: QA saved profiles enforce expiration, student replacement, and profile limit
+ok 8 - QA saved profiles enforce expiration, student replacement, and profile limit
+  ---
+  duration_ms: 106.6476
+  type: 'test'
+  ...
+# Subtest: QA unavailable optional profile storage does not break login/logout
+ok 9 - QA unavailable optional profile storage does not break login/logout
+  ---
+  duration_ms: 61.7543
+  type: 'test'
+  ...
+# Subtest: QA signup without a session reaches verification without an unauthenticated profile write
+ok 10 - QA signup without a session reaches verification without an unauthenticated profile write
+  ---
+  duration_ms: 433.9256
+  type: 'test'
+  ...
+# Subtest: QA signup with a session persists its parent profile
+ok 11 - QA signup with a session persists its parent profile
+  ---
+  duration_ms: 312.3655
+  type: 'test'
+  ...
+# Subtest: QA account switching cannot publish an older asynchronous identity
+ok 12 - QA account switching cannot publish an older asynchronous identity
+  ---
+  duration_ms: 179.1058
+  type: 'test'
+  ...
+# Subtest: parent badges accept current atomic award records
+ok 13 - parent badges accept current atomic award records
+  ---
+  duration_ms: 13.4683
+  type: 'test'
+  ...
+# Subtest: parent badges accept legacy keyed achievements
+ok 14 - parent badges accept legacy keyed achievements
+  ---
+  duration_ms: 1.4576
+  type: 'test'
+  ...
+# Subtest: parent badges merge legacy strings without duplicate unlocks
+ok 15 - parent badges merge legacy strings without duplicate unlocks
+  ---
+  duration_ms: 1.1707
+  type: 'test'
+  ...
+# Subtest: parent badges ignore absent or malformed records
+ok 16 - parent badges ignore absent or malformed records
+  ---
+  duration_ms: 1.3416
+  type: 'test'
+  ...
+# Subtest: parent async button callbacks invoke actions instead of discarding function references
+ok 17 - parent async button callbacks invoke actions instead of discarding function references
+  ---
+  duration_ms: 1663.8135
+  type: 'test'
+  ...
+# Subtest: module table defaults to five rows with a correct visible range
+ok 18 - module table defaults to five rows with a correct visible range
+  ---
+  duration_ms: 20.1252
+  type: 'test'
+  ...
+# Subtest: next and last pages show distinct rows and the partial final range
+ok 19 - next and last pages show distinct rows and the partial final range
+  ---
+  duration_ms: 9.6704
+  type: 'test'
+  ...
+# Subtest: changing page size shows the selected number of modules
+ok 20 - changing page size shows the selected number of modules
+  ---
+  duration_ms: 2.5991
+  type: 'test'
+  ...
+# Subtest: a shrinking report clamps the page instead of producing an empty page
+ok 21 - a shrinking report clamps the page instead of producing an empty page
+  ---
+  duration_ms: 1.9595
+  type: 'test'
+  ...
+# Subtest: empty reports and invalid page requests remain in a valid state
+ok 22 - empty reports and invalid page requests remain in a valid state
+  ---
+  duration_ms: 1.9342
+  type: 'test'
+  ...
+# Subtest: large reports retain first, last, and adjacent page buttons
+ok 23 - large reports retain first, last, and adjacent page buttons
+  ---
+  duration_ms: 12.4339
+  type: 'test'
+  ...
+# Subtest: opening a module preserves child and selected month
+ok 24 - opening a module preserves child and selected month
+  ---
+  duration_ms: 11.2519
+  type: 'test'
+  ...
+# Subtest: returning to the module list clears only detail state
+ok 25 - returning to the module list clears only detail state
+  ---
+  duration_ms: 1.3581
+  type: 'test'
+  ...
+# Subtest: report tabs cannot accidentally retain a module filter
+ok 26 - report tabs cannot accidentally retain a module filter
+  ---
+  duration_ms: 1.7649
+  type: 'test'
+  ...
+# Subtest: practice record navigation retains its intended record
+ok 27 - practice record navigation retains its intended record
+  ---
+  duration_ms: 0.9551
+  type: 'test'
+  ...
+# Subtest: month selection accepts valid values and safely defaults malformed query dates
+ok 28 - month selection accepts valid values and safely defaults malformed query dates
+  ---
+  duration_ms: 9.2681
+  type: 'test'
+  ...
+# Subtest: QA environment permits an independently isolated local stack
+ok 29 - QA environment permits an independently isolated local stack
+  ---
+  duration_ms: 14.8422
+  type: 'test'
+  ...
+# Subtest: QA environment refuses shared Supabase even with an explicit hostname allowlist
+ok 30 - QA environment refuses shared Supabase even with an explicit hostname allowlist
+  ---
+  duration_ms: 12.3767
+  type: 'test'
+  ...
+# Subtest: QA environment refuses missing, disabled, production and path-spoofed targets
+ok 31 - QA environment refuses missing, disabled, production and path-spoofed targets
+  ---
+  duration_ms: 5.6607
+  type: 'test'
+  ...
+1..31
+# tests 31
+# suites 0
+# pass 31
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 13538.369

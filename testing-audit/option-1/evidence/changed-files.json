@@ -1,0 +1,116 @@
+{
+  "mobileAndAuditSources": [
+    {
+      "file": "backend/services/progressEvents.js",
+      "sha256": "fc46a4f5b644518cfb3ece05b0f2d1dd8f74a3f98261a1135ae6654624c84b06"
+    },
+    {
+      "file": "backend/tests/progress_security.test.js",
+      "sha256": "6a51e251aca7f002de3e5102f096ad1354bbbb37bb709d4ba6be7e381134aa67"
+    },
+    {
+      "file": "backend/tests/option_1_policy.test.js",
+      "sha256": "b7b190b9cf0547e529e1b8a8d37ec910b0ef8ba0ed1b217319c767be988d2856"
+    },
+    {
+      "file": "src/services/learningAttemptService.ts",
+      "sha256": "52c6ed3522ad4855572c74441049f80e24a0390ac9b7913f3715b7777aa72763"
+    },
+    {
+      "file": "src/services/learningAttemptService.test.js",
+      "sha256": "1f961632f1d8c60457b285c230189fa9e8d01f9574a726367a4875b6c8be9e43"
+    },
+    {
+      "file": "src/utils/progressReward.ts",
+      "sha256": "09d70fbc3f2e450837089345b2aaed3ebc19927c3b085af3c735f071076f5a20"
+    },
+    {
+      "file": "src/utils/progressReward.test.js",
+      "sha256": "1bf9f0f8ef94349c2d95e92153fa8a7474703b4cd45acbdc853b437f96a73213"
+    },
+    {
+      "file": "src/screens/StudentDashboard.tsx",
+      "sha256": "ce4fb8209a0573e9a84a32ec3965f7d10648e03fbf2c66649a1a30ea42eee768"
+    },
+    {
+      "file": "src/screens/ParentDashboardEnhanced.test.js",
+      "sha256": "a0547288eaa83af20cd0c9fb9339e513b9dc500338ce567910523f977416d399"
+    },
+    {
+      "file": "testing-audit/xp-progress/progress-events.PROPOSED.sql",
+      "sha256": "5ba7a4929e9e4b406b6d99f5efe0ba2472b92b2706cf255a0d4fa4d816c3e5f9"
+    },
+    {
+      "file": "testing-audit/xp-progress/progress-events-rollback.PROPOSED.sql",
+      "sha256": "ff8afe660975eb6ae25f2352c5dd4d1696ea738a52386eb60fad7104f5405df1"
+    },
+    {
+      "file": "testing-audit/xp-progress/progress-preflight.READONLY.sql",
+      "sha256": "7df094946fd80b94d987fcbd6178bd190ae773251e704d72596011eca38bc82b"
+    },
+    {
+      "file": "testing-audit/xp-progress/database-tests.mjs",
+      "sha256": "66ef25284e98a0288712190721af8d038ab7d91e7ca33d031541209a59725687"
+    },
+    {
+      "file": "testing-audit/xp-progress/run-checks.cjs",
+      "sha256": "e02a457bdddbf78235a2e07f168f719454a0d928300bfdad73816ddaf817b338"
+    }
+  ],
+  "webSources": [
+    {
+      "file": "server/services/progressEvents.js",
+      "sha256": "85d9ed1843f6cd6db1bcb6197609f83175a613988d12c430636125346ed68794"
+    },
+    {
+      "file": "server/tests/progressEvents.test.js",
+      "sha256": "70efcec0b1e12c78f863ef841a8f685fda84e6330fbf22896a5073138c5e54ed"
+    },
+    {
+      "file": "src/lib/progressEvents.ts",
+      "sha256": "fde2236304d91accc2f8cb6e81542c88f655c3d235df8311c58e7040740c3806"
+    },
+    {
+      "file": "src/lib/progressReward.ts",
+      "sha256": "09d70fbc3f2e450837089345b2aaed3ebc19927c3b085af3c735f071076f5a20"
+    },
+    {
+      "file": "src/pages/student/Practice.tsx",
+      "sha256": "0f242aa3374bf7aae79c0d6c501f0fdae510dcecf7081289b3daa274ee2105c0"
+    },
+    {
+      "file": "src/pages/student/Module.tsx",
+      "sha256": "1103210ef9d8382e5322ecc8576ed1a7ab17bd013979c1ab21c8406dc4b7d43c"
+    },
+    {
+      "file": "tests/option1Progress.test.mjs",
+      "sha256": "2f7aaf3ad697639ee5623b8bf45fe611fdca7c657cd55cd4f0121c8bb19393d2"
+    }
+  ],
+  "auditTools": [
+    "database-cases.mjs",
+    "distinct-attempts.cjs",
+    "prepare.cjs",
+    "refine-fixtures.cjs",
+    "refine-report.cjs",
+    "report.cjs",
+    "stage-web.cjs",
+    "version-guard.cjs",
+    "web-audit-package.cjs",
+    "web-distinct-patch.cjs",
+    "web-patch.cjs",
+    "web-version-patch.cjs"
+  ],
+  "reportFiles": [
+    "README.md",
+    "option-1/README.md",
+    "XP_OPTION_1_POLICY_VERIFICATION.md",
+    "XP_PROGRESS_BUG_FIX_REPORT.md",
+    "XP_PROGRESS_CONTRACT.md",
+    "XP_PROGRESS_DATABASE_READINESS.md",
+    "XP_PROGRESS_FINAL_STATUS.md",
+    "XP_PROGRESS_REGRESSION_RESULTS.md",
+    "XP_PROGRESS_SECURITY_AUDIT.md"
+  ],
+  "generatedEvidence": "evidence/test-cases.json + .csv; evidence/summary.json; evidence/coverage/source-summary.json; option-1/evidence/*.json; guarded suite logs/results. Pre-change files remain in option-1/baseline."
+}

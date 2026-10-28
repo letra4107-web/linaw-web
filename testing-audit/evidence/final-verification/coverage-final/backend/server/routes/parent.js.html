@@ -1,0 +1,1483 @@
+
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>Code coverage report for server/routes/parent.js</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../../prettify.css" />
+    <link rel="stylesheet" href="../../base.css" />
+    <link rel="shortcut icon" type="image/x-icon" href="../../favicon.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+    
+<body>
+<div class='wrapper'>
+    <div class='pad1'>
+        <h1><a href="../../index.html">All files</a> / <a href="index.html">server/routes</a> parent.js</h1>
+        <div class='clearfix'>
+            
+            <div class='fl pad1y space-right2'>
+                <span class="strong">73.81% </span>
+                <span class="quiet">Statements</span>
+                <span class='fraction'>344/466</span>
+            </div>
+        
+            
+            <div class='fl pad1y space-right2'>
+                <span class="strong">71.79% </span>
+                <span class="quiet">Branches</span>
+                <span class='fraction'>84/117</span>
+            </div>
+        
+            
+            <div class='fl pad1y space-right2'>
+                <span class="strong">100% </span>
+                <span class="quiet">Functions</span>
+                <span class='fraction'>6/6</span>
+            </div>
+        
+            
+            <div class='fl pad1y space-right2'>
+                <span class="strong">73.81% </span>
+                <span class="quiet">Lines</span>
+                <span class='fraction'>344/466</span>
+            </div>
+        
+            
+        </div>
+        <p class="quiet">
+            Press <em>n</em> or <em>j</em> to go to the next uncovered block, <em>b</em>, <em>p</em> or <em>k</em> for the previous block.
+        </p>
+        <template id="filterTemplate">
+            <div class="quiet">
+                Filter:
+                <input type="search" id="fileSearch">
+            </div>
+        </template>
+    </div>
+    <div class='status-line medium'></div>
+    <pre><table class="coverage">
+<tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
+<a name='L2'></a><a href='#L2'>2</a>
+<a name='L3'></a><a href='#L3'>3</a>
+<a name='L4'></a><a href='#L4'>4</a>
+<a name='L5'></a><a href='#L5'>5</a>
+<a name='L6'></a><a href='#L6'>6</a>
+<a name='L7'></a><a href='#L7'>7</a>
+<a name='L8'></a><a href='#L8'>8</a>
+<a name='L9'></a><a href='#L9'>9</a>
+<a name='L10'></a><a href='#L10'>10</a>
+<a name='L11'></a><a href='#L11'>11</a>
+<a name='L12'></a><a href='#L12'>12</a>
+<a name='L13'></a><a href='#L13'>13</a>
+<a name='L14'></a><a href='#L14'>14</a>
+<a name='L15'></a><a href='#L15'>15</a>
+<a name='L16'></a><a href='#L16'>16</a>
+<a name='L17'></a><a href='#L17'>17</a>
+<a name='L18'></a><a href='#L18'>18</a>
+<a name='L19'></a><a href='#L19'>19</a>
+<a name='L20'></a><a href='#L20'>20</a>
+<a name='L21'></a><a href='#L21'>21</a>
+<a name='L22'></a><a href='#L22'>22</a>
+<a name='L23'></a><a href='#L23'>23</a>
+<a name='L24'></a><a href='#L24'>24</a>
+<a name='L25'></a><a href='#L25'>25</a>
+<a name='L26'></a><a href='#L26'>26</a>
+<a name='L27'></a><a href='#L27'>27</a>
+<a name='L28'></a><a href='#L28'>28</a>
+<a name='L29'></a><a href='#L29'>29</a>
+<a name='L30'></a><a href='#L30'>30</a>
+<a name='L31'></a><a href='#L31'>31</a>
+<a name='L32'></a><a href='#L32'>32</a>
+<a name='L33'></a><a href='#L33'>33</a>
+<a name='L34'></a><a href='#L34'>34</a>
+<a name='L35'></a><a href='#L35'>35</a>
+<a name='L36'></a><a href='#L36'>36</a>
+<a name='L37'></a><a href='#L37'>37</a>
+<a name='L38'></a><a href='#L38'>38</a>
+<a name='L39'></a><a href='#L39'>39</a>
+<a name='L40'></a><a href='#L40'>40</a>
+<a name='L41'></a><a href='#L41'>41</a>
+<a name='L42'></a><a href='#L42'>42</a>
+<a name='L43'></a><a href='#L43'>43</a>
+<a name='L44'></a><a href='#L44'>44</a>
+<a name='L45'></a><a href='#L45'>45</a>
+<a name='L46'></a><a href='#L46'>46</a>
+<a name='L47'></a><a href='#L47'>47</a>
+<a name='L48'></a><a href='#L48'>48</a>
+<a name='L49'></a><a href='#L49'>49</a>
+<a name='L50'></a><a href='#L50'>50</a>
+<a name='L51'></a><a href='#L51'>51</a>
+<a name='L52'></a><a href='#L52'>52</a>
+<a name='L53'></a><a href='#L53'>53</a>
+<a name='L54'></a><a href='#L54'>54</a>
+<a name='L55'></a><a href='#L55'>55</a>
+<a name='L56'></a><a href='#L56'>56</a>
+<a name='L57'></a><a href='#L57'>57</a>
+<a name='L58'></a><a href='#L58'>58</a>
+<a name='L59'></a><a href='#L59'>59</a>
+<a name='L60'></a><a href='#L60'>60</a>
+<a name='L61'></a><a href='#L61'>61</a>
+<a name='L62'></a><a href='#L62'>62</a>
+<a name='L63'></a><a href='#L63'>63</a>
+<a name='L64'></a><a href='#L64'>64</a>
+<a name='L65'></a><a href='#L65'>65</a>
+<a name='L66'></a><a href='#L66'>66</a>
+<a name='L67'></a><a href='#L67'>67</a>
+<a name='L68'></a><a href='#L68'>68</a>
+<a name='L69'></a><a href='#L69'>69</a>
+<a name='L70'></a><a href='#L70'>70</a>
+<a name='L71'></a><a href='#L71'>71</a>
+<a name='L72'></a><a href='#L72'>72</a>
+<a name='L73'></a><a href='#L73'>73</a>
+<a name='L74'></a><a href='#L74'>74</a>
+<a name='L75'></a><a href='#L75'>75</a>
+<a name='L76'></a><a href='#L76'>76</a>
+<a name='L77'></a><a href='#L77'>77</a>
+<a name='L78'></a><a href='#L78'>78</a>
+<a name='L79'></a><a href='#L79'>79</a>
+<a name='L80'></a><a href='#L80'>80</a>
+<a name='L81'></a><a href='#L81'>81</a>
+<a name='L82'></a><a href='#L82'>82</a>
+<a name='L83'></a><a href='#L83'>83</a>
+<a name='L84'></a><a href='#L84'>84</a>
+<a name='L85'></a><a href='#L85'>85</a>
+<a name='L86'></a><a href='#L86'>86</a>
+<a name='L87'></a><a href='#L87'>87</a>
+<a name='L88'></a><a href='#L88'>88</a>
+<a name='L89'></a><a href='#L89'>89</a>
+<a name='L90'></a><a href='#L90'>90</a>
+<a name='L91'></a><a href='#L91'>91</a>
+<a name='L92'></a><a href='#L92'>92</a>
+<a name='L93'></a><a href='#L93'>93</a>
+<a name='L94'></a><a href='#L94'>94</a>
+<a name='L95'></a><a href='#L95'>95</a>
+<a name='L96'></a><a href='#L96'>96</a>
+<a name='L97'></a><a href='#L97'>97</a>
+<a name='L98'></a><a href='#L98'>98</a>
+<a name='L99'></a><a href='#L99'>99</a>
+<a name='L100'></a><a href='#L100'>100</a>
+<a name='L101'></a><a href='#L101'>101</a>
+<a name='L102'></a><a href='#L102'>102</a>
+<a name='L103'></a><a href='#L103'>103</a>
+<a name='L104'></a><a href='#L104'>104</a>
+<a name='L105'></a><a href='#L105'>105</a>
+<a name='L106'></a><a href='#L106'>106</a>
+<a name='L107'></a><a href='#L107'>107</a>
+<a name='L108'></a><a href='#L108'>108</a>
+<a name='L109'></a><a href='#L109'>109</a>
+<a name='L110'></a><a href='#L110'>110</a>
+<a name='L111'></a><a href='#L111'>111</a>
+<a name='L112'></a><a href='#L112'>112</a>
+<a name='L113'></a><a href='#L113'>113</a>
+<a name='L114'></a><a href='#L114'>114</a>
+<a name='L115'></a><a href='#L115'>115</a>
+<a name='L116'></a><a href='#L116'>116</a>
+<a name='L117'></a><a href='#L117'>117</a>
+<a name='L118'></a><a href='#L118'>118</a>
+<a name='L119'></a><a href='#L119'>119</a>
+<a name='L120'></a><a href='#L120'>120</a>
+<a name='L121'></a><a href='#L121'>121</a>
+<a name='L122'></a><a href='#L122'>122</a>
+<a name='L123'></a><a href='#L123'>123</a>
+<a name='L124'></a><a href='#L124'>124</a>
+<a name='L125'></a><a href='#L125'>125</a>
+<a name='L126'></a><a href='#L126'>126</a>
+<a name='L127'></a><a href='#L127'>127</a>
+<a name='L128'></a><a href='#L128'>128</a>
+<a name='L129'></a><a href='#L129'>129</a>
+<a name='L130'></a><a href='#L130'>130</a>
+<a name='L131'></a><a href='#L131'>131</a>
+<a name='L132'></a><a href='#L132'>132</a>
+<a name='L133'></a><a href='#L133'>133</a>
+<a name='L134'></a><a href='#L134'>134</a>
+<a name='L135'></a><a href='#L135'>135</a>
+<a name='L136'></a><a href='#L136'>136</a>
+<a name='L137'></a><a href='#L137'>137</a>
+<a name='L138'></a><a href='#L138'>138</a>
+<a name='L139'></a><a href='#L139'>139</a>
+<a name='L140'></a><a href='#L140'>140</a>
+<a name='L141'></a><a href='#L141'>141</a>
+<a name='L142'></a><a href='#L142'>142</a>
+<a name='L143'></a><a href='#L143'>143</a>
+<a name='L144'></a><a href='#L144'>144</a>
+<a name='L145'></a><a href='#L145'>145</a>
+<a name='L146'></a><a href='#L146'>146</a>
+<a name='L147'></a><a href='#L147'>147</a>
+<a name='L148'></a><a href='#L148'>148</a>
+<a name='L149'></a><a href='#L149'>149</a>
+<a name='L150'></a><a href='#L150'>150</a>
+<a name='L151'></a><a href='#L151'>151</a>
+<a name='L152'></a><a href='#L152'>152</a>
+<a name='L153'></a><a href='#L153'>153</a>
+<a name='L154'></a><a href='#L154'>154</a>
+<a name='L155'></a><a href='#L155'>155</a>
+<a name='L156'></a><a href='#L156'>156</a>
+<a name='L157'></a><a href='#L157'>157</a>
+<a name='L158'></a><a href='#L158'>158</a>
+<a name='L159'></a><a href='#L159'>159</a>
+<a name='L160'></a><a href='#L160'>160</a>
+<a name='L161'></a><a href='#L161'>161</a>
+<a name='L162'></a><a href='#L162'>162</a>
+<a name='L163'></a><a href='#L163'>163</a>
+<a name='L164'></a><a href='#L164'>164</a>
+<a name='L165'></a><a href='#L165'>165</a>
+<a name='L166'></a><a href='#L166'>166</a>
+<a name='L167'></a><a href='#L167'>167</a>
+<a name='L168'></a><a href='#L168'>168</a>
+<a name='L169'></a><a href='#L169'>169</a>
+<a name='L170'></a><a href='#L170'>170</a>
+<a name='L171'></a><a href='#L171'>171</a>
+<a name='L172'></a><a href='#L172'>172</a>
+<a name='L173'></a><a href='#L173'>173</a>
+<a name='L174'></a><a href='#L174'>174</a>
+<a name='L175'></a><a href='#L175'>175</a>
+<a name='L176'></a><a href='#L176'>176</a>
+<a name='L177'></a><a href='#L177'>177</a>
+<a name='L178'></a><a href='#L178'>178</a>
+<a name='L179'></a><a href='#L179'>179</a>
+<a name='L180'></a><a href='#L180'>180</a>
+<a name='L181'></a><a href='#L181'>181</a>
+<a name='L182'></a><a href='#L182'>182</a>
+<a name='L183'></a><a href='#L183'>183</a>
+<a name='L184'></a><a href='#L184'>184</a>
+<a name='L185'></a><a href='#L185'>185</a>
+<a name='L186'></a><a href='#L186'>186</a>
+<a name='L187'></a><a href='#L187'>187</a>
+<a name='L188'></a><a href='#L188'>188</a>
+<a name='L189'></a><a href='#L189'>189</a>
+<a name='L190'></a><a href='#L190'>190</a>
+<a name='L191'></a><a href='#L191'>191</a>
+<a name='L192'></a><a href='#L192'>192</a>
+<a name='L193'></a><a href='#L193'>193</a>
+<a name='L194'></a><a href='#L194'>194</a>
+<a name='L195'></a><a href='#L195'>195</a>
+<a name='L196'></a><a href='#L196'>196</a>
+<a name='L197'></a><a href='#L197'>197</a>
+<a name='L198'></a><a href='#L198'>198</a>
+<a name='L199'></a><a href='#L199'>199</a>
+<a name='L200'></a><a href='#L200'>200</a>
+<a name='L201'></a><a href='#L201'>201</a>
+<a name='L202'></a><a href='#L202'>202</a>
+<a name='L203'></a><a href='#L203'>203</a>
+<a name='L204'></a><a href='#L204'>204</a>
+<a name='L205'></a><a href='#L205'>205</a>
+<a name='L206'></a><a href='#L206'>206</a>
+<a name='L207'></a><a href='#L207'>207</a>
+<a name='L208'></a><a href='#L208'>208</a>
+<a name='L209'></a><a href='#L209'>209</a>
+<a name='L210'></a><a href='#L210'>210</a>
+<a name='L211'></a><a href='#L211'>211</a>
+<a name='L212'></a><a href='#L212'>212</a>
+<a name='L213'></a><a href='#L213'>213</a>
+<a name='L214'></a><a href='#L214'>214</a>
+<a name='L215'></a><a href='#L215'>215</a>
+<a name='L216'></a><a href='#L216'>216</a>
+<a name='L217'></a><a href='#L217'>217</a>
+<a name='L218'></a><a href='#L218'>218</a>
+<a name='L219'></a><a href='#L219'>219</a>
+<a name='L220'></a><a href='#L220'>220</a>
+<a name='L221'></a><a href='#L221'>221</a>
+<a name='L222'></a><a href='#L222'>222</a>
+<a name='L223'></a><a href='#L223'>223</a>
+<a name='L224'></a><a href='#L224'>224</a>
+<a name='L225'></a><a href='#L225'>225</a>
+<a name='L226'></a><a href='#L226'>226</a>
+<a name='L227'></a><a href='#L227'>227</a>
+<a name='L228'></a><a href='#L228'>228</a>
+<a name='L229'></a><a href='#L229'>229</a>
+<a name='L230'></a><a href='#L230'>230</a>
+<a name='L231'></a><a href='#L231'>231</a>
+<a name='L232'></a><a href='#L232'>232</a>
+<a name='L233'></a><a href='#L233'>233</a>
+<a name='L234'></a><a href='#L234'>234</a>
+<a name='L235'></a><a href='#L235'>235</a>
+<a name='L236'></a><a href='#L236'>236</a>
+<a name='L237'></a><a href='#L237'>237</a>
+<a name='L238'></a><a href='#L238'>238</a>
+<a name='L239'></a><a href='#L239'>239</a>
+<a name='L240'></a><a href='#L240'>240</a>
+<a name='L241'></a><a href='#L241'>241</a>
+<a name='L242'></a><a href='#L242'>242</a>
+<a name='L243'></a><a href='#L243'>243</a>
+<a name='L244'></a><a href='#L244'>244</a>
+<a name='L245'></a><a href='#L245'>245</a>
+<a name='L246'></a><a href='#L246'>246</a>
+<a name='L247'></a><a href='#L247'>247</a>
+<a name='L248'></a><a href='#L248'>248</a>
+<a name='L249'></a><a href='#L249'>249</a>
+<a name='L250'></a><a href='#L250'>250</a>
+<a name='L251'></a><a href='#L251'>251</a>
+<a name='L252'></a><a href='#L252'>252</a>
+<a name='L253'></a><a href='#L253'>253</a>
+<a name='L254'></a><a href='#L254'>254</a>
+<a name='L255'></a><a href='#L255'>255</a>
+<a name='L256'></a><a href='#L256'>256</a>
+<a name='L257'></a><a href='#L257'>257</a>
+<a name='L258'></a><a href='#L258'>258</a>
+<a name='L259'></a><a href='#L259'>259</a>
+<a name='L260'></a><a href='#L260'>260</a>
+<a name='L261'></a><a href='#L261'>261</a>
+<a name='L262'></a><a href='#L262'>262</a>
+<a name='L263'></a><a href='#L263'>263</a>
+<a name='L264'></a><a href='#L264'>264</a>
+<a name='L265'></a><a href='#L265'>265</a>
+<a name='L266'></a><a href='#L266'>266</a>
+<a name='L267'></a><a href='#L267'>267</a>
+<a name='L268'></a><a href='#L268'>268</a>
+<a name='L269'></a><a href='#L269'>269</a>
+<a name='L270'></a><a href='#L270'>270</a>
+<a name='L271'></a><a href='#L271'>271</a>
+<a name='L272'></a><a href='#L272'>272</a>
+<a name='L273'></a><a href='#L273'>273</a>
+<a name='L274'></a><a href='#L274'>274</a>
+<a name='L275'></a><a href='#L275'>275</a>
+<a name='L276'></a><a href='#L276'>276</a>
+<a name='L277'></a><a href='#L277'>277</a>
+<a name='L278'></a><a href='#L278'>278</a>
+<a name='L279'></a><a href='#L279'>279</a>
+<a name='L280'></a><a href='#L280'>280</a>
+<a name='L281'></a><a href='#L281'>281</a>
+<a name='L282'></a><a href='#L282'>282</a>
+<a name='L283'></a><a href='#L283'>283</a>
+<a name='L284'></a><a href='#L284'>284</a>
+<a name='L285'></a><a href='#L285'>285</a>
+<a name='L286'></a><a href='#L286'>286</a>
+<a name='L287'></a><a href='#L287'>287</a>
+<a name='L288'></a><a href='#L288'>288</a>
+<a name='L289'></a><a href='#L289'>289</a>
+<a name='L290'></a><a href='#L290'>290</a>
+<a name='L291'></a><a href='#L291'>291</a>
+<a name='L292'></a><a href='#L292'>292</a>
+<a name='L293'></a><a href='#L293'>293</a>
+<a name='L294'></a><a href='#L294'>294</a>
+<a name='L295'></a><a href='#L295'>295</a>
+<a name='L296'></a><a href='#L296'>296</a>
+<a name='L297'></a><a href='#L297'>297</a>
+<a name='L298'></a><a href='#L298'>298</a>
+<a name='L299'></a><a href='#L299'>299</a>
+<a name='L300'></a><a href='#L300'>300</a>
+<a name='L301'></a><a href='#L301'>301</a>
+<a name='L302'></a><a href='#L302'>302</a>
+<a name='L303'></a><a href='#L303'>303</a>
+<a name='L304'></a><a href='#L304'>304</a>
+<a name='L305'></a><a href='#L305'>305</a>
+<a name='L306'></a><a href='#L306'>306</a>
+<a name='L307'></a><a href='#L307'>307</a>
+<a name='L308'></a><a href='#L308'>308</a>
+<a name='L309'></a><a href='#L309'>309</a>
+<a name='L310'></a><a href='#L310'>310</a>
+<a name='L311'></a><a href='#L311'>311</a>
+<a name='L312'></a><a href='#L312'>312</a>
+<a name='L313'></a><a href='#L313'>313</a>
+<a name='L314'></a><a href='#L314'>314</a>
+<a name='L315'></a><a href='#L315'>315</a>
+<a name='L316'></a><a href='#L316'>316</a>
+<a name='L317'></a><a href='#L317'>317</a>
+<a name='L318'></a><a href='#L318'>318</a>
+<a name='L319'></a><a href='#L319'>319</a>
+<a name='L320'></a><a href='#L320'>320</a>
+<a name='L321'></a><a href='#L321'>321</a>
+<a name='L322'></a><a href='#L322'>322</a>
+<a name='L323'></a><a href='#L323'>323</a>
+<a name='L324'></a><a href='#L324'>324</a>
+<a name='L325'></a><a href='#L325'>325</a>
+<a name='L326'></a><a href='#L326'>326</a>
+<a name='L327'></a><a href='#L327'>327</a>
+<a name='L328'></a><a href='#L328'>328</a>
+<a name='L329'></a><a href='#L329'>329</a>
+<a name='L330'></a><a href='#L330'>330</a>
+<a name='L331'></a><a href='#L331'>331</a>
+<a name='L332'></a><a href='#L332'>332</a>
+<a name='L333'></a><a href='#L333'>333</a>
+<a name='L334'></a><a href='#L334'>334</a>
+<a name='L335'></a><a href='#L335'>335</a>
+<a name='L336'></a><a href='#L336'>336</a>
+<a name='L337'></a><a href='#L337'>337</a>
+<a name='L338'></a><a href='#L338'>338</a>
+<a name='L339'></a><a href='#L339'>339</a>
+<a name='L340'></a><a href='#L340'>340</a>
+<a name='L341'></a><a href='#L341'>341</a>
+<a name='L342'></a><a href='#L342'>342</a>
+<a name='L343'></a><a href='#L343'>343</a>
+<a name='L344'></a><a href='#L344'>344</a>
+<a name='L345'></a><a href='#L345'>345</a>
+<a name='L346'></a><a href='#L346'>346</a>
+<a name='L347'></a><a href='#L347'>347</a>
+<a name='L348'></a><a href='#L348'>348</a>
+<a name='L349'></a><a href='#L349'>349</a>
+<a name='L350'></a><a href='#L350'>350</a>
+<a name='L351'></a><a href='#L351'>351</a>
+<a name='L352'></a><a href='#L352'>352</a>
+<a name='L353'></a><a href='#L353'>353</a>
+<a name='L354'></a><a href='#L354'>354</a>
+<a name='L355'></a><a href='#L355'>355</a>
+<a name='L356'></a><a href='#L356'>356</a>
+<a name='L357'></a><a href='#L357'>357</a>
+<a name='L358'></a><a href='#L358'>358</a>
+<a name='L359'></a><a href='#L359'>359</a>
+<a name='L360'></a><a href='#L360'>360</a>
+<a name='L361'></a><a href='#L361'>361</a>
+<a name='L362'></a><a href='#L362'>362</a>
+<a name='L363'></a><a href='#L363'>363</a>
+<a name='L364'></a><a href='#L364'>364</a>
+<a name='L365'></a><a href='#L365'>365</a>
+<a name='L366'></a><a href='#L366'>366</a>
+<a name='L367'></a><a href='#L367'>367</a>
+<a name='L368'></a><a href='#L368'>368</a>
+<a name='L369'></a><a href='#L369'>369</a>
+<a name='L370'></a><a href='#L370'>370</a>
+<a name='L371'></a><a href='#L371'>371</a>
+<a name='L372'></a><a href='#L372'>372</a>
+<a name='L373'></a><a href='#L373'>373</a>
+<a name='L374'></a><a href='#L374'>374</a>
+<a name='L375'></a><a href='#L375'>375</a>
+<a name='L376'></a><a href='#L376'>376</a>
+<a name='L377'></a><a href='#L377'>377</a>
+<a name='L378'></a><a href='#L378'>378</a>
+<a name='L379'></a><a href='#L379'>379</a>
+<a name='L380'></a><a href='#L380'>380</a>
+<a name='L381'></a><a href='#L381'>381</a>
+<a name='L382'></a><a href='#L382'>382</a>
+<a name='L383'></a><a href='#L383'>383</a>
+<a name='L384'></a><a href='#L384'>384</a>
+<a name='L385'></a><a href='#L385'>385</a>
+<a name='L386'></a><a href='#L386'>386</a>
+<a name='L387'></a><a href='#L387'>387</a>
+<a name='L388'></a><a href='#L388'>388</a>
+<a name='L389'></a><a href='#L389'>389</a>
+<a name='L390'></a><a href='#L390'>390</a>
+<a name='L391'></a><a href='#L391'>391</a>
+<a name='L392'></a><a href='#L392'>392</a>
+<a name='L393'></a><a href='#L393'>393</a>
+<a name='L394'></a><a href='#L394'>394</a>
+<a name='L395'></a><a href='#L395'>395</a>
+<a name='L396'></a><a href='#L396'>396</a>
+<a name='L397'></a><a href='#L397'>397</a>
+<a name='L398'></a><a href='#L398'>398</a>
+<a name='L399'></a><a href='#L399'>399</a>
+<a name='L400'></a><a href='#L400'>400</a>
+<a name='L401'></a><a href='#L401'>401</a>
+<a name='L402'></a><a href='#L402'>402</a>
+<a name='L403'></a><a href='#L403'>403</a>
+<a name='L404'></a><a href='#L404'>404</a>
+<a name='L405'></a><a href='#L405'>405</a>
+<a name='L406'></a><a href='#L406'>406</a>
+<a name='L407'></a><a href='#L407'>407</a>
+<a name='L408'></a><a href='#L408'>408</a>
+<a name='L409'></a><a href='#L409'>409</a>
+<a name='L410'></a><a href='#L410'>410</a>
+<a name='L411'></a><a href='#L411'>411</a>
+<a name='L412'></a><a href='#L412'>412</a>
+<a name='L413'></a><a href='#L413'>413</a>
+<a name='L414'></a><a href='#L414'>414</a>
+<a name='L415'></a><a href='#L415'>415</a>
+<a name='L416'></a><a href='#L416'>416</a>
+<a name='L417'></a><a href='#L417'>417</a>
+<a name='L418'></a><a href='#L418'>418</a>
+<a name='L419'></a><a href='#L419'>419</a>
+<a name='L420'></a><a href='#L420'>420</a>
+<a name='L421'></a><a href='#L421'>421</a>
+<a name='L422'></a><a href='#L422'>422</a>
+<a name='L423'></a><a href='#L423'>423</a>
+<a name='L424'></a><a href='#L424'>424</a>
+<a name='L425'></a><a href='#L425'>425</a>
+<a name='L426'></a><a href='#L426'>426</a>
+<a name='L427'></a><a href='#L427'>427</a>
+<a name='L428'></a><a href='#L428'>428</a>
+<a name='L429'></a><a href='#L429'>429</a>
+<a name='L430'></a><a href='#L430'>430</a>
+<a name='L431'></a><a href='#L431'>431</a>
+<a name='L432'></a><a href='#L432'>432</a>
+<a name='L433'></a><a href='#L433'>433</a>
+<a name='L434'></a><a href='#L434'>434</a>
+<a name='L435'></a><a href='#L435'>435</a>
+<a name='L436'></a><a href='#L436'>436</a>
+<a name='L437'></a><a href='#L437'>437</a>
+<a name='L438'></a><a href='#L438'>438</a>
+<a name='L439'></a><a href='#L439'>439</a>
+<a name='L440'></a><a href='#L440'>440</a>
+<a name='L441'></a><a href='#L441'>441</a>
+<a name='L442'></a><a href='#L442'>442</a>
+<a name='L443'></a><a href='#L443'>443</a>
+<a name='L444'></a><a href='#L444'>444</a>
+<a name='L445'></a><a href='#L445'>445</a>
+<a name='L446'></a><a href='#L446'>446</a>
+<a name='L447'></a><a href='#L447'>447</a>
+<a name='L448'></a><a href='#L448'>448</a>
+<a name='L449'></a><a href='#L449'>449</a>
+<a name='L450'></a><a href='#L450'>450</a>
+<a name='L451'></a><a href='#L451'>451</a>
+<a name='L452'></a><a href='#L452'>452</a>
+<a name='L453'></a><a href='#L453'>453</a>
+<a name='L454'></a><a href='#L454'>454</a>
+<a name='L455'></a><a href='#L455'>455</a>
+<a name='L456'></a><a href='#L456'>456</a>
+<a name='L457'></a><a href='#L457'>457</a>
+<a name='L458'></a><a href='#L458'>458</a>
+<a name='L459'></a><a href='#L459'>459</a>
+<a name='L460'></a><a href='#L460'>460</a>
+<a name='L461'></a><a href='#L461'>461</a>
+<a name='L462'></a><a href='#L462'>462</a>
+<a name='L463'></a><a href='#L463'>463</a>
+<a name='L464'></a><a href='#L464'>464</a>
+<a name='L465'></a><a href='#L465'>465</a>
+<a name='L466'></a><a href='#L466'>466</a>
+<a name='L467'></a><a href='#L467'>467</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">19x</span>
+<span class="cline-any cline-yes">19x</span>
+<span class="cline-any cline-yes">19x</span>
+<span class="cline-any cline-yes">19x</span>
+<span class="cline-any cline-yes">19x</span>
+<span class="cline-any cline-yes">19x</span>
+<span class="cline-any cline-yes">19x</span>
+<span class="cline-any cline-yes">19x</span>
+<span class="cline-any cline-yes">19x</span>
+<span class="cline-any cline-yes">19x</span>
+<span class="cline-any cline-yes">19x</span>
+<span class="cline-any cline-yes">19x</span>
+<span class="cline-any cline-yes">19x</span>
+<span class="cline-any cline-yes">19x</span>
+<span class="cline-any cline-yes">19x</span>
+<span class="cline-any cline-yes">19x</span>
+<span class="cline-any cline-yes">19x</span>
+<span class="cline-any cline-yes">19x</span>
+<span class="cline-any cline-yes">19x</span>
+<span class="cline-any cline-yes">19x</span>
+<span class="cline-any cline-yes">19x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">19x</span>
+<span class="cline-any cline-yes">19x</span>
+<span class="cline-any cline-yes">19x</span>
+<span class="cline-any cline-yes">19x</span>
+<span class="cline-any cline-yes">19x</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">19x</span>
+<span class="cline-any cline-yes">19x</span>
+<span class="cline-any cline-yes">19x</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">19x</span>
+<span class="cline-any cline-yes">19x</span>
+<span class="cline-any cline-yes">19x</span>
+<span class="cline-any cline-yes">19x</span>
+<span class="cline-any cline-yes">19x</span>
+<span class="cline-any cline-yes">19x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">19x</span>
+<span class="cline-any cline-yes">19x</span>
+<span class="cline-any cline-yes">19x</span>
+<span class="cline-any cline-yes">19x</span>
+<span class="cline-any cline-yes">19x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">19x</span>
+<span class="cline-any cline-yes">19x</span>
+<span class="cline-any cline-yes">19x</span>
+<span class="cline-any cline-yes">19x</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">9x</span>
+<span class="cline-any cline-yes">9x</span>
+<span class="cline-any cline-yes">9x</span>
+<span class="cline-any cline-yes">9x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">9x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">19x</span>
+<span class="cline-any cline-yes">19x</span>
+<span class="cline-any cline-yes">19x</span>
+<span class="cline-any cline-yes">19x</span>
+<span class="cline-any cline-yes">19x</span>
+<span class="cline-any cline-yes">19x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">19x</span>
+<span class="cline-any cline-yes">19x</span>
+<span class="cline-any cline-yes">19x</span>
+<span class="cline-any cline-yes">19x</span>
+<span class="cline-any cline-yes">19x</span>
+<span class="cline-any cline-yes">19x</span>
+<span class="cline-any cline-yes">19x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">19x</span>
+<span class="cline-any cline-yes">19x</span>
+<span class="cline-any cline-yes">19x</span>
+<span class="cline-any cline-yes">19x</span>
+<span class="cline-any cline-yes">19x</span>
+<span class="cline-any cline-yes">19x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">19x</span>
+<span class="cline-any cline-yes">19x</span>
+<span class="cline-any cline-yes">19x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">19x</span>
+<span class="cline-any cline-yes">19x</span>
+<span class="cline-any cline-yes">19x</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">19x</span>
+<span class="cline-any cline-yes">19x</span>
+<span class="cline-any cline-yes">19x</span>
+<span class="cline-any cline-yes">19x</span>
+<span class="cline-any cline-yes">19x</span>
+<span class="cline-any cline-yes">19x</span>
+<span class="cline-any cline-yes">19x</span>
+<span class="cline-any cline-yes">19x</span>
+<span class="cline-any cline-yes">19x</span>
+<span class="cline-any cline-yes">19x</span>
+<span class="cline-any cline-yes">19x</span>
+<span class="cline-any cline-yes">19x</span>
+<span class="cline-any cline-yes">19x</span>
+<span class="cline-any cline-yes">19x</span>
+<span class="cline-any cline-yes">19x</span>
+<span class="cline-any cline-yes">19x</span>
+<span class="cline-any cline-yes">19x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">19x</span>
+<span class="cline-any cline-yes">19x</span>
+<span class="cline-any cline-yes">19x</span>
+<span class="cline-any cline-yes">19x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">19x</span>
+<span class="cline-any cline-yes">19x</span>
+<span class="cline-any cline-yes">19x</span>
+<span class="cline-any cline-yes">19x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">19x</span>
+<span class="cline-any cline-yes">19x</span>
+<span class="cline-any cline-yes">19x</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">const express = require('express');
+const bcrypt = require('bcryptjs');
+const { temporaryPassword } = require('../lib/temporaryPassword');
+const { supabaseAdmin } = require('../config/supabase');
+const { sendMail } = require('../config/mailer');
+const { requireAuth, requireRole } = require('../middleware/auth');
+const { buildReadingProfile } = require('../services/readingInsights');
+const { loadCompletedContentIds } = require('../services/readingProfileData');
+const { createSupabaseAuthorizationService } = require('../services/authorization');
+const { validateUuidParam, isBoundedString, isGrade } = require('../lib/validation');
+const { credentialLimiter } = require('../lib/rateLimiters');
+const { safeCredentialStatus } = require('../services/credentialSecurity');
+const { createMaterialAccessService } = require('../services/materialAccess');
+&nbsp;
+const router = express.Router();
+router.use(requireAuth, requireRole('parent'));
+const authorization = createSupabaseAuthorizationService(supabaseAdmin);
+const materialAccess = createMaterialAccessService(supabaseAdmin);
+&nbsp;
+// Mirrors mobile's backend/routes/auth.js difficultyFromGrade -- keep these in sync.
+const difficultyFromGrade = (gradeLevel) =&gt; {
+  if (gradeLevel &lt;= 2) return 'Beginner';
+  if (gradeLevel &lt;= 4) <span class="branch-0 cbranch-no" title="branch not covered" >return 'Intermediate';</span>
+  return 'Advanced';
+};
+&nbsp;
+const escapeIlikePattern = (value) =&gt; String(value <span class="branch-0 cbranch-no" title="branch not covered" >|| '')</span>.replace(/[\\%_]/g, (match) =&gt; `\\${match}`);
+&nbsp;
+const makeStudentUsernameBase = (name) =&gt; {
+  const parts = String(name <span class="branch-0 cbranch-no" title="branch not covered" >|| '')</span>
+    .trim()
+    .toLowerCase()
+    .replace(/[^a-z\s]/g, '')
+    .split(/\s+/)
+    .filter(Boolean);
+  const first = parts[0] <span class="branch-0 cbranch-no" title="branch not covered" >|| 'bata';</span>
+  const last = parts.length &gt; 1 ? parts[parts.length - 1] <span class="branch-0 cbranch-no" title="branch not covered" >: first;</span>
+  return `${first[0] <span class="branch-0 cbranch-no" title="branch not covered" >|| 'b'}</span>${last}`.replace(/\s+/g, '');
+};
+&nbsp;
+const getAvailableStudentUsername = async (name) =&gt; {
+  const base = makeStudentUsernameBase(name);
+  for (let suffix = 0; suffix &lt; 50; suffix += 1) {
+    const candidate = `${base}${suffix === 0 ? '' <span class="branch-0 cbranch-no" title="branch not covered" >: suffix + 1}</span>@linawletra.edu.ph`;
+    const { data, error } = await supabaseAdmin.from('children').select('id').eq('username', candidate).maybeSingle();
+    if (error) <span class="branch-0 cbranch-no" title="branch not covered" >throw error;</span>
+    if (!data) return candidate;
+  }
+<span class="cstat-no" title="statement not covered" ><span class="branch-0 cbranch-no" title="branch not covered" >  return `${base}${Date.now()}@linawletra.edu.ph`;</span></span>
+};
+&nbsp;
+const makeStudentPassword = temporaryPassword;
+&nbsp;
+// Safe status only. Credential columns never leave the server.
+router.get('/children/credential-security', async (req, res) =&gt; {
+  try {
+    const { data: children, error: childrenError } = await supabaseAdmin.from('children').select('id').eq('parent_id', req.user.id);
+    if (childrenError) throw childrenError;
+<span class="branch-0 cbranch-no" title="branch not covered" >    const childIds = (children || [])</span>.map((child) =&gt; child.id);
+    if (!childIds.length) <span class="branch-0 cbranch-no" title="branch not covered" >return res.json({ children: [] });</span>
+<span class="cstat-no" title="statement not covered" >    const { data: rows, error } = await supabaseAdmin</span>
+<span class="cstat-no" title="statement not covered" >      .from('child_credentials')</span>
+<span class="cstat-no" title="statement not covered" >      .select('child_id, plain_password, password_rotated_at, plaintext_retired_at')</span>
+<span class="cstat-no" title="statement not covered" >      .in('child_id', childIds);</span>
+<span class="cstat-no" title="statement not covered" >    if (error) throw error;</span>
+    const byChild = new Map((rows || []).map((row) =&gt; [row.child_id, row]));
+    res.json({ children: childIds.map((childId) =&gt; ({ childId, ...safeCredentialStatus(byChild.get(childId)) })) });
+  } catch (err) {
+    console.error('[parent credential-security]', err);
+    res.status(500).json({ error: 'Unable to load password security status.' });
+  }
+});
+&nbsp;
+// Placement overrides are server-owned. Return the effective level together
+// with each child's progress so the parent portal never shows a stale label.
+router.get('/children', async (req, res) =&gt; {
+  try {
+    const { data: children, error: childrenError } = await supabaseAdmin
+      .from('children')
+      .select('id, name, grade_level, username')
+      .eq('parent_id', req.user.id)
+      .order('grade_level');
+    if (childrenError) throw childrenError;
+&nbsp;
+    const childIds = (children <span class="branch-0 cbranch-no" title="branch not covered" >|| [])</span>.map((child) =&gt; child.id);
+    if (!childIds.length) <span class="branch-0 cbranch-no" title="branch not covered" >return res.json({ children: [] });</span>
+    const [{ data: progress, error: progressError }, { data: overrides, error: overrideError }] = await Promise.all([
+      supabaseAdmin.from('child_progress').select('child_id, level, xp, streak, activities_completed, accuracy_sum, total_attempts, updated_at').in('child_id', childIds),
+      supabaseAdmin.from('student_reading_level_overrides').select('student_id, override_level').in('student_id', childIds).is('revoked_at', null),
+    ]);
+    if (progressError) <span class="branch-0 cbranch-no" title="branch not covered" >throw progressError;</span>
+    if (overrideError) <span class="branch-0 cbranch-no" title="branch not covered" >throw overrideError;</span>
+&nbsp;
+    const progressByChild = new Map((progress <span class="branch-0 cbranch-no" title="branch not covered" >|| [])</span>.map((row) =&gt; [row.child_id, row]));
+    const overrideByChild = new Map((overrides <span class="branch-0 cbranch-no" title="branch not covered" >|| [])</span>.map((row) =&gt; [row.student_id, row.override_level]));
+    res.json({ children: (children <span class="branch-0 cbranch-no" title="branch not covered" >|| [])</span>.map((child) =&gt; {
+      const saved = progressByChild.get(child.id);
+      return {
+        ...child,
+        level: overrideByChild.get(child.id) || saved<span class="branch-0 cbranch-no" title="branch not covered" >?.level </span>|| difficultyFromGrade(child.grade_level),
+        xp: saved?.xp || 0,
+        streak: saved?.streak || 0,
+        activities_completed: saved?.activities_completed || 0,
+        accuracy_sum: saved?.accuracy_sum || 0,
+        total_attempts: saved?.total_attempts || 0,
+        progress_updated_at: saved?.updated_at || null,
+      };
+    }) });
+  } catch (err) {
+    console.error('[parent children list]', err);
+    res.status(500).json({ error: 'Hindi ma-load ang mga account ng anak ngayon.' });
+  }
+});
+&nbsp;
+// POST /parent/children  { childName, gradeLevel }
+router.post('/children', async (req, res) =&gt; {
+  let createdAuthUid = null;
+  try {
+    const parentId = req.user.id;
+    const parentEmail = req.user.email;
+    const { childName, gradeLevel } = req.body <span class="branch-0 cbranch-no" title="branch not covered" >|| {};</span>
+    const cleanName = String(childName || '').trim();
+    const finalGradeLevel = Number(gradeLevel);
+&nbsp;
+    if (!parentEmail || typeof childName !== 'string' || cleanName.length &lt; 2 || cleanName.length &gt; 100 || !isGrade(gradeLevel)) {
+      return res.status(400).json({ error: 'Kailangan ng pangalan at grade level (1-6).' });
+    }
+&nbsp;
+    const { data: existingEnrollment, error: existingErr } = await supabaseAdmin
+      .from('children')
+      .select('id')
+      .eq('parent_id', parentId)
+      .eq('grade_level', finalGradeLevel)
+      .ilike('name', escapeIlikePattern(cleanName))
+      .limit(1)
+      .maybeSingle();
+    if (existingErr) <span class="branch-0 cbranch-no" title="branch not covered" >throw existingErr;</span>
+    if (existingEnrollment) {
+      return res.status(409).json({ error: 'Naka-enroll na ang mag-aaral na ito sa grade level na ito.' });
+    }
+&nbsp;
+    // Every learner begins with the foundation path. Higher difficulties are
+    // earned automatically after completing the previous level.
+    const level = 'Beginner';
+    const authEmail = await getAvailableStudentUsername(cleanName);
+    const password = makeStudentPassword();
+&nbsp;
+    const { data: created, error: createErr } = await supabaseAdmin.auth.admin.createUser({
+      email: authEmail,
+      password,
+      user_metadata: { displayName: cleanName, role: 'student', parentId },
+      email_confirm: true,
+    });
+    if (createErr) <span class="branch-0 cbranch-no" title="branch not covered" >throw createErr;</span>
+    createdAuthUid = created.user.id;
+&nbsp;
+    const { data: childRow, error: childErr } = await supabaseAdmin
+      .from('children')
+      .insert({
+        parent_id: parentId,
+        name: cleanName,
+        grade_level: finalGradeLevel,
+        username: authEmail,
+        auth_uid: createdAuthUid,
+      })
+      .select()
+      .single();
+    if (childErr) <span class="branch-0 cbranch-no" title="branch not covered" >throw childErr;</span>
+&nbsp;
+    const { error: profileErr } = await supabaseAdmin.from('users').upsert({
+      id: createdAuthUid,
+      name: cleanName,
+      email: authEmail,
+      role: 'student',
+      parent_id: parentId,
+      email_verified: true,
+    });
+    if (profileErr) throw profileErr;
+&nbsp;
+    const { error: progressErr } = await supabaseAdmin.from('child_progress').insert({
+      child_id: childRow.id,
+      level,
+      xp: 0,
+      streak: 0,
+      completed_words: [],
+      total_attempts: 0,
+      achievements: [],
+      badges: [],
+    });
+    if (progressErr) <span class="branch-0 cbranch-no" title="branch not covered" >throw progressErr;</span>
+&nbsp;
+    const hashedPassword = await bcrypt.hash(password, 12);
+    const { error: credentialsErr } = await supabaseAdmin.from('child_credentials').insert({
+      child_id: childRow.id,
+      username: authEmail,
+      hashed_password: hashedPassword,
+      plain_password: null,
+      password_rotated_at: new Date().toISOString(),
+      plaintext_retired_at: new Date().toISOString(),
+      sent_at: new Date().toISOString(),
+    });
+    if (credentialsErr) <span class="branch-0 cbranch-no" title="branch not covered" >throw credentialsErr;</span>
+&nbsp;
+    // Auto-roster: link this new student to every teacher already assigned to this grade level.
+    const { data: matchingTeachers, error: teachersErr } = await supabaseAdmin
+      .from('teacher_profiles')
+      .select('user_id')
+      .contains('grade_levels', [finalGradeLevel]);
+    if (teachersErr) <span class="branch-0 cbranch-no" title="branch not covered" >throw teachersErr;</span>
+    if (matchingTeachers &amp;&amp; matchingTeachers.length &gt; 0) <span class="branch-0 cbranch-no" title="branch not covered" >{</span>
+<span class="cstat-no" title="statement not covered" >      const { error: linkErr } = await supabaseAdmin.from('teacher_student_links').upsert(</span>
+<span class="cstat-no" title="statement not covered" >        matchingTeachers.map((t) =&gt; ({ teacher_id: t.user_id, student_id: childRow.id, assigned_by: parentId })),</span>
+<span class="cstat-no" title="statement not covered" >        { onConflict: 'teacher_id,student_id', ignoreDuplicates: true },</span>
+<span class="cstat-no" title="statement not covered" >      );</span>
+<span class="cstat-no" title="statement not covered" >      if (linkErr) throw linkErr;</span>
+<span class="cstat-no" title="statement not covered" >    }</span>
+&nbsp;
+    // A sent email is useful, but the on-screen one-time credential is enough
+    // to complete enrollment. Do not discard a valid account if SMTP fails.
+    await sendMail({
+      to: parentEmail,
+      subject: 'LinawLetra — Naka-enroll na ang Inyong Anak',
+      text: `Magandang araw!\n\nNaka-enroll na si ${cleanName} sa LinawLetra (Grade ${finalGradeLevel}, ${level} na reading level).\n\nUsername: ${authEmail}\nPassword: ${password}\n\nItago ang detalyeng ito.`,
+    }).catch((mailError) =&gt; console.error('[parent child enrollment email]', mailError));
+&nbsp;
+    res.json({ success: true, child: childRow, level, username: authEmail, temporaryPassword: password });
+  } catch (err) {
+    console.error('[parent/children create]', err);
+    if (createdAuthUid) {
+      // Every compensation must be attempted even if an earlier service fails.
+      // This remains best effort across Auth and PostgREST, not a transaction.
+      const cleanupSteps = [
+        () =&gt; supabaseAdmin.from('children').delete().eq('auth_uid', createdAuthUid),
+        () =&gt; supabaseAdmin.from('users').delete().eq('id', createdAuthUid),
+        () =&gt; supabaseAdmin.auth.admin.deleteUser(createdAuthUid),
+      ];
+      for (const cleanup of cleanupSteps) {
+        try {
+          const result = await cleanup();
+          if (result?.error) console.error('[parent enrollment cleanup]', result.error);
+        } catch (cleanupError) {
+          console.error('[parent enrollment cleanup]', cleanupError);
+        }
+      }
+    }
+    res.status(500).json({ error: 'Hindi na-enroll ang bata.' });
+  }
+});
+&nbsp;
+// POST /parent/children/:id/reading-level
+// Kept as a compatibility endpoint for older clients. Reading levels are no
+// longer parent-selectable: the student route advances them after completion.
+router.post('/children/:id/reading-level', validateUuidParam('id'), async (req, res) =&gt; {
+<span class="cstat-no" title="statement not covered" >  try {</span>
+<span class="cstat-no" title="statement not covered" >    const { id } = req.params;</span>
+<span class="cstat-no" title="statement not covered" >    const child = await authorization.parentChild(req.user.id, id);</span>
+<span class="cstat-no" title="statement not covered" >    if (!child) return res.status(403).json({ error: 'Not your child account.' });</span>
+<span class="cstat-no" title="statement not covered" >    return res.status(403).json({ error: 'Awtomatikong naa-unlock ang susunod na level matapos makumpleto ang kasalukuyang modyul at passing score.' });</span>
+<span class="cstat-no" title="statement not covered" >  } catch (err) {</span>
+<span class="cstat-no" title="statement not covered" >    console.error('[parent/children/:id/reading-level]', err);</span>
+<span class="cstat-no" title="statement not covered" >    res.status(500).json({ error: 'Unable to update reading level.' });</span>
+<span class="cstat-no" title="statement not covered" >  }</span>
+});
+&nbsp;
+// GET /parent/children/:id/reading-profile
+// Same computation as GET /student/reading-profile, scoped to one of this
+// parent's own children (ownership re-checked here, not just trusted from
+// the URL param).
+router.get('/children/:id/reading-profile', validateUuidParam('id'), async (req, res) =&gt; {
+  try {
+    const { id } = req.params;
+    const child = await authorization.parentChild(req.user.id, id);
+<span class="cstat-no" title="statement not covered" ><span class="branch-0 cbranch-no" title="branch not covered" >    if (!child) {</span></span>
+<span class="cstat-no" title="statement not covered" >      return res.status(404).json({ error: 'Child not found for this parent.' });</span>
+<span class="cstat-no" title="statement not covered" >    }</span>
+<span class="cstat-no" title="statement not covered" ></span>
+<span class="cstat-no" title="statement not covered" >    const [sessionsResult, confusionsResult, completions] = await Promise.all([</span>
+<span class="cstat-no" title="statement not covered" >      supabaseAdmin</span>
+<span class="cstat-no" title="statement not covered" >        .from('pronunciation_practice_sessions')</span>
+<span class="cstat-no" title="statement not covered" >        .select('id,word,spoken_text,accuracy_percentage,is_correct,duration_seconds,practice_source,created_at')</span>
+<span class="cstat-no" title="statement not covered" >        .eq('student_id', child.id)</span>
+<span class="cstat-no" title="statement not covered" >        .order('created_at', { ascending: true })</span>
+<span class="cstat-no" title="statement not covered" >        .limit(500),</span>
+<span class="cstat-no" title="statement not covered" >      supabaseAdmin</span>
+<span class="cstat-no" title="statement not covered" >        .from('phoneme_confusion')</span>
+<span class="cstat-no" title="statement not covered" >        .select('confusion_key,target_word,source,created_at')</span>
+<span class="cstat-no" title="statement not covered" >        .eq('student_id', child.id)</span>
+<span class="cstat-no" title="statement not covered" >        .order('created_at', { ascending: true })</span>
+<span class="cstat-no" title="statement not covered" >        .limit(1000),</span>
+<span class="cstat-no" title="statement not covered" >      loadCompletedContentIds(supabaseAdmin, child.id),</span>
+<span class="cstat-no" title="statement not covered" >    ]);</span>
+<span class="cstat-no" title="statement not covered" >    if (sessionsResult.error) throw sessionsResult.error;</span>
+<span class="cstat-no" title="statement not covered" >    if (confusionsResult.error) throw confusionsResult.error;</span>
+<span class="cstat-no" title="statement not covered" ></span>
+<span class="cstat-no" title="statement not covered" >    const profile = buildReadingProfile({</span>
+      sessions: sessionsResult.data || [],
+      confusions: confusionsResult.data <span class="branch-0 cbranch-no" title="branch not covered" >|| [],</span>
+      completions: completions.map((content_id) =&gt; ({ content_id })),
+    });
+    res.json({ student: { id: child.id, name: child.name }, profile });
+  } catch (err) {
+    console.error('[parent/children/:id/reading-profile]', err);
+    res.status(500).json({ error: 'Unable to build the reading profile.' });
+  }
+});
+&nbsp;
+// Share the student's authoritative progress summary with their own parent.
+// The curriculum RPC is also used by the student portal, so module totals and
+// completion states stay consistent across both dashboards.
+router.get('/children/:id/learning-path', validateUuidParam('id'), async (req, res) =&gt; {
+  try {
+    const child = await authorization.parentChild(req.user.id, req.params.id);
+    if (!child) return res.status(404).json({ error: 'Child not found for this parent.' });
+    const { data, error } = await supabaseAdmin.rpc('get_student_module_path', { p_student_id: child.id });
+    if (error) <span class="branch-0 cbranch-no" title="branch not covered" >throw error;</span>
+    res.json(data);
+  } catch (err) {
+    console.error('[parent/children/:id/learning-path]', err);
+    res.status(500).json({ error: 'Unable to load the learning path.' });
+  }
+});
+&nbsp;
+router.get('/children/:id/materials', validateUuidParam('id'), async (req, res) =&gt; {
+  try {
+    const child = await authorization.parentChild(req.user.id, req.params.id);
+    if (!child) return res.status(404).json({ error: 'Child not found for this parent.' });
+    const { data, error } = await supabaseAdmin.from('pdf_assignments')
+      .select('id,status,due_date,assigned_at,pdf_materials(id,title,grade_level,level,archived_at)')
+      .eq('student_id', child.id).order('assigned_at', { ascending: false });
+    if (error) throw error;
+    res.json({ assignments: (data <span class="branch-0 cbranch-no" title="branch not covered" >|| [])</span>.filter((assignment) =&gt; assignment.pdf_materials &amp;&amp; !assignment.pdf_materials.archived_at) });
+  } catch (err) {
+    console.error('[parent/children/:id/materials]', err);
+    res.status(500).json({ error: 'Unable to load assigned learning materials.' });
+  }
+});
+&nbsp;
+router.get('/children/:id/materials/:assignmentId/access-url', validateUuidParam('id'), validateUuidParam('assignmentId'), async (req, res) =&gt; {
+  try {
+    const child = await authorization.parentChild(req.user.id, req.params.id);
+    if (!child) return res.status(404).json({ error: 'Child not found for this parent.' });
+    const { data: assignment, error: assignmentError } = await supabaseAdmin.from('pdf_assignments')
+      .select('pdf_material_id').eq('id', req.params.assignmentId).eq('student_id', child.id).maybeSingle();
+    if (assignmentError) throw assignmentError;
+    if (!assignment) return res.status(404).json({ error: 'Material not assigned to this child.' });
+    const { data: material, error } = await supabaseAdmin.from('pdf_materials')
+      .select('id,storage_path,storage_bucket,file_url,legacy_public_url').eq('id', assignment.pdf_material_id).is('archived_at', null).maybeSingle();
+    if (error) <span class="branch-0 cbranch-no" title="branch not covered" >throw error;</span>
+    if (!material) return res.status(404).json({ error: 'Material not found.' });
+    res.json(await materialAccess.accessUrl(material));
+  } catch (err) {
+    console.error('[parent/material access-url]', err);
+    res.status(500).json({ error: 'Unable to open this learning material.' });
+  }
+});
+&nbsp;
+const STUDENT_ACCESSIBILITY_DEFAULTS = {
+  dyslexia_font: true,
+  font_size: 'medium',
+  high_contrast: false,
+  reading_guide: false,
+  tts_enabled: true,
+};
+&nbsp;
+const loadOwnedChild = (childId, parentId) =&gt; authorization.parentChild(parentId, childId);
+&nbsp;
+// GET /parent/children/:id/settings
+// student_settings RLS only allows a student's own auth session to read/write
+// their row -- there's no parent-facing policy, so this (and the PATCH below)
+// go through the service-role client with ownership re-checked via `children`.
+router.get('/children/:id/settings', validateUuidParam('id'), async (req, res) =&gt; {
+  try {
+    const child = await loadOwnedChild(req.params.id, req.user.id);
+<span class="cstat-no" title="statement not covered" ><span class="branch-0 cbranch-no" title="branch not covered" >    if (!child) return res.status(404).json({ error: 'Child not found for this parent.' });</span></span>
+<span class="cstat-no" title="statement not covered" >    if (!child.auth_uid) return res.status(409).json({ error: 'Ang batang ito ay wala pang student login.' });</span>
+<span class="cstat-no" title="statement not covered" ></span>
+<span class="cstat-no" title="statement not covered" >    const { data, error } = await supabaseAdmin</span>
+<span class="cstat-no" title="statement not covered" >      .from('student_settings')</span>
+<span class="cstat-no" title="statement not covered" >      .select('dyslexia_font, font_size, high_contrast, reading_guide, tts_enabled')</span>
+<span class="cstat-no" title="statement not covered" >      .eq('auth_uid', child.auth_uid)</span>
+<span class="cstat-no" title="statement not covered" >      .maybeSingle();</span>
+<span class="cstat-no" title="statement not covered" >    if (error) throw error;</span>
+<span class="cstat-no" title="statement not covered" >    if (data) return res.json({ settings: { ...STUDENT_ACCESSIBILITY_DEFAULTS, ...data } });</span>
+<span class="cstat-no" title="statement not covered" ></span>
+<span class="cstat-no" title="statement not covered" >    const { data: inserted, error: insertErr } = await supabaseAdmin</span>
+<span class="cstat-no" title="statement not covered" >      .from('student_settings')</span>
+<span class="cstat-no" title="statement not covered" >      .insert({ auth_uid: child.auth_uid, ...STUDENT_ACCESSIBILITY_DEFAULTS })</span>
+<span class="cstat-no" title="statement not covered" >      .select('dyslexia_font, font_size, high_contrast, reading_guide, tts_enabled')</span>
+<span class="cstat-no" title="statement not covered" >      .single();</span>
+<span class="cstat-no" title="statement not covered" >    if (insertErr) throw insertErr;</span>
+<span class="cstat-no" title="statement not covered" >    res.json({ settings: inserted });</span>
+  } catch (err) {
+    console.error('[parent/children/:id/settings get]', err);
+    res.status(500).json({ error: 'Unable to load accessibility settings.' });
+  }
+});
+&nbsp;
+// PATCH /parent/children/:id/settings  { dyslexia_font?, font_size?, high_contrast?, reading_guide?, tts_enabled? }
+router.patch('/children/:id/settings', validateUuidParam('id'), async (req, res) =&gt; {
+<span class="cstat-no" title="statement not covered" >  try {</span>
+<span class="cstat-no" title="statement not covered" >    const child = await loadOwnedChild(req.params.id, req.user.id);</span>
+<span class="cstat-no" title="statement not covered" >    if (!child) return res.status(404).json({ error: 'Child not found for this parent.' });</span>
+<span class="cstat-no" title="statement not covered" >    if (!child.auth_uid) return res.status(409).json({ error: 'Ang batang ito ay wala pang student login.' });</span>
+<span class="cstat-no" title="statement not covered" ></span>
+<span class="cstat-no" title="statement not covered" >    const patch = {};</span>
+<span class="cstat-no" title="statement not covered" >    for (const key of Object.keys(STUDENT_ACCESSIBILITY_DEFAULTS)) {</span>
+<span class="cstat-no" title="statement not covered" >      if (req.body?.[key] !== undefined) patch[key] = req.body[key];</span>
+<span class="cstat-no" title="statement not covered" >    }</span>
+<span class="cstat-no" title="statement not covered" >    if (!Object.keys(patch).length) return res.status(400).json({ error: 'No recognized settings were provided.' });</span>
+<span class="cstat-no" title="statement not covered" >    if (patch.font_size !== undefined &amp;&amp; !['small', 'medium', 'large'].includes(patch.font_size)) {</span>
+<span class="cstat-no" title="statement not covered" >      return res.status(400).json({ error: 'Invalid font size.' });</span>
+<span class="cstat-no" title="statement not covered" >    }</span>
+<span class="cstat-no" title="statement not covered" >    for (const key of ['dyslexia_font', 'high_contrast', 'reading_guide', 'tts_enabled']) {</span>
+<span class="cstat-no" title="statement not covered" >      if (patch[key] !== undefined &amp;&amp; typeof patch[key] !== 'boolean') return res.status(400).json({ error: `Invalid ${key} setting.` });</span>
+<span class="cstat-no" title="statement not covered" >    }</span>
+<span class="cstat-no" title="statement not covered" ></span>
+<span class="cstat-no" title="statement not covered" >    const { data, error } = await supabaseAdmin</span>
+<span class="cstat-no" title="statement not covered" >      .from('student_settings')</span>
+<span class="cstat-no" title="statement not covered" >      .upsert({ auth_uid: child.auth_uid, ...patch }, { onConflict: 'auth_uid' })</span>
+<span class="cstat-no" title="statement not covered" >      .select('dyslexia_font, font_size, high_contrast, reading_guide, tts_enabled')</span>
+<span class="cstat-no" title="statement not covered" >      .single();</span>
+<span class="cstat-no" title="statement not covered" >    if (error) throw error;</span>
+<span class="cstat-no" title="statement not covered" >    res.json({ settings: data });</span>
+<span class="cstat-no" title="statement not covered" >  } catch (err) {</span>
+<span class="cstat-no" title="statement not covered" >    console.error('[parent/children/:id/settings patch]', err);</span>
+<span class="cstat-no" title="statement not covered" >    res.status(500).json({ error: 'Unable to update accessibility settings.' });</span>
+<span class="cstat-no" title="statement not covered" >  }</span>
+});
+&nbsp;
+// A parent may rotate, but never retrieve, an existing student password.
+router.post('/children/:id/reset-password', validateUuidParam('id'), credentialLimiter, async (req, res) =&gt; {
+<span class="cstat-no" title="statement not covered" >  try {</span>
+<span class="cstat-no" title="statement not covered" >    const child = await loadOwnedChild(req.params.id, req.user.id);</span>
+<span class="cstat-no" title="statement not covered" >    if (!child?.auth_uid) return res.status(404).json({ error: 'Child account not found.' });</span>
+<span class="cstat-no" title="statement not covered" >    const password = makeStudentPassword();</span>
+<span class="cstat-no" title="statement not covered" >    const { error: authError } = await supabaseAdmin.auth.admin.updateUserById(child.auth_uid, { password });</span>
+<span class="cstat-no" title="statement not covered" >    if (authError) throw authError;</span>
+<span class="cstat-no" title="statement not covered" ></span>
+<span class="cstat-no" title="statement not covered" >    const now = new Date().toISOString();</span>
+<span class="cstat-no" title="statement not covered" >    const hashedPassword = await bcrypt.hash(password, 12);</span>
+<span class="cstat-no" title="statement not covered" >    const { error: credentialError } = await supabaseAdmin.from('child_credentials').upsert({</span>
+<span class="cstat-no" title="statement not covered" >      child_id: child.id,</span>
+<span class="cstat-no" title="statement not covered" >      username: child.username,</span>
+<span class="cstat-no" title="statement not covered" >      hashed_password: hashedPassword,</span>
+<span class="cstat-no" title="statement not covered" >      plain_password: null,</span>
+<span class="cstat-no" title="statement not covered" >      password_rotated_at: now,</span>
+<span class="cstat-no" title="statement not covered" >      plaintext_retired_at: now,</span>
+<span class="cstat-no" title="statement not covered" >      sent_at: now,</span>
+<span class="cstat-no" title="statement not covered" >    }, { onConflict: 'child_id' });</span>
+<span class="cstat-no" title="statement not covered" >    if (credentialError) console.error('[parent child credential metadata]', credentialError);</span>
+<span class="cstat-no" title="statement not covered" ></span>
+<span class="cstat-no" title="statement not covered" >    if (req.user.email &amp;&amp; isBoundedString(req.user.email, 254, { allowEmpty: false })) {</span>
+<span class="cstat-no" title="statement not covered" >      await sendMail({</span>
+<span class="cstat-no" title="statement not covered" >        to: req.user.email,</span>
+<span class="cstat-no" title="statement not covered" >        subject: 'LinawLetra — Bagong Student Password',</span>
+<span class="cstat-no" title="statement not covered" >        text: `Na-reset ang password ni ${child.name}.\n\nUsername: ${child.username}\nTemporary password: ${password}\n\nMag-login at palitan ito. Hindi mai-retrieve ng LinawLetra ang lumang password.`,</span>
+<span class="cstat-no" title="statement not covered" >      }).catch((mailError) =&gt; console.error('[parent child reset email]', mailError));</span>
+<span class="cstat-no" title="statement not covered" >    }</span>
+<span class="cstat-no" title="statement not covered" >    res.json({ success: true, username: child.username, temporaryPassword: password });</span>
+<span class="cstat-no" title="statement not covered" >  } catch (err) {</span>
+<span class="cstat-no" title="statement not covered" >    console.error('[parent child reset password]', err);</span>
+<span class="cstat-no" title="statement not covered" >    res.status(500).json({ error: 'Hindi ma-reset ang student password ngayon.' });</span>
+<span class="cstat-no" title="statement not covered" >  }</span>
+});
+&nbsp;
+module.exports = router;
+&nbsp;</pre></td></tr></table></pre>
+
+                <div class='push'></div><!-- for sticky footer -->
+            </div><!-- /wrapper -->
+            <div class='footer quiet pad2 space-top1 center small'>
+                Code coverage generated by
+                <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
+                at 2026-10-21T13:23:45.033Z
+            </div>
+        <script src="../../prettify.js"></script>
+        <script>
+            window.onload = function () {
+                prettyPrint();
+            };
+        </script>
+        <script src="../../sorter.js"></script>
+        <script src="../../block-navigation.js"></script>
+    </body>
+</html>
+    

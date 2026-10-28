@@ -1,0 +1,139 @@
+{
+  "automatedCases": {
+    "pass": 778,
+    "fail": 0,
+    "blockedOrSkipped": 2
+  },
+  "backendPrograms": {
+    "count": 10,
+    "pass": 10
+  },
+  "qualityAndProgramGates": [
+    {
+      "name": "mobile-jest",
+      "status": "PASS",
+      "exitCode": 0
+    },
+    {
+      "name": "mobile-types",
+      "status": "PASS",
+      "exitCode": 0
+    },
+    {
+      "name": "mobile-lint",
+      "status": "PASS",
+      "exitCode": 0
+    },
+    {
+      "name": "backend-date_utils.test.js",
+      "status": "PASS",
+      "exitCode": 0
+    },
+    {
+      "name": "backend-env_validation.test.js",
+      "status": "PASS",
+      "exitCode": 0
+    },
+    {
+      "name": "backend-mobile_auth_audit.test.js",
+      "status": "PASS",
+      "exitCode": 0
+    },
+    {
+      "name": "backend-personalization.test.js",
+      "status": "PASS",
+      "exitCode": 0
+    },
+    {
+      "name": "backend-practice_auth.test.js",
+      "status": "PASS",
+      "exitCode": 0
+    },
+    {
+      "name": "backend-progress_auth.test.js",
+      "status": "PASS",
+      "exitCode": 0
+    },
+    {
+      "name": "backend-progress_security.test.js",
+      "status": "PASS",
+      "exitCode": 0
+    },
+    {
+      "name": "backend-pronunciation_tests.js",
+      "status": "PASS",
+      "exitCode": 0
+    },
+    {
+      "name": "backend-reading_insights.test.js",
+      "status": "PASS",
+      "exitCode": 0
+    },
+    {
+      "name": "backend-server_smoke.test.js",
+      "status": "PASS",
+      "exitCode": 0
+    },
+    {
+      "name": "backend-words_level_isolation.test.js",
+      "status": "PASS",
+      "exitCode": 0
+    },
+    {
+      "name": "backend-word_of_day_progress_security.test.js",
+      "status": "PASS",
+      "exitCode": 0
+    },
+    {
+      "name": "backend-word_of_day_scoring.test.js",
+      "status": "PASS",
+      "exitCode": 0
+    },
+    {
+      "name": "open-01-probe",
+      "status": "PASS",
+      "exitCode": 0
+    },
+    {
+      "name": "web-server",
+      "status": "PASS",
+      "exitCode": 0
+    },
+    {
+      "name": "web-ui",
+      "status": "PASS",
+      "exitCode": 0
+    },
+    {
+      "name": "web-types-app",
+      "status": "PASS",
+      "exitCode": 0
+    },
+    {
+      "name": "web-types-node",
+      "status": "PASS",
+      "exitCode": 0
+    },
+    {
+      "name": "web-lint",
+      "status": "PASS",
+      "exitCode": 0
+    },
+    {
+      "name": "web-build",
+      "status": "PASS",
+      "exitCode": 0
+    },
+    {
+      "name": "mobile-production-export",
+      "status": "PASS",
+      "exitCode": 0
+    }
+  ],
+  "rolloutBlockedCases": 29,
+  "sourceReferences": 708,
+  "sharedDatabaseTouched": false,
+  "wodSqlExecuted": false,
+  "localSqlCases": 28,
+  "localSqlEngine": "PostgreSQL 18.4 on x86_64-windows, compiled by msvc-19.44.35226, 64-bit"
+}

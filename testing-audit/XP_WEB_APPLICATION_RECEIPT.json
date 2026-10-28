@@ -1,0 +1,329 @@
+{
+  "applied": true,
+  "target": "C:\\Users\\Samantha\\OneDrive\\Desktop\\web",
+  "files": [
+    {
+      "file": "server/routes/student.js",
+      "sha256": "a2eeda8801099592f4d33abf1265962807ebc55981dfaa18938586776579a387"
+    },
+    {
+      "file": "server/lib/badgeEngine.js",
+      "sha256": "2f37a3711e5aabe90debd8f0ac542a49f3ccc0b49661f1ad4b7124ba33bbf286"
+    },
+    {
+      "file": "server/services/progressEvents.js",
+      "sha256": "381e613c8ce0e5405a1e91734637ba3294f87fa6bcefe6238377977182a5ef1a"
+    },
+    {
+      "file": "server/services/mobileSpeechScoring.js",
+      "sha256": "7358f16b6e5d9fa1336d0eae8ff1517c4dbe5b23bce5b660a634ec2e3131dfc8"
+    },
+    {
+      "file": "server/services/wordOfDayInitialization.js",
+      "sha256": "bb4e0c87a53d60112678af5e75e5e6eaf7ec3a626baad4208d0fe692d823c4ab"
+    },
+    {
+      "file": "server/tests/businessQa.test.js",
+      "sha256": "cb57c45c13e2028cc25b703393a09610e8acef438deca025308c0ef657e6226d"
+    },
+    {
+      "file": "server/tests/security.test.js",
+      "sha256": "14c1d6a3e1a815b54d74a1e5fb7bc09f5a6c293437fe269e23c33c63229549d7"
+    },
+    {
+      "file": "server/tests/progressEvents.test.js",
+      "sha256": "d7cbfb94756a0b5a57285bb984babf8d215ad8680fa6190f0a43fd2ed66006d7"
+    },
+    {
+      "file": "src/lib/api.ts",
+      "sha256": "48fbc1c29a412c306d2e75d7bf54e7b896dc9ff08a88bccb2e36158311e1eb2a"
+    },
+    {
+      "file": "src/lib/progressEvents.ts",
+      "sha256": "ef239eb40ebc2a01769b79360e612939d5edcd38c7a110463044085122bcc13d"
+    },
+    {
+      "file": "src/lib/wordOfDay.ts",
+      "sha256": "b67405072c807ceca4c4e08a14cef375cd2edcd9df73250fc89b5c42e03b09b3"
+    },
+    {
+      "file": "src/pages/student/Assessment.tsx",
+      "sha256": "8c408d9d07e09ded57b95e28a0ed4b54114ecad0ee2255b3a3b99b4e767486e2"
+    },
+    {
+      "file": "src/pages/student/Module.tsx",
+      "sha256": "b57544f4a6e7fea2574846de92248911c0e2de664800664624063f8ef71e6a34"
+    },
+    {
+      "file": "src/pages/student/Practice.tsx",
+      "sha256": "860c63852f54dcf7ae22840e6bb6ba051bc405ea28f678c125c4b70eed8c157a"
+    },
+    {
+      "file": "tests/finalClientContracts.test.mjs",
+      "sha256": "886e795442b13cd8345fc22bbfe323263a8009a34cc0d129586db52b57d6f354"
+    },
+    {
+      "file": "testing-audit/DEFECT_RESOLUTION.md",
+      "sha256": "84027d68e730d1e65c4a7368626ec3ffe953ab86c72e294290095915867304b6"
+    },
+    {
+      "file": "testing-audit/FINAL_TESTING_REPORT.md",
+      "sha256": "3d112223541d1dc3789038b2b90093fc50019ca65b3691c77d436d9519187874"
+    },
+    {
+      "file": "testing-audit/FUNCTIONAL_TEST_CASES.md",
+      "sha256": "a44ba72578f18bff57bf4e3efc3652869a2e073145908be6e05950e95a7688b9"
+    },
+    {
+      "file": "testing-audit/NON_FUNCTIONAL_TEST_CASES.md",
+      "sha256": "38c5459068433b9b98bf352e96c6cd292a67306c8dfed69fe74f66476d0a8556"
+    },
+    {
+      "file": "testing-audit/progress-events-rollback.PROPOSED.sql",
+      "sha256": "e7d3ce31e1e7a71495c1290a7a9b5825e7589de90ac9fa8676d0f1ef5a0420b0"
+    },
+    {
+      "file": "testing-audit/progress-events.PROPOSED.sql",
+      "sha256": "fb1da04e566cacb37eb5d56dee126ad32ab71f6424fd65ce4ec2ebafe5db9e69"
+    },
+    {
+      "file": "testing-audit/progress-preflight.READONLY.sql",
+      "sha256": "ab80e1e25f8b00ab07b58953a007dbe6136cdc144ff68062c6ae8dc703059e5c"
+    },
+    {
+      "file": "testing-audit/WORD_OF_DAY_REVIEW.md",
+      "sha256": "7de274e3a9587ccdf0537e46b762056b7ec5e2d73b92a59cc46355264d5bc720"
+    },
+    {
+      "file": "testing-audit/XP_PROGRESS_BUG_FIX_REPORT.md",
+      "sha256": "5489d03837005e05acf302e55a34b9011e3339343948378c195015b1de616d2d"
+    },
+    {
+      "file": "testing-audit/XP_PROGRESS_CONTRACT.md",
+      "sha256": "c9c135a21f708274f56d5f5fd956e2253d5b5e95811d2bf74bfdf8bacf9c675b"
+    },
+    {
+      "file": "testing-audit/XP_PROGRESS_DATABASE_READINESS.md",
+      "sha256": "6c7ab9a0e7755487d2afc3a882c165d1a010f6f490c0df47c883f04aa88d21dd"
+    },
+    {
+      "file": "testing-audit/XP_PROGRESS_FINAL_STATUS.md",
+      "sha256": "a9c2120331ee6c8dcb12201670e7cd7c2b463bd04838fb1bc17e321b2fd96cf3"
+    },
+    {
+      "file": "testing-audit/XP_PROGRESS_REGRESSION_RESULTS.md",
+      "sha256": "3e9c7277f4d039248572c8cdfbcf8b80b11dd3c95d173ffec811177efeec6a9d"
+    },
+    {
+      "file": "testing-audit/XP_PROGRESS_SECURITY_AUDIT.md",
+      "sha256": "b3231c0be5a1de90cf509d3fbbabe0891084382c3ad14f9b16dfbaa124dd4ebf"
+    },
+    {
+      "file": "testing-audit/evidence/xp-progress/backend-checks.json",
+      "sha256": "1fdb726856c9897812be3b1c1d77d3754ace9f59e477a3bd1ed1e2ed7dd63ec3"
+    },
+    {
+      "file": "testing-audit/evidence/xp-progress/backend-date_utils.test.js.log",
+      "sha256": "2bf253560e1260758ea7b6a6c08b2485cf99632b9b9739f4c6d595bc05deb946"
+    },
+    {
+      "file": "testing-audit/evidence/xp-progress/backend-env_validation.test.js.log",
+      "sha256": "3c31295bfebbb6f32308cd34aeb3798d0594dcf289d84c77df72f877bf063ed7"
+    },
+    {
+      "file": "testing-audit/evidence/xp-progress/backend-mobile_auth_audit.test.js.log",
+      "sha256": "600f9fc51a5f371391dc760bd379d2ddea223608f35c578271f84ef35d603a67"
+    },
+    {
+      "file": "testing-audit/evidence/xp-progress/backend-personalization.test.js.log",
+      "sha256": "8bd179ea35e7f0474cf95f1f78cb7e4d2f243b5fbcfa943f3f92f525ff8291ad"
+    },
+    {
+      "file": "testing-audit/evidence/xp-progress/backend-practice_auth.test.js.log",
+      "sha256": "08a97fecec2d5ef66c06ccc1b787c786634d6d3055a784c0341c12a33035183e"
+    },
+    {
+      "file": "testing-audit/evidence/xp-progress/backend-progress_auth.test.js.log",
+      "sha256": "06877211a9f727f1a1d49c267eb5f8b6487801176599d153176a2af42014f81a"
+    },
+    {
+      "file": "testing-audit/evidence/xp-progress/backend-progress_security.test.js.log",
+      "sha256": "e28bd0c0b3cb79d63b173552387eba7ee683135847c69d1b4acff4206d9c5a96"
+    },
+    {
+      "file": "testing-audit/evidence/xp-progress/backend-pronunciation_tests.js.log",
+      "sha256": "bcd1ef11099b62679b5f22f414f4f199abcc003e6be719a97201ef77ebca30e1"
+    },
+    {
+      "file": "testing-audit/evidence/xp-progress/backend-reading_insights.test.js.log",
+      "sha256": "f453a9167e37bdbcb050735c9803897ddf3de05eca31d78205bee185df91b97d"
+    },
+    {
+      "file": "testing-audit/evidence/xp-progress/backend-server_smoke.test.js.log",
+      "sha256": "3b9ab0d73d0f65a65fe64c57922ac74421d221cf1b9c0252128239041479107e"
+    },
+    {
+      "file": "testing-audit/evidence/xp-progress/backend-words_level_isolation.test.js.log",
+      "sha256": "db12ea1584d4683be2efe80bcf7d86bcc25764f4820b7f7f6dbe9fcd9106ed49"
+    },
+    {
+      "file": "testing-audit/evidence/xp-progress/backend-word_of_day_progress_security.test.js.log",
+      "sha256": "5771f93c7c05eda4e556001296d762ab883c8535005f24c55ab27cf6642dfd04"
+    },
+    {
+      "file": "testing-audit/evidence/xp-progress/backend-word_of_day_scoring.test.js.log",
+      "sha256": "2d7cbe046eb43eb39cfdeb6021f2e424e56ffdd7f28dca030518838dee304c93"
+    },
+    {
+      "file": "testing-audit/evidence/xp-progress/before-vectors.json",
+      "sha256": "5615971f05083ce878c9ab08bc80f77a60687b09df9fc41dd8eaaacf3c6eba74"
+    },
+    {
+      "file": "testing-audit/evidence/xp-progress/bundle-checks.json",
+      "sha256": "2ad3b2ed6804d78697948184dbf8fd667f010f7505feae9bb36e5a2b1170ca80"
+    },
+    {
+      "file": "testing-audit/evidence/xp-progress/coverage/coverage-summary.json",
+      "sha256": "6d6f3e064a6222ed670a6929afe78e51b86475753d3e732b88e2ef4b8c29cdcb"
+    },
+    {
+      "file": "testing-audit/evidence/xp-progress/coverage/source-summary.json",
+      "sha256": "80d518315cb735fa3041ca58f445af90f404caca24048b95b3a81070fa12b936"
+    },
+    {
+      "file": "testing-audit/evidence/xp-progress/mobile-checks.json",
+      "sha256": "00fcb487f91249eb609970b58e25b75be85d5e4785377c1e3da093a050deb071"
+    },
+    {
+      "file": "testing-audit/evidence/xp-progress/mobile-jest.json",
+      "sha256": "5663e001ebc9f97b2f8a8e66beee04699fa71cb65fec465e7d82accdadfd193b"
+    },
+    {
+      "file": "testing-audit/evidence/xp-progress/mobile-jest.log",
+      "sha256": "f28f83bcd93203f891859a2048258674a2225ed37b2095b0c3af47a6d520059c"
+    },
+    {
+      "file": "testing-audit/evidence/xp-progress/mobile-lint-summary.json",
+      "sha256": "c0a2208b0815b8fa2981aadcb594db063a2d64bc762d1034b24158707347b2fe"
+    },
+    {
+      "file": "testing-audit/evidence/xp-progress/mobile-lint.log",
+      "sha256": "d0b0e21c43048cb5d72cd58f89f82911ad84890c35ca646d26ef08158288d354"
+    },
+    {
+      "file": "testing-audit/evidence/xp-progress/mobile-production-export.log",
+      "sha256": "aa6ffb3d2930f1b76cadfcd794a7d6e074e1142fade7cc317379b4420b4cb07a"
+    },
+    {
+      "file": "testing-audit/evidence/xp-progress/mobile-types.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "file": "testing-audit/evidence/xp-progress/open-01-before.json",
+      "sha256": "a986d32557461070dcd1ba97641976a7647c6caac1a782c40e5cea2d32ed91f8"
+    },
+    {
+      "file": "testing-audit/evidence/xp-progress/open-01-probe.log",
+      "sha256": "4c8e3894623d8f1f52a4eeb3f95c50924bf69dd9c2609cb92a0ff16066e0c201"
+    },
+    {
+      "file": "testing-audit/evidence/xp-progress/sql-engine.json",
+      "sha256": "42c5bcc5700f2bb98ae064911b5ece82909df211aee21db6f263d6e7e85070e0"
+    },
+    {
+      "file": "testing-audit/evidence/xp-progress/sql-results.json",
+      "sha256": "a1b94e1b00275a286fb8c1d97dc4f6ee2d5b68f8212cf49d877e5655e5a3f798"
+    },
+    {
+      "file": "testing-audit/evidence/xp-progress/summary.json",
+      "sha256": "8cb5c6f153dfff58eee642491ab7cc27ec4e2f0a065742b2251d1298ada4adda"
+    },
+    {
+      "file": "testing-audit/evidence/xp-progress/test-cases.csv",
+      "sha256": "f7154df45b7b507900e3191182c91f16f044b90195c92734f66e0ffb3e60b450"
+    },
+    {
+      "file": "testing-audit/evidence/xp-progress/test-cases.json",
+      "sha256": "6f2162edb4a1e80f06d7f3824f9b272053e5df5c3874de204ed73a585096664f"
+    },
+    {
+      "file": "testing-audit/evidence/xp-progress/web-build.log",
+      "sha256": "ed5b46cca29cdb2bd4a6ce98d77670e5d0a41c2ea5e93e0bf182209ee0158f85"
+    },
+    {
+      "file": "testing-audit/evidence/xp-progress/web-checks.json",
+      "sha256": "d9f87eaf1f9acaaeea4562e7b30464a14fc503ae2ea9335c409a8b797acfc1c1"
+    },
+    {
+      "file": "testing-audit/evidence/xp-progress/web-lint.log",
+      "sha256": "6ad71604a4d20a7bc1349616008ea0992be95be42459b59b88e6a8c88810ed4b"
+    },
+    {
+      "file": "testing-audit/evidence/xp-progress/web-patch-manifest.json",
+      "sha256": "361dacbffb0fbb50b0a7f2531c6b924b314e9de92ab94f2dd1887be978050f37"
+    },
+    {
+      "file": "testing-audit/evidence/xp-progress/web-server.log",
+      "sha256": "a645273b1c5b2ceaadc160fcb1c84f3368b88f2ba55fb4bbb9099279cb19f577"
+    },
+    {
+      "file": "testing-audit/evidence/xp-progress/web-types-app.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "file": "testing-audit/evidence/xp-progress/web-types-node.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "file": "testing-audit/evidence/xp-progress/web-ui.log",
+      "sha256": "d8ea12b5bb0096dfb94f1b4d95de371fbce09decadfebe12df783e2cb2e59ac3"
+    },
+    {
+      "file": "testing-audit/evidence/xp-progress/writer-references.json",
+      "sha256": "8b1801f3e7d5a38e7434709691f18f7eb7cd2d9258618ce942d00935d70984e6"
+    }
+  ],
+  "sharedDataChanged": false,
+  "deployed": false,
+  "originalFilesPreservedIn": "C:\\Users\\Samantha\\OneDrive\\Desktop\\LinawLm\\LinawLm\\testing-audit\\xp-progress\\web-original-backup",
+  "verification": "PASS",
+  "checks": [
+    {
+      "name": "web-server",
+      "status": "PASS",
+      "exitCode": 0
+    },
+    {
+      "name": "web-ui",
+      "status": "PASS",
+      "exitCode": 0
+    },
+    {
+      "name": "web-types-app",
+      "status": "PASS",
+      "exitCode": 0
+    },
+    {
+      "name": "web-types-node",
+      "status": "PASS",
+      "exitCode": 0
+    },
+    {
+      "name": "web-lint",
+      "status": "PASS",
+      "exitCode": 0
+    },
+    {
+      "name": "web-build",
+      "status": "PASS",
+      "exitCode": 0
+    }
+  ],
+  "sourceFileCount": 15,
+  "verifiedAtUtc": "2026-10-22T13:19:33.159Z",
+  "automatedCases": {
+    "pass": 778,
+    "fail": 0,
+    "blockedOrSkipped": 2
+  }
+}

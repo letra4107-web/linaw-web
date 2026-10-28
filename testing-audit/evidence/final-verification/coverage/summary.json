@@ -1,0 +1,92 @@
+{
+  "generatedAt": "2026-10-21T12:27:29.480Z",
+  "summary": [
+    {
+      "area": "backend",
+      "exitCode": 0,
+      "tests": 477,
+      "pass": 475,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 2,
+      "files": 38,
+      "totals": {
+        "lines": {
+          "total": 4573,
+          "covered": 2552,
+          "skipped": 0,
+          "pct": 55.8
+        },
+        "statements": {
+          "total": 4573,
+          "covered": 2552,
+          "skipped": 0,
+          "pct": 55.8
+        },
+        "functions": {
+          "total": 145,
+          "covered": 111,
+          "skipped": 0,
+          "pct": 76.55
+        },
+        "branches": {
+          "total": 1007,
+          "covered": 692,
+          "skipped": 0,
+          "pct": 68.71
+        },
+        "branchesTrue": {
+          "total": 0,
+          "covered": 0,
+          "skipped": 0,
+          "pct": 100
+        }
+      },
+      "scope": "c8 --all for backend JS excluding tests and operator scripts; unloaded eligible files included"
+    },
+    {
+      "area": "frontend",
+      "exitCode": 0,
+      "tests": 53,
+      "pass": 53,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0,
+      "files": 11,
+      "totals": {
+        "lines": {
+          "total": 1009,
+          "covered": 786,
+          "skipped": 0,
+          "pct": 77.89
+        },
+        "statements": {
+          "total": 1009,
+          "covered": 786,
+          "skipped": 0,
+          "pct": 77.89
+        },
+        "functions": {
+          "total": 46,
+          "covered": 27,
+          "skipped": 0,
+          "pct": 58.69
+        },
+        "branches": {
+          "total": 230,
+          "covered": 173,
+          "skipped": 0,
+          "pct": 75.21
+        },
+        "branchesTrue": {
+          "total": 0,
+          "covered": 0,
+          "skipped": 0,
+          "pct": 100
+        }
+      },
+      "scope": "Source-mapped frontend TS units executed through the test loader; loaded modules only; excludes browser rendering coverage and unloaded pages"
+    }
+  ],
+  "note": "Backend and frontend scopes are different. No combined coverage percentage is calculated."
+}

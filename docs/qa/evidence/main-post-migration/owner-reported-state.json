@@ -1,0 +1,11 @@
+{
+  "recordedAt": "2026-10-18T08:41:00.607Z",
+  "source": "Explicit owner statement in chat",
+  "project": "MAIN project connected to deployed LinawLetra",
+  "migrationsReportedApplied": [
+    "047",
+    "048"
+  ],
+  "independentlyVerified": false,
+  "instruction": "Do not rerun migrations or modify main records/Auth/Storage; use dedicated read-only access without RLS bypass."
+}

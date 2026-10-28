@@ -1,0 +1,22 @@
+{
+  "timestamp": "2026-10-21T11:09:52.267Z",
+  "requiredReports": 9,
+  "brokenLinks": [],
+  "potentialCredentialLocations": [],
+  "backend": {
+    "tests": 436,
+    "pass": 434,
+    "fail": 0,
+    "cancelled": 0,
+    "skipped": 2
+  },
+  "frontend": {
+    "tests": 41,
+    "pass": 41,
+    "fail": 0,
+    "cancelled": 0,
+    "skipped": 0
+  },
+  "status": "PASS",
+  "scope": "Report structure, artifact links, gate consistency and credential-shaped text scan only; no functionality certification."
+}

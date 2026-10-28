@@ -34,8 +34,8 @@ export default function Sections() {
     onSuccess: () => { queryClient.invalidateQueries({ queryKey: ['admin-sections'] }); queryClient.invalidateQueries({ queryKey: ['admin-section-students', activeSection?.id] }); setActiveSection(null); setSelectedStudentIds(null); },
   });
   const teachers = data?.teachers ?? [];
-  const sections = data?.sections ?? [];
-  const visibleSections = useMemo(() => sections.filter((section) => {
+  const sections = data?.sections;
+  const visibleSections = useMemo(() => (sections ?? []).filter((section) => {
     const matchesSearch = section.name.toLowerCase().includes(search.trim().toLowerCase());
     return matchesSearch && (gradeFilter === 'all' || section.grade_level === Number(gradeFilter));
   }), [sections, search, gradeFilter]);

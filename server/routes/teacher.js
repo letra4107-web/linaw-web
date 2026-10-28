@@ -1,4 +1,5 @@
 const express = require('express');
+const { randomUUID } = require('node:crypto');
 const crypto = require('crypto');
 const multer = require('multer');
 const pdfParse = require('pdf-parse');
@@ -51,8 +52,25 @@ const upload = multer({
   },
 });
 
+async function discardUnreferencedUpload(storagePath) {
+  if (!storagePath) return;
+  try {
+    const { error } = await supabaseAdmin.storage.from('reading-materials').remove([storagePath]);
+    if (error) console.error('[teacher/pdf cleanup]', error);
+  } catch (error) { console.error('[teacher/pdf cleanup]', error); }
+}
+
+function metadataDefinitelyRejected(error) {
+  // SQL statement/transaction rejection proves that this insert did not commit.
+  // Connection failures and lost acknowledgements do not: retain the object so
+  // a possibly committed material never loses its file.
+  return /^(?:22|23|40|42|P0|XX)[0-9A-Z]{3}$/.test(error?.code || '') || ['PGRST204', 'PGRST205'].includes(error?.code);
+}
+
 // POST /teacher/pdf  (multipart: file) + fields: title, gradeLevel, level
 router.post('/pdf', uploadLimiter, upload.single('file'), async (req, res) => {
+  let unreferencedUploadPath = null;
+  let cleanupAllowed = false;
   try {
     if (!req.file) return res.status(400).json({ error: 'No PDF file uploaded.' });
     const validation = validatePdfUpload(req.file);
@@ -63,14 +81,17 @@ router.post('/pdf', uploadLimiter, upload.single('file'), async (req, res) => {
 
     const parsed = await pdfParse(req.file.buffer).catch(() => ({ text: '' }));
 
-    const storagePath = `${req.user.id}/${Date.now()}-${req.file.originalname.replace(/[^a-zA-Z0-9.\-_]/g, '_')}`;
+    const storagePath = `${req.user.id}/${randomUUID()}-${req.file.originalname.replace(/[^a-zA-Z0-9.\-_]/g, '_')}`;
     const { error: uploadErr } = await supabaseAdmin.storage
       .from('reading-materials')
       .upload(storagePath, req.file.buffer, { contentType: 'application/pdf', upsert: false });
     if (uploadErr) throw uploadErr;
+    unreferencedUploadPath = storagePath;
+    cleanupAllowed = true;
 
     const { data: publicUrlData } = supabaseAdmin.storage.from('reading-materials').getPublicUrl(storagePath);
 
+    cleanupAllowed = false;
     const { data: material, error: insertErr } = await supabaseAdmin
       .from('pdf_materials')
       .insert({
@@ -86,7 +107,10 @@ router.post('/pdf', uploadLimiter, upload.single('file'), async (req, res) => {
       })
       .select()
       .single();
-    if (insertErr) throw insertErr;
+    if (insertErr) { cleanupAllowed = metadataDefinitelyRejected(insertErr); throw insertErr; }
+    // The persisted material now owns this object. Never remove a referenced
+    // file because a later optional mobile bridge operation fails.
+    unreferencedUploadPath = null;
 
     // Bridge into mobile's pre-existing (separate) teacher_uploads table so students
     // see this PDF in the mobile app too, without any mobile app code changes -- mobile's
@@ -108,6 +132,7 @@ router.post('/pdf', uploadLimiter, upload.single('file'), async (req, res) => {
     res.json({ success: true, material });
   } catch (err) {
     console.error('[teacher/pdf upload]', err);
+    if (cleanupAllowed) await discardUnreferencedUpload(unreferencedUploadPath);
     res.status(500).json({ error: 'Unable to upload this PDF.' });
   }
 });
@@ -229,6 +254,8 @@ router.post('/pdf/:id/unarchive', validateUuidParam('id'), async (req, res) => {
 // 'pending_review' -- the teacher must review/edit parsed items via
 // PATCH .../items before POST .../publish makes it visible to students.
 router.post('/pdf-drill', uploadLimiter, upload.single('file'), async (req, res) => {
+  let unreferencedUploadPath = null;
+  let cleanupAllowed = false;
   try {
     if (!req.file) return res.status(400).json({ error: 'No PDF file uploaded.' });
     const validation = validatePdfUpload(req.file);
@@ -242,14 +269,17 @@ router.post('/pdf-drill', uploadLimiter, upload.single('file'), async (req, res)
       return { items: [], skipped: [] };
     });
 
-    const storagePath = `${req.user.id}/${Date.now()}-${req.file.originalname.replace(/[^a-zA-Z0-9.\-_]/g, '_')}`;
+    const storagePath = `${req.user.id}/${randomUUID()}-${req.file.originalname.replace(/[^a-zA-Z0-9.\-_]/g, '_')}`;
     const { error: uploadErr } = await supabaseAdmin.storage
       .from('reading-materials')
       .upload(storagePath, req.file.buffer, { contentType: 'application/pdf', upsert: false });
     if (uploadErr) throw uploadErr;
+    unreferencedUploadPath = storagePath;
+    cleanupAllowed = true;
 
     const { data: publicUrlData } = supabaseAdmin.storage.from('reading-materials').getPublicUrl(storagePath);
 
+    cleanupAllowed = false;
     const { data: material, error: insertErr } = await supabaseAdmin
       .from('pdf_materials')
       .insert({
@@ -265,7 +295,8 @@ router.post('/pdf-drill', uploadLimiter, upload.single('file'), async (req, res)
       })
       .select()
       .single();
-    if (insertErr) throw insertErr;
+    if (insertErr) { cleanupAllowed = metadataDefinitelyRejected(insertErr); throw insertErr; }
+    unreferencedUploadPath = null;
 
     let items = [];
     if (parsedItems.length > 0) {
@@ -280,6 +311,7 @@ router.post('/pdf-drill', uploadLimiter, upload.single('file'), async (req, res)
     res.json({ success: true, material, items, skippedCount: skipped.length });
   } catch (err) {
     console.error('[teacher/pdf-drill upload]', err);
+    if (cleanupAllowed) await discardUnreferencedUpload(unreferencedUploadPath);
     res.status(500).json({ error: 'Unable to upload this PDF.' });
   }
 });
@@ -327,15 +359,22 @@ router.patch('/pdf-drill/:materialId/items', validateUuidParam('materialId'), as
     const material = await requireOwnedDrillMaterial(req, res);
     if (!material) return;
 
-    const items = Array.isArray(req.body?.items) ? req.body.items : [];
+    // Replacing item rows cascades their attempt records. A published drill
+    // must stay immutable; corrections belong in a new draft material.
+    if (material.drill_status === 'published') return res.status(409).json({ error: 'Published drills cannot be replaced. Upload a new draft to make corrections.' });
+    if (!Array.isArray(req.body?.items)) return res.status(400).json({ error: 'A drill items array is required.' });
+    const items = req.body.items;
     if (items.length > 250) return res.status(400).json({ error: 'A drill may contain at most 250 items.' });
     for (const item of items) {
-      if (!isBoundedString(item.syllable_pattern, 80, { allowEmpty: false }) || !isBoundedString(item.word, 120, { allowEmpty: false })) {
+      if (!item || !isBoundedString(item.syllable_pattern, 80, { allowEmpty: false }) || !isBoundedString(item.word, 120, { allowEmpty: false })) {
         return res.status(400).json({ error: 'Every item needs a syllable pattern and a word.' });
       }
       if (item.image_url && !isBoundedString(item.image_url, 2048)) return res.status(400).json({ error: 'An image URL is too long.' });
-      if (item.xp_value != null && (!Number.isInteger(Number(item.xp_value)) || Number(item.xp_value) < 0 || Number(item.xp_value) > 100)) {
-        return res.status(400).json({ error: 'Item XP must be an integer from 0 to 100.' });
+      if (item.xp_value != null && (typeof item.xp_value === 'boolean' || !Number.isInteger(Number(item.xp_value)) || Number(item.xp_value) < 1 || Number(item.xp_value) > 100)) {
+        return res.status(400).json({ error: 'Item XP must be an integer from 1 to 100.' });
+      }
+      if (['band_index', 'item_order'].some((field) => item[field] != null && (typeof item[field] !== 'number' || !Number.isSafeInteger(item[field]) || item[field] < 0 || item[field] > 2147483647))) {
+        return res.status(400).json({ error: 'Item ordering must use non-negative integers.' });
       }
     }
 
@@ -354,7 +393,7 @@ router.patch('/pdf-drill/:materialId/items', validateUuidParam('materialId'), as
             syllable_pattern: item.syllable_pattern,
             word: item.word,
             image_url: item.image_url || null,
-            xp_value: item.xp_value || 25,
+            xp_value: item.xp_value == null ? 25 : Number(item.xp_value),
           })),
         )
         .select();

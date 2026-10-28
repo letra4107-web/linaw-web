@@ -1,0 +1,25 @@
+# Schema baseline review — 2026-10-18 (Asia/Manila)
+
+**Subsequent owner update:** 047 and 048 were manually executed in MAIN, not staging. Do not rerun them there. Their actual main definitions/data effects are not independently verified until the dedicated read-only connection is configured. See [the current safety report](main-post-migration/REPORT.md). Any baseline/snapshot work must reconcile that current installed state; the older 046-based sequence below is historical guidance, not a request to reapply main migrations.
+
+**The complete authoritative baseline is still unavailable.** No isolated Supabase project or `.qa/staging.env` is configured. The historical mobile SQL and web extension SQL do not form a reproducible complete restore. No shared database query, migration, or record write was used to infer missing definitions.
+
+The source-derived [schema contract](evidence/phase3/schema-contract.json) records stream-qualified filenames, SHA-256 hashes and literal table/RPC dependencies. It includes optional/legacy source paths; review the enabled deployment's actual dependency subset before treating presence checks as release gates. A source scan is not runtime or migration evidence.
+
+| Finding | Evidence | Safe resolution |
+|---|---|---|
+| Historical mobile `001_schema.sql` contains `CREATE POLICY IF NOT EXISTS`, unsupported by PostgreSQL | Original SQL inspected; isolated PostgreSQL parser probe in database evidence | Preserve historical file. Obtain the current schema-only baseline rather than executing this file unchanged. A replacement fresh-install bootstrap must be reviewed/versioned separately. |
+| Mobile 001/002 define child identifiers and relationships as TEXT; mobile 017 uses UUID comparisons, and mobile 025 explicitly describes the deployed UUID conversion | Original source and isolated TEXT/UUID policy failure | Obtain the actual conversion and all dependent column/FK/policy/function definitions from the schema-only snapshot. Do not globally cast columns or invent replacements. |
+| `public.users.id` is historically TEXT; its current actual type is not established | Source lineage only | Measure it. UUID-shaped values alone do not establish a UUID column. Keep the existing deployment's profile key type unless a reviewed conversion is required. |
+| Runtime expects case-sensitive `users.lastLoginAt`; its creation is not present in the inspected migration streams | Source dependency review | Include the authoritative column definition and relevant audit/default/trigger behavior. Do not substitute a differently cased column. |
+| Web/mobile migrations reuse numbers; mobile also has two `022_*` files; web lacks `028` | Hash manifest | Track full stream-qualified paths/checksums. A number alone is not an installation ledger or a safe global ordering. |
+| Historical curriculum/definition/placement migrations contain row writes | Manifest; web 036/037 and mobile content SQL | Do not replay them on shared or populated data. Review separate synthetic seed scripts for the isolated project. |
+| 047's capacity lock was insufficient for stale repeatable-read snapshots | [Before-fix regression](evidence/phase3/database-047-before-048.json) | Apply additive **048** after 047 in the isolated fixture. No existing migration was edited. API now returns retry guidance for serialization/deadlock conflicts. |
+
+The correct complete baseline must be an operator-reviewed **schema-only snapshot of the currently installed shared schema**, reconciled with both application repositories and a migration ledger. It needs public tables/columns/types/defaults/constraints/indexes, extensions, functions and argument signatures, triggers, RLS policies, GRANTs, and Storage bucket/policy configuration. Retain Supabase-managed Auth/Storage infrastructure from the chosen isolated stack/project; do not copy real Auth users or object data. Do not omit grants during export and then assume RLS tests represent the deployment.
+
+Save that snapshot and its checksums in a private ignored location such as `.qa/baseline/`, never in chat. Review function definitions for embedded secrets before sharing even schema-only material. Compare it with the [read-only isolated preflight](ISOLATED_SCHEMA_PREFLIGHT.sql), which queries catalog metadata only and never calls an application RPC. Passing presence/type checks alone does not certify ownership/RLS correctness or establish a complete baseline.
+
+The isolated database suite executes exact roster SQL from 004, full 026/046/047 and additive 048 on a minimal UUID foundation. It separately probes original mobile 001/002/017 for incompatibilities. This is evidence for selected migrations, not a full restore of Supabase. Complete migration replay and full RLS/Auth/Storage/Realtime cases remain **BLOCKED**.
+
+For a future reviewed snapshot matching the deployed 046 state, validate 047 then 048 before releasing the modified backend. If the snapshot already contains either change, reconcile definitions/checksums first rather than blindly replaying it. No schema or data rollback/deployment was executed in this phase.

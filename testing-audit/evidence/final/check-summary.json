@@ -1,0 +1,44 @@
+[
+  {
+    "name": "backend",
+    "exitCode": 0,
+    "durationMs": 9811,
+    "tests": 421,
+    "pass": 419,
+    "fail": 0,
+    "cancelled": 0,
+    "skipped": 2
+  },
+  {
+    "name": "frontend",
+    "exitCode": 0,
+    "durationMs": 4305,
+    "tests": 39,
+    "pass": 39,
+    "fail": 0,
+    "cancelled": 0,
+    "skipped": 0
+  },
+  {
+    "name": "lint",
+    "exitCode": 0,
+    "durationMs": 2781,
+    "rerunReason": "Audit report helper changed; application source unchanged since passing tests/build."
+  },
+  {
+    "name": "build",
+    "exitCode": 0,
+    "durationMs": 25413
+  },
+  {
+    "name": "vite-build",
+    "exitCode": 0,
+    "durationMs": 10261
+  },
+  {
+    "name": "diff",
+    "exitCode": 0,
+    "durationMs": 2262,
+    "rerunReason": "Audit report helper changed; application source unchanged since passing tests/build."
+  }
+]

@@ -26,20 +26,25 @@ function normalizeRole(raw: unknown): AppRole | null {
  * Falls back to self-healing an unknown-role email account into 'parent'.
  */
 export async function resolveRole(user: User): Promise<ResolvedIdentity | null> {
-  const { data: profile } = await supabase
+  const { data: profile, error: profileError } = await supabase
     .from('users')
     .select('*')
     .eq('id', user.id)
     .maybeSingle();
+  if (profileError) throw profileError;
 
-  const { data: childRow } = await supabase
+  const { data: childRow, error: childError } = await supabase
     .from('children')
     .select('id, name, parent_id, auth_uid')
     .eq('auth_uid', user.id)
     .maybeSingle();
+  if (childError) throw childError;
+  if (profile?.is_active === false || ['disabled', 'archived'].includes(profile?.account_status)) {
+    throw new Error('Hindi aktibo ang account na ito. Makipag-ugnayan sa administrator.');
+  }
 
   let role = normalizeRole(profile?.role);
-  let displayName = profile?.name ?? profile?.full_name ?? user.email ?? 'User';
+  let displayName = profile?.name ?? profile?.full_name ?? user.user_metadata?.full_name ?? user.email ?? 'User';
 
   if (childRow) {
     role = 'student';
@@ -49,14 +54,17 @@ export async function resolveRole(user: User): Promise<ResolvedIdentity | null> 
   const emailVerified = Boolean(user.email_confirmed_at) || Boolean(profile?.email_verified);
 
   if (!role) {
+    if (profile) throw new Error('Hindi matukoy ang role ng account na ito.');
     if (!emailVerified) return null;
     // Self-heal: real auth account, no users row, no children row -> treat as parent.
-    await supabase.from('users').upsert({
+    const { error: repairError } = await supabase.from('users').upsert({
       id: user.id,
       email: user.email,
+      name: displayName,
       role: 'parent',
       email_verified: true,
-    });
+    }, { onConflict: 'id', ignoreDuplicates: true });
+    if (repairError) throw repairError;
     role = 'parent';
   }
 

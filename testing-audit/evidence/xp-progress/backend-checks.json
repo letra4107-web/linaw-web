@@ -1,0 +1,77 @@
+[
+  {
+    "name": "backend-date_utils.test.js",
+    "status": "PASS",
+    "exitCode": 0
+  },
+  {
+    "name": "backend-env_validation.test.js",
+    "status": "PASS",
+    "exitCode": 0
+  },
+  {
+    "name": "backend-mobile_auth_audit.test.js",
+    "status": "PASS",
+    "exitCode": 0
+  },
+  {
+    "name": "backend-option_1_policy.test.js",
+    "status": "PASS",
+    "exitCode": 0
+  },
+  {
+    "name": "backend-personalization.test.js",
+    "status": "PASS",
+    "exitCode": 0
+  },
+  {
+    "name": "backend-practice_auth.test.js",
+    "status": "PASS",
+    "exitCode": 0
+  },
+  {
+    "name": "backend-progress_auth.test.js",
+    "status": "PASS",
+    "exitCode": 0
+  },
+  {
+    "name": "backend-progress_security.test.js",
+    "status": "PASS",
+    "exitCode": 0
+  },
+  {
+    "name": "backend-pronunciation_tests.js",
+    "status": "PASS",
+    "exitCode": 0
+  },
+  {
+    "name": "backend-reading_insights.test.js",
+    "status": "PASS",
+    "exitCode": 0
+  },
+  {
+    "name": "backend-server_smoke.test.js",
+    "status": "PASS",
+    "exitCode": 0
+  },
+  {
+    "name": "backend-words_level_isolation.test.js",
+    "status": "PASS",
+    "exitCode": 0
+  },
+  {
+    "name": "backend-word_of_day_progress_security.test.js",
+    "status": "PASS",
+    "exitCode": 0
+  },
+  {
+    "name": "backend-word_of_day_scoring.test.js",
+    "status": "PASS",
+    "exitCode": 0
+  },
+  {
+    "name": "open-01-probe",
+    "status": "PASS",
+    "exitCode": 0
+  }
+]

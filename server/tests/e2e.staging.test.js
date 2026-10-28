@@ -1,6 +1,7 @@
 const test = require('node:test');
 const assert = require('node:assert/strict');
 const { createClient } = require('@supabase/supabase-js');
+const { assertStagingTargets } = require('../lib/stagingTarget');
 
 const enabled = process.env.E2E_ALLOW_STAGING_TESTS === 'true';
 const apiUrl = String(process.env.E2E_API_URL || '').replace(/\/$/, '');
@@ -9,9 +10,7 @@ const supabaseAnonKey = process.env.E2E_SUPABASE_ANON_KEY || '';
 
 function assertSafeStagingTarget() {
   assert.ok(apiUrl && supabaseUrl && supabaseAnonKey, 'Staging API and Supabase environment variables are required.');
-  const combined = `${apiUrl} ${supabaseUrl}`.toLowerCase();
-  assert.doesNotMatch(combined, /linawletra-production|linawletra\.com/, 'E2E tests refuse known production targets.');
-  assert.match(combined, /staging|localhost|127\.0\.0\.1/, 'E2E target must explicitly identify itself as staging or local.');
+  assertStagingTargets({ api: apiUrl, supabase: supabaseUrl }, { allowedSupabaseHost: process.env.E2E_ALLOWED_SUPABASE_HOST });
 }
 
 async function signIn(role) {

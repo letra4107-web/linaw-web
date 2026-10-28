@@ -1,0 +1,7 @@
+{
+  "timestamp": "2026-10-18T08:41:00.589Z",
+  "scope": "Isolated configuration/role-scope guards and actual Express assignment routing with a substituted persistence boundary. No main database or production login.",
+  "exitCode": 0,
+  "pass": 11,
+  "fail": 0
+}

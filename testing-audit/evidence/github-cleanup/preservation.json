@@ -1,0 +1,19 @@
+{
+  "generatedAt": "2026-10-21T11:34:47.587Z",
+  "privateEnvironments": [
+    {
+      "file": ".env",
+      "unchanged": true
+    },
+    {
+      "file": ".env.production",
+      "unchanged": true
+    },
+    {
+      "file": "server/.env",
+      "unchanged": true
+    }
+  ],
+  "indexUnchanged": true,
+  "note": "Private environment hashes stayed in memory and are not serialized. Comparison covers this verification run; no environment edits were made by the cleanup task."
+}

@@ -1,0 +1,24 @@
+{
+  "generatedAt": "2026-10-21T13:34:32.233Z",
+  "environments": [
+    {
+      "file": ".env",
+      "existedBefore": true,
+      "unchanged": true
+    },
+    {
+      "file": ".env.production",
+      "existedBefore": true,
+      "unchanged": true
+    },
+    {
+      "file": "server/.env",
+      "existedBefore": true,
+      "unchanged": true
+    }
+  ],
+  "indexUnchanged": true,
+  "headUnchanged": true,
+  "allRefsUnchanged": true,
+  "scope": "Comparisons cover this final local verification run. Private hashes and values were kept only in memory. No remote query or write was performed."
+}

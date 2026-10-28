@@ -1,6 +1,7 @@
 import { lazy, Suspense } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import { BrandedStatus } from './components/BrandedStatus';
+import { AppErrorBoundary } from './components/AppErrorBoundary';
 
 // Five intentional route bundles avoid both a monolith and dozens of tiny
 // page chunks. A user downloads the public shell plus only their role area.
@@ -12,7 +13,7 @@ const TeacherArea = lazy(() => import('./routes/TeacherArea'));
 
 export default function App() {
   return (
-    <Suspense fallback={<BrandedStatus message="Binubuksan ang pahina..." />}>
+    <AppErrorBoundary><Suspense fallback={<BrandedStatus message="Binubuksan ang pahina..." />}>
       <Routes>
         <Route path="/admin/*" element={<AdminArea />} />
         <Route path="/parent/*" element={<ParentArea />} />
@@ -20,6 +21,6 @@ export default function App() {
         <Route path="/teacher/*" element={<TeacherArea />} />
         <Route path="*" element={<PublicArea />} />
       </Routes>
-    </Suspense>
+    </Suspense></AppErrorBoundary>
   );
 }

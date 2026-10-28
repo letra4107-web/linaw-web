@@ -9,6 +9,7 @@ import logo from '../../assets/Logo.jpg';
 import sidebarFoliageLeft from '../../assets/admin_design/sidebar-foliage-left.png';
 import sidebarFoliageRight from '../../assets/admin_design/sidebar-foliage-right.png';
 import { AppIcon } from '../../components/a11y/AppIcon';
+import { AdminNavigationSearch } from '../../components/AdminNavigationSearch';
 
 const PRIMARY_TABS = [
   { to: '/admin', end: true, icon: '⌂', label: 'Home' },
@@ -196,7 +197,7 @@ export default function AdminLayout() {
         </aside>
         <div ref={contentRef} className={`flex min-w-0 flex-1 flex-col transition-[margin] duration-200 ${collapsed ? 'lg:ml-[4.75rem]' : 'lg:ml-64'}`}>
           <header className="admin-utility-bar hidden h-[4.7rem] items-center justify-between px-6 lg:flex xl:px-8">
-            <label className="admin-global-search"><span aria-hidden="true">⌕</span><input aria-label="Search the admin dashboard" placeholder="Search... (e.g. student, parent, teacher, or account)" /></label>
+            <AdminNavigationSearch destinations={PRIMARY_TABS} />
             <div className="flex items-center gap-4"><NavLink to="/admin/notifications" aria-label="Notifications" className="admin-notification-button relative"><AppIcon name="🔔" className="h-5 w-5" />{unreadCount > 0 && <span className="absolute -top-1 -right-1 grid h-5 min-w-5 place-items-center rounded-full bg-[#ef5350] px-1 text-[.62rem] font-bold text-white">{unreadCount > 9 ? '9+' : unreadCount}</span>}</NavLink><span className="admin-utility-avatar">{initialsFor(identity?.displayName ?? 'Admin')}</span><span className="leading-tight"><b className="block text-sm">{identity?.displayName ?? 'Admin User'}</b><small className="text-xs text-[var(--color-text-muted)]">Administrator</small></span><span className="text-sm" aria-hidden="true">⌄</span></div>
           </header>
           <header className="sticky top-0 z-20 flex h-16 items-center justify-between border-b border-[var(--color-border)] bg-[var(--color-surface)]/90 px-4 backdrop-blur lg:hidden"><div className="flex min-w-0 items-center gap-3"><img src={logo} alt="LinawLetra" className="h-9 w-9 rounded-xl object-cover" /><div className="min-w-0"><p className="truncate text-sm font-extrabold">{current?.label ?? 'Admin'}</p><p className="text-[0.65rem] font-bold tracking-wide text-[var(--color-text-muted)] uppercase">Admin Console</p></div></div><button type="button" onClick={() => setMobileOpen((value) => !value)} aria-expanded={mobileOpen} aria-label="Open menu" className="flex h-10 w-10 items-center justify-center rounded-xl border border-[var(--color-border)] bg-white/65"><AppIcon name={mobileOpen ? '×' : '☰'} /><span className="sr-only">Menu</span></button></header>

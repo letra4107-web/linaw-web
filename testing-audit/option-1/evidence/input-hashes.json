@@ -1,0 +1,30 @@
+{
+  "createdAt": "2026-10-22T16:40:00.687Z",
+  "files": [
+    {
+      "file": "mobile-jest.json",
+      "sha256": "75ee23102a10eb43bcfd67154a06507f20455bfbb7b0c3e52da5b4b915c9fb82"
+    },
+    {
+      "file": "backend-checks.json",
+      "sha256": "0849a069beb8494a119a3a7331439f508e515a34763b323f8608e85a10efcf8c"
+    },
+    {
+      "file": "web-checks.json",
+      "sha256": "d9f87eaf1f9acaaeea4562e7b30464a14fc503ae2ea9335c409a8b797acfc1c1"
+    },
+    {
+      "file": "bundle-checks.json",
+      "sha256": "2ad3b2ed6804d78697948184dbf8fd667f010f7505feae9bb36e5a2b1170ca80"
+    },
+    {
+      "file": "sql-results.json",
+      "sha256": "ef884e212a4a7d9b43e36e2c521b8b8ce35188fc15d1682bda4bb57ad5f3957b"
+    },
+    {
+      "file": "sql-engine.json",
+      "sha256": "42c5bcc5700f2bb98ae064911b5ece82909df211aee21db6f263d6e7e85070e0"
+    }
+  ],
+  "wodProposalSha256": "1f41d056d690be1b50768f896481fb4563807bd2ac44c62dce0686134c90ac53"
+}

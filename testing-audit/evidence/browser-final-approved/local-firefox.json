@@ -1,0 +1,1361 @@
+{
+  "timestamp": "2026-10-21T10:39:21.165Z",
+  "scope": "Public/anonymous navigation, responsive widths and form validation. All non-GET/HEAD requests blocked; local external networking blocked. Desktop engines with resized viewports, not physical mobile devices. No dashboard session or DB access.",
+  "version": "157.0",
+  "runtimeErrors": [],
+  "networkFailures": [
+    {
+      "url": "https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Lexend:wght@400;500;700&display=swap",
+      "method": "GET",
+      "error": "NS_ERROR_FAILURE"
+    },
+    {
+      "url": "https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Lexend:wght@400;500;700&display=swap",
+      "method": "GET",
+      "error": "NS_ERROR_FAILURE"
+    },
+    {
+      "url": "https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Lexend:wght@400;500;700&display=swap",
+      "method": "GET",
+      "error": "NS_ERROR_FAILURE"
+    },
+    {
+      "url": "https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Lexend:wght@400;500;700&display=swap",
+      "method": "GET",
+      "error": "NS_ERROR_FAILURE"
+    },
+    {
+      "url": "https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Lexend:wght@400;500;700&display=swap",
+      "method": "GET",
+      "error": "NS_ERROR_FAILURE"
+    },
+    {
+      "url": "http://127.0.0.1:52453/assets/left-CQ0dEqXa.png",
+      "method": "GET",
+      "error": "NS_BINDING_ABORTED"
+    },
+    {
+      "url": "https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Lexend:wght@400;500;700&display=swap",
+      "method": "GET",
+      "error": "NS_ERROR_FAILURE"
+    },
+    {
+      "url": "https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Lexend:wght@400;500;700&display=swap",
+      "method": "GET",
+      "error": "NS_ERROR_FAILURE"
+    },
+    {
+      "url": "https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Lexend:wght@400;500;700&display=swap",
+      "method": "GET",
+      "error": "NS_ERROR_FAILURE"
+    },
+    {
+      "url": "https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Lexend:wght@400;500;700&display=swap",
+      "method": "GET",
+      "error": "NS_ERROR_FAILURE"
+    },
+    {
+      "url": "https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Lexend:wght@400;500;700&display=swap",
+      "method": "GET",
+      "error": "NS_ERROR_FAILURE"
+    },
+    {
+      "url": "https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Lexend:wght@400;500;700&display=swap",
+      "method": "GET",
+      "error": "NS_ERROR_FAILURE"
+    },
+    {
+      "url": "https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Lexend:wght@400;500;700&display=swap",
+      "method": "GET",
+      "error": "NS_ERROR_FAILURE"
+    },
+    {
+      "url": "https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Lexend:wght@400;500;700&display=swap",
+      "method": "GET",
+      "error": "NS_ERROR_FAILURE"
+    },
+    {
+      "url": "https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Lexend:wght@400;500;700&display=swap",
+      "method": "GET",
+      "error": "NS_ERROR_FAILURE"
+    },
+    {
+      "url": "https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Lexend:wght@400;500;700&display=swap",
+      "method": "GET",
+      "error": "NS_ERROR_FAILURE"
+    },
+    {
+      "url": "https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Lexend:wght@400;500;700&display=swap",
+      "method": "GET",
+      "error": "NS_ERROR_FAILURE"
+    },
+    {
+      "url": "https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Lexend:wght@400;500;700&display=swap",
+      "method": "GET",
+      "error": "NS_ERROR_FAILURE"
+    },
+    {
+      "url": "https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Lexend:wght@400;500;700&display=swap",
+      "method": "GET",
+      "error": "NS_ERROR_FAILURE"
+    },
+    {
+      "url": "http://127.0.0.1:52453/assets/left-CQ0dEqXa.png",
+      "method": "GET",
+      "error": "NS_BINDING_ABORTED"
+    },
+    {
+      "url": "https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Lexend:wght@400;500;700&display=swap",
+      "method": "GET",
+      "error": "NS_ERROR_FAILURE"
+    },
+    {
+      "url": "http://127.0.0.1:52453/assets/left-CQ0dEqXa.png",
+      "method": "GET",
+      "error": "NS_BINDING_ABORTED"
+    },
+    {
+      "url": "http://127.0.0.1:52453/assets/email-D0q0pUTa.png",
+      "method": "GET",
+      "error": "NS_BINDING_ABORTED"
+    },
+    {
+      "url": "https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Lexend:wght@400;500;700&display=swap",
+      "method": "GET",
+      "error": "NS_ERROR_FAILURE"
+    },
+    {
+      "url": "http://127.0.0.1:52453/assets/email-D0q0pUTa.png",
+      "method": "GET",
+      "error": "NS_BINDING_ABORTED"
+    },
+    {
+      "url": "https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Lexend:wght@400;500;700&display=swap",
+      "method": "GET",
+      "error": "NS_ERROR_FAILURE"
+    },
+    {
+      "url": "https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Lexend:wght@400;500;700&display=swap",
+      "method": "GET",
+      "error": "NS_ERROR_FAILURE"
+    },
+    {
+      "url": "https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Lexend:wght@400;500;700&display=swap",
+      "method": "GET",
+      "error": "NS_ERROR_FAILURE"
+    },
+    {
+      "url": "https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Lexend:wght@400;500;700&display=swap",
+      "method": "GET",
+      "error": "NS_ERROR_FAILURE"
+    },
+    {
+      "url": "https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Lexend:wght@400;500;700&display=swap",
+      "method": "GET",
+      "error": "NS_ERROR_FAILURE"
+    },
+    {
+      "url": "https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Lexend:wght@400;500;700&display=swap",
+      "method": "GET",
+      "error": "NS_ERROR_FAILURE"
+    },
+    {
+      "url": "https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Lexend:wght@400;500;700&display=swap",
+      "method": "GET",
+      "error": "NS_ERROR_FAILURE"
+    },
+    {
+      "url": "https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Lexend:wght@400;500;700&display=swap",
+      "method": "GET",
+      "error": "NS_ERROR_FAILURE"
+    },
+    {
+      "url": "https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Lexend:wght@400;500;700&display=swap",
+      "method": "GET",
+      "error": "NS_ERROR_FAILURE"
+    },
+    {
+      "url": "https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Lexend:wght@400;500;700&display=swap",
+      "method": "GET",
+      "error": "NS_ERROR_FAILURE"
+    },
+    {
+      "url": "https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Lexend:wght@400;500;700&display=swap",
+      "method": "GET",
+      "error": "NS_ERROR_FAILURE"
+    },
+    {
+      "url": "https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Lexend:wght@400;500;700&display=swap",
+      "method": "GET",
+      "error": "NS_ERROR_FAILURE"
+    },
+    {
+      "url": "https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Lexend:wght@400;500;700&display=swap",
+      "method": "GET",
+      "error": "NS_ERROR_FAILURE"
+    },
+    {
+      "url": "https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Lexend:wght@400;500;700&display=swap",
+      "method": "GET",
+      "error": "NS_ERROR_FAILURE"
+    },
+    {
+      "url": "https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Lexend:wght@400;500;700&display=swap",
+      "method": "GET",
+      "error": "NS_ERROR_FAILURE"
+    },
+    {
+      "url": "https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Lexend:wght@400;500;700&display=swap",
+      "method": "GET",
+      "error": "NS_ERROR_FAILURE"
+    },
+    {
+      "url": "https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Lexend:wght@400;500;700&display=swap",
+      "method": "GET",
+      "error": "NS_ERROR_FAILURE"
+    },
+    {
+      "url": "https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Lexend:wght@400;500;700&display=swap",
+      "method": "GET",
+      "error": "NS_ERROR_FAILURE"
+    },
+    {
+      "url": "https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Lexend:wght@400;500;700&display=swap",
+      "method": "GET",
+      "error": "NS_ERROR_FAILURE"
+    },
+    {
+      "url": "https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Lexend:wght@400;500;700&display=swap",
+      "method": "GET",
+      "error": "NS_ERROR_FAILURE"
+    },
+    {
+      "url": "https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Lexend:wght@400;500;700&display=swap",
+      "method": "GET",
+      "error": "NS_ERROR_FAILURE"
+    },
+    {
+      "url": "https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Lexend:wght@400;500;700&display=swap",
+      "method": "GET",
+      "error": "NS_ERROR_FAILURE"
+    },
+    {
+      "url": "https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Lexend:wght@400;500;700&display=swap",
+      "method": "GET",
+      "error": "NS_ERROR_FAILURE"
+    },
+    {
+      "url": "https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Lexend:wght@400;500;700&display=swap",
+      "method": "GET",
+      "error": "NS_ERROR_FAILURE"
+    },
+    {
+      "url": "https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Lexend:wght@400;500;700&display=swap",
+      "method": "GET",
+      "error": "NS_ERROR_FAILURE"
+    },
+    {
+      "url": "https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Lexend:wght@400;500;700&display=swap",
+      "method": "GET",
+      "error": "NS_ERROR_FAILURE"
+    },
+    {
+      "url": "https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Lexend:wght@400;500;700&display=swap",
+      "method": "GET",
+      "error": "NS_ERROR_FAILURE"
+    },
+    {
+      "url": "https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Lexend:wght@400;500;700&display=swap",
+      "method": "GET",
+      "error": "NS_ERROR_FAILURE"
+    },
+    {
+      "url": "https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Lexend:wght@400;500;700&display=swap",
+      "method": "GET",
+      "error": "NS_ERROR_FAILURE"
+    },
+    {
+      "url": "https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Lexend:wght@400;500;700&display=swap",
+      "method": "GET",
+      "error": "NS_ERROR_FAILURE"
+    },
+    {
+      "url": "https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Lexend:wght@400;500;700&display=swap",
+      "method": "GET",
+      "error": "NS_ERROR_FAILURE"
+    },
+    {
+      "url": "https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Lexend:wght@400;500;700&display=swap",
+      "method": "GET",
+      "error": "NS_ERROR_FAILURE"
+    },
+    {
+      "url": "https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Lexend:wght@400;500;700&display=swap",
+      "method": "GET",
+      "error": "NS_ERROR_FAILURE"
+    },
+    {
+      "url": "https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Lexend:wght@400;500;700&display=swap",
+      "method": "GET",
+      "error": "NS_ERROR_FAILURE"
+    },
+    {
+      "url": "https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Lexend:wght@400;500;700&display=swap",
+      "method": "GET",
+      "error": "NS_ERROR_FAILURE"
+    },
+    {
+      "url": "https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Lexend:wght@400;500;700&display=swap",
+      "method": "GET",
+      "error": "NS_ERROR_FAILURE"
+    },
+    {
+      "url": "https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Lexend:wght@400;500;700&display=swap",
+      "method": "GET",
+      "error": "NS_ERROR_FAILURE"
+    },
+    {
+      "url": "https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Lexend:wght@400;500;700&display=swap",
+      "method": "GET",
+      "error": "NS_ERROR_FAILURE"
+    },
+    {
+      "url": "https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Lexend:wght@400;500;700&display=swap",
+      "method": "GET",
+      "error": "NS_ERROR_FAILURE"
+    },
+    {
+      "url": "https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Lexend:wght@400;500;700&display=swap",
+      "method": "GET",
+      "error": "NS_ERROR_FAILURE"
+    },
+    {
+      "url": "https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Lexend:wght@400;500;700&display=swap",
+      "method": "GET",
+      "error": "NS_ERROR_FAILURE"
+    },
+    {
+      "url": "http://127.0.0.1:52453/assets/TeacherArea-B40tlZqd.js",
+      "method": "GET",
+      "error": "NS_ERROR_FAILURE"
+    },
+    {
+      "url": "https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Lexend:wght@400;500;700&display=swap",
+      "method": "GET",
+      "error": "NS_ERROR_FAILURE"
+    },
+    {
+      "coldContext": 0,
+      "url": "https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Lexend:wght@400;500;700&display=swap",
+      "method": "GET",
+      "error": "NS_ERROR_FAILURE"
+    },
+    {
+      "coldContext": 1,
+      "url": "https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Lexend:wght@400;500;700&display=swap",
+      "method": "GET",
+      "error": "NS_ERROR_FAILURE"
+    },
+    {
+      "coldContext": 2,
+      "url": "https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Lexend:wght@400;500;700&display=swap",
+      "method": "GET",
+      "error": "NS_ERROR_FAILURE"
+    },
+    {
+      "coldContext": 3,
+      "url": "https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Lexend:wght@400;500;700&display=swap",
+      "method": "GET",
+      "error": "NS_ERROR_FAILURE"
+    },
+    {
+      "coldContext": 4,
+      "url": "https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Lexend:wght@400;500;700&display=swap",
+      "method": "GET",
+      "error": "NS_ERROR_FAILURE"
+    },
+    {
+      "coldContext": 5,
+      "url": "https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Lexend:wght@400;500;700&display=swap",
+      "method": "GET",
+      "error": "NS_ERROR_FAILURE"
+    },
+    {
+      "coldContext": 6,
+      "url": "https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Lexend:wght@400;500;700&display=swap",
+      "method": "GET",
+      "error": "NS_ERROR_FAILURE"
+    },
+    {
+      "coldContext": 7,
+      "url": "https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Lexend:wght@400;500;700&display=swap",
+      "method": "GET",
+      "error": "NS_ERROR_FAILURE"
+    },
+    {
+      "coldContext": 8,
+      "url": "https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Lexend:wght@400;500;700&display=swap",
+      "method": "GET",
+      "error": "NS_ERROR_FAILURE"
+    },
+    {
+      "coldContext": 9,
+      "url": "https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Lexend:wght@400;500;700&display=swap",
+      "method": "GET",
+      "error": "NS_ERROR_FAILURE"
+    }
+  ],
+  "rows": [
+    {
+      "id": "FIREFOX-BR-001",
+      "module": "Local Firefox browser",
+      "scenario": "/ renders without horizontal overflow at 375px",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "testing-audit/evidence/browser-final-approved/local-firefox.json",
+      "actual": {
+        "path": "/",
+        "width": 375,
+        "content": 375,
+        "title": "Mas malinaw na pagbasa, mas masayang pagkatuto.",
+        "navigation": [
+          {
+            "loadMs": 1206,
+            "domContentLoadedMs": 1010
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "FIREFOX-BR-002",
+      "module": "Local Firefox browser",
+      "scenario": "/login renders without horizontal overflow at 375px",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "testing-audit/evidence/browser-final-approved/local-firefox.json",
+      "actual": {
+        "path": "/login",
+        "width": 375,
+        "content": 375,
+        "title": "Handa ka na bang magbasa?",
+        "navigation": [
+          {
+            "loadMs": 1408,
+            "domContentLoadedMs": 528
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "FIREFOX-BR-003",
+      "module": "Local Firefox browser",
+      "scenario": "/signup renders without horizontal overflow at 375px",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "testing-audit/evidence/browser-final-approved/local-firefox.json",
+      "actual": {
+        "path": "/signup",
+        "width": 375,
+        "content": 375,
+        "title": "Gumawa ng account",
+        "navigation": [
+          {
+            "loadMs": 1546,
+            "domContentLoadedMs": 702
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "FIREFOX-BR-004",
+      "module": "Local Firefox browser",
+      "scenario": "/forgot-password renders without horizontal overflow at 375px",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "testing-audit/evidence/browser-final-approved/local-firefox.json",
+      "actual": {
+        "path": "/forgot-password",
+        "width": 375,
+        "content": 375,
+        "title": "Nakalimutan ang Password?",
+        "navigation": [
+          {
+            "loadMs": 1054,
+            "domContentLoadedMs": 644
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "FIREFOX-BR-005",
+      "module": "Local Firefox browser",
+      "scenario": "/reset-password renders without horizontal overflow at 375px",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "testing-audit/evidence/browser-final-approved/local-firefox.json",
+      "actual": {
+        "path": "/reset-password",
+        "width": 375,
+        "content": 375,
+        "title": "I-reset ang iyong password",
+        "navigation": [
+          {
+            "loadMs": 946,
+            "domContentLoadedMs": 464
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "FIREFOX-BR-006",
+      "module": "Local Firefox browser",
+      "scenario": "/verify-email renders without horizontal overflow at 375px",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "testing-audit/evidence/browser-final-approved/local-firefox.json",
+      "actual": {
+        "path": "/verify-email",
+        "width": 375,
+        "content": 375,
+        "title": "I-verify ang iyong email",
+        "navigation": [
+          {
+            "loadMs": 742,
+            "domContentLoadedMs": 460
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "FIREFOX-BR-007",
+      "module": "Local Firefox browser",
+      "scenario": "/resend-verification renders without horizontal overflow at 375px",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "testing-audit/evidence/browser-final-approved/local-firefox.json",
+      "actual": {
+        "path": "/resend-verification",
+        "width": 375,
+        "content": 375,
+        "title": "Muling ipadala ang code",
+        "navigation": [
+          {
+            "loadMs": 580,
+            "domContentLoadedMs": 303
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "FIREFOX-BR-008",
+      "module": "Local Firefox browser",
+      "scenario": "/privacy renders without horizontal overflow at 375px",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "testing-audit/evidence/browser-final-approved/local-firefox.json",
+      "actual": {
+        "path": "/privacy",
+        "width": 375,
+        "content": 375,
+        "title": "Patakaran sa Privacy",
+        "navigation": [
+          {
+            "loadMs": 480,
+            "domContentLoadedMs": 374
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "FIREFOX-BR-009",
+      "module": "Local Firefox browser",
+      "scenario": "/terms renders without horizontal overflow at 375px",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "testing-audit/evidence/browser-final-approved/local-firefox.json",
+      "actual": {
+        "path": "/terms",
+        "width": 375,
+        "content": 375,
+        "title": "Mga Tuntunin ng Serbisyo",
+        "navigation": [
+          {
+            "loadMs": 494,
+            "domContentLoadedMs": 321
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "FIREFOX-BR-010",
+      "module": "Local Firefox browser",
+      "scenario": "/child-data renders without horizontal overflow at 375px",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "testing-audit/evidence/browser-final-approved/local-firefox.json",
+      "actual": {
+        "path": "/child-data",
+        "width": 375,
+        "content": 375,
+        "title": "Data ng Bata at Pahintulot ng Magulang",
+        "navigation": [
+          {
+            "loadMs": 392,
+            "domContentLoadedMs": 286
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "FIREFOX-BR-011",
+      "module": "Local Firefox browser",
+      "scenario": "/account-deletion renders without horizontal overflow at 375px",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "testing-audit/evidence/browser-final-approved/local-firefox.json",
+      "actual": {
+        "path": "/account-deletion",
+        "width": 375,
+        "content": 375,
+        "title": "Pag-delete ng Account",
+        "navigation": [
+          {
+            "loadMs": 357,
+            "domContentLoadedMs": 253
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "FIREFOX-BR-012",
+      "module": "Local Firefox browser",
+      "scenario": "/accessibility renders without horizontal overflow at 375px",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "testing-audit/evidence/browser-final-approved/local-firefox.json",
+      "actual": {
+        "path": "/accessibility",
+        "width": 375,
+        "content": 375,
+        "title": "Pahayag sa Accessibility",
+        "navigation": [
+          {
+            "loadMs": 468,
+            "domContentLoadedMs": 348
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "FIREFOX-BR-013",
+      "module": "Local Firefox browser",
+      "scenario": "/not-a-real-page renders without horizontal overflow at 375px",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "testing-audit/evidence/browser-final-approved/local-firefox.json",
+      "actual": {
+        "path": "/not-a-real-page",
+        "width": 375,
+        "content": 375,
+        "title": "Naligaw ang pahina",
+        "navigation": [
+          {
+            "loadMs": 405,
+            "domContentLoadedMs": 315
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "FIREFOX-BR-014",
+      "module": "Local Firefox browser",
+      "scenario": "/ renders without horizontal overflow at 768px",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "testing-audit/evidence/browser-final-approved/local-firefox.json",
+      "actual": {
+        "path": "/",
+        "width": 768,
+        "content": 768,
+        "title": "Mas malinaw na pagbasa, mas masayang pagkatuto.",
+        "navigation": [
+          {
+            "loadMs": 926,
+            "domContentLoadedMs": 696
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "FIREFOX-BR-015",
+      "module": "Local Firefox browser",
+      "scenario": "/login renders without horizontal overflow at 768px",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "testing-audit/evidence/browser-final-approved/local-firefox.json",
+      "actual": {
+        "path": "/login",
+        "width": 768,
+        "content": 768,
+        "title": "Handa ka na bang magbasa?",
+        "navigation": [
+          {
+            "loadMs": 2366,
+            "domContentLoadedMs": 826
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "FIREFOX-BR-016",
+      "module": "Local Firefox browser",
+      "scenario": "/signup renders without horizontal overflow at 768px",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "testing-audit/evidence/browser-final-approved/local-firefox.json",
+      "actual": {
+        "path": "/signup",
+        "width": 768,
+        "content": 768,
+        "title": "Gumawa ng account",
+        "navigation": [
+          {
+            "loadMs": 3495,
+            "domContentLoadedMs": 1388
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "FIREFOX-BR-017",
+      "module": "Local Firefox browser",
+      "scenario": "/forgot-password renders without horizontal overflow at 768px",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "testing-audit/evidence/browser-final-approved/local-firefox.json",
+      "actual": {
+        "path": "/forgot-password",
+        "width": 768,
+        "content": 768,
+        "title": "Nakalimutan ang Password?",
+        "navigation": [
+          {
+            "loadMs": 3217,
+            "domContentLoadedMs": 1425
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "FIREFOX-BR-018",
+      "module": "Local Firefox browser",
+      "scenario": "/reset-password renders without horizontal overflow at 768px",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "testing-audit/evidence/browser-final-approved/local-firefox.json",
+      "actual": {
+        "path": "/reset-password",
+        "width": 768,
+        "content": 768,
+        "title": "I-reset ang iyong password",
+        "navigation": [
+          {
+            "loadMs": 3030,
+            "domContentLoadedMs": 1730
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "FIREFOX-BR-019",
+      "module": "Local Firefox browser",
+      "scenario": "/verify-email renders without horizontal overflow at 768px",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "testing-audit/evidence/browser-final-approved/local-firefox.json",
+      "actual": {
+        "path": "/verify-email",
+        "width": 768,
+        "content": 768,
+        "title": "I-verify ang iyong email",
+        "navigation": [
+          {
+            "loadMs": 3782,
+            "domContentLoadedMs": 1167
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "FIREFOX-BR-020",
+      "module": "Local Firefox browser",
+      "scenario": "/resend-verification renders without horizontal overflow at 768px",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "testing-audit/evidence/browser-final-approved/local-firefox.json",
+      "actual": {
+        "path": "/resend-verification",
+        "width": 768,
+        "content": 768,
+        "title": "Muling ipadala ang code",
+        "navigation": [
+          {
+            "loadMs": 3096,
+            "domContentLoadedMs": 1244
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "FIREFOX-BR-021",
+      "module": "Local Firefox browser",
+      "scenario": "/privacy renders without horizontal overflow at 768px",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "testing-audit/evidence/browser-final-approved/local-firefox.json",
+      "actual": {
+        "path": "/privacy",
+        "width": 768,
+        "content": 768,
+        "title": "Patakaran sa Privacy",
+        "navigation": [
+          {
+            "loadMs": 1965,
+            "domContentLoadedMs": 1287
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "FIREFOX-BR-022",
+      "module": "Local Firefox browser",
+      "scenario": "/terms renders without horizontal overflow at 768px",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "testing-audit/evidence/browser-final-approved/local-firefox.json",
+      "actual": {
+        "path": "/terms",
+        "width": 768,
+        "content": 768,
+        "title": "Mga Tuntunin ng Serbisyo",
+        "navigation": [
+          {
+            "loadMs": 1335,
+            "domContentLoadedMs": 876
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "FIREFOX-BR-023",
+      "module": "Local Firefox browser",
+      "scenario": "/child-data renders without horizontal overflow at 768px",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "testing-audit/evidence/browser-final-approved/local-firefox.json",
+      "actual": {
+        "path": "/child-data",
+        "width": 768,
+        "content": 768,
+        "title": "Data ng Bata at Pahintulot ng Magulang",
+        "navigation": [
+          {
+            "loadMs": 1254,
+            "domContentLoadedMs": 879
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "FIREFOX-BR-024",
+      "module": "Local Firefox browser",
+      "scenario": "/account-deletion renders without horizontal overflow at 768px",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "testing-audit/evidence/browser-final-approved/local-firefox.json",
+      "actual": {
+        "path": "/account-deletion",
+        "width": 768,
+        "content": 768,
+        "title": "Pag-delete ng Account",
+        "navigation": [
+          {
+            "loadMs": 1268,
+            "domContentLoadedMs": 981
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "FIREFOX-BR-025",
+      "module": "Local Firefox browser",
+      "scenario": "/accessibility renders without horizontal overflow at 768px",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "testing-audit/evidence/browser-final-approved/local-firefox.json",
+      "actual": {
+        "path": "/accessibility",
+        "width": 768,
+        "content": 768,
+        "title": "Pahayag sa Accessibility",
+        "navigation": [
+          {
+            "loadMs": 1293,
+            "domContentLoadedMs": 923
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "FIREFOX-BR-026",
+      "module": "Local Firefox browser",
+      "scenario": "/not-a-real-page renders without horizontal overflow at 768px",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "testing-audit/evidence/browser-final-approved/local-firefox.json",
+      "actual": {
+        "path": "/not-a-real-page",
+        "width": 768,
+        "content": 768,
+        "title": "Naligaw ang pahina",
+        "navigation": [
+          {
+            "loadMs": 2081,
+            "domContentLoadedMs": 1398
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "FIREFOX-BR-027",
+      "module": "Local Firefox browser",
+      "scenario": "/ renders without horizontal overflow at 1440px",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "testing-audit/evidence/browser-final-approved/local-firefox.json",
+      "actual": {
+        "path": "/",
+        "width": 1440,
+        "content": 1440,
+        "title": "Mas malinaw na pagbasa, mas masayang pagkatuto.",
+        "navigation": [
+          {
+            "loadMs": 2758,
+            "domContentLoadedMs": 2044
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "FIREFOX-BR-028",
+      "module": "Local Firefox browser",
+      "scenario": "/login renders without horizontal overflow at 1440px",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "testing-audit/evidence/browser-final-approved/local-firefox.json",
+      "actual": {
+        "path": "/login",
+        "width": 1440,
+        "content": 1440,
+        "title": "Handa ka na bang magbasa?",
+        "navigation": [
+          {
+            "loadMs": 2519,
+            "domContentLoadedMs": 1238
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "FIREFOX-BR-029",
+      "module": "Local Firefox browser",
+      "scenario": "/signup renders without horizontal overflow at 1440px",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "testing-audit/evidence/browser-final-approved/local-firefox.json",
+      "actual": {
+        "path": "/signup",
+        "width": 1440,
+        "content": 1440,
+        "title": "Gumawa ng account",
+        "navigation": [
+          {
+            "loadMs": 704,
+            "domContentLoadedMs": 467
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "FIREFOX-BR-030",
+      "module": "Local Firefox browser",
+      "scenario": "/forgot-password renders without horizontal overflow at 1440px",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "testing-audit/evidence/browser-final-approved/local-firefox.json",
+      "actual": {
+        "path": "/forgot-password",
+        "width": 1440,
+        "content": 1440,
+        "title": "Nakalimutan ang Password?",
+        "navigation": [
+          {
+            "loadMs": 835,
+            "domContentLoadedMs": 431
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "FIREFOX-BR-031",
+      "module": "Local Firefox browser",
+      "scenario": "/reset-password renders without horizontal overflow at 1440px",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "testing-audit/evidence/browser-final-approved/local-firefox.json",
+      "actual": {
+        "path": "/reset-password",
+        "width": 1440,
+        "content": 1440,
+        "title": "I-reset ang iyong password",
+        "navigation": [
+          {
+            "loadMs": 460,
+            "domContentLoadedMs": 291
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "FIREFOX-BR-032",
+      "module": "Local Firefox browser",
+      "scenario": "/verify-email renders without horizontal overflow at 1440px",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "testing-audit/evidence/browser-final-approved/local-firefox.json",
+      "actual": {
+        "path": "/verify-email",
+        "width": 1440,
+        "content": 1440,
+        "title": "I-verify ang iyong email",
+        "navigation": [
+          {
+            "loadMs": 448,
+            "domContentLoadedMs": 320
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "FIREFOX-BR-033",
+      "module": "Local Firefox browser",
+      "scenario": "/resend-verification renders without horizontal overflow at 1440px",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "testing-audit/evidence/browser-final-approved/local-firefox.json",
+      "actual": {
+        "path": "/resend-verification",
+        "width": 1440,
+        "content": 1440,
+        "title": "Muling ipadala ang code",
+        "navigation": [
+          {
+            "loadMs": 629,
+            "domContentLoadedMs": 404
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "FIREFOX-BR-034",
+      "module": "Local Firefox browser",
+      "scenario": "/privacy renders without horizontal overflow at 1440px",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "testing-audit/evidence/browser-final-approved/local-firefox.json",
+      "actual": {
+        "path": "/privacy",
+        "width": 1440,
+        "content": 1440,
+        "title": "Patakaran sa Privacy",
+        "navigation": [
+          {
+            "loadMs": 385,
+            "domContentLoadedMs": 275
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "FIREFOX-BR-035",
+      "module": "Local Firefox browser",
+      "scenario": "/terms renders without horizontal overflow at 1440px",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "testing-audit/evidence/browser-final-approved/local-firefox.json",
+      "actual": {
+        "path": "/terms",
+        "width": 1440,
+        "content": 1440,
+        "title": "Mga Tuntunin ng Serbisyo",
+        "navigation": [
+          {
+            "loadMs": 486,
+            "domContentLoadedMs": 290
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "FIREFOX-BR-036",
+      "module": "Local Firefox browser",
+      "scenario": "/child-data renders without horizontal overflow at 1440px",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "testing-audit/evidence/browser-final-approved/local-firefox.json",
+      "actual": {
+        "path": "/child-data",
+        "width": 1440,
+        "content": 1440,
+        "title": "Data ng Bata at Pahintulot ng Magulang",
+        "navigation": [
+          {
+            "loadMs": 391,
+            "domContentLoadedMs": 269
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "FIREFOX-BR-037",
+      "module": "Local Firefox browser",
+      "scenario": "/account-deletion renders without horizontal overflow at 1440px",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "testing-audit/evidence/browser-final-approved/local-firefox.json",
+      "actual": {
+        "path": "/account-deletion",
+        "width": 1440,
+        "content": 1440,
+        "title": "Pag-delete ng Account",
+        "navigation": [
+          {
+            "loadMs": 332,
+            "domContentLoadedMs": 214
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "FIREFOX-BR-038",
+      "module": "Local Firefox browser",
+      "scenario": "/accessibility renders without horizontal overflow at 1440px",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "testing-audit/evidence/browser-final-approved/local-firefox.json",
+      "actual": {
+        "path": "/accessibility",
+        "width": 1440,
+        "content": 1440,
+        "title": "Pahayag sa Accessibility",
+        "navigation": [
+          {
+            "loadMs": 358,
+            "domContentLoadedMs": 251
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "FIREFOX-BR-039",
+      "module": "Local Firefox browser",
+      "scenario": "/not-a-real-page renders without horizontal overflow at 1440px",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "testing-audit/evidence/browser-final-approved/local-firefox.json",
+      "actual": {
+        "path": "/not-a-real-page",
+        "width": 1440,
+        "content": 1440,
+        "title": "Naligaw ang pahina",
+        "navigation": [
+          {
+            "loadMs": 352,
+            "domContentLoadedMs": 252
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "FIREFOX-BR-040",
+      "module": "Local Firefox browser",
+      "scenario": "Anonymous admin redirects to login",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "testing-audit/evidence/browser-final-approved/local-firefox.json",
+      "actual": "Assertions passed",
+      "status": "PASS"
+    },
+    {
+      "id": "FIREFOX-BR-041",
+      "module": "Local Firefox browser",
+      "scenario": "Anonymous admin/settings redirects to login",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "testing-audit/evidence/browser-final-approved/local-firefox.json",
+      "actual": "Assertions passed",
+      "status": "PASS"
+    },
+    {
+      "id": "FIREFOX-BR-042",
+      "module": "Local Firefox browser",
+      "scenario": "Anonymous admin/not-a-real-page redirects to login",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "testing-audit/evidence/browser-final-approved/local-firefox.json",
+      "actual": "Assertions passed",
+      "status": "PASS"
+    },
+    {
+      "id": "FIREFOX-BR-043",
+      "module": "Local Firefox browser",
+      "scenario": "Anonymous teacher redirects to login",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "testing-audit/evidence/browser-final-approved/local-firefox.json",
+      "actual": "Assertions passed",
+      "status": "PASS"
+    },
+    {
+      "id": "FIREFOX-BR-044",
+      "module": "Local Firefox browser",
+      "scenario": "Anonymous teacher/settings redirects to login",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "testing-audit/evidence/browser-final-approved/local-firefox.json",
+      "actual": "Assertions passed",
+      "status": "PASS"
+    },
+    {
+      "id": "FIREFOX-BR-045",
+      "module": "Local Firefox browser",
+      "scenario": "Anonymous teacher/not-a-real-page redirects to login",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "testing-audit/evidence/browser-final-approved/local-firefox.json",
+      "actual": "Assertions passed",
+      "status": "PASS"
+    },
+    {
+      "id": "FIREFOX-BR-046",
+      "module": "Local Firefox browser",
+      "scenario": "Anonymous parent redirects to login",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "testing-audit/evidence/browser-final-approved/local-firefox.json",
+      "actual": "Assertions passed",
+      "status": "PASS"
+    },
+    {
+      "id": "FIREFOX-BR-047",
+      "module": "Local Firefox browser",
+      "scenario": "Anonymous parent/settings redirects to login",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "testing-audit/evidence/browser-final-approved/local-firefox.json",
+      "actual": "Assertions passed",
+      "status": "PASS"
+    },
+    {
+      "id": "FIREFOX-BR-048",
+      "module": "Local Firefox browser",
+      "scenario": "Anonymous parent/not-a-real-page redirects to login",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "testing-audit/evidence/browser-final-approved/local-firefox.json",
+      "actual": "Assertions passed",
+      "status": "PASS"
+    },
+    {
+      "id": "FIREFOX-BR-049",
+      "module": "Local Firefox browser",
+      "scenario": "Anonymous student redirects to login",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "testing-audit/evidence/browser-final-approved/local-firefox.json",
+      "actual": "Assertions passed",
+      "status": "PASS"
+    },
+    {
+      "id": "FIREFOX-BR-050",
+      "module": "Local Firefox browser",
+      "scenario": "Anonymous student/settings redirects to login",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "testing-audit/evidence/browser-final-approved/local-firefox.json",
+      "actual": "Assertions passed",
+      "status": "PASS"
+    },
+    {
+      "id": "FIREFOX-BR-051",
+      "module": "Local Firefox browser",
+      "scenario": "Anonymous student/not-a-real-page redirects to login",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "testing-audit/evidence/browser-final-approved/local-firefox.json",
+      "actual": "Assertions passed",
+      "status": "PASS"
+    },
+    {
+      "id": "FIREFOX-BR-052",
+      "module": "Local Firefox browser",
+      "scenario": "Empty login submission displays validation; password visibility and keyboard toggle work",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "testing-audit/evidence/browser-final-approved/local-firefox.json",
+      "actual": "Assertions passed",
+      "status": "PASS"
+    },
+    {
+      "id": "FIREFOX-BR-053",
+      "module": "Local Firefox browser",
+      "scenario": "Empty signup submission displays required-field errors",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "testing-audit/evidence/browser-final-approved/local-firefox.json",
+      "actual": "Assertions passed",
+      "status": "PASS"
+    },
+    {
+      "id": "FIREFOX-BR-054",
+      "module": "Local Firefox browser",
+      "scenario": "OTP keyboard navigation and nonnumeric input validation",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "testing-audit/evidence/browser-final-approved/local-firefox.json",
+      "actual": "Assertions passed",
+      "status": "PASS"
+    },
+    {
+      "id": "FIREFOX-BR-055",
+      "module": "Local Firefox browser",
+      "scenario": "Public forms have accessible names for visible input controls",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "testing-audit/evidence/browser-final-approved/local-firefox.json",
+      "actual": "Assertions passed",
+      "status": "PASS"
+    },
+    {
+      "id": "FIREFOX-BR-056",
+      "module": "Local Firefox browser",
+      "scenario": "No uncaught JavaScript exceptions during tested navigation and actions",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "testing-audit/evidence/browser-final-approved/local-firefox.json",
+      "actual": "Assertions passed",
+      "status": "PASS"
+    },
+    {
+      "id": "FIREFOX-BR-057",
+      "module": "Local Firefox browser",
+      "scenario": "A failed route-bundle download displays retry feedback and recovers after reloading",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "testing-audit/evidence/browser-final-approved/local-firefox.json",
+      "actual": "Assertions passed",
+      "status": "PASS"
+    },
+    {
+      "id": "FIREFOX-BR-058",
+      "module": "Local Firefox browser",
+      "scenario": "Ten fresh browser contexts render the cold mobile home route without asset failures",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "testing-audit/evidence/browser-final-approved/local-firefox.json",
+      "actual": "10/10 fresh contexts rendered with no failed local assets or overflow; no retry used",
+      "status": "PASS"
+    }
+  ]
+}

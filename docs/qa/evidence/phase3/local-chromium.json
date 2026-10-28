@@ -1,0 +1,1395 @@
+{
+  "timestamp": "2026-10-18T08:03:44.631Z",
+  "scope": "Public/anonymous navigation, responsive widths and form validation. All non-GET/HEAD requests blocked; local external networking blocked. Desktop engines with resized viewports, not physical mobile devices. No dashboard session or DB access.",
+  "version": "156.0.8078.4",
+  "runtimeErrors": [],
+  "networkFailures": [
+    {
+      "url": "https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Lexend:wght@400;500;700&display=swap",
+      "method": "GET",
+      "error": "net::ERR_BLOCKED_BY_CLIENT.Inspector"
+    },
+    {
+      "url": "https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Lexend:wght@400;500;700&display=swap",
+      "method": "GET",
+      "error": "net::ERR_BLOCKED_BY_CLIENT.Inspector"
+    },
+    {
+      "url": "https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Lexend:wght@400;500;700&display=swap",
+      "method": "GET",
+      "error": "net::ERR_BLOCKED_BY_CLIENT.Inspector"
+    },
+    {
+      "url": "https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Lexend:wght@400;500;700&display=swap",
+      "method": "GET",
+      "error": "net::ERR_BLOCKED_BY_CLIENT.Inspector"
+    },
+    {
+      "url": "https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Lexend:wght@400;500;700&display=swap",
+      "method": "GET",
+      "error": "net::ERR_BLOCKED_BY_CLIENT.Inspector"
+    },
+    {
+      "url": "https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Lexend:wght@400;500;700&display=swap",
+      "method": "GET",
+      "error": "net::ERR_BLOCKED_BY_CLIENT.Inspector"
+    },
+    {
+      "url": "https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Lexend:wght@400;500;700&display=swap",
+      "method": "GET",
+      "error": "net::ERR_BLOCKED_BY_CLIENT.Inspector"
+    },
+    {
+      "url": "https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Lexend:wght@400;500;700&display=swap",
+      "method": "GET",
+      "error": "net::ERR_BLOCKED_BY_CLIENT.Inspector"
+    },
+    {
+      "url": "https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Lexend:wght@400;500;700&display=swap",
+      "method": "GET",
+      "error": "net::ERR_BLOCKED_BY_CLIENT.Inspector"
+    },
+    {
+      "url": "https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Lexend:wght@400;500;700&display=swap",
+      "method": "GET",
+      "error": "net::ERR_BLOCKED_BY_CLIENT.Inspector"
+    },
+    {
+      "url": "https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Lexend:wght@400;500;700&display=swap",
+      "method": "GET",
+      "error": "net::ERR_BLOCKED_BY_CLIENT.Inspector"
+    },
+    {
+      "url": "https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Lexend:wght@400;500;700&display=swap",
+      "method": "GET",
+      "error": "net::ERR_BLOCKED_BY_CLIENT.Inspector"
+    },
+    {
+      "url": "https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Lexend:wght@400;500;700&display=swap",
+      "method": "GET",
+      "error": "net::ERR_BLOCKED_BY_CLIENT.Inspector"
+    },
+    {
+      "url": "https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Lexend:wght@400;500;700&display=swap",
+      "method": "GET",
+      "error": "net::ERR_BLOCKED_BY_CLIENT.Inspector"
+    },
+    {
+      "url": "https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Lexend:wght@400;500;700&display=swap",
+      "method": "GET",
+      "error": "net::ERR_BLOCKED_BY_CLIENT.Inspector"
+    },
+    {
+      "url": "https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Lexend:wght@400;500;700&display=swap",
+      "method": "GET",
+      "error": "net::ERR_BLOCKED_BY_CLIENT.Inspector"
+    },
+    {
+      "url": "https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Lexend:wght@400;500;700&display=swap",
+      "method": "GET",
+      "error": "net::ERR_BLOCKED_BY_CLIENT.Inspector"
+    },
+    {
+      "url": "https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Lexend:wght@400;500;700&display=swap",
+      "method": "GET",
+      "error": "net::ERR_BLOCKED_BY_CLIENT.Inspector"
+    },
+    {
+      "url": "https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Lexend:wght@400;500;700&display=swap",
+      "method": "GET",
+      "error": "net::ERR_BLOCKED_BY_CLIENT.Inspector"
+    },
+    {
+      "url": "https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Lexend:wght@400;500;700&display=swap",
+      "method": "GET",
+      "error": "net::ERR_BLOCKED_BY_CLIENT.Inspector"
+    },
+    {
+      "url": "https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Lexend:wght@400;500;700&display=swap",
+      "method": "GET",
+      "error": "net::ERR_BLOCKED_BY_CLIENT.Inspector"
+    },
+    {
+      "url": "https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Lexend:wght@400;500;700&display=swap",
+      "method": "GET",
+      "error": "net::ERR_BLOCKED_BY_CLIENT.Inspector"
+    },
+    {
+      "url": "https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Lexend:wght@400;500;700&display=swap",
+      "method": "GET",
+      "error": "net::ERR_BLOCKED_BY_CLIENT.Inspector"
+    },
+    {
+      "url": "https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Lexend:wght@400;500;700&display=swap",
+      "method": "GET",
+      "error": "net::ERR_BLOCKED_BY_CLIENT.Inspector"
+    },
+    {
+      "url": "https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Lexend:wght@400;500;700&display=swap",
+      "method": "GET",
+      "error": "net::ERR_BLOCKED_BY_CLIENT.Inspector"
+    },
+    {
+      "url": "https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Lexend:wght@400;500;700&display=swap",
+      "method": "GET",
+      "error": "net::ERR_BLOCKED_BY_CLIENT.Inspector"
+    },
+    {
+      "url": "https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Lexend:wght@400;500;700&display=swap",
+      "method": "GET",
+      "error": "net::ERR_BLOCKED_BY_CLIENT.Inspector"
+    },
+    {
+      "url": "https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Lexend:wght@400;500;700&display=swap",
+      "method": "GET",
+      "error": "net::ERR_BLOCKED_BY_CLIENT.Inspector"
+    },
+    {
+      "url": "https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Lexend:wght@400;500;700&display=swap",
+      "method": "GET",
+      "error": "net::ERR_BLOCKED_BY_CLIENT.Inspector"
+    },
+    {
+      "url": "https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Lexend:wght@400;500;700&display=swap",
+      "method": "GET",
+      "error": "net::ERR_BLOCKED_BY_CLIENT.Inspector"
+    },
+    {
+      "url": "https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Lexend:wght@400;500;700&display=swap",
+      "method": "GET",
+      "error": "net::ERR_BLOCKED_BY_CLIENT.Inspector"
+    },
+    {
+      "url": "https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Lexend:wght@400;500;700&display=swap",
+      "method": "GET",
+      "error": "net::ERR_BLOCKED_BY_CLIENT.Inspector"
+    },
+    {
+      "url": "https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Lexend:wght@400;500;700&display=swap",
+      "method": "GET",
+      "error": "net::ERR_BLOCKED_BY_CLIENT.Inspector"
+    },
+    {
+      "url": "https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Lexend:wght@400;500;700&display=swap",
+      "method": "GET",
+      "error": "net::ERR_BLOCKED_BY_CLIENT.Inspector"
+    },
+    {
+      "url": "https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Lexend:wght@400;500;700&display=swap",
+      "method": "GET",
+      "error": "net::ERR_BLOCKED_BY_CLIENT.Inspector"
+    },
+    {
+      "url": "https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Lexend:wght@400;500;700&display=swap",
+      "method": "GET",
+      "error": "net::ERR_BLOCKED_BY_CLIENT.Inspector"
+    },
+    {
+      "url": "https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Lexend:wght@400;500;700&display=swap",
+      "method": "GET",
+      "error": "net::ERR_BLOCKED_BY_CLIENT.Inspector"
+    },
+    {
+      "url": "https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Lexend:wght@400;500;700&display=swap",
+      "method": "GET",
+      "error": "net::ERR_BLOCKED_BY_CLIENT.Inspector"
+    },
+    {
+      "url": "https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Lexend:wght@400;500;700&display=swap",
+      "method": "GET",
+      "error": "net::ERR_BLOCKED_BY_CLIENT.Inspector"
+    },
+    {
+      "url": "https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Lexend:wght@400;500;700&display=swap",
+      "method": "GET",
+      "error": "net::ERR_BLOCKED_BY_CLIENT.Inspector"
+    },
+    {
+      "url": "https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Lexend:wght@400;500;700&display=swap",
+      "method": "GET",
+      "error": "net::ERR_BLOCKED_BY_CLIENT.Inspector"
+    },
+    {
+      "url": "https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Lexend:wght@400;500;700&display=swap",
+      "method": "GET",
+      "error": "net::ERR_BLOCKED_BY_CLIENT.Inspector"
+    },
+    {
+      "url": "https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Lexend:wght@400;500;700&display=swap",
+      "method": "GET",
+      "error": "net::ERR_BLOCKED_BY_CLIENT.Inspector"
+    },
+    {
+      "url": "https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Lexend:wght@400;500;700&display=swap",
+      "method": "GET",
+      "error": "net::ERR_BLOCKED_BY_CLIENT.Inspector"
+    },
+    {
+      "url": "https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Lexend:wght@400;500;700&display=swap",
+      "method": "GET",
+      "error": "net::ERR_BLOCKED_BY_CLIENT.Inspector"
+    },
+    {
+      "url": "https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Lexend:wght@400;500;700&display=swap",
+      "method": "GET",
+      "error": "net::ERR_BLOCKED_BY_CLIENT.Inspector"
+    },
+    {
+      "url": "https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Lexend:wght@400;500;700&display=swap",
+      "method": "GET",
+      "error": "net::ERR_BLOCKED_BY_CLIENT.Inspector"
+    },
+    {
+      "url": "https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Lexend:wght@400;500;700&display=swap",
+      "method": "GET",
+      "error": "net::ERR_BLOCKED_BY_CLIENT.Inspector"
+    },
+    {
+      "url": "https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Lexend:wght@400;500;700&display=swap",
+      "method": "GET",
+      "error": "net::ERR_BLOCKED_BY_CLIENT.Inspector"
+    },
+    {
+      "url": "https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Lexend:wght@400;500;700&display=swap",
+      "method": "GET",
+      "error": "net::ERR_BLOCKED_BY_CLIENT.Inspector"
+    },
+    {
+      "url": "https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Lexend:wght@400;500;700&display=swap",
+      "method": "GET",
+      "error": "net::ERR_BLOCKED_BY_CLIENT.Inspector"
+    },
+    {
+      "url": "https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Lexend:wght@400;500;700&display=swap",
+      "method": "GET",
+      "error": "net::ERR_BLOCKED_BY_CLIENT.Inspector"
+    },
+    {
+      "url": "http://127.0.0.1:52399/assets/TTSButton-B53ci3nv.js",
+      "method": "GET",
+      "error": "net::ERR_NETWORK_ACCESS_DENIED"
+    },
+    {
+      "url": "https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Lexend:wght@400;500;700&display=swap",
+      "method": "GET",
+      "error": "net::ERR_BLOCKED_BY_CLIENT.Inspector"
+    },
+    {
+      "url": "https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Lexend:wght@400;500;700&display=swap",
+      "method": "GET",
+      "error": "net::ERR_BLOCKED_BY_CLIENT.Inspector"
+    },
+    {
+      "url": "https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Lexend:wght@400;500;700&display=swap",
+      "method": "GET",
+      "error": "net::ERR_BLOCKED_BY_CLIENT.Inspector"
+    },
+    {
+      "url": "https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Lexend:wght@400;500;700&display=swap",
+      "method": "GET",
+      "error": "net::ERR_BLOCKED_BY_CLIENT.Inspector"
+    },
+    {
+      "url": "https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Lexend:wght@400;500;700&display=swap",
+      "method": "GET",
+      "error": "net::ERR_BLOCKED_BY_CLIENT.Inspector"
+    },
+    {
+      "url": "https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Lexend:wght@400;500;700&display=swap",
+      "method": "GET",
+      "error": "net::ERR_BLOCKED_BY_CLIENT.Inspector"
+    },
+    {
+      "url": "https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Lexend:wght@400;500;700&display=swap",
+      "method": "GET",
+      "error": "net::ERR_BLOCKED_BY_CLIENT.Inspector"
+    },
+    {
+      "url": "https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Lexend:wght@400;500;700&display=swap",
+      "method": "GET",
+      "error": "net::ERR_BLOCKED_BY_CLIENT.Inspector"
+    },
+    {
+      "url": "https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Lexend:wght@400;500;700&display=swap",
+      "method": "GET",
+      "error": "net::ERR_BLOCKED_BY_CLIENT.Inspector"
+    },
+    {
+      "url": "http://127.0.0.1:52399/assets/TeacherArea-C87GyQR8.js",
+      "method": "GET",
+      "error": "net::ERR_BLOCKED_BY_CLIENT.Inspector"
+    },
+    {
+      "url": "https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Lexend:wght@400;500;700&display=swap",
+      "method": "GET",
+      "error": "net::ERR_BLOCKED_BY_CLIENT.Inspector"
+    },
+    {
+      "coldContext": 0,
+      "url": "https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Lexend:wght@400;500;700&display=swap",
+      "method": "GET",
+      "error": "net::ERR_FAILED"
+    },
+    {
+      "coldContext": 0,
+      "url": "http://127.0.0.1:52399/assets/index-DPxzF1W9.css",
+      "method": "GET",
+      "error": "net::ERR_NETWORK_ACCESS_DENIED"
+    },
+    {
+      "coldContext": 0,
+      "url": "http://127.0.0.1:52399/assets/TTSButton-B53ci3nv.js",
+      "method": "GET",
+      "error": "net::ERR_NETWORK_ACCESS_DENIED"
+    },
+    {
+      "coldContext": 1,
+      "url": "https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Lexend:wght@400;500;700&display=swap",
+      "method": "GET",
+      "error": "net::ERR_FAILED"
+    },
+    {
+      "coldContext": 2,
+      "url": "https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Lexend:wght@400;500;700&display=swap",
+      "method": "GET",
+      "error": "net::ERR_FAILED"
+    },
+    {
+      "coldContext": 3,
+      "url": "https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Lexend:wght@400;500;700&display=swap",
+      "method": "GET",
+      "error": "net::ERR_FAILED"
+    },
+    {
+      "coldContext": 3,
+      "url": "http://127.0.0.1:52399/assets/NotFound-Dip_aLPJ.js",
+      "method": "GET",
+      "error": "net::ERR_NETWORK_ACCESS_DENIED"
+    },
+    {
+      "coldContext": 3,
+      "url": "http://127.0.0.1:52399/assets/TTSButton-B53ci3nv.js",
+      "method": "GET",
+      "error": "net::ERR_NETWORK_ACCESS_DENIED"
+    },
+    {
+      "coldContext": 4,
+      "url": "https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Lexend:wght@400;500;700&display=swap",
+      "method": "GET",
+      "error": "net::ERR_FAILED"
+    },
+    {
+      "coldContext": 4,
+      "url": "http://127.0.0.1:52399/assets/owl-mascot-D-0EYbpp.js",
+      "method": "GET",
+      "error": "net::ERR_NETWORK_ACCESS_DENIED"
+    },
+    {
+      "coldContext": 5,
+      "url": "https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Lexend:wght@400;500;700&display=swap",
+      "method": "GET",
+      "error": "net::ERR_FAILED"
+    },
+    {
+      "coldContext": 5,
+      "url": "http://127.0.0.1:52399/assets/index-DPxzF1W9.css",
+      "method": "GET",
+      "error": "net::ERR_NETWORK_ACCESS_DENIED"
+    },
+    {
+      "coldContext": 6,
+      "url": "https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Lexend:wght@400;500;700&display=swap",
+      "method": "GET",
+      "error": "net::ERR_FAILED"
+    },
+    {
+      "coldContext": 6,
+      "url": "http://127.0.0.1:52399/assets/index-DPxzF1W9.css",
+      "method": "GET",
+      "error": "net::ERR_NETWORK_ACCESS_DENIED"
+    },
+    {
+      "coldContext": 6,
+      "url": "http://127.0.0.1:52399/assets/cardStyle-iaU5tt7J.js",
+      "method": "GET",
+      "error": "net::ERR_NETWORK_ACCESS_DENIED"
+    },
+    {
+      "coldContext": 7,
+      "url": "https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Lexend:wght@400;500;700&display=swap",
+      "method": "GET",
+      "error": "net::ERR_FAILED"
+    },
+    {
+      "coldContext": 8,
+      "url": "https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Lexend:wght@400;500;700&display=swap",
+      "method": "GET",
+      "error": "net::ERR_FAILED"
+    },
+    {
+      "coldContext": 9,
+      "url": "https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Lexend:wght@400;500;700&display=swap",
+      "method": "GET",
+      "error": "net::ERR_FAILED"
+    },
+    {
+      "coldContext": 9,
+      "url": "http://127.0.0.1:52399/assets/NotFound-Dip_aLPJ.js",
+      "method": "GET",
+      "error": "net::ERR_NETWORK_ACCESS_DENIED"
+    }
+  ],
+  "rows": [
+    {
+      "id": "CHROME-BR-001",
+      "module": "Local Chromium browser",
+      "scenario": "/ renders without horizontal overflow at 375px",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "evidence/phase3/local-chromium.json",
+      "actual": {
+        "path": "/",
+        "width": 375,
+        "content": 375,
+        "title": "Mas malinaw na pagbasa, mas masayang pagkatuto.",
+        "navigation": [
+          {
+            "loadMs": 2231,
+            "domContentLoadedMs": 2230
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "CHROME-BR-002",
+      "module": "Local Chromium browser",
+      "scenario": "/login renders without horizontal overflow at 375px",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "evidence/phase3/local-chromium.json",
+      "actual": {
+        "path": "/login",
+        "width": 375,
+        "content": 375,
+        "title": "Handa ka na bang magbasa?",
+        "navigation": [
+          {
+            "loadMs": 689,
+            "domContentLoadedMs": 688
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "CHROME-BR-003",
+      "module": "Local Chromium browser",
+      "scenario": "/signup renders without horizontal overflow at 375px",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "evidence/phase3/local-chromium.json",
+      "actual": {
+        "path": "/signup",
+        "width": 375,
+        "content": 375,
+        "title": "Gumawa ng account",
+        "navigation": [
+          {
+            "loadMs": 864,
+            "domContentLoadedMs": 863
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "CHROME-BR-004",
+      "module": "Local Chromium browser",
+      "scenario": "/forgot-password renders without horizontal overflow at 375px",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "evidence/phase3/local-chromium.json",
+      "actual": {
+        "path": "/forgot-password",
+        "width": 375,
+        "content": 375,
+        "title": "Nakalimutan ang Password?",
+        "navigation": [
+          {
+            "loadMs": 471,
+            "domContentLoadedMs": 471
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "CHROME-BR-005",
+      "module": "Local Chromium browser",
+      "scenario": "/reset-password renders without horizontal overflow at 375px",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "evidence/phase3/local-chromium.json",
+      "actual": {
+        "path": "/reset-password",
+        "width": 375,
+        "content": 375,
+        "title": "I-reset ang iyong password",
+        "navigation": [
+          {
+            "loadMs": 699,
+            "domContentLoadedMs": 699
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "CHROME-BR-006",
+      "module": "Local Chromium browser",
+      "scenario": "/verify-email renders without horizontal overflow at 375px",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "evidence/phase3/local-chromium.json",
+      "actual": {
+        "path": "/verify-email",
+        "width": 375,
+        "content": 375,
+        "title": "I-verify ang iyong email",
+        "navigation": [
+          {
+            "loadMs": 247,
+            "domContentLoadedMs": 247
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "CHROME-BR-007",
+      "module": "Local Chromium browser",
+      "scenario": "/resend-verification renders without horizontal overflow at 375px",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "evidence/phase3/local-chromium.json",
+      "actual": {
+        "path": "/resend-verification",
+        "width": 375,
+        "content": 375,
+        "title": "Muling ipadala ang code",
+        "navigation": [
+          {
+            "loadMs": 217,
+            "domContentLoadedMs": 217
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "CHROME-BR-008",
+      "module": "Local Chromium browser",
+      "scenario": "/privacy renders without horizontal overflow at 375px",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "evidence/phase3/local-chromium.json",
+      "actual": {
+        "path": "/privacy",
+        "width": 375,
+        "content": 375,
+        "title": "Patakaran sa Privacy",
+        "navigation": [
+          {
+            "loadMs": 244,
+            "domContentLoadedMs": 244
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "CHROME-BR-009",
+      "module": "Local Chromium browser",
+      "scenario": "/terms renders without horizontal overflow at 375px",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "evidence/phase3/local-chromium.json",
+      "actual": {
+        "path": "/terms",
+        "width": 375,
+        "content": 375,
+        "title": "Mga Tuntunin ng Serbisyo",
+        "navigation": [
+          {
+            "loadMs": 269,
+            "domContentLoadedMs": 268
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "CHROME-BR-010",
+      "module": "Local Chromium browser",
+      "scenario": "/child-data renders without horizontal overflow at 375px",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "evidence/phase3/local-chromium.json",
+      "actual": {
+        "path": "/child-data",
+        "width": 375,
+        "content": 375,
+        "title": "Data ng Bata at Pahintulot ng Magulang",
+        "navigation": [
+          {
+            "loadMs": 272,
+            "domContentLoadedMs": 272
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "CHROME-BR-011",
+      "module": "Local Chromium browser",
+      "scenario": "/account-deletion renders without horizontal overflow at 375px",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "evidence/phase3/local-chromium.json",
+      "actual": {
+        "path": "/account-deletion",
+        "width": 375,
+        "content": 375,
+        "title": "Pag-delete ng Account",
+        "navigation": [
+          {
+            "loadMs": 227,
+            "domContentLoadedMs": 227
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "CHROME-BR-012",
+      "module": "Local Chromium browser",
+      "scenario": "/accessibility renders without horizontal overflow at 375px",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "evidence/phase3/local-chromium.json",
+      "actual": {
+        "path": "/accessibility",
+        "width": 375,
+        "content": 375,
+        "title": "Pahayag sa Accessibility",
+        "navigation": [
+          {
+            "loadMs": 250,
+            "domContentLoadedMs": 250
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "CHROME-BR-013",
+      "module": "Local Chromium browser",
+      "scenario": "/not-a-real-page renders without horizontal overflow at 375px",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "evidence/phase3/local-chromium.json",
+      "actual": {
+        "path": "/not-a-real-page",
+        "width": 375,
+        "content": 375,
+        "title": "Naligaw ang pahina",
+        "navigation": [
+          {
+            "loadMs": 304,
+            "domContentLoadedMs": 303
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "CHROME-BR-014",
+      "module": "Local Chromium browser",
+      "scenario": "/ renders without horizontal overflow at 768px",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "evidence/phase3/local-chromium.json",
+      "actual": {
+        "path": "/",
+        "width": 768,
+        "content": 768,
+        "title": "Mas malinaw na pagbasa, mas masayang pagkatuto.",
+        "navigation": [
+          {
+            "loadMs": 222,
+            "domContentLoadedMs": 221
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "CHROME-BR-015",
+      "module": "Local Chromium browser",
+      "scenario": "/login renders without horizontal overflow at 768px",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "evidence/phase3/local-chromium.json",
+      "actual": {
+        "path": "/login",
+        "width": 768,
+        "content": 768,
+        "title": "Handa ka na bang magbasa?",
+        "navigation": [
+          {
+            "loadMs": 300,
+            "domContentLoadedMs": 300
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "CHROME-BR-016",
+      "module": "Local Chromium browser",
+      "scenario": "/signup renders without horizontal overflow at 768px",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "evidence/phase3/local-chromium.json",
+      "actual": {
+        "path": "/signup",
+        "width": 768,
+        "content": 768,
+        "title": "Gumawa ng account",
+        "navigation": [
+          {
+            "loadMs": 243,
+            "domContentLoadedMs": 243
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "CHROME-BR-017",
+      "module": "Local Chromium browser",
+      "scenario": "/forgot-password renders without horizontal overflow at 768px",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "evidence/phase3/local-chromium.json",
+      "actual": {
+        "path": "/forgot-password",
+        "width": 768,
+        "content": 768,
+        "title": "Nakalimutan ang Password?",
+        "navigation": [
+          {
+            "loadMs": 224,
+            "domContentLoadedMs": 224
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "CHROME-BR-018",
+      "module": "Local Chromium browser",
+      "scenario": "/reset-password renders without horizontal overflow at 768px",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "evidence/phase3/local-chromium.json",
+      "actual": {
+        "path": "/reset-password",
+        "width": 768,
+        "content": 768,
+        "title": "I-reset ang iyong password",
+        "navigation": [
+          {
+            "loadMs": 232,
+            "domContentLoadedMs": 232
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "CHROME-BR-019",
+      "module": "Local Chromium browser",
+      "scenario": "/verify-email renders without horizontal overflow at 768px",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "evidence/phase3/local-chromium.json",
+      "actual": {
+        "path": "/verify-email",
+        "width": 768,
+        "content": 768,
+        "title": "I-verify ang iyong email",
+        "navigation": [
+          {
+            "loadMs": 206,
+            "domContentLoadedMs": 205
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "CHROME-BR-020",
+      "module": "Local Chromium browser",
+      "scenario": "/resend-verification renders without horizontal overflow at 768px",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "evidence/phase3/local-chromium.json",
+      "actual": {
+        "path": "/resend-verification",
+        "width": 768,
+        "content": 768,
+        "title": "Muling ipadala ang code",
+        "navigation": [
+          {
+            "loadMs": 232,
+            "domContentLoadedMs": 231
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "CHROME-BR-021",
+      "module": "Local Chromium browser",
+      "scenario": "/privacy renders without horizontal overflow at 768px",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "evidence/phase3/local-chromium.json",
+      "actual": {
+        "path": "/privacy",
+        "width": 768,
+        "content": 768,
+        "title": "Patakaran sa Privacy",
+        "navigation": [
+          {
+            "loadMs": 243,
+            "domContentLoadedMs": 242
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "CHROME-BR-022",
+      "module": "Local Chromium browser",
+      "scenario": "/terms renders without horizontal overflow at 768px",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "evidence/phase3/local-chromium.json",
+      "actual": {
+        "path": "/terms",
+        "width": 768,
+        "content": 768,
+        "title": "Mga Tuntunin ng Serbisyo",
+        "navigation": [
+          {
+            "loadMs": 337,
+            "domContentLoadedMs": 337
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "CHROME-BR-023",
+      "module": "Local Chromium browser",
+      "scenario": "/child-data renders without horizontal overflow at 768px",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "evidence/phase3/local-chromium.json",
+      "actual": {
+        "path": "/child-data",
+        "width": 768,
+        "content": 768,
+        "title": "Data ng Bata at Pahintulot ng Magulang",
+        "navigation": [
+          {
+            "loadMs": 367,
+            "domContentLoadedMs": 367
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "CHROME-BR-024",
+      "module": "Local Chromium browser",
+      "scenario": "/account-deletion renders without horizontal overflow at 768px",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "evidence/phase3/local-chromium.json",
+      "actual": {
+        "path": "/account-deletion",
+        "width": 768,
+        "content": 768,
+        "title": "Pag-delete ng Account",
+        "navigation": [
+          {
+            "loadMs": 245,
+            "domContentLoadedMs": 244
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "CHROME-BR-025",
+      "module": "Local Chromium browser",
+      "scenario": "/accessibility renders without horizontal overflow at 768px",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "evidence/phase3/local-chromium.json",
+      "actual": {
+        "path": "/accessibility",
+        "width": 768,
+        "content": 768,
+        "title": "Pahayag sa Accessibility",
+        "navigation": [
+          {
+            "loadMs": 321,
+            "domContentLoadedMs": 321
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "CHROME-BR-026",
+      "module": "Local Chromium browser",
+      "scenario": "/not-a-real-page renders without horizontal overflow at 768px",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "evidence/phase3/local-chromium.json",
+      "actual": {
+        "path": "/not-a-real-page",
+        "width": 768,
+        "content": 768,
+        "title": "Naligaw ang pahina",
+        "navigation": [
+          {
+            "loadMs": 301,
+            "domContentLoadedMs": 300
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "CHROME-BR-027",
+      "module": "Local Chromium browser",
+      "scenario": "/ renders without horizontal overflow at 1440px",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "evidence/phase3/local-chromium.json",
+      "actual": {
+        "path": "/",
+        "width": 1440,
+        "content": 1440,
+        "title": "Mas malinaw na pagbasa, mas masayang pagkatuto.",
+        "navigation": [
+          {
+            "loadMs": 278,
+            "domContentLoadedMs": 277
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "CHROME-BR-028",
+      "module": "Local Chromium browser",
+      "scenario": "/login renders without horizontal overflow at 1440px",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "evidence/phase3/local-chromium.json",
+      "actual": {
+        "path": "/login",
+        "width": 1440,
+        "content": 1440,
+        "title": "Handa ka na bang magbasa?",
+        "navigation": [
+          {
+            "loadMs": 356,
+            "domContentLoadedMs": 355
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "CHROME-BR-029",
+      "module": "Local Chromium browser",
+      "scenario": "/signup renders without horizontal overflow at 1440px",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "evidence/phase3/local-chromium.json",
+      "actual": {
+        "path": "/signup",
+        "width": 1440,
+        "content": 1440,
+        "title": "Gumawa ng account",
+        "navigation": [
+          {
+            "loadMs": 321,
+            "domContentLoadedMs": 321
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "CHROME-BR-030",
+      "module": "Local Chromium browser",
+      "scenario": "/forgot-password renders without horizontal overflow at 1440px",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "evidence/phase3/local-chromium.json",
+      "actual": {
+        "path": "/forgot-password",
+        "width": 1440,
+        "content": 1440,
+        "title": "Nakalimutan ang Password?",
+        "navigation": [
+          {
+            "loadMs": 444,
+            "domContentLoadedMs": 444
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "CHROME-BR-031",
+      "module": "Local Chromium browser",
+      "scenario": "/reset-password renders without horizontal overflow at 1440px",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "evidence/phase3/local-chromium.json",
+      "actual": {
+        "path": "/reset-password",
+        "width": 1440,
+        "content": 1440,
+        "title": "I-reset ang iyong password",
+        "navigation": [
+          {
+            "loadMs": 376,
+            "domContentLoadedMs": 376
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "CHROME-BR-032",
+      "module": "Local Chromium browser",
+      "scenario": "/verify-email renders without horizontal overflow at 1440px",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "evidence/phase3/local-chromium.json",
+      "actual": {
+        "path": "/verify-email",
+        "width": 1440,
+        "content": 1440,
+        "title": "I-verify ang iyong email",
+        "navigation": [
+          {
+            "loadMs": 428,
+            "domContentLoadedMs": 428
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "CHROME-BR-033",
+      "module": "Local Chromium browser",
+      "scenario": "/resend-verification renders without horizontal overflow at 1440px",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "evidence/phase3/local-chromium.json",
+      "actual": {
+        "path": "/resend-verification",
+        "width": 1440,
+        "content": 1440,
+        "title": "Muling ipadala ang code",
+        "navigation": [
+          {
+            "loadMs": 499,
+            "domContentLoadedMs": 499
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "CHROME-BR-034",
+      "module": "Local Chromium browser",
+      "scenario": "/privacy renders without horizontal overflow at 1440px",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "evidence/phase3/local-chromium.json",
+      "actual": {
+        "path": "/privacy",
+        "width": 1440,
+        "content": 1440,
+        "title": "Patakaran sa Privacy",
+        "navigation": [
+          {
+            "loadMs": 879,
+            "domContentLoadedMs": 878
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "CHROME-BR-035",
+      "module": "Local Chromium browser",
+      "scenario": "/terms renders without horizontal overflow at 1440px",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "evidence/phase3/local-chromium.json",
+      "actual": {
+        "path": "/terms",
+        "width": 1440,
+        "content": 1440,
+        "title": "Mga Tuntunin ng Serbisyo",
+        "navigation": [
+          {
+            "loadMs": 445,
+            "domContentLoadedMs": 445
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "CHROME-BR-036",
+      "module": "Local Chromium browser",
+      "scenario": "/child-data renders without horizontal overflow at 1440px",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "evidence/phase3/local-chromium.json",
+      "actual": {
+        "path": "/child-data",
+        "width": 1440,
+        "content": 1440,
+        "title": "Data ng Bata at Pahintulot ng Magulang",
+        "navigation": [
+          {
+            "loadMs": 1061,
+            "domContentLoadedMs": 1060
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "CHROME-BR-037",
+      "module": "Local Chromium browser",
+      "scenario": "/account-deletion renders without horizontal overflow at 1440px",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "evidence/phase3/local-chromium.json",
+      "actual": {
+        "path": "/account-deletion",
+        "width": 1440,
+        "content": 1440,
+        "title": "Pag-delete ng Account",
+        "navigation": [
+          {
+            "loadMs": 376,
+            "domContentLoadedMs": 375
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "CHROME-BR-038",
+      "module": "Local Chromium browser",
+      "scenario": "/accessibility renders without horizontal overflow at 1440px",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "evidence/phase3/local-chromium.json",
+      "actual": {
+        "path": "/accessibility",
+        "width": 1440,
+        "content": 1440,
+        "title": "Pahayag sa Accessibility",
+        "navigation": [
+          {
+            "loadMs": 1001,
+            "domContentLoadedMs": 1000
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "CHROME-BR-039",
+      "module": "Local Chromium browser",
+      "scenario": "/not-a-real-page renders without horizontal overflow at 1440px",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "evidence/phase3/local-chromium.json",
+      "actual": {
+        "path": "/not-a-real-page",
+        "width": 1440,
+        "content": 1440,
+        "title": "Naligaw ang pahina",
+        "navigation": [
+          {
+            "loadMs": 745,
+            "domContentLoadedMs": 744
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "CHROME-BR-040",
+      "module": "Local Chromium browser",
+      "scenario": "Anonymous admin redirects to login",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "evidence/phase3/local-chromium.json",
+      "actual": "Assertions passed",
+      "status": "PASS"
+    },
+    {
+      "id": "CHROME-BR-041",
+      "module": "Local Chromium browser",
+      "scenario": "Anonymous admin/settings redirects to login",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "evidence/phase3/local-chromium.json",
+      "actual": "Assertions passed",
+      "status": "PASS"
+    },
+    {
+      "id": "CHROME-BR-042",
+      "module": "Local Chromium browser",
+      "scenario": "Anonymous admin/not-a-real-page redirects to login",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "evidence/phase3/local-chromium.json",
+      "actual": "Assertions passed",
+      "status": "PASS"
+    },
+    {
+      "id": "CHROME-BR-043",
+      "module": "Local Chromium browser",
+      "scenario": "Anonymous teacher redirects to login",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "evidence/phase3/local-chromium.json",
+      "actual": "Assertions passed",
+      "status": "PASS"
+    },
+    {
+      "id": "CHROME-BR-044",
+      "module": "Local Chromium browser",
+      "scenario": "Anonymous teacher/settings redirects to login",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "evidence/phase3/local-chromium.json",
+      "actual": "Assertions passed",
+      "status": "PASS"
+    },
+    {
+      "id": "CHROME-BR-045",
+      "module": "Local Chromium browser",
+      "scenario": "Anonymous teacher/not-a-real-page redirects to login",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "evidence/phase3/local-chromium.json",
+      "actual": "Assertions passed",
+      "status": "PASS"
+    },
+    {
+      "id": "CHROME-BR-046",
+      "module": "Local Chromium browser",
+      "scenario": "Anonymous parent redirects to login",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "evidence/phase3/local-chromium.json",
+      "actual": "Assertions passed",
+      "status": "PASS"
+    },
+    {
+      "id": "CHROME-BR-047",
+      "module": "Local Chromium browser",
+      "scenario": "Anonymous parent/settings redirects to login",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "evidence/phase3/local-chromium.json",
+      "actual": "Assertions passed",
+      "status": "PASS"
+    },
+    {
+      "id": "CHROME-BR-048",
+      "module": "Local Chromium browser",
+      "scenario": "Anonymous parent/not-a-real-page redirects to login",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "evidence/phase3/local-chromium.json",
+      "actual": "Assertions passed",
+      "status": "PASS"
+    },
+    {
+      "id": "CHROME-BR-049",
+      "module": "Local Chromium browser",
+      "scenario": "Anonymous student redirects to login",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "evidence/phase3/local-chromium.json",
+      "actual": "Assertions passed",
+      "status": "PASS"
+    },
+    {
+      "id": "CHROME-BR-050",
+      "module": "Local Chromium browser",
+      "scenario": "Anonymous student/settings redirects to login",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "evidence/phase3/local-chromium.json",
+      "actual": "Assertions passed",
+      "status": "PASS"
+    },
+    {
+      "id": "CHROME-BR-051",
+      "module": "Local Chromium browser",
+      "scenario": "Anonymous student/not-a-real-page redirects to login",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "evidence/phase3/local-chromium.json",
+      "actual": "Assertions passed",
+      "status": "PASS"
+    },
+    {
+      "id": "CHROME-BR-052",
+      "module": "Local Chromium browser",
+      "scenario": "Empty login submission displays validation; password visibility and keyboard toggle work",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "evidence/phase3/local-chromium.json",
+      "actual": "Assertions passed",
+      "status": "PASS"
+    },
+    {
+      "id": "CHROME-BR-053",
+      "module": "Local Chromium browser",
+      "scenario": "Empty signup submission displays required-field errors",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "evidence/phase3/local-chromium.json",
+      "actual": "Assertions passed",
+      "status": "PASS"
+    },
+    {
+      "id": "CHROME-BR-054",
+      "module": "Local Chromium browser",
+      "scenario": "OTP keyboard navigation and nonnumeric input validation",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "evidence/phase3/local-chromium.json",
+      "actual": "Assertions passed",
+      "status": "PASS"
+    },
+    {
+      "id": "CHROME-BR-055",
+      "module": "Local Chromium browser",
+      "scenario": "Public forms have accessible names for visible input controls",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "evidence/phase3/local-chromium.json",
+      "actual": "Assertions passed",
+      "status": "PASS"
+    },
+    {
+      "id": "CHROME-BR-056",
+      "module": "Local Chromium browser",
+      "scenario": "No uncaught JavaScript exceptions during tested navigation and actions",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "evidence/phase3/local-chromium.json",
+      "actual": "Assertions passed",
+      "status": "PASS"
+    },
+    {
+      "id": "CHROME-BR-057",
+      "module": "Local Chromium browser",
+      "scenario": "A failed route-bundle download displays retry feedback and recovers after reloading",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "evidence/phase3/local-chromium.json",
+      "actual": "Assertions passed",
+      "status": "PASS"
+    },
+    {
+      "id": "CHROME-BR-058",
+      "module": "Local Chromium browser",
+      "scenario": "Ten fresh browser contexts render the cold mobile home route without asset failures",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "evidence/phase3/local-chromium.json",
+      "actual": "[{\"context\":0,\"errorScreen\":false,\"failed\":[{\"url\":\"http://127.0.0.1:52399/assets/index-DPxzF1W9.css\",\"error\":\"net::ERR_NETWORK_ACCESS_DENIED\"},{\"url\":\"http://127.0.0.1:52399/assets/TTSButton-B53ci3nv.js\",\"error\":\"net::ERR_NETWORK_ACCESS_DENIED\"}],\"overflow\":true},{\"context\":1,\"errorScreen\":false,\"failed\":[],\"overflow\":false},{\"context\":2,\"errorScreen\":false,\"failed\":[],\"overflow\":false},{\"context\":3,\"errorScreen\":false,\"failed\":[{\"url\":\"http://127.0.0.1:52399/assets/NotFound-Dip_aLPJ.js\",\"error\":\"net::ERR_NETWORK_ACCESS_DENIED\"},{\"url\":\"http://127.0.0.1:52399/assets/TTSButton-B53ci3nv.js\",\"error\":\"net::ERR_NETWORK_ACCESS_DENIED\"}],\"overflow\":false},{\"context\":4,\"errorScreen\":false,\"failed\":[{\"url\":\"http://127.0.0.1:52399/assets/owl-mascot-D-0EYbpp.js\",\"error\":\"net::ERR_NETWORK_ACCESS_DENIED\"}],\"overflow\":false},{\"context\":5,\"errorScreen\":false,\"failed\":[{\"url\":\"http://127.0.0.1:52399/assets/index-DPxzF1W9.css\",\"error\":\"net::ERR_NETWORK_ACCESS_DENIED\"}],\"overflow\":true},{\"context\":6,\"errorScreen\":false,\"failed\":[{\"url\":\"http://127.0.0.1:52399/assets/index-DPxzF1W9.css\",\"error\":\"net::ERR_NETWORK_ACCESS_DENIED\"},{\"url\":\"http://127.0.0.1:52399/assets/cardStyle-iaU5tt7J.js\",\"error\":\"net::ERR_NETWORK_ACCESS_DENIED\"}],\"overflow\":true},{\"context\":7,\"errorScreen\":false,\"failed\":[],\"overflow\":false},{\"context\":8,\"errorScreen\":false,\"failed\":[],\"overflow\":false},{\"context\":9,\"errorScreen\":false,\"failed\":[{\"url\":\"http://127.0.0.1:52399/assets/NotFound-Dip_aLPJ.js\",\"error\":\"net::ERR_NETWORK_ACCESS_DENIED\"}],\"overflow\":false}]",
+      "status": "FAIL"
+    }
+  ]
+}

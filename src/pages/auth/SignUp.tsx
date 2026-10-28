@@ -80,14 +80,19 @@ export default function SignUp() {
       if (signUpError) throw signUpError;
       if (!data.user) throw new Error('Hindi nagawa ang account.');
 
-      const { error: profileError } = await supabase.from('users').upsert({
-        id: data.user.id,
-        email: cleanEmail,
-        name: cleanName,
-        role: ROLE,
-        email_verified: false,
-      });
-      if (profileError) throw profileError;
+      // Email confirmation normally returns a user without a session. Profile
+      // writes then fail RLS even though the Auth account was created. The
+      // confirmed sign-in repairs a missing profile from this signup metadata.
+      if (data.session) {
+        const { error: profileError } = await supabase.from('users').upsert({
+          id: data.user.id,
+          email: cleanEmail,
+          name: cleanName,
+          role: ROLE,
+          email_verified: false,
+        });
+        if (profileError) throw profileError;
+      }
 
       trackEvent('signup_completed', { role: ROLE });
 

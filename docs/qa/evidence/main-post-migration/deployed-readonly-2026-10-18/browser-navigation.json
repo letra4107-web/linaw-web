@@ -1,0 +1,411 @@
+{
+  "timestamp": "2026-10-18T09:29:52.713Z",
+  "scope": "Anonymous Edge navigation only. GET/HEAD to frontend origin permitted; every other request and service worker blocked. No form submission or account session. Resized desktop viewports, not physical mobile devices. Database and authenticated workflows unexecuted.",
+  "rows": [
+    {
+      "id": "READONLY-NAV-001",
+      "scenario": "/ renders without horizontal overflow at 375px",
+      "status": "FAIL",
+      "actual": "Expected values to be strictly equal:\n\n403 !== 200\n"
+    },
+    {
+      "id": "READONLY-NAV-002",
+      "scenario": "/login renders without horizontal overflow at 375px",
+      "status": "FAIL",
+      "actual": "Expected values to be strictly equal:\n\n403 !== 200\n"
+    },
+    {
+      "id": "READONLY-NAV-003",
+      "scenario": "/signup renders without horizontal overflow at 375px",
+      "actual": {
+        "path": "/signup",
+        "title": "Gumawa ng account",
+        "width": 375,
+        "contentWidth": 375
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "READONLY-NAV-004",
+      "scenario": "/forgot-password renders without horizontal overflow at 375px",
+      "actual": {
+        "path": "/forgot-password",
+        "title": "Nakalimutan ang Password?",
+        "width": 375,
+        "contentWidth": 375
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "READONLY-NAV-005",
+      "scenario": "/reset-password renders without horizontal overflow at 375px",
+      "actual": {
+        "path": "/reset-password",
+        "title": "I-reset ang iyong password",
+        "width": 375,
+        "contentWidth": 375
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "READONLY-NAV-006",
+      "scenario": "/verify-email renders without horizontal overflow at 375px",
+      "actual": {
+        "path": "/verify-email",
+        "title": "I-verify ang iyong email",
+        "width": 375,
+        "contentWidth": 375
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "READONLY-NAV-007",
+      "scenario": "/resend-verification renders without horizontal overflow at 375px",
+      "actual": {
+        "path": "/resend-verification",
+        "title": "Muling ipadala ang code",
+        "width": 375,
+        "contentWidth": 375
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "READONLY-NAV-008",
+      "scenario": "/privacy renders without horizontal overflow at 375px",
+      "status": "FAIL",
+      "actual": "Horizontal overflow 587/375"
+    },
+    {
+      "id": "READONLY-NAV-009",
+      "scenario": "/terms renders without horizontal overflow at 375px",
+      "status": "FAIL",
+      "actual": "Horizontal overflow 587/375"
+    },
+    {
+      "id": "READONLY-NAV-010",
+      "scenario": "/child-data renders without horizontal overflow at 375px",
+      "status": "FAIL",
+      "actual": "Horizontal overflow 587/375"
+    },
+    {
+      "id": "READONLY-NAV-011",
+      "scenario": "/account-deletion renders without horizontal overflow at 375px",
+      "status": "FAIL",
+      "actual": "Horizontal overflow 587/375"
+    },
+    {
+      "id": "READONLY-NAV-012",
+      "scenario": "/accessibility renders without horizontal overflow at 375px",
+      "status": "FAIL",
+      "actual": "Horizontal overflow 587/375"
+    },
+    {
+      "id": "READONLY-NAV-013",
+      "scenario": "/not-a-real-page renders without horizontal overflow at 375px",
+      "actual": {
+        "path": "/not-a-real-page",
+        "title": "Naligaw ang pahina",
+        "width": 375,
+        "contentWidth": 375
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "READONLY-NAV-014",
+      "scenario": "/ renders without horizontal overflow at 1440px",
+      "actual": {
+        "path": "/",
+        "title": "Mas malinaw na pagbasa, mas masayang pagkatuto.",
+        "width": 1440,
+        "contentWidth": 1440
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "READONLY-NAV-015",
+      "scenario": "/login renders without horizontal overflow at 1440px",
+      "actual": {
+        "path": "/login",
+        "title": "Handa ka na bang magbasa?",
+        "width": 1440,
+        "contentWidth": 1440
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "READONLY-NAV-016",
+      "scenario": "/signup renders without horizontal overflow at 1440px",
+      "actual": {
+        "path": "/signup",
+        "title": "Gumawa ng account",
+        "width": 1440,
+        "contentWidth": 1440
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "READONLY-NAV-017",
+      "scenario": "/forgot-password renders without horizontal overflow at 1440px",
+      "actual": {
+        "path": "/forgot-password",
+        "title": "Nakalimutan ang Password?",
+        "width": 1440,
+        "contentWidth": 1440
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "READONLY-NAV-018",
+      "scenario": "/reset-password renders without horizontal overflow at 1440px",
+      "actual": {
+        "path": "/reset-password",
+        "title": "I-reset ang iyong password",
+        "width": 1440,
+        "contentWidth": 1440
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "READONLY-NAV-019",
+      "scenario": "/verify-email renders without horizontal overflow at 1440px",
+      "actual": {
+        "path": "/verify-email",
+        "title": "I-verify ang iyong email",
+        "width": 1440,
+        "contentWidth": 1440
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "READONLY-NAV-020",
+      "scenario": "/resend-verification renders without horizontal overflow at 1440px",
+      "actual": {
+        "path": "/resend-verification",
+        "title": "Muling ipadala ang code",
+        "width": 1440,
+        "contentWidth": 1440
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "READONLY-NAV-021",
+      "scenario": "/privacy renders without horizontal overflow at 1440px",
+      "actual": {
+        "path": "/privacy",
+        "title": "Patakaran sa Privacy",
+        "width": 1440,
+        "contentWidth": 1440
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "READONLY-NAV-022",
+      "scenario": "/terms renders without horizontal overflow at 1440px",
+      "actual": {
+        "path": "/terms",
+        "title": "Mga Tuntunin ng Serbisyo",
+        "width": 1440,
+        "contentWidth": 1440
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "READONLY-NAV-023",
+      "scenario": "/child-data renders without horizontal overflow at 1440px",
+      "actual": {
+        "path": "/child-data",
+        "title": "Data ng Bata at Pahintulot ng Magulang",
+        "width": 1440,
+        "contentWidth": 1440
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "READONLY-NAV-024",
+      "scenario": "/account-deletion renders without horizontal overflow at 1440px",
+      "actual": {
+        "path": "/account-deletion",
+        "title": "Pag-delete ng Account",
+        "width": 1440,
+        "contentWidth": 1440
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "READONLY-NAV-025",
+      "scenario": "/accessibility renders without horizontal overflow at 1440px",
+      "actual": {
+        "path": "/accessibility",
+        "title": "Pahayag sa Accessibility",
+        "width": 1440,
+        "contentWidth": 1440
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "READONLY-NAV-026",
+      "scenario": "/not-a-real-page renders without horizontal overflow at 1440px",
+      "actual": {
+        "path": "/not-a-real-page",
+        "title": "Naligaw ang pahina",
+        "width": 1440,
+        "contentWidth": 1440
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "READONLY-NAV-027",
+      "scenario": "Anonymous /admin redirects to login",
+      "actual": "Redirected to login; no session or dashboard record access",
+      "status": "PASS"
+    },
+    {
+      "id": "READONLY-NAV-028",
+      "scenario": "Anonymous /teacher redirects to login",
+      "actual": "Redirected to login; no session or dashboard record access",
+      "status": "PASS"
+    },
+    {
+      "id": "READONLY-NAV-029",
+      "scenario": "Anonymous /parent redirects to login",
+      "actual": "Redirected to login; no session or dashboard record access",
+      "status": "PASS"
+    },
+    {
+      "id": "READONLY-NAV-030",
+      "scenario": "Anonymous /student redirects to login",
+      "actual": "Redirected to login; no session or dashboard record access",
+      "status": "PASS"
+    },
+    {
+      "id": "READONLY-NAV-031",
+      "scenario": "No uncaught JavaScript exceptions during scoped navigation",
+      "status": "BLOCKED",
+      "actual": "Browser checks did not complete all planned public page renders; a clean-navigation exception result cannot be established."
+    }
+  ],
+  "runtimeErrors": [],
+  "blockedRequests": [
+    {
+      "method": "GET",
+      "origin": "https://fonts.googleapis.com"
+    },
+    {
+      "method": "GET",
+      "origin": "https://fonts.googleapis.com"
+    },
+    {
+      "method": "GET",
+      "origin": "https://fonts.googleapis.com"
+    },
+    {
+      "method": "GET",
+      "origin": "https://fonts.googleapis.com"
+    },
+    {
+      "method": "GET",
+      "origin": "https://fonts.googleapis.com"
+    },
+    {
+      "method": "GET",
+      "origin": "https://fonts.googleapis.com"
+    },
+    {
+      "method": "GET",
+      "origin": "https://fonts.googleapis.com"
+    },
+    {
+      "method": "GET",
+      "origin": "https://fonts.googleapis.com"
+    },
+    {
+      "method": "GET",
+      "origin": "https://fonts.googleapis.com"
+    },
+    {
+      "method": "GET",
+      "origin": "https://fonts.googleapis.com"
+    },
+    {
+      "method": "GET",
+      "origin": "https://fonts.googleapis.com"
+    },
+    {
+      "method": "GET",
+      "origin": "https://fonts.googleapis.com"
+    },
+    {
+      "method": "GET",
+      "origin": "https://fonts.googleapis.com"
+    },
+    {
+      "method": "GET",
+      "origin": "https://fonts.googleapis.com"
+    },
+    {
+      "method": "GET",
+      "origin": "https://fonts.googleapis.com"
+    },
+    {
+      "method": "GET",
+      "origin": "https://fonts.googleapis.com"
+    },
+    {
+      "method": "GET",
+      "origin": "https://fonts.googleapis.com"
+    },
+    {
+      "method": "GET",
+      "origin": "https://fonts.googleapis.com"
+    },
+    {
+      "method": "GET",
+      "origin": "https://fonts.googleapis.com"
+    },
+    {
+      "method": "GET",
+      "origin": "https://fonts.googleapis.com"
+    },
+    {
+      "method": "GET",
+      "origin": "https://fonts.googleapis.com"
+    },
+    {
+      "method": "GET",
+      "origin": "https://fonts.googleapis.com"
+    },
+    {
+      "method": "GET",
+      "origin": "https://fonts.googleapis.com"
+    },
+    {
+      "method": "GET",
+      "origin": "https://fonts.googleapis.com"
+    },
+    {
+      "method": "GET",
+      "origin": "https://fonts.googleapis.com"
+    },
+    {
+      "method": "GET",
+      "origin": "https://fonts.googleapis.com"
+    },
+    {
+      "method": "GET",
+      "origin": "https://fonts.googleapis.com"
+    },
+    {
+      "method": "GET",
+      "origin": "https://fonts.googleapis.com"
+    },
+    {
+      "method": "GET",
+      "origin": "https://fonts.googleapis.com"
+    },
+    {
+      "method": "GET",
+      "origin": "https://fonts.googleapis.com"
+    }
+  ],
+  "browserVersion": "155.0.4283.62"
+}

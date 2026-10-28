@@ -1,0 +1,76 @@
+TAP version 13
+# Subtest: QA section assignment deduplicates IDs and calls one atomic RPC
+ok 1 - QA section assignment deduplicates IDs and calls one atomic RPC
+  ---
+  duration_ms: 938.619
+  type: 'test'
+  ...
+# Subtest: QA section assignment rejects empty selections before persistence
+ok 2 - QA section assignment rejects empty selections before persistence
+  ---
+  duration_ms: 77.2686
+  type: 'test'
+  ...
+# Subtest: QA section assignment rejects malformed UUIDs before persistence
+ok 3 - QA section assignment rejects malformed UUIDs before persistence
+  ---
+  duration_ms: 78.7353
+  type: 'test'
+  ...
+# Subtest: QA section assignment returns actionable capacity and missing-section errors
+ok 4 - QA section assignment returns actionable capacity and missing-section errors
+  ---
+  duration_ms: 81.9474
+  type: 'test'
+  ...
+# Subtest: QA section assignment reports RPC failure without claiming success or issuing fallback writes
+ok 5 - QA section assignment reports RPC failure without claiming success or issuing fallback writes
+  ---
+  duration_ms: 50.3715
+  type: 'test'
+  ...
+# Subtest: QA section assignment reports concurrent transaction conflicts as retryable
+ok 6 - QA section assignment reports concurrent transaction conflicts as retryable
+  ---
+  duration_ms: 85.4122
+  type: 'test'
+  ...
+# Subtest: Main verifier refuses incomplete or disabled connection setup before networking
+ok 7 - Main verifier refuses incomplete or disabled connection setup before networking
+  ---
+  duration_ms: 16.2341
+  type: 'test'
+  ...
+# Subtest: Main verifier rejects administrator identities, wrong targets and transaction pooler configuration
+ok 8 - Main verifier rejects administrator identities, wrong targets and transaction pooler configuration
+  ---
+  duration_ms: 3.3941
+  type: 'test'
+  ...
+# Subtest: Main verifier rejects actual elevated roles, impersonated sessions and writable transactions
+ok 9 - Main verifier rejects actual elevated roles, impersonated sessions and writable transactions
+  ---
+  duration_ms: 3.6042
+  type: 'test'
+  ...
+# Subtest: Main integrity checks require proven unfiltered visibility across every joined table
+ok 10 - Main integrity checks require proven unfiltered visibility across every joined table
+  ---
+  duration_ms: 3.3366
+  type: 'test'
+  ...
+# Subtest: Main integrity checks refuse reader ownership or inherited write privileges
+ok 11 - Main integrity checks refuse reader ownership or inherited write privileges
+  ---
+  duration_ms: 3.2377
+  type: 'test'
+  ...
+1..11
+# tests 11
+# suites 0
+# pass 11
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 3116.2987

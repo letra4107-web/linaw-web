@@ -1,9 +1,9 @@
 const express = require('express');
-const crypto = require('crypto');
+const { temporaryPassword } = require('../lib/temporaryPassword');
 const { supabaseAdmin } = require('../config/supabase');
 const { sendMail } = require('../config/mailer');
 const { requireAuth, requireRole } = require('../middleware/auth');
-const { validateUuidParam, isGrade, isBoundedString } = require('../lib/validation');
+const { validateUuidParam, isUuid, isGrade, isBoundedString } = require('../lib/validation');
 const { summarizeCredentialSecurity } = require('../services/credentialSecurity');
 const { storageReadiness } = require('../services/storageMigration');
 const { platformFor } = require('../services/audit');
@@ -107,8 +107,8 @@ router.get('/monitoring/users/:id', validateUuidParam('id'), async (req, res) =>
     const { data: activity, error: activityError } = await supabaseAdmin.from('audit_logs').select('id, action, module, status, metadata, created_at').eq('actor_id', user.id).order('created_at', { ascending: false }).limit(50);
     if (activityError) throw activityError;
     if (user.role === 'student') {
-      const [{ data: child, error: childError }, { data: progress, error: progressError }] = await Promise.all([supabaseAdmin.from('children').select('id, name, grade_level, parent_id').eq('auth_uid', user.id).maybeSingle(), supabaseAdmin.from('children').select('id').eq('auth_uid', user.id).maybeSingle()]);
-      if (childError || progressError) throw childError || progressError;
+      const { data: child, error: childError } = await supabaseAdmin.from('children').select('id, name, grade_level, parent_id').eq('auth_uid', user.id).maybeSingle();
+      if (childError) throw childError;
       const [{ data: summary, error: summaryError }, { data: sessions, error: sessionsError }, modulesResult] = await Promise.all([child ? supabaseAdmin.from('child_progress').select('level, xp, streak, accuracy_sum, total_attempts, activities_completed, updated_at').eq('child_id', child.id).maybeSingle() : Promise.resolve({ data: null, error: null }), child ? supabaseAdmin.from('pronunciation_practice_sessions').select('word, accuracy_percentage, is_correct, created_at').eq('student_id', child.id).order('created_at', { ascending: false }).limit(20) : Promise.resolve({ data: [], error: null }), child ? supabaseAdmin.rpc('get_student_module_path', { p_student_id: child.id }) : Promise.resolve({ data: null, error: null })]);
       if (summaryError || sessionsError || modulesResult.error) throw summaryError || sessionsError || modulesResult.error;
       return res.json({ user, child, progress: summary, modules: modulesResult.data?.modules || [], sessions: sessions || [], activity: activity || [] });
@@ -401,13 +401,11 @@ router.post('/teachers', async (req, res) => {
     if (!isBoundedString(cleanName, 100, { allowEmpty: false }) || !/^\S+@\S+\.\S+$/.test(cleanEmail) || cleanEmail.length > 254) {
       return res.status(400).json({ error: 'A valid email and name are required.' });
     }
-    if (!cleanGradeLevels.length || cleanGradeLevels.some((grade) => !isGrade(grade))) {
+    if (!Array.isArray(gradeLevels) || !cleanGradeLevels.length || gradeLevels.some((grade) => !isGrade(grade))) {
       return res.status(400).json({ error: 'Choose at least one valid grade from 1 to 6.' });
     }
 
-    const password = Array.from({ length: 12 }, () =>
-      'ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnpqrstuvwxyz23456789'[crypto.randomInt(57)],
-    ).join('');
+    const password = temporaryPassword();
 
     // `createUser` deliberately does not send a confirmation message. Generate
     // a signup OTP instead so a new teacher must prove control of their email
@@ -493,7 +491,7 @@ router.post('/sections', async (req, res) => {
   try {
     const { name, gradeLevel, adviserId, isReadingSupport = false } = req.body || {};
     const cleanName = String(name || '').trim(); const grade = Number(gradeLevel);
-    if (!isBoundedString(cleanName, 80, { allowEmpty: false }) || !isGrade(grade)) return res.status(400).json({ error: 'A name, grade level, and teacher are required.' });
+    if (!isBoundedString(cleanName, 80, { allowEmpty: false }) || !isGrade(gradeLevel)) return res.status(400).json({ error: 'A name, grade level, and teacher are required.' });
     if (typeof adviserId !== 'string' || !/^[0-9a-f-]{36}$/i.test(adviserId)) return res.status(400).json({ error: 'Choose a valid teacher.' });
     const support = Boolean(isReadingSupport);
     const { data, error } = await supabaseAdmin.from('class_sections').insert({ name: cleanName, grade_level: grade, adviser_id: adviserId, is_reading_support: support, capacity: support ? 12 : 30 }).select().single();
@@ -528,16 +526,20 @@ router.get('/sections/:id/students', validateUuidParam('id'), async (req, res) =
 
 router.post('/sections/:id/students', validateUuidParam('id'), async (req, res) => {
   try {
-    const studentIds = Array.isArray(req.body?.studentIds) ? [...new Set(req.body.studentIds)].filter((id) => typeof id === 'string' && /^[0-9a-f-]{36}$/i.test(id)) : [];
+    if (!Array.isArray(req.body?.studentIds) || req.body.studentIds.some((id) => !isUuid(id))) return res.status(400).json({ error: 'Select students with valid IDs.' });
+    const studentIds = [...new Set(req.body.studentIds)];
     if (!studentIds.length || studentIds.length > 35) return res.status(400).json({ error: 'Select one to 35 students.' });
-    const { data: section, error: sectionError } = await supabaseAdmin.from('class_sections').select('id, adviser_id').eq('id', req.params.id).maybeSingle();
-    if (sectionError) throw sectionError; if (!section) return res.status(404).json({ error: 'Section not found.' });
-    const { error: membershipError } = await supabaseAdmin.from('section_students').upsert(studentIds.map((student_id) => ({ section_id: section.id, student_id })), { onConflict: 'section_id,student_id', ignoreDuplicates: true });
-    if (membershipError) throw membershipError;
-    const { error: rosterError } = await supabaseAdmin.from('teacher_student_links').upsert(studentIds.map((student_id) => ({ teacher_id: section.adviser_id, student_id, assigned_by: req.user.id })), { onConflict: 'teacher_id,student_id', ignoreDuplicates: true });
-    if (rosterError) throw rosterError;
+    const { error } = await supabaseAdmin.rpc('assign_section_students', {
+      p_section_id: req.params.id,
+      p_student_ids: studentIds,
+      p_assigned_by: req.user.id,
+    });
+    if (error?.code === 'P0002') return res.status(404).json({ error: 'Section not found.' });
+    if (error?.code === '22023') return res.status(400).json({ error: error.message });
+    if (['40001', '40P01'].includes(error?.code)) return res.status(409).json({ error: 'The section changed during assignment. Reload the section and try again.' });
+    if (error) throw error;
     res.json({ success: true });
-  } catch (err) { console.error('[admin/sections students]', err); res.status(500).json({ error: err.message || 'Unable to add students to this section.' }); }
+  } catch (err) { console.error('[admin/sections students]', err); res.status(500).json({ error: 'Unable to add students to this section.' }); }
 });
 
 router.get('/analytics/students', async (_req, res) => {
@@ -587,12 +589,13 @@ router.get('/analytics/students', async (_req, res) => {
 // GET /admin/analytics
 router.get('/analytics', async (req, res) => {
   try {
-    const [{ data: children }, { data: users }, { data: progress }, { data: sessions }] = await Promise.all([
+    const [{ data: children, error: childrenError }, { data: users, error: usersError }, { data: progress, error: progressError }, { data: sessions, error: sessionsError }] = await Promise.all([
       supabaseAdmin.from('children').select('id, grade_level, created_at'),
       supabaseAdmin.from('users').select('id, role, account_status, created_at, lastLoginAt'),
       supabaseAdmin.from('child_progress').select('achievements, xp, streak'),
       supabaseAdmin.from('pronunciation_practice_sessions').select('id, created_at, is_correct'),
     ]);
+    if (childrenError || usersError || progressError || sessionsError) throw childrenError || usersError || progressError || sessionsError;
 
     const enrollmentByMonth = {};
     const enrollmentByRoleMonth = { student: {}, parent: {}, teacher: {} };
@@ -664,6 +667,9 @@ const SYSTEM_SETTINGS_DEFAULTS = {
 
 function validatedSystemSettings(value) {
   const settings = { ...SYSTEM_SETTINGS_DEFAULTS, ...(value || {}) };
+  for (const [key, defaultValue] of Object.entries(SYSTEM_SETTINGS_DEFAULTS)) {
+    if (typeof defaultValue === 'boolean' && typeof settings[key] !== 'boolean') throw new Error(`${key} must be true or false.`);
+  }
   if (typeof settings.systemName !== 'string' || !settings.systemName.trim() || settings.systemName.length > 120) throw new Error('System name is required and must be 120 characters or fewer.');
   if (typeof settings.organizationName !== 'string' || settings.organizationName.length > 160 || typeof settings.announcement !== 'string' || settings.announcement.length > 1000) throw new Error('One or more text fields are too long.');
   if (!['fil', 'en'].includes(settings.defaultLanguage) || !['15', '30', '60', '120'].includes(String(settings.sessionTimeout))) throw new Error('Invalid settings selection.');
@@ -685,15 +691,20 @@ router.get('/system-settings', async (_req, res) => {
 });
 
 router.patch('/system-settings', async (req, res) => {
+  let settings;
   try {
-    const settings = validatedSystemSettings(req.body);
+    settings = validatedSystemSettings(req.body);
+  } catch (err) {
+    return res.status(400).json({ error: err.message });
+  }
+  try {
     const { data, error } = await supabaseAdmin.from('system_settings').upsert({ key: 'global', settings, updated_by: req.user.id, updated_at: new Date().toISOString() }, { onConflict: 'key' }).select('settings').single();
     if (error) throw error;
     await supabaseAdmin.from('audit_logs').insert({ actor_id: req.user.id, actor_role: 'admin', actor_name: req.user.name || null, action: 'ADMIN.SYSTEM_SETTINGS_UPDATE', module: 'admin_settings', record_id: 'global', status: 'successful', updated_values: settings, metadata: { platform: platformFor(req) } });
     res.json({ settings: { ...SYSTEM_SETTINGS_DEFAULTS, ...(data?.settings || {}) } });
   } catch (err) {
     console.error('[admin/system-settings patch]', err);
-    res.status(400).json({ error: err instanceof Error ? err.message : 'Unable to update system settings.' });
+    res.status(500).json({ error: 'Unable to update system settings.' });
   }
 });
 

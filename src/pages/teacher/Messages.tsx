@@ -33,7 +33,7 @@ export default function TeacherMessages() {
     },
     enabled: Boolean(user),
   });
-  const parentIds = Array.from(new Set((roster ?? []).map((row) => row.children?.parent_id).filter(Boolean))) as string[];
+  const parentIds = useMemo(() => Array.from(new Set((roster ?? []).map((row) => row.children?.parent_id).filter(Boolean))) as string[], [roster]);
   const { data: parentNames } = useQuery({
     queryKey: ['teacher-roster-parent-names', parentIds],
     queryFn: async () => {
@@ -47,7 +47,7 @@ export default function TeacherMessages() {
   const parentOptions = useMemo<ParentOption[]>(() => parentIds.map((parentId) => {
     const children = (roster ?? []).filter((row) => row.children?.parent_id === parentId).map((row) => row.children!).filter(Boolean);
     return { parentId, label: parentNames?.[parentId] ?? 'Magulang', childIds: children.map((child) => child.id), childNames: children.map((child) => child.name), gradeLabel: children.map((child) => `Grade ${child.grade_level}`).join(', ') };
-  }), [parentIds.join(','), roster, parentNames]);
+  }), [parentIds, roster, parentNames]);
   const { data: sent, isLoading: sentLoading, error: sentError } = useQuery({
     queryKey: ['teacher-sent-messages', user?.id],
     queryFn: async () => {

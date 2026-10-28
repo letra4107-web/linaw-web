@@ -1,0 +1,956 @@
+{
+  "version": "157.0",
+  "rows": [
+    {
+      "id": "FIREFOX-BR-001",
+      "module": "Local Firefox browser",
+      "scenario": "/ renders without horizontal overflow at 375px",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "evidence/phase3/local-firefox.json",
+      "actual": {
+        "path": "/",
+        "width": 375,
+        "content": 375,
+        "title": "Mas malinaw na pagbasa, mas masayang pagkatuto.",
+        "navigation": [
+          {
+            "loadMs": 1859,
+            "domContentLoadedMs": 1424
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "FIREFOX-BR-002",
+      "module": "Local Firefox browser",
+      "scenario": "/login renders without horizontal overflow at 375px",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "evidence/phase3/local-firefox.json",
+      "actual": {
+        "path": "/login",
+        "width": 375,
+        "content": 375,
+        "title": "Handa ka na bang magbasa?",
+        "navigation": [
+          {
+            "loadMs": 1250,
+            "domContentLoadedMs": 688
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "FIREFOX-BR-003",
+      "module": "Local Firefox browser",
+      "scenario": "/signup renders without horizontal overflow at 375px",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "evidence/phase3/local-firefox.json",
+      "actual": {
+        "path": "/signup",
+        "width": 375,
+        "content": 375,
+        "title": "Gumawa ng account",
+        "navigation": [
+          {
+            "loadMs": 871,
+            "domContentLoadedMs": 564
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "FIREFOX-BR-004",
+      "module": "Local Firefox browser",
+      "scenario": "/forgot-password renders without horizontal overflow at 375px",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "evidence/phase3/local-firefox.json",
+      "actual": {
+        "path": "/forgot-password",
+        "width": 375,
+        "content": 375,
+        "title": "Nakalimutan ang Password?",
+        "navigation": [
+          {
+            "loadMs": 957,
+            "domContentLoadedMs": 527
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "FIREFOX-BR-005",
+      "module": "Local Firefox browser",
+      "scenario": "/reset-password renders without horizontal overflow at 375px",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "evidence/phase3/local-firefox.json",
+      "actual": {
+        "path": "/reset-password",
+        "width": 375,
+        "content": 375,
+        "title": "I-reset ang iyong password",
+        "navigation": [
+          {
+            "loadMs": 767,
+            "domContentLoadedMs": 518
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "FIREFOX-BR-006",
+      "module": "Local Firefox browser",
+      "scenario": "/verify-email renders without horizontal overflow at 375px",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "evidence/phase3/local-firefox.json",
+      "actual": {
+        "path": "/verify-email",
+        "width": 375,
+        "content": 375,
+        "title": "I-verify ang iyong email",
+        "navigation": [
+          {
+            "loadMs": 890,
+            "domContentLoadedMs": 441
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "FIREFOX-BR-007",
+      "module": "Local Firefox browser",
+      "scenario": "/resend-verification renders without horizontal overflow at 375px",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "evidence/phase3/local-firefox.json",
+      "actual": {
+        "path": "/resend-verification",
+        "width": 375,
+        "content": 375,
+        "title": "Muling ipadala ang code",
+        "navigation": [
+          {
+            "loadMs": 2250,
+            "domContentLoadedMs": 614
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "FIREFOX-BR-008",
+      "module": "Local Firefox browser",
+      "scenario": "/privacy renders without horizontal overflow at 375px",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "evidence/phase3/local-firefox.json",
+      "actual": {
+        "path": "/privacy",
+        "width": 375,
+        "content": 375,
+        "title": "Patakaran sa Privacy",
+        "navigation": [
+          {
+            "loadMs": 547,
+            "domContentLoadedMs": 428
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "FIREFOX-BR-009",
+      "module": "Local Firefox browser",
+      "scenario": "/terms renders without horizontal overflow at 375px",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "evidence/phase3/local-firefox.json",
+      "actual": {
+        "path": "/terms",
+        "width": 375,
+        "content": 375,
+        "title": "Mga Tuntunin ng Serbisyo",
+        "navigation": [
+          {
+            "loadMs": 801,
+            "domContentLoadedMs": 652
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "FIREFOX-BR-010",
+      "module": "Local Firefox browser",
+      "scenario": "/child-data renders without horizontal overflow at 375px",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "evidence/phase3/local-firefox.json",
+      "actual": {
+        "path": "/child-data",
+        "width": 375,
+        "content": 375,
+        "title": "Data ng Bata at Pahintulot ng Magulang",
+        "navigation": [
+          {
+            "loadMs": 1326,
+            "domContentLoadedMs": 1077
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "FIREFOX-BR-011",
+      "module": "Local Firefox browser",
+      "scenario": "/account-deletion renders without horizontal overflow at 375px",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "evidence/phase3/local-firefox.json",
+      "actual": {
+        "path": "/account-deletion",
+        "width": 375,
+        "content": 375,
+        "title": "Pag-delete ng Account",
+        "navigation": [
+          {
+            "loadMs": 663,
+            "domContentLoadedMs": 433
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "FIREFOX-BR-012",
+      "module": "Local Firefox browser",
+      "scenario": "/accessibility renders without horizontal overflow at 375px",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "evidence/phase3/local-firefox.json",
+      "actual": {
+        "path": "/accessibility",
+        "width": 375,
+        "content": 375,
+        "title": "Pahayag sa Accessibility",
+        "navigation": [
+          {
+            "loadMs": 809,
+            "domContentLoadedMs": 565
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "FIREFOX-BR-013",
+      "module": "Local Firefox browser",
+      "scenario": "/not-a-real-page renders without horizontal overflow at 375px",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "evidence/phase3/local-firefox.json",
+      "actual": {
+        "path": "/not-a-real-page",
+        "width": 375,
+        "content": 375,
+        "title": "Naligaw ang pahina",
+        "navigation": [
+          {
+            "loadMs": 641,
+            "domContentLoadedMs": 422
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "FIREFOX-BR-014",
+      "module": "Local Firefox browser",
+      "scenario": "/ renders without horizontal overflow at 768px",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "evidence/phase3/local-firefox.json",
+      "actual": {
+        "path": "/",
+        "width": 768,
+        "content": 768,
+        "title": "Mas malinaw na pagbasa, mas masayang pagkatuto.",
+        "navigation": [
+          {
+            "loadMs": 956,
+            "domContentLoadedMs": 774
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "FIREFOX-BR-015",
+      "module": "Local Firefox browser",
+      "scenario": "/login renders without horizontal overflow at 768px",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "evidence/phase3/local-firefox.json",
+      "actual": {
+        "path": "/login",
+        "width": 768,
+        "content": 768,
+        "title": "Handa ka na bang magbasa?",
+        "navigation": [
+          {
+            "loadMs": 619,
+            "domContentLoadedMs": 409
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "FIREFOX-BR-016",
+      "module": "Local Firefox browser",
+      "scenario": "/signup renders without horizontal overflow at 768px",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "evidence/phase3/local-firefox.json",
+      "actual": {
+        "path": "/signup",
+        "width": 768,
+        "content": 768,
+        "title": "Gumawa ng account",
+        "navigation": [
+          {
+            "loadMs": 1056,
+            "domContentLoadedMs": 761
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "FIREFOX-BR-017",
+      "module": "Local Firefox browser",
+      "scenario": "/forgot-password renders without horizontal overflow at 768px",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "evidence/phase3/local-firefox.json",
+      "actual": {
+        "path": "/forgot-password",
+        "width": 768,
+        "content": 768,
+        "title": "Nakalimutan ang Password?",
+        "navigation": [
+          {
+            "loadMs": 1038,
+            "domContentLoadedMs": 507
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "FIREFOX-BR-018",
+      "module": "Local Firefox browser",
+      "scenario": "/reset-password renders without horizontal overflow at 768px",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "evidence/phase3/local-firefox.json",
+      "actual": {
+        "path": "/reset-password",
+        "width": 768,
+        "content": 768,
+        "title": "I-reset ang iyong password",
+        "navigation": [
+          {
+            "loadMs": 1035,
+            "domContentLoadedMs": 650
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "FIREFOX-BR-019",
+      "module": "Local Firefox browser",
+      "scenario": "/verify-email renders without horizontal overflow at 768px",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "evidence/phase3/local-firefox.json",
+      "actual": {
+        "path": "/verify-email",
+        "width": 768,
+        "content": 768,
+        "title": "I-verify ang iyong email",
+        "navigation": [
+          {
+            "loadMs": 1054,
+            "domContentLoadedMs": 566
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "FIREFOX-BR-020",
+      "module": "Local Firefox browser",
+      "scenario": "/resend-verification renders without horizontal overflow at 768px",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "evidence/phase3/local-firefox.json",
+      "actual": {
+        "path": "/resend-verification",
+        "width": 768,
+        "content": 768,
+        "title": "Muling ipadala ang code",
+        "navigation": [
+          {
+            "loadMs": 1193,
+            "domContentLoadedMs": 551
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "FIREFOX-BR-021",
+      "module": "Local Firefox browser",
+      "scenario": "/privacy renders without horizontal overflow at 768px",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "evidence/phase3/local-firefox.json",
+      "actual": {
+        "path": "/privacy",
+        "width": 768,
+        "content": 768,
+        "title": "Patakaran sa Privacy",
+        "navigation": [
+          {
+            "loadMs": 793,
+            "domContentLoadedMs": 624
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "FIREFOX-BR-022",
+      "module": "Local Firefox browser",
+      "scenario": "/terms renders without horizontal overflow at 768px",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "evidence/phase3/local-firefox.json",
+      "actual": {
+        "path": "/terms",
+        "width": 768,
+        "content": 768,
+        "title": "Mga Tuntunin ng Serbisyo",
+        "navigation": [
+          {
+            "loadMs": 621,
+            "domContentLoadedMs": 429
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "FIREFOX-BR-023",
+      "module": "Local Firefox browser",
+      "scenario": "/child-data renders without horizontal overflow at 768px",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "evidence/phase3/local-firefox.json",
+      "actual": {
+        "path": "/child-data",
+        "width": 768,
+        "content": 768,
+        "title": "Data ng Bata at Pahintulot ng Magulang",
+        "navigation": [
+          {
+            "loadMs": 535,
+            "domContentLoadedMs": 362
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "FIREFOX-BR-024",
+      "module": "Local Firefox browser",
+      "scenario": "/account-deletion renders without horizontal overflow at 768px",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "evidence/phase3/local-firefox.json",
+      "actual": {
+        "path": "/account-deletion",
+        "width": 768,
+        "content": 768,
+        "title": "Pag-delete ng Account",
+        "navigation": [
+          {
+            "loadMs": 558,
+            "domContentLoadedMs": 427
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "FIREFOX-BR-025",
+      "module": "Local Firefox browser",
+      "scenario": "/accessibility renders without horizontal overflow at 768px",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "evidence/phase3/local-firefox.json",
+      "actual": {
+        "path": "/accessibility",
+        "width": 768,
+        "content": 768,
+        "title": "Pahayag sa Accessibility",
+        "navigation": [
+          {
+            "loadMs": 538,
+            "domContentLoadedMs": 334
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "FIREFOX-BR-026",
+      "module": "Local Firefox browser",
+      "scenario": "/not-a-real-page renders without horizontal overflow at 768px",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "evidence/phase3/local-firefox.json",
+      "actual": {
+        "path": "/not-a-real-page",
+        "width": 768,
+        "content": 768,
+        "title": "Naligaw ang pahina",
+        "navigation": [
+          {
+            "loadMs": 590,
+            "domContentLoadedMs": 413
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "FIREFOX-BR-027",
+      "module": "Local Firefox browser",
+      "scenario": "/ renders without horizontal overflow at 1440px",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "evidence/phase3/local-firefox.json",
+      "actual": {
+        "path": "/",
+        "width": 1440,
+        "content": 1440,
+        "title": "Mas malinaw na pagbasa, mas masayang pagkatuto.",
+        "navigation": [
+          {
+            "loadMs": 892,
+            "domContentLoadedMs": 684
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "FIREFOX-BR-028",
+      "module": "Local Firefox browser",
+      "scenario": "/login renders without horizontal overflow at 1440px",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "evidence/phase3/local-firefox.json",
+      "actual": {
+        "path": "/login",
+        "width": 1440,
+        "content": 1440,
+        "title": "Handa ka na bang magbasa?",
+        "navigation": [
+          {
+            "loadMs": 545,
+            "domContentLoadedMs": 346
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "FIREFOX-BR-029",
+      "module": "Local Firefox browser",
+      "scenario": "/signup renders without horizontal overflow at 1440px",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "evidence/phase3/local-firefox.json",
+      "actual": {
+        "path": "/signup",
+        "width": 1440,
+        "content": 1440,
+        "title": "Gumawa ng account",
+        "navigation": [
+          {
+            "loadMs": 530,
+            "domContentLoadedMs": 367
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "FIREFOX-BR-030",
+      "module": "Local Firefox browser",
+      "scenario": "/forgot-password renders without horizontal overflow at 1440px",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "evidence/phase3/local-firefox.json",
+      "actual": {
+        "path": "/forgot-password",
+        "width": 1440,
+        "content": 1440,
+        "title": "Nakalimutan ang Password?",
+        "navigation": [
+          {
+            "loadMs": 823,
+            "domContentLoadedMs": 357
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "FIREFOX-BR-031",
+      "module": "Local Firefox browser",
+      "scenario": "/reset-password renders without horizontal overflow at 1440px",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "evidence/phase3/local-firefox.json",
+      "actual": {
+        "path": "/reset-password",
+        "width": 1440,
+        "content": 1440,
+        "title": "I-reset ang iyong password",
+        "navigation": [
+          {
+            "loadMs": 1132,
+            "domContentLoadedMs": 587
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "FIREFOX-BR-032",
+      "module": "Local Firefox browser",
+      "scenario": "/verify-email renders without horizontal overflow at 1440px",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "evidence/phase3/local-firefox.json",
+      "actual": {
+        "path": "/verify-email",
+        "width": 1440,
+        "content": 1440,
+        "title": "I-verify ang iyong email",
+        "navigation": [
+          {
+            "loadMs": 1930,
+            "domContentLoadedMs": 1075
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "FIREFOX-BR-033",
+      "module": "Local Firefox browser",
+      "scenario": "/resend-verification renders without horizontal overflow at 1440px",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "evidence/phase3/local-firefox.json",
+      "actual": {
+        "path": "/resend-verification",
+        "width": 1440,
+        "content": 1440,
+        "title": "Muling ipadala ang code",
+        "navigation": [
+          {
+            "loadMs": 1585,
+            "domContentLoadedMs": 948
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "FIREFOX-BR-034",
+      "module": "Local Firefox browser",
+      "scenario": "/privacy renders without horizontal overflow at 1440px",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "evidence/phase3/local-firefox.json",
+      "actual": {
+        "path": "/privacy",
+        "width": 1440,
+        "content": 1440,
+        "title": "Patakaran sa Privacy",
+        "navigation": [
+          {
+            "loadMs": 987,
+            "domContentLoadedMs": 777
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "FIREFOX-BR-035",
+      "module": "Local Firefox browser",
+      "scenario": "/terms renders without horizontal overflow at 1440px",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "evidence/phase3/local-firefox.json",
+      "actual": {
+        "path": "/terms",
+        "width": 1440,
+        "content": 1440,
+        "title": "Mga Tuntunin ng Serbisyo",
+        "navigation": [
+          {
+            "loadMs": 1107,
+            "domContentLoadedMs": 667
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "FIREFOX-BR-036",
+      "module": "Local Firefox browser",
+      "scenario": "/child-data renders without horizontal overflow at 1440px",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "evidence/phase3/local-firefox.json",
+      "actual": {
+        "path": "/child-data",
+        "width": 1440,
+        "content": 1440,
+        "title": "Data ng Bata at Pahintulot ng Magulang",
+        "navigation": [
+          {
+            "loadMs": 819,
+            "domContentLoadedMs": 649
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "FIREFOX-BR-037",
+      "module": "Local Firefox browser",
+      "scenario": "/account-deletion renders without horizontal overflow at 1440px",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "evidence/phase3/local-firefox.json",
+      "actual": {
+        "path": "/account-deletion",
+        "width": 1440,
+        "content": 1440,
+        "title": "Pag-delete ng Account",
+        "navigation": [
+          {
+            "loadMs": 786,
+            "domContentLoadedMs": 498
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "FIREFOX-BR-038",
+      "module": "Local Firefox browser",
+      "scenario": "/accessibility renders without horizontal overflow at 1440px",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "evidence/phase3/local-firefox.json",
+      "actual": {
+        "path": "/accessibility",
+        "width": 1440,
+        "content": 1440,
+        "title": "Pahayag sa Accessibility",
+        "navigation": [
+          {
+            "loadMs": 1184,
+            "domContentLoadedMs": 907
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "FIREFOX-BR-039",
+      "module": "Local Firefox browser",
+      "scenario": "/not-a-real-page renders without horizontal overflow at 1440px",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "evidence/phase3/local-firefox.json",
+      "actual": {
+        "path": "/not-a-real-page",
+        "width": 1440,
+        "content": 1440,
+        "title": "Naligaw ang pahina",
+        "navigation": [
+          {
+            "loadMs": 2048,
+            "domContentLoadedMs": 1278
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "FIREFOX-BR-040",
+      "module": "Local Firefox browser",
+      "scenario": "Anonymous admin redirects to login",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "evidence/phase3/local-firefox.json",
+      "actual": "Assertions passed",
+      "status": "PASS"
+    },
+    {
+      "id": "FIREFOX-BR-041",
+      "module": "Local Firefox browser",
+      "scenario": "Anonymous admin/settings redirects to login",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "evidence/phase3/local-firefox.json",
+      "actual": "Assertions passed",
+      "status": "PASS"
+    },
+    {
+      "id": "FIREFOX-BR-042",
+      "module": "Local Firefox browser",
+      "scenario": "Anonymous admin/not-a-real-page redirects to login",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "evidence/phase3/local-firefox.json",
+      "actual": "Assertions passed",
+      "status": "PASS"
+    },
+    {
+      "id": "FIREFOX-BR-043",
+      "module": "Local Firefox browser",
+      "scenario": "Anonymous teacher redirects to login",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "evidence/phase3/local-firefox.json",
+      "actual": "Assertions passed",
+      "status": "PASS"
+    },
+    {
+      "id": "FIREFOX-BR-044",
+      "module": "Local Firefox browser",
+      "scenario": "Anonymous teacher/settings redirects to login",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "evidence/phase3/local-firefox.json",
+      "actual": "Assertions passed",
+      "status": "PASS"
+    },
+    {
+      "id": "FIREFOX-BR-045",
+      "module": "Local Firefox browser",
+      "scenario": "Anonymous teacher/not-a-real-page redirects to login",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "evidence/phase3/local-firefox.json",
+      "actual": "Assertions passed",
+      "status": "PASS"
+    },
+    {
+      "id": "FIREFOX-BR-046",
+      "module": "Local Firefox browser",
+      "scenario": "Anonymous parent redirects to login",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "evidence/phase3/local-firefox.json",
+      "actual": "Assertions passed",
+      "status": "PASS"
+    },
+    {
+      "id": "FIREFOX-BR-047",
+      "module": "Local Firefox browser",
+      "scenario": "Anonymous parent/settings redirects to login",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "evidence/phase3/local-firefox.json",
+      "actual": "Assertions passed",
+      "status": "PASS"
+    },
+    {
+      "id": "FIREFOX-BR-048",
+      "module": "Local Firefox browser",
+      "scenario": "Anonymous parent/not-a-real-page redirects to login",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "evidence/phase3/local-firefox.json",
+      "actual": "Assertions passed",
+      "status": "PASS"
+    },
+    {
+      "id": "FIREFOX-BR-049",
+      "module": "Local Firefox browser",
+      "scenario": "Anonymous student redirects to login",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "evidence/phase3/local-firefox.json",
+      "actual": "Assertions passed",
+      "status": "PASS"
+    },
+    {
+      "id": "FIREFOX-BR-050",
+      "module": "Local Firefox browser",
+      "scenario": "Anonymous student/settings redirects to login",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "evidence/phase3/local-firefox.json",
+      "actual": "Assertions passed",
+      "status": "PASS"
+    },
+    {
+      "id": "FIREFOX-BR-051",
+      "module": "Local Firefox browser",
+      "scenario": "Anonymous student/not-a-real-page redirects to login",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "evidence/phase3/local-firefox.json",
+      "actual": "Assertions passed",
+      "status": "PASS"
+    },
+    {
+      "id": "FIREFOX-BR-052",
+      "module": "Local Firefox browser",
+      "scenario": "Empty login submission displays validation; password visibility and keyboard toggle work",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "evidence/phase3/local-firefox.json",
+      "actual": "Assertions passed",
+      "status": "PASS"
+    },
+    {
+      "id": "FIREFOX-BR-053",
+      "module": "Local Firefox browser",
+      "scenario": "Empty signup submission displays required-field errors",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "evidence/phase3/local-firefox.json",
+      "actual": "Assertions passed",
+      "status": "PASS"
+    },
+    {
+      "id": "FIREFOX-BR-054",
+      "module": "Local Firefox browser",
+      "scenario": "OTP keyboard navigation and nonnumeric input validation",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "evidence/phase3/local-firefox.json",
+      "actual": "Assertions passed",
+      "status": "PASS"
+    },
+    {
+      "id": "FIREFOX-BR-055",
+      "module": "Local Firefox browser",
+      "scenario": "Public forms have accessible names for visible input controls",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "evidence/phase3/local-firefox.json",
+      "actual": "Assertions passed",
+      "status": "PASS"
+    },
+    {
+      "id": "FIREFOX-BR-056",
+      "module": "Local Firefox browser",
+      "scenario": "No uncaught JavaScript exceptions during tested navigation and actions",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "evidence/phase3/local-firefox.json",
+      "actual": "Assertions passed",
+      "status": "PASS"
+    },
+    {
+      "id": "FIREFOX-BR-057",
+      "module": "Local Firefox browser",
+      "scenario": "A failed route-bundle download displays retry feedback and recovers after reloading",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "evidence/phase3/local-firefox.json",
+      "actual": "Assertions passed",
+      "status": "PASS"
+    },
+    {
+      "id": "FIREFOX-BR-058",
+      "module": "Local Firefox browser",
+      "scenario": "Ten fresh browser contexts render the cold mobile home route without asset failures",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "evidence/phase3/local-firefox.json",
+      "actual": "10/10 fresh contexts rendered with no failed local assets or overflow; no retry used",
+      "status": "PASS"
+    }
+  ]
+}

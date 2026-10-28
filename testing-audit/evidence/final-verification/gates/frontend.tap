@@ -1,0 +1,334 @@
+TAP version 13
+# Subtest: admin navigation search filters pages and Enter opens the first matching route
+ok 1 - admin navigation search filters pages and Enter opens the first matching route
+  ---
+  duration_ms: 981.0032
+  type: 'test'
+  ...
+# Subtest: admin navigation search explains empty results and never navigates on an unmatched query
+ok 2 - admin navigation search explains empty results and never navigates on an unmatched query
+  ---
+  duration_ms: 152.7905
+  type: 'test'
+  ...
+# Subtest: admin navigation search supports selecting a result and dismissing with Escape
+ok 3 - admin navigation search supports selecting a result and dismissing with Escape
+  ---
+  duration_ms: 54.8937
+  type: 'test'
+  ...
+# Subtest: QA email validation accepts single addresses and rejects embedded or whitespace addresses
+ok 4 - QA email validation accepts single addresses and rejects embedded or whitespace addresses
+  ---
+  duration_ms: 1832.3781
+  type: 'test'
+  ...
+# Subtest: QA role resolution never repairs over a failed authoritative profile lookup
+ok 5 - QA role resolution never repairs over a failed authoritative profile lookup
+  ---
+  duration_ms: 198.4703
+  type: 'test'
+  ...
+# Subtest: QA role resolution never repairs when child identity lookup fails
+ok 6 - QA role resolution never repairs when child identity lookup fails
+  ---
+  duration_ms: 50.984
+  type: 'test'
+  ...
+# Subtest: QA role resolution preserves authoritative teacher and child roles
+ok 7 - QA role resolution preserves authoritative teacher and child roles
+  ---
+  duration_ms: 494.9262
+  type: 'test'
+  ...
+# Subtest: QA parent profile repair reports persistence failure
+ok 8 - QA parent profile repair reports persistence failure
+  ---
+  duration_ms: 200.6158
+  type: 'test'
+  ...
+# Subtest: QA confirmed parent repair preserves signup name; unconfirmed accounts are not repaired
+ok 9 - QA confirmed parent repair preserves signup name; unconfirmed accounts are not repaired
+  ---
+  duration_ms: 226.396
+  type: 'test'
+  ...
+# Subtest: QA saved-profile picker ignores malformed entries without crashing
+ok 10 - QA saved-profile picker ignores malformed entries without crashing
+  ---
+  duration_ms: 71.0184
+  type: 'test'
+  ...
+# Subtest: QA saved profiles enforce expiration, student replacement, and profile limit
+ok 11 - QA saved profiles enforce expiration, student replacement, and profile limit
+  ---
+  duration_ms: 354.2378
+  type: 'test'
+  ...
+# Subtest: QA unavailable optional profile storage does not break login/logout
+ok 12 - QA unavailable optional profile storage does not break login/logout
+  ---
+  duration_ms: 223.0981
+  type: 'test'
+  ...
+# Subtest: QA signup without a session reaches verification without an unauthenticated profile write
+ok 13 - QA signup without a session reaches verification without an unauthenticated profile write
+  ---
+  duration_ms: 1176.8919
+  type: 'test'
+  ...
+# Subtest: QA signup with a session persists its parent profile
+ok 14 - QA signup with a session persists its parent profile
+  ---
+  duration_ms: 396.4638
+  type: 'test'
+  ...
+# Subtest: QA account switching cannot publish an older asynchronous identity
+ok 15 - QA account switching cannot publish an older asynchronous identity
+  ---
+  duration_ms: 260.394
+  type: 'test'
+  ...
+# Subtest: credential scan never consumes the next line after an empty example assignment
+ok 16 - credential scan never consumes the next line after an empty example assignment
+  ---
+  duration_ms: 8.0173
+  type: 'test'
+  ...
+# Subtest: credential scan identifies synthetic credential categories without returning values
+ok 17 - credential scan identifies synthetic credential categories without returning values
+  ---
+  duration_ms: 1.2225
+  type: 'test'
+  ...
+# Subtest: final dashboard query error feedback hides internal diagnostics and provides an accessible retry
+ok 18 - final dashboard query error feedback hides internal diagnostics and provides an accessible retry
+  ---
+  duration_ms: 537.9869
+  type: 'test'
+  ...
+# Subtest: final frontend API adds the authenticated session and preserves JSON request/response contracts
+ok 19 - final frontend API adds the authenticated session and preserves JSON request/response contracts
+  ---
+  duration_ms: 270.8134
+  type: 'test'
+  ...
+# Subtest: final frontend API handles expired/missing sessions without inventing an auth header
+ok 20 - final frontend API handles expired/missing sessions without inventing an auth header
+  ---
+  duration_ms: 58.3393
+  type: 'test'
+  ...
+# Subtest: final frontend API distinguishes JSON service failures and non-JSON gateway failures
+ok 21 - final frontend API distinguishes JSON service failures and non-JSON gateway failures
+  ---
+  duration_ms: 54.3224
+  type: 'test'
+  ...
+# Subtest: final frontend API warns once for version drift and handles non-JSON success
+ok 22 - final frontend API warns once for version drift and handles non-JSON success
+  ---
+  duration_ms: 287.7645
+  type: 'test'
+  ...
+# Subtest: final frontend Word of Day dates change exactly at Manila midnight
+ok 23 - final frontend Word of Day dates change exactly at Manila midnight
+  ---
+  duration_ms: 513.7546
+  type: 'test'
+  ...
+# Subtest: final frontend Word of Day reuses a completed row without resetting attempts or writing
+ok 24 - final frontend Word of Day reuses a completed row without resetting attempts or writing
+  ---
+  duration_ms: 307.0552
+  type: 'test'
+  ...
+# Subtest: final frontend Word of Day handles empty content and invalid reading levels without insertion
+ok 25 - final frontend Word of Day handles empty content and invalid reading levels without insertion
+  ---
+  duration_ms: 415.1979
+  type: 'test'
+  ...
+# Subtest: final frontend Word of Day uses only published level-appropriate content and preserves a concurrent insert
+ok 26 - final frontend Word of Day uses only published level-appropriate content and preserves a concurrent insert
+  ---
+  duration_ms: 254.4652
+  type: 'test'
+  ...
+# Subtest: final frontend Word of Day propagates query errors and never reports a fabricated word
+ok 27 - final frontend Word of Day propagates query errors and never reports a fabricated word
+  ---
+  duration_ms: 195.0891
+  type: 'test'
+  ...
+# Subtest: credential detector reports locations/categories without returning synthetic values
+ok 28 - credential detector reports locations/categories without returning synthetic values
+  ---
+  duration_ms: 11.3409
+  type: 'test'
+  ...
+# Subtest: credential detector handles unknown literal assignments and safe examples
+ok 29 - credential detector handles unknown literal assignments and safe examples
+  ---
+  duration_ms: 107.3797
+  type: 'test'
+  ...
+# Subtest: repository ignore rules protect private files while allowing templates, source and audit evidence
+ok 30 - repository ignore rules protect private files while allowing templates, source and audit evidence
+  ---
+  duration_ms: 2410.9725
+  type: 'test'
+  ...
+# Subtest: Main verifier refuses incomplete or disabled connection setup before networking
+ok 31 - Main verifier refuses incomplete or disabled connection setup before networking
+  ---
+  duration_ms: 4.8189
+  type: 'test'
+  ...
+# Subtest: Main verifier rejects administrator identities, wrong targets and transaction pooler configuration
+ok 32 - Main verifier rejects administrator identities, wrong targets and transaction pooler configuration
+  ---
+  duration_ms: 1.1024
+  type: 'test'
+  ...
+# Subtest: Main verifier rejects actual elevated roles, impersonated sessions and writable transactions
+ok 33 - Main verifier rejects actual elevated roles, impersonated sessions and writable transactions
+  ---
+  duration_ms: 3.1341
+  type: 'test'
+  ...
+# Subtest: Main integrity checks require proven unfiltered visibility across every joined table
+ok 34 - Main integrity checks require proven unfiltered visibility across every joined table
+  ---
+  duration_ms: 1.2757
+  type: 'test'
+  ...
+# Subtest: Main integrity checks refuse reader ownership or inherited write privileges
+ok 35 - Main integrity checks refuse reader ownership or inherited write privileges
+  ---
+  duration_ms: 1.1751
+  type: 'test'
+  ...
+# Subtest: parent badges accept current atomic award records
+ok 36 - parent badges accept current atomic award records
+  ---
+  duration_ms: 4.5012
+  type: 'test'
+  ...
+# Subtest: parent badges accept legacy keyed achievements
+ok 37 - parent badges accept legacy keyed achievements
+  ---
+  duration_ms: 0.521
+  type: 'test'
+  ...
+# Subtest: parent badges merge legacy strings without duplicate unlocks
+ok 38 - parent badges merge legacy strings without duplicate unlocks
+  ---
+  duration_ms: 1.4467
+  type: 'test'
+  ...
+# Subtest: parent badges ignore absent or malformed records
+ok 39 - parent badges ignore absent or malformed records
+  ---
+  duration_ms: 0.663
+  type: 'test'
+  ...
+# Subtest: parent async button callbacks invoke actions instead of discarding function references
+ok 40 - parent async button callbacks invoke actions instead of discarding function references
+  ---
+  duration_ms: 2142.7029
+  type: 'test'
+  ...
+# Subtest: module table defaults to five rows with a correct visible range
+ok 41 - module table defaults to five rows with a correct visible range
+  ---
+  duration_ms: 6.8445
+  type: 'test'
+  ...
+# Subtest: next and last pages show distinct rows and the partial final range
+ok 42 - next and last pages show distinct rows and the partial final range
+  ---
+  duration_ms: 0.9923
+  type: 'test'
+  ...
+# Subtest: changing page size shows the selected number of modules
+ok 43 - changing page size shows the selected number of modules
+  ---
+  duration_ms: 1.0655
+  type: 'test'
+  ...
+# Subtest: a shrinking report clamps the page instead of producing an empty page
+ok 44 - a shrinking report clamps the page instead of producing an empty page
+  ---
+  duration_ms: 0.7084
+  type: 'test'
+  ...
+# Subtest: empty reports and invalid page requests remain in a valid state
+ok 45 - empty reports and invalid page requests remain in a valid state
+  ---
+  duration_ms: 2.7257
+  type: 'test'
+  ...
+# Subtest: large reports retain first, last, and adjacent page buttons
+ok 46 - large reports retain first, last, and adjacent page buttons
+  ---
+  duration_ms: 1.8104
+  type: 'test'
+  ...
+# Subtest: opening a module preserves child and selected month
+ok 47 - opening a module preserves child and selected month
+  ---
+  duration_ms: 3.9135
+  type: 'test'
+  ...
+# Subtest: returning to the module list clears only detail state
+ok 48 - returning to the module list clears only detail state
+  ---
+  duration_ms: 0.8541
+  type: 'test'
+  ...
+# Subtest: report tabs cannot accidentally retain a module filter
+ok 49 - report tabs cannot accidentally retain a module filter
+  ---
+  duration_ms: 1.2125
+  type: 'test'
+  ...
+# Subtest: practice record navigation retains its intended record
+ok 50 - practice record navigation retains its intended record
+  ---
+  duration_ms: 0.7883
+  type: 'test'
+  ...
+# Subtest: month selection accepts valid values and safely defaults malformed query dates
+ok 51 - month selection accepts valid values and safely defaults malformed query dates
+  ---
+  duration_ms: 10.3528
+  type: 'test'
+  ...
+# Subtest: QA environment permits an independently isolated local stack
+ok 52 - QA environment permits an independently isolated local stack
+  ---
+  duration_ms: 17.493
+  type: 'test'
+  ...
+# Subtest: QA environment refuses shared Supabase even with an explicit hostname allowlist
+ok 53 - QA environment refuses shared Supabase even with an explicit hostname allowlist
+  ---
+  duration_ms: 1.9362
+  type: 'test'
+  ...
+# Subtest: QA environment refuses missing, disabled, production and path-spoofed targets
+ok 54 - QA environment refuses missing, disabled, production and path-spoofed targets
+  ---
+  duration_ms: 3.2603
+  type: 'test'
+  ...
+1..54
+# tests 54
+# suites 0
+# pass 54
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 8449.2532

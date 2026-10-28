@@ -1,0 +1,16 @@
+{
+  "generatedAt": "2026-10-21T11:26:45.654Z",
+  "status": "PASS: read-only remote ref advertisement retrieved",
+  "exitCode": 0,
+  "refs": [
+    {
+      "name": "refs/heads/main",
+      "object": "d5fd34e2146c7eadbfeafcf3f4a80b51413b61ee"
+    }
+  ],
+  "failureCategory": null,
+  "limitations": [
+    "No remote objects fetched",
+    "Advertised refs do not inventory forks, caches, deleted refs, artifacts or private GitHub metadata"
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "version": "155.0.4283.62",
+  "rows": [
+    {
+      "id": "BR-058",
+      "module": "Local Edge browser",
+      "scenario": "Ten fresh browser contexts render the cold mobile home route without asset failures",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "evidence/phase2/cold-edge.json",
+      "actual": "page.goto: net::ERR_NETWORK_ACCESS_DENIED at http://127.0.0.1:59084/\nCall log:\n\u001b[2m  - navigating to \"http://127.0.0.1:59084/\", waiting until \"load\"\u001b[22m\n",
+      "status": "FAIL"
+    }
+  ]
+}

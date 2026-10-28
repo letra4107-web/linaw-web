@@ -1,0 +1,50 @@
+{
+  "timestamp": "2026-10-21T11:07:51.838Z",
+  "scope": "Actual router/service with an explicit atomic RPC contract model. PASS proves application behavior against that model, not PostgreSQL transaction semantics or a deployed fix.",
+  "rows": [
+    {
+      "id": "TX-001",
+      "module": "Student Word of the Day",
+      "scenario": "RPC contract model: persistence fails before commit; retry recovers once",
+      "expected": "Failure leaves state unchanged; retry credits 25 once and subsequent replay credits zero",
+      "actual": {
+        "firstStatus": 503,
+        "unchangedOnFailure": true,
+        "retryStatus": 200,
+        "retryXp": 25,
+        "replayXp": 0,
+        "awardedXp": 25
+      },
+      "status": "PASS",
+      "defect": "AUD-005",
+      "evidence": "evidence/transaction-probes.json"
+    },
+    {
+      "id": "TX-002",
+      "module": "Student Word of the Day",
+      "scenario": "RPC contract model: twenty concurrent route calls",
+      "expected": "One 25 XP credit and nineteen idempotent replays",
+      "actual": {
+        "statuses": [
+          200
+        ],
+        "creditedRequests": 1,
+        "credits": 1,
+        "streak": 5
+      },
+      "status": "PASS",
+      "defect": "AUD-005",
+      "evidence": "evidence/transaction-probes.json"
+    },
+    {
+      "id": "TX-SQL",
+      "module": "Student Word of the Day",
+      "scenario": "Actual SQL proposal and installed schema",
+      "expected": "Measure schema; approve and validate SQL privileges, rollback, locks, retries and races in isolation",
+      "actual": "Proposed SQL was NOT executed, including against the disposable database, per owner instruction. Shared installed schema remains unverified.",
+      "status": "BLOCKED",
+      "defect": "AUD-005",
+      "evidence": "review/word-of-day-atomic.PROPOSED.sql"
+    }
+  ]
+}

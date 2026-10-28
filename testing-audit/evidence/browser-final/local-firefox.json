@@ -1,0 +1,17 @@
+{
+  "timestamp": "2026-10-21T10:31:15.861Z",
+  "scope": "Public/anonymous navigation, responsive widths and form validation. All non-GET/HEAD requests blocked; local external networking blocked. Desktop engines with resized viewports, not physical mobile devices. No dashboard session or DB access.",
+  "version": "157.0",
+  "runtimeErrors": [],
+  "networkFailures": [],
+  "rows": [
+    {
+      "id": "FIREFOX-BR-SETUP",
+      "module": "Firefox browser",
+      "scenario": "Browser setup",
+      "status": "BLOCKED",
+      "actual": "browserContext.newPage: Target crashed ",
+      "expected": "Browser launches"
+    }
+  ]
+}

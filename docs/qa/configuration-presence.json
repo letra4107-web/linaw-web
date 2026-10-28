@@ -1,0 +1,97 @@
+{
+  ".env": {
+    "exists": true,
+    "variables": [
+      {
+        "name": "VITE_SUPABASE_URL",
+        "configured": true
+      },
+      {
+        "name": "VITE_SUPABASE_ANON_KEY",
+        "configured": true
+      },
+      {
+        "name": "VITE_API_URL",
+        "configured": true
+      }
+    ]
+  },
+  ".env.production": {
+    "exists": true,
+    "variables": [
+      {
+        "name": "VITE_SUPABASE_URL",
+        "configured": true
+      },
+      {
+        "name": "VITE_SUPABASE_ANON_KEY",
+        "configured": true
+      },
+      {
+        "name": "VITE_API_URL",
+        "configured": true
+      }
+    ]
+  },
+  "server/.env": {
+    "exists": true,
+    "variables": [
+      {
+        "name": "PORT",
+        "configured": true
+      },
+      {
+        "name": "CORS_ORIGIN",
+        "configured": true
+      },
+      {
+        "name": "SUPABASE_URL",
+        "configured": true
+      },
+      {
+        "name": "SUPABASE_SERVICE_ROLE_KEY",
+        "configured": true
+      },
+      {
+        "name": "SMTP_HOST",
+        "configured": true
+      },
+      {
+        "name": "SMTP_PORT",
+        "configured": true
+      },
+      {
+        "name": "SMTP_SECURE",
+        "configured": true
+      },
+      {
+        "name": "SMTP_USER",
+        "configured": true
+      },
+      {
+        "name": "SMTP_PASS",
+        "configured": true
+      },
+      {
+        "name": "EMAIL_FROM",
+        "configured": true
+      },
+      {
+        "name": "BREVO_API_KEY",
+        "configured": true
+      },
+      {
+        "name": "GOOGLE_TTS_API_KEY",
+        "configured": true
+      },
+      {
+        "name": "ELEVENLABS_API_KEY",
+        "configured": true
+      },
+      {
+        "name": "ELEVENLABS_VOICE_ID",
+        "configured": true
+      }
+    ]
+  }
+}

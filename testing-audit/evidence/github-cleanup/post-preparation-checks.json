@@ -1,0 +1,24 @@
+[
+  {
+    "name": "current-file verification",
+    "exitCode": 0
+  },
+  {
+    "name": "lint after report/tool updates",
+    "exitCode": 0
+  },
+  {
+    "name": "report generator syntax",
+    "exitCode": 0
+  },
+  {
+    "name": "whitespace",
+    "exitCode": 0
+  },
+  {
+    "name": "object integrity",
+    "exitCode": 0,
+    "danglingTreeCount": 441,
+    "note": "Read-only verification; dangling objects retained; raw diagnostics withheld"
+  }
+]

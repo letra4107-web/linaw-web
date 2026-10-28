@@ -1,0 +1,80 @@
+{
+  "applied": true,
+  "sourceFiles": [
+    {
+      "file": "server/services/progressEvents.js",
+      "before": "381e613c8ce0e5405a1e91734637ba3294f87fa6bcefe6238377977182a5ef1a",
+      "after": "85d9ed1843f6cd6db1bcb6197609f83175a613988d12c430636125346ed68794",
+      "beforeVersionGuard": "7ef3c390e6b5643c4a98ecd45a9e4f69aefd0c3bfef1ae0c054c1821ad482ff3",
+      "beforeDistinctTickets": "00e8b18752e485e7f57afc9bb07c48bfa3dc48508aaf5890d55d1f0e727e4d0c"
+    },
+    {
+      "file": "server/tests/progressEvents.test.js",
+      "before": "d7cbfb94756a0b5a57285bb984babf8d215ad8680fa6190f0a43fd2ed66006d7",
+      "after": "70efcec0b1e12c78f863ef841a8f685fda84e6330fbf22896a5073138c5e54ed",
+      "beforeVersionGuard": "b9046de617be20d377fd59ac262136981b315a2187747d2120ed0516deebb7b2",
+      "beforeDistinctTickets": "364e1b400e7a12859a803482be1eb2f890d2751d88e8aa7198f3d812142363a1"
+    },
+    {
+      "file": "src/lib/progressEvents.ts",
+      "before": "ef239eb40ebc2a01769b79360e612939d5edcd38c7a110463044085122bcc13d",
+      "after": "fde2236304d91accc2f8cb6e81542c88f655c3d235df8311c58e7040740c3806",
+      "beforeDistinctTickets": "f587fc1f3d4bb9a5c39b287cbfa8b66013b79a8f9f397acdafaa2ec7ff7e516f"
+    },
+    {
+      "file": "src/lib/progressReward.ts",
+      "before": null,
+      "after": "09d70fbc3f2e450837089345b2aaed3ebc19927c3b085af3c735f071076f5a20"
+    },
+    {
+      "file": "src/pages/student/Practice.tsx",
+      "before": "860c63852f54dcf7ae22840e6bb6ba051bc405ea28f678c125c4b70eed8c157a",
+      "after": "0f242aa3374bf7aae79c0d6c501f0fdae510dcecf7081289b3daa274ee2105c0"
+    },
+    {
+      "file": "src/pages/student/Module.tsx",
+      "before": "b57544f4a6e7fea2574846de92248911c0e2de664800664624063f8ef71e6a34",
+      "after": "1103210ef9d8382e5322ecc8576ed1a7ab17bd013979c1ab21c8406dc4b7d43c"
+    },
+    {
+      "file": "tests/option1Progress.test.mjs",
+      "before": null,
+      "after": "2f7aaf3ad697639ee5623b8bf45fe611fdca7c657cd55cd4f0121c8bb19393d2"
+    }
+  ],
+  "verification": "PASS",
+  "sharedDataChanged": false,
+  "deployed": false,
+  "gates": [
+    {
+      "name": "web-server",
+      "status": "PASS",
+      "exitCode": 0
+    },
+    {
+      "name": "web-ui",
+      "status": "PASS",
+      "exitCode": 0
+    },
+    {
+      "name": "web-types-app",
+      "status": "PASS",
+      "exitCode": 0
+    },
+    {
+      "name": "web-types-node",
+      "status": "PASS",
+      "exitCode": 0
+    },
+    {
+      "name": "web-lint",
+      "status": "PASS",
+      "exitCode": 0
+    },
+    {
+      "name": "web-build",
+      "status": "PASS",
+      "exitCode": 0
+    }
+  ]
+}

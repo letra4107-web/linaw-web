@@ -1,0 +1,12 @@
+{
+  "generatedAt": "2026-10-21T13:25:04.618Z",
+  "id": "PERF-LOCAL-001",
+  "scope": "Actual Express analytics route over local HTTP, four synthetic 10,000-row in-memory query results; query/auth/service network latency excluded. Ten simultaneous requests. No production SLA or capacity certification.",
+  "status": "PASS",
+  "requests": 10,
+  "wallMs": 783.9339,
+  "p50Ms": 693.1607999999999,
+  "p95Ms": 758.8871000000001,
+  "heapDeltaBytes": 6148592,
+  "assertions": "All ten responses contain the expected totals; no throughput threshold asserted."
+}

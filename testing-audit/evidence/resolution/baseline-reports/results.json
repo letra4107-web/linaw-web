@@ -1,0 +1,148 @@
+{
+  "date": "2026-10-21",
+  "scope": "Local working-tree audit; no shared Supabase operations",
+  "backend": {
+    "tests": 421,
+    "pass": 419,
+    "fail": 0,
+    "cancelled": 0,
+    "skipped": 2
+  },
+  "frontend": {
+    "tests": 39,
+    "pass": 39,
+    "fail": 0,
+    "cancelled": 0,
+    "skipped": 0
+  },
+  "coverage": {
+    "counts": {
+      "tests": 421,
+      "pass": 419,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 2
+    },
+    "loadedBackendLines": "44.94",
+    "loadedBackendBranches": "72.90",
+    "loadedBackendFunctions": "60.28"
+  },
+  "gates": [
+    {
+      "name": "backend",
+      "exitCode": 0,
+      "durationMs": 9811,
+      "tests": 421,
+      "pass": 419,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 2
+    },
+    {
+      "name": "frontend",
+      "exitCode": 0,
+      "durationMs": 4305,
+      "tests": 39,
+      "pass": 39,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0
+    },
+    {
+      "name": "lint",
+      "exitCode": 0,
+      "durationMs": 2781,
+      "rerunReason": "Audit report helper changed; application source unchanged since passing tests/build."
+    },
+    {
+      "name": "build",
+      "exitCode": 0,
+      "durationMs": 25413
+    },
+    {
+      "name": "vite-build",
+      "exitCode": 0,
+      "durationMs": 10261
+    },
+    {
+      "name": "diff",
+      "exitCode": 0,
+      "durationMs": 2262,
+      "rerunReason": "Audit report helper changed; application source unchanged since passing tests/build."
+    }
+  ],
+  "browserRecheck": [
+    {
+      "name": "edge",
+      "version": "155.0.4283.62",
+      "counts": {
+        "FAIL": 2,
+        "PASS": 56
+      }
+    },
+    {
+      "name": "chromium",
+      "version": "156.0.8078.4",
+      "counts": {
+        "PASS": 57,
+        "FAIL": 1
+      }
+    },
+    {
+      "name": "firefox",
+      "version": "157.0",
+      "counts": {
+        "PASS": 58
+      }
+    }
+  ],
+  "finalFirefox": {
+    "version": "157.0",
+    "counts": {
+      "PASS": 58
+    }
+  },
+  "dependencyAudits": [
+    {
+      "workspace": "frontend",
+      "info": 0,
+      "low": 0,
+      "moderate": 0,
+      "high": 0,
+      "critical": 0,
+      "total": 0
+    },
+    {
+      "workspace": "backend",
+      "info": 0,
+      "low": 0,
+      "moderate": 0,
+      "high": 0,
+      "critical": 0,
+      "total": 0
+    }
+  ],
+  "workflowCases": {
+    "BLOCKED": 33
+  },
+  "apiWorkflowCases": {
+    "BLOCKED": 74,
+    "PASS": 1
+  },
+  "controlCases": {
+    "NOT RUN": 110,
+    "BLOCKED": 434
+  },
+  "transactionProbes": {
+    "FAIL": 1
+  },
+  "inventory": {
+    "files": 379,
+    "functions": 3032,
+    "productFunctions": 2139,
+    "pages": 54,
+    "routes": 131,
+    "controls": 544
+  },
+  "classification": "NOT READY — CRITICAL ISSUES REMAIN"
+}

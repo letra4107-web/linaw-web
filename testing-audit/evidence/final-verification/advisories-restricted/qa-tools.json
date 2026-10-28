@@ -1,0 +1,9 @@
+{
+  "generatedAt": "2026-10-21T12:47:11.100Z",
+  "workspace": "qa-tools",
+  "exitCode": 1,
+  "status": "BLOCKED: registry audit unavailable",
+  "metadata": null,
+  "vulnerabilities": null,
+  "limitation": "Registry advisory inventory only; not a complete security review"
+}

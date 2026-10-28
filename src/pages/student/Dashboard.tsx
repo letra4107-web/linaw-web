@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { supabase } from '../../lib/supabaseClient';
 import { useAuth } from '../../lib/auth/AuthContext';
 import { api } from '../../lib/api';
+import { QueryErrorNotice } from '../../components/QueryErrorNotice';
 import { IconLabel } from '../../components/a11y/IconLabel';
 import { WordOfDayCard } from '../../components/WordOfDayCard';
 import { cardStyle } from '../../lib/cardStyle';
@@ -111,7 +112,7 @@ function getAssignmentStatusLabel(status: string) {
 export default function Dashboard() {
   const { user, identity } = useAuth();
 
-  const { data: child } = useQuery({
+  const { data: child, error: childError, refetch: refetchChild } = useQuery({
     queryKey: ['student-self', user?.id],
     queryFn: async () => {
       const { data, error } = await supabase.from('children').select('id, name').eq('auth_uid', user!.id).maybeSingle();
@@ -121,7 +122,7 @@ export default function Dashboard() {
     enabled: Boolean(user),
   });
 
-  const { data: progress } = useQuery({
+  const { data: progress, error: progressError, refetch: refetchProgress } = useQuery({
     queryKey: ['student-progress', child?.id],
     queryFn: async () => {
       const { data, error } = await supabase
@@ -135,13 +136,13 @@ export default function Dashboard() {
     enabled: Boolean(child?.id),
   });
 
-  const { data: path } = useQuery({
+  const { data: path, error: pathError, refetch: refetchPath } = useQuery({
     queryKey: ['student-learn-path'],
     queryFn: () => api<LearnPath>('/student/learn/path', { auth: true }),
     enabled: Boolean(user),
   });
 
-  const { data: deadlines } = useQuery({
+  const { data: deadlines, error: deadlinesError, refetch: refetchDeadlines } = useQuery({
     queryKey: ['student-pdf-deadlines', child?.id],
     queryFn: async () => {
       const { data, error } = await supabase
@@ -158,7 +159,7 @@ export default function Dashboard() {
     enabled: Boolean(child?.id),
   });
 
-  const { data: recentSessions } = useQuery({
+  const { data: recentSessions, error: sessionsError, refetch: refetchSessions } = useQuery({
     queryKey: ['student-recent-sessions', child?.id],
     queryFn: async () => {
       const { data, error } = await supabase
@@ -173,7 +174,7 @@ export default function Dashboard() {
     enabled: Boolean(child?.id),
   });
 
-  const { data: readingProfile } = useQuery({
+  const { data: readingProfile, error: profileError, refetch: refetchProfile } = useQuery({
     queryKey: ['student-reading-profile', user?.id],
     queryFn: () => api<{ profile: ReadingProfile }>('/student/reading-profile', { auth: true }),
     enabled: Boolean(user),
@@ -198,6 +199,7 @@ export default function Dashboard() {
 
   return (
     <div className="student-storybook student-home-dashboard flex flex-col gap-8 pb-8 sm:gap-9 sm:pb-10">
+      <QueryErrorNotice error={childError || progressError || pathError || deadlinesError || sessionsError || profileError} onRetry={() => { void refetchChild(); void refetchProgress(); void refetchPath(); void refetchDeadlines(); void refetchSessions(); void refetchProfile(); }} />
       {/* 1. Header */}
       <section aria-labelledby="dashboard-title" className="contents">
         <div

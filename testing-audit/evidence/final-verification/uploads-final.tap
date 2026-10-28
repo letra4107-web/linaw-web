@@ -1,0 +1,82 @@
+TAP version 13
+# Subtest: final upload /pdf: metadata failure compensates only the new owned storage object
+ok 1 - final upload /pdf: metadata failure compensates only the new owned storage object
+  ---
+  duration_ms: 258.233
+  type: 'test'
+  ...
+# Subtest: final upload /pdf: rejected upload never deletes any object
+ok 2 - final upload /pdf: rejected upload never deletes any object
+  ---
+  duration_ms: 40.1243
+  type: 'test'
+  ...
+# Subtest: final upload /pdf: lost metadata acknowledgement never deletes a possibly referenced object
+ok 3 - final upload /pdf: lost metadata acknowledgement never deletes a possibly referenced object
+  ---
+  duration_ms: 23.513
+  type: 'test'
+  ...
+# Subtest: final upload /pdf: compensation failure preserves a safe HTTP failure
+ok 4 - final upload /pdf: compensation failure preserves a safe HTTP failure
+  ---
+  duration_ms: 18.6111
+  type: 'test'
+  ...
+# Subtest: final upload /pdf: invalid bytes are rejected before storage access
+ok 5 - final upload /pdf: invalid bytes are rejected before storage access
+  ---
+  duration_ms: 21.9122
+  type: 'test'
+  ...
+# Subtest: final upload /pdf: simultaneous same-name uploads use distinct owned paths
+ok 6 - final upload /pdf: simultaneous same-name uploads use distinct owned paths
+  ---
+  duration_ms: 37.8069
+  type: 'test'
+  ...
+# Subtest: final upload /pdf-drill: metadata failure compensates only the new owned storage object
+ok 7 - final upload /pdf-drill: metadata failure compensates only the new owned storage object
+  ---
+  duration_ms: 21.1114
+  type: 'test'
+  ...
+# Subtest: final upload /pdf-drill: rejected upload never deletes any object
+ok 8 - final upload /pdf-drill: rejected upload never deletes any object
+  ---
+  duration_ms: 27.3176
+  type: 'test'
+  ...
+# Subtest: final upload /pdf-drill: lost metadata acknowledgement never deletes a possibly referenced object
+ok 9 - final upload /pdf-drill: lost metadata acknowledgement never deletes a possibly referenced object
+  ---
+  duration_ms: 24.4751
+  type: 'test'
+  ...
+# Subtest: final upload /pdf-drill: compensation failure preserves a safe HTTP failure
+ok 10 - final upload /pdf-drill: compensation failure preserves a safe HTTP failure
+  ---
+  duration_ms: 18.1991
+  type: 'test'
+  ...
+# Subtest: final upload /pdf-drill: invalid bytes are rejected before storage access
+ok 11 - final upload /pdf-drill: invalid bytes are rejected before storage access
+  ---
+  duration_ms: 12.502
+  type: 'test'
+  ...
+# Subtest: final upload /pdf-drill: simultaneous same-name uploads use distinct owned paths
+ok 12 - final upload /pdf-drill: simultaneous same-name uploads use distinct owned paths
+  ---
+  duration_ms: 18.8328
+  type: 'test'
+  ...
+1..12
+# tests 12
+# suites 0
+# pass 12
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 1028.2652

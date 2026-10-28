@@ -1,0 +1,42 @@
+[
+  {
+    "name": "backend",
+    "exitCode": 0,
+    "durationMs": 7942,
+    "tests": 496,
+    "pass": 494,
+    "fail": 0,
+    "cancelled": 0,
+    "skipped": 2
+  },
+  {
+    "name": "frontend",
+    "exitCode": 0,
+    "durationMs": 5951,
+    "tests": 54,
+    "pass": 54,
+    "fail": 0,
+    "cancelled": 0,
+    "skipped": 0
+  },
+  {
+    "name": "lint",
+    "exitCode": 0,
+    "durationMs": 323
+  },
+  {
+    "name": "build",
+    "exitCode": 0,
+    "durationMs": 34883
+  },
+  {
+    "name": "vite-build",
+    "exitCode": 0,
+    "durationMs": 15419
+  },
+  {
+    "name": "diff",
+    "exitCode": 0,
+    "durationMs": 244
+  }
+]

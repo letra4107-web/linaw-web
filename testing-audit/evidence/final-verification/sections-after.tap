@@ -1,0 +1,52 @@
+TAP version 13
+# Subtest: QA section assignment deduplicates IDs and calls one atomic RPC
+ok 1 - QA section assignment deduplicates IDs and calls one atomic RPC
+  ---
+  duration_ms: 1050.2343
+  type: 'test'
+  ...
+# Subtest: QA section assignment rejects empty selections before persistence
+ok 2 - QA section assignment rejects empty selections before persistence
+  ---
+  duration_ms: 83.3353
+  type: 'test'
+  ...
+# Subtest: QA section assignment rejects malformed UUIDs before persistence
+ok 3 - QA section assignment rejects malformed UUIDs before persistence
+  ---
+  duration_ms: 135.472
+  type: 'test'
+  ...
+# Subtest: QA section assignment returns actionable capacity and missing-section errors
+ok 4 - QA section assignment returns actionable capacity and missing-section errors
+  ---
+  duration_ms: 125.1829
+  type: 'test'
+  ...
+# Subtest: QA section assignment reports RPC failure without claiming success or issuing fallback writes
+ok 5 - QA section assignment reports RPC failure without claiming success or issuing fallback writes
+  ---
+  duration_ms: 71.9766
+  type: 'test'
+  ...
+# Subtest: final verification section assignment sanitizes unexpected persistence diagnostics
+ok 6 - final verification section assignment sanitizes unexpected persistence diagnostics
+  ---
+  duration_ms: 73.3822
+  type: 'test'
+  ...
+# Subtest: QA section assignment reports concurrent transaction conflicts as retryable
+ok 7 - QA section assignment reports concurrent transaction conflicts as retryable
+  ---
+  duration_ms: 166.7583
+  type: 'test'
+  ...
+1..7
+# tests 7
+# suites 0
+# pass 7
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 3900.9729

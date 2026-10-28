@@ -1,0 +1,26 @@
+{
+  "startedAt": "2026-10-21T12:10:36.941Z",
+  "scope": "Real role UI and frontend auth/role middleware with synthetic sessions and explicitly mocked Supabase/API persistence. Not real Supabase Auth, RLS, delivery or durable CRUD.",
+  "browser": "firefox",
+  "rows": [],
+  "accessibility": [],
+  "controls": [],
+  "contextReports": [
+    {
+      "role": "admin",
+      "variant": "populated",
+      "width": 1440,
+      "runtimeErrors": [],
+      "failedRequests": [],
+      "escapedRequests": [],
+      "api": [],
+      "unexpectedApi": []
+    }
+  ],
+  "requests": [],
+  "base": "http://127.0.0.1:55781",
+  "version": "157.0",
+  "setupError": "browserContext.newPage: Target crashed ",
+  "setupStatus": "BLOCKED",
+  "completedAt": "2026-10-21T12:11:18.634Z"
+}

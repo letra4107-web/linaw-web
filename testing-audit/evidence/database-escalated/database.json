@@ -1,0 +1,17 @@
+{
+  "runId": "8597a138-2bbc-4328-b0fe-0e505f3dbc70",
+  "timestamp": "2026-10-21T10:14:33.220Z",
+  "scope": "Fresh loopback PostgreSQL; synthetic users with Admin/Teacher/Parent/Student identities. SQL claims emulate Supabase auth helpers only. NOT a Supabase Auth/PostgREST/Storage test or full migration replay. Exact 004 roster SQL excerpt, 026, 046, 047 and additive 048 executed against a minimal UUID foundation. Historical mobile 001/002/017 separately probed for syntax/type incompatibilities; authoritative full baseline remains unavailable.",
+  "reproductions": [],
+  "rows": [
+    {
+      "id": "DB-SETUP",
+      "module": "Disposable PostgreSQL integration",
+      "scenario": "Initialize local migration fixture",
+      "status": "BLOCKED",
+      "expected": "Fresh local PostgreSQL available",
+      "actual": "listen EACCES: permission denied 127.0.0.1",
+      "evidence": "evidence/phase2/database.json"
+    }
+  ]
+}

@@ -1,0 +1,360 @@
+{
+  "startedAt": "2026-10-21T13:30:46.020Z",
+  "scope": "Real role UI and frontend auth/role middleware with synthetic sessions and explicitly mocked Supabase/API persistence. Not real Supabase Auth, RLS, delivery or durable CRUD.",
+  "browser": "firefox",
+  "rows": [
+    {
+      "id": "ROLE-firefox-001",
+      "role": "student",
+      "module": "Authenticated UI with mocked boundaries",
+      "feature": "Render /student with no route crash or cross-role redirect",
+      "preconditions": "firefox, 1440px, error synthetic session/data",
+      "steps": "Render /student with no route crash or cross-role redirect",
+      "expected": "Named UI assertions pass; no remote service request",
+      "evidence": "firefox-error.json",
+      "actual": {
+        "text": "Hindi ma-load ang ilang impormasyon. Pakisubukang muli.Subukan muliBukas na ang iyong learning bookMagandang araw, QA! 👋Handa ka na bang magbasa, makinig, at m",
+        "width": 1440,
+        "content": 1440,
+        "navigation": [
+          {
+            "domContentLoadedMs": 1665,
+            "loadMs": 4574
+          }
+        ],
+        "unexpected": [],
+        "queryFailures": [
+          {
+            "key": [
+              "student-learn-path"
+            ],
+            "error": "Isolated service unavailable. Please retry."
+          },
+          {
+            "key": [
+              "student-reading-profile",
+              "00000000-0000-4000-8000-000000000004"
+            ],
+            "error": "Isolated service unavailable. Please retry."
+          },
+          {
+            "key": [
+              "student-progress",
+              "00000000-0000-4000-8000-000000000005"
+            ],
+            "error": "Isolated persistence unavailable"
+          },
+          {
+            "key": [
+              "student-pdf-deadlines",
+              "00000000-0000-4000-8000-000000000005"
+            ],
+            "error": "Isolated persistence unavailable"
+          },
+          {
+            "key": [
+              "student-recent-sessions",
+              "00000000-0000-4000-8000-000000000005"
+            ],
+            "error": "Isolated persistence unavailable"
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "ROLE-firefox-002",
+      "role": "student",
+      "module": "Authenticated UI with mocked boundaries",
+      "feature": "Dashboard retry recovers after the isolated service becomes available",
+      "preconditions": "firefox, 1440px, error synthetic session/data",
+      "steps": "Dashboard retry recovers after the isolated service becomes available",
+      "expected": "Named UI assertions pass; no remote service request",
+      "evidence": "firefox-error.json",
+      "actual": "Named assertions passed",
+      "status": "PASS"
+    }
+  ],
+  "accessibility": [],
+  "controls": [
+    {
+      "role": "student",
+      "variant": "error",
+      "width": 1440,
+      "path": "/student",
+      "controls": [
+        {
+          "tag": "BUTTON",
+          "name": "LinawLetra",
+          "disabled": false,
+          "type": "button",
+          "href": null,
+          "status": "NOT RUN",
+          "actual": "Visible control inventory; rendering does not verify its action"
+        },
+        {
+          "tag": "A",
+          "name": "Simula",
+          "disabled": false,
+          "type": "",
+          "href": "/student",
+          "status": "NOT RUN",
+          "actual": "Visible control inventory; rendering does not verify its action"
+        },
+        {
+          "tag": "A",
+          "name": "Aralin",
+          "disabled": false,
+          "type": "",
+          "href": "/student/learn",
+          "status": "NOT RUN",
+          "actual": "Visible control inventory; rendering does not verify its action"
+        },
+        {
+          "tag": "A",
+          "name": "Parangal",
+          "disabled": false,
+          "type": "",
+          "href": "/student/achievements",
+          "status": "NOT RUN",
+          "actual": "Visible control inventory; rendering does not verify its action"
+        },
+        {
+          "tag": "BUTTON",
+          "name": "QQA LearnerAking profile",
+          "disabled": false,
+          "type": "button",
+          "href": null,
+          "status": "NOT RUN",
+          "actual": "Visible control inventory; rendering does not verify its action"
+        },
+        {
+          "tag": "BUTTON",
+          "name": "Subukan muli",
+          "disabled": false,
+          "type": "button",
+          "href": null,
+          "status": "NOT RUN",
+          "actual": "Visible control inventory; rendering does not verify its action"
+        },
+        {
+          "tag": "A",
+          "name": "Simulan ang Pagsasanay",
+          "disabled": false,
+          "type": "",
+          "href": "/student/practice",
+          "status": "NOT RUN",
+          "actual": "Visible control inventory; rendering does not verify its action"
+        },
+        {
+          "tag": "A",
+          "name": "Tingnan ang mga Aralin →",
+          "disabled": false,
+          "type": "",
+          "href": "/student/learn",
+          "status": "NOT RUN",
+          "actual": "Visible control inventory; rendering does not verify its action"
+        },
+        {
+          "tag": "A",
+          "name": "Tingnan lahat →",
+          "disabled": false,
+          "type": "",
+          "href": "/student/learn",
+          "status": "NOT RUN",
+          "actual": "Visible control inventory; rendering does not verify its action"
+        }
+      ]
+    }
+  ],
+  "contextReports": [
+    {
+      "role": "student",
+      "variant": "error",
+      "width": 1440,
+      "runtimeErrors": [],
+      "failedRequests": [
+        {
+          "url": "https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Lexend:wght@400;500;700&display=swap",
+          "error": "NS_ERROR_FAILURE"
+        },
+        {
+          "url": "http://127.0.0.1:4174/assets/student-hero-character-EnmKrPng.png",
+          "error": "NS_BINDING_ABORTED"
+        }
+      ],
+      "escapedRequests": [
+        {
+          "method": "GET",
+          "url": "https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Lexend:wght@400;500;700&display=swap"
+        }
+      ],
+      "api": [
+        {
+          "kind": "api",
+          "method": "POST",
+          "path": "/auth/events",
+          "body": {
+            "type": "login",
+            "platform": "web",
+            "sessionId": "222162be-e33c-4d63-817c-00881283c285"
+          }
+        },
+        {
+          "kind": "api",
+          "method": "GET",
+          "path": "/student/learn/path",
+          "body": {}
+        },
+        {
+          "kind": "api",
+          "method": "GET",
+          "path": "/student/reading-profile",
+          "body": {}
+        },
+        {
+          "kind": "api",
+          "method": "GET",
+          "path": "/student/learn/path",
+          "body": {}
+        },
+        {
+          "kind": "api",
+          "method": "GET",
+          "path": "/student/reading-profile",
+          "body": {}
+        },
+        {
+          "kind": "api",
+          "method": "GET",
+          "path": "/student/learn/path",
+          "body": {}
+        },
+        {
+          "kind": "api",
+          "method": "GET",
+          "path": "/student/reading-profile",
+          "body": {}
+        }
+      ],
+      "unexpectedApi": []
+    }
+  ],
+  "requests": [
+    {
+      "path": "/student",
+      "time": 1792589451518
+    },
+    {
+      "path": "/assets/index-DklL4pqS.js",
+      "time": 1792589452337
+    },
+    {
+      "path": "/assets/index-CNiBSejh.css",
+      "time": 1792589452351
+    },
+    {
+      "path": "/assets/StudentArea-L7YpR642.js",
+      "time": 1792589454248
+    },
+    {
+      "path": "/assets/DashboardShell-BNNmMTne.js",
+      "time": 1792589454258
+    },
+    {
+      "path": "/assets/lightbulb-Cg_Ns9uu.js",
+      "time": 1792589454267
+    },
+    {
+      "path": "/assets/NotFound-C4OmPIv7.js",
+      "time": 1792589454275
+    },
+    {
+      "path": "/assets/badges-DTFMLBFK.js",
+      "time": 1792589454280
+    },
+    {
+      "path": "/assets/trophy-BE0KrFE1.js",
+      "time": 1792589454283
+    },
+    {
+      "path": "/assets/cardStyle-iaU5tt7J.js",
+      "time": 1792589454357
+    },
+    {
+      "path": "/assets/QueryErrorNotice-BzyXzF0L.js",
+      "time": 1792589454363
+    },
+    {
+      "path": "/assets/owl-mascot-D-0EYbpp.js",
+      "time": 1792589454368
+    },
+    {
+      "path": "/assets/TTSButton-Bk6kDenN.js",
+      "time": 1792589454379
+    },
+    {
+      "path": "/assets/emptyImage-CIGGCXHL.js",
+      "time": 1792589454383
+    },
+    {
+      "path": "/assets/PdfReadingAssistant-BEXeQ-FJ.js",
+      "time": 1792589454385
+    },
+    {
+      "path": "/assets/StudentArea-CJRzeWfu.css",
+      "time": 1792589454386
+    },
+    {
+      "path": "/assets/opendyslexic-latin-400-normal-nUhe5EwG.woff2",
+      "time": 1792589454401
+    },
+    {
+      "path": "/assets/Logo-BJPtDbbX.jpg",
+      "time": 1792589454499
+    },
+    {
+      "path": "/assets/owl-mascot-CwddG8AW.png",
+      "time": 1792589454934
+    },
+    {
+      "path": "/assets/student-hero-character-EnmKrPng.png",
+      "time": 1792589454945
+    },
+    {
+      "path": "/assets/lesson-progress-decoration-CEpz0iWB.png",
+      "time": 1792589454953
+    },
+    {
+      "path": "/assets/empty-state-illustration-MctkQo5D.png",
+      "time": 1792589454958
+    },
+    {
+      "path": "/assets/sidebar-background-DO6pMjLt.png",
+      "time": 1792589454996
+    },
+    {
+      "path": "/assets/student-hero-bg-9GdRIMjA.png",
+      "time": 1792589455028
+    },
+    {
+      "path": "/assets/opendyslexic-latin-700-normal-Bnmt45Ln.woff2",
+      "time": 1792589455513
+    },
+    {
+      "path": "/favicon.jpg",
+      "time": 1792589455642
+    },
+    {
+      "path": "/favicon.svg",
+      "time": 1792589455650
+    },
+    {
+      "path": "/assets/word-practice-background-v2-8hfbB--W.png",
+      "time": 1792589457290
+    }
+  ],
+  "base": "http://127.0.0.1:4174",
+  "version": "157.0",
+  "completedAt": "2026-10-21T13:31:02.781Z"
+}

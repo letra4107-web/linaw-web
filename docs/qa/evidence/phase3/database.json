@@ -1,0 +1,272 @@
+{
+  "runId": "fcf41f31-ba1b-4e58-a1a3-0746b78a606e",
+  "timestamp": "2026-10-18T08:08:17.416Z",
+  "version": "PostgreSQL 18.4 on x86_64-windows, compiled by msvc-19.44.35226, 64-bit",
+  "scope": "Fresh loopback PostgreSQL; synthetic users with Admin/Teacher/Parent/Student identities. SQL claims emulate Supabase auth helpers only. NOT a Supabase Auth/PostgREST/Storage test or full migration replay. Exact 004 roster SQL excerpt, 026, 046, 047 and additive 048 executed against a minimal UUID foundation. Historical mobile 001/002/017 separately probed for syntax/type incompatibilities; authoritative full baseline remains unavailable.",
+  "reproductions": [
+    {
+      "defect": "Repeated assignment at capacity",
+      "reproduced": true,
+      "actual": "This section is already at capacity"
+    },
+    {
+      "defect": "Concurrent assignments exceed capacity",
+      "reproduced": true,
+      "actual": "2 members in a capacity-1 section"
+    }
+  ],
+  "rows": [
+    {
+      "id": "DB-001",
+      "module": "Disposable PostgreSQL integration",
+      "scenario": "Historical capacity defects reproduced before applying the additive fix",
+      "expected": "Assertions succeed on a fresh local database",
+      "evidence": "evidence/phase3/database.json",
+      "actual": "Assertions passed",
+      "status": "PASS"
+    },
+    {
+      "id": "DB-002",
+      "module": "Disposable PostgreSQL integration",
+      "scenario": "Duplicate membership at capacity is idempotent",
+      "expected": "Assertions succeed on a fresh local database",
+      "evidence": "evidence/phase3/database.json",
+      "actual": "Assertions passed",
+      "status": "PASS"
+    },
+    {
+      "id": "DB-003",
+      "module": "Disposable PostgreSQL integration",
+      "scenario": "Concurrent inserts cannot exceed section capacity",
+      "expected": "Assertions succeed on a fresh local database",
+      "evidence": "evidence/phase3/database.json",
+      "actual": "Assertions passed",
+      "status": "PASS"
+    },
+    {
+      "id": "DB-004",
+      "module": "Disposable PostgreSQL integration",
+      "scenario": "Grade mismatch is rejected",
+      "expected": "Assertions succeed on a fresh local database",
+      "evidence": "evidence/phase3/database.json",
+      "actual": "Assertions passed",
+      "status": "PASS"
+    },
+    {
+      "id": "DB-005",
+      "module": "Disposable PostgreSQL integration",
+      "scenario": "Section capacity and grade constraints reject invalid CRUD",
+      "expected": "Assertions succeed on a fresh local database",
+      "evidence": "evidence/phase3/database.json",
+      "actual": "Assertions passed",
+      "status": "PASS"
+    },
+    {
+      "id": "DB-006",
+      "module": "Disposable PostgreSQL integration",
+      "scenario": "Adviser foreign key prevents orphan sections",
+      "expected": "Assertions succeed on a fresh local database",
+      "evidence": "evidence/phase3/database.json",
+      "actual": "Assertions passed",
+      "status": "PASS"
+    },
+    {
+      "id": "DB-007",
+      "module": "Disposable PostgreSQL integration",
+      "scenario": "Teacher sees only own sections under real RLS",
+      "expected": "Assertions succeed on a fresh local database",
+      "evidence": "evidence/phase3/database.json",
+      "actual": "Assertions passed",
+      "status": "PASS"
+    },
+    {
+      "id": "DB-008",
+      "module": "Disposable PostgreSQL integration",
+      "scenario": "admin browser role cannot read section rosters",
+      "expected": "Assertions succeed on a fresh local database",
+      "evidence": "evidence/phase3/database.json",
+      "actual": "Assertions passed",
+      "status": "PASS"
+    },
+    {
+      "id": "DB-009",
+      "module": "Disposable PostgreSQL integration",
+      "scenario": "parent browser role cannot read section rosters",
+      "expected": "Assertions succeed on a fresh local database",
+      "evidence": "evidence/phase3/database.json",
+      "actual": "Assertions passed",
+      "status": "PASS"
+    },
+    {
+      "id": "DB-010",
+      "module": "Disposable PostgreSQL integration",
+      "scenario": "student browser role cannot read section rosters",
+      "expected": "Assertions succeed on a fresh local database",
+      "evidence": "evidence/phase3/database.json",
+      "actual": "Assertions passed",
+      "status": "PASS"
+    },
+    {
+      "id": "DB-011",
+      "module": "Disposable PostgreSQL integration",
+      "scenario": "Anonymous cannot read section rosters",
+      "expected": "Assertions succeed on a fresh local database",
+      "evidence": "evidence/phase3/database.json",
+      "actual": "Assertions passed",
+      "status": "PASS"
+    },
+    {
+      "id": "DB-012",
+      "module": "Disposable PostgreSQL integration",
+      "scenario": "Authenticated browser cannot insert section membership",
+      "expected": "Assertions succeed on a fresh local database",
+      "evidence": "evidence/phase3/database.json",
+      "actual": "Assertions passed",
+      "status": "PASS"
+    },
+    {
+      "id": "DB-013",
+      "module": "Disposable PostgreSQL integration",
+      "scenario": "Authenticated browser cannot execute service-only assignment RPC",
+      "expected": "Assertions succeed on a fresh local database",
+      "evidence": "evidence/phase3/database.json",
+      "actual": "Assertions passed",
+      "status": "PASS"
+    },
+    {
+      "id": "DB-014",
+      "module": "Disposable PostgreSQL integration",
+      "scenario": "Service assignment repairs an existing membership roster atomically",
+      "expected": "Assertions succeed on a fresh local database",
+      "evidence": "evidence/phase3/database.json",
+      "actual": "Assertions passed",
+      "status": "PASS"
+    },
+    {
+      "id": "DB-015",
+      "module": "Disposable PostgreSQL integration",
+      "scenario": "Roster trigger failure rolls back newly inserted memberships",
+      "expected": "Assertions succeed on a fresh local database",
+      "evidence": "evidence/phase3/database.json",
+      "actual": "Assertions passed",
+      "status": "PASS"
+    },
+    {
+      "id": "DB-016",
+      "module": "Disposable PostgreSQL integration",
+      "scenario": "Missing section and empty assignment payload fail explicitly",
+      "expected": "Assertions succeed on a fresh local database",
+      "evidence": "evidence/phase3/database.json",
+      "actual": "Assertions passed",
+      "status": "PASS"
+    },
+    {
+      "id": "DB-017",
+      "module": "Disposable PostgreSQL integration",
+      "scenario": "Badge award is idempotent with one XP credit",
+      "expected": "Assertions succeed on a fresh local database",
+      "evidence": "evidence/phase3/database.json",
+      "actual": "Assertions passed",
+      "status": "PASS"
+    },
+    {
+      "id": "DB-018",
+      "module": "Disposable PostgreSQL integration",
+      "scenario": "Concurrent distinct badges preserve both XP credits",
+      "expected": "Assertions succeed on a fresh local database",
+      "evidence": "evidence/phase3/database.json",
+      "actual": "Assertions passed",
+      "status": "PASS"
+    },
+    {
+      "id": "DB-019",
+      "module": "Disposable PostgreSQL integration",
+      "scenario": "Malformed badge payload rolls back all awards and XP",
+      "expected": "Assertions succeed on a fresh local database",
+      "evidence": "evidence/phase3/database.json",
+      "actual": "Assertions passed",
+      "status": "PASS"
+    },
+    {
+      "id": "DB-020",
+      "module": "Disposable PostgreSQL integration",
+      "scenario": "Student cannot execute privileged badge award RPC",
+      "expected": "Assertions succeed on a fresh local database",
+      "evidence": "evidence/phase3/database.json",
+      "actual": "Assertions passed",
+      "status": "PASS"
+    },
+    {
+      "id": "DB-021",
+      "module": "Disposable PostgreSQL integration",
+      "scenario": "Anonymous cannot insert badge awards directly",
+      "expected": "Assertions succeed on a fresh local database",
+      "evidence": "evidence/phase3/database.json",
+      "actual": "Assertions passed",
+      "status": "PASS"
+    },
+    {
+      "id": "DB-022",
+      "module": "Disposable PostgreSQL integration",
+      "scenario": "Deleting a disposable section cascades only its memberships",
+      "expected": "Assertions succeed on a fresh local database",
+      "evidence": "evidence/phase3/database.json",
+      "actual": "Assertions passed",
+      "status": "PASS"
+    },
+    {
+      "id": "DB-023",
+      "module": "Disposable PostgreSQL integration",
+      "scenario": "Membership updates cannot move into a full section but can replace one existing member",
+      "expected": "Assertions succeed on a fresh local database",
+      "evidence": "evidence/phase3/database.json",
+      "actual": "Assertions passed",
+      "status": "PASS"
+    },
+    {
+      "id": "DB-024",
+      "module": "Disposable PostgreSQL integration",
+      "scenario": "Repeatable-read transactions cannot overfill a section",
+      "expected": "Assertions succeed on a fresh local database",
+      "evidence": "evidence/phase3/database.json",
+      "actual": "Assertions passed",
+      "status": "PASS"
+    },
+    {
+      "id": "DB-025",
+      "module": "Disposable PostgreSQL integration",
+      "scenario": "Read-only schema preflight compiles and reports missing fixture dependencies without invoking RPCs",
+      "expected": "Assertions succeed on a fresh local database",
+      "evidence": "evidence/phase3/database.json",
+      "actual": "Assertions passed",
+      "status": "PASS"
+    },
+    {
+      "id": "DB-026",
+      "module": "Disposable PostgreSQL integration",
+      "scenario": "Historical mobile 001 fails real PostgreSQL parsing at unsupported policy syntax",
+      "expected": "Assertions succeed on a fresh local database",
+      "evidence": "evidence/phase3/database.json",
+      "actual": "Assertions passed",
+      "status": "PASS"
+    },
+    {
+      "id": "DB-027",
+      "module": "Disposable PostgreSQL integration",
+      "scenario": "Historical TEXT foundation cannot apply the UUID-dependent child RLS migration",
+      "expected": "Assertions succeed on a fresh local database",
+      "evidence": "evidence/phase3/database.json",
+      "actual": "Assertions passed",
+      "status": "PASS"
+    },
+    {
+      "id": "DB-028",
+      "module": "Disposable PostgreSQL integration",
+      "scenario": "Concurrent service-role assignment RPCs preserve capacity under repeatable read",
+      "expected": "Assertions succeed on a fresh local database",
+      "evidence": "evidence/phase3/database.json",
+      "actual": "Assertions passed",
+      "status": "PASS"
+    }
+  ]
+}

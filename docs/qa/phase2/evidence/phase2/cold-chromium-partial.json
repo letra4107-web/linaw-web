@@ -1,0 +1,14 @@
+{
+  "version": "156.0.8078.4",
+  "rows": [
+    {
+      "id": "CHROME-BR-058",
+      "module": "Local Chromium browser",
+      "scenario": "Ten fresh browser contexts render the cold mobile home route without asset failures",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "evidence/phase2/cold-chromium.json",
+      "actual": "[{\"context\":0,\"errorScreen\":false,\"failed\":[],\"overflow\":false},{\"context\":1,\"errorScreen\":false,\"failed\":[],\"overflow\":false},{\"context\":2,\"errorScreen\":false,\"failed\":[],\"overflow\":false},{\"context\":3,\"errorScreen\":false,\"failed\":[],\"overflow\":false},{\"context\":4,\"errorScreen\":false,\"failed\":[{\"url\":\"http://127.0.0.1:64037/assets/index-DPxzF1W9.css\",\"error\":\"net::ERR_NETWORK_ACCESS_DENIED\"},{\"url\":\"http://127.0.0.1:64037/assets/NotFound-Dip_aLPJ.js\",\"error\":\"net::ERR_NETWORK_ACCESS_DENIED\"}],\"overflow\":true},{\"context\":5,\"errorScreen\":false,\"failed\":[{\"url\":\"http://127.0.0.1:64037/assets/cardStyle-iaU5tt7J.js\",\"error\":\"net::ERR_NETWORK_ACCESS_DENIED\"}],\"overflow\":false},{\"context\":6,\"errorScreen\":false,\"failed\":[{\"url\":\"http://127.0.0.1:64037/assets/cardStyle-iaU5tt7J.js\",\"error\":\"net::ERR_NETWORK_ACCESS_DENIED\"}],\"overflow\":false},{\"context\":7,\"errorScreen\":false,\"failed\":[{\"url\":\"http://127.0.0.1:64037/assets/index-DPxzF1W9.css\",\"error\":\"net::ERR_NETWORK_ACCESS_DENIED\"},{\"url\":\"http://127.0.0.1:64037/assets/lightbulb-CQQHiAzM.js\",\"error\":\"net::ERR_NETWORK_ACCESS_DENIED\"}],\"overflow\":true},{\"context\":8,\"errorScreen\":false,\"failed\":[{\"url\":\"http://127.0.0.1:64037/assets/index-DPxzF1W9.css\",\"error\":\"net::ERR_NETWORK_ACCESS_DENIED\"},{\"url\":\"http://127.0.0.1:64037/assets/emptyImage-CIGGCXHL.js\",\"error\":\"net::ERR_NETWORK_ACCESS_DENIED\"}],\"overflow\":true},{\"context\":9,\"errorScreen\":false,\"failed\":[{\"url\":\"http://127.0.0.1:64037/assets/owl-mascot-D-0EYbpp.js\",\"error\":\"net::ERR_NETWORK_ACCESS_DENIED\"}],\"overflow\":false}]",
+      "status": "FAIL"
+    }
+  ]
+}

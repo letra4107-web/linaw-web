@@ -1,0 +1,32 @@
+[
+  {
+    "name": "web-server",
+    "status": "PASS",
+    "exitCode": 0
+  },
+  {
+    "name": "web-ui",
+    "status": "PASS",
+    "exitCode": 0
+  },
+  {
+    "name": "web-types-app",
+    "status": "PASS",
+    "exitCode": 0
+  },
+  {
+    "name": "web-types-node",
+    "status": "PASS",
+    "exitCode": 0
+  },
+  {
+    "name": "web-lint",
+    "status": "PASS",
+    "exitCode": 0
+  },
+  {
+    "name": "web-build",
+    "status": "PASS",
+    "exitCode": 0
+  }
+]

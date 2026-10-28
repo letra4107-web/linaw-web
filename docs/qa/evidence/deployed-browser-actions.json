@@ -1,0 +1,54 @@
+{
+  "scope": "Public/anonymous browser behavior only; no account login, emails, TTS or database writes.",
+  "browserVersion": {
+    "protocolVersion": "1.3",
+    "product": "Edg/155.0.4283.62",
+    "revision": "@aa3a7406ba8c53a83536df539f07124d73c899bd",
+    "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/155.0.0.0 Safari/537.36 Edg/155.0.0.0",
+    "jsVersion": "15.5.9.7"
+  },
+  "runtimeErrors": [],
+  "networkFailures": [],
+  "rows": [
+    {
+      "id": "LIVE-BR-052",
+      "module": "Deployed Edge browser",
+      "scenario": "Empty login submission displays validation; password visibility and keyboard toggle work",
+      "expected": "Expected UI behavior without authenticated data access",
+      "actual": "Assertions passed",
+      "status": "PASS"
+    },
+    {
+      "id": "LIVE-BR-053",
+      "module": "Deployed Edge browser",
+      "scenario": "Empty signup submission displays required-field errors",
+      "expected": "Expected UI behavior without authenticated data access",
+      "actual": "Assertions passed",
+      "status": "PASS"
+    },
+    {
+      "id": "LIVE-BR-054",
+      "module": "Deployed Edge browser",
+      "scenario": "OTP keyboard navigation and nonnumeric input validation",
+      "expected": "Expected UI behavior without authenticated data access",
+      "actual": "Assertions passed",
+      "status": "PASS"
+    },
+    {
+      "id": "LIVE-BR-055",
+      "module": "Deployed Edge browser",
+      "scenario": "Public forms have accessible names for visible input controls",
+      "expected": "Expected UI behavior without authenticated data access",
+      "actual": "Assertions passed",
+      "status": "PASS"
+    },
+    {
+      "id": "LIVE-BR-056",
+      "module": "Deployed Edge browser",
+      "scenario": "No uncaught JavaScript exceptions during the tested navigation and actions",
+      "expected": "Expected UI behavior without authenticated data access",
+      "actual": "Assertions passed",
+      "status": "PASS"
+    }
+  ]
+}

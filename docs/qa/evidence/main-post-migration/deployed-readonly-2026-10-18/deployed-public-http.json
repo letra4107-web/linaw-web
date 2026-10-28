@@ -1,0 +1,518 @@
+{
+  "scope": "Unauthenticated GET requests only; status/headers are not proof of authenticated dashboard functionality.",
+  "rows": [
+    {
+      "id": "LIVE-001",
+      "module": "Deployed public HTTP",
+      "url": "https://linawletra.com/",
+      "expected": "HTTP 200",
+      "actual": "HTTP 200",
+      "status": "PASS",
+      "durationMs": 260,
+      "bytes": 2279,
+      "headers": {
+        "content-type": "text/html",
+        "content-security-policy": "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' data: blob: https://*.supabase.co; connect-src 'self' https://*.supabase.co wss://*.supabase.co https://linawletra-production-409e.up.railway.app; media-src 'self' data: blob:; frame-src 'self' blob: https://*.supabase.co; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'self'; upgrade-insecure-requests",
+        "cache-control": "no-cache, no-store, must-revalidate",
+        "x-content-type-options": "nosniff",
+        "x-api-compatibility-version": null,
+        "access-control-allow-origin": null,
+        "access-control-expose-headers": null,
+        "x-request-id": null,
+        "ratelimit-policy": null
+      }
+    },
+    {
+      "id": "LIVE-002",
+      "module": "Deployed public HTTP",
+      "url": "https://linawletra.com/login",
+      "expected": "HTTP 200",
+      "actual": "HTTP 200",
+      "status": "PASS",
+      "durationMs": 61,
+      "bytes": 2279,
+      "headers": {
+        "content-type": "text/html",
+        "content-security-policy": "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' data: blob: https://*.supabase.co; connect-src 'self' https://*.supabase.co wss://*.supabase.co https://linawletra-production-409e.up.railway.app; media-src 'self' data: blob:; frame-src 'self' blob: https://*.supabase.co; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'self'; upgrade-insecure-requests",
+        "cache-control": "no-cache, no-store, must-revalidate",
+        "x-content-type-options": "nosniff",
+        "x-api-compatibility-version": null,
+        "access-control-allow-origin": null,
+        "access-control-expose-headers": null,
+        "x-request-id": null,
+        "ratelimit-policy": null
+      }
+    },
+    {
+      "id": "LIVE-003",
+      "module": "Deployed public HTTP",
+      "url": "https://linawletra.com/signup",
+      "expected": "HTTP 200",
+      "actual": "HTTP 200",
+      "status": "PASS",
+      "durationMs": 53,
+      "bytes": 2279,
+      "headers": {
+        "content-type": "text/html",
+        "content-security-policy": "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' data: blob: https://*.supabase.co; connect-src 'self' https://*.supabase.co wss://*.supabase.co https://linawletra-production-409e.up.railway.app; media-src 'self' data: blob:; frame-src 'self' blob: https://*.supabase.co; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'self'; upgrade-insecure-requests",
+        "cache-control": "no-cache, no-store, must-revalidate",
+        "x-content-type-options": "nosniff",
+        "x-api-compatibility-version": null,
+        "access-control-allow-origin": null,
+        "access-control-expose-headers": null,
+        "x-request-id": null,
+        "ratelimit-policy": null
+      }
+    },
+    {
+      "id": "LIVE-004",
+      "module": "Deployed public HTTP",
+      "url": "https://linawletra.com/forgot-password",
+      "expected": "HTTP 200",
+      "actual": "HTTP 200",
+      "status": "PASS",
+      "durationMs": 53,
+      "bytes": 2279,
+      "headers": {
+        "content-type": "text/html",
+        "content-security-policy": "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' data: blob: https://*.supabase.co; connect-src 'self' https://*.supabase.co wss://*.supabase.co https://linawletra-production-409e.up.railway.app; media-src 'self' data: blob:; frame-src 'self' blob: https://*.supabase.co; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'self'; upgrade-insecure-requests",
+        "cache-control": "no-cache, no-store, must-revalidate",
+        "x-content-type-options": "nosniff",
+        "x-api-compatibility-version": null,
+        "access-control-allow-origin": null,
+        "access-control-expose-headers": null,
+        "x-request-id": null,
+        "ratelimit-policy": null
+      }
+    },
+    {
+      "id": "LIVE-005",
+      "module": "Deployed public HTTP",
+      "url": "https://linawletra.com/reset-password",
+      "expected": "HTTP 200",
+      "actual": "HTTP 200",
+      "status": "PASS",
+      "durationMs": 58,
+      "bytes": 2279,
+      "headers": {
+        "content-type": "text/html",
+        "content-security-policy": "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' data: blob: https://*.supabase.co; connect-src 'self' https://*.supabase.co wss://*.supabase.co https://linawletra-production-409e.up.railway.app; media-src 'self' data: blob:; frame-src 'self' blob: https://*.supabase.co; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'self'; upgrade-insecure-requests",
+        "cache-control": "no-cache, no-store, must-revalidate",
+        "x-content-type-options": "nosniff",
+        "x-api-compatibility-version": null,
+        "access-control-allow-origin": null,
+        "access-control-expose-headers": null,
+        "x-request-id": null,
+        "ratelimit-policy": null
+      }
+    },
+    {
+      "id": "LIVE-006",
+      "module": "Deployed public HTTP",
+      "url": "https://linawletra.com/verify-email",
+      "expected": "HTTP 200",
+      "actual": "HTTP 200",
+      "status": "PASS",
+      "durationMs": 56,
+      "bytes": 2279,
+      "headers": {
+        "content-type": "text/html",
+        "content-security-policy": "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' data: blob: https://*.supabase.co; connect-src 'self' https://*.supabase.co wss://*.supabase.co https://linawletra-production-409e.up.railway.app; media-src 'self' data: blob:; frame-src 'self' blob: https://*.supabase.co; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'self'; upgrade-insecure-requests",
+        "cache-control": "no-cache, no-store, must-revalidate",
+        "x-content-type-options": "nosniff",
+        "x-api-compatibility-version": null,
+        "access-control-allow-origin": null,
+        "access-control-expose-headers": null,
+        "x-request-id": null,
+        "ratelimit-policy": null
+      }
+    },
+    {
+      "id": "LIVE-007",
+      "module": "Deployed public HTTP",
+      "url": "https://linawletra.com/resend-verification",
+      "expected": "HTTP 200",
+      "actual": "HTTP 200",
+      "status": "PASS",
+      "durationMs": 68,
+      "bytes": 2279,
+      "headers": {
+        "content-type": "text/html",
+        "content-security-policy": "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' data: blob: https://*.supabase.co; connect-src 'self' https://*.supabase.co wss://*.supabase.co https://linawletra-production-409e.up.railway.app; media-src 'self' data: blob:; frame-src 'self' blob: https://*.supabase.co; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'self'; upgrade-insecure-requests",
+        "cache-control": "no-cache, no-store, must-revalidate",
+        "x-content-type-options": "nosniff",
+        "x-api-compatibility-version": null,
+        "access-control-allow-origin": null,
+        "access-control-expose-headers": null,
+        "x-request-id": null,
+        "ratelimit-policy": null
+      }
+    },
+    {
+      "id": "LIVE-008",
+      "module": "Deployed public HTTP",
+      "url": "https://linawletra.com/privacy",
+      "expected": "HTTP 200",
+      "actual": "HTTP 200",
+      "status": "PASS",
+      "durationMs": 66,
+      "bytes": 2279,
+      "headers": {
+        "content-type": "text/html",
+        "content-security-policy": "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' data: blob: https://*.supabase.co; connect-src 'self' https://*.supabase.co wss://*.supabase.co https://linawletra-production-409e.up.railway.app; media-src 'self' data: blob:; frame-src 'self' blob: https://*.supabase.co; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'self'; upgrade-insecure-requests",
+        "cache-control": "no-cache, no-store, must-revalidate",
+        "x-content-type-options": "nosniff",
+        "x-api-compatibility-version": null,
+        "access-control-allow-origin": null,
+        "access-control-expose-headers": null,
+        "x-request-id": null,
+        "ratelimit-policy": null
+      }
+    },
+    {
+      "id": "LIVE-009",
+      "module": "Deployed public HTTP",
+      "url": "https://linawletra.com/terms",
+      "expected": "HTTP 200",
+      "actual": "HTTP 200",
+      "status": "PASS",
+      "durationMs": 55,
+      "bytes": 2279,
+      "headers": {
+        "content-type": "text/html",
+        "content-security-policy": "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' data: blob: https://*.supabase.co; connect-src 'self' https://*.supabase.co wss://*.supabase.co https://linawletra-production-409e.up.railway.app; media-src 'self' data: blob:; frame-src 'self' blob: https://*.supabase.co; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'self'; upgrade-insecure-requests",
+        "cache-control": "no-cache, no-store, must-revalidate",
+        "x-content-type-options": "nosniff",
+        "x-api-compatibility-version": null,
+        "access-control-allow-origin": null,
+        "access-control-expose-headers": null,
+        "x-request-id": null,
+        "ratelimit-policy": null
+      }
+    },
+    {
+      "id": "LIVE-010",
+      "module": "Deployed public HTTP",
+      "url": "https://linawletra.com/child-data",
+      "expected": "HTTP 200",
+      "actual": "HTTP 200",
+      "status": "PASS",
+      "durationMs": 57,
+      "bytes": 2279,
+      "headers": {
+        "content-type": "text/html",
+        "content-security-policy": "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' data: blob: https://*.supabase.co; connect-src 'self' https://*.supabase.co wss://*.supabase.co https://linawletra-production-409e.up.railway.app; media-src 'self' data: blob:; frame-src 'self' blob: https://*.supabase.co; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'self'; upgrade-insecure-requests",
+        "cache-control": "no-cache, no-store, must-revalidate",
+        "x-content-type-options": "nosniff",
+        "x-api-compatibility-version": null,
+        "access-control-allow-origin": null,
+        "access-control-expose-headers": null,
+        "x-request-id": null,
+        "ratelimit-policy": null
+      }
+    },
+    {
+      "id": "LIVE-011",
+      "module": "Deployed public HTTP",
+      "url": "https://linawletra.com/account-deletion",
+      "expected": "HTTP 200",
+      "actual": "HTTP 200",
+      "status": "PASS",
+      "durationMs": 53,
+      "bytes": 2279,
+      "headers": {
+        "content-type": "text/html",
+        "content-security-policy": "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' data: blob: https://*.supabase.co; connect-src 'self' https://*.supabase.co wss://*.supabase.co https://linawletra-production-409e.up.railway.app; media-src 'self' data: blob:; frame-src 'self' blob: https://*.supabase.co; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'self'; upgrade-insecure-requests",
+        "cache-control": "no-cache, no-store, must-revalidate",
+        "x-content-type-options": "nosniff",
+        "x-api-compatibility-version": null,
+        "access-control-allow-origin": null,
+        "access-control-expose-headers": null,
+        "x-request-id": null,
+        "ratelimit-policy": null
+      }
+    },
+    {
+      "id": "LIVE-012",
+      "module": "Deployed public HTTP",
+      "url": "https://linawletra.com/accessibility",
+      "expected": "HTTP 200",
+      "actual": "HTTP 200",
+      "status": "PASS",
+      "durationMs": 54,
+      "bytes": 2279,
+      "headers": {
+        "content-type": "text/html",
+        "content-security-policy": "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' data: blob: https://*.supabase.co; connect-src 'self' https://*.supabase.co wss://*.supabase.co https://linawletra-production-409e.up.railway.app; media-src 'self' data: blob:; frame-src 'self' blob: https://*.supabase.co; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'self'; upgrade-insecure-requests",
+        "cache-control": "no-cache, no-store, must-revalidate",
+        "x-content-type-options": "nosniff",
+        "x-api-compatibility-version": null,
+        "access-control-allow-origin": null,
+        "access-control-expose-headers": null,
+        "x-request-id": null,
+        "ratelimit-policy": null
+      }
+    },
+    {
+      "id": "LIVE-013",
+      "module": "Deployed public HTTP",
+      "url": "https://linawletra.com/admin",
+      "expected": "HTTP 200",
+      "actual": "HTTP 200",
+      "status": "PASS",
+      "durationMs": 51,
+      "bytes": 2279,
+      "headers": {
+        "content-type": "text/html",
+        "content-security-policy": "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' data: blob: https://*.supabase.co; connect-src 'self' https://*.supabase.co wss://*.supabase.co https://linawletra-production-409e.up.railway.app; media-src 'self' data: blob:; frame-src 'self' blob: https://*.supabase.co; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'self'; upgrade-insecure-requests",
+        "cache-control": "no-cache, no-store, must-revalidate",
+        "x-content-type-options": "nosniff",
+        "x-api-compatibility-version": null,
+        "access-control-allow-origin": null,
+        "access-control-expose-headers": null,
+        "x-request-id": null,
+        "ratelimit-policy": null
+      }
+    },
+    {
+      "id": "LIVE-014",
+      "module": "Deployed public HTTP",
+      "url": "https://linawletra.com/teacher",
+      "expected": "HTTP 200",
+      "actual": "HTTP 200",
+      "status": "PASS",
+      "durationMs": 52,
+      "bytes": 2279,
+      "headers": {
+        "content-type": "text/html",
+        "content-security-policy": "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' data: blob: https://*.supabase.co; connect-src 'self' https://*.supabase.co wss://*.supabase.co https://linawletra-production-409e.up.railway.app; media-src 'self' data: blob:; frame-src 'self' blob: https://*.supabase.co; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'self'; upgrade-insecure-requests",
+        "cache-control": "no-cache, no-store, must-revalidate",
+        "x-content-type-options": "nosniff",
+        "x-api-compatibility-version": null,
+        "access-control-allow-origin": null,
+        "access-control-expose-headers": null,
+        "x-request-id": null,
+        "ratelimit-policy": null
+      }
+    },
+    {
+      "id": "LIVE-015",
+      "module": "Deployed public HTTP",
+      "url": "https://linawletra.com/parent",
+      "expected": "HTTP 200",
+      "actual": "HTTP 200",
+      "status": "PASS",
+      "durationMs": 54,
+      "bytes": 2279,
+      "headers": {
+        "content-type": "text/html",
+        "content-security-policy": "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' data: blob: https://*.supabase.co; connect-src 'self' https://*.supabase.co wss://*.supabase.co https://linawletra-production-409e.up.railway.app; media-src 'self' data: blob:; frame-src 'self' blob: https://*.supabase.co; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'self'; upgrade-insecure-requests",
+        "cache-control": "no-cache, no-store, must-revalidate",
+        "x-content-type-options": "nosniff",
+        "x-api-compatibility-version": null,
+        "access-control-allow-origin": null,
+        "access-control-expose-headers": null,
+        "x-request-id": null,
+        "ratelimit-policy": null
+      }
+    },
+    {
+      "id": "LIVE-016",
+      "module": "Deployed public HTTP",
+      "url": "https://linawletra.com/student",
+      "expected": "HTTP 200",
+      "actual": "HTTP 200",
+      "status": "PASS",
+      "durationMs": 53,
+      "bytes": 2279,
+      "headers": {
+        "content-type": "text/html",
+        "content-security-policy": "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' data: blob: https://*.supabase.co; connect-src 'self' https://*.supabase.co wss://*.supabase.co https://linawletra-production-409e.up.railway.app; media-src 'self' data: blob:; frame-src 'self' blob: https://*.supabase.co; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'self'; upgrade-insecure-requests",
+        "cache-control": "no-cache, no-store, must-revalidate",
+        "x-content-type-options": "nosniff",
+        "x-api-compatibility-version": null,
+        "access-control-allow-origin": null,
+        "access-control-expose-headers": null,
+        "x-request-id": null,
+        "ratelimit-policy": null
+      }
+    },
+    {
+      "id": "LIVE-017",
+      "module": "Deployed public HTTP",
+      "url": "https://linawletra.com/robots.txt",
+      "expected": "HTTP 200",
+      "actual": "HTTP 200",
+      "status": "PASS",
+      "durationMs": 60,
+      "bytes": 191,
+      "headers": {
+        "content-type": "text/plain",
+        "content-security-policy": "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' data: blob: https://*.supabase.co; connect-src 'self' https://*.supabase.co wss://*.supabase.co https://linawletra-production-409e.up.railway.app; media-src 'self' data: blob:; frame-src 'self' blob: https://*.supabase.co; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'self'; upgrade-insecure-requests",
+        "cache-control": "public, max-age=3600",
+        "x-content-type-options": "nosniff",
+        "x-api-compatibility-version": null,
+        "access-control-allow-origin": null,
+        "access-control-expose-headers": null,
+        "x-request-id": null,
+        "ratelimit-policy": null
+      }
+    },
+    {
+      "id": "LIVE-018",
+      "module": "Deployed public HTTP",
+      "url": "https://linawletra.com/sitemap.xml",
+      "expected": "HTTP 200",
+      "actual": "HTTP 200",
+      "status": "PASS",
+      "durationMs": 52,
+      "bytes": 619,
+      "headers": {
+        "content-type": "application/xml",
+        "content-security-policy": "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' data: blob: https://*.supabase.co; connect-src 'self' https://*.supabase.co wss://*.supabase.co https://linawletra-production-409e.up.railway.app; media-src 'self' data: blob:; frame-src 'self' blob: https://*.supabase.co; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'self'; upgrade-insecure-requests",
+        "cache-control": "public, max-age=3600",
+        "x-content-type-options": "nosniff",
+        "x-api-compatibility-version": null,
+        "access-control-allow-origin": null,
+        "access-control-expose-headers": null,
+        "x-request-id": null,
+        "ratelimit-policy": null
+      }
+    },
+    {
+      "id": "LIVE-019",
+      "module": "Deployed API",
+      "url": "https://linawletra-production-409e.up.railway.app/api/health",
+      "expected": "HTTP 200",
+      "actual": "HTTP 200",
+      "status": "PASS",
+      "durationMs": 435,
+      "bytes": 144,
+      "headers": {
+        "content-type": "application/json; charset=utf-8",
+        "content-security-policy": null,
+        "cache-control": null,
+        "x-content-type-options": "nosniff",
+        "x-api-compatibility-version": "3",
+        "access-control-allow-origin": "https://linawletra.com",
+        "access-control-expose-headers": null,
+        "x-request-id": "0b724421-ff71-4c8e-bf2c-b4c0ff084321",
+        "ratelimit-policy": null
+      }
+    },
+    {
+      "id": "LIVE-020",
+      "module": "Deployed anonymous authorization",
+      "url": "https://linawletra-production-409e.up.railway.app/api/admin/analytics",
+      "expected": "HTTP 401",
+      "actual": "HTTP 401",
+      "status": "PASS",
+      "durationMs": 403,
+      "bytes": 47,
+      "headers": {
+        "content-type": "application/json; charset=utf-8",
+        "content-security-policy": null,
+        "cache-control": null,
+        "x-content-type-options": "nosniff",
+        "x-api-compatibility-version": "3",
+        "access-control-allow-origin": "https://linawletra.com",
+        "access-control-expose-headers": null,
+        "x-request-id": "4864d943-c03c-4e76-8e68-6c7cd15b173d",
+        "ratelimit-policy": "3000;w=900"
+      }
+    },
+    {
+      "id": "LIVE-021",
+      "module": "Deployed anonymous authorization",
+      "url": "https://linawletra-production-409e.up.railway.app/api/teacher/students/11111111-1111-4111-8111-111111111111/modules",
+      "expected": "HTTP 401",
+      "actual": "HTTP 401",
+      "status": "PASS",
+      "durationMs": 263,
+      "bytes": 47,
+      "headers": {
+        "content-type": "application/json; charset=utf-8",
+        "content-security-policy": null,
+        "cache-control": null,
+        "x-content-type-options": "nosniff",
+        "x-api-compatibility-version": "3",
+        "access-control-allow-origin": "https://linawletra.com",
+        "access-control-expose-headers": null,
+        "x-request-id": "3c634109-4105-4db6-a490-9c01b172fc89",
+        "ratelimit-policy": "3000;w=900"
+      }
+    },
+    {
+      "id": "LIVE-022",
+      "module": "Deployed anonymous authorization",
+      "url": "https://linawletra-production-409e.up.railway.app/api/parent/children",
+      "expected": "HTTP 401",
+      "actual": "HTTP 401",
+      "status": "PASS",
+      "durationMs": 251,
+      "bytes": 47,
+      "headers": {
+        "content-type": "application/json; charset=utf-8",
+        "content-security-policy": null,
+        "cache-control": null,
+        "x-content-type-options": "nosniff",
+        "x-api-compatibility-version": "3",
+        "access-control-allow-origin": "https://linawletra.com",
+        "access-control-expose-headers": null,
+        "x-request-id": "30a6a237-94eb-431f-9456-8d5fd5a90a9a",
+        "ratelimit-policy": "3000;w=900"
+      }
+    },
+    {
+      "id": "LIVE-023",
+      "module": "Deployed anonymous authorization",
+      "url": "https://linawletra-production-409e.up.railway.app/api/student/learn/path",
+      "expected": "HTTP 401",
+      "actual": "HTTP 401",
+      "status": "PASS",
+      "durationMs": 264,
+      "bytes": 47,
+      "headers": {
+        "content-type": "application/json; charset=utf-8",
+        "content-security-policy": null,
+        "cache-control": null,
+        "x-content-type-options": "nosniff",
+        "x-api-compatibility-version": "3",
+        "access-control-allow-origin": "https://linawletra.com",
+        "access-control-expose-headers": null,
+        "x-request-id": "5ed5e721-a3c8-4c61-a714-30a0669e7437",
+        "ratelimit-policy": "3000;w=900"
+      }
+    },
+    {
+      "id": "LIVE-024",
+      "module": "Deployed anonymous authorization",
+      "url": "https://linawletra-production-409e.up.railway.app/api/notifications",
+      "expected": "HTTP 401",
+      "actual": "HTTP 401",
+      "status": "PASS",
+      "durationMs": 241,
+      "bytes": 47,
+      "headers": {
+        "content-type": "application/json; charset=utf-8",
+        "content-security-policy": null,
+        "cache-control": null,
+        "x-content-type-options": "nosniff",
+        "x-api-compatibility-version": "3",
+        "access-control-allow-origin": "https://linawletra.com",
+        "access-control-expose-headers": null,
+        "x-request-id": "608869bd-1d0a-4436-8332-154006f0e8f8",
+        "ratelimit-policy": "3000;w=900"
+      }
+    },
+    {
+      "id": "LIVE-025",
+      "module": "Deployed CORS compatibility",
+      "url": "https://linawletra-production-409e.up.railway.app/api/health",
+      "expected": "HTTP 200",
+      "actual": "The input did not match the regular expression /x-api-compatibility-version/i. Input:\n\n''\n",
+      "status": "FAIL",
+      "durationMs": 265
+    }
+  ]
+}

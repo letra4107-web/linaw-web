@@ -1,0 +1,100 @@
+﻿TAP version 13
+# Subtest: QA email validation accepts single addresses and rejects embedded or whitespace addresses
+ok 1 - QA email validation accepts single addresses and rejects embedded or whitespace addresses
+  ---
+  duration_ms: 251.5092
+  type: 'test'
+  ...
+# Subtest: QA role resolution never repairs over a failed authoritative profile lookup
+ok 2 - QA role resolution never repairs over a failed authoritative profile lookup
+  ---
+  duration_ms: 30.6367
+  type: 'test'
+  ...
+# Subtest: QA role resolution never repairs when child identity lookup fails
+ok 3 - QA role resolution never repairs when child identity lookup fails
+  ---
+  duration_ms: 17.8889
+  type: 'test'
+  ...
+# Subtest: QA role resolution preserves authoritative teacher and child roles
+ok 4 - QA role resolution preserves authoritative teacher and child roles
+  ---
+  duration_ms: 35.7184
+  type: 'test'
+  ...
+# Subtest: QA parent profile repair reports persistence failure
+ok 5 - QA parent profile repair reports persistence failure
+  ---
+  duration_ms: 19.978
+  type: 'test'
+  ...
+# Subtest: QA confirmed parent repair preserves signup name; unconfirmed accounts are not repaired
+ok 6 - QA confirmed parent repair preserves signup name; unconfirmed accounts are not repaired
+  ---
+  duration_ms: 55.2404
+  type: 'test'
+  ...
+# Subtest: QA saved-profile picker ignores malformed entries without crashing
+ok 7 - QA saved-profile picker ignores malformed entries without crashing
+  ---
+  duration_ms: 42.095
+  type: 'test'
+  ...
+# Subtest: QA saved profiles enforce expiration, student replacement, and profile limit
+ok 8 - QA saved profiles enforce expiration, student replacement, and profile limit
+  ---
+  duration_ms: 24.5148
+  type: 'test'
+  ...
+# Subtest: QA unavailable optional profile storage does not break login/logout
+ok 9 - QA unavailable optional profile storage does not break login/logout
+  ---
+  duration_ms: 16.6348
+  type: 'test'
+  ...
+# Subtest: QA signup without a session reaches verification without an unauthenticated profile write
+ok 10 - QA signup without a session reaches verification without an unauthenticated profile write
+  ---
+  duration_ms: 200.3376
+  type: 'test'
+  ...
+# Subtest: QA signup with a session persists its parent profile
+ok 11 - QA signup with a session persists its parent profile
+  ---
+  duration_ms: 116.7569
+  type: 'test'
+  ...
+# Subtest: QA account switching cannot publish an older asynchronous identity
+not ok 12 - QA account switching cannot publish an older asynchronous identity
+  ---
+  duration_ms: 97.7556
+  type: 'test'
+  location: 'C:\\Users\\Samantha\\OneDrive\\Desktop\\web\\tests\\authQa.test.mjs:113:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    + actual - expected
+    
+    + 'parent'
+    - 'teacher'
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 'teacher'
+  actual: 'parent'
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (file:///C:/Users/Samantha/OneDrive/Desktop/web/tests/authQa.test.mjs:149:10)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+1..12
+# tests 12
+# suites 0
+# pass 11
+# fail 1
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 1856.8501

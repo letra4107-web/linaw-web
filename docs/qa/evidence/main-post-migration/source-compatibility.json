@@ -1,0 +1,41 @@
+{
+  "timestamp": "2026-10-18T08:37:59.668Z",
+  "scope": "Read-only local Git comparison against the commit self-reported by deployed health. No platform artifact or deployment-log access, RPC execution or authenticated production request.",
+  "declaredCommit": "51ce3ce17daf2f9bd7f2398851125845c353e730",
+  "declaredSectionReferences": [],
+  "declaredSectionRoutes": [],
+  "declaredEnrollmentReferencesChangedSectionObjects": false,
+  "packageSpecifications": {
+    "@supabase/supabase-js": {
+      "declared": "^2.45.0",
+      "local": "^2.45.0"
+    },
+    "express": {
+      "declared": "^4.19.2",
+      "local": "^4.19.2"
+    },
+    "multer": {
+      "declared": "^2.1.1",
+      "local": "^2.1.1"
+    },
+    "nodemailer": {
+      "declared": "^9.0.5",
+      "local": "^10.0.6"
+    }
+  },
+  "localAssignment": {
+    "rpc": "public.assign_section_students(uuid,uuid[],uuid)",
+    "response": "JSON {success:true}",
+    "validationStatus": 400,
+    "missingSectionStatus": 404,
+    "serializationOrDeadlockStatus": 409,
+    "unexpectedFailureStatus": 500
+  },
+  "finding": "No direct reference to either changed function or the section tables exists in the declared server/src tree. This does not attest the exact running image.",
+  "limitations": [
+    "Health metadata is not a cryptographic attestation of the running image.",
+    "No authenticated main section assignment, enrollment or serialization test was executed.",
+    "Package specifications do not prove installed lockfile state or a current vulnerability audit.",
+    "Migration 048 still affects any direct/database caller inserting or updating section_students, even if the declared backend has no such caller."
+  ]
+}

@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { AlertCircle, BarChart3, BookOpen, CheckCircle2, ChevronRight, ClipboardList, FileText, Flag, MessageSquare, Plus, Star, TrendingUp, Upload, UsersRound } from 'lucide-react';
 import { supabase } from '../../lib/supabaseClient';
 import { useAuth } from '../../lib/auth/AuthContext';
+import { QueryErrorNotice } from '../../components/QueryErrorNotice';
 import teacherBanner from '../../assets/teacher/Teacher Home Hero Banner Background.png';
 import teacherIllustration from '../../assets/teacher/Teacher Illustration.png';
 
@@ -22,25 +23,25 @@ const studentColor = (index: number) => ['violet', 'blue', 'green', 'gold', 'ros
 
 export default function Dashboard() {
   const { user, identity } = useAuth();
-  const { data: roster } = useQuery({ queryKey: ['teacher-roster-summary', user?.id], queryFn: async () => {
+  const { data: roster, error: rosterError, refetch: refetchRoster } = useQuery({ queryKey: ['teacher-roster-summary', user?.id], queryFn: async () => {
     const { data, error } = await supabase.from('teacher_student_links').select('student_id, children(id, name, grade_level)');
     if (error) throw error;
     return data as unknown as RosterItem[];
   }, enabled: Boolean(user) });
   const studentIds = (roster ?? []).map((item) => item.student_id);
-  const { data: progress } = useQuery({ queryKey: ['teacher-dashboard-progress', studentIds], queryFn: async () => {
+  const { data: progress, error: progressError, refetch: refetchProgress } = useQuery({ queryKey: ['teacher-dashboard-progress', studentIds], queryFn: async () => {
     if (!studentIds.length) return [];
     const { data, error } = await supabase.from('child_progress').select('child_id, accuracy_sum, total_attempts, activities_completed, streak').in('child_id', studentIds);
     if (error) throw error;
     return data as ProgressItem[];
   }, enabled: studentIds.length > 0 });
-  const { data: recent } = useQuery({ queryKey: ['teacher-dashboard-recent', studentIds], queryFn: async () => {
+  const { data: recent, error: recentError, refetch: refetchRecent } = useQuery({ queryKey: ['teacher-dashboard-recent', studentIds], queryFn: async () => {
     if (!studentIds.length) return [];
     const { data, error } = await supabase.from('pronunciation_practice_sessions').select('student_id, word, accuracy_percentage, created_at').in('student_id', studentIds).order('created_at', { ascending: false }).limit(6);
     if (error) throw error;
     return data as RecentSession[];
   }, enabled: studentIds.length > 0 });
-  const { data: pendingAssignments } = useQuery({ queryKey: ['teacher-pending-assignments', user?.id], queryFn: async () => {
+  const { data: pendingAssignments, error: assignmentsError, refetch: refetchAssignments } = useQuery({ queryKey: ['teacher-pending-assignments', user?.id], queryFn: async () => {
     const { data: materials, error: materialError } = await supabase.from('pdf_materials').select('id').eq('teacher_id', user!.id);
     if (materialError) throw materialError;
     const ids = (materials ?? []).map((material) => material.id);
@@ -49,7 +50,7 @@ export default function Dashboard() {
     if (error) throw error;
     return count ?? 0;
   }, enabled: Boolean(user) });
-  const { data: materialsCount } = useQuery({ queryKey: ['teacher-materials-count', user?.id], queryFn: async () => {
+  const { data: materialsCount, error: materialsError, refetch: refetchMaterials } = useQuery({ queryKey: ['teacher-materials-count', user?.id], queryFn: async () => {
     const { count, error } = await supabase.from('pdf_materials').select('id', { count: 'exact', head: true }).eq('teacher_id', user!.id);
     if (error) throw error;
     return count ?? 0;
@@ -68,6 +69,7 @@ export default function Dashboard() {
   const teacherName = identity?.displayName?.split(' ')[0] ?? 'Teacher';
 
   return <div className="teacher-home-reference flex min-w-0 flex-col gap-4 pb-5">
+    <QueryErrorNotice error={rosterError || progressError || recentError || assignmentsError || materialsError} onRetry={() => { void refetchRoster(); void refetchProgress(); void refetchRecent(); void refetchAssignments(); void refetchMaterials(); }} />
     <header className="teacher-home-hero relative overflow-hidden rounded-[1.3rem] border px-7 py-6 shadow-card">
       <img src={teacherBanner} alt="" aria-hidden="true" /><img src={teacherIllustration} alt="" aria-hidden="true" />
       <div><p>Good morning,</p><h1>Teacher {teacherName}!</h1><span>Every small progress your students make is a meaningful step toward more confident reading.</span></div>

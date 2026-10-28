@@ -1,0 +1,26 @@
+{
+  "timestamp": "2026-10-18T08:22:01.495Z",
+  "scope": "One anonymous GET health request only. No authenticated API, database, Auth or Storage calls.",
+  "health": {
+    "httpStatus": 200,
+    "ok": true,
+    "version": "0.1.0",
+    "commit": "51ce3ce",
+    "apiCompatibilityVersion": "3",
+    "environment": "production",
+    "exposeHeaders": null
+  },
+  "knownDeployedCommit": "51ce3ce17daf2f9bd7f2398851125845c353e730",
+  "deployedSource": {
+    "provenance": "Local Git object matching the SHA declared by health; platform deployment artifact not independently attested.",
+    "assignmentHandlerFound": false,
+    "usesAssignmentRpc": false,
+    "usesMembershipUpsert": false,
+    "usesSeparateRosterUpsert": false
+  },
+  "localSource": {
+    "usesAssignmentRpc": true,
+    "handlesSerializationConflict": true,
+    "uncommittedChanges": true
+  }
+}

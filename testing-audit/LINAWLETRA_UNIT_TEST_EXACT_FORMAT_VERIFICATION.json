@@ -1,0 +1,25 @@
+{
+  "file": "testing-audit/LINAWLETRA_UNIT_TEST_EXACT_FORMAT.docx",
+  "fieldsInOrder": [
+    "Module Name",
+    "Test Cycle No.",
+    "Component Name",
+    "Date Tested",
+    "Type of System",
+    "Pre-conditions",
+    "Action Description",
+    "Verification Steps",
+    "Test Scenario",
+    "Data (Input Value)",
+    "Expected Results",
+    "Actual Result",
+    "Remarks"
+  ],
+  "records": 646,
+  "plannedScenarios": 96,
+  "historicalAutomatedRecords": 550,
+  "tables": 0,
+  "images": 0,
+  "extraGuideParagraphs": 0,
+  "newTestsExecuted": false
+}

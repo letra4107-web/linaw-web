@@ -7,7 +7,13 @@ function createAuthMiddleware(client) {
   async function requireAuth(req, res, next) {
     const token = bearerTokenFrom(req.headers.authorization);
     if (!token) return res.status(401).json({ error: 'Missing Authorization bearer token.' });
-    const { data, error } = await client.auth.getUser(token);
+    let result;
+    try {
+      result = await client.auth.getUser(token);
+    } catch {
+      return res.status(503).json({ error: 'Authentication service is temporarily unavailable.' });
+    }
+    const { data, error } = result;
     if (error || !data?.user) {
       // Surface only a safe, local-development diagnostic. It identifies a
       // configuration/session mismatch without ever returning the bearer token.
@@ -20,11 +26,18 @@ function createAuthMiddleware(client) {
   }
   function requireRole(...roles) {
     return async (req, res, next) => {
-      const { data: profile, error } = await client.from('users').select('role').eq('id', req.user.id).maybeSingle();
-      const role = String(profile?.role || '').toLowerCase();
-      if (error || !roles.includes(role)) return res.status(403).json({ error: 'Forbidden for this account role.' });
-      req.userRole = role;
-      return next();
+      try {
+        const { data: profile, error } = await client.from('users').select('role, account_status, is_active').eq('id', req.user.id).maybeSingle();
+        if (error) return res.status(503).json({ error: 'Account authorization is temporarily unavailable.' });
+        const role = String(profile?.role || '').trim().toLowerCase();
+        if (!roles.includes(role) || profile?.is_active === false || ['disabled', 'archived'].includes(profile?.account_status)) {
+          return res.status(403).json({ error: 'Forbidden for this account role or status.' });
+        }
+        req.userRole = role;
+        return next();
+      } catch {
+        return res.status(503).json({ error: 'Account authorization is temporarily unavailable.' });
+      }
     };
   }
   return { requireAuth, requireRole };

@@ -1,0 +1,2618 @@
+TAP version 13
+# Subtest: audit admin settings reject nonboolean toggles without persistence
+ok 1 - audit admin settings reject nonboolean toggles without persistence
+  ---
+  duration_ms: 3542.2966
+  type: 'test'
+  ...
+# Subtest: audit admin settings return server failure for database errors without leaking diagnostics
+ok 2 - audit admin settings return server failure for database errors without leaking diagnostics
+  ---
+  duration_ms: 30.5497
+  type: 'test'
+  ...
+# Subtest: audit admin settings preserve valid false toggles and supported defaults
+ok 3 - audit admin settings preserve valid false toggles and supported defaults
+  ---
+  duration_ms: 24.5971
+  type: 'test'
+  ...
+# Subtest: audit tracked server environment example contains placeholders rather than credentials
+ok 4 - audit tracked server environment example contains placeholders rather than credentials
+  ---
+  duration_ms: 10.7499
+  type: 'test'
+  ...
+# Subtest: audit account status {"role":"parent","account_status":"disabled"} enforced by notifications
+ok 5 - audit account status {"role":"parent","account_status":"disabled"} enforced by notifications
+  ---
+  duration_ms: 1978.7808
+  type: 'test'
+  ...
+# Subtest: audit account status {"role":"teacher","account_status":"archived"} enforced by notifications
+ok 6 - audit account status {"role":"teacher","account_status":"archived"} enforced by notifications
+  ---
+  duration_ms: 7.7204
+  type: 'test'
+  ...
+# Subtest: audit account status {"role":"student","is_active":false} enforced by notifications
+ok 7 - audit account status {"role":"student","is_active":false} enforced by notifications
+  ---
+  duration_ms: 8.2753
+  type: 'test'
+  ...
+# Subtest: audit account status {"role":"parent","account_status":"active","is_active":true} enforced by notifications
+ok 8 - audit account status {"role":"parent","account_status":"active","is_active":true} enforced by notifications
+  ---
+  duration_ms: 19.7887
+  type: 'test'
+  ...
+# Subtest: audit account status {"role":"parent","account_status":"disabled"} enforced by authEvents
+ok 9 - audit account status {"role":"parent","account_status":"disabled"} enforced by authEvents
+  ---
+  duration_ms: 11.6493
+  type: 'test'
+  ...
+# Subtest: audit account status {"role":"teacher","account_status":"archived"} enforced by authEvents
+ok 10 - audit account status {"role":"teacher","account_status":"archived"} enforced by authEvents
+  ---
+  duration_ms: 9.1565
+  type: 'test'
+  ...
+# Subtest: audit account status {"role":"student","is_active":false} enforced by authEvents
+ok 11 - audit account status {"role":"student","is_active":false} enforced by authEvents
+  ---
+  duration_ms: 15.1821
+  type: 'test'
+  ...
+# Subtest: audit account status {"role":"parent","account_status":"active","is_active":true} enforced by authEvents
+ok 12 - audit account status {"role":"parent","account_status":"active","is_active":true} enforced by authEvents
+  ---
+  duration_ms: 9.3168
+  type: 'test'
+  ...
+# Subtest: audit account status {"role":"parent","account_status":"disabled"} enforced by tts
+ok 13 - audit account status {"role":"parent","account_status":"disabled"} enforced by tts
+  ---
+  duration_ms: 38.2574
+  type: 'test'
+  ...
+# Subtest: audit account status {"role":"teacher","account_status":"archived"} enforced by tts
+ok 14 - audit account status {"role":"teacher","account_status":"archived"} enforced by tts
+  ---
+  duration_ms: 12.4142
+  type: 'test'
+  ...
+# Subtest: audit account status {"role":"student","is_active":false} enforced by tts
+ok 15 - audit account status {"role":"student","is_active":false} enforced by tts
+  ---
+  duration_ms: 8.0074
+  type: 'test'
+  ...
+# Subtest: audit account status {"role":"parent","account_status":"active","is_active":true} enforced by tts
+ok 16 - audit account status {"role":"parent","account_status":"active","is_active":true} enforced by tts
+  ---
+  duration_ms: 10.8648
+  type: 'test'
+  ...
+# Subtest: audit migrations are ordered, append-only, and redact direct-write secrets
+ok 17 - audit migrations are ordered, append-only, and redact direct-write secrets
+  ---
+  duration_ms: 6.8788
+  type: 'test'
+  ...
+# Subtest: audit read-all marks notifications beyond the 50-row display limit without touching another user
+ok 18 - audit read-all marks notifications beyond the 50-row display limit without touching another user
+  ---
+  duration_ms: 1220.6524
+  type: 'test'
+  ...
+# Subtest: audit read-all fails safely on persistence errors
+ok 19 - audit read-all fails safely on persistence errors
+  ---
+  duration_ms: 91.9068
+  type: 'test'
+  ...
+# Subtest: audit read-all never updates when ownership lookup fails
+ok 20 - audit read-all never updates when ownership lookup fails
+  ---
+  duration_ms: 133.3941
+  type: 'test'
+  ...
+# Subtest: audit platform label is web-only until native audit integration is enabled
+ok 21 - audit platform label is web-only until native audit integration is enabled
+  ---
+  duration_ms: 11.3164
+  type: 'test'
+  ...
+# Subtest: audit platform label stays web for all user agents
+ok 22 - audit platform label stays web for all user agents
+  ---
+  duration_ms: 2.0499
+  type: 'test'
+  ...
+# Subtest: only successful non-admin sign-ins create an admin notification
+ok 23 - only successful non-admin sign-ins create an admin notification
+  ---
+  duration_ms: 0.9579
+  type: 'test'
+  ...
+# Subtest: audit role matrix teacher forbidden GET /api/admin/operations
+ok 24 - audit role matrix teacher forbidden GET /api/admin/operations
+  ---
+  duration_ms: 45.5526
+  type: 'test'
+  ...
+# Subtest: audit role matrix parent forbidden GET /api/admin/operations
+ok 25 - audit role matrix parent forbidden GET /api/admin/operations
+  ---
+  duration_ms: 3.0509
+  type: 'test'
+  ...
+# Subtest: audit role matrix student forbidden GET /api/admin/operations
+ok 26 - audit role matrix student forbidden GET /api/admin/operations
+  ---
+  duration_ms: 3.3441
+  type: 'test'
+  ...
+# Subtest: audit role matrix teacher forbidden GET /api/admin/audit-logs
+ok 27 - audit role matrix teacher forbidden GET /api/admin/audit-logs
+  ---
+  duration_ms: 2.8503
+  type: 'test'
+  ...
+# Subtest: audit role matrix parent forbidden GET /api/admin/audit-logs
+ok 28 - audit role matrix parent forbidden GET /api/admin/audit-logs
+  ---
+  duration_ms: 2.6779
+  type: 'test'
+  ...
+# Subtest: audit role matrix student forbidden GET /api/admin/audit-logs
+ok 29 - audit role matrix student forbidden GET /api/admin/audit-logs
+  ---
+  duration_ms: 2.7074
+  type: 'test'
+  ...
+# Subtest: audit role matrix teacher forbidden GET /api/admin/monitoring/users
+ok 30 - audit role matrix teacher forbidden GET /api/admin/monitoring/users
+  ---
+  duration_ms: 2.3541
+  type: 'test'
+  ...
+# Subtest: audit role matrix parent forbidden GET /api/admin/monitoring/users
+ok 31 - audit role matrix parent forbidden GET /api/admin/monitoring/users
+  ---
+  duration_ms: 2.009
+  type: 'test'
+  ...
+# Subtest: audit role matrix student forbidden GET /api/admin/monitoring/users
+ok 32 - audit role matrix student forbidden GET /api/admin/monitoring/users
+  ---
+  duration_ms: 5.2431
+  type: 'test'
+  ...
+# Subtest: audit role matrix teacher forbidden GET /api/admin/monitoring/users/:id
+ok 33 - audit role matrix teacher forbidden GET /api/admin/monitoring/users/:id
+  ---
+  duration_ms: 7.724
+  type: 'test'
+  ...
+# Subtest: audit role matrix parent forbidden GET /api/admin/monitoring/users/:id
+ok 34 - audit role matrix parent forbidden GET /api/admin/monitoring/users/:id
+  ---
+  duration_ms: 2.9615
+  type: 'test'
+  ...
+# Subtest: audit role matrix student forbidden GET /api/admin/monitoring/users/:id
+ok 35 - audit role matrix student forbidden GET /api/admin/monitoring/users/:id
+  ---
+  duration_ms: 1.7264
+  type: 'test'
+  ...
+# Subtest: audit parameter matrix GET /api/admin/monitoring/users/:id rejects invalid UUID
+ok 36 - audit parameter matrix GET /api/admin/monitoring/users/:id rejects invalid UUID
+  ---
+  duration_ms: 11.2665
+  type: 'test'
+  ...
+# Subtest: audit role matrix teacher forbidden GET /api/admin/monitoring/users/:id/notes
+ok 37 - audit role matrix teacher forbidden GET /api/admin/monitoring/users/:id/notes
+  ---
+  duration_ms: 2.4464
+  type: 'test'
+  ...
+# Subtest: audit role matrix parent forbidden GET /api/admin/monitoring/users/:id/notes
+ok 38 - audit role matrix parent forbidden GET /api/admin/monitoring/users/:id/notes
+  ---
+  duration_ms: 1.3601
+  type: 'test'
+  ...
+# Subtest: audit role matrix student forbidden GET /api/admin/monitoring/users/:id/notes
+ok 39 - audit role matrix student forbidden GET /api/admin/monitoring/users/:id/notes
+  ---
+  duration_ms: 1.2028
+  type: 'test'
+  ...
+# Subtest: audit parameter matrix GET /api/admin/monitoring/users/:id/notes rejects invalid UUID
+ok 40 - audit parameter matrix GET /api/admin/monitoring/users/:id/notes rejects invalid UUID
+  ---
+  duration_ms: 5.1688
+  type: 'test'
+  ...
+# Subtest: audit role matrix teacher forbidden POST /api/admin/monitoring/users/:id/notes
+ok 41 - audit role matrix teacher forbidden POST /api/admin/monitoring/users/:id/notes
+  ---
+  duration_ms: 1.4517
+  type: 'test'
+  ...
+# Subtest: audit role matrix parent forbidden POST /api/admin/monitoring/users/:id/notes
+ok 42 - audit role matrix parent forbidden POST /api/admin/monitoring/users/:id/notes
+  ---
+  duration_ms: 1.2089
+  type: 'test'
+  ...
+# Subtest: audit role matrix student forbidden POST /api/admin/monitoring/users/:id/notes
+ok 43 - audit role matrix student forbidden POST /api/admin/monitoring/users/:id/notes
+  ---
+  duration_ms: 1.1804
+  type: 'test'
+  ...
+# Subtest: audit parameter matrix POST /api/admin/monitoring/users/:id/notes rejects invalid UUID
+ok 44 - audit parameter matrix POST /api/admin/monitoring/users/:id/notes rejects invalid UUID
+  ---
+  duration_ms: 3.0502
+  type: 'test'
+  ...
+# Subtest: audit role matrix teacher forbidden DELETE /api/admin/monitoring/users/:id/notes/:noteId
+ok 45 - audit role matrix teacher forbidden DELETE /api/admin/monitoring/users/:id/notes/:noteId
+  ---
+  duration_ms: 2.4697
+  type: 'test'
+  ...
+# Subtest: audit role matrix parent forbidden DELETE /api/admin/monitoring/users/:id/notes/:noteId
+ok 46 - audit role matrix parent forbidden DELETE /api/admin/monitoring/users/:id/notes/:noteId
+  ---
+  duration_ms: 1.6748
+  type: 'test'
+  ...
+# Subtest: audit role matrix student forbidden DELETE /api/admin/monitoring/users/:id/notes/:noteId
+ok 47 - audit role matrix student forbidden DELETE /api/admin/monitoring/users/:id/notes/:noteId
+  ---
+  duration_ms: 3.6802
+  type: 'test'
+  ...
+# Subtest: audit parameter matrix DELETE /api/admin/monitoring/users/:id/notes/:noteId rejects invalid UUID
+ok 48 - audit parameter matrix DELETE /api/admin/monitoring/users/:id/notes/:noteId rejects invalid UUID
+  ---
+  duration_ms: 3.6727
+  type: 'test'
+  ...
+# Subtest: audit role matrix teacher forbidden GET /api/admin/users
+ok 49 - audit role matrix teacher forbidden GET /api/admin/users
+  ---
+  duration_ms: 4.0799
+  type: 'test'
+  ...
+# Subtest: audit role matrix parent forbidden GET /api/admin/users
+ok 50 - audit role matrix parent forbidden GET /api/admin/users
+  ---
+  duration_ms: 1.5177
+  type: 'test'
+  ...
+# Subtest: audit role matrix student forbidden GET /api/admin/users
+ok 51 - audit role matrix student forbidden GET /api/admin/users
+  ---
+  duration_ms: 2.4809
+  type: 'test'
+  ...
+# Subtest: audit role matrix teacher forbidden GET /api/admin/users/archived
+ok 52 - audit role matrix teacher forbidden GET /api/admin/users/archived
+  ---
+  duration_ms: 1.958
+  type: 'test'
+  ...
+# Subtest: audit role matrix parent forbidden GET /api/admin/users/archived
+ok 53 - audit role matrix parent forbidden GET /api/admin/users/archived
+  ---
+  duration_ms: 1.44
+  type: 'test'
+  ...
+# Subtest: audit role matrix student forbidden GET /api/admin/users/archived
+ok 54 - audit role matrix student forbidden GET /api/admin/users/archived
+  ---
+  duration_ms: 1.4232
+  type: 'test'
+  ...
+# Subtest: audit role matrix teacher forbidden GET /api/admin/credential-security
+ok 55 - audit role matrix teacher forbidden GET /api/admin/credential-security
+  ---
+  duration_ms: 1.4655
+  type: 'test'
+  ...
+# Subtest: audit role matrix parent forbidden GET /api/admin/credential-security
+ok 56 - audit role matrix parent forbidden GET /api/admin/credential-security
+  ---
+  duration_ms: 1.1567
+  type: 'test'
+  ...
+# Subtest: audit role matrix student forbidden GET /api/admin/credential-security
+ok 57 - audit role matrix student forbidden GET /api/admin/credential-security
+  ---
+  duration_ms: 1.4297
+  type: 'test'
+  ...
+# Subtest: audit role matrix teacher forbidden GET /api/admin/storage-readiness
+ok 58 - audit role matrix teacher forbidden GET /api/admin/storage-readiness
+  ---
+  duration_ms: 3.8779
+  type: 'test'
+  ...
+# Subtest: audit role matrix parent forbidden GET /api/admin/storage-readiness
+ok 59 - audit role matrix parent forbidden GET /api/admin/storage-readiness
+  ---
+  duration_ms: 3.0439
+  type: 'test'
+  ...
+# Subtest: audit role matrix student forbidden GET /api/admin/storage-readiness
+ok 60 - audit role matrix student forbidden GET /api/admin/storage-readiness
+  ---
+  duration_ms: 1.2107
+  type: 'test'
+  ...
+# Subtest: audit role matrix teacher forbidden POST /api/admin/users/:id/disable
+ok 61 - audit role matrix teacher forbidden POST /api/admin/users/:id/disable
+  ---
+  duration_ms: 1.518
+  type: 'test'
+  ...
+# Subtest: audit role matrix parent forbidden POST /api/admin/users/:id/disable
+ok 62 - audit role matrix parent forbidden POST /api/admin/users/:id/disable
+  ---
+  duration_ms: 0.9983
+  type: 'test'
+  ...
+# Subtest: audit role matrix student forbidden POST /api/admin/users/:id/disable
+ok 63 - audit role matrix student forbidden POST /api/admin/users/:id/disable
+  ---
+  duration_ms: 1.4332
+  type: 'test'
+  ...
+# Subtest: audit parameter matrix POST /api/admin/users/:id/disable rejects invalid UUID
+ok 64 - audit parameter matrix POST /api/admin/users/:id/disable rejects invalid UUID
+  ---
+  duration_ms: 6.1792
+  type: 'test'
+  ...
+# Subtest: audit role matrix teacher forbidden POST /api/admin/users/:id/restore
+ok 65 - audit role matrix teacher forbidden POST /api/admin/users/:id/restore
+  ---
+  duration_ms: 1.662
+  type: 'test'
+  ...
+# Subtest: audit role matrix parent forbidden POST /api/admin/users/:id/restore
+ok 66 - audit role matrix parent forbidden POST /api/admin/users/:id/restore
+  ---
+  duration_ms: 1.1559
+  type: 'test'
+  ...
+# Subtest: audit role matrix student forbidden POST /api/admin/users/:id/restore
+ok 67 - audit role matrix student forbidden POST /api/admin/users/:id/restore
+  ---
+  duration_ms: 1.3312
+  type: 'test'
+  ...
+# Subtest: audit parameter matrix POST /api/admin/users/:id/restore rejects invalid UUID
+ok 68 - audit parameter matrix POST /api/admin/users/:id/restore rejects invalid UUID
+  ---
+  duration_ms: 3.6365
+  type: 'test'
+  ...
+# Subtest: audit role matrix teacher forbidden POST /api/admin/users/:id/archive
+ok 69 - audit role matrix teacher forbidden POST /api/admin/users/:id/archive
+  ---
+  duration_ms: 1.1416
+  type: 'test'
+  ...
+# Subtest: audit role matrix parent forbidden POST /api/admin/users/:id/archive
+ok 70 - audit role matrix parent forbidden POST /api/admin/users/:id/archive
+  ---
+  duration_ms: 0.9963
+  type: 'test'
+  ...
+# Subtest: audit role matrix student forbidden POST /api/admin/users/:id/archive
+ok 71 - audit role matrix student forbidden POST /api/admin/users/:id/archive
+  ---
+  duration_ms: 1.0709
+  type: 'test'
+  ...
+# Subtest: audit parameter matrix POST /api/admin/users/:id/archive rejects invalid UUID
+ok 72 - audit parameter matrix POST /api/admin/users/:id/archive rejects invalid UUID
+  ---
+  duration_ms: 2.2134
+  type: 'test'
+  ...
+# Subtest: audit role matrix teacher forbidden DELETE /api/admin/users/:id
+ok 73 - audit role matrix teacher forbidden DELETE /api/admin/users/:id
+  ---
+  duration_ms: 1.1916
+  type: 'test'
+  ...
+# Subtest: audit role matrix parent forbidden DELETE /api/admin/users/:id
+ok 74 - audit role matrix parent forbidden DELETE /api/admin/users/:id
+  ---
+  duration_ms: 5.257
+  type: 'test'
+  ...
+# Subtest: audit role matrix student forbidden DELETE /api/admin/users/:id
+ok 75 - audit role matrix student forbidden DELETE /api/admin/users/:id
+  ---
+  duration_ms: 1.1501
+  type: 'test'
+  ...
+# Subtest: audit parameter matrix DELETE /api/admin/users/:id rejects invalid UUID
+ok 76 - audit parameter matrix DELETE /api/admin/users/:id rejects invalid UUID
+  ---
+  duration_ms: 2.1476
+  type: 'test'
+  ...
+# Subtest: audit role matrix teacher forbidden POST /api/admin/teachers
+ok 77 - audit role matrix teacher forbidden POST /api/admin/teachers
+  ---
+  duration_ms: 1.3595
+  type: 'test'
+  ...
+# Subtest: audit role matrix parent forbidden POST /api/admin/teachers
+ok 78 - audit role matrix parent forbidden POST /api/admin/teachers
+  ---
+  duration_ms: 2.5304
+  type: 'test'
+  ...
+# Subtest: audit role matrix student forbidden POST /api/admin/teachers
+ok 79 - audit role matrix student forbidden POST /api/admin/teachers
+  ---
+  duration_ms: 1.1415
+  type: 'test'
+  ...
+# Subtest: audit role matrix teacher forbidden GET /api/admin/sections
+ok 80 - audit role matrix teacher forbidden GET /api/admin/sections
+  ---
+  duration_ms: 1.1873
+  type: 'test'
+  ...
+# Subtest: audit role matrix parent forbidden GET /api/admin/sections
+ok 81 - audit role matrix parent forbidden GET /api/admin/sections
+  ---
+  duration_ms: 1.1543
+  type: 'test'
+  ...
+# Subtest: audit role matrix student forbidden GET /api/admin/sections
+ok 82 - audit role matrix student forbidden GET /api/admin/sections
+  ---
+  duration_ms: 0.9087
+  type: 'test'
+  ...
+# Subtest: audit role matrix teacher forbidden POST /api/admin/sections
+ok 83 - audit role matrix teacher forbidden POST /api/admin/sections
+  ---
+  duration_ms: 0.9611
+  type: 'test'
+  ...
+# Subtest: audit role matrix parent forbidden POST /api/admin/sections
+ok 84 - audit role matrix parent forbidden POST /api/admin/sections
+  ---
+  duration_ms: 0.9298
+  type: 'test'
+  ...
+# Subtest: audit role matrix student forbidden POST /api/admin/sections
+ok 85 - audit role matrix student forbidden POST /api/admin/sections
+  ---
+  duration_ms: 2.0951
+  type: 'test'
+  ...
+# Subtest: audit role matrix teacher forbidden GET /api/admin/sections/:id/students
+ok 86 - audit role matrix teacher forbidden GET /api/admin/sections/:id/students
+  ---
+  duration_ms: 3.3817
+  type: 'test'
+  ...
+# Subtest: audit role matrix parent forbidden GET /api/admin/sections/:id/students
+ok 87 - audit role matrix parent forbidden GET /api/admin/sections/:id/students
+  ---
+  duration_ms: 4.6907
+  type: 'test'
+  ...
+# Subtest: audit role matrix student forbidden GET /api/admin/sections/:id/students
+ok 88 - audit role matrix student forbidden GET /api/admin/sections/:id/students
+  ---
+  duration_ms: 3.1459
+  type: 'test'
+  ...
+# Subtest: audit parameter matrix GET /api/admin/sections/:id/students rejects invalid UUID
+ok 89 - audit parameter matrix GET /api/admin/sections/:id/students rejects invalid UUID
+  ---
+  duration_ms: 4.2529
+  type: 'test'
+  ...
+# Subtest: audit role matrix teacher forbidden POST /api/admin/sections/:id/students
+ok 90 - audit role matrix teacher forbidden POST /api/admin/sections/:id/students
+  ---
+  duration_ms: 8.7408
+  type: 'test'
+  ...
+# Subtest: audit role matrix parent forbidden POST /api/admin/sections/:id/students
+ok 91 - audit role matrix parent forbidden POST /api/admin/sections/:id/students
+  ---
+  duration_ms: 1.4866
+  type: 'test'
+  ...
+# Subtest: audit role matrix student forbidden POST /api/admin/sections/:id/students
+ok 92 - audit role matrix student forbidden POST /api/admin/sections/:id/students
+  ---
+  duration_ms: 1.3331
+  type: 'test'
+  ...
+# Subtest: audit parameter matrix POST /api/admin/sections/:id/students rejects invalid UUID
+ok 93 - audit parameter matrix POST /api/admin/sections/:id/students rejects invalid UUID
+  ---
+  duration_ms: 3.5303
+  type: 'test'
+  ...
+# Subtest: audit role matrix teacher forbidden GET /api/admin/analytics/students
+ok 94 - audit role matrix teacher forbidden GET /api/admin/analytics/students
+  ---
+  duration_ms: 0.9665
+  type: 'test'
+  ...
+# Subtest: audit role matrix parent forbidden GET /api/admin/analytics/students
+ok 95 - audit role matrix parent forbidden GET /api/admin/analytics/students
+  ---
+  duration_ms: 0.98
+  type: 'test'
+  ...
+# Subtest: audit role matrix student forbidden GET /api/admin/analytics/students
+ok 96 - audit role matrix student forbidden GET /api/admin/analytics/students
+  ---
+  duration_ms: 0.8282
+  type: 'test'
+  ...
+# Subtest: audit role matrix teacher forbidden GET /api/admin/analytics
+ok 97 - audit role matrix teacher forbidden GET /api/admin/analytics
+  ---
+  duration_ms: 0.7561
+  type: 'test'
+  ...
+# Subtest: audit role matrix parent forbidden GET /api/admin/analytics
+ok 98 - audit role matrix parent forbidden GET /api/admin/analytics
+  ---
+  duration_ms: 0.7974
+  type: 'test'
+  ...
+# Subtest: audit role matrix student forbidden GET /api/admin/analytics
+ok 99 - audit role matrix student forbidden GET /api/admin/analytics
+  ---
+  duration_ms: 0.8075
+  type: 'test'
+  ...
+# Subtest: audit role matrix teacher forbidden GET /api/admin/system-settings
+ok 100 - audit role matrix teacher forbidden GET /api/admin/system-settings
+  ---
+  duration_ms: 0.9532
+  type: 'test'
+  ...
+# Subtest: audit role matrix parent forbidden GET /api/admin/system-settings
+ok 101 - audit role matrix parent forbidden GET /api/admin/system-settings
+  ---
+  duration_ms: 0.8732
+  type: 'test'
+  ...
+# Subtest: audit role matrix student forbidden GET /api/admin/system-settings
+ok 102 - audit role matrix student forbidden GET /api/admin/system-settings
+  ---
+  duration_ms: 0.7966
+  type: 'test'
+  ...
+# Subtest: audit role matrix teacher forbidden PATCH /api/admin/system-settings
+ok 103 - audit role matrix teacher forbidden PATCH /api/admin/system-settings
+  ---
+  duration_ms: 1.0198
+  type: 'test'
+  ...
+# Subtest: audit role matrix parent forbidden PATCH /api/admin/system-settings
+ok 104 - audit role matrix parent forbidden PATCH /api/admin/system-settings
+  ---
+  duration_ms: 0.9016
+  type: 'test'
+  ...
+# Subtest: audit role matrix student forbidden PATCH /api/admin/system-settings
+ok 105 - audit role matrix student forbidden PATCH /api/admin/system-settings
+  ---
+  duration_ms: 0.7797
+  type: 'test'
+  ...
+# Subtest: audit role matrix parent forbidden GET /api/teacher/students/:studentId/modules
+ok 106 - audit role matrix parent forbidden GET /api/teacher/students/:studentId/modules
+  ---
+  duration_ms: 0.797
+  type: 'test'
+  ...
+# Subtest: audit role matrix student forbidden GET /api/teacher/students/:studentId/modules
+ok 107 - audit role matrix student forbidden GET /api/teacher/students/:studentId/modules
+  ---
+  duration_ms: 0.8988
+  type: 'test'
+  ...
+# Subtest: audit parameter matrix GET /api/teacher/students/:studentId/modules rejects invalid UUID
+ok 108 - audit parameter matrix GET /api/teacher/students/:studentId/modules rejects invalid UUID
+  ---
+  duration_ms: 1.5583
+  type: 'test'
+  ...
+# Subtest: audit role matrix parent forbidden POST /api/teacher/pdf
+ok 109 - audit role matrix parent forbidden POST /api/teacher/pdf
+  ---
+  duration_ms: 1.2595
+  type: 'test'
+  ...
+# Subtest: audit role matrix student forbidden POST /api/teacher/pdf
+ok 110 - audit role matrix student forbidden POST /api/teacher/pdf
+  ---
+  duration_ms: 1.3171
+  type: 'test'
+  ...
+# Subtest: audit role matrix parent forbidden GET /api/teacher/pdf/:id/access-url
+ok 111 - audit role matrix parent forbidden GET /api/teacher/pdf/:id/access-url
+  ---
+  duration_ms: 1.1982
+  type: 'test'
+  ...
+# Subtest: audit role matrix student forbidden GET /api/teacher/pdf/:id/access-url
+ok 112 - audit role matrix student forbidden GET /api/teacher/pdf/:id/access-url
+  ---
+  duration_ms: 1.8936
+  type: 'test'
+  ...
+# Subtest: audit parameter matrix GET /api/teacher/pdf/:id/access-url rejects invalid UUID
+ok 113 - audit parameter matrix GET /api/teacher/pdf/:id/access-url rejects invalid UUID
+  ---
+  duration_ms: 13.2893
+  type: 'test'
+  ...
+# Subtest: audit role matrix parent forbidden GET /api/teacher/lessons/:id/access-url
+ok 114 - audit role matrix parent forbidden GET /api/teacher/lessons/:id/access-url
+  ---
+  duration_ms: 1.8477
+  type: 'test'
+  ...
+# Subtest: audit role matrix student forbidden GET /api/teacher/lessons/:id/access-url
+ok 115 - audit role matrix student forbidden GET /api/teacher/lessons/:id/access-url
+  ---
+  duration_ms: 0.9456
+  type: 'test'
+  ...
+# Subtest: audit parameter matrix GET /api/teacher/lessons/:id/access-url rejects invalid UUID
+ok 116 - audit parameter matrix GET /api/teacher/lessons/:id/access-url rejects invalid UUID
+  ---
+  duration_ms: 3.9842
+  type: 'test'
+  ...
+# Subtest: audit role matrix parent forbidden PATCH /api/teacher/pdf/:id
+ok 117 - audit role matrix parent forbidden PATCH /api/teacher/pdf/:id
+  ---
+  duration_ms: 0.9287
+  type: 'test'
+  ...
+# Subtest: audit role matrix student forbidden PATCH /api/teacher/pdf/:id
+ok 118 - audit role matrix student forbidden PATCH /api/teacher/pdf/:id
+  ---
+  duration_ms: 0.7403
+  type: 'test'
+  ...
+# Subtest: audit parameter matrix PATCH /api/teacher/pdf/:id rejects invalid UUID
+ok 119 - audit parameter matrix PATCH /api/teacher/pdf/:id rejects invalid UUID
+  ---
+  duration_ms: 2.4154
+  type: 'test'
+  ...
+# Subtest: audit role matrix parent forbidden POST /api/teacher/pdf/:id/archive
+ok 120 - audit role matrix parent forbidden POST /api/teacher/pdf/:id/archive
+  ---
+  duration_ms: 1.8137
+  type: 'test'
+  ...
+# Subtest: audit role matrix student forbidden POST /api/teacher/pdf/:id/archive
+ok 121 - audit role matrix student forbidden POST /api/teacher/pdf/:id/archive
+  ---
+  duration_ms: 1.0401
+  type: 'test'
+  ...
+# Subtest: audit parameter matrix POST /api/teacher/pdf/:id/archive rejects invalid UUID
+ok 122 - audit parameter matrix POST /api/teacher/pdf/:id/archive rejects invalid UUID
+  ---
+  duration_ms: 1.7865
+  type: 'test'
+  ...
+# Subtest: audit role matrix parent forbidden POST /api/teacher/pdf/:id/unarchive
+ok 123 - audit role matrix parent forbidden POST /api/teacher/pdf/:id/unarchive
+  ---
+  duration_ms: 1.3113
+  type: 'test'
+  ...
+# Subtest: audit role matrix student forbidden POST /api/teacher/pdf/:id/unarchive
+ok 124 - audit role matrix student forbidden POST /api/teacher/pdf/:id/unarchive
+  ---
+  duration_ms: 0.9196
+  type: 'test'
+  ...
+# Subtest: audit parameter matrix POST /api/teacher/pdf/:id/unarchive rejects invalid UUID
+ok 125 - audit parameter matrix POST /api/teacher/pdf/:id/unarchive rejects invalid UUID
+  ---
+  duration_ms: 2.0263
+  type: 'test'
+  ...
+# Subtest: audit role matrix parent forbidden POST /api/teacher/pdf-drill
+ok 126 - audit role matrix parent forbidden POST /api/teacher/pdf-drill
+  ---
+  duration_ms: 0.9334
+  type: 'test'
+  ...
+# Subtest: audit role matrix student forbidden POST /api/teacher/pdf-drill
+ok 127 - audit role matrix student forbidden POST /api/teacher/pdf-drill
+  ---
+  duration_ms: 0.9594
+  type: 'test'
+  ...
+# Subtest: audit role matrix parent forbidden GET /api/teacher/pdf-drill/:materialId/items
+ok 128 - audit role matrix parent forbidden GET /api/teacher/pdf-drill/:materialId/items
+  ---
+  duration_ms: 0.8936
+  type: 'test'
+  ...
+# Subtest: audit role matrix student forbidden GET /api/teacher/pdf-drill/:materialId/items
+ok 129 - audit role matrix student forbidden GET /api/teacher/pdf-drill/:materialId/items
+  ---
+  duration_ms: 0.7937
+  type: 'test'
+  ...
+# Subtest: audit parameter matrix GET /api/teacher/pdf-drill/:materialId/items rejects invalid UUID
+ok 130 - audit parameter matrix GET /api/teacher/pdf-drill/:materialId/items rejects invalid UUID
+  ---
+  duration_ms: 2.1045
+  type: 'test'
+  ...
+# Subtest: audit role matrix parent forbidden PATCH /api/teacher/pdf-drill/:materialId/items
+ok 131 - audit role matrix parent forbidden PATCH /api/teacher/pdf-drill/:materialId/items
+  ---
+  duration_ms: 0.9475
+  type: 'test'
+  ...
+# Subtest: audit role matrix student forbidden PATCH /api/teacher/pdf-drill/:materialId/items
+ok 132 - audit role matrix student forbidden PATCH /api/teacher/pdf-drill/:materialId/items
+  ---
+  duration_ms: 1.0026
+  type: 'test'
+  ...
+# Subtest: audit parameter matrix PATCH /api/teacher/pdf-drill/:materialId/items rejects invalid UUID
+ok 133 - audit parameter matrix PATCH /api/teacher/pdf-drill/:materialId/items rejects invalid UUID
+  ---
+  duration_ms: 1.9497
+  type: 'test'
+  ...
+# Subtest: audit role matrix parent forbidden POST /api/teacher/pdf-drill/:materialId/publish
+ok 134 - audit role matrix parent forbidden POST /api/teacher/pdf-drill/:materialId/publish
+  ---
+  duration_ms: 27.6317
+  type: 'test'
+  ...
+# Subtest: audit role matrix student forbidden POST /api/teacher/pdf-drill/:materialId/publish
+ok 135 - audit role matrix student forbidden POST /api/teacher/pdf-drill/:materialId/publish
+  ---
+  duration_ms: 1.5252
+  type: 'test'
+  ...
+# Subtest: audit parameter matrix POST /api/teacher/pdf-drill/:materialId/publish rejects invalid UUID
+ok 136 - audit parameter matrix POST /api/teacher/pdf-drill/:materialId/publish rejects invalid UUID
+  ---
+  duration_ms: 1.6418
+  type: 'test'
+  ...
+# Subtest: audit role matrix admin forbidden GET /api/parent/children/credential-security
+ok 137 - audit role matrix admin forbidden GET /api/parent/children/credential-security
+  ---
+  duration_ms: 1.2631
+  type: 'test'
+  ...
+# Subtest: audit role matrix teacher forbidden GET /api/parent/children/credential-security
+ok 138 - audit role matrix teacher forbidden GET /api/parent/children/credential-security
+  ---
+  duration_ms: 3.8357
+  type: 'test'
+  ...
+# Subtest: audit role matrix student forbidden GET /api/parent/children/credential-security
+ok 139 - audit role matrix student forbidden GET /api/parent/children/credential-security
+  ---
+  duration_ms: 2.2278
+  type: 'test'
+  ...
+# Subtest: audit role matrix admin forbidden GET /api/parent/children
+ok 140 - audit role matrix admin forbidden GET /api/parent/children
+  ---
+  duration_ms: 1.0297
+  type: 'test'
+  ...
+# Subtest: audit role matrix teacher forbidden GET /api/parent/children
+ok 141 - audit role matrix teacher forbidden GET /api/parent/children
+  ---
+  duration_ms: 0.9692
+  type: 'test'
+  ...
+# Subtest: audit role matrix student forbidden GET /api/parent/children
+ok 142 - audit role matrix student forbidden GET /api/parent/children
+  ---
+  duration_ms: 0.9395
+  type: 'test'
+  ...
+# Subtest: audit role matrix admin forbidden POST /api/parent/children
+ok 143 - audit role matrix admin forbidden POST /api/parent/children
+  ---
+  duration_ms: 1.1081
+  type: 'test'
+  ...
+# Subtest: audit role matrix teacher forbidden POST /api/parent/children
+ok 144 - audit role matrix teacher forbidden POST /api/parent/children
+  ---
+  duration_ms: 1.2276
+  type: 'test'
+  ...
+# Subtest: audit role matrix student forbidden POST /api/parent/children
+ok 145 - audit role matrix student forbidden POST /api/parent/children
+  ---
+  duration_ms: 1.0543
+  type: 'test'
+  ...
+# Subtest: audit role matrix admin forbidden POST /api/parent/children/:id/reading-level
+ok 146 - audit role matrix admin forbidden POST /api/parent/children/:id/reading-level
+  ---
+  duration_ms: 1.2918
+  type: 'test'
+  ...
+# Subtest: audit role matrix teacher forbidden POST /api/parent/children/:id/reading-level
+ok 147 - audit role matrix teacher forbidden POST /api/parent/children/:id/reading-level
+  ---
+  duration_ms: 1.7469
+  type: 'test'
+  ...
+# Subtest: audit role matrix student forbidden POST /api/parent/children/:id/reading-level
+ok 148 - audit role matrix student forbidden POST /api/parent/children/:id/reading-level
+  ---
+  duration_ms: 1.3132
+  type: 'test'
+  ...
+# Subtest: audit parameter matrix POST /api/parent/children/:id/reading-level rejects invalid UUID
+ok 149 - audit parameter matrix POST /api/parent/children/:id/reading-level rejects invalid UUID
+  ---
+  duration_ms: 2.5985
+  type: 'test'
+  ...
+# Subtest: audit role matrix admin forbidden GET /api/parent/children/:id/reading-profile
+ok 150 - audit role matrix admin forbidden GET /api/parent/children/:id/reading-profile
+  ---
+  duration_ms: 1.2232
+  type: 'test'
+  ...
+# Subtest: audit role matrix teacher forbidden GET /api/parent/children/:id/reading-profile
+ok 151 - audit role matrix teacher forbidden GET /api/parent/children/:id/reading-profile
+  ---
+  duration_ms: 1.0649
+  type: 'test'
+  ...
+# Subtest: audit role matrix student forbidden GET /api/parent/children/:id/reading-profile
+ok 152 - audit role matrix student forbidden GET /api/parent/children/:id/reading-profile
+  ---
+  duration_ms: 2.281
+  type: 'test'
+  ...
+# Subtest: audit parameter matrix GET /api/parent/children/:id/reading-profile rejects invalid UUID
+ok 153 - audit parameter matrix GET /api/parent/children/:id/reading-profile rejects invalid UUID
+  ---
+  duration_ms: 4.6018
+  type: 'test'
+  ...
+# Subtest: audit role matrix admin forbidden GET /api/parent/children/:id/learning-path
+ok 154 - audit role matrix admin forbidden GET /api/parent/children/:id/learning-path
+  ---
+  duration_ms: 2.2131
+  type: 'test'
+  ...
+# Subtest: audit role matrix teacher forbidden GET /api/parent/children/:id/learning-path
+ok 155 - audit role matrix teacher forbidden GET /api/parent/children/:id/learning-path
+  ---
+  duration_ms: 0.9139
+  type: 'test'
+  ...
+# Subtest: audit role matrix student forbidden GET /api/parent/children/:id/learning-path
+ok 156 - audit role matrix student forbidden GET /api/parent/children/:id/learning-path
+  ---
+  duration_ms: 0.8502
+  type: 'test'
+  ...
+# Subtest: audit parameter matrix GET /api/parent/children/:id/learning-path rejects invalid UUID
+ok 157 - audit parameter matrix GET /api/parent/children/:id/learning-path rejects invalid UUID
+  ---
+  duration_ms: 1.7077
+  type: 'test'
+  ...
+# Subtest: audit role matrix admin forbidden GET /api/parent/children/:id/materials
+ok 158 - audit role matrix admin forbidden GET /api/parent/children/:id/materials
+  ---
+  duration_ms: 0.9358
+  type: 'test'
+  ...
+# Subtest: audit role matrix teacher forbidden GET /api/parent/children/:id/materials
+ok 159 - audit role matrix teacher forbidden GET /api/parent/children/:id/materials
+  ---
+  duration_ms: 0.6886
+  type: 'test'
+  ...
+# Subtest: audit role matrix student forbidden GET /api/parent/children/:id/materials
+ok 160 - audit role matrix student forbidden GET /api/parent/children/:id/materials
+  ---
+  duration_ms: 0.8861
+  type: 'test'
+  ...
+# Subtest: audit parameter matrix GET /api/parent/children/:id/materials rejects invalid UUID
+ok 161 - audit parameter matrix GET /api/parent/children/:id/materials rejects invalid UUID
+  ---
+  duration_ms: 2.3878
+  type: 'test'
+  ...
+# Subtest: audit role matrix admin forbidden GET /api/parent/children/:id/materials/:assignmentId/access-url
+ok 162 - audit role matrix admin forbidden GET /api/parent/children/:id/materials/:assignmentId/access-url
+  ---
+  duration_ms: 0.99
+  type: 'test'
+  ...
+# Subtest: audit role matrix teacher forbidden GET /api/parent/children/:id/materials/:assignmentId/access-url
+ok 163 - audit role matrix teacher forbidden GET /api/parent/children/:id/materials/:assignmentId/access-url
+  ---
+  duration_ms: 1.264
+  type: 'test'
+  ...
+# Subtest: audit role matrix student forbidden GET /api/parent/children/:id/materials/:assignmentId/access-url
+ok 164 - audit role matrix student forbidden GET /api/parent/children/:id/materials/:assignmentId/access-url
+  ---
+  duration_ms: 0.7798
+  type: 'test'
+  ...
+# Subtest: audit parameter matrix GET /api/parent/children/:id/materials/:assignmentId/access-url rejects invalid UUID
+ok 165 - audit parameter matrix GET /api/parent/children/:id/materials/:assignmentId/access-url rejects invalid UUID
+  ---
+  duration_ms: 1.8981
+  type: 'test'
+  ...
+# Subtest: audit role matrix admin forbidden GET /api/parent/children/:id/settings
+ok 166 - audit role matrix admin forbidden GET /api/parent/children/:id/settings
+  ---
+  duration_ms: 0.895
+  type: 'test'
+  ...
+# Subtest: audit role matrix teacher forbidden GET /api/parent/children/:id/settings
+ok 167 - audit role matrix teacher forbidden GET /api/parent/children/:id/settings
+  ---
+  duration_ms: 0.8222
+  type: 'test'
+  ...
+# Subtest: audit role matrix student forbidden GET /api/parent/children/:id/settings
+ok 168 - audit role matrix student forbidden GET /api/parent/children/:id/settings
+  ---
+  duration_ms: 0.6713
+  type: 'test'
+  ...
+# Subtest: audit parameter matrix GET /api/parent/children/:id/settings rejects invalid UUID
+ok 169 - audit parameter matrix GET /api/parent/children/:id/settings rejects invalid UUID
+  ---
+  duration_ms: 1.6667
+  type: 'test'
+  ...
+# Subtest: audit role matrix admin forbidden PATCH /api/parent/children/:id/settings
+ok 170 - audit role matrix admin forbidden PATCH /api/parent/children/:id/settings
+  ---
+  duration_ms: 0.9809
+  type: 'test'
+  ...
+# Subtest: audit role matrix teacher forbidden PATCH /api/parent/children/:id/settings
+ok 171 - audit role matrix teacher forbidden PATCH /api/parent/children/:id/settings
+  ---
+  duration_ms: 0.9461
+  type: 'test'
+  ...
+# Subtest: audit role matrix student forbidden PATCH /api/parent/children/:id/settings
+ok 172 - audit role matrix student forbidden PATCH /api/parent/children/:id/settings
+  ---
+  duration_ms: 0.7698
+  type: 'test'
+  ...
+# Subtest: audit parameter matrix PATCH /api/parent/children/:id/settings rejects invalid UUID
+ok 173 - audit parameter matrix PATCH /api/parent/children/:id/settings rejects invalid UUID
+  ---
+  duration_ms: 1.3522
+  type: 'test'
+  ...
+# Subtest: audit role matrix admin forbidden POST /api/parent/children/:id/reset-password
+ok 174 - audit role matrix admin forbidden POST /api/parent/children/:id/reset-password
+  ---
+  duration_ms: 0.8679
+  type: 'test'
+  ...
+# Subtest: audit role matrix teacher forbidden POST /api/parent/children/:id/reset-password
+ok 175 - audit role matrix teacher forbidden POST /api/parent/children/:id/reset-password
+  ---
+  duration_ms: 0.6527
+  type: 'test'
+  ...
+# Subtest: audit role matrix student forbidden POST /api/parent/children/:id/reset-password
+ok 176 - audit role matrix student forbidden POST /api/parent/children/:id/reset-password
+  ---
+  duration_ms: 0.7283
+  type: 'test'
+  ...
+# Subtest: audit parameter matrix POST /api/parent/children/:id/reset-password rejects invalid UUID
+ok 177 - audit parameter matrix POST /api/parent/children/:id/reset-password rejects invalid UUID
+  ---
+  duration_ms: 2.173
+  type: 'test'
+  ...
+# Subtest: audit role matrix admin forbidden POST /api/student/notify-login
+ok 178 - audit role matrix admin forbidden POST /api/student/notify-login
+  ---
+  duration_ms: 0.8427
+  type: 'test'
+  ...
+# Subtest: audit role matrix teacher forbidden POST /api/student/notify-login
+ok 179 - audit role matrix teacher forbidden POST /api/student/notify-login
+  ---
+  duration_ms: 0.8726
+  type: 'test'
+  ...
+# Subtest: audit role matrix parent forbidden POST /api/student/notify-login
+ok 180 - audit role matrix parent forbidden POST /api/student/notify-login
+  ---
+  duration_ms: 0.8378
+  type: 'test'
+  ...
+# Subtest: audit role matrix admin forbidden GET /api/student/learn/path
+ok 181 - audit role matrix admin forbidden GET /api/student/learn/path
+  ---
+  duration_ms: 0.7654
+  type: 'test'
+  ...
+# Subtest: audit role matrix teacher forbidden GET /api/student/learn/path
+ok 182 - audit role matrix teacher forbidden GET /api/student/learn/path
+  ---
+  duration_ms: 0.6893
+  type: 'test'
+  ...
+# Subtest: audit role matrix parent forbidden GET /api/student/learn/path
+ok 183 - audit role matrix parent forbidden GET /api/student/learn/path
+  ---
+  duration_ms: 0.7289
+  type: 'test'
+  ...
+# Subtest: audit role matrix admin forbidden GET /api/student/learn/module/:moduleId
+ok 184 - audit role matrix admin forbidden GET /api/student/learn/module/:moduleId
+  ---
+  duration_ms: 0.9178
+  type: 'test'
+  ...
+# Subtest: audit role matrix teacher forbidden GET /api/student/learn/module/:moduleId
+ok 185 - audit role matrix teacher forbidden GET /api/student/learn/module/:moduleId
+  ---
+  duration_ms: 0.8902
+  type: 'test'
+  ...
+# Subtest: audit role matrix parent forbidden GET /api/student/learn/module/:moduleId
+ok 186 - audit role matrix parent forbidden GET /api/student/learn/module/:moduleId
+  ---
+  duration_ms: 0.7
+  type: 'test'
+  ...
+# Subtest: audit parameter matrix GET /api/student/learn/module/:moduleId rejects invalid UUID
+ok 187 - audit parameter matrix GET /api/student/learn/module/:moduleId rejects invalid UUID
+  ---
+  duration_ms: 1.521
+  type: 'test'
+  ...
+# Subtest: audit role matrix admin forbidden POST /api/student/learn/content/:contentId/attempt
+ok 188 - audit role matrix admin forbidden POST /api/student/learn/content/:contentId/attempt
+  ---
+  duration_ms: 1.2096
+  type: 'test'
+  ...
+# Subtest: audit role matrix teacher forbidden POST /api/student/learn/content/:contentId/attempt
+ok 189 - audit role matrix teacher forbidden POST /api/student/learn/content/:contentId/attempt
+  ---
+  duration_ms: 1.092
+  type: 'test'
+  ...
+# Subtest: audit role matrix parent forbidden POST /api/student/learn/content/:contentId/attempt
+ok 190 - audit role matrix parent forbidden POST /api/student/learn/content/:contentId/attempt
+  ---
+  duration_ms: 0.7968
+  type: 'test'
+  ...
+# Subtest: audit parameter matrix POST /api/student/learn/content/:contentId/attempt rejects invalid UUID
+ok 191 - audit parameter matrix POST /api/student/learn/content/:contentId/attempt rejects invalid UUID
+  ---
+  duration_ms: 1.9203
+  type: 'test'
+  ...
+# Subtest: audit role matrix admin forbidden POST /api/student/learn/content/:contentId/authoritative-attempt
+ok 192 - audit role matrix admin forbidden POST /api/student/learn/content/:contentId/authoritative-attempt
+  ---
+  duration_ms: 0.7738
+  type: 'test'
+  ...
+# Subtest: audit role matrix teacher forbidden POST /api/student/learn/content/:contentId/authoritative-attempt
+ok 193 - audit role matrix teacher forbidden POST /api/student/learn/content/:contentId/authoritative-attempt
+  ---
+  duration_ms: 0.6332
+  type: 'test'
+  ...
+# Subtest: audit role matrix parent forbidden POST /api/student/learn/content/:contentId/authoritative-attempt
+ok 194 - audit role matrix parent forbidden POST /api/student/learn/content/:contentId/authoritative-attempt
+  ---
+  duration_ms: 0.719
+  type: 'test'
+  ...
+# Subtest: audit parameter matrix POST /api/student/learn/content/:contentId/authoritative-attempt rejects invalid UUID
+ok 195 - audit parameter matrix POST /api/student/learn/content/:contentId/authoritative-attempt rejects invalid UUID
+  ---
+  duration_ms: 8.1212
+  type: 'test'
+  ...
+# Subtest: audit role matrix admin forbidden POST /api/student/learn/assessment/:assessmentId/start
+ok 196 - audit role matrix admin forbidden POST /api/student/learn/assessment/:assessmentId/start
+  ---
+  duration_ms: 0.8926
+  type: 'test'
+  ...
+# Subtest: audit role matrix teacher forbidden POST /api/student/learn/assessment/:assessmentId/start
+ok 197 - audit role matrix teacher forbidden POST /api/student/learn/assessment/:assessmentId/start
+  ---
+  duration_ms: 0.7739
+  type: 'test'
+  ...
+# Subtest: audit role matrix parent forbidden POST /api/student/learn/assessment/:assessmentId/start
+ok 198 - audit role matrix parent forbidden POST /api/student/learn/assessment/:assessmentId/start
+  ---
+  duration_ms: 0.609
+  type: 'test'
+  ...
+# Subtest: audit parameter matrix POST /api/student/learn/assessment/:assessmentId/start rejects invalid UUID
+ok 199 - audit parameter matrix POST /api/student/learn/assessment/:assessmentId/start rejects invalid UUID
+  ---
+  duration_ms: 1.7424
+  type: 'test'
+  ...
+# Subtest: audit role matrix admin forbidden POST /api/student/learn/assessment/:attemptId/submit
+ok 200 - audit role matrix admin forbidden POST /api/student/learn/assessment/:attemptId/submit
+  ---
+  duration_ms: 0.9823
+  type: 'test'
+  ...
+# Subtest: audit role matrix teacher forbidden POST /api/student/learn/assessment/:attemptId/submit
+ok 201 - audit role matrix teacher forbidden POST /api/student/learn/assessment/:attemptId/submit
+  ---
+  duration_ms: 0.6692
+  type: 'test'
+  ...
+# Subtest: audit role matrix parent forbidden POST /api/student/learn/assessment/:attemptId/submit
+ok 202 - audit role matrix parent forbidden POST /api/student/learn/assessment/:attemptId/submit
+  ---
+  duration_ms: 0.6793
+  type: 'test'
+  ...
+# Subtest: audit parameter matrix POST /api/student/learn/assessment/:attemptId/submit rejects invalid UUID
+ok 203 - audit parameter matrix POST /api/student/learn/assessment/:attemptId/submit rejects invalid UUID
+  ---
+  duration_ms: 1.787
+  type: 'test'
+  ...
+# Subtest: audit role matrix admin forbidden GET /api/student/learn/module/:moduleId/nonsense-check
+ok 204 - audit role matrix admin forbidden GET /api/student/learn/module/:moduleId/nonsense-check
+  ---
+  duration_ms: 1.2947
+  type: 'test'
+  ...
+# Subtest: audit role matrix teacher forbidden GET /api/student/learn/module/:moduleId/nonsense-check
+ok 205 - audit role matrix teacher forbidden GET /api/student/learn/module/:moduleId/nonsense-check
+  ---
+  duration_ms: 0.8908
+  type: 'test'
+  ...
+# Subtest: audit role matrix parent forbidden GET /api/student/learn/module/:moduleId/nonsense-check
+ok 206 - audit role matrix parent forbidden GET /api/student/learn/module/:moduleId/nonsense-check
+  ---
+  duration_ms: 1.4848
+  type: 'test'
+  ...
+# Subtest: audit parameter matrix GET /api/student/learn/module/:moduleId/nonsense-check rejects invalid UUID
+ok 207 - audit parameter matrix GET /api/student/learn/module/:moduleId/nonsense-check rejects invalid UUID
+  ---
+  duration_ms: 2.2714
+  type: 'test'
+  ...
+# Subtest: audit role matrix admin forbidden POST /api/student/learn/module/:moduleId/nonsense-check/submit
+ok 208 - audit role matrix admin forbidden POST /api/student/learn/module/:moduleId/nonsense-check/submit
+  ---
+  duration_ms: 7.032
+  type: 'test'
+  ...
+# Subtest: audit role matrix teacher forbidden POST /api/student/learn/module/:moduleId/nonsense-check/submit
+ok 209 - audit role matrix teacher forbidden POST /api/student/learn/module/:moduleId/nonsense-check/submit
+  ---
+  duration_ms: 1.056
+  type: 'test'
+  ...
+# Subtest: audit role matrix parent forbidden POST /api/student/learn/module/:moduleId/nonsense-check/submit
+ok 210 - audit role matrix parent forbidden POST /api/student/learn/module/:moduleId/nonsense-check/submit
+  ---
+  duration_ms: 0.8641
+  type: 'test'
+  ...
+# Subtest: audit parameter matrix POST /api/student/learn/module/:moduleId/nonsense-check/submit rejects invalid UUID
+ok 211 - audit parameter matrix POST /api/student/learn/module/:moduleId/nonsense-check/submit rejects invalid UUID
+  ---
+  duration_ms: 1.9503
+  type: 'test'
+  ...
+# Subtest: audit role matrix admin forbidden GET /api/student/learn/module/:moduleId/challenge-words
+ok 212 - audit role matrix admin forbidden GET /api/student/learn/module/:moduleId/challenge-words
+  ---
+  duration_ms: 0.9506
+  type: 'test'
+  ...
+# Subtest: audit role matrix teacher forbidden GET /api/student/learn/module/:moduleId/challenge-words
+ok 213 - audit role matrix teacher forbidden GET /api/student/learn/module/:moduleId/challenge-words
+  ---
+  duration_ms: 0.7233
+  type: 'test'
+  ...
+# Subtest: audit role matrix parent forbidden GET /api/student/learn/module/:moduleId/challenge-words
+ok 214 - audit role matrix parent forbidden GET /api/student/learn/module/:moduleId/challenge-words
+  ---
+  duration_ms: 0.6341
+  type: 'test'
+  ...
+# Subtest: audit parameter matrix GET /api/student/learn/module/:moduleId/challenge-words rejects invalid UUID
+ok 215 - audit parameter matrix GET /api/student/learn/module/:moduleId/challenge-words rejects invalid UUID
+  ---
+  duration_ms: 1.9365
+  type: 'test'
+  ...
+# Subtest: audit role matrix admin forbidden POST /api/student/learn/module/:moduleId/equip
+ok 216 - audit role matrix admin forbidden POST /api/student/learn/module/:moduleId/equip
+  ---
+  duration_ms: 0.9336
+  type: 'test'
+  ...
+# Subtest: audit role matrix teacher forbidden POST /api/student/learn/module/:moduleId/equip
+ok 217 - audit role matrix teacher forbidden POST /api/student/learn/module/:moduleId/equip
+  ---
+  duration_ms: 0.5919
+  type: 'test'
+  ...
+# Subtest: audit role matrix parent forbidden POST /api/student/learn/module/:moduleId/equip
+ok 218 - audit role matrix parent forbidden POST /api/student/learn/module/:moduleId/equip
+  ---
+  duration_ms: 0.9959
+  type: 'test'
+  ...
+# Subtest: audit parameter matrix POST /api/student/learn/module/:moduleId/equip rejects invalid UUID
+ok 219 - audit parameter matrix POST /api/student/learn/module/:moduleId/equip rejects invalid UUID
+  ---
+  duration_ms: 1.6043
+  type: 'test'
+  ...
+# Subtest: audit role matrix admin forbidden POST /api/student/learn/module/:moduleId/unequip
+ok 220 - audit role matrix admin forbidden POST /api/student/learn/module/:moduleId/unequip
+  ---
+  duration_ms: 0.6738
+  type: 'test'
+  ...
+# Subtest: audit role matrix teacher forbidden POST /api/student/learn/module/:moduleId/unequip
+ok 221 - audit role matrix teacher forbidden POST /api/student/learn/module/:moduleId/unequip
+  ---
+  duration_ms: 8.6404
+  type: 'test'
+  ...
+# Subtest: audit role matrix parent forbidden POST /api/student/learn/module/:moduleId/unequip
+ok 222 - audit role matrix parent forbidden POST /api/student/learn/module/:moduleId/unequip
+  ---
+  duration_ms: 0.6767
+  type: 'test'
+  ...
+# Subtest: audit parameter matrix POST /api/student/learn/module/:moduleId/unequip rejects invalid UUID
+ok 223 - audit parameter matrix POST /api/student/learn/module/:moduleId/unequip rejects invalid UUID
+  ---
+  duration_ms: 3.9049
+  type: 'test'
+  ...
+# Subtest: audit role matrix admin forbidden GET /api/student/reading-profile
+ok 224 - audit role matrix admin forbidden GET /api/student/reading-profile
+  ---
+  duration_ms: 1.477
+  type: 'test'
+  ...
+# Subtest: audit role matrix teacher forbidden GET /api/student/reading-profile
+ok 225 - audit role matrix teacher forbidden GET /api/student/reading-profile
+  ---
+  duration_ms: 1.7566
+  type: 'test'
+  ...
+# Subtest: audit role matrix parent forbidden GET /api/student/reading-profile
+ok 226 - audit role matrix parent forbidden GET /api/student/reading-profile
+  ---
+  duration_ms: 2.5221
+  type: 'test'
+  ...
+# Subtest: audit role matrix admin forbidden POST /api/student/practice/attempt
+ok 227 - audit role matrix admin forbidden POST /api/student/practice/attempt
+  ---
+  duration_ms: 0.9872
+  type: 'test'
+  ...
+# Subtest: audit role matrix teacher forbidden POST /api/student/practice/attempt
+ok 228 - audit role matrix teacher forbidden POST /api/student/practice/attempt
+  ---
+  duration_ms: 0.8859
+  type: 'test'
+  ...
+# Subtest: audit role matrix parent forbidden POST /api/student/practice/attempt
+ok 229 - audit role matrix parent forbidden POST /api/student/practice/attempt
+  ---
+  duration_ms: 0.7357
+  type: 'test'
+  ...
+# Subtest: audit role matrix admin forbidden POST /api/student/word-of-day/attempt
+ok 230 - audit role matrix admin forbidden POST /api/student/word-of-day/attempt
+  ---
+  duration_ms: 0.5721
+  type: 'test'
+  ...
+# Subtest: audit role matrix teacher forbidden POST /api/student/word-of-day/attempt
+ok 231 - audit role matrix teacher forbidden POST /api/student/word-of-day/attempt
+  ---
+  duration_ms: 1.0081
+  type: 'test'
+  ...
+# Subtest: audit role matrix parent forbidden POST /api/student/word-of-day/attempt
+ok 232 - audit role matrix parent forbidden POST /api/student/word-of-day/attempt
+  ---
+  duration_ms: 1.1547
+  type: 'test'
+  ...
+# Subtest: audit role matrix admin forbidden GET /api/student/pdf-drill/:assignmentId
+ok 233 - audit role matrix admin forbidden GET /api/student/pdf-drill/:assignmentId
+  ---
+  duration_ms: 0.546
+  type: 'test'
+  ...
+# Subtest: audit role matrix teacher forbidden GET /api/student/pdf-drill/:assignmentId
+ok 234 - audit role matrix teacher forbidden GET /api/student/pdf-drill/:assignmentId
+  ---
+  duration_ms: 0.5069
+  type: 'test'
+  ...
+# Subtest: audit role matrix parent forbidden GET /api/student/pdf-drill/:assignmentId
+ok 235 - audit role matrix parent forbidden GET /api/student/pdf-drill/:assignmentId
+  ---
+  duration_ms: 0.6982
+  type: 'test'
+  ...
+# Subtest: audit parameter matrix GET /api/student/pdf-drill/:assignmentId rejects invalid UUID
+ok 236 - audit parameter matrix GET /api/student/pdf-drill/:assignmentId rejects invalid UUID
+  ---
+  duration_ms: 4.4774
+  type: 'test'
+  ...
+# Subtest: audit role matrix admin forbidden GET /api/student/pdf-materials/:assignmentId/access-url
+ok 237 - audit role matrix admin forbidden GET /api/student/pdf-materials/:assignmentId/access-url
+  ---
+  duration_ms: 0.9323
+  type: 'test'
+  ...
+# Subtest: audit role matrix teacher forbidden GET /api/student/pdf-materials/:assignmentId/access-url
+ok 238 - audit role matrix teacher forbidden GET /api/student/pdf-materials/:assignmentId/access-url
+  ---
+  duration_ms: 0.6535
+  type: 'test'
+  ...
+# Subtest: audit role matrix parent forbidden GET /api/student/pdf-materials/:assignmentId/access-url
+ok 239 - audit role matrix parent forbidden GET /api/student/pdf-materials/:assignmentId/access-url
+  ---
+  duration_ms: 0.6152
+  type: 'test'
+  ...
+# Subtest: audit parameter matrix GET /api/student/pdf-materials/:assignmentId/access-url rejects invalid UUID
+ok 240 - audit parameter matrix GET /api/student/pdf-materials/:assignmentId/access-url rejects invalid UUID
+  ---
+  duration_ms: 2.1307
+  type: 'test'
+  ...
+# Subtest: audit role matrix admin forbidden GET /api/student/pdf-reading/:assignmentId
+ok 241 - audit role matrix admin forbidden GET /api/student/pdf-reading/:assignmentId
+  ---
+  duration_ms: 1.0084
+  type: 'test'
+  ...
+# Subtest: audit role matrix teacher forbidden GET /api/student/pdf-reading/:assignmentId
+ok 242 - audit role matrix teacher forbidden GET /api/student/pdf-reading/:assignmentId
+  ---
+  duration_ms: 0.7225
+  type: 'test'
+  ...
+# Subtest: audit role matrix parent forbidden GET /api/student/pdf-reading/:assignmentId
+ok 243 - audit role matrix parent forbidden GET /api/student/pdf-reading/:assignmentId
+  ---
+  duration_ms: 0.8397
+  type: 'test'
+  ...
+# Subtest: audit parameter matrix GET /api/student/pdf-reading/:assignmentId rejects invalid UUID
+ok 244 - audit parameter matrix GET /api/student/pdf-reading/:assignmentId rejects invalid UUID
+  ---
+  duration_ms: 3.8981
+  type: 'test'
+  ...
+# Subtest: audit role matrix admin forbidden POST /api/student/pdf-reading/attempt
+ok 245 - audit role matrix admin forbidden POST /api/student/pdf-reading/attempt
+  ---
+  duration_ms: 4.6781
+  type: 'test'
+  ...
+# Subtest: audit role matrix teacher forbidden POST /api/student/pdf-reading/attempt
+ok 246 - audit role matrix teacher forbidden POST /api/student/pdf-reading/attempt
+  ---
+  duration_ms: 1.3233
+  type: 'test'
+  ...
+# Subtest: audit role matrix parent forbidden POST /api/student/pdf-reading/attempt
+ok 247 - audit role matrix parent forbidden POST /api/student/pdf-reading/attempt
+  ---
+  duration_ms: 0.6847
+  type: 'test'
+  ...
+# Subtest: audit role matrix admin forbidden POST /api/student/pdf-reading/:assignmentId/submit
+ok 248 - audit role matrix admin forbidden POST /api/student/pdf-reading/:assignmentId/submit
+  ---
+  duration_ms: 0.5735
+  type: 'test'
+  ...
+# Subtest: audit role matrix teacher forbidden POST /api/student/pdf-reading/:assignmentId/submit
+ok 249 - audit role matrix teacher forbidden POST /api/student/pdf-reading/:assignmentId/submit
+  ---
+  duration_ms: 0.5694
+  type: 'test'
+  ...
+# Subtest: audit role matrix parent forbidden POST /api/student/pdf-reading/:assignmentId/submit
+ok 250 - audit role matrix parent forbidden POST /api/student/pdf-reading/:assignmentId/submit
+  ---
+  duration_ms: 0.6339
+  type: 'test'
+  ...
+# Subtest: audit parameter matrix POST /api/student/pdf-reading/:assignmentId/submit rejects invalid UUID
+ok 251 - audit parameter matrix POST /api/student/pdf-reading/:assignmentId/submit rejects invalid UUID
+  ---
+  duration_ms: 1.5058
+  type: 'test'
+  ...
+# Subtest: audit role matrix admin forbidden GET /api/student/lessons/:lessonId/access-url
+ok 252 - audit role matrix admin forbidden GET /api/student/lessons/:lessonId/access-url
+  ---
+  duration_ms: 0.9008
+  type: 'test'
+  ...
+# Subtest: audit role matrix teacher forbidden GET /api/student/lessons/:lessonId/access-url
+ok 253 - audit role matrix teacher forbidden GET /api/student/lessons/:lessonId/access-url
+  ---
+  duration_ms: 0.6793
+  type: 'test'
+  ...
+# Subtest: audit role matrix parent forbidden GET /api/student/lessons/:lessonId/access-url
+ok 254 - audit role matrix parent forbidden GET /api/student/lessons/:lessonId/access-url
+  ---
+  duration_ms: 0.9246
+  type: 'test'
+  ...
+# Subtest: audit parameter matrix GET /api/student/lessons/:lessonId/access-url rejects invalid UUID
+ok 255 - audit parameter matrix GET /api/student/lessons/:lessonId/access-url rejects invalid UUID
+  ---
+  duration_ms: 2.9566
+  type: 'test'
+  ...
+# Subtest: audit role matrix admin forbidden POST /api/student/pdf-drill/attempt
+ok 256 - audit role matrix admin forbidden POST /api/student/pdf-drill/attempt
+  ---
+  duration_ms: 0.9051
+  type: 'test'
+  ...
+# Subtest: audit role matrix teacher forbidden POST /api/student/pdf-drill/attempt
+ok 257 - audit role matrix teacher forbidden POST /api/student/pdf-drill/attempt
+  ---
+  duration_ms: 2.4744
+  type: 'test'
+  ...
+# Subtest: audit role matrix parent forbidden POST /api/student/pdf-drill/attempt
+ok 258 - audit role matrix parent forbidden POST /api/student/pdf-drill/attempt
+  ---
+  duration_ms: 0.7243
+  type: 'test'
+  ...
+# Subtest: QA first completed activity awards its badge and first-badge cascade through the atomic RPC
+ok 259 - QA first completed activity awards its badge and first-badge cascade through the atomic RPC
+  ---
+  duration_ms: 22.3874
+  type: 'test'
+  ...
+# Subtest: QA existing badges and unmet thresholds do not reissue awards
+ok 260 - QA existing badges and unmet thresholds do not reissue awards
+  ---
+  duration_ms: 1.9564
+  type: 'test'
+  ...
+# Subtest: QA streak badge threshold unlocks on day seven and preserves prior awards
+ok 261 - QA streak badge threshold unlocks on day seven and preserves prior awards
+  ---
+  duration_ms: 3.537
+  type: 'test'
+  ...
+# Subtest: QA badge storage failures propagate instead of reporting a successful award
+ok 262 - QA badge storage failures propagate instead of reporting a successful award
+  ---
+  duration_ms: 6.779
+  type: 'test'
+  ...
+# Subtest: QA completion loader reads beyond the first database page and stops on the partial page
+ok 263 - QA completion loader reads beyond the first database page and stops on the partial page
+  ---
+  duration_ms: 8.4743
+  type: 'test'
+  ...
+# Subtest: QA completion loader fails on database error without returning a misleading partial report
+ok 264 - QA completion loader fails on database error without returning a misleading partial report
+  ---
+  duration_ms: 1.9553
+  type: 'test'
+  ...
+# Subtest: QA empty reading profiles distinguish missing observations from a measured score
+ok 265 - QA empty reading profiles distinguish missing observations from a measured score
+  ---
+  duration_ms: 18.1545
+  type: 'test'
+  ...
+# Subtest: QA learning promotion denies missing, incomplete, under-threshold and terminal-level paths
+ok 266 - QA learning promotion denies missing, incomplete, under-threshold and terminal-level paths
+  ---
+  duration_ms: 4.2244
+  type: 'test'
+  ...
+# Subtest: staging role smoke checks
+ok 267 - staging role smoke checks # SKIP
+  ---
+  duration_ms: 7.9146
+  type: 'test'
+  ...
+# Subtest: staging Supabase RLS isolation checks
+ok 268 - staging Supabase RLS isolation checks # SKIP
+  ---
+  duration_ms: 0.9958
+  type: 'test'
+  ...
+# Subtest: ElevenLabs receives explicit Filipino sounds for isolated letter drills
+ok 269 - ElevenLabs receives explicit Filipino sounds for isolated letter drills
+  ---
+  duration_ms: 11.49
+  type: 'test'
+  ...
+# Subtest: isolated Filipino vowels use IPA instead of English letter names
+ok 270 - isolated Filipino vowels use IPA instead of English letter names
+  ---
+  duration_ms: 1.8869
+  type: 'test'
+  ...
+# Subtest: isolated consonants use Filipino letter sounds instead of English names
+ok 271 - isolated consonants use Filipino letter sounds instead of English names
+  ---
+  duration_ms: 4.4165
+  type: 'test'
+  ...
+# Subtest: Filipino SSML spaces clauses, sentences, and paragraphs for processing time
+ok 272 - Filipino SSML spaces clauses, sentences, and paragraphs for processing time
+  ---
+  duration_ms: 6.2576
+  type: 'test'
+  ...
+# Subtest: multi-syllable Filipino words receive the slow-reading classification
+ok 273 - multi-syllable Filipino words receive the slow-reading classification
+  ---
+  duration_ms: 2.1734
+  type: 'test'
+  ...
+# Subtest: reading difficulty advances only after every current-level module is complete at the passing score
+ok 274 - reading difficulty advances only after every current-level module is complete at the passing score
+  ---
+  duration_ms: 13.7963
+  type: 'test'
+  ...
+# Subtest: patched Nodemailer composes a credential-style email locally without SMTP delivery
+ok 275 - patched Nodemailer composes a credential-style email locally without SMTP delivery
+  ---
+  duration_ms: 127.0492
+  type: 'test'
+  ...
+# Subtest: patched Multer preserves memory uploads, file filtering, and size-limit errors over real local HTTP
+ok 276 - patched Multer preserves memory uploads, file filtering, and size-limit errors over real local HTTP
+  ---
+  duration_ms: 581.8934
+  type: 'test'
+  ...
+# Subtest: local HTTP health returns compatibility, security headers, and correlation ID
+ok 277 - local HTTP health returns compatibility, security headers, and correlation ID
+  ---
+  duration_ms: 175.5798
+  type: 'test'
+  ...
+# {"event":"api_response","requestId":"5e88dbd7-828d-4189-9ba0-387e765d397f","method":"GET","route":"unmatched","status":401,"durationMs":11}
+# Subtest: local HTTP admin API rejects anonymous access
+ok 278 - local HTTP admin API rejects anonymous access
+  ---
+  duration_ms: 30.0429
+  type: 'test'
+  ...
+# {"event":"api_response","requestId":"f800e0e3-b53c-46fb-9a1f-f387ee8b7dc8","method":"GET","route":"unmatched","status":401,"durationMs":4}
+# Subtest: local HTTP teacher API rejects anonymous access
+ok 279 - local HTTP teacher API rejects anonymous access
+  ---
+  duration_ms: 15.0151
+  type: 'test'
+  ...
+# {"event":"api_response","requestId":"f4a49415-83b7-40b1-abd7-264f728c6444","method":"GET","route":"unmatched","status":401,"durationMs":3}
+# Subtest: local HTTP parent API rejects anonymous access
+ok 280 - local HTTP parent API rejects anonymous access
+  ---
+  duration_ms: 15.0254
+  type: 'test'
+  ...
+# {"event":"api_response","requestId":"b38916c3-bdd7-45f1-a96a-3dafae725091","method":"GET","route":"unmatched","status":401,"durationMs":3}
+# Subtest: local HTTP student API rejects anonymous access
+ok 281 - local HTTP student API rejects anonymous access
+  ---
+  duration_ms: 15.2742
+  type: 'test'
+  ...
+# {"event":"api_response","requestId":"03cd6982-dbb5-434a-8753-eac006314dc3","method":"GET","route":"unmatched","status":401,"durationMs":4}
+# Subtest: local HTTP notifications API rejects anonymous access
+ok 282 - local HTTP notifications API rejects anonymous access
+  ---
+  duration_ms: 14.6962
+  type: 'test'
+  ...
+# {"event":"api_response","requestId":"c25eb930-6fb4-44c0-b833-11a4033fcb9e","method":"POST","route":"/events","status":401,"durationMs":4}
+# Subtest: local HTTP auth API rejects anonymous access
+ok 283 - local HTTP auth API rejects anonymous access
+  ---
+  duration_ms: 23.3392
+  type: 'test'
+  ...
+# {"event":"api_response","requestId":"a4351386-a79e-4c9b-bf78-7b2f5683ead3","method":"POST","route":"unmatched","status":401,"durationMs":3}
+# Subtest: local HTTP TTS rejects anonymous synthesis before service use
+ok 284 - local HTTP TTS rejects anonymous synthesis before service use
+  ---
+  duration_ms: 80.2617
+  type: 'test'
+  ...
+# Subtest: local HTTP CORS exposes version headers to the configured frontend
+ok 285 - local HTTP CORS exposes version headers to the configured frontend
+  ---
+  duration_ms: 20.5611
+  type: 'test'
+  ...
+# Subtest: local HTTP CORS denies unapproved origins
+ok 286 - local HTTP CORS denies unapproved origins
+  ---
+  duration_ms: 10.9062
+  type: 'test'
+  ...
+# Subtest: local HTTP handles malformed and oversized JSON with client errors
+ok 287 - local HTTP handles malformed and oversized JSON with client errors
+  ---
+  duration_ms: 53.7579
+  type: 'test'
+  ...
+# {"event":"api_response","requestId":"31fbb45a-92b7-4398-bd90-afbb4c5d1fc3","method":"GET","route":"unmatched","status":404,"durationMs":3}
+# Subtest: local HTTP returns a JSON 404 for an unknown endpoint
+ok 288 - local HTTP returns a JSON 404 for an unknown endpoint
+  ---
+  duration_ms: 16.0634
+  type: 'test'
+  ...
+# {"event":"api_response","requestId":"2ac35576-b9fd-4f78-85b5-641d59b3735e","method":"GET","route":"unmatched","status":401,"durationMs":3}
+# Subtest: local HTTP endpoint matrix GET /api/admin/operations denies anonymous
+ok 289 - local HTTP endpoint matrix GET /api/admin/operations denies anonymous
+  ---
+  duration_ms: 17.2593
+  type: 'test'
+  ...
+# {"event":"api_response","requestId":"00286740-269f-4cc1-a52b-7bc5146d50fb","method":"GET","route":"unmatched","status":401,"durationMs":2}
+# Subtest: local HTTP endpoint matrix GET /api/admin/audit-logs denies anonymous
+ok 290 - local HTTP endpoint matrix GET /api/admin/audit-logs denies anonymous
+  ---
+  duration_ms: 8.7358
+  type: 'test'
+  ...
+# {"event":"api_response","requestId":"33a9ad64-aa33-45c7-a4fe-9190b92d8a73","method":"GET","route":"unmatched","status":401,"durationMs":2}
+# Subtest: local HTTP endpoint matrix GET /api/admin/monitoring/users denies anonymous
+ok 291 - local HTTP endpoint matrix GET /api/admin/monitoring/users denies anonymous
+  ---
+  duration_ms: 9.6015
+  type: 'test'
+  ...
+# {"event":"api_response","requestId":"294eb31e-ff0a-45e2-9154-d3d34e4690e9","method":"GET","route":"unmatched","status":401,"durationMs":1}
+# Subtest: local HTTP endpoint matrix GET /api/admin/monitoring/users/:id denies anonymous
+ok 292 - local HTTP endpoint matrix GET /api/admin/monitoring/users/:id denies anonymous
+  ---
+  duration_ms: 8.3595
+  type: 'test'
+  ...
+# {"event":"api_response","requestId":"c65fe8e9-000d-4a0d-ac4a-e15adb73cda3","method":"GET","route":"unmatched","status":401,"durationMs":4}
+# Subtest: local HTTP endpoint matrix GET /api/admin/monitoring/users/:id/notes denies anonymous
+ok 293 - local HTTP endpoint matrix GET /api/admin/monitoring/users/:id/notes denies anonymous
+  ---
+  duration_ms: 12.4582
+  type: 'test'
+  ...
+# {"event":"api_response","requestId":"e5f3c859-0802-4e0f-a469-4e1c44c8e229","method":"POST","route":"unmatched","status":401,"durationMs":2}
+# Subtest: local HTTP endpoint matrix POST /api/admin/monitoring/users/:id/notes denies anonymous
+ok 294 - local HTTP endpoint matrix POST /api/admin/monitoring/users/:id/notes denies anonymous
+  ---
+  duration_ms: 10.8949
+  type: 'test'
+  ...
+# {"event":"api_response","requestId":"d936efca-ace3-4a8c-a86c-a57877768dd3","method":"DELETE","route":"unmatched","status":401,"durationMs":2}
+# Subtest: local HTTP endpoint matrix DELETE /api/admin/monitoring/users/:id/notes/:noteId denies anonymous
+ok 295 - local HTTP endpoint matrix DELETE /api/admin/monitoring/users/:id/notes/:noteId denies anonymous
+  ---
+  duration_ms: 18.7164
+  type: 'test'
+  ...
+# {"event":"api_response","requestId":"2a744778-75fb-40fa-8261-e9cf527e88b3","method":"GET","route":"unmatched","status":401,"durationMs":2}
+# Subtest: local HTTP endpoint matrix GET /api/admin/users denies anonymous
+ok 296 - local HTTP endpoint matrix GET /api/admin/users denies anonymous
+  ---
+  duration_ms: 13.2048
+  type: 'test'
+  ...
+# {"event":"api_response","requestId":"e05e0482-958e-4e6d-9c58-21ab0940b136","method":"GET","route":"unmatched","status":401,"durationMs":2}
+# Subtest: local HTTP endpoint matrix GET /api/admin/users/archived denies anonymous
+ok 297 - local HTTP endpoint matrix GET /api/admin/users/archived denies anonymous
+  ---
+  duration_ms: 11.5536
+  type: 'test'
+  ...
+# {"event":"api_response","requestId":"381f2e00-b8df-4f6a-adbe-31af7753fc4b","method":"GET","route":"unmatched","status":401,"durationMs":2}
+# Subtest: local HTTP endpoint matrix GET /api/admin/credential-security denies anonymous
+ok 298 - local HTTP endpoint matrix GET /api/admin/credential-security denies anonymous
+  ---
+  duration_ms: 7.113
+  type: 'test'
+  ...
+# {"event":"api_response","requestId":"2ee19082-9be6-42f3-a9bf-c851d46c6e74","method":"GET","route":"unmatched","status":401,"durationMs":1}
+# Subtest: local HTTP endpoint matrix GET /api/admin/storage-readiness denies anonymous
+ok 299 - local HTTP endpoint matrix GET /api/admin/storage-readiness denies anonymous
+  ---
+  duration_ms: 5.3999
+  type: 'test'
+  ...
+# {"event":"api_response","requestId":"4d81727a-6cf0-41e8-b226-3dd8b31ea56b","method":"POST","route":"unmatched","status":401,"durationMs":2}
+# Subtest: local HTTP endpoint matrix POST /api/admin/users/:id/disable denies anonymous
+ok 300 - local HTTP endpoint matrix POST /api/admin/users/:id/disable denies anonymous
+  ---
+  duration_ms: 16.5551
+  type: 'test'
+  ...
+# {"event":"api_response","requestId":"2bdeef19-6f66-4f73-8e53-6cbff5c7e8ae","method":"POST","route":"unmatched","status":401,"durationMs":1}
+# Subtest: local HTTP endpoint matrix POST /api/admin/users/:id/restore denies anonymous
+ok 301 - local HTTP endpoint matrix POST /api/admin/users/:id/restore denies anonymous
+  ---
+  duration_ms: 9.2728
+  type: 'test'
+  ...
+# {"event":"api_response","requestId":"47270035-4d8d-4ccb-88d5-a64d580529e1","method":"POST","route":"unmatched","status":401,"durationMs":2}
+# Subtest: local HTTP endpoint matrix POST /api/admin/users/:id/archive denies anonymous
+ok 302 - local HTTP endpoint matrix POST /api/admin/users/:id/archive denies anonymous
+  ---
+  duration_ms: 7.0833
+  type: 'test'
+  ...
+# {"event":"api_response","requestId":"b24dc449-a80d-40b6-8998-fa3b689e3959","method":"DELETE","route":"unmatched","status":401,"durationMs":2}
+# Subtest: local HTTP endpoint matrix DELETE /api/admin/users/:id denies anonymous
+ok 303 - local HTTP endpoint matrix DELETE /api/admin/users/:id denies anonymous
+  ---
+  duration_ms: 12.2597
+  type: 'test'
+  ...
+# {"event":"api_response","requestId":"46c1cf69-c324-4859-8153-c0c0ed50b79e","method":"POST","route":"unmatched","status":401,"durationMs":2}
+# Subtest: local HTTP endpoint matrix POST /api/admin/teachers denies anonymous
+ok 304 - local HTTP endpoint matrix POST /api/admin/teachers denies anonymous
+  ---
+  duration_ms: 10.0374
+  type: 'test'
+  ...
+# {"event":"api_response","requestId":"522cefe5-e922-467b-ae14-8681c289feb9","method":"GET","route":"unmatched","status":401,"durationMs":2}
+# Subtest: local HTTP endpoint matrix GET /api/admin/sections denies anonymous
+ok 305 - local HTTP endpoint matrix GET /api/admin/sections denies anonymous
+  ---
+  duration_ms: 9.1292
+  type: 'test'
+  ...
+# {"event":"api_response","requestId":"9d916f04-1606-4eaf-a3b3-c55f571a5fd7","method":"POST","route":"unmatched","status":401,"durationMs":1}
+# Subtest: local HTTP endpoint matrix POST /api/admin/sections denies anonymous
+ok 306 - local HTTP endpoint matrix POST /api/admin/sections denies anonymous
+  ---
+  duration_ms: 14.1201
+  type: 'test'
+  ...
+# {"event":"api_response","requestId":"edbf26a8-9aba-467a-8e91-be15df5b7770","method":"GET","route":"unmatched","status":401,"durationMs":2}
+# Subtest: local HTTP endpoint matrix GET /api/admin/sections/:id/students denies anonymous
+ok 307 - local HTTP endpoint matrix GET /api/admin/sections/:id/students denies anonymous
+  ---
+  duration_ms: 6.6974
+  type: 'test'
+  ...
+# {"event":"api_response","requestId":"470ea9ba-8375-4c22-b598-608816d1d7fc","method":"POST","route":"unmatched","status":401,"durationMs":1}
+# Subtest: local HTTP endpoint matrix POST /api/admin/sections/:id/students denies anonymous
+ok 308 - local HTTP endpoint matrix POST /api/admin/sections/:id/students denies anonymous
+  ---
+  duration_ms: 6.612
+  type: 'test'
+  ...
+# {"event":"api_response","requestId":"bd837cab-fefa-44f1-a4f6-db252cd3a1d5","method":"GET","route":"unmatched","status":401,"durationMs":2}
+# Subtest: local HTTP endpoint matrix GET /api/admin/analytics/students denies anonymous
+ok 309 - local HTTP endpoint matrix GET /api/admin/analytics/students denies anonymous
+  ---
+  duration_ms: 9.0309
+  type: 'test'
+  ...
+# {"event":"api_response","requestId":"d8339012-cab0-43a2-ae19-aa1c36918958","method":"GET","route":"unmatched","status":401,"durationMs":1}
+# Subtest: local HTTP endpoint matrix GET /api/admin/analytics denies anonymous
+ok 310 - local HTTP endpoint matrix GET /api/admin/analytics denies anonymous
+  ---
+  duration_ms: 7.6844
+  type: 'test'
+  ...
+# {"event":"api_response","requestId":"5c70ea5e-7957-47f1-a99b-1cc4ccaa2155","method":"GET","route":"unmatched","status":401,"durationMs":2}
+# Subtest: local HTTP endpoint matrix GET /api/admin/system-settings denies anonymous
+ok 311 - local HTTP endpoint matrix GET /api/admin/system-settings denies anonymous
+  ---
+  duration_ms: 7.8892
+  type: 'test'
+  ...
+# {"event":"api_response","requestId":"13ac3ad5-ad50-4f7d-a990-9676f1737274","method":"PATCH","route":"unmatched","status":401,"durationMs":2}
+# Subtest: local HTTP endpoint matrix PATCH /api/admin/system-settings denies anonymous
+ok 312 - local HTTP endpoint matrix PATCH /api/admin/system-settings denies anonymous
+  ---
+  duration_ms: 7.9011
+  type: 'test'
+  ...
+# {"event":"api_response","requestId":"c9f90966-f9f5-4246-b6a0-00ccbfa0db86","method":"GET","route":"unmatched","status":401,"durationMs":2}
+# Subtest: local HTTP endpoint matrix GET /api/teacher/students/:studentId/modules denies anonymous
+ok 313 - local HTTP endpoint matrix GET /api/teacher/students/:studentId/modules denies anonymous
+  ---
+  duration_ms: 6.7302
+  type: 'test'
+  ...
+# {"event":"api_response","requestId":"2b9d2230-29a1-4ba4-abec-1f871cca4414","method":"POST","route":"unmatched","status":401,"durationMs":3}
+# Subtest: local HTTP endpoint matrix POST /api/teacher/pdf denies anonymous
+ok 314 - local HTTP endpoint matrix POST /api/teacher/pdf denies anonymous
+  ---
+  duration_ms: 12.6533
+  type: 'test'
+  ...
+# {"event":"api_response","requestId":"002ceef7-8411-4dee-9fb0-c9ce36cc80c5","method":"GET","route":"unmatched","status":401,"durationMs":2}
+# Subtest: local HTTP endpoint matrix GET /api/teacher/pdf/:id/access-url denies anonymous
+ok 315 - local HTTP endpoint matrix GET /api/teacher/pdf/:id/access-url denies anonymous
+  ---
+  duration_ms: 6.3909
+  type: 'test'
+  ...
+# {"event":"api_response","requestId":"1884d216-cdfd-4d06-8aee-e11978bbf18b","method":"GET","route":"unmatched","status":401,"durationMs":2}
+# Subtest: local HTTP endpoint matrix GET /api/teacher/lessons/:id/access-url denies anonymous
+ok 316 - local HTTP endpoint matrix GET /api/teacher/lessons/:id/access-url denies anonymous
+  ---
+  duration_ms: 5.7694
+  type: 'test'
+  ...
+# {"event":"api_response","requestId":"589eed67-4bae-40e5-85c2-5ceb5651f261","method":"PATCH","route":"unmatched","status":401,"durationMs":1}
+# Subtest: local HTTP endpoint matrix PATCH /api/teacher/pdf/:id denies anonymous
+ok 317 - local HTTP endpoint matrix PATCH /api/teacher/pdf/:id denies anonymous
+  ---
+  duration_ms: 7.1792
+  type: 'test'
+  ...
+# {"event":"api_response","requestId":"82b0ae09-1bce-4c96-ad5e-099c0278d57d","method":"POST","route":"unmatched","status":401,"durationMs":2}
+# Subtest: local HTTP endpoint matrix POST /api/teacher/pdf/:id/archive denies anonymous
+ok 318 - local HTTP endpoint matrix POST /api/teacher/pdf/:id/archive denies anonymous
+  ---
+  duration_ms: 7.4071
+  type: 'test'
+  ...
+# {"event":"api_response","requestId":"216ad00c-8c97-407e-9d39-11770981da01","method":"POST","route":"unmatched","status":401,"durationMs":1}
+# Subtest: local HTTP endpoint matrix POST /api/teacher/pdf/:id/unarchive denies anonymous
+ok 319 - local HTTP endpoint matrix POST /api/teacher/pdf/:id/unarchive denies anonymous
+  ---
+  duration_ms: 7.2192
+  type: 'test'
+  ...
+# {"event":"api_response","requestId":"d661cba6-4b98-49a0-9586-4258cd2e994c","method":"POST","route":"unmatched","status":401,"durationMs":1}
+# Subtest: local HTTP endpoint matrix POST /api/teacher/pdf-drill denies anonymous
+ok 320 - local HTTP endpoint matrix POST /api/teacher/pdf-drill denies anonymous
+  ---
+  duration_ms: 7.0621
+  type: 'test'
+  ...
+# {"event":"api_response","requestId":"a67fcf5e-381e-482d-9240-6982c332f260","method":"GET","route":"unmatched","status":401,"durationMs":1}
+# Subtest: local HTTP endpoint matrix GET /api/teacher/pdf-drill/:materialId/items denies anonymous
+ok 321 - local HTTP endpoint matrix GET /api/teacher/pdf-drill/:materialId/items denies anonymous
+  ---
+  duration_ms: 6.2
+  type: 'test'
+  ...
+# {"event":"api_response","requestId":"5852dd0e-69e5-48ba-83a0-eb4b416cf636","method":"PATCH","route":"unmatched","status":401,"durationMs":1}
+# Subtest: local HTTP endpoint matrix PATCH /api/teacher/pdf-drill/:materialId/items denies anonymous
+ok 322 - local HTTP endpoint matrix PATCH /api/teacher/pdf-drill/:materialId/items denies anonymous
+  ---
+  duration_ms: 8.1636
+  type: 'test'
+  ...
+# {"event":"api_response","requestId":"f07cf6c1-c01d-4114-9aa2-22dd8707325d","method":"POST","route":"unmatched","status":401,"durationMs":1}
+# Subtest: local HTTP endpoint matrix POST /api/teacher/pdf-drill/:materialId/publish denies anonymous
+ok 323 - local HTTP endpoint matrix POST /api/teacher/pdf-drill/:materialId/publish denies anonymous
+  ---
+  duration_ms: 8.4768
+  type: 'test'
+  ...
+# {"event":"api_response","requestId":"69147259-892a-455a-bdac-b595b36d752f","method":"GET","route":"unmatched","status":401,"durationMs":2}
+# Subtest: local HTTP endpoint matrix GET /api/parent/children/credential-security denies anonymous
+ok 324 - local HTTP endpoint matrix GET /api/parent/children/credential-security denies anonymous
+  ---
+  duration_ms: 7.6467
+  type: 'test'
+  ...
+# {"event":"api_response","requestId":"6ab0f296-e05f-4113-85cd-74342d9a450e","method":"GET","route":"unmatched","status":401,"durationMs":1}
+# Subtest: local HTTP endpoint matrix GET /api/parent/children denies anonymous
+ok 325 - local HTTP endpoint matrix GET /api/parent/children denies anonymous
+  ---
+  duration_ms: 5.3802
+  type: 'test'
+  ...
+# {"event":"api_response","requestId":"df51f97f-23e2-49bf-adb5-49de1c31b2a5","method":"POST","route":"unmatched","status":401,"durationMs":1}
+# Subtest: local HTTP endpoint matrix POST /api/parent/children denies anonymous
+ok 326 - local HTTP endpoint matrix POST /api/parent/children denies anonymous
+  ---
+  duration_ms: 6.6101
+  type: 'test'
+  ...
+# {"event":"api_response","requestId":"ae212b8a-6da9-45d9-b192-10d51d9866b4","method":"POST","route":"unmatched","status":401,"durationMs":2}
+# Subtest: local HTTP endpoint matrix POST /api/parent/children/:id/reading-level denies anonymous
+ok 327 - local HTTP endpoint matrix POST /api/parent/children/:id/reading-level denies anonymous
+  ---
+  duration_ms: 14.221
+  type: 'test'
+  ...
+# {"event":"api_response","requestId":"bd8a12aa-c553-4c01-9503-58587ed86921","method":"GET","route":"unmatched","status":401,"durationMs":2}
+# Subtest: local HTTP endpoint matrix GET /api/parent/children/:id/reading-profile denies anonymous
+ok 328 - local HTTP endpoint matrix GET /api/parent/children/:id/reading-profile denies anonymous
+  ---
+  duration_ms: 11.1628
+  type: 'test'
+  ...
+# {"event":"api_response","requestId":"85c05220-5b34-4a7b-9d48-0b4e0bc37350","method":"GET","route":"unmatched","status":401,"durationMs":2}
+# Subtest: local HTTP endpoint matrix GET /api/parent/children/:id/learning-path denies anonymous
+ok 329 - local HTTP endpoint matrix GET /api/parent/children/:id/learning-path denies anonymous
+  ---
+  duration_ms: 8.2373
+  type: 'test'
+  ...
+# {"event":"api_response","requestId":"15f2dbd4-7198-473c-add0-85cc5ff19278","method":"GET","route":"unmatched","status":401,"durationMs":2}
+# Subtest: local HTTP endpoint matrix GET /api/parent/children/:id/materials denies anonymous
+ok 330 - local HTTP endpoint matrix GET /api/parent/children/:id/materials denies anonymous
+  ---
+  duration_ms: 14.9671
+  type: 'test'
+  ...
+# {"event":"api_response","requestId":"d2ee5cf6-3777-4a66-8114-72b763c9ef3d","method":"GET","route":"unmatched","status":401,"durationMs":2}
+# Subtest: local HTTP endpoint matrix GET /api/parent/children/:id/materials/:assignmentId/access-url denies anonymous
+ok 331 - local HTTP endpoint matrix GET /api/parent/children/:id/materials/:assignmentId/access-url denies anonymous
+  ---
+  duration_ms: 7.7951
+  type: 'test'
+  ...
+# {"event":"api_response","requestId":"2dcebc0d-94c9-4c22-84df-265898cee896","method":"GET","route":"unmatched","status":401,"durationMs":2}
+# Subtest: local HTTP endpoint matrix GET /api/parent/children/:id/settings denies anonymous
+ok 332 - local HTTP endpoint matrix GET /api/parent/children/:id/settings denies anonymous
+  ---
+  duration_ms: 7.0404
+  type: 'test'
+  ...
+# {"event":"api_response","requestId":"1781dd2a-a05b-4c07-a285-73566c0bbac0","method":"PATCH","route":"unmatched","status":401,"durationMs":2}
+# Subtest: local HTTP endpoint matrix PATCH /api/parent/children/:id/settings denies anonymous
+ok 333 - local HTTP endpoint matrix PATCH /api/parent/children/:id/settings denies anonymous
+  ---
+  duration_ms: 8.2352
+  type: 'test'
+  ...
+# {"event":"api_response","requestId":"244d7d11-cfec-40d3-b500-09f7fe42c7ef","method":"POST","route":"unmatched","status":401,"durationMs":2}
+# Subtest: local HTTP endpoint matrix POST /api/parent/children/:id/reset-password denies anonymous
+ok 334 - local HTTP endpoint matrix POST /api/parent/children/:id/reset-password denies anonymous
+  ---
+  duration_ms: 8.1968
+  type: 'test'
+  ...
+# {"event":"api_response","requestId":"a541b7fc-f1bb-4927-a832-5d0c4ce938f8","method":"POST","route":"unmatched","status":401,"durationMs":2}
+# Subtest: local HTTP endpoint matrix POST /api/student/notify-login denies anonymous
+ok 335 - local HTTP endpoint matrix POST /api/student/notify-login denies anonymous
+  ---
+  duration_ms: 9.4896
+  type: 'test'
+  ...
+# {"event":"api_response","requestId":"c932a423-03a5-4c92-8029-dc3b9682adac","method":"GET","route":"unmatched","status":401,"durationMs":2}
+# Subtest: local HTTP endpoint matrix GET /api/student/learn/path denies anonymous
+ok 336 - local HTTP endpoint matrix GET /api/student/learn/path denies anonymous
+  ---
+  duration_ms: 6.3859
+  type: 'test'
+  ...
+# {"event":"api_response","requestId":"3b6bd32d-b516-42ea-8a15-51fd8d2c884e","method":"GET","route":"unmatched","status":401,"durationMs":1}
+# Subtest: local HTTP endpoint matrix GET /api/student/learn/module/:moduleId denies anonymous
+ok 337 - local HTTP endpoint matrix GET /api/student/learn/module/:moduleId denies anonymous
+  ---
+  duration_ms: 12.4516
+  type: 'test'
+  ...
+# {"event":"api_response","requestId":"5a2a6a72-1f10-4d74-b95f-c4096d61d16b","method":"POST","route":"unmatched","status":401,"durationMs":1}
+# Subtest: local HTTP endpoint matrix POST /api/student/learn/content/:contentId/attempt denies anonymous
+ok 338 - local HTTP endpoint matrix POST /api/student/learn/content/:contentId/attempt denies anonymous
+  ---
+  duration_ms: 8.0673
+  type: 'test'
+  ...
+# {"event":"api_response","requestId":"e2e2ba94-e285-4230-879f-a30694d366d1","method":"POST","route":"unmatched","status":401,"durationMs":2}
+# Subtest: local HTTP endpoint matrix POST /api/student/learn/content/:contentId/authoritative-attempt denies anonymous
+ok 339 - local HTTP endpoint matrix POST /api/student/learn/content/:contentId/authoritative-attempt denies anonymous
+  ---
+  duration_ms: 9.5743
+  type: 'test'
+  ...
+# {"event":"api_response","requestId":"c9918c77-7776-4bb6-8768-4620ed9177f8","method":"POST","route":"unmatched","status":401,"durationMs":2}
+# Subtest: local HTTP endpoint matrix POST /api/student/learn/assessment/:assessmentId/start denies anonymous
+ok 340 - local HTTP endpoint matrix POST /api/student/learn/assessment/:assessmentId/start denies anonymous
+  ---
+  duration_ms: 9.3196
+  type: 'test'
+  ...
+# {"event":"api_response","requestId":"410d1e4a-06c2-4b6d-8fb2-10366b98026c","method":"POST","route":"unmatched","status":401,"durationMs":1}
+# Subtest: local HTTP endpoint matrix POST /api/student/learn/assessment/:attemptId/submit denies anonymous
+ok 341 - local HTTP endpoint matrix POST /api/student/learn/assessment/:attemptId/submit denies anonymous
+  ---
+  duration_ms: 8.3974
+  type: 'test'
+  ...
+# {"event":"api_response","requestId":"39477aec-1401-4c07-ae8a-5b4a1797f95a","method":"GET","route":"unmatched","status":401,"durationMs":2}
+# Subtest: local HTTP endpoint matrix GET /api/student/learn/module/:moduleId/nonsense-check denies anonymous
+ok 342 - local HTTP endpoint matrix GET /api/student/learn/module/:moduleId/nonsense-check denies anonymous
+  ---
+  duration_ms: 7.9167
+  type: 'test'
+  ...
+# {"event":"api_response","requestId":"1cdf8b07-3784-46bf-9d0c-a73bf0e8b305","method":"POST","route":"unmatched","status":401,"durationMs":2}
+# Subtest: local HTTP endpoint matrix POST /api/student/learn/module/:moduleId/nonsense-check/submit denies anonymous
+ok 343 - local HTTP endpoint matrix POST /api/student/learn/module/:moduleId/nonsense-check/submit denies anonymous
+  ---
+  duration_ms: 7.8861
+  type: 'test'
+  ...
+# {"event":"api_response","requestId":"901342b6-f10f-4c19-b66f-4e6961a93436","method":"GET","route":"unmatched","status":401,"durationMs":2}
+# Subtest: local HTTP endpoint matrix GET /api/student/learn/module/:moduleId/challenge-words denies anonymous
+ok 344 - local HTTP endpoint matrix GET /api/student/learn/module/:moduleId/challenge-words denies anonymous
+  ---
+  duration_ms: 5.8174
+  type: 'test'
+  ...
+# {"event":"api_response","requestId":"23944487-a2b3-4fd0-a30d-8edc8f56620e","method":"POST","route":"unmatched","status":401,"durationMs":1}
+# Subtest: local HTTP endpoint matrix POST /api/student/learn/module/:moduleId/equip denies anonymous
+ok 345 - local HTTP endpoint matrix POST /api/student/learn/module/:moduleId/equip denies anonymous
+  ---
+  duration_ms: 7.3839
+  type: 'test'
+  ...
+# {"event":"api_response","requestId":"a532a700-bcc9-40e3-8b75-bd2463dbea21","method":"POST","route":"unmatched","status":401,"durationMs":1}
+# Subtest: local HTTP endpoint matrix POST /api/student/learn/module/:moduleId/unequip denies anonymous
+ok 346 - local HTTP endpoint matrix POST /api/student/learn/module/:moduleId/unequip denies anonymous
+  ---
+  duration_ms: 6.5439
+  type: 'test'
+  ...
+# {"event":"api_response","requestId":"fb7bbf4b-3d1b-4630-8965-10d6d26c10af","method":"GET","route":"unmatched","status":401,"durationMs":1}
+# Subtest: local HTTP endpoint matrix GET /api/student/reading-profile denies anonymous
+ok 347 - local HTTP endpoint matrix GET /api/student/reading-profile denies anonymous
+  ---
+  duration_ms: 4.602
+  type: 'test'
+  ...
+# {"event":"api_response","requestId":"8c777fac-f668-45a8-97d7-54ffa459deb5","method":"POST","route":"unmatched","status":401,"durationMs":1}
+# Subtest: local HTTP endpoint matrix POST /api/student/practice/attempt denies anonymous
+ok 348 - local HTTP endpoint matrix POST /api/student/practice/attempt denies anonymous
+  ---
+  duration_ms: 5.5074
+  type: 'test'
+  ...
+# {"event":"api_response","requestId":"7cf19a36-602e-4afe-8384-0697490722ac","method":"POST","route":"unmatched","status":401,"durationMs":1}
+# Subtest: local HTTP endpoint matrix POST /api/student/word-of-day/attempt denies anonymous
+ok 349 - local HTTP endpoint matrix POST /api/student/word-of-day/attempt denies anonymous
+  ---
+  duration_ms: 6.4809
+  type: 'test'
+  ...
+# {"event":"api_response","requestId":"da92a71c-4603-475f-8128-673f6034496f","method":"GET","route":"unmatched","status":401,"durationMs":2}
+# Subtest: local HTTP endpoint matrix GET /api/student/pdf-drill/:assignmentId denies anonymous
+ok 350 - local HTTP endpoint matrix GET /api/student/pdf-drill/:assignmentId denies anonymous
+  ---
+  duration_ms: 12.5714
+  type: 'test'
+  ...
+# {"event":"api_response","requestId":"fff9eeb8-dd1e-47cc-b336-f0a41c1e09df","method":"GET","route":"unmatched","status":401,"durationMs":1}
+# Subtest: local HTTP endpoint matrix GET /api/student/pdf-materials/:assignmentId/access-url denies anonymous
+ok 351 - local HTTP endpoint matrix GET /api/student/pdf-materials/:assignmentId/access-url denies anonymous
+  ---
+  duration_ms: 5.9762
+  type: 'test'
+  ...
+# {"event":"api_response","requestId":"08f4db20-f778-4690-a7ee-c87131a2f7e1","method":"GET","route":"unmatched","status":401,"durationMs":1}
+# Subtest: local HTTP endpoint matrix GET /api/student/pdf-reading/:assignmentId denies anonymous
+ok 352 - local HTTP endpoint matrix GET /api/student/pdf-reading/:assignmentId denies anonymous
+  ---
+  duration_ms: 5.472
+  type: 'test'
+  ...
+# {"event":"api_response","requestId":"b458a427-9abb-4ca0-9776-89187982ad17","method":"POST","route":"unmatched","status":401,"durationMs":1}
+# Subtest: local HTTP endpoint matrix POST /api/student/pdf-reading/attempt denies anonymous
+ok 353 - local HTTP endpoint matrix POST /api/student/pdf-reading/attempt denies anonymous
+  ---
+  duration_ms: 5.9742
+  type: 'test'
+  ...
+# {"event":"api_response","requestId":"6adc64a8-268f-4039-86f7-6b19a9f163ac","method":"POST","route":"unmatched","status":401,"durationMs":1}
+# Subtest: local HTTP endpoint matrix POST /api/student/pdf-reading/:assignmentId/submit denies anonymous
+ok 354 - local HTTP endpoint matrix POST /api/student/pdf-reading/:assignmentId/submit denies anonymous
+  ---
+  duration_ms: 4.898
+  type: 'test'
+  ...
+# {"event":"api_response","requestId":"7937cf9d-b7e3-4eaf-8d85-c77fde9f69ff","method":"GET","route":"unmatched","status":401,"durationMs":2}
+# Subtest: local HTTP endpoint matrix GET /api/student/lessons/:lessonId/access-url denies anonymous
+ok 355 - local HTTP endpoint matrix GET /api/student/lessons/:lessonId/access-url denies anonymous
+  ---
+  duration_ms: 6.2998
+  type: 'test'
+  ...
+# {"event":"api_response","requestId":"33708cf1-078e-4251-b067-1fe357b090b2","method":"POST","route":"unmatched","status":401,"durationMs":1}
+# Subtest: local HTTP endpoint matrix POST /api/student/pdf-drill/attempt denies anonymous
+ok 356 - local HTTP endpoint matrix POST /api/student/pdf-drill/attempt denies anonymous
+  ---
+  duration_ms: 6.9047
+  type: 'test'
+  ...
+# {"event":"api_response","requestId":"89f1744b-ef48-424b-b60e-4efffd026f2a","method":"GET","route":"unmatched","status":401,"durationMs":2}
+# Subtest: local HTTP endpoint matrix GET /api/notifications/ denies anonymous
+ok 357 - local HTTP endpoint matrix GET /api/notifications/ denies anonymous
+  ---
+  duration_ms: 6.056
+  type: 'test'
+  ...
+# {"event":"api_response","requestId":"87cd94a3-ab7a-4752-8889-b6679e18663d","method":"POST","route":"unmatched","status":401,"durationMs":1}
+# Subtest: local HTTP endpoint matrix POST /api/notifications/:id/read denies anonymous
+ok 358 - local HTTP endpoint matrix POST /api/notifications/:id/read denies anonymous
+  ---
+  duration_ms: 5.5705
+  type: 'test'
+  ...
+# {"event":"api_response","requestId":"97f589f2-0b67-43a0-a380-70026830edc5","method":"POST","route":"unmatched","status":401,"durationMs":1}
+# Subtest: local HTTP endpoint matrix POST /api/notifications/read-all denies anonymous
+ok 359 - local HTTP endpoint matrix POST /api/notifications/read-all denies anonymous
+  ---
+  duration_ms: 5.5044
+  type: 'test'
+  ...
+# {"event":"api_response","requestId":"c10054da-e450-4a1b-8f7a-d9f476ab61be","method":"POST","route":"/events","status":401,"durationMs":1}
+# Subtest: local HTTP endpoint matrix POST /api/auth/events denies anonymous
+ok 360 - local HTTP endpoint matrix POST /api/auth/events denies anonymous
+  ---
+  duration_ms: 6.1279
+  type: 'test'
+  ...
+# Subtest: parent reference endpoints reject missing authentication and non-parent accounts
+ok 361 - parent reference endpoints reject missing authentication and non-parent accounts
+  ---
+  duration_ms: 1076.0804
+  type: 'test'
+  ...
+# Subtest: parent learning path returns authoritative curriculum counts for an owned child
+ok 362 - parent learning path returns authoritative curriculum counts for an owned child
+  ---
+  duration_ms: 100.11
+  type: 'test'
+  ...
+# Subtest: parent reference endpoints deny another parent before curriculum or material access
+ok 363 - parent reference endpoints deny another parent before curriculum or material access
+  ---
+  duration_ms: 105.6134
+  type: 'test'
+  ...
+# Subtest: parent materials contain only owned, active assignment metadata
+ok 364 - parent materials contain only owned, active assignment metadata
+  ---
+  duration_ms: 136.3012
+  type: 'test'
+  ...
+# Subtest: parent signed material access honors storage metadata and rejects unrelated or archived assignments
+ok 365 - parent signed material access honors storage metadata and rejects unrelated or archived assignments
+  ---
+  duration_ms: 55.5338
+  type: 'test'
+  ...
+# Subtest: parent legacy material access keeps the existing URL fallback
+ok 366 - parent legacy material access keeps the existing URL fallback
+  ---
+  duration_ms: 55.1868
+  type: 'test'
+  ...
+# Subtest: parent reference routes validate child and assignment UUIDs before database access
+ok 367 - parent reference routes validate child and assignment UUIDs before database access
+  ---
+  duration_ms: 57.9137
+  type: 'test'
+  ...
+# Subtest: parent material failures return a safe error without a partial result
+ok 368 - parent material failures return a safe error without a partial result
+  ---
+  duration_ms: 48.226
+  type: 'test'
+  ...
+# Subtest: QA numeric validators reject coercible non-numbers
+ok 369 - QA numeric validators reject coercible non-numbers
+  ---
+  duration_ms: 12.9064
+  type: 'test'
+  ...
+# Subtest: QA authentication handles an upstream rejection with a safe response
+ok 370 - QA authentication handles an upstream rejection with a safe response
+  ---
+  duration_ms: 13.3984
+  type: 'test'
+  ...
+# Subtest: QA authorization handles a rejected role query with a safe response
+ok 371 - QA authorization handles a rejected role query with a safe response
+  ---
+  duration_ms: 3.4506
+  type: 'test'
+  ...
+# Subtest: QA role authorization rejects inactive account {"role":"admin","account_status":"disabled"}
+ok 372 - QA role authorization rejects inactive account {"role":"admin","account_status":"disabled"}
+  ---
+  duration_ms: 1.4949
+  type: 'test'
+  ...
+# Subtest: QA role authorization rejects inactive account {"role":"admin","account_status":"archived"}
+ok 373 - QA role authorization rejects inactive account {"role":"admin","account_status":"archived"}
+  ---
+  duration_ms: 0.8876
+  type: 'test'
+  ...
+# Subtest: QA role authorization rejects inactive account {"role":"teacher","is_active":false}
+ok 374 - QA role authorization rejects inactive account {"role":"teacher","is_active":false}
+  ---
+  duration_ms: 0.7999
+  type: 'test'
+  ...
+# Subtest: QA drill update rejects missing items before any mutation
+ok 375 - QA drill update rejects missing items before any mutation
+  ---
+  duration_ms: 1192.8779
+  type: 'test'
+  ...
+# Subtest: QA drill update rejects non-array items before any mutation
+ok 376 - QA drill update rejects non-array items before any mutation
+  ---
+  duration_ms: 45.9705
+  type: 'test'
+  ...
+# Subtest: QA drill update rejects null item before any mutation
+ok 377 - QA drill update rejects null item before any mutation
+  ---
+  duration_ms: 33.4556
+  type: 'test'
+  ...
+# Subtest: QA drill update rejects zero XP violates SQL constraint before any mutation
+ok 378 - QA drill update rejects zero XP violates SQL constraint before any mutation
+  ---
+  duration_ms: 44.0187
+  type: 'test'
+  ...
+# Subtest: QA drill update rejects invalid ordering before any mutation
+ok 379 - QA drill update rejects invalid ordering before any mutation
+  ---
+  duration_ms: 32.5232
+  type: 'test'
+  ...
+# Subtest: QA assessment null responses produce a validation error instead of 500
+ok 380 - QA assessment null responses produce a validation error instead of 500
+  ---
+  duration_ms: 75.7197
+  type: 'test'
+  ...
+# Subtest: QA replacing a published drill cannot cascade-delete student attempt history
+ok 381 - QA replacing a published drill cannot cascade-delete student attempt history
+  ---
+  duration_ms: 30.8854
+  type: 'test'
+  ...
+# Subtest: QA word-of-day streak uses the Manila day around midnight and year changes
+ok 382 - QA word-of-day streak uses the Manila day around midnight and year changes
+  ---
+  duration_ms: 226.086
+  type: 'test'
+  ...
+# Subtest: QA temporary passwords always have twelve allowed characters, uppercase, and a digit
+ok 383 - QA temporary passwords always have twelve allowed characters, uppercase, and a digit
+  ---
+  duration_ms: 23.3064
+  type: 'test'
+  ...
+# Subtest: QA missing SMTP never logs credential email contents or reports delivery success
+ok 384 - QA missing SMTP never logs credential email contents or reports delivery success
+  ---
+  duration_ms: 14.0439
+  type: 'test'
+  ...
+# Subtest: QA staging guard validates each host and refuses query/path/username tricks
+ok 385 - QA staging guard validates each host and refuses query/path/username tricks
+  ---
+  duration_ms: 8.7497
+  type: 'test'
+  ...
+# Subtest: QA archived assignment access is denied even to the assigned student
+ok 386 - QA archived assignment access is denied even to the assigned student
+  ---
+  duration_ms: 3.0818
+  type: 'test'
+  ...
+# Subtest: credential lockdown migration removes client read policy without deleting legacy rows
+ok 387 - credential lockdown migration removes client read policy without deleting legacy rows
+  ---
+  duration_ms: 42.6899
+  type: 'test'
+  ...
+# Subtest: storage transition migration preserves public URL columns and never privatizes buckets
+ok 388 - storage transition migration preserves public URL columns and never privatizes buckets
+  ---
+  duration_ms: 13.2099
+  type: 'test'
+  ...
+# Subtest: badge reward migration uses a database uniqueness boundary and service-role RPC
+ok 389 - badge reward migration uses a database uniqueness boundary and service-role RPC
+  ---
+  duration_ms: 35.3224
+  type: 'test'
+  ...
+# Subtest: guided PDF reading mutations are removed from the browser RLS surface
+ok 390 - guided PDF reading mutations are removed from the browser RLS surface
+  ---
+  duration_ms: 43.1839
+  type: 'test'
+  ...
+# Subtest: practice-session writes are no longer granted to authenticated browsers
+ok 391 - practice-session writes are no longer granted to authenticated browsers
+  ---
+  duration_ms: 16.8074
+  type: 'test'
+  ...
+# Subtest: nonsense-word issued sets are server-only and scoped to one student/module
+ok 392 - nonsense-word issued sets are server-only and scoped to one student/module
+  ---
+  duration_ms: 13.6893
+  type: 'test'
+  ...
+# Subtest: QA section assignment deduplicates IDs and calls one atomic RPC
+ok 393 - QA section assignment deduplicates IDs and calls one atomic RPC
+  ---
+  duration_ms: 600.9545
+  type: 'test'
+  ...
+# Subtest: QA section assignment rejects empty selections before persistence
+ok 394 - QA section assignment rejects empty selections before persistence
+  ---
+  duration_ms: 46.2321
+  type: 'test'
+  ...
+# Subtest: QA section assignment rejects malformed UUIDs before persistence
+ok 395 - QA section assignment rejects malformed UUIDs before persistence
+  ---
+  duration_ms: 60.9109
+  type: 'test'
+  ...
+# Subtest: QA section assignment returns actionable capacity and missing-section errors
+ok 396 - QA section assignment returns actionable capacity and missing-section errors
+  ---
+  duration_ms: 60.81
+  type: 'test'
+  ...
+# Subtest: QA section assignment reports RPC failure without claiming success or issuing fallback writes
+ok 397 - QA section assignment reports RPC failure without claiming success or issuing fallback writes
+  ---
+  duration_ms: 27.4257
+  type: 'test'
+  ...
+# Subtest: QA section assignment reports concurrent transaction conflicts as retryable
+ok 398 - QA section assignment reports concurrent transaction conflicts as retryable
+  ---
+  duration_ms: 55.9188
+  type: 'test'
+  ...
+# [auth validation] invalid
+# Subtest: PDF validation accepts a structurally plausible PDF
+ok 399 - PDF validation accepts a structurally plausible PDF
+  ---
+  duration_ms: 5.4845
+  type: 'test'
+  ...
+# Subtest: PDF validation rejects spoofed MIME, extension, signature, empty, and truncated files
+ok 400 - PDF validation rejects spoofed MIME, extension, signature, empty, and truncated files
+  ---
+  duration_ms: 1.6551
+  type: 'test'
+  ...
+# Subtest: reading profile keeps progress calculations bounded and flags weak performance
+ok 401 - reading profile keeps progress calculations bounded and flags weak performance
+  ---
+  duration_ms: 14.817
+  type: 'test'
+  ...
+# Subtest: security-critical routes retain authorization and ownership checks
+ok 402 - security-critical routes retain authorization and ownership checks
+  ---
+  duration_ms: 5.6567
+  type: 'test'
+  ...
+# Subtest: admin analytics distinguishes student accounts from child enrollment records
+ok 403 - admin analytics distinguishes student accounts from child enrollment records
+  ---
+  duration_ms: 10.3066
+  type: 'test'
+  ...
+# Subtest: teacher creation generates and emails an email-verification OTP
+ok 404 - teacher creation generates and emails an email-verification OTP
+  ---
+  duration_ms: 3.0983
+  type: 'test'
+  ...
+# Subtest: unconfirmed sign-ins are routed to the email verification screen
+ok 405 - unconfirmed sign-ins are routed to the email verification screen
+  ---
+  duration_ms: 6.4562
+  type: 'test'
+  ...
+# Subtest: bearer and role middleware rejects missing, invalid, and unauthorized sessions
+ok 406 - bearer and role middleware rejects missing, invalid, and unauthorized sessions
+  ---
+  duration_ms: 7.6828
+  type: 'test'
+  ...
+# Subtest: central authorization denies cross-parent, cross-teacher, and cross-student access
+ok 407 - central authorization denies cross-parent, cross-teacher, and cross-student access
+  ---
+  duration_ms: 2.7685
+  type: 'test'
+  ...
+# Subtest: notification ownership and primitive input validation fail closed
+ok 408 - notification ownership and primitive input validation fail closed
+  ---
+  duration_ms: 3.1795
+  type: 'test'
+  ...
+# Subtest: TTS route enforces auth, input bounds, successful synthesis, and per-user rate limits
+ok 409 - TTS route enforces auth, input bounds, successful synthesis, and per-user rate limits
+  ---
+  duration_ms: 691.9023
+  type: 'test'
+  ...
+# Subtest: TTS uses ElevenLabs multilingual speech with a bounded voice speed
+ok 410 - TTS uses ElevenLabs multilingual speech with a bounded voice speed
+  ---
+  duration_ms: 29.6211
+  type: 'test'
+  ...
+# Subtest: TTS uses the configured IPA pronunciation dictionary for letter drills
+ok 411 - TTS uses the configured IPA pronunciation dictionary for letter drills
+  ---
+  duration_ms: 23.609
+  type: 'test'
+  ...
+# Subtest: U drill uses its Filipino sound spelling instead of a voice-specific IPA rule
+ok 412 - U drill uses its Filipino sound spelling instead of a voice-specific IPA rule
+  ---
+  duration_ms: 32.6053
+  type: 'test'
+  ...
+# [tts] pronunciation dictionary unavailable; using fallback { status: 422, requestId: undefined }
+# Subtest: TTS falls back to multilingual speech when a pronunciation dictionary request is rejected
+ok 413 - TTS falls back to multilingual speech when a pronunciation dictionary request is rejected
+  ---
+  duration_ms: 39.0726
+  type: 'test'
+  ...
+# Subtest: material access abstraction supports legacy and short-lived signed URLs
+ok 414 - material access abstraction supports legacy and short-lived signed URLs
+  ---
+  duration_ms: 6.5805
+  type: 'test'
+  ...
+# Subtest: legacy credential reporting is aggregate and never returns credential values
+ok 415 - legacy credential reporting is aggregate and never returns credential values
+  ---
+  duration_ms: 1.404
+  type: 'test'
+  ...
+# Subtest: production configuration validation fails closed without printing secret values
+ok 416 - production configuration validation fails closed without printing secret values
+  ---
+  duration_ms: 1.5368
+  type: 'test'
+  ...
+# Subtest: storage paths are extracted without destroying legacy URLs
+ok 417 - storage paths are extracted without destroying legacy URLs
+  ---
+  duration_ms: 2.7567
+  type: 'test'
+  ...
+# Subtest: speech scoring normalizes casing, punctuation, and diacritics
+ok 418 - speech scoring normalizes casing, punctuation, and diacritics
+  ---
+  duration_ms: 13.7334
+  type: 'test'
+  ...
+# Subtest: speech scoring is deterministic and does not award an empty transcript
+ok 419 - speech scoring is deterministic and does not award an empty transcript
+  ---
+  duration_ms: 7.6203
+  type: 'test'
+  ...
+# Subtest: speech scoring normalizes Filipino punctuation, hyphens, apostrophes, and whitespace
+ok 420 - speech scoring normalizes Filipino punctuation, hyphens, apostrophes, and whitespace
+  ---
+  duration_ms: 5.1014
+  type: 'test'
+  ...
+# Subtest: speech scoring resists simple noise artifacts without accepting wrong Filipino phonemes
+ok 421 - speech scoring resists simple noise artifacts without accepting wrong Filipino phonemes
+  ---
+  duration_ms: 1.8667
+  type: 'test'
+  ...
+1..421
+# tests 421
+# suites 0
+# pass 419
+# fail 0
+# cancelled 0
+# skipped 2
+# todo 0
+# duration_ms 9522.9519

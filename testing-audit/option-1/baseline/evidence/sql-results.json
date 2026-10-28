@@ -1,0 +1,252 @@
+[
+  {
+    "id": "SQL-01",
+    "feature": "Server-issued ticket is stable before submission",
+    "status": "PASS",
+    "actual": "Assertions passed",
+    "scope": "Real disposable PostgreSQL; synthetic schema and identities",
+    "evidence": "sql-results.json"
+  },
+  {
+    "id": "SQL-02",
+    "feature": "Legitimate first completion commits XP, counters, session, badge ledger and receipt together",
+    "status": "PASS",
+    "actual": {
+      "xp": 225,
+      "baseAward": 50,
+      "badgeAwards": [
+        "malinaw_magsalita",
+        "unang_bigkas",
+        "aking_unang_tagumpay"
+      ]
+    },
+    "scope": "Real disposable PostgreSQL; synthetic schema and identities",
+    "evidence": "sql-results.json"
+  },
+  {
+    "id": "SQL-03",
+    "feature": "Identical receipt replay credits zero and returns current counters",
+    "status": "PASS",
+    "actual": "Assertions passed",
+    "scope": "Real disposable PostgreSQL; synthetic schema and identities",
+    "evidence": "sql-results.json"
+  },
+  {
+    "id": "SQL-04",
+    "feature": "Changed replay conflicts without mutation",
+    "status": "PASS",
+    "actual": "Assertions passed",
+    "scope": "Real disposable PostgreSQL; synthetic schema and identities",
+    "evidence": "sql-results.json"
+  },
+  {
+    "id": "SQL-05",
+    "feature": "A foreign learner cannot consume an issued ticket",
+    "status": "PASS",
+    "actual": "Assertions passed",
+    "scope": "Real disposable PostgreSQL; synthetic schema and identities",
+    "evidence": "sql-results.json"
+  },
+  {
+    "id": "SQL-06",
+    "feature": "A forged random event ID is not completion evidence",
+    "status": "PASS",
+    "actual": "Assertions passed",
+    "scope": "Real disposable PostgreSQL; synthetic schema and identities",
+    "evidence": "sql-results.json"
+  },
+  {
+    "id": "SQL-07",
+    "feature": "Fresh event IDs cannot pay again for already completed content",
+    "status": "PASS",
+    "actual": "Assertions passed",
+    "scope": "Real disposable PostgreSQL; synthetic schema and identities",
+    "evidence": "sql-results.json"
+  },
+  {
+    "id": "SQL-08",
+    "feature": "Incorrect answer persists an attempt with zero base XP",
+    "status": "PASS",
+    "actual": "Assertions passed",
+    "scope": "Real disposable PostgreSQL; synthetic schema and identities",
+    "evidence": "sql-results.json"
+  },
+  {
+    "id": "SQL-09",
+    "feature": "Expired unconsumed event rejects; committed receipt remains replayable",
+    "status": "PASS",
+    "actual": "Assertions passed",
+    "scope": "Real disposable PostgreSQL; synthetic schema and identities",
+    "evidence": "sql-results.json"
+  },
+  {
+    "id": "SQL-10",
+    "feature": "Target changed after issue conflicts",
+    "status": "PASS",
+    "actual": "Assertions passed",
+    "scope": "Real disposable PostgreSQL; synthetic schema and identities",
+    "evidence": "sql-results.json"
+  },
+  {
+    "id": "SQL-11",
+    "feature": "Twenty independent PostgreSQL sessions consume the same event exactly once",
+    "status": "PASS",
+    "actual": {
+      "sessions": 20,
+      "newAwards": 1,
+      "baseXp": 50
+    },
+    "scope": "Real disposable PostgreSQL; synthetic schema and identities",
+    "evidence": "sql-results.json"
+  },
+  {
+    "id": "SQL-12",
+    "feature": "Trigger failure on final receipt rolls back XP, counters, completion, sessions and badges; same ticket retry succeeds",
+    "status": "PASS",
+    "actual": "Assertions passed",
+    "scope": "Real disposable PostgreSQL; synthetic schema and identities",
+    "evidence": "sql-results.json"
+  },
+  {
+    "id": "SQL-13",
+    "feature": "anon/authenticated cannot execute award RPCs or write progress evidence",
+    "status": "PASS",
+    "actual": "Assertions passed",
+    "scope": "Real disposable PostgreSQL; synthetic schema and identities",
+    "evidence": "sql-results.json"
+  },
+  {
+    "id": "SQL-14",
+    "feature": "Malformed accuracy and durations fail before any mutation",
+    "status": "PASS",
+    "actual": "Assertions passed",
+    "scope": "Real disposable PostgreSQL; synthetic schema and identities",
+    "evidence": "sql-results.json"
+  },
+  {
+    "id": "SQL-15",
+    "feature": "General events never overwrite WOD streak/date or historical badge/XP",
+    "status": "PASS",
+    "actual": "Assertions passed",
+    "scope": "Real disposable PostgreSQL; synthetic schema and identities",
+    "evidence": "sql-results.json"
+  },
+  {
+    "id": "SQL-16",
+    "feature": "Web practice retains zero base XP while sharing verified counters and badges",
+    "status": "PASS",
+    "actual": "Assertions passed",
+    "scope": "Real disposable PostgreSQL; synthetic schema and identities",
+    "evidence": "sql-results.json"
+  },
+  {
+    "id": "SQL-17",
+    "feature": "Actual authenticated role reads only its own progress and cannot update totals or execute event RPCs",
+    "status": "PASS",
+    "actual": "Assertions passed",
+    "scope": "Real disposable PostgreSQL; synthetic schema and identities",
+    "evidence": "sql-results.json"
+  },
+  {
+    "id": "SQL-18",
+    "feature": "Revision metadata rejects stale snapshots without changing reward history",
+    "status": "PASS",
+    "actual": "Assertions passed",
+    "scope": "Real disposable PostgreSQL; synthetic schema and identities",
+    "evidence": "sql-results.json"
+  },
+  {
+    "id": "SQL-19",
+    "feature": "Bound assessment answers and final submission replay use the existing module transaction",
+    "status": "PASS",
+    "actual": {
+      "score": 100,
+      "completionAwarded": true,
+      "replay": true
+    },
+    "scope": "Real disposable PostgreSQL; synthetic schema and identities",
+    "evidence": "sql-results.json"
+  },
+  {
+    "id": "SQL-20",
+    "feature": "Legacy assessment-source attempts cannot be laundered into verified submissions",
+    "status": "PASS",
+    "actual": "Assertions passed",
+    "scope": "Real disposable PostgreSQL; synthetic schema and identities",
+    "evidence": "sql-results.json"
+  },
+  {
+    "id": "SQL-21",
+    "feature": "New tickets cannot bypass locked module prerequisites",
+    "status": "PASS",
+    "actual": "Assertions passed",
+    "scope": "Real disposable PostgreSQL; synthetic schema and identities",
+    "evidence": "sql-results.json"
+  },
+  {
+    "id": "SQL-22",
+    "feature": "Forced session failure rolls back the existing curriculum transaction and permits exact retry",
+    "status": "PASS",
+    "actual": "Assertions passed",
+    "scope": "Real disposable PostgreSQL; synthetic schema and identities",
+    "evidence": "sql-results.json"
+  },
+  {
+    "id": "SQL-23",
+    "feature": "Forced progress failure rolls back the existing curriculum transaction and permits exact retry",
+    "status": "PASS",
+    "actual": "Assertions passed",
+    "scope": "Real disposable PostgreSQL; synthetic schema and identities",
+    "evidence": "sql-results.json"
+  },
+  {
+    "id": "SQL-24",
+    "feature": "Independent different events and a cooperating additive writer preserve every committed increment",
+    "status": "PASS",
+    "actual": "Assertions passed",
+    "scope": "Real disposable PostgreSQL; synthetic schema and identities",
+    "evidence": "sql-results.json"
+  },
+  {
+    "id": "SQL-25",
+    "feature": "Historical XP, counters and achievement IDs are preserved without duplicate historical badge payment",
+    "status": "PASS",
+    "actual": "Assertions passed",
+    "scope": "Real disposable PostgreSQL; synthetic schema and identities",
+    "evidence": "sql-results.json"
+  },
+  {
+    "id": "SQL-26",
+    "feature": "Actual Express -> server scoring -> PostgreSQL transaction supports legitimate rewards and rejects the original exploit",
+    "status": "PASS",
+    "actual": {
+      "reward": 50,
+      "officialXpAfterTwoAnswers": 175,
+      "attempts": 2,
+      "duplicateReward": 0,
+      "originalExploitStatus": 400,
+      "committedThenDroppedHttpAcknowledgementRecovered": true,
+      "authScope": "fixture identity, not real Supabase JWT"
+    },
+    "scope": "Real disposable PostgreSQL; synthetic schema and identities",
+    "evidence": "sql-results.json"
+  },
+  {
+    "id": "SQL-27",
+    "feature": "A missing progress row initializes its level from official placement without fabricated XP",
+    "status": "PASS",
+    "actual": "Assertions passed",
+    "scope": "Real disposable PostgreSQL; synthetic schema and identities",
+    "evidence": "sql-results.json"
+  },
+  {
+    "id": "SQL-28",
+    "feature": "Authoritative target edits cannot race the validated answer transaction",
+    "status": "PASS",
+    "actual": {
+      "contentEditBlockedUntilAwardCommitted": true
+    },
+    "scope": "Real disposable PostgreSQL; synthetic schema and identities",
+    "evidence": "sql-results.json"
+  }
+]

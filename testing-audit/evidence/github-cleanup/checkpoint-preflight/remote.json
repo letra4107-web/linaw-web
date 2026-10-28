@@ -1,0 +1,7 @@
+{
+  "generatedAt": "2026-10-21T11:49:27.149Z",
+  "operation": "READ-ONLY ls-remote; no remote write",
+  "status": "PASS",
+  "mainObject": "d5fd34e2146c7eadbfeafcf3f4a80b51413b61ee",
+  "matchesPriorAudit": true
+}

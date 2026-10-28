@@ -1,0 +1,12 @@
+{
+  "createdAt": "2026-10-21T15:42:03.787Z",
+  "file": "testing-audit/LINAWLETRA_COPY_PASTE_SCREENSHOT_GUIDE.docx",
+  "modules": 40,
+  "manualScenarios": 96,
+  "automatedRecords": 550,
+  "perScenarioScreenshotGuides": 96,
+  "screenshotPlacementNotes": 96,
+  "tables": 0,
+  "images": 0,
+  "testsRerun": false
+}

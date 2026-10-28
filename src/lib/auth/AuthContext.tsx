@@ -26,6 +26,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [error, setError] = useState<string | null>(null);
   const [retryCount, setRetryCount] = useState(0);
   const activeUserId = useRef<string | null>(null);
+  const identityVersion = useRef(0);
 
   // Query keys are intentionally narrow within a role, but React Query's
   // in-memory cache is shared by the whole browser application. Clear it at
@@ -33,34 +34,45 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   // briefly render another person's private data before its new query resolves.
   const transitionSession = useCallback((nextSession: Session | null) => {
     const nextUserId = nextSession?.user.id ?? null;
-    if (activeUserId.current !== nextUserId) queryClient.clear();
+    if (activeUserId.current !== nextUserId) {
+      queryClient.clear();
+      identityVersion.current += 1;
+      setIdentity(null);
+    }
     activeUserId.current = nextUserId;
     setSession(nextSession);
   }, [queryClient]);
 
   const loadIdentity = async (user: User | null): Promise<ResolvedIdentity | null> => {
+    const version = ++identityVersion.current;
     if (!user) {
       setIdentity(null);
       return null;
     }
     const resolved = await resolveRole(user);
+    // A slower request for the previous account must never replace the current
+    // identity after a profile switch or logout.
+    if (version !== identityVersion.current || activeUserId.current !== user.id) return null;
     setIdentity(resolved);
     return resolved;
   };
 
   useEffect(() => {
     let mounted = true;
+    let initialVersion = identityVersion.current;
 
     setError(null);
     supabase.auth.getSession().then(({ data, error: sessionError }) => {
-      if (!mounted) return;
+      if (!mounted || initialVersion !== identityVersion.current) return;
       if (sessionError) throw sessionError;
       transitionSession(data.session);
-      return loadIdentity(data.session?.user ?? null);
+      const pending = loadIdentity(data.session?.user ?? null);
+      initialVersion = identityVersion.current;
+      return pending;
     }).catch(() => {
-      if (mounted) setError('Hindi ma-load ang account ngayon. Pakisubukan muli.');
+      if (mounted && initialVersion === identityVersion.current) setError('Hindi ma-load ang account ngayon. Pakisubukan muli.');
     }).finally(() => {
-      if (mounted) setLoading(false);
+      if (mounted && initialVersion === identityVersion.current) setLoading(false);
     });
 
     const { data: sub } = supabase.auth.onAuthStateChange((event, nextSession) => {
@@ -84,18 +96,21 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       // page-refresh/persisted-session replay, both of which aren't a new login.
       // Resolve the role before calling the student-only endpoint: Teacher,
       // Parent, and Admin accounts must never generate a forbidden request.
-      loadIdentity(nextSession?.user ?? null)
+      const pendingIdentity = loadIdentity(nextSession?.user ?? null);
+      const version = identityVersion.current;
+      pendingIdentity
         .then((resolved) => {
-          if (event === 'SIGNED_IN' && resolved?.role === 'student') {
+          if (mounted && version === identityVersion.current && event === 'SIGNED_IN' && resolved?.role === 'student') {
             api('/student/notify-login', { method: 'POST', auth: true }).catch(() => {});
           }
         })
-        .catch(() => setError('Hindi ma-load ang account ngayon. Pakisubukan muli.'))
-        .finally(() => setLoading(false));
+        .catch(() => { if (mounted && version === identityVersion.current) setError('Hindi ma-load ang account ngayon. Pakisubukan muli.'); })
+        .finally(() => { if (mounted && version === identityVersion.current) setLoading(false); });
     });
 
     return () => {
       mounted = false;
+      identityVersion.current += 1;
       sub.subscription.unsubscribe();
     };
   }, [retryCount, transitionSession]);

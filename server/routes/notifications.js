@@ -1,18 +1,18 @@
 const express = require('express');
 const { supabaseAdmin } = require('../config/supabase');
-const { requireAuth } = require('../middleware/auth');
+const { requireAuth, requireRole } = require('../middleware/auth');
 const { notificationBelongsTo } = require('../services/authorization');
 const { validateUuidParam } = require('../lib/validation');
 
 const router = express.Router();
-router.use(requireAuth);
+router.use(requireAuth, requireRole('admin', 'teacher', 'parent', 'student'));
 
 // Rows can target a user three different ways depending on who/what they're
 // about (mirrors mobile's backend/routes/notifications.js union): a direct
 // user_id, a parent_id (for parent-facing rows), or a student_id/child auth_uid
 // for a parent's own children. RLS on `notifications` only recognizes
 // user_id=auth.uid(), so this has to run with the service-role client.
-async function fetchNotificationsForUser(userId) {
+async function notificationScopeForUser(userId) {
   const orParts = [`parent_id.eq.${userId}`, `user_id.eq.${userId}`];
 
   const { data: children, error: childrenErr } = await supabaseAdmin
@@ -26,10 +26,16 @@ async function fetchNotificationsForUser(userId) {
   if (childIds.length) orParts.push(`student_id.in.(${childIds.join(',')})`);
   if (childAuthUids.length) orParts.push(`user_id.in.(${childAuthUids.join(',')})`);
 
+  return orParts.join(',');
+}
+
+async function fetchNotificationsForUser(userId) {
+  const scope = await notificationScopeForUser(userId);
+
   const { data, error } = await supabaseAdmin
     .from('notifications')
     .select('id, title, body, message, type, is_read, read, created_at')
-    .or(orParts.join(','))
+    .or(scope)
     .order('created_at', { ascending: false })
     .limit(50);
   if (error) throw error;
@@ -75,15 +81,14 @@ router.post('/:id/read', validateUuidParam('id'), async (req, res) => {
 
 router.post('/read-all', async (req, res) => {
   try {
-    const notifications = await fetchNotificationsForUser(req.user.id);
-    const unreadIds = notifications.filter((n) => !n.is_read).map((n) => n.id);
-    if (unreadIds.length) {
-      const { error } = await supabaseAdmin
-        .from('notifications')
-        .update({ is_read: true, read: true })
-        .in('id', unreadIds);
-      if (error) throw error;
-    }
+    const scope = await notificationScopeForUser(req.user.id);
+    // Update the entire authorized scope, independently of the 50-row list
+    // window or PostgREST's response pagination limit.
+    const { error } = await supabaseAdmin
+      .from('notifications')
+      .update({ is_read: true, read: true })
+      .or(scope);
+    if (error) throw error;
     res.json({ success: true });
   } catch (err) {
     console.error('[notifications mark-all-read]', err);

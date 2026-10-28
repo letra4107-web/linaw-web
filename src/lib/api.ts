@@ -50,7 +50,7 @@ export async function api<T>(path: string, opts: ApiOptions = {}): Promise<T> {
     const detail = typeof payload === 'object' && payload && 'detail' in payload
       ? String((payload as { detail: unknown }).detail)
       : '';
-    throw new Error(detail ? `${message} (${detail})` : message);
+    throw Object.assign(new Error(detail ? `${message} (${detail})` : message), { status: res.status });
   }
 
   return payload as T;

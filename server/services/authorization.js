@@ -9,7 +9,7 @@ function createAuthorizationService(repository) {
     },
     async studentAssignment(studentId, assignmentId) {
       const assignment = await repository.findAssignment(assignmentId);
-      return assignment && assignment.student_id === studentId ? assignment : null;
+      return assignment && assignment.student_id === studentId && !assignment.pdf_materials?.archived_at ? assignment : null;
     },
   };
 }
@@ -37,7 +37,7 @@ function createSupabaseAuthorizationService(client) {
       return data;
     },
     async findAssignment(id) {
-      const { data, error } = await client.from('pdf_assignments').select('id, pdf_material_id, student_id, status').eq('id', id).maybeSingle();
+      const { data, error } = await client.from('pdf_assignments').select('id, pdf_material_id, student_id, status, pdf_materials!inner(archived_at)').eq('id', id).maybeSingle();
       if (error) throw error;
       return data;
     },

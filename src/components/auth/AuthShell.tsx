@@ -7,7 +7,7 @@ import { AppIcon } from '../a11y/AppIcon';
 import logo from '../../assets/Logo.jpg';
 
 export function isValidEmail(value: string): boolean {
-  return /\S+@\S+\.\S+/.test(value);
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
 }
 
 interface AuthShellProps {

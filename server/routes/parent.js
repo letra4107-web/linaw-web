@@ -1,13 +1,13 @@
 const express = require('express');
 const bcrypt = require('bcryptjs');
-const crypto = require('crypto');
+const { temporaryPassword } = require('../lib/temporaryPassword');
 const { supabaseAdmin } = require('../config/supabase');
 const { sendMail } = require('../config/mailer');
 const { requireAuth, requireRole } = require('../middleware/auth');
 const { buildReadingProfile } = require('../services/readingInsights');
 const { loadCompletedContentIds } = require('../services/readingProfileData');
 const { createSupabaseAuthorizationService } = require('../services/authorization');
-const { validateUuidParam, isBoundedString } = require('../lib/validation');
+const { validateUuidParam, isBoundedString, isGrade } = require('../lib/validation');
 const { credentialLimiter } = require('../lib/rateLimiters');
 const { safeCredentialStatus } = require('../services/credentialSecurity');
 const { createMaterialAccessService } = require('../services/materialAccess');
@@ -49,11 +49,7 @@ const getAvailableStudentUsername = async (name) => {
   return `${base}${Date.now()}@linawletra.edu.ph`;
 };
 
-const STUDENT_PASSWORD_CHARS = 'ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnpqrstuvwxyz23456789';
-const makeStudentPassword = () => Array.from(
-  { length: 12 },
-  () => STUDENT_PASSWORD_CHARS[crypto.randomInt(STUDENT_PASSWORD_CHARS.length)],
-).join('');
+const makeStudentPassword = temporaryPassword;
 
 // Safe status only. Credential columns never leave the server.
 router.get('/children/credential-security', async (req, res) => {
@@ -126,7 +122,7 @@ router.post('/children', async (req, res) => {
     const cleanName = String(childName || '').trim();
     const finalGradeLevel = Number(gradeLevel);
 
-    if (!parentEmail || cleanName.length < 2 || cleanName.length > 100 || !Number.isInteger(finalGradeLevel) || finalGradeLevel < 1 || finalGradeLevel > 6) {
+    if (!parentEmail || typeof childName !== 'string' || cleanName.length < 2 || cleanName.length > 100 || !isGrade(gradeLevel)) {
       return res.status(400).json({ error: 'Kailangan ng pangalan at grade level (1-6).' });
     }
 
@@ -231,9 +227,21 @@ router.post('/children', async (req, res) => {
   } catch (err) {
     console.error('[parent/children create]', err);
     if (createdAuthUid) {
-      await supabaseAdmin.from('children').delete().eq('auth_uid', createdAuthUid);
-      await supabaseAdmin.from('users').delete().eq('id', createdAuthUid);
-      await supabaseAdmin.auth.admin.deleteUser(createdAuthUid).catch(() => {});
+      // Every compensation must be attempted even if an earlier service fails.
+      // This remains best effort across Auth and PostgREST, not a transaction.
+      const cleanupSteps = [
+        () => supabaseAdmin.from('children').delete().eq('auth_uid', createdAuthUid),
+        () => supabaseAdmin.from('users').delete().eq('id', createdAuthUid),
+        () => supabaseAdmin.auth.admin.deleteUser(createdAuthUid),
+      ];
+      for (const cleanup of cleanupSteps) {
+        try {
+          const result = await cleanup();
+          if (result?.error) console.error('[parent enrollment cleanup]', result.error);
+        } catch (cleanupError) {
+          console.error('[parent enrollment cleanup]', cleanupError);
+        }
+      }
     }
     res.status(500).json({ error: 'Hindi na-enroll ang bata.' });
   }

@@ -1,0 +1,13 @@
+{
+  "id": "NF-SEC-XP",
+  "status": "FAIL",
+  "expected": "Unattested client XP/counters cannot overwrite authoritative progress",
+  "actual": {
+    "httpStatus": 200,
+    "storedXp": 1000000000,
+    "storedAttempts": 1000000000
+  },
+  "scope": "Isolated Express router with an in-memory Supabase substitute; no production access",
+  "defect": "OPEN-01",
+  "blockedRemediation": "Reward/event authority and atomic deduplication need a reviewed database/backend contract; no SQL rollout or production deployment is authorized."
+}

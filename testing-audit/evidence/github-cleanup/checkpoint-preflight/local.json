@@ -1,0 +1,64 @@
+{
+  "generatedAt": "2026-10-21T11:48:49.324Z",
+  "operation": "READ-ONLY PREFLIGHT; NO DELETION",
+  "ownerRevocationConfirmation": "INCOMPLETE OR UNCERTAIN (owner response)",
+  "recoveryPointsUnneededConfirmation": "NOT CONFIRMED",
+  "deletionStatus": "BLOCKED: owner prerequisite not satisfied",
+  "refs": [
+    {
+      "ref": "refs/codex/turn-diffs/checkpoints/06cbf6717843e7f3f0166fb170d574ad/359d43141d7c003afedc0d5e757b7645/1792315982495/4adb50db-90e3-44cf-af91-a1897e682f20",
+      "actualObject": "081ba404375f1319843bcddd85ac59a424b22ae4",
+      "expectedObject": "081ba404375f1319843bcddd85ac59a424b22ae4",
+      "matchesAudit": true
+    },
+    {
+      "ref": "refs/codex/turn-diffs/checkpoints/594447f4ea056837c5359433a35d97b1/338ad1d7cd109d5aee3366f5f452fffc/1792343065231/6792b65c-15a0-4d3c-ad79-a61bceb4cee0",
+      "actualObject": "081ba404375f1319843bcddd85ac59a424b22ae4",
+      "expectedObject": "081ba404375f1319843bcddd85ac59a424b22ae4",
+      "matchesAudit": true
+    }
+  ],
+  "preservation": {
+    "workingFilesCompared": 883,
+    "changedFiles": [],
+    "environments": [
+      {
+        "file": ".env",
+        "present": true,
+        "unchanged": true
+      },
+      {
+        "file": ".env.production",
+        "present": true,
+        "unchanged": true
+      },
+      {
+        "file": "server/.env",
+        "present": true,
+        "unchanged": true
+      },
+      {
+        "file": ".qa/staging.env",
+        "present": false,
+        "unchanged": true
+      }
+    ],
+    "indexUnchanged": true,
+    "branchesUnchanged": true,
+    "headUnchanged": true,
+    "note": "File and environment hashes were compared only in memory and are not serialized. This comparison covers the read-only preflight, before audit report updates."
+  },
+  "currentCredentialShapedFiles": [],
+  "retainedCredentialBlob": {
+    "object": "e36a2425ec62bf9ae9d69ca1bfa67a71369007f9",
+    "categories": [
+      "Supabase legacy service-role JWT",
+      "Supabase service-role key",
+      "SMTP password / app password",
+      "Brevo API key",
+      "ElevenLabs API key"
+    ],
+    "validity": "NOT TESTED; not sent to any provider"
+  },
+  "scanScope": "Fresh current-file byte-pattern scan and known retained-blob inspection, not a post-cleanup or complete stored-history rerun"
+}

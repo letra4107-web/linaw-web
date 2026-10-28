@@ -1,0 +1,4250 @@
+[
+  {
+    "project": "mobile",
+    "file": "src/screens/AchievementModal.tsx",
+    "line": 30,
+    "reference": "xp,"
+  },
+  {
+    "project": "mobile",
+    "file": "src/screens/AchievementModal.tsx",
+    "line": 37,
+    "reference": "xp?: number;"
+  },
+  {
+    "project": "mobile",
+    "file": "src/screens/AchievementModal.tsx",
+    "line": 142,
+    "reference": "{!!xp && ("
+  },
+  {
+    "project": "mobile",
+    "file": "src/screens/AchievementModal.tsx",
+    "line": 144,
+    "reference": "<Text style={styles.xpText}>+{xp} XP 🌟</Text>"
+  },
+  {
+    "project": "mobile",
+    "file": "src/screens/GuidedPdfReader.tsx",
+    "line": 67,
+    "reference": "supabase.from('pdf_assignments').select('status').eq('id', assignment.id).maybeSingle(),"
+  },
+  {
+    "project": "mobile",
+    "file": "src/screens/GuidedPdfReader.tsx",
+    "line": 68,
+    "reference": "supabase.from('pdf_reading_attempts').select('chunk_index').eq('pdf_assignment_id', assignment.id).eq('student_id', studentId).not('chunk_index', 'is', null),"
+  },
+  {
+    "project": "mobile",
+    "file": "src/screens/ParentDashboardEnhanced.tsx",
+    "line": 156,
+    "reference": "xp: number;"
+  },
+  {
+    "project": "mobile",
+    "file": "src/screens/ParentDashboardEnhanced.tsx",
+    "line": 160,
+    "reference": "completed_words: string[];"
+  },
+  {
+    "project": "mobile",
+    "file": "src/screens/ParentDashboardEnhanced.tsx",
+    "line": 162,
+    "reference": "total_attempts?: number;"
+  },
+  {
+    "project": "mobile",
+    "file": "src/screens/ParentDashboardEnhanced.tsx",
+    "line": 164,
+    "reference": "accuracy_sum?: number;"
+  },
+  {
+    "project": "mobile",
+    "file": "src/screens/ParentDashboardEnhanced.tsx",
+    "line": 165,
+    "reference": "activities_completed?: number;"
+  },
+  {
+    "project": "mobile",
+    "file": "src/screens/ParentDashboardEnhanced.tsx",
+    "line": 174,
+    "reference": "child_progress?: ChildProgress[];"
+  },
+  {
+    "project": "mobile",
+    "file": "src/screens/ParentDashboardEnhanced.tsx",
+    "line": 447,
+    "reference": ".from('lesson_progress')"
+  },
+  {
+    "project": "mobile",
+    "file": "src/screens/ParentDashboardEnhanced.tsx",
+    "line": 469,
+    "reference": "// Real completed-lesson count (lesson_progress rows with status"
+  },
+  {
+    "project": "mobile",
+    "file": "src/screens/ParentDashboardEnhanced.tsx",
+    "line": 471,
+    "reference": "// progress.activities_completed here, which actually counts turned-in"
+  },
+  {
+    "project": "mobile",
+    "file": "src/screens/ParentDashboardEnhanced.tsx",
+    "line": 489,
+    "reference": "// lesson_progress may not be available yet (pending migration) or the"
+  },
+  {
+    "project": "mobile",
+    "file": "src/screens/ParentDashboardEnhanced.tsx",
+    "line": 759,
+    "reference": "// child_progress-derived numbers refresh via the loadChildren() join"
+  },
+  {
+    "project": "mobile",
+    "file": "src/screens/ParentDashboardEnhanced.tsx",
+    "line": 795,
+    "reference": "const progress = selectedChild?.child_progress?.[0];"
+  },
+  {
+    "project": "mobile",
+    "file": "src/screens/ParentDashboardEnhanced.tsx",
+    "line": 801,
+    "reference": "wordsPracticed: progress?.word_count ?? progress?.completed_words?.length ?? 0,"
+  },
+  {
+    "project": "mobile",
+    "file": "src/screens/ParentDashboardEnhanced.tsx",
+    "line": 802,
+    "reference": "totalAttempts: progress?.total_attempts ?? childSessions.length,"
+  },
+  {
+    "project": "mobile",
+    "file": "src/screens/ParentDashboardEnhanced.tsx",
+    "line": 975,
+    "reference": "const progress = selectedChild.child_progress?.[0];"
+  },
+  {
+    "project": "mobile",
+    "file": "src/screens/ParentDashboardEnhanced.tsx",
+    "line": 1008,
+    "reference": "// \"Reading Practice\" this week - same total_attempts source as the"
+  },
+  {
+    "project": "mobile",
+    "file": "src/screens/ParentDashboardEnhanced.tsx",
+    "line": 1439,
+    "reference": "const progress = selectedChild.child_progress?.[0];"
+  },
+  {
+    "project": "mobile",
+    "file": "src/screens/ParentDashboardEnhanced.tsx",
+    "line": 1883,
+    "reference": "const progress = selectedChild.child_progress?.[0];"
+  },
+  {
+    "project": "mobile",
+    "file": "src/screens/ParentDashboardEnhanced.tsx",
+    "line": 1900,
+    "reference": "// activity (lesson_progress, pronunciation sessions, teacher"
+  },
+  {
+    "project": "mobile",
+    "file": "src/screens/ParentDashboardEnhanced.tsx",
+    "line": 2438,
+    "reference": "const level = child.child_progress?.[0]?.level;"
+  },
+  {
+    "project": "mobile",
+    "file": "src/screens/ParentDashboardEnhanced.tsx",
+    "line": 2664,
+    "reference": "const progress = child.child_progress?.[0];"
+  },
+  {
+    "project": "mobile",
+    "file": "src/screens/ParentDashboardEnhanced.tsx",
+    "line": 2687,
+    "reference": "<Text style={styles.childOverviewStat}>{progress?.word_count || progress?.completed_words?.length || 0} salita</Text>"
+  },
+  {
+    "project": "mobile",
+    "file": "src/screens/ParentNotifications.tsx",
+    "line": 29,
+    "reference": "const PROGRESS_TYPES = ['xp', 'streak', 'achievement', 'practice'];"
+  },
+  {
+    "project": "mobile",
+    "file": "src/screens/ParentNotifications.tsx",
+    "line": 42,
+    "reference": "xp: { icon: 'flash-outline', color: colors.sun, actionLabel: 'Tingnan ang Progreso', section: 'progress' },"
+  },
+  {
+    "project": "mobile",
+    "file": "src/screens/ParentNotifications.tsx",
+    "line": 150,
+    "reference": ".from('pronunciation_practice_sessions')"
+  },
+  {
+    "project": "mobile",
+    "file": "src/screens/StudentDashboard.tsx",
+    "line": 113,
+    "reference": "child_progress?: ChildProgress[];"
+  },
+  {
+    "project": "mobile",
+    "file": "src/screens/StudentDashboard.tsx",
+    "line": 193,
+    "reference": "xp: 0,"
+  },
+  {
+    "project": "mobile",
+    "file": "src/screens/StudentDashboard.tsx",
+    "line": 198,
+    "reference": "completed_words: [],"
+  },
+  {
+    "project": "mobile",
+    "file": "src/screens/StudentDashboard.tsx",
+    "line": 199,
+    "reference": "total_attempts: 0,"
+  },
+  {
+    "project": "mobile",
+    "file": "src/screens/StudentDashboard.tsx",
+    "line": 203,
+    "reference": "accuracy_sum: 0,"
+  },
+  {
+    "project": "mobile",
+    "file": "src/screens/StudentDashboard.tsx",
+    "line": 204,
+    "reference": "activities_completed: 0,"
+  },
+  {
+    "project": "mobile",
+    "file": "src/screens/StudentDashboard.tsx",
+    "line": 280,
+    "reference": "const [achievement, setAchievement] = useState<{ image: any; title: string; category?: AchievementCategory; xp?: number } | null>(null);"
+  },
+  {
+    "project": "mobile",
+    "file": "src/screens/StudentDashboard.tsx",
+    "line": 445,
+    "reference": ".from('pdf_assignments')"
+  },
+  {
+    "project": "mobile",
+    "file": "src/screens/StudentDashboard.tsx",
+    "line": 553,
+    "reference": ".from('pronunciation_practice_sessions')"
+  },
+  {
+    "project": "mobile",
+    "file": "src/screens/StudentDashboard.tsx",
+    "line": 754,
+    "reference": ".select('id,parent_id,name,grade_level,username,auth_uid,child_progress(*)')"
+  },
+  {
+    "project": "mobile",
+    "file": "src/screens/StudentDashboard.tsx",
+    "line": 761,
+    "reference": "// child_progress has a UNIQUE child_id constraint, so this join embeds"
+  },
+  {
+    "project": "mobile",
+    "file": "src/screens/StudentDashboard.tsx",
+    "line": 763,
+    "reference": "// `child_progress?.[0]`. Normalize so real progress isn't mistaken for"
+  },
+  {
+    "project": "mobile",
+    "file": "src/screens/StudentDashboard.tsx",
+    "line": 765,
+    "reference": "const rawChildProgress = (child as any).child_progress;"
+  },
+  {
+    "project": "mobile",
+    "file": "src/screens/StudentDashboard.tsx",
+    "line": 767,
+    "reference": "(child as any).child_progress = [rawChildProgress];"
+  },
+  {
+    "project": "mobile",
+    "file": "src/screens/StudentDashboard.tsx",
+    "line": 823,
+    "reference": "const currentProgress = profile.child_progress?.[0] || emptyProgress(profile.id);"
+  },
+  {
+    "project": "mobile",
+    "file": "src/screens/StudentDashboard.tsx",
+    "line": 1030,
+    "reference": "xp: progress?.xp || 0,"
+  },
+  {
+    "project": "mobile",
+    "file": "src/screens/StudentDashboard.tsx",
+    "line": 1032,
+    "reference": "completed: progress?.completed_words?.length || 0,"
+  },
+  {
+    "project": "mobile",
+    "file": "src/screens/StudentDashboard.tsx",
+    "line": 1238,
+    "reference": "completion?: { streak?: number; longest_streak?: number; xp_awarded?: number; total_xp?: number; replayed?:boolean; completed?:boolean }) => {"
+  },
+  {
+    "project": "mobile",
+    "file": "src/screens/StudentDashboard.tsx",
+    "line": 1243,
+    "reference": "if((completion?.xp_awarded||0)>0&&!completion?.replayed) await notifyParent('Salita ng Araw',"
+  },
+  {
+    "project": "mobile",
+    "file": "src/screens/StudentDashboard.tsx",
+    "line": 1244,
+    "reference": "`Natapos ni ${child?.name || 'Mag-aaral'} ang Salita ng Araw at nakakuha ng ${completion?.xp_awarded} XP.`,'word');"
+  },
+  {
+    "project": "mobile",
+    "file": "src/screens/StudentDashboard.tsx",
+    "line": 1474,
+    "reference": "if(saved.xpAwarded>0)await notifyParent('XP Update',`${child?.name||'Student'} earned ${saved.xpAwarded} XP from speech practice.`,'xp');"
+  },
+  {
+    "project": "mobile",
+    "file": "src/screens/StudentDashboard.tsx",
+    "line": 1477,
+    "reference": "if(badge)setAchievement({image:badge.image,title:badge.title,category:badge.category,xp:badge.xpReward});"
+  },
+  {
+    "project": "mobile",
+    "file": "src/screens/StudentDashboard.tsx",
+    "line": 2184,
+    "reference": "{stats.xp > 0 ? 'Kumikita ng XP!' : 'Simulan ang XP mo!'}"
+  },
+  {
+    "project": "mobile",
+    "file": "src/screens/StudentDashboard.tsx",
+    "line": 3117,
+    "reference": "case 'unang_hakbang': return frac(progress?.activities_completed || 0, 1);"
+  },
+  {
+    "project": "mobile",
+    "file": "src/screens/StudentDashboard.tsx",
+    "line": 3118,
+    "reference": "case 'batang_mambabasa': return frac(progress?.activities_completed || 0, 5);"
+  },
+  {
+    "project": "mobile",
+    "file": "src/screens/StudentDashboard.tsx",
+    "line": 3119,
+    "reference": "case 'masigasig_na_mambabasa': return frac(progress?.activities_completed || 0, 10);"
+  },
+  {
+    "project": "mobile",
+    "file": "src/screens/StudentDashboard.tsx",
+    "line": 3120,
+    "reference": "case 'kampeon_sa_pagbasa': return frac(progress?.activities_completed || 0, 25);"
+  },
+  {
+    "project": "mobile",
+    "file": "src/screens/StudentDashboard.tsx",
+    "line": 3121,
+    "reference": "case 'dalubhasa_sa_pagbasa': return frac(progress?.activities_completed || 0, 50);"
+  },
+  {
+    "project": "mobile",
+    "file": "src/screens/StudentDashboard.tsx",
+    "line": 3122,
+    "reference": "case 'unang_bigkas': return frac(progress?.total_attempts || 0, 1);"
+  },
+  {
+    "project": "mobile",
+    "file": "src/screens/StudentDashboard.tsx",
+    "line": 3123,
+    "reference": "case 'boses_ng_tagumpay': return frac(progress?.total_attempts || 0, 25);"
+  },
+  {
+    "project": "mobile",
+    "file": "src/screens/StudentDashboard.tsx",
+    "line": 3125,
+    "reference": "const attempts = progress?.total_attempts || 0;"
+  },
+  {
+    "project": "mobile",
+    "file": "src/screens/StudentDashboard.tsx",
+    "line": 3155,
+    "reference": "// progress.achievements at the moment each badge unlocks (unlockAchievements())."
+  },
+  {
+    "project": "mobile",
+    "file": "src/screens/StudentDashboard.tsx",
+    "line": 3408,
+    "reference": "// 'xp'/'practice' are included under the Practice filter too only so any"
+  },
+  {
+    "project": "mobile",
+    "file": "src/screens/StudentDashboard.tsx",
+    "line": 3416,
+    "reference": "if (notifFilter === 'practice') return ['practice', 'word', 'xp', 'streak'].includes(n.type || '');"
+  },
+  {
+    "project": "mobile",
+    "file": "src/screens/StudentDashboard.tsx",
+    "line": 3797,
+    "reference": "xp={achievement?.xp || 0}"
+  },
+  {
+    "project": "mobile",
+    "file": "src/screens/StudentWordOfDay.tsx",
+    "line": 49,
+    "reference": "type CompletionResult = { attempts?: number; streak?: number; longest_streak?: number; xp_awarded?:number; total_xp?:number; correct?:boolean|null; completed?:boolean; replayed?:boolean };"
+  },
+  {
+    "project": "mobile",
+    "file": "src/screens/StudentWordOfDay.tsx",
+    "line": 119,
+    "reference": "setAnalysis({ accuracy: score, feedback: phrase,xpAwarded:response.completion?.xp_awarded||0 });"
+  },
+  {
+    "project": "mobile",
+    "file": "src/services/achievementService.ts",
+    "line": 46,
+    "reference": "total_attempts?: number;"
+  },
+  {
+    "project": "mobile",
+    "file": "src/services/achievementService.ts",
+    "line": 47,
+    "reference": "accuracy_sum?: number;"
+  },
+  {
+    "project": "mobile",
+    "file": "src/services/achievementService.ts",
+    "line": 51,
+    "reference": "(progress.total_attempts || 0) > 0 ? (progress.accuracy_sum || 0) / (progress.total_attempts || 1) : 0;"
+  },
+  {
+    "project": "mobile",
+    "file": "src/services/achievementService.ts",
+    "line": 58,
+    "reference": ".from('pronunciation_practice_sessions')"
+  },
+  {
+    "project": "mobile",
+    "file": "src/services/achievementService.ts",
+    "line": 99,
+    "reference": "// unlockAchievements() below."
+  },
+  {
+    "project": "mobile",
+    "file": "src/services/achievementService.ts",
+    "line": 108,
+    "reference": "isUnlocked: (p) => (p.activities_completed || 0) >= 1,"
+  },
+  {
+    "project": "mobile",
+    "file": "src/services/achievementService.ts",
+    "line": 117,
+    "reference": "isUnlocked: (p) => (p.activities_completed || 0) >= 5,"
+  },
+  {
+    "project": "mobile",
+    "file": "src/services/achievementService.ts",
+    "line": 126,
+    "reference": "isUnlocked: (p) => (p.activities_completed || 0) >= 10,"
+  },
+  {
+    "project": "mobile",
+    "file": "src/services/achievementService.ts",
+    "line": 135,
+    "reference": "isUnlocked: (p) => (p.activities_completed || 0) >= 25,"
+  },
+  {
+    "project": "mobile",
+    "file": "src/services/achievementService.ts",
+    "line": 144,
+    "reference": "isUnlocked: (p) => (p.activities_completed || 0) >= 50,"
+  },
+  {
+    "project": "mobile",
+    "file": "src/services/achievementService.ts",
+    "line": 153,
+    "reference": "isUnlocked: (p) => (p.total_attempts || 0) >= 1,"
+  },
+  {
+    "project": "mobile",
+    "file": "src/services/achievementService.ts",
+    "line": 180,
+    "reference": "isUnlocked: (p) => (p.total_attempts || 0) >= 25,"
+  },
+  {
+    "project": "mobile",
+    "file": "src/services/achievementService.ts",
+    "line": 189,
+    "reference": "isUnlocked: (p) => (p.total_attempts || 0) >= MIN_ATTEMPTS_FOR_AVERAGE_BADGE && averageAccuracy(p) >= 90,"
+  },
+  {
+    "project": "mobile",
+    "file": "src/services/achievementService.ts",
+    "line": 253,
+    "reference": "if ((p.total_attempts || 0) < MIN_ATTEMPTS_FOR_IMPROVEMENT_BADGE) return false;"
+  },
+  {
+    "project": "mobile",
+    "file": "src/services/achievementService.ts",
+    "line": 288,
+    "reference": "export const unlockAchievements = async (progress: ChildProgress) => ({ progress, newlyUnlocked: [] as AchievementDefinition[] });"
+  },
+  {
+    "project": "mobile",
+    "file": "src/services/learningAttemptService.ts",
+    "line": 57,
+    "reference": "if (result.success !== true || !result.progress || !Number.isSafeInteger(result.progress.xp)"
+  },
+  {
+    "project": "mobile",
+    "file": "src/services/learningAttemptService.ts",
+    "line": 58,
+    "reference": "|| !Number.isSafeInteger(result.progress.total_attempts) || typeof result.replayed !== 'boolean'"
+  },
+  {
+    "project": "mobile",
+    "file": "src/services/parentChildrenService.ts",
+    "line": 7,
+    "reference": "return { ...row, child_progress: row.child_progress ? Array.isArray(row.child_progress) ? row.child_progress : [row.child_progress] : [] };"
+  },
+  {
+    "project": "mobile",
+    "file": "src/services/parentChildrenService.ts",
+    "line": 16,
+    "reference": ".select('id,name,auth_uid,grade_level,username,child_progress(*)')"
+  },
+  {
+    "project": "mobile",
+    "file": "src/services/profileService.ts",
+    "line": 364,
+    "reference": ".select('name,username,phone_number,avatar_key,avatar_url,child_progress(achievements)')"
+  },
+  {
+    "project": "mobile",
+    "file": "src/services/profileService.ts",
+    "line": 369,
+    "reference": "const progress = Array.isArray((childRow as any)?.child_progress)"
+  },
+  {
+    "project": "mobile",
+    "file": "src/services/profileService.ts",
+    "line": 370,
+    "reference": "? (childRow as any).child_progress[0]"
+  },
+  {
+    "project": "mobile",
+    "file": "src/services/profileService.ts",
+    "line": 371,
+    "reference": ": (childRow as any)?.child_progress;"
+  },
+  {
+    "project": "mobile",
+    "file": "src/services/progressService.ts",
+    "line": 7,
+    "reference": "xp: number;"
+  },
+  {
+    "project": "mobile",
+    "file": "src/services/progressService.ts",
+    "line": 15,
+    "reference": "completed_words: string[];"
+  },
+  {
+    "project": "mobile",
+    "file": "src/services/progressService.ts",
+    "line": 17,
+    "reference": "total_attempts: number;"
+  },
+  {
+    "project": "mobile",
+    "file": "src/services/progressService.ts",
+    "line": 26,
+    "reference": "// = accuracy_sum / total_attempts. Kept as a sum (not a running average) so it"
+  },
+  {
+    "project": "mobile",
+    "file": "src/services/progressService.ts",
+    "line": 28,
+    "reference": "accuracy_sum?: number;"
+  },
+  {
+    "project": "mobile",
+    "file": "src/services/progressService.ts",
+    "line": 29,
+    "reference": "activities_completed?: number;"
+  },
+  {
+    "project": "mobile",
+    "file": "src/services/progressService.ts",
+    "line": 62,
+    "reference": "const completedWords = Array.from(new Set([...(current.completed_words || []), word].filter(value => typeof value === 'string' && value.trim().length > 0)));"
+  },
+  {
+    "project": "mobile",
+    "file": "src/services/progressService.ts",
+    "line": 63,
+    "reference": "const xp = (current.xp || 0) + (Number.isFinite(xpAward) && xpAward > 0 ? xpAward : 0);"
+  },
+  {
+    "project": "mobile",
+    "file": "src/services/progressService.ts",
+    "line": 67,
+    "reference": "const accuracySum = (current.accuracy_sum || 0) + (accuracy ?? 0);"
+  },
+  {
+    "project": "mobile",
+    "file": "src/services/progressService.ts",
+    "line": 72,
+    "reference": "xp,"
+  },
+  {
+    "project": "mobile",
+    "file": "src/services/progressService.ts",
+    "line": 79,
+    "reference": "completed_words: completedWords,"
+  },
+  {
+    "project": "mobile",
+    "file": "src/services/progressService.ts",
+    "line": 81,
+    "reference": "total_attempts: (current.total_attempts || 0) + 1,"
+  },
+  {
+    "project": "mobile",
+    "file": "src/services/progressService.ts",
+    "line": 83,
+    "reference": "accuracy_sum: accuracySum,"
+  },
+  {
+    "project": "mobile",
+    "file": "src/services/progressService.ts",
+    "line": 89,
+    "reference": "export const saveProgress = async (_progress?: ChildProgress) => fetchOfficialProgress();"
+  },
+  {
+    "project": "mobile",
+    "file": "src/services/pronunciationSessionService.ts",
+    "line": 19,
+    "reference": ".from('pronunciation_practice_sessions')"
+  },
+  {
+    "project": "mobile",
+    "file": "src/services/readingContentService.ts",
+    "line": 75,
+    "reference": ".from('student_content_completions')"
+  },
+  {
+    "project": "mobile",
+    "file": "src/services/supabaseService.ts",
+    "line": 126,
+    "reference": "xp?: number;"
+  },
+  {
+    "project": "mobile",
+    "file": "src/services/wordOfDayAttemptService.ts",
+    "line": 6,
+    "reference": "completion?:{attempts:number;completed:boolean;correct:boolean|null;replayed:boolean;xp_awarded:number;total_xp?:number;streak?:number;longest_streak?:number}};"
+  },
+  {
+    "project": "mobile",
+    "file": "src/services/wordOfDayAttemptService.ts",
+    "line": 15,
+    "reference": "if(result.success!==true||!result.completion||![0,25].includes(result.completion.xp_awarded)"
+  },
+  {
+    "project": "mobile",
+    "file": "backend/routes/auth.js",
+    "line": 718,
+    "reference": "const { error: progressError } = await supabaseAdmin.from('child_progress').insert({"
+  },
+  {
+    "project": "mobile",
+    "file": "backend/routes/auth.js",
+    "line": 723,
+    "reference": "xp: 0,"
+  },
+  {
+    "project": "mobile",
+    "file": "backend/routes/auth.js",
+    "line": 725,
+    "reference": "completed_words: [],"
+  },
+  {
+    "project": "mobile",
+    "file": "backend/routes/auth.js",
+    "line": 726,
+    "reference": "total_attempts: 0,"
+  },
+  {
+    "project": "mobile",
+    "file": "backend/routes/auth.js",
+    "line": 815,
+    "reference": ".select('*, child_progress(*)')"
+  },
+  {
+    "project": "mobile",
+    "file": "backend/routes/auth.js",
+    "line": 819,
+    "reference": "// child_progress has a UNIQUE child_id constraint, so PostgREST embeds it"
+  },
+  {
+    "project": "mobile",
+    "file": "backend/routes/auth.js",
+    "line": 821,
+    "reference": "// every consumer of this response reads `child_progress?.[0]`, expecting"
+  },
+  {
+    "project": "mobile",
+    "file": "backend/routes/auth.js",
+    "line": 825,
+    "reference": "if (!error && data && data.child_progress && !Array.isArray(data.child_progress)) {"
+  },
+  {
+    "project": "mobile",
+    "file": "backend/routes/auth.js",
+    "line": 826,
+    "reference": "data.child_progress = [data.child_progress];"
+  },
+  {
+    "project": "mobile",
+    "file": "backend/routes/auth.js",
+    "line": 832,
+    "reference": "String(error.message || '').toLowerCase().includes('child_progress') ||"
+  },
+  {
+    "project": "mobile",
+    "file": "backend/routes/auth.js",
+    "line": 861,
+    "reference": ".from('child_progress')"
+  },
+  {
+    "project": "mobile",
+    "file": "backend/routes/auth.js",
+    "line": 867,
+    "reference": "data.child_progress = progressResult.data || [];"
+  },
+  {
+    "project": "mobile",
+    "file": "backend/routes/auth.js",
+    "line": 871,
+    "reference": "rows: data.child_progress.length,"
+  },
+  {
+    "project": "mobile",
+    "file": "backend/routes/auth.js",
+    "line": 874,
+    "reference": "authLog('warn', `Failed to fetch child_progress separately for ${table}`, {"
+  },
+  {
+    "project": "mobile",
+    "file": "backend/routes/auth.js",
+    "line": 880,
+    "reference": "data.child_progress = [];"
+  },
+  {
+    "project": "mobile",
+    "file": "backend/routes/auth.js",
+    "line": 1404,
+    "reference": "// Select with child_progress join"
+  },
+  {
+    "project": "mobile",
+    "file": "backend/routes/auth.js",
+    "line": 1405,
+    "reference": "const withJoin = await supabaseAdmin.from('children').select('id, name, child_progress(*)').eq('auth_uid', authUid).maybeSingle();"
+  },
+  {
+    "project": "mobile",
+    "file": "backend/routes/auth.js",
+    "line": 1410,
+    "reference": "const progress = await supabaseAdmin.from('child_progress').select('*').eq('child_id', plain.data.id).order('updated_at', { ascending: false });"
+  },
+  {
+    "project": "mobile",
+    "file": "backend/routes/lessonProgress.js",
+    "line": 13,
+    "reference": "try{const {data,error}=await client.from('lesson_progress').select('id,lesson_id,status,opened_at,completed_at').eq('student_id',req.authenticatedStudentId).order('opened_at',{ascending:false});if(error)throw error;return res.json({success:true,progress:data||[]});}"
+  },
+  {
+    "project": "mobile",
+    "file": "backend/routes/lessonProgress.js",
+    "line": 21,
+    "reference": "const {error}=await client.from('lesson_progress').upsert({student_id:req.authenticatedStudentId,lesson_id:lesson.id,status:'in_progress'},{onConflict:'student_id,lesson_id',ignoreDuplicates:true});"
+  },
+  {
+    "project": "mobile",
+    "file": "backend/routes/personalization.js",
+    "line": 16,
+    "reference": ".from('student_content_completions')"
+  },
+  {
+    "project": "mobile",
+    "file": "backend/routes/personalization.js",
+    "line": 158,
+    "reference": ".from('pronunciation_practice_sessions')"
+  },
+  {
+    "project": "mobile",
+    "file": "backend/routes/personalization.js",
+    "line": 170,
+    "reference": ".from('student_content_attempts')"
+  },
+  {
+    "project": "mobile",
+    "file": "backend/routes/personalization.js",
+    "line": 350,
+    "reference": "supabase.from('pronunciation_practice_sessions')"
+  },
+  {
+    "project": "mobile",
+    "file": "backend/routes/practice.js",
+    "line": 67,
+    "reference": ".from('pronunciation_practice_sessions')"
+  },
+  {
+    "project": "mobile",
+    "file": "backend/routes/progress.js",
+    "line": 18,
+    "reference": "const { data, error } = await supabase.from('child_progress').select('*').eq('child_id', req.authenticatedStudentId).maybeSingle();"
+  },
+  {
+    "project": "mobile",
+    "file": "backend/routes/speech.js",
+    "line": 107,
+    "reference": "xp_awarded:result.xpAwarded,total_xp:result.newXp,streak:result.newStreak},badgesPending:result.badgesPending};"
+  },
+  {
+    "project": "mobile",
+    "file": "backend/services/coldStartRanker.js",
+    "line": 272,
+    "reference": "total_attempts: orderedSessions.length,"
+  },
+  {
+    "project": "mobile",
+    "file": "backend/services/progressEvents.js",
+    "line": 38,
+    "reference": "return progress && typeof progress.child_id === 'string' && Number.isSafeInteger(progress.xp) && progress.xp >= 0"
+  },
+  {
+    "project": "mobile",
+    "file": "backend/services/progressEvents.js",
+    "line": 39,
+    "reference": "&& Number.isSafeInteger(progress.total_attempts) && progress.total_attempts >= 0 && Array.isArray(progress.achievements);"
+  },
+  {
+    "project": "mobile",
+    "file": "backend/services/schemaHealthCheck.js",
+    "line": 6,
+    "reference": "// front of a real user, the way word_of_day_log.accuracy did."
+  },
+  {
+    "project": "mobile",
+    "file": "backend/services/schemaHealthCheck.js",
+    "line": 26,
+    "reference": "'child_progress', 'word_of_day_log', 'teacher_messages', 'notifications', 'child_credentials',"
+  },
+  {
+    "project": "mobile",
+    "file": "backend/services/schemaHealthCheck.js",
+    "line": 28,
+    "reference": "'pronunciation_practice_sessions', 'scheduled_activities', 'lesson_progress',"
+  },
+  {
+    "project": "mobile",
+    "file": "backend/services/schemaHealthCheck.js",
+    "line": 31,
+    "reference": "'reading_content', 'reading_level_requirements', 'student_content_attempts', 'student_content_completions',"
+  },
+  {
+    "project": "mobile",
+    "file": "backend/services/schemaHealthCheck.js",
+    "line": 36,
+    "reference": "'student_module_completions', 'student_equipped_modules',"
+  },
+  {
+    "project": "mobile",
+    "file": "backend/services/schemaHealthCheck.js",
+    "line": 40,
+    "reference": "child_progress: ['word_count', 'longest_streak', 'baseline_accuracy', 'accuracy_sum', 'activities_completed'],"
+  },
+  {
+    "project": "mobile",
+    "file": "backend/services/schemaHealthCheck.js",
+    "line": 41,
+    "reference": "word_of_day_log: ['xp_awarded', 'content_id', 'recommendation_id', 'recommendation_reason'],"
+  },
+  {
+    "project": "mobile",
+    "file": "backend/services/schemaHealthCheck.js",
+    "line": 42,
+    "reference": "pronunciation_practice_sessions: ["
+  },
+  {
+    "project": "mobile",
+    "file": "backend/services/wordOfDayAttempt.js",
+    "line": 37,
+    "reference": "lookup = await client.from('word_of_day_log').select('id, child_id, word').eq('id', logId).eq('child_id', studentId).maybeSingle();"
+  },
+  {
+    "project": "mobile",
+    "file": "backend/services/wordOfDayInitialization.js",
+    "line": 4,
+    "reference": "const read=()=>client.from('word_of_day_log').select('*').eq('child_id',studentId).eq('date',date).maybeSingle();"
+  },
+  {
+    "project": "mobile",
+    "file": "backend/services/wordOfDayInitialization.js",
+    "line": 13,
+    "reference": "const result=await client.from('word_of_day_log').upsert({child_id:studentId,word:chosen.content_text,date,attempts:0,content_id:chosen.id},{onConflict:'child_id,date',ignoreDuplicates:true}).select('*').maybeSingle();"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/002_new_tables.sql",
+    "line": 1,
+    "reference": "CREATE TABLE IF NOT EXISTS child_progress ("
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/002_new_tables.sql",
+    "line": 3,
+    "reference": "xp INTEGER DEFAULT 0,"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/002_new_tables.sql",
+    "line": 7,
+    "reference": "completed_words TEXT[] DEFAULT '{}',"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/002_new_tables.sql",
+    "line": 8,
+    "reference": "total_attempts INTEGER DEFAULT 0,"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/002_new_tables.sql",
+    "line": 14,
+    "reference": "CREATE TABLE IF NOT EXISTS word_of_day_log ("
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/002_new_tables.sql",
+    "line": 54,
+    "reference": "ALTER TABLE child_progress ENABLE ROW LEVEL SECURITY;"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/002_new_tables.sql",
+    "line": 55,
+    "reference": "ALTER TABLE word_of_day_log ENABLE ROW LEVEL SECURITY;"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/002_new_tables.sql",
+    "line": 60,
+    "reference": "CREATE POLICY \"parents_read_child_progress\" ON child_progress"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/002_new_tables.sql",
+    "line": 64,
+    "reference": "WHERE children.id = child_progress.child_id"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/002_new_tables.sql",
+    "line": 69,
+    "reference": "WHERE children.id = child_progress.child_id"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/002_new_tables.sql",
+    "line": 74,
+    "reference": "CREATE POLICY \"students_manage_own_child_progress\" ON child_progress"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/002_new_tables.sql",
+    "line": 78,
+    "reference": "WHERE children.id = child_progress.child_id"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/002_new_tables.sql",
+    "line": 85,
+    "reference": "WHERE children.id = child_progress.child_id"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/002_new_tables.sql",
+    "line": 90,
+    "reference": "CREATE POLICY \"parents_students_read_word_log\" ON word_of_day_log"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/002_new_tables.sql",
+    "line": 94,
+    "reference": "WHERE children.id = word_of_day_log.child_id"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/002_new_tables.sql",
+    "line": 99,
+    "reference": "CREATE POLICY \"students_manage_own_word_log\" ON word_of_day_log"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/002_new_tables.sql",
+    "line": 103,
+    "reference": "WHERE children.id = word_of_day_log.child_id"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/002_new_tables.sql",
+    "line": 110,
+    "reference": "WHERE children.id = word_of_day_log.child_id"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/007_pronunciation_practice_sessions.sql",
+    "line": 3,
+    "reference": "CREATE TABLE IF NOT EXISTS public.pronunciation_practice_sessions ("
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/007_pronunciation_practice_sessions.sql",
+    "line": 12,
+    "reference": "ALTER TABLE public.pronunciation_practice_sessions ADD COLUMN IF NOT EXISTS student_id TEXT;"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/007_pronunciation_practice_sessions.sql",
+    "line": 13,
+    "reference": "ALTER TABLE public.pronunciation_practice_sessions ADD COLUMN IF NOT EXISTS word TEXT;"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/007_pronunciation_practice_sessions.sql",
+    "line": 14,
+    "reference": "ALTER TABLE public.pronunciation_practice_sessions ADD COLUMN IF NOT EXISTS spoken_text TEXT;"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/007_pronunciation_practice_sessions.sql",
+    "line": 15,
+    "reference": "ALTER TABLE public.pronunciation_practice_sessions ADD COLUMN IF NOT EXISTS accuracy_percentage INTEGER;"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/007_pronunciation_practice_sessions.sql",
+    "line": 16,
+    "reference": "ALTER TABLE public.pronunciation_practice_sessions ADD COLUMN IF NOT EXISTS created_at TIMESTAMP WITH TIME ZONE DEFAULT now();"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/007_pronunciation_practice_sessions.sql",
+    "line": 19,
+    "reference": "ON public.pronunciation_practice_sessions(student_id, created_at DESC);"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/007_pronunciation_practice_sessions.sql",
+    "line": 22,
+    "reference": "ON public.pronunciation_practice_sessions(word);"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/007_pronunciation_practice_sessions.sql",
+    "line": 24,
+    "reference": "ALTER TABLE public.pronunciation_practice_sessions ENABLE ROW LEVEL SECURITY;"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/007_pronunciation_practice_sessions.sql",
+    "line": 26,
+    "reference": "DROP POLICY IF EXISTS \"Students can insert own pronunciation sessions\" ON public.pronunciation_practice_sessions;"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/007_pronunciation_practice_sessions.sql",
+    "line": 28,
+    "reference": "ON public.pronunciation_practice_sessions"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/007_pronunciation_practice_sessions.sql",
+    "line": 35,
+    "reference": "WHERE c.id = public.pronunciation_practice_sessions.student_id"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/007_pronunciation_practice_sessions.sql",
+    "line": 40,
+    "reference": "DROP POLICY IF EXISTS \"Students can view own pronunciation sessions\" ON public.pronunciation_practice_sessions;"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/007_pronunciation_practice_sessions.sql",
+    "line": 42,
+    "reference": "ON public.pronunciation_practice_sessions"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/007_pronunciation_practice_sessions.sql",
+    "line": 49,
+    "reference": "WHERE c.id = public.pronunciation_practice_sessions.student_id"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/007_pronunciation_practice_sessions.sql",
+    "line": 54,
+    "reference": "DROP POLICY IF EXISTS \"Parents can view child pronunciation sessions\" ON public.pronunciation_practice_sessions;"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/007_pronunciation_practice_sessions.sql",
+    "line": 56,
+    "reference": "ON public.pronunciation_practice_sessions"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/007_pronunciation_practice_sessions.sql",
+    "line": 63,
+    "reference": "WHERE c.id = public.pronunciation_practice_sessions.student_id"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/007_pronunciation_practice_sessions.sql",
+    "line": 68,
+    "reference": "DROP POLICY IF EXISTS \"Service role can manage pronunciation sessions\" ON public.pronunciation_practice_sessions;"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/007_pronunciation_practice_sessions.sql",
+    "line": 70,
+    "reference": "ON public.pronunciation_practice_sessions"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/009_parent_monitoring_notifications.sql",
+    "line": 22,
+    "reference": "ALTER TABLE public.child_progress ADD COLUMN IF NOT EXISTS word_count INTEGER DEFAULT 0;"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/009_parent_monitoring_notifications.sql",
+    "line": 24,
+    "reference": "UPDATE public.child_progress"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/009_parent_monitoring_notifications.sql",
+    "line": 25,
+    "reference": "SET word_count = COALESCE(word_count, cardinality(completed_words), 0);"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/009_parent_monitoring_notifications.sql",
+    "line": 31,
+    "reference": "xp INTEGER DEFAULT 0,"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/009_parent_monitoring_notifications.sql",
+    "line": 36,
+    "reference": "INSERT INTO public.student_progress (student_id, streak_count, last_practice_date, xp, word_count, updated_at)"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/009_parent_monitoring_notifications.sql",
+    "line": 37,
+    "reference": "SELECT child_id, streak, last_practice_date, xp, COALESCE(word_count, cardinality(completed_words), 0), updated_at"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/009_parent_monitoring_notifications.sql",
+    "line": 38,
+    "reference": "FROM public.child_progress"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/009_parent_monitoring_notifications.sql",
+    "line": 43,
+    "reference": "xp = EXCLUDED.xp,"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/010_child_progress_stability.sql",
+    "line": 1,
+    "reference": "ALTER TABLE public.child_progress ADD COLUMN IF NOT EXISTS word_count INTEGER DEFAULT 0;"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/010_child_progress_stability.sql",
+    "line": 2,
+    "reference": "ALTER TABLE public.child_progress ADD COLUMN IF NOT EXISTS last_practice_date DATE;"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/010_child_progress_stability.sql",
+    "line": 3,
+    "reference": "ALTER TABLE public.child_progress ADD COLUMN IF NOT EXISTS xp INTEGER DEFAULT 0;"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/010_child_progress_stability.sql",
+    "line": 4,
+    "reference": "ALTER TABLE public.child_progress ADD COLUMN IF NOT EXISTS streak INTEGER DEFAULT 0;"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/010_child_progress_stability.sql",
+    "line": 5,
+    "reference": "ALTER TABLE public.child_progress ADD COLUMN IF NOT EXISTS completed_words TEXT[] DEFAULT '{}';"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/010_child_progress_stability.sql",
+    "line": 6,
+    "reference": "ALTER TABLE public.child_progress ADD COLUMN IF NOT EXISTS total_attempts INTEGER DEFAULT 0;"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/010_child_progress_stability.sql",
+    "line": 7,
+    "reference": "ALTER TABLE public.child_progress ADD COLUMN IF NOT EXISTS updated_at TIMESTAMP WITH TIME ZONE DEFAULT now();"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/010_child_progress_stability.sql",
+    "line": 9,
+    "reference": "UPDATE public.child_progress"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/010_child_progress_stability.sql",
+    "line": 11,
+    "reference": "word_count = COALESCE(word_count, cardinality(completed_words), 0),"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/010_child_progress_stability.sql",
+    "line": 12,
+    "reference": "xp = COALESCE(xp, 0),"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/010_child_progress_stability.sql",
+    "line": 14,
+    "reference": "completed_words = COALESCE(completed_words, '{}'),"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/010_child_progress_stability.sql",
+    "line": 15,
+    "reference": "total_attempts = COALESCE(total_attempts, 0);"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/010_child_progress_stability.sql",
+    "line": 18,
+    "reference": "ON public.child_progress(last_practice_date);"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/010_child_progress_stability.sql",
+    "line": 23,
+    "reference": "-- WHERE table_schema = 'public' AND table_name = 'child_progress'"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/010_child_progress_stability.sql",
+    "line": 24,
+    "reference": "--   AND column_name IN ('child_id', 'xp', 'streak', 'word_count', 'last_practice_date')"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/011_practice_schema_and_notifications_stability.sql",
+    "line": 3,
+    "reference": "CREATE TABLE IF NOT EXISTS public.pronunciation_practice_sessions ("
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/011_practice_schema_and_notifications_stability.sql",
+    "line": 13,
+    "reference": "ALTER TABLE public.pronunciation_practice_sessions ADD COLUMN IF NOT EXISTS student_id TEXT;"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/011_practice_schema_and_notifications_stability.sql",
+    "line": 14,
+    "reference": "ALTER TABLE public.pronunciation_practice_sessions ADD COLUMN IF NOT EXISTS word TEXT;"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/011_practice_schema_and_notifications_stability.sql",
+    "line": 15,
+    "reference": "ALTER TABLE public.pronunciation_practice_sessions ADD COLUMN IF NOT EXISTS spoken_text TEXT;"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/011_practice_schema_and_notifications_stability.sql",
+    "line": 16,
+    "reference": "ALTER TABLE public.pronunciation_practice_sessions ADD COLUMN IF NOT EXISTS accuracy_percentage INTEGER;"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/011_practice_schema_and_notifications_stability.sql",
+    "line": 17,
+    "reference": "ALTER TABLE public.pronunciation_practice_sessions ADD COLUMN IF NOT EXISTS is_correct BOOLEAN DEFAULT false;"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/011_practice_schema_and_notifications_stability.sql",
+    "line": 18,
+    "reference": "ALTER TABLE public.pronunciation_practice_sessions ADD COLUMN IF NOT EXISTS created_at TIMESTAMP WITH TIME ZONE DEFAULT now();"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/011_practice_schema_and_notifications_stability.sql",
+    "line": 20,
+    "reference": "UPDATE public.pronunciation_practice_sessions"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/011_practice_schema_and_notifications_stability.sql",
+    "line": 58,
+    "reference": "ON public.pronunciation_practice_sessions(student_id, created_at DESC);"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/011_practice_schema_and_notifications_stability.sql",
+    "line": 61,
+    "reference": "ON public.pronunciation_practice_sessions(student_id, is_correct, created_at DESC);"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/011_practice_schema_and_notifications_stability.sql",
+    "line": 66,
+    "reference": "ALTER TABLE public.pronunciation_practice_sessions ENABLE ROW LEVEL SECURITY;"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/011_practice_schema_and_notifications_stability.sql",
+    "line": 69,
+    "reference": "DROP POLICY IF EXISTS \"Students can insert own pronunciation sessions\" ON public.pronunciation_practice_sessions;"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/011_practice_schema_and_notifications_stability.sql",
+    "line": 71,
+    "reference": "ON public.pronunciation_practice_sessions"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/011_practice_schema_and_notifications_stability.sql",
+    "line": 78,
+    "reference": "WHERE c.id = public.pronunciation_practice_sessions.student_id"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/011_practice_schema_and_notifications_stability.sql",
+    "line": 83,
+    "reference": "DROP POLICY IF EXISTS \"Students can view own pronunciation sessions\" ON public.pronunciation_practice_sessions;"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/011_practice_schema_and_notifications_stability.sql",
+    "line": 85,
+    "reference": "ON public.pronunciation_practice_sessions"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/011_practice_schema_and_notifications_stability.sql",
+    "line": 92,
+    "reference": "WHERE c.id = public.pronunciation_practice_sessions.student_id"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/011_practice_schema_and_notifications_stability.sql",
+    "line": 97,
+    "reference": "DROP POLICY IF EXISTS \"Parents can view child pronunciation sessions\" ON public.pronunciation_practice_sessions;"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/011_practice_schema_and_notifications_stability.sql",
+    "line": 99,
+    "reference": "ON public.pronunciation_practice_sessions"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/011_practice_schema_and_notifications_stability.sql",
+    "line": 106,
+    "reference": "WHERE c.id = public.pronunciation_practice_sessions.student_id"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/011_practice_schema_and_notifications_stability.sql",
+    "line": 111,
+    "reference": "DROP POLICY IF EXISTS \"Service role can manage pronunciation sessions\" ON public.pronunciation_practice_sessions;"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/011_practice_schema_and_notifications_stability.sql",
+    "line": 113,
+    "reference": "ON public.pronunciation_practice_sessions"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/011_practice_schema_and_notifications_stability.sql",
+    "line": 122,
+    "reference": "--   AND table_name IN ('pronunciation_practice_sessions', 'notifications')"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/012_achievement_badges_v2.sql",
+    "line": 2,
+    "reference": "-- for improvement-based badges, and an activities_completed counter for the"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/012_achievement_badges_v2.sql",
+    "line": 5,
+    "reference": "ALTER TABLE public.child_progress ADD COLUMN IF NOT EXISTS baseline_accuracy INTEGER;"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/012_achievement_badges_v2.sql",
+    "line": 6,
+    "reference": "ALTER TABLE public.child_progress ADD COLUMN IF NOT EXISTS accuracy_sum INTEGER DEFAULT 0;"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/012_achievement_badges_v2.sql",
+    "line": 7,
+    "reference": "ALTER TABLE public.child_progress ADD COLUMN IF NOT EXISTS activities_completed INTEGER DEFAULT 0;"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/012_achievement_badges_v2.sql",
+    "line": 9,
+    "reference": "UPDATE public.child_progress"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/012_achievement_badges_v2.sql",
+    "line": 11,
+    "reference": "accuracy_sum = COALESCE(accuracy_sum, 0),"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/012_achievement_badges_v2.sql",
+    "line": 12,
+    "reference": "activities_completed = COALESCE(activities_completed, 0);"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/013_lesson_progress.sql",
+    "line": 10,
+    "reference": "CREATE TABLE IF NOT EXISTS public.lesson_progress ("
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/013_lesson_progress.sql",
+    "line": 20,
+    "reference": "CREATE INDEX IF NOT EXISTS idx_lesson_progress_student ON public.lesson_progress(student_id, opened_at DESC);"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/013_lesson_progress.sql",
+    "line": 21,
+    "reference": "CREATE INDEX IF NOT EXISTS idx_lesson_progress_lesson ON public.lesson_progress(lesson_id);"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/013_lesson_progress.sql",
+    "line": 23,
+    "reference": "ALTER TABLE public.lesson_progress ENABLE ROW LEVEL SECURITY;"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/013_lesson_progress.sql",
+    "line": 25,
+    "reference": "DROP POLICY IF EXISTS \"Students can view own lesson progress\" ON public.lesson_progress;"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/013_lesson_progress.sql",
+    "line": 27,
+    "reference": "ON public.lesson_progress"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/013_lesson_progress.sql",
+    "line": 33,
+    "reference": "WHERE c.id = public.lesson_progress.student_id"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/013_lesson_progress.sql",
+    "line": 38,
+    "reference": "DROP POLICY IF EXISTS \"Students can upsert own lesson progress\" ON public.lesson_progress;"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/013_lesson_progress.sql",
+    "line": 40,
+    "reference": "ON public.lesson_progress"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/013_lesson_progress.sql",
+    "line": 46,
+    "reference": "WHERE c.id = public.lesson_progress.student_id"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/013_lesson_progress.sql",
+    "line": 51,
+    "reference": "DROP POLICY IF EXISTS \"Students can update own lesson progress\" ON public.lesson_progress;"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/013_lesson_progress.sql",
+    "line": 53,
+    "reference": "ON public.lesson_progress"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/013_lesson_progress.sql",
+    "line": 59,
+    "reference": "WHERE c.id = public.lesson_progress.student_id"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/013_lesson_progress.sql",
+    "line": 66,
+    "reference": "WHERE c.id = public.lesson_progress.student_id"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/013_lesson_progress.sql",
+    "line": 71,
+    "reference": "DROP POLICY IF EXISTS \"Parents can view child lesson progress\" ON public.lesson_progress;"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/013_lesson_progress.sql",
+    "line": 73,
+    "reference": "ON public.lesson_progress"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/013_lesson_progress.sql",
+    "line": 79,
+    "reference": "WHERE c.id = public.lesson_progress.student_id"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/013_lesson_progress.sql",
+    "line": 84,
+    "reference": "DROP POLICY IF EXISTS \"Service role can manage lesson progress\" ON public.lesson_progress;"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/013_lesson_progress.sql",
+    "line": 86,
+    "reference": "ON public.lesson_progress"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/014_pronunciation_session_duration.sql",
+    "line": 6,
+    "reference": "ALTER TABLE public.pronunciation_practice_sessions ADD COLUMN IF NOT EXISTS duration_seconds INTEGER;"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/017_children_rls.sql",
+    "line": 43,
+    "reference": "DROP POLICY IF EXISTS \"parents_read_child_progress\" ON public.child_progress;"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/017_children_rls.sql",
+    "line": 45,
+    "reference": "ON public.child_progress"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/017_children_rls.sql",
+    "line": 50,
+    "reference": "WHERE children.id = child_progress.child_id"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/021_longest_streak.sql",
+    "line": 6,
+    "reference": "ALTER TABLE public.child_progress ADD COLUMN IF NOT EXISTS longest_streak INTEGER NOT NULL DEFAULT 0;"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/021_longest_streak.sql",
+    "line": 8,
+    "reference": "UPDATE public.child_progress"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/022_word_of_day_server_streak.sql",
+    "line": 3,
+    "reference": "ALTER TABLE public.word_of_day_log"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/022_word_of_day_server_streak.sql",
+    "line": 21,
+    "reference": "v_log public.word_of_day_log%ROWTYPE;"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/022_word_of_day_server_streak.sql",
+    "line": 22,
+    "reference": "v_progress public.child_progress%ROWTYPE;"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/022_word_of_day_server_streak.sql",
+    "line": 26,
+    "reference": "SELECT * INTO v_log FROM public.word_of_day_log"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/022_word_of_day_server_streak.sql",
+    "line": 29,
+    "reference": "SELECT * INTO v_progress FROM public.child_progress WHERE child_id = p_child_id FOR UPDATE;"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/022_word_of_day_server_streak.sql",
+    "line": 35,
+    "reference": "UPDATE public.word_of_day_log"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/022_word_of_day_server_streak.sql",
+    "line": 48,
+    "reference": "SELECT * INTO v_progress FROM public.child_progress WHERE child_id = p_child_id FOR UPDATE;"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/022_word_of_day_server_streak.sql",
+    "line": 50,
+    "reference": "INSERT INTO public.child_progress (child_id, streak, longest_streak, last_practice_date)"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/022_word_of_day_server_streak.sql",
+    "line": 59,
+    "reference": "UPDATE public.child_progress"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/022_word_of_day_server_streak.sql",
+    "line": 72,
+    "reference": "DROP POLICY IF EXISTS \"students_manage_own_word_log\" ON public.word_of_day_log;"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/022_word_of_day_server_streak.sql",
+    "line": 73,
+    "reference": "CREATE POLICY \"students_insert_own_word_log\" ON public.word_of_day_log"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/024_personalized_recommendation_foundation.sql",
+    "line": 7,
+    "reference": "ALTER TABLE public.pronunciation_practice_sessions"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/024_personalized_recommendation_foundation.sql",
+    "line": 17,
+    "reference": "AND conrelid = 'public.pronunciation_practice_sessions'::regclass"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/024_personalized_recommendation_foundation.sql",
+    "line": 19,
+    "reference": "ALTER TABLE public.pronunciation_practice_sessions"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/024_personalized_recommendation_foundation.sql",
+    "line": 27,
+    "reference": "AND conrelid = 'public.pronunciation_practice_sessions'::regclass"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/024_personalized_recommendation_foundation.sql",
+    "line": 29,
+    "reference": "ALTER TABLE public.pronunciation_practice_sessions"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/024_personalized_recommendation_foundation.sql",
+    "line": 40,
+    "reference": "AND conrelid = 'public.pronunciation_practice_sessions'::regclass"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/024_personalized_recommendation_foundation.sql",
+    "line": 42,
+    "reference": "ALTER TABLE public.pronunciation_practice_sessions"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/024_personalized_recommendation_foundation.sql",
+    "line": 50,
+    "reference": "ON public.pronunciation_practice_sessions(student_id, difficulty_level_at_attempt, created_at DESC);"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/024_personalized_recommendation_foundation.sql",
+    "line": 53,
+    "reference": "ON public.pronunciation_practice_sessions(student_id, word_id, created_at DESC);"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/024_personalized_recommendation_foundation.sql",
+    "line": 71,
+    "reference": "REFERENCES public.pronunciation_practice_sessions(id)"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/025_reading_content_foundation.sql",
+    "line": 82,
+    "reference": "CREATE TABLE IF NOT EXISTS public.student_content_attempts ("
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/025_reading_content_foundation.sql",
+    "line": 97,
+    "reference": "ON public.student_content_attempts(student_id, created_at DESC);"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/025_reading_content_foundation.sql",
+    "line": 99,
+    "reference": "ON public.student_content_attempts(student_id, content_id, created_at DESC);"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/025_reading_content_foundation.sql",
+    "line": 103,
+    "reference": "CREATE TABLE IF NOT EXISTS public.student_content_completions ("
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/025_reading_content_foundation.sql",
+    "line": 108,
+    "reference": "REFERENCES public.student_content_attempts(id) ON DELETE RESTRICT,"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/025_reading_content_foundation.sql",
+    "line": 114,
+    "reference": "ON public.student_content_completions(student_id, content_id);"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/025_reading_content_foundation.sql",
+    "line": 145,
+    "reference": "ALTER TABLE public.student_content_attempts ENABLE ROW LEVEL SECURITY;"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/025_reading_content_foundation.sql",
+    "line": 146,
+    "reference": "ALTER TABLE public.student_content_completions ENABLE ROW LEVEL SECURITY;"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/025_reading_content_foundation.sql",
+    "line": 159,
+    "reference": "DROP POLICY IF EXISTS \"Students view own content attempts\" ON public.student_content_attempts;"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/025_reading_content_foundation.sql",
+    "line": 161,
+    "reference": "ON public.student_content_attempts FOR SELECT TO authenticated"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/025_reading_content_foundation.sql",
+    "line": 169,
+    "reference": "DROP POLICY IF EXISTS \"Parents view child content attempts\" ON public.student_content_attempts;"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/025_reading_content_foundation.sql",
+    "line": 171,
+    "reference": "ON public.student_content_attempts FOR SELECT TO authenticated"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/025_reading_content_foundation.sql",
+    "line": 179,
+    "reference": "DROP POLICY IF EXISTS \"Students view own content completions\" ON public.student_content_completions;"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/025_reading_content_foundation.sql",
+    "line": 181,
+    "reference": "ON public.student_content_completions FOR SELECT TO authenticated"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/025_reading_content_foundation.sql",
+    "line": 189,
+    "reference": "DROP POLICY IF EXISTS \"Parents view child content completions\" ON public.student_content_completions;"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/025_reading_content_foundation.sql",
+    "line": 191,
+    "reference": "ON public.student_content_completions FOR SELECT TO authenticated"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/026_server_owned_reading_progression.sql",
+    "line": 6,
+    "reference": "-- access, but only the backend service role can mutate child_progress."
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/026_server_owned_reading_progression.sql",
+    "line": 15,
+    "reference": "AND tablename = 'child_progress'"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/026_server_owned_reading_progression.sql",
+    "line": 18,
+    "reference": "EXECUTE format('DROP POLICY IF EXISTS %I ON public.child_progress', policy_row.policyname);"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/026_server_owned_reading_progression.sql",
+    "line": 22,
+    "reference": "DROP POLICY IF EXISTS \"Students read own child progress\" ON public.child_progress;"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/026_server_owned_reading_progression.sql",
+    "line": 24,
+    "reference": "ON public.child_progress FOR SELECT TO authenticated"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/026_server_owned_reading_progression.sql",
+    "line": 67,
+    "reference": "LEFT JOIN public.student_content_completions c"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/026_server_owned_reading_progression.sql",
+    "line": 182,
+    "reference": "INSERT INTO public.student_content_attempts ("
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/026_server_owned_reading_progression.sql",
+    "line": 199,
+    "reference": "INSERT INTO public.student_content_completions ("
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/026_server_owned_reading_progression.sql",
+    "line": 211,
+    "reference": "INSERT INTO public.child_progress (child_id, level, updated_at)"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/027_remove_legacy_child_progress_write_policies.sql",
+    "line": 1,
+    "reference": "-- Production had an additional authenticated child_progress write policy"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/027_remove_legacy_child_progress_write_policies.sql",
+    "line": 13,
+    "reference": "AND tablename = 'child_progress'"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/027_remove_legacy_child_progress_write_policies.sql",
+    "line": 16,
+    "reference": "EXECUTE format('DROP POLICY IF EXISTS %I ON public.child_progress', policy_row.policyname);"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/027_remove_legacy_child_progress_write_policies.sql",
+    "line": 23,
+    "reference": "DROP POLICY IF EXISTS \"Students read own child progress\" ON public.child_progress;"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/027_remove_legacy_child_progress_write_policies.sql",
+    "line": 25,
+    "reference": "ON public.child_progress FOR SELECT TO authenticated"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/030_personalized_reading_session_details.sql",
+    "line": 4,
+    "reference": "ALTER TABLE public.word_of_day_log"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/030_personalized_reading_session_details.sql",
+    "line": 9,
+    "reference": "ALTER TABLE public.pronunciation_practice_sessions"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/030_personalized_reading_session_details.sql",
+    "line": 15,
+    "reference": "ON public.word_of_day_log(child_id, content_id, date DESC)"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/031_word_of_day_idempotent_xp.sql",
+    "line": 3,
+    "reference": "ALTER TABLE public.word_of_day_log"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/031_word_of_day_idempotent_xp.sql",
+    "line": 4,
+    "reference": "ADD COLUMN IF NOT EXISTS xp_awarded INTEGER NOT NULL DEFAULT 0 CHECK (xp_awarded >= 0);"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/031_word_of_day_idempotent_xp.sql",
+    "line": 17,
+    "reference": "xp_awarded INTEGER,"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/031_word_of_day_idempotent_xp.sql",
+    "line": 25,
+    "reference": "v_log public.word_of_day_log%ROWTYPE;"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/031_word_of_day_idempotent_xp.sql",
+    "line": 26,
+    "reference": "v_progress public.child_progress%ROWTYPE;"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/031_word_of_day_idempotent_xp.sql",
+    "line": 31,
+    "reference": "SELECT * INTO v_log FROM public.word_of_day_log"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/031_word_of_day_idempotent_xp.sql",
+    "line": 35,
+    "reference": "SELECT * INTO v_progress FROM public.child_progress WHERE child_id = p_child_id FOR UPDATE;"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/031_word_of_day_idempotent_xp.sql",
+    "line": 39,
+    "reference": "COALESCE(v_progress.xp, 0);"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/031_word_of_day_idempotent_xp.sql",
+    "line": 43,
+    "reference": "UPDATE public.word_of_day_log"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/031_word_of_day_idempotent_xp.sql",
+    "line": 44,
+    "reference": "SET attempts = COALESCE(word_of_day_log.attempts, 0) + 1,"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/031_word_of_day_idempotent_xp.sql",
+    "line": 48,
+    "reference": "xp_awarded = CASE WHEN p_is_correct THEN v_reward ELSE 0 END"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/031_word_of_day_idempotent_xp.sql",
+    "line": 55,
+    "reference": "COALESCE(v_progress.xp, 0);"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/031_word_of_day_idempotent_xp.sql",
+    "line": 60,
+    "reference": "INSERT INTO public.child_progress (child_id, xp, streak, longest_streak, last_practice_date)"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/031_word_of_day_idempotent_xp.sql",
+    "line": 69,
+    "reference": "UPDATE public.child_progress"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/031_word_of_day_idempotent_xp.sql",
+    "line": 70,
+    "reference": "SET xp = COALESCE(child_progress.xp, 0) + v_reward,"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/031_word_of_day_idempotent_xp.sql",
+    "line": 72,
+    "reference": "longest_streak = GREATEST(COALESCE(child_progress.longest_streak, 0), v_next_streak),"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/031_word_of_day_idempotent_xp.sql",
+    "line": 81,
+    "reference": "v_reward, v_progress.xp;"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/032_fix_ambiguous_word_of_day_attempts_column.sql",
+    "line": 1,
+    "reference": "-- word_of_day_log.accuracy and .completed_at were declared in"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/032_fix_ambiguous_word_of_day_attempts_column.sql",
+    "line": 4,
+    "reference": "-- \"column word_of_day_log.accuracy does not exist\") - re-declaring them here"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/032_fix_ambiguous_word_of_day_attempts_column.sql",
+    "line": 7,
+    "reference": "ALTER TABLE public.word_of_day_log"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/032_fix_ambiguous_word_of_day_attempts_column.sql",
+    "line": 14,
+    "reference": "-- word_of_day_log.attempts column. The body's"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/032_fix_ambiguous_word_of_day_attempts_column.sql",
+    "line": 32,
+    "reference": "v_log public.word_of_day_log%ROWTYPE;"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/032_fix_ambiguous_word_of_day_attempts_column.sql",
+    "line": 33,
+    "reference": "v_progress public.child_progress%ROWTYPE;"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/032_fix_ambiguous_word_of_day_attempts_column.sql",
+    "line": 37,
+    "reference": "SELECT * INTO v_log FROM public.word_of_day_log"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/032_fix_ambiguous_word_of_day_attempts_column.sql",
+    "line": 40,
+    "reference": "SELECT * INTO v_progress FROM public.child_progress WHERE child_id = p_child_id FOR UPDATE;"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/032_fix_ambiguous_word_of_day_attempts_column.sql",
+    "line": 46,
+    "reference": "UPDATE public.word_of_day_log"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/032_fix_ambiguous_word_of_day_attempts_column.sql",
+    "line": 47,
+    "reference": "SET attempts = COALESCE(word_of_day_log.attempts, 0) + 1,"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/032_fix_ambiguous_word_of_day_attempts_column.sql",
+    "line": 59,
+    "reference": "SELECT * INTO v_progress FROM public.child_progress WHERE child_id = p_child_id FOR UPDATE;"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/032_fix_ambiguous_word_of_day_attempts_column.sql",
+    "line": 61,
+    "reference": "INSERT INTO public.child_progress (child_id, streak, longest_streak, last_practice_date)"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/032_fix_ambiguous_word_of_day_attempts_column.sql",
+    "line": 70,
+    "reference": "UPDATE public.child_progress"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/033_sync_missed_migrations_022_through_021_015_009.sql",
+    "line": 11,
+    "reference": "-- 1. child_progress.word_count (009_parent_monitoring_notifications.sql /"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/033_sync_missed_migrations_022_through_021_015_009.sql",
+    "line": 18,
+    "reference": "ALTER TABLE public.child_progress ADD COLUMN IF NOT EXISTS word_count INTEGER DEFAULT 0;"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/033_sync_missed_migrations_022_through_021_015_009.sql",
+    "line": 19,
+    "reference": "UPDATE public.child_progress"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/033_sync_missed_migrations_022_through_021_015_009.sql",
+    "line": 20,
+    "reference": "SET word_count = COALESCE(word_count, cardinality(completed_words), 0)"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/033_sync_missed_migrations_022_through_021_015_009.sql",
+    "line": 24,
+    "reference": "-- 2. child_progress.longest_streak (021_longest_streak.sql - never applied)"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/033_sync_missed_migrations_022_through_021_015_009.sql",
+    "line": 31,
+    "reference": "ALTER TABLE public.child_progress ADD COLUMN IF NOT EXISTS longest_streak INTEGER NOT NULL DEFAULT 0;"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/033_sync_missed_migrations_022_through_021_015_009.sql",
+    "line": 32,
+    "reference": "UPDATE public.child_progress"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/033_sync_missed_migrations_022_through_021_015_009.sql",
+    "line": 37,
+    "reference": "-- 3. word_of_day_log.accuracy / .completed_at"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/033_sync_missed_migrations_022_through_021_015_009.sql",
+    "line": 49,
+    "reference": "ALTER TABLE public.word_of_day_log"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/033_sync_missed_migrations_022_through_021_015_009.sql",
+    "line": 80,
+    "reference": "v_log public.word_of_day_log%ROWTYPE;"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/033_sync_missed_migrations_022_through_021_015_009.sql",
+    "line": 81,
+    "reference": "v_progress public.child_progress%ROWTYPE;"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/033_sync_missed_migrations_022_through_021_015_009.sql",
+    "line": 85,
+    "reference": "SELECT * INTO v_log FROM public.word_of_day_log"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/033_sync_missed_migrations_022_through_021_015_009.sql",
+    "line": 88,
+    "reference": "SELECT * INTO v_progress FROM public.child_progress WHERE child_id = p_child_id FOR UPDATE;"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/033_sync_missed_migrations_022_through_021_015_009.sql",
+    "line": 94,
+    "reference": "UPDATE public.word_of_day_log"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/033_sync_missed_migrations_022_through_021_015_009.sql",
+    "line": 95,
+    "reference": "SET attempts = COALESCE(word_of_day_log.attempts, 0) + 1,"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/033_sync_missed_migrations_022_through_021_015_009.sql",
+    "line": 107,
+    "reference": "SELECT * INTO v_progress FROM public.child_progress WHERE child_id = p_child_id FOR UPDATE;"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/033_sync_missed_migrations_022_through_021_015_009.sql",
+    "line": 109,
+    "reference": "INSERT INTO public.child_progress (child_id, streak, longest_streak, last_practice_date)"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/033_sync_missed_migrations_022_through_021_015_009.sql",
+    "line": 118,
+    "reference": "UPDATE public.child_progress"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/033_sync_missed_migrations_022_through_021_015_009.sql",
+    "line": 234,
+    "reference": "-- reading child_progress directly for the Parent Dashboard. Dead schema, not"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/034_fix_word_of_day_uuid_child_id.sql",
+    "line": 1,
+    "reference": "-- Both word_of_day_log.child_id and child_progress.child_id are UUID on the"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/034_fix_word_of_day_uuid_child_id.sql",
+    "line": 27,
+    "reference": "v_log public.word_of_day_log%ROWTYPE;"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/034_fix_word_of_day_uuid_child_id.sql",
+    "line": 28,
+    "reference": "v_progress public.child_progress%ROWTYPE;"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/034_fix_word_of_day_uuid_child_id.sql",
+    "line": 32,
+    "reference": "SELECT * INTO v_log FROM public.word_of_day_log"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/034_fix_word_of_day_uuid_child_id.sql",
+    "line": 35,
+    "reference": "SELECT * INTO v_progress FROM public.child_progress WHERE child_id = p_child_id FOR UPDATE;"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/034_fix_word_of_day_uuid_child_id.sql",
+    "line": 41,
+    "reference": "UPDATE public.word_of_day_log"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/034_fix_word_of_day_uuid_child_id.sql",
+    "line": 42,
+    "reference": "SET attempts = COALESCE(word_of_day_log.attempts, 0) + 1,"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/034_fix_word_of_day_uuid_child_id.sql",
+    "line": 54,
+    "reference": "SELECT * INTO v_progress FROM public.child_progress WHERE child_id = p_child_id FOR UPDATE;"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/034_fix_word_of_day_uuid_child_id.sql",
+    "line": 56,
+    "reference": "INSERT INTO public.child_progress (child_id, streak, longest_streak, last_practice_date)"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/034_fix_word_of_day_uuid_child_id.sql",
+    "line": 65,
+    "reference": "UPDATE public.child_progress"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/034_fix_word_of_day_uuid_child_id.sql",
+    "line": 88,
+    "reference": "xp_awarded INTEGER,"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/034_fix_word_of_day_uuid_child_id.sql",
+    "line": 96,
+    "reference": "v_log public.word_of_day_log%ROWTYPE;"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/034_fix_word_of_day_uuid_child_id.sql",
+    "line": 97,
+    "reference": "v_progress public.child_progress%ROWTYPE;"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/034_fix_word_of_day_uuid_child_id.sql",
+    "line": 102,
+    "reference": "SELECT * INTO v_log FROM public.word_of_day_log"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/034_fix_word_of_day_uuid_child_id.sql",
+    "line": 106,
+    "reference": "SELECT * INTO v_progress FROM public.child_progress WHERE child_id = p_child_id FOR UPDATE;"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/034_fix_word_of_day_uuid_child_id.sql",
+    "line": 110,
+    "reference": "COALESCE(v_progress.xp, 0);"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/034_fix_word_of_day_uuid_child_id.sql",
+    "line": 114,
+    "reference": "UPDATE public.word_of_day_log"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/034_fix_word_of_day_uuid_child_id.sql",
+    "line": 115,
+    "reference": "SET attempts = COALESCE(word_of_day_log.attempts, 0) + 1,"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/034_fix_word_of_day_uuid_child_id.sql",
+    "line": 119,
+    "reference": "xp_awarded = CASE WHEN p_is_correct THEN v_reward ELSE 0 END"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/034_fix_word_of_day_uuid_child_id.sql",
+    "line": 126,
+    "reference": "COALESCE(v_progress.xp, 0);"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/034_fix_word_of_day_uuid_child_id.sql",
+    "line": 131,
+    "reference": "INSERT INTO public.child_progress (child_id, xp, streak, longest_streak, last_practice_date)"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/034_fix_word_of_day_uuid_child_id.sql",
+    "line": 140,
+    "reference": "UPDATE public.child_progress"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/034_fix_word_of_day_uuid_child_id.sql",
+    "line": 141,
+    "reference": "SET xp = COALESCE(child_progress.xp, 0) + v_reward,"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/034_fix_word_of_day_uuid_child_id.sql",
+    "line": 143,
+    "reference": "longest_streak = GREATEST(COALESCE(child_progress.longest_streak, 0), v_next_streak),"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/034_fix_word_of_day_uuid_child_id.sql",
+    "line": 152,
+    "reference": "v_reward, v_progress.xp;"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/035_fix_ambiguous_longest_streak_column.sql",
+    "line": 5,
+    "reference": "-- child_progress.longest_streak inside the unqualified UPDATE ... SET"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/035_fix_ambiguous_longest_streak_column.sql",
+    "line": 24,
+    "reference": "v_log public.word_of_day_log%ROWTYPE;"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/035_fix_ambiguous_longest_streak_column.sql",
+    "line": 25,
+    "reference": "v_progress public.child_progress%ROWTYPE;"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/035_fix_ambiguous_longest_streak_column.sql",
+    "line": 29,
+    "reference": "SELECT * INTO v_log FROM public.word_of_day_log"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/035_fix_ambiguous_longest_streak_column.sql",
+    "line": 32,
+    "reference": "SELECT * INTO v_progress FROM public.child_progress WHERE child_id = p_child_id FOR UPDATE;"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/035_fix_ambiguous_longest_streak_column.sql",
+    "line": 38,
+    "reference": "UPDATE public.word_of_day_log"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/035_fix_ambiguous_longest_streak_column.sql",
+    "line": 39,
+    "reference": "SET attempts = COALESCE(word_of_day_log.attempts, 0) + 1,"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/035_fix_ambiguous_longest_streak_column.sql",
+    "line": 51,
+    "reference": "SELECT * INTO v_progress FROM public.child_progress WHERE child_id = p_child_id FOR UPDATE;"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/035_fix_ambiguous_longest_streak_column.sql",
+    "line": 53,
+    "reference": "INSERT INTO public.child_progress (child_id, streak, longest_streak, last_practice_date)"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/035_fix_ambiguous_longest_streak_column.sql",
+    "line": 62,
+    "reference": "UPDATE public.child_progress"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/035_fix_ambiguous_longest_streak_column.sql",
+    "line": 64,
+    "reference": "longest_streak = GREATEST(COALESCE(child_progress.longest_streak, 0), v_next_streak),"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/042_module_curriculum_foundation.sql",
+    "line": 184,
+    "reference": "REFERENCES public.student_content_attempts(id) ON DELETE RESTRICT,"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/042_module_curriculum_foundation.sql",
+    "line": 193,
+    "reference": "CREATE TABLE IF NOT EXISTS public.student_module_completions ("
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/042_module_curriculum_foundation.sql",
+    "line": 204,
+    "reference": "ON public.student_module_completions(student_id, completed_at DESC);"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/042_module_curriculum_foundation.sql",
+    "line": 344,
+    "reference": "JOIN public.student_content_attempts content_attempt"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/042_module_curriculum_foundation.sql",
+    "line": 391,
+    "reference": "ON public.student_module_completions;"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/042_module_curriculum_foundation.sql",
+    "line": 394,
+    "reference": "ON public.student_module_completions"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/042_module_curriculum_foundation.sql",
+    "line": 404,
+    "reference": "SELECT 1 FROM public.student_module_completions completion"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/042_module_curriculum_foundation.sql",
+    "line": 489,
+    "reference": "LEFT JOIN public.student_module_completions completion"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/042_module_curriculum_foundation.sql",
+    "line": 498,
+    "reference": "-- configured=false and preserves the legacy child_progress level. A future"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/042_module_curriculum_foundation.sql",
+    "line": 526,
+    "reference": "FROM public.child_progress WHERE child_id = p_student_id;"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/042_module_curriculum_foundation.sql",
+    "line": 561,
+    "reference": "LEFT JOIN public.student_module_completions completion"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/042_module_curriculum_foundation.sql",
+    "line": 638,
+    "reference": "JOIN public.student_content_completions content_completion"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/042_module_curriculum_foundation.sql",
+    "line": 645,
+    "reference": "LEFT JOIN public.student_module_completions completion"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/042_module_curriculum_foundation.sql",
+    "line": 689,
+    "reference": "SELECT 1 FROM public.student_module_completions"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/042_module_curriculum_foundation.sql",
+    "line": 711,
+    "reference": "LEFT JOIN public.student_content_completions completion"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/042_module_curriculum_foundation.sql",
+    "line": 762,
+    "reference": "LEFT JOIN public.student_content_completions completion"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/042_module_curriculum_foundation.sql",
+    "line": 878,
+    "reference": "JOIN public.student_content_attempts content_attempt"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/042_module_curriculum_foundation.sql",
+    "line": 920,
+    "reference": "INSERT INTO public.student_module_completions ("
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/042_module_curriculum_foundation.sql",
+    "line": 956,
+    "reference": "SELECT 1 FROM public.student_module_completions"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/042_module_curriculum_foundation.sql",
+    "line": 1014,
+    "reference": "ALTER TABLE public.student_module_completions ENABLE ROW LEVEL SECURITY;"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/042_module_curriculum_foundation.sql",
+    "line": 1069,
+    "reference": "ON public.student_module_completions FOR SELECT TO authenticated"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/042_module_curriculum_foundation.sql",
+    "line": 1075,
+    "reference": "ON public.student_module_completions FOR SELECT TO authenticated"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/043_beginner_modules_1_5_presentation_mvp.sql",
+    "line": 439,
+    "reference": "-- child_progress.level or fabricates a reading-level transition."
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/043_beginner_modules_1_5_presentation_mvp.sql",
+    "line": 501,
+    "reference": "LEFT JOIN public.student_module_completions completion"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/043_beginner_modules_1_5_presentation_mvp.sql",
+    "line": 558,
+    "reference": "LEFT JOIN public.student_module_completions completion"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/043_beginner_modules_1_5_presentation_mvp.sql",
+    "line": 608,
+    "reference": "JOIN public.student_content_completions content_completion"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/043_beginner_modules_1_5_presentation_mvp.sql",
+    "line": 616,
+    "reference": "LEFT JOIN public.student_module_completions completion"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/043_beginner_modules_1_5_presentation_mvp.sql",
+    "line": 662,
+    "reference": "AND NOT EXISTS (SELECT 1 FROM public.student_module_completions"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/043_beginner_modules_1_5_presentation_mvp.sql",
+    "line": 680,
+    "reference": "LEFT JOIN public.student_content_completions completion"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/043_beginner_modules_1_5_presentation_mvp.sql",
+    "line": 732,
+    "reference": "LEFT JOIN public.student_content_completions completion"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/043_beginner_modules_1_5_presentation_mvp.sql",
+    "line": 803,
+    "reference": "JOIN public.student_content_attempts content_attempt"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/043_beginner_modules_1_5_presentation_mvp.sql",
+    "line": 842,
+    "reference": "ON public.student_content_attempts;"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/043_beginner_modules_1_5_presentation_mvp.sql",
+    "line": 845,
+    "reference": "ON public.student_content_attempts"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/045_student_avatar_source_of_truth.sql",
+    "line": 36,
+    "reference": "FROM public.child_progress progress,"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/045_student_avatar_source_of_truth.sql",
+    "line": 77,
+    "reference": "FROM public.child_progress progress,"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/046_student_module_avatars.sql",
+    "line": 35,
+    "reference": "FROM public.child_progress progress,"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/046_student_module_avatars.sql",
+    "line": 49,
+    "reference": "FROM public.student_module_completions completion"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/046_student_module_avatars.sql",
+    "line": 89,
+    "reference": "FROM public.child_progress progress,"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/046_student_module_avatars.sql",
+    "line": 98,
+    "reference": "FROM public.student_module_completions completion"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/048_beginner_modules_5_to_17.sql",
+    "line": 32,
+    "reference": "SELECT 1 FROM public.student_module_completions completion"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/048_beginner_modules_5_to_17.sql",
+    "line": 419,
+    "reference": "LEFT JOIN public.student_content_completions completion"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/050_intermediate_modules_1_5_curated_phrases.sql",
+    "line": 33,
+    "reference": "SELECT 1 FROM public.student_module_completions completion"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/051_advanced_comprehension_assessment_infra.sql",
+    "line": 111,
+    "reference": "LEFT JOIN public.student_content_completions completion"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/051_advanced_comprehension_assessment_infra.sql",
+    "line": 228,
+    "reference": "JOIN public.student_content_attempts content_attempt"
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/051_advanced_comprehension_assessment_infra.sql",
+    "line": 277,
+    "reference": "INSERT INTO public.student_module_completions ("
+  },
+  {
+    "project": "mobile",
+    "file": "migration/migrations/052_advanced_modules_1_5_shells.sql",
+    "line": 35,
+    "reference": "SELECT 1 FROM public.student_module_completions completion"
+  },
+  {
+    "project": "web",
+    "file": "src/components/WordOfDayCard.tsx",
+    "line": 216,
+    "reference": "message={wordOfDay.correct ? `${feedbackMessage || fallbackDoneMessage} +${wordOfDay.xp_awarded} XP` : feedbackMessage || fallbackDoneMessage}"
+  },
+  {
+    "project": "web",
+    "file": "src/lib/badges.ts",
+    "line": 36,
+    "reference": "xp: number;"
+  },
+  {
+    "project": "web",
+    "file": "src/lib/badges.ts",
+    "line": 39,
+    "reference": "/** Only set for the reading-category chain, where the unlock condition is a plain activities_completed count. */"
+  },
+  {
+    "project": "web",
+    "file": "src/lib/badges.ts",
+    "line": 44,
+    "reference": "{ id: 'unang_hakbang', title: 'Unang Hakbang', category: 'reading', xp: 20, image: unangHakbang, criteria: 'Tapusin ang unang gawain.', threshold: 1 },"
+  },
+  {
+    "project": "web",
+    "file": "src/lib/badges.ts",
+    "line": 45,
+    "reference": "{ id: 'batang_mambabasa', title: 'Batang Mambabasa', category: 'reading', xp: 30, image: batangMambabasa, criteria: 'Tapusin ang 5 gawain.', threshold: 5 },"
+  },
+  {
+    "project": "web",
+    "file": "src/lib/badges.ts",
+    "line": 46,
+    "reference": "{ id: 'masigasig_na_mambabasa', title: 'Masigasig na Mambabasa', category: 'reading', xp: 40, image: masigasigNaMambabasa, criteria: 'Tapusin ang 10 gawain.', threshold: 10 },"
+  },
+  {
+    "project": "web",
+    "file": "src/lib/badges.ts",
+    "line": 47,
+    "reference": "{ id: 'kampeon_sa_pagbasa', title: 'Kampeon sa Pagbasa', category: 'reading', xp: 60, image: kampeonSaPagbasa, criteria: 'Tapusin ang 25 gawain.', threshold: 25 },"
+  },
+  {
+    "project": "web",
+    "file": "src/lib/badges.ts",
+    "line": 48,
+    "reference": "{ id: 'dalubhasa_sa_pagbasa', title: 'Dalubhasa sa Pagbasa', category: 'reading', xp: 80, image: dalubhasaSaPagbasa, criteria: 'Tapusin ang 50 gawain.', threshold: 50 },"
+  },
+  {
+    "project": "web",
+    "file": "src/lib/badges.ts",
+    "line": 49,
+    "reference": "{ id: 'unang_bigkas', title: 'Unang Bigkas', category: 'practice', xp: 20, image: unangBigkas, criteria: 'Gumawa ng unang pagsasanay sa bigkas.' },"
+  },
+  {
+    "project": "web",
+    "file": "src/lib/badges.ts",
+    "line": 50,
+    "reference": "{ id: 'malinaw_magsalita', title: 'Malinaw Magsalita', category: 'practice', xp: 30, image: malinawMagsalita, criteria: 'Makakuha ng 90%+ accuracy sa isang salita.' },"
+  },
+  {
+    "project": "web",
+    "file": "src/lib/badges.ts",
+    "line": 51,
+    "reference": "{ id: 'tamang_bigkas', title: 'Tamang Bigkas', category: 'practice', xp: 40, image: tamangBigkas, criteria: 'Makakuha ng 100% accuracy sa 5 magkaibang salita.' },"
+  },
+  {
+    "project": "web",
+    "file": "src/lib/badges.ts",
+    "line": 52,
+    "reference": "{ id: 'boses_ng_tagumpay', title: 'Boses ng Tagumpay', category: 'practice', xp: 60, image: bosesNgTagumpay, criteria: 'Magsanay ng 25 beses.' },"
+  },
+  {
+    "project": "web",
+    "file": "src/lib/badges.ts",
+    "line": 53,
+    "reference": "{ id: 'bigkas_champion', title: 'Bigkas Champion', category: 'practice', xp: 60, image: bigkasChampion, criteria: 'Magsanay ng 10 beses na may 90%+ average accuracy.' },"
+  },
+  {
+    "project": "web",
+    "file": "src/lib/badges.ts",
+    "line": 54,
+    "reference": "{ id: 'unang_araw', title: 'Unang Araw', category: 'consistency', xp: 20, image: unangAraw, criteria: 'Magsanay ng kahit isang beses.' },"
+  },
+  {
+    "project": "web",
+    "file": "src/lib/badges.ts",
+    "line": 55,
+    "reference": "{ id: 'tuloy_tuloy', title: 'Tuloy-Tuloy!', category: 'consistency', xp: 30, image: tuloyTuloy, criteria: 'Mag-streak ng 3 araw.' },"
+  },
+  {
+    "project": "web",
+    "file": "src/lib/badges.ts",
+    "line": 56,
+    "reference": "{ id: 'lingguhang_bayani', title: 'Lingguhang Bayani', category: 'consistency', xp: 40, image: lingguhangBayani, criteria: 'Mag-streak ng 7 araw.' },"
+  },
+  {
+    "project": "web",
+    "file": "src/lib/badges.ts",
+    "line": 57,
+    "reference": "{ id: 'buwan_ng_pagsisikap', title: 'Buwan ng Pagsisikap', category: 'consistency', xp: 60, image: buwanNgPagsisikap, criteria: 'Mag-streak ng 30 araw.' },"
+  },
+  {
+    "project": "web",
+    "file": "src/lib/badges.ts",
+    "line": 58,
+    "reference": "{ id: 'hindi_ako_susuko', title: 'Hindi Ako Susuko', category: 'practice', xp: 30, image: hindiAkoSusuko, criteria: 'Subukan ang isang salita nang 5+ beses.' },"
+  },
+  {
+    "project": "web",
+    "file": "src/lib/badges.ts",
+    "line": 59,
+    "reference": "{ id: 'lakas_ng_loob', title: 'Lakas ng Loob', category: 'practice', xp: 40, image: lakasNgLoob, criteria: 'Matutunan ang 5 mahihirap na salita.' },"
+  },
+  {
+    "project": "web",
+    "file": "src/lib/badges.ts",
+    "line": 60,
+    "reference": "{ id: 'matalinong_mag_aaral', title: 'Matalinong Mag-aaral', category: 'progress', xp: 40, image: matalinongMagAaral, criteria: 'Umunlad nang malaki mula sa iyong baseline accuracy.' },"
+  },
+  {
+    "project": "web",
+    "file": "src/lib/badges.ts",
+    "line": 61,
+    "reference": "{ id: 'patuloy_na_umuunlad', title: 'Patuloy na Umuunlad', category: 'progress', xp: 60, image: patuloyNaUmuunlad, criteria: 'Umakyat sa susunod na antas.' },"
+  },
+  {
+    "project": "web",
+    "file": "src/lib/badges.ts",
+    "line": 62,
+    "reference": "{ id: 'aking_unang_tagumpay', title: 'Aking Unang Tagumpay', category: 'meta', xp: 25, image: akingUnangTagumpay, criteria: 'Makakuha ng unang badge.' },"
+  },
+  {
+    "project": "web",
+    "file": "src/lib/badges.ts",
+    "line": 63,
+    "reference": "{ id: 'alamat_ng_pagbasa', title: 'Alamat ng Pagbasa', category: 'meta', xp: 200, image: alamatNgPagbasa, criteria: 'Makuha lahat ng ibang badge.' },"
+  },
+  {
+    "project": "web",
+    "file": "src/lib/progressEvents.ts",
+    "line": 5,
+    "reference": "type Response={success:boolean;result:{attempt_id:string;accuracy:number;correct:boolean};progress:{xp:number;total_attempts:number};xpAwarded:number;replayed:boolean;newlyPersistedAchievementIds:string[]};"
+  },
+  {
+    "project": "web",
+    "file": "src/lib/progressEvents.ts",
+    "line": 26,
+    "reference": "if(result.success!==true||!Number.isSafeInteger(result.progress?.xp)||!Number.isSafeInteger(result.progress?.total_attempts)||!result.result?.attempt_id||typeof result.replayed!=='boolean'||!Array.isArray(result.newlyPersistedAchievementIds))throw new Error('Hindi pa nakumpirma ang pag-save. I-save muli ang parehong sagot.');"
+  },
+  {
+    "project": "web",
+    "file": "src/lib/wordOfDay.ts",
+    "line": 20,
+    "reference": "xp_awarded: number;"
+  },
+  {
+    "project": "web",
+    "file": "src/pages/admin/Analytics.tsx",
+    "line": 9,
+    "reference": "type Student = { id: string; name: string; email: string | null; gradeLevel: number | null; progress: { level: string | null; accuracy: number | null; completedModules: Module[]; streak: number; xp: number } };"
+  },
+  {
+    "project": "web",
+    "file": "src/pages/admin/Analytics.tsx",
+    "line": 17,
+    "reference": "return <div className=\"fixed inset-0 z-50 grid place-items-center bg-black/50 p-4\"><section className=\"max-h-[88vh] w-full max-w-6xl overflow-auto rounded-3xl bg-white\"><header className=\"flex justify-between border-b p-6\"><h2 className=\"text-2xl font-bold\">Student Accounts</h2><button onClick={close}>Close</button></header><div className=\"p-6\"><input value={search} onChange={(event) => { setSearch(event.target.value); setPage(1); }} placeholder=\"Search students...\" className=\"mb-4 w-full rounde"
+  },
+  {
+    "project": "web",
+    "file": "src/pages/admin/Operations.tsx",
+    "line": 36,
+    "reference": "return { title: child(row.child_id), meta: `${Number(row.activities_completed || 0)} gawain · ${Number(row.xp || 0).toLocaleString()} XP · ${Number(row.streak || 0)} araw na streak`, badge: 'Progress', when: row.updated_at };"
+  },
+  {
+    "project": "web",
+    "file": "src/pages/admin/RoleMonitoring.tsx",
+    "line": 15,
+    "reference": "type Detail = { progress?: { level?: string; activities_completed?: number; accuracy_sum?: number; total_attempts?: number; updated_at?: string }; modules?: Module[]; sessions?: Array<{ word?: string; accuracy_percentage?: number; created_at: string }>; children?: Array<{ id: string; name?: string; grade_level?: number }>; roster?: Array<{ student_id: string; assigned_at: string }>; materials?: Array<{ id: string; title?: string; grade_level?: number; level?: string; created_at: string }>; assig"
+  },
+  {
+    "project": "web",
+    "file": "src/pages/admin/RoleMonitoring.tsx",
+    "line": 47,
+    "reference": "const completed = modules.filter((module) => module.state === 'completed').length; const overall = modules.length ? Math.round((completed / modules.length) * 100) : 0; const average = data.progress?.total_attempts ? Math.round((data.progress.accuracy_sum || 0) / data.progress.total_attempts) : null;"
+  },
+  {
+    "project": "web",
+    "file": "src/pages/admin/RoleMonitoring.tsx",
+    "line": 117,
+    "reference": "const metrics: Array<[string | number, string]> = [[`${completed} / ${modules.length || '--'}`, 'Modules Completed'], [data.progress?.activities_completed ?? '--', 'Activities Completed'], [average === null ? '--' : `${average}%`, 'Average Score'], [data.progress?.level || '--', 'Current Level']];"
+  },
+  {
+    "project": "web",
+    "file": "src/pages/admin/StudentMonitoringReference.tsx",
+    "line": 10,
+    "reference": "type Progress = { activities_completed?: number; updated_at?: string };"
+  },
+  {
+    "project": "web",
+    "file": "src/pages/admin/StudentMonitoringReference.tsx",
+    "line": 48,
+    "reference": "<main className=\"min-w-0 space-y-4\">{!selected ? <section className=\"grid min-h-80 place-items-center rounded-3xl border bg-white text-sm text-[var(--color-text-muted)] shadow-card\">Select a student to view details.</section> : <><section className=\"student-profile-card rounded-3xl border bg-white p-5 shadow-card\"><span className=\"student-profile-avatar\">{initials(selected.name || selected.email)}</span><div><h2>{selected.name || selected.email}</h2><p>Grade {selected.profile.gradeLevel ?? '--'}"
+  },
+  {
+    "project": "web",
+    "file": "src/pages/parent/AppSettings.tsx",
+    "line": 128,
+    "reference": "supabase.from('child_progress').select('*'),"
+  },
+  {
+    "project": "web",
+    "file": "src/pages/parent/MyChildren.tsx",
+    "line": 21,
+    "reference": "interface Child { id: string; name: string; grade_level: number; username: string; level: string; xp: number; streak: number; activities_completed: number; accuracy_sum: number; total_attempts: number; progress_updated_at: string | null; }"
+  },
+  {
+    "project": "web",
+    "file": "src/pages/parent/MyChildren.tsx",
+    "line": 94,
+    "reference": "return result.children.map((child) => ({ ...child, xp: Number(child.xp) || 0, streak: Number(child.streak) || 0, activities_completed: Number(child.activities_completed) || 0, accuracy_sum: Number(child.accuracy_sum) || 0, total_attempts: Number(child.total_attempts) || 0, level: child.level || 'Beginner' }));"
+  },
+  {
+    "project": "web",
+    "file": "src/pages/parent/MyChildren.tsx",
+    "line": 158,
+    "reference": "const { data, error: queryError } = await supabase.from('pronunciation_practice_sessions').select('id,word,accuracy_percentage,is_correct,created_at').eq('student_id', childId!).order('created_at', { ascending: false }).limit(4);"
+  },
+  {
+    "project": "web",
+    "file": "src/pages/parent/MyChildren.tsx",
+    "line": 173,
+    "reference": "const completedActivities = modules.length ? modules.reduce((sum, module) => sum + module.completed_content_item_count, 0) : readingProfile?.profile.completedContentCount ?? selectedChild?.activities_completed ?? 0;"
+  },
+  {
+    "project": "web",
+    "file": "src/pages/parent/MyChildren.tsx",
+    "line": 175,
+    "reference": "const averageScore = readingProfile?.profile.averageAccuracy ?? (selectedChild?.total_attempts ? Math.round(selectedChild.accuracy_sum / selectedChild.total_attempts) : null);"
+  },
+  {
+    "project": "web",
+    "file": "src/pages/parent/MyChildren.tsx",
+    "line": 213,
+    "reference": "<article className=\"kid-metric rose\"><BarChart3 aria-hidden=\"true\" /><div><strong>{selectedChild.level}</strong><small>Kasalukuyang Level</small></div><span className=\"kid-level-caption\">{selectedChild.xp} XP · {selectedChild.streak} araw na streak</span></article>"
+  },
+  {
+    "project": "web",
+    "file": "src/pages/parent/Notifications.tsx",
+    "line": 8,
+    "reference": "pdf_assignment: { Icon: FileText, tone: 'bg-orange-50 text-orange-500', label: 'Takdang-aralin' }, assessment_graded: { Icon: GraduationCap, tone: 'bg-rose-50 text-rose-500', label: 'Assessment' }, streak: { Icon: Award, tone: 'bg-amber-50 text-amber-500', label: 'Streak' }, lesson: { Icon: BookOpen, tone: 'bg-blue-50 text-blue-500', label: 'Aralin' }, achievement: { Icon: Award, tone: 'bg-emerald-50 text-emerald-500', label: 'Nakamit' }, xp: { Icon: Award, tone: 'bg-amber-50 text-amber-500', la"
+  },
+  {
+    "project": "web",
+    "file": "src/pages/parent/Notifications.tsx",
+    "line": 10,
+    "reference": "const LEARNING_TYPES = new Set(['lesson', 'pdf_assignment', 'assessment_graded', 'practice']); const PROGRESS_TYPES = new Set(['streak', 'achievement', 'xp']);"
+  },
+  {
+    "project": "web",
+    "file": "src/pages/parent/parentLearningData.ts",
+    "line": 64,
+    "reference": "const { data, error } = await supabase.from('pronunciation_practice_sessions')"
+  },
+  {
+    "project": "web",
+    "file": "src/pages/parent/parentLearningData.ts",
+    "line": 78,
+    "reference": "const { data, error } = await supabase.from('child_progress')"
+  },
+  {
+    "project": "web",
+    "file": "src/pages/parent/ProgressReport.tsx",
+    "line": 29,
+    "reference": "const { data: sessions, isLoading } = useQuery({ queryKey: ['child-practice-sessions', activeChildId], queryFn: async () => { const { data, error } = await supabase.from('pronunciation_practice_sessions').select('created_at, accuracy_percentage, is_correct, duration_seconds').eq('student_id', activeChildId!).order('created_at', { ascending: false }).limit(100); if (error) throw error; return data as PracticeSession[]; }, enabled: Boolean(activeChildId) });"
+  },
+  {
+    "project": "web",
+    "file": "src/pages/parent/ProgressReport.tsx",
+    "line": 31,
+    "reference": "const { data: childProgress } = useQuery({ queryKey: ['parent-child-achievements', activeChildId], queryFn: async () => { const { data, error } = await supabase.from('child_progress').select('achievements').eq('child_id', activeChildId!).maybeSingle(); if (error) throw error; return data as ChildAchievements | null; }, enabled: Boolean(activeChildId) });"
+  },
+  {
+    "project": "web",
+    "file": "src/pages/parent/Settings.tsx",
+    "line": 48,
+    "reference": "const { data: progress = [] } = useQuery({ queryKey: ['parent-children-progress', children.map((item) => item.id)], queryFn: async () => { const { data, error } = await supabase.from('child_progress').select('child_id,level').in('child_id', children.map((item) => item.id)); if (error) throw error; return data as Progress[]; }, enabled: children.length > 0 });"
+  },
+  {
+    "project": "web",
+    "file": "src/pages/student/Achievements.tsx",
+    "line": 11,
+    "reference": "activities_completed: number;"
+  },
+  {
+    "project": "web",
+    "file": "src/pages/student/Achievements.tsx",
+    "line": 42,
+    "reference": ".from('child_progress')"
+  },
+  {
+    "project": "web",
+    "file": "src/pages/student/Achievements.tsx",
+    "line": 43,
+    "reference": ".select('activities_completed, achievements')"
+  },
+  {
+    "project": "web",
+    "file": "src/pages/student/Achievements.tsx",
+    "line": 62,
+    "reference": "const activitiesCompleted = progress?.activities_completed ?? 0;"
+  },
+  {
+    "project": "web",
+    "file": "src/pages/student/Achievements.tsx",
+    "line": 118,
+    "reference": "<p className=\"mt-1 text-xs font-semibold text-[var(--color-text-muted)]\">{BADGE_CATEGORY_LABEL[badge.category]} · +{badge.xp} XP</p>"
+  },
+  {
+    "project": "web",
+    "file": "src/pages/student/Dashboard.tsx",
+    "line": 28,
+    "reference": "xp: number;"
+  },
+  {
+    "project": "web",
+    "file": "src/pages/student/Dashboard.tsx",
+    "line": 30,
+    "reference": "activities_completed: number;"
+  },
+  {
+    "project": "web",
+    "file": "src/pages/student/Dashboard.tsx",
+    "line": 129,
+    "reference": ".from('child_progress')"
+  },
+  {
+    "project": "web",
+    "file": "src/pages/student/Dashboard.tsx",
+    "line": 130,
+    "reference": ".select('xp, streak, activities_completed, achievements')"
+  },
+  {
+    "project": "web",
+    "file": "src/pages/student/Dashboard.tsx",
+    "line": 149,
+    "reference": ".from('pdf_assignments')"
+  },
+  {
+    "project": "web",
+    "file": "src/pages/student/Dashboard.tsx",
+    "line": 166,
+    "reference": ".from('pronunciation_practice_sessions')"
+  },
+  {
+    "project": "web",
+    "file": "src/pages/student/Dashboard.tsx",
+    "line": 198,
+    "reference": "const hasActivity = (progress?.activities_completed ?? 0) > 0;"
+  },
+  {
+    "project": "web",
+    "file": "src/pages/student/Dashboard.tsx",
+    "line": 225,
+    "reference": "{progress?.xp ?? 0} XP"
+  },
+  {
+    "project": "web",
+    "file": "src/pages/student/Learn.tsx",
+    "line": 196,
+    "reference": ".from('pdf_assignments')"
+  },
+  {
+    "project": "web",
+    "file": "src/pages/student/Profile.tsx",
+    "line": 23,
+    "reference": "xp: number;"
+  },
+  {
+    "project": "web",
+    "file": "src/pages/student/Profile.tsx",
+    "line": 27,
+    "reference": "activities_completed: number;"
+  },
+  {
+    "project": "web",
+    "file": "src/pages/student/Profile.tsx",
+    "line": 56,
+    "reference": ".from('child_progress')"
+  },
+  {
+    "project": "web",
+    "file": "src/pages/student/Profile.tsx",
+    "line": 57,
+    "reference": ".select('level, xp, streak, longest_streak, word_count, activities_completed, achievements')"
+  },
+  {
+    "project": "web",
+    "file": "src/pages/student/Profile.tsx",
+    "line": 82,
+    "reference": "{ icon: '⭐', label: 'Kabuuang XP', value: progress?.xp ?? 0 },"
+  },
+  {
+    "project": "web",
+    "file": "src/pages/student/Profile.tsx",
+    "line": 86,
+    "reference": "{ icon: '✓', label: 'Mga gawaing natapos', value: progress?.activities_completed ?? 0 },"
+  },
+  {
+    "project": "web",
+    "file": "src/pages/teacher/Dashboard.tsx",
+    "line": 11,
+    "reference": "interface ProgressItem { child_id: string; accuracy_sum: number; total_attempts: number; activities_completed: number; streak: number; }"
+  },
+  {
+    "project": "web",
+    "file": "src/pages/teacher/Dashboard.tsx",
+    "line": 34,
+    "reference": "const { data, error } = await supabase.from('child_progress').select('child_id, accuracy_sum, total_attempts, activities_completed, streak').in('child_id', studentIds);"
+  },
+  {
+    "project": "web",
+    "file": "src/pages/teacher/Dashboard.tsx",
+    "line": 40,
+    "reference": "const { data, error } = await supabase.from('pronunciation_practice_sessions').select('student_id, word, accuracy_percentage, created_at').in('student_id', studentIds).order('created_at', { ascending: false }).limit(6);"
+  },
+  {
+    "project": "web",
+    "file": "src/pages/teacher/Dashboard.tsx",
+    "line": 49,
+    "reference": "const { count, error } = await supabase.from('pdf_assignments').select('id', { count: 'exact', head: true }).in('pdf_material_id', ids).neq('status', 'completed');"
+  },
+  {
+    "project": "web",
+    "file": "src/pages/teacher/Dashboard.tsx",
+    "line": 62,
+    "reference": "accuracy: item.total_attempts > 0 ? Math.round(item.accuracy_sum / item.total_attempts) : 0,"
+  },
+  {
+    "project": "web",
+    "file": "src/pages/teacher/Dashboard.tsx",
+    "line": 64,
+    "reference": "const activeRows = rows.filter((row) => row.total_attempts > 0);"
+  },
+  {
+    "project": "web",
+    "file": "src/pages/teacher/Dashboard.tsx",
+    "line": 97,
+    "reference": "{needsAttention.length ? <div className=\"teacher-attention-list\">{needsAttention.slice(0, 4).map((student, index) => <Link key={student.child_id} to=\"/teacher/progress-reports\"><span className={studentColor(index)}>{student.name.slice(0, 2).toUpperCase()}</span><div><b>{student.name}</b><small>{student.activities_completed} activities completed</small></div><em>{student.accuracy}%</em></Link>)}</div> : <p className=\"teacher-empty\">No students currently need attention.</p>}"
+  },
+  {
+    "project": "web",
+    "file": "src/pages/teacher/MyStudents.tsx",
+    "line": 13,
+    "reference": "interface StudentProgress { child_id: string; level: string; accuracy_sum: number; total_attempts: number; activities_completed: number; streak: number; }"
+  },
+  {
+    "project": "web",
+    "file": "src/pages/teacher/MyStudents.tsx",
+    "line": 43,
+    "reference": "const { data, error } = await supabase.from('child_progress').select('child_id, level, accuracy_sum, total_attempts, activities_completed, streak').in('child_id', rosterIds);"
+  },
+  {
+    "project": "web",
+    "file": "src/pages/teacher/MyStudents.tsx",
+    "line": 49,
+    "reference": "const { data, error } = await supabase.from('pronunciation_practice_sessions').select('student_id, created_at').in('student_id', rosterIds).order('created_at', { ascending: false }).limit(100);"
+  },
+  {
+    "project": "web",
+    "file": "src/pages/teacher/MyStudents.tsx",
+    "line": 54,
+    "reference": "const { data, error } = await supabase.from('pronunciation_practice_sessions').select('word, accuracy_percentage, is_correct, created_at').eq('student_id', selectedStudentId!).order('created_at', { ascending: false }).limit(5);"
+  },
+  {
+    "project": "web",
+    "file": "src/pages/teacher/MyStudents.tsx",
+    "line": 59,
+    "reference": "const { data, error } = await supabase.from('pdf_assignments').select('id, status, due_date, pdf_materials(title)').eq('student_id', selectedStudentId!).order('assigned_at', { ascending: false }).limit(5);"
+  },
+  {
+    "project": "web",
+    "file": "src/pages/teacher/MyStudents.tsx",
+    "line": 68,
+    "reference": "const accuracy = item?.total_attempts ? Math.round(item.accuracy_sum / item.total_attempts) : 0;"
+  },
+  {
+    "project": "web",
+    "file": "src/pages/teacher/MyStudents.tsx",
+    "line": 69,
+    "reference": "const needsAttention = Boolean(item?.total_attempts && accuracy < 70);"
+  },
+  {
+    "project": "web",
+    "file": "src/pages/teacher/MyStudents.tsx",
+    "line": 84,
+    "reference": "const activeStudents = studentRows.filter((row) => row.item?.total_attempts).length;"
+  },
+  {
+    "project": "web",
+    "file": "src/pages/teacher/MyStudents.tsx",
+    "line": 86,
+    "reference": "const completedActivities = studentRows.reduce((sum, row) => sum + (row.item?.activities_completed ?? 0), 0);"
+  },
+  {
+    "project": "web",
+    "file": "src/pages/teacher/MyStudents.tsx",
+    "line": 103,
+    "reference": "{!isLoading && visible.map((row) => { const student = row.children; const level = row.item?.level ?? 'Beginner'; return <tr key={row.id}><td><input type=\"checkbox\" disabled title=\"Bulk student selection is not available.\" aria-label={`Select ${student?.name ?? 'student'}`} /></td><td><button type=\"button\" onClick={() => setSelectedStudentId(row.student_id)} className=\"teacher-student-name\"><span>{initials(student?.name)}</span><i><b>{student?.name ?? 'Unknown student'}</b><small>{student?.userna"
+  },
+  {
+    "project": "web",
+    "file": "src/pages/teacher/MyStudents.tsx",
+    "line": 107,
+    "reference": "{selected && <div className=\"teacher-student-modal\" role=\"dialog\" aria-modal=\"true\" aria-label=\"Student details\" onMouseDown={() => setSelectedStudentId(null)}><article onMouseDown={(event) => event.stopPropagation()}><header><div><p>Student overview</p><h2>{selected.children?.name ?? 'Student'}</h2><span>Grade {selected.children?.grade_level ?? '—'} · {selected.item?.level ?? 'No reading level'}</span></div><button type=\"button\" onClick={() => setSelectedStudentId(null)} aria-label=\"Close\"><X /"
+  },
+  {
+    "project": "web",
+    "file": "src/pages/teacher/PdfReading.tsx",
+    "line": 42,
+    "reference": "pdf_reading_attempts: { accuracy: number; created_at: string }[];"
+  },
+  {
+    "project": "web",
+    "file": "src/pages/teacher/PdfReading.tsx",
+    "line": 177,
+    "reference": ".from('pdf_assignments')"
+  },
+  {
+    "project": "web",
+    "file": "src/pages/teacher/PdfReading.tsx",
+    "line": 178,
+    "reference": ".select('id, status, student_id, children(name), pdf_reading_attempts(accuracy, created_at)')"
+  },
+  {
+    "project": "web",
+    "file": "src/pages/teacher/PdfReading.tsx",
+    "line": 237,
+    "reference": "const { error: err } = await supabase.from('pdf_assignments').insert({"
+  },
+  {
+    "project": "web",
+    "file": "src/pages/teacher/PdfReading.tsx",
+    "line": 510,
+    "reference": "const best = a.pdf_reading_attempts.reduce((max, at) => Math.max(max, at.accuracy), 0);"
+  },
+  {
+    "project": "web",
+    "file": "src/pages/teacher/PdfReading.tsx",
+    "line": 515,
+    "reference": "{STATUS_LABEL[a.status] ?? a.status} · {a.pdf_reading_attempts.length > 0 ? `Best: ${best}%` : 'Wala pang attempt'}"
+  },
+  {
+    "project": "web",
+    "file": "src/pages/teacher/ProgressReports.tsx",
+    "line": 12,
+    "reference": "interface ProgressRow { child_id: string; xp: number; streak: number; level: string | null; accuracy_sum: number; total_attempts: number; activities_completed: number; }"
+  },
+  {
+    "project": "web",
+    "file": "src/pages/teacher/ProgressReports.tsx",
+    "line": 41,
+    "reference": "const { data, error } = await supabase.from('child_progress')"
+  },
+  {
+    "project": "web",
+    "file": "src/pages/teacher/ProgressReports.tsx",
+    "line": 42,
+    "reference": ".select('child_id, xp, streak, level, accuracy_sum, total_attempts, activities_completed')"
+  },
+  {
+    "project": "web",
+    "file": "src/pages/teacher/ProgressReports.tsx",
+    "line": 53,
+    "reference": "const { data, error } = await supabase.from('pronunciation_practice_sessions')"
+  },
+  {
+    "project": "web",
+    "file": "src/pages/teacher/ProgressReports.tsx",
+    "line": 63,
+    "reference": "const accuracy = item?.total_attempts ? Math.round(item.accuracy_sum / item.total_attempts) : 0;"
+  },
+  {
+    "project": "web",
+    "file": "src/pages/teacher/ProgressReports.tsx",
+    "line": 66,
+    "reference": "return { ...row, item, accuracy, level, lastActivity, needsAttention: Boolean(item?.total_attempts && accuracy < 70) };"
+  },
+  {
+    "project": "web",
+    "file": "src/pages/teacher/ProgressReports.tsx",
+    "line": 69,
+    "reference": "const activeRows = studentRows.filter((row) => row.item?.total_attempts);"
+  },
+  {
+    "project": "web",
+    "file": "src/pages/teacher/ProgressReports.tsx",
+    "line": 77,
+    "reference": "const maxActivities = Math.max(1, ...activeRows.map((row) => row.item?.activities_completed ?? 0));"
+  },
+  {
+    "project": "web",
+    "file": "src/pages/teacher/ProgressReports.tsx",
+    "line": 78,
+    "reference": "const maxAttempts = Math.max(1, ...activeRows.map((row) => row.item?.total_attempts ?? 0));"
+  },
+  {
+    "project": "web",
+    "file": "src/pages/teacher/ProgressReports.tsx",
+    "line": 79,
+    "reference": "next[`grade${grade}`] = group.length ? Math.round(group.reduce((sum, row) => sum + (metric === 'Accuracy' ? row.accuracy : metric === 'Completion' ? ((row.item?.activities_completed ?? 0) / maxActivities) * 100 : ((row.item?.total_attempts ?? 0) / maxAttempts) * 100), 0) / group.length) : 0;"
+  },
+  {
+    "project": "web",
+    "file": "src/pages/teacher/ProgressReports.tsx",
+    "line": 118,
+    "reference": "<section className=\"teacher-reports-table-card\"><header><span><CheckCircle2 /></span><div><h2>Detalye ng Pag-unlad ng Mag-aaral</h2><p>Tingnan ang indibidwal na progreso ng bawat mag-aaral.</p></div><div className=\"teacher-reports-table-filters\"><select value={gradeFilter} onChange={(event) => setGradeFilter(event.target.value)}><option value=\"all\">Lahat ng Baitang</option>{gradeLevels.map((grade) => <option key={grade} value={grade}>Grade {grade}</option>)}</select><select value={levelFilter} o"
+  },
+  {
+    "project": "web",
+    "file": "server/routes/admin.js",
+    "line": 23,
+    "reference": "supabaseAdmin.from('pdf_assignments').select('id, pdf_material_id, student_id, assigned_by, status, assigned_at, due_date').order('assigned_at', { ascending: false }).limit(100),"
+  },
+  {
+    "project": "web",
+    "file": "server/routes/admin.js",
+    "line": 25,
+    "reference": "supabaseAdmin.from('child_progress').select('child_id, xp, streak, activities_completed, updated_at').order('updated_at', { ascending: false }).limit(100),"
+  },
+  {
+    "project": "web",
+    "file": "server/routes/admin.js",
+    "line": 112,
+    "reference": "const [{ data: summary, error: summaryError }, { data: sessions, error: sessionsError }, modulesResult] = await Promise.all([child ? supabaseAdmin.from('child_progress').select('level, xp, streak, accuracy_sum, total_attempts, activities_completed, updated_at').eq('child_id', child.id).maybeSingle() : Promise.resolve({ data: null, error: null }), child ? supabaseAdmin.from('pronunciation_practice_sessions').select('word, accuracy_percentage, is_correct, created_at').eq('student_id', child.id).or"
+  },
+  {
+    "project": "web",
+    "file": "server/routes/admin.js",
+    "line": 118,
+    "reference": "const ids = (children || []).map((child) => child.id); const { data: progress, error: progressError2 } = ids.length ? await supabaseAdmin.from('child_progress').select('child_id, level, xp, activities_completed, updated_at').in('child_id', ids) : { data: [], error: null }; if (progressError2) throw progressError2;"
+  },
+  {
+    "project": "web",
+    "file": "server/routes/admin.js",
+    "line": 121,
+    "reference": "const [{ data: links, error: linksError }, { data: materials, error: materialsError }, { data: assignments, error: assignmentsError }, { data: sections, error: sectionsError }] = await Promise.all([supabaseAdmin.from('teacher_student_links').select('student_id, assigned_at').eq('teacher_id', user.id), supabaseAdmin.from('pdf_materials').select('id, title, grade_level, level, created_at').eq('teacher_id', user.id).order('created_at', { ascending: false }).limit(30), supabaseAdmin.from('pdf_assign"
+  },
+  {
+    "project": "web",
+    "file": "server/routes/admin.js",
+    "line": 550,
+    "reference": "supabaseAdmin.from('child_progress').select('child_id, level, xp, streak, accuracy_sum, total_attempts, activities_completed, updated_at'),"
+  },
+  {
+    "project": "web",
+    "file": "server/routes/admin.js",
+    "line": 559,
+    "reference": "const attempts = Number(progress?.total_attempts || 0);"
+  },
+  {
+    "project": "web",
+    "file": "server/routes/admin.js",
+    "line": 572,
+    "reference": "accuracy: attempts > 0 ? Math.round(Number(progress?.accuracy_sum || 0) / attempts) : null,"
+  },
+  {
+    "project": "web",
+    "file": "server/routes/admin.js",
+    "line": 574,
+    "reference": "activitiesCompleted: Number(progress?.activities_completed || 0),"
+  },
+  {
+    "project": "web",
+    "file": "server/routes/admin.js",
+    "line": 575,
+    "reference": "xp: Number(progress?.xp || 0),"
+  },
+  {
+    "project": "web",
+    "file": "server/routes/admin.js",
+    "line": 595,
+    "reference": "supabaseAdmin.from('child_progress').select('achievements, xp, streak'),"
+  },
+  {
+    "project": "web",
+    "file": "server/routes/admin.js",
+    "line": 596,
+    "reference": "supabaseAdmin.from('pronunciation_practice_sessions').select('id, created_at, is_correct'),"
+  },
+  {
+    "project": "web",
+    "file": "server/routes/admin.js",
+    "line": 622,
+    "reference": "const totalXp = (progress || []).reduce((sum, p) => sum + (p.xp || 0), 0);"
+  },
+  {
+    "project": "web",
+    "file": "server/routes/parent.js",
+    "line": 88,
+    "reference": "supabaseAdmin.from('child_progress').select('child_id, level, xp, streak, activities_completed, accuracy_sum, total_attempts, updated_at').in('child_id', childIds),"
+  },
+  {
+    "project": "web",
+    "file": "server/routes/parent.js",
+    "line": 101,
+    "reference": "xp: saved?.xp || 0,"
+  },
+  {
+    "project": "web",
+    "file": "server/routes/parent.js",
+    "line": 103,
+    "reference": "activities_completed: saved?.activities_completed || 0,"
+  },
+  {
+    "project": "web",
+    "file": "server/routes/parent.js",
+    "line": 104,
+    "reference": "accuracy_sum: saved?.accuracy_sum || 0,"
+  },
+  {
+    "project": "web",
+    "file": "server/routes/parent.js",
+    "line": 105,
+    "reference": "total_attempts: saved?.total_attempts || 0,"
+  },
+  {
+    "project": "web",
+    "file": "server/routes/parent.js",
+    "line": 180,
+    "reference": "const { error: progressErr } = await supabaseAdmin.from('child_progress').insert({"
+  },
+  {
+    "project": "web",
+    "file": "server/routes/parent.js",
+    "line": 183,
+    "reference": "xp: 0,"
+  },
+  {
+    "project": "web",
+    "file": "server/routes/parent.js",
+    "line": 185,
+    "reference": "completed_words: [],"
+  },
+  {
+    "project": "web",
+    "file": "server/routes/parent.js",
+    "line": 186,
+    "reference": "total_attempts: 0,"
+  },
+  {
+    "project": "web",
+    "file": "server/routes/parent.js",
+    "line": 279,
+    "reference": ".from('pronunciation_practice_sessions')"
+  },
+  {
+    "project": "web",
+    "file": "server/routes/parent.js",
+    "line": 327,
+    "reference": "const { data, error } = await supabaseAdmin.from('pdf_assignments')"
+  },
+  {
+    "project": "web",
+    "file": "server/routes/parent.js",
+    "line": 342,
+    "reference": "const { data: assignment, error: assignmentError } = await supabaseAdmin.from('pdf_assignments')"
+  },
+  {
+    "project": "web",
+    "file": "server/routes/student.js",
+    "line": 355,
+    "reference": "// the shared Supabase project (pronunciation_practice_sessions,"
+  },
+  {
+    "project": "web",
+    "file": "server/routes/student.js",
+    "line": 356,
+    "reference": "// phoneme_confusion, student_content_completions), no dependency on mobile's"
+  },
+  {
+    "project": "web",
+    "file": "server/routes/student.js",
+    "line": 364,
+    "reference": ".from('pronunciation_practice_sessions')"
+  },
+  {
+    "project": "web",
+    "file": "server/routes/student.js",
+    "line": 443,
+    "reference": ".from('pdf_reading_attempts')"
+  },
+  {
+    "project": "web",
+    "file": "server/routes/student.js",
+    "line": 486,
+    "reference": ".from('pdf_reading_attempts')"
+  },
+  {
+    "project": "web",
+    "file": "server/routes/student.js",
+    "line": 523,
+    "reference": "const { error: insertError } = await supabaseAdmin.from('pdf_reading_attempts').insert({"
+  },
+  {
+    "project": "web",
+    "file": "server/routes/student.js",
+    "line": 532,
+    "reference": "const { error: statusError } = await supabaseAdmin.from('pdf_assignments')"
+  },
+  {
+    "project": "web",
+    "file": "server/routes/student.js",
+    "line": 557,
+    "reference": ".from('pdf_reading_attempts').select('chunk_index').eq('pdf_assignment_id', assignment.id).eq('student_id', studentId).not('chunk_index', 'is', null);"
+  },
+  {
+    "project": "web",
+    "file": "server/routes/student.js",
+    "line": 561,
+    "reference": "const { error: submitError } = await supabaseAdmin.from('pdf_assignments')"
+  },
+  {
+    "project": "web",
+    "file": "server/services/authorization.js",
+    "line": 40,
+    "reference": "const { data, error } = await client.from('pdf_assignments').select('id, pdf_material_id, student_id, status, pdf_materials!inner(archived_at)').eq('id', id).maybeSingle();"
+  },
+  {
+    "project": "web",
+    "file": "server/services/progressEvents.js",
+    "line": 38,
+    "reference": "return progress && typeof progress.child_id === 'string' && Number.isSafeInteger(progress.xp) && progress.xp >= 0"
+  },
+  {
+    "project": "web",
+    "file": "server/services/progressEvents.js",
+    "line": 39,
+    "reference": "&& Number.isSafeInteger(progress.total_attempts) && progress.total_attempts >= 0 && Array.isArray(progress.achievements);"
+  },
+  {
+    "project": "web",
+    "file": "server/services/readingInsights.js",
+    "line": 4,
+    "reference": "// pronunciation_practice_sessions + phoneme_confusion + completions -- no"
+  },
+  {
+    "project": "web",
+    "file": "server/services/readingProfileData.js",
+    "line": 2,
+    "reference": "// parent.js). student_content_completions can be large per student, so this"
+  },
+  {
+    "project": "web",
+    "file": "server/services/readingProfileData.js",
+    "line": 9,
+    "reference": ".from('student_content_completions')"
+  },
+  {
+    "project": "web",
+    "file": "server/services/wordOfDayAttempt.js",
+    "line": 37,
+    "reference": "lookup = await client.from('word_of_day_log').select('id, child_id, word').eq('id', logId).eq('child_id', studentId).maybeSingle();"
+  },
+  {
+    "project": "web",
+    "file": "server/services/wordOfDayInitialization.js",
+    "line": 4,
+    "reference": "const read=()=>client.from('word_of_day_log').select('*').eq('child_id',studentId).eq('date',date).maybeSingle();"
+  },
+  {
+    "project": "web",
+    "file": "server/services/wordOfDayInitialization.js",
+    "line": 13,
+    "reference": "const result=await client.from('word_of_day_log').upsert({child_id:studentId,word:chosen.content_text,date,attempts:0,content_id:chosen.id},{onConflict:'child_id,date',ignoreDuplicates:true}).select('*').maybeSingle();"
+  },
+  {
+    "project": "web",
+    "file": "migrations/004_teacher_workspace.sql",
+    "line": 109,
+    "reference": "-- pdf_assignments  (direct-from-frontend: teacher owns via joined pdf_materials)"
+  },
+  {
+    "project": "web",
+    "file": "migrations/004_teacher_workspace.sql",
+    "line": 111,
+    "reference": "CREATE TABLE IF NOT EXISTS public.pdf_assignments ("
+  },
+  {
+    "project": "web",
+    "file": "migrations/004_teacher_workspace.sql",
+    "line": 147,
+    "reference": "DROP TRIGGER IF EXISTS notify_pdf_assignment_trigger ON public.pdf_assignments;"
+  },
+  {
+    "project": "web",
+    "file": "migrations/004_teacher_workspace.sql",
+    "line": 149,
+    "reference": "AFTER INSERT ON public.pdf_assignments"
+  },
+  {
+    "project": "web",
+    "file": "migrations/004_teacher_workspace.sql",
+    "line": 152,
+    "reference": "ALTER TABLE public.pdf_assignments ENABLE ROW LEVEL SECURITY;"
+  },
+  {
+    "project": "web",
+    "file": "migrations/004_teacher_workspace.sql",
+    "line": 154,
+    "reference": "DROP POLICY IF EXISTS \"Teachers manage own pdf assignments\" ON public.pdf_assignments;"
+  },
+  {
+    "project": "web",
+    "file": "migrations/004_teacher_workspace.sql",
+    "line": 156,
+    "reference": "ON public.pdf_assignments FOR ALL TO authenticated"
+  },
+  {
+    "project": "web",
+    "file": "migrations/004_teacher_workspace.sql",
+    "line": 165,
+    "reference": "DROP POLICY IF EXISTS \"Students read own pdf assignments\" ON public.pdf_assignments;"
+  },
+  {
+    "project": "web",
+    "file": "migrations/004_teacher_workspace.sql",
+    "line": 167,
+    "reference": "ON public.pdf_assignments FOR SELECT TO authenticated"
+  },
+  {
+    "project": "web",
+    "file": "migrations/004_teacher_workspace.sql",
+    "line": 168,
+    "reference": "USING (EXISTS (SELECT 1 FROM public.children c WHERE c.id = pdf_assignments.student_id AND c.auth_uid = auth.uid()));"
+  },
+  {
+    "project": "web",
+    "file": "migrations/004_teacher_workspace.sql",
+    "line": 170,
+    "reference": "DROP POLICY IF EXISTS \"Students update own pdf assignment status\" ON public.pdf_assignments;"
+  },
+  {
+    "project": "web",
+    "file": "migrations/004_teacher_workspace.sql",
+    "line": 172,
+    "reference": "ON public.pdf_assignments FOR UPDATE TO authenticated"
+  },
+  {
+    "project": "web",
+    "file": "migrations/004_teacher_workspace.sql",
+    "line": 173,
+    "reference": "USING (EXISTS (SELECT 1 FROM public.children c WHERE c.id = pdf_assignments.student_id AND c.auth_uid = auth.uid()))"
+  },
+  {
+    "project": "web",
+    "file": "migrations/004_teacher_workspace.sql",
+    "line": 174,
+    "reference": "WITH CHECK (EXISTS (SELECT 1 FROM public.children c WHERE c.id = pdf_assignments.student_id AND c.auth_uid = auth.uid()));"
+  },
+  {
+    "project": "web",
+    "file": "migrations/004_teacher_workspace.sql",
+    "line": 176,
+    "reference": "DROP POLICY IF EXISTS \"Parents read child pdf assignments\" ON public.pdf_assignments;"
+  },
+  {
+    "project": "web",
+    "file": "migrations/004_teacher_workspace.sql",
+    "line": 178,
+    "reference": "ON public.pdf_assignments FOR SELECT TO authenticated"
+  },
+  {
+    "project": "web",
+    "file": "migrations/004_teacher_workspace.sql",
+    "line": 179,
+    "reference": "USING (EXISTS (SELECT 1 FROM public.children c WHERE c.id = pdf_assignments.student_id AND c.parent_id = auth.uid()));"
+  },
+  {
+    "project": "web",
+    "file": "migrations/004_teacher_workspace.sql",
+    "line": 181,
+    "reference": "DROP POLICY IF EXISTS \"pdf_assignments service role\" ON public.pdf_assignments;"
+  },
+  {
+    "project": "web",
+    "file": "migrations/004_teacher_workspace.sql",
+    "line": 182,
+    "reference": "CREATE POLICY \"pdf_assignments service role\""
+  },
+  {
+    "project": "web",
+    "file": "migrations/004_teacher_workspace.sql",
+    "line": 183,
+    "reference": "ON public.pdf_assignments FOR ALL"
+  },
+  {
+    "project": "web",
+    "file": "migrations/004_teacher_workspace.sql",
+    "line": 186,
+    "reference": "ALTER TABLE public.pdf_assignments REPLICA IDENTITY FULL;"
+  },
+  {
+    "project": "web",
+    "file": "migrations/004_teacher_workspace.sql",
+    "line": 190,
+    "reference": "WHERE pubname = 'supabase_realtime' AND schemaname = 'public' AND tablename = 'pdf_assignments'"
+  },
+  {
+    "project": "web",
+    "file": "migrations/004_teacher_workspace.sql",
+    "line": 192,
+    "reference": "ALTER PUBLICATION supabase_realtime ADD TABLE public.pdf_assignments;"
+  },
+  {
+    "project": "web",
+    "file": "migrations/004_teacher_workspace.sql",
+    "line": 197,
+    "reference": "-- references pdf_assignments, which must exist first."
+  },
+  {
+    "project": "web",
+    "file": "migrations/004_teacher_workspace.sql",
+    "line": 203,
+    "reference": "SELECT 1 FROM public.pdf_assignments a"
+  },
+  {
+    "project": "web",
+    "file": "migrations/004_teacher_workspace.sql",
+    "line": 210,
+    "reference": "-- pdf_reading_attempts  (student records their own speech-vs-text accuracy)"
+  },
+  {
+    "project": "web",
+    "file": "migrations/004_teacher_workspace.sql",
+    "line": 212,
+    "reference": "CREATE TABLE IF NOT EXISTS public.pdf_reading_attempts ("
+  },
+  {
+    "project": "web",
+    "file": "migrations/004_teacher_workspace.sql",
+    "line": 214,
+    "reference": "pdf_assignment_id UUID NOT NULL REFERENCES public.pdf_assignments(id) ON DELETE CASCADE,"
+  },
+  {
+    "project": "web",
+    "file": "migrations/004_teacher_workspace.sql",
+    "line": 221,
+    "reference": "ALTER TABLE public.pdf_reading_attempts ENABLE ROW LEVEL SECURITY;"
+  },
+  {
+    "project": "web",
+    "file": "migrations/004_teacher_workspace.sql",
+    "line": 223,
+    "reference": "DROP POLICY IF EXISTS \"Students record own pdf reading attempts\" ON public.pdf_reading_attempts;"
+  },
+  {
+    "project": "web",
+    "file": "migrations/004_teacher_workspace.sql",
+    "line": 225,
+    "reference": "ON public.pdf_reading_attempts FOR INSERT TO authenticated"
+  },
+  {
+    "project": "web",
+    "file": "migrations/004_teacher_workspace.sql",
+    "line": 226,
+    "reference": "WITH CHECK (EXISTS (SELECT 1 FROM public.children c WHERE c.id = pdf_reading_attempts.student_id AND c.auth_uid = auth.uid()));"
+  },
+  {
+    "project": "web",
+    "file": "migrations/004_teacher_workspace.sql",
+    "line": 228,
+    "reference": "DROP POLICY IF EXISTS \"Students read own pdf reading attempts\" ON public.pdf_reading_attempts;"
+  },
+  {
+    "project": "web",
+    "file": "migrations/004_teacher_workspace.sql",
+    "line": 230,
+    "reference": "ON public.pdf_reading_attempts FOR SELECT TO authenticated"
+  },
+  {
+    "project": "web",
+    "file": "migrations/004_teacher_workspace.sql",
+    "line": 231,
+    "reference": "USING (EXISTS (SELECT 1 FROM public.children c WHERE c.id = pdf_reading_attempts.student_id AND c.auth_uid = auth.uid()));"
+  },
+  {
+    "project": "web",
+    "file": "migrations/004_teacher_workspace.sql",
+    "line": 233,
+    "reference": "DROP POLICY IF EXISTS \"Teachers read assigned pdf reading attempts\" ON public.pdf_reading_attempts;"
+  },
+  {
+    "project": "web",
+    "file": "migrations/004_teacher_workspace.sql",
+    "line": 235,
+    "reference": "ON public.pdf_reading_attempts FOR SELECT TO authenticated"
+  },
+  {
+    "project": "web",
+    "file": "migrations/004_teacher_workspace.sql",
+    "line": 238,
+    "reference": "SELECT 1 FROM public.pdf_assignments a"
+  },
+  {
+    "project": "web",
+    "file": "migrations/004_teacher_workspace.sql",
+    "line": 244,
+    "reference": "DROP POLICY IF EXISTS \"Parents read child pdf reading attempts\" ON public.pdf_reading_attempts;"
+  },
+  {
+    "project": "web",
+    "file": "migrations/004_teacher_workspace.sql",
+    "line": 246,
+    "reference": "ON public.pdf_reading_attempts FOR SELECT TO authenticated"
+  },
+  {
+    "project": "web",
+    "file": "migrations/004_teacher_workspace.sql",
+    "line": 247,
+    "reference": "USING (EXISTS (SELECT 1 FROM public.children c WHERE c.id = pdf_reading_attempts.student_id AND c.parent_id = auth.uid()));"
+  },
+  {
+    "project": "web",
+    "file": "migrations/004_teacher_workspace.sql",
+    "line": 249,
+    "reference": "DROP POLICY IF EXISTS \"pdf_reading_attempts service role\" ON public.pdf_reading_attempts;"
+  },
+  {
+    "project": "web",
+    "file": "migrations/004_teacher_workspace.sql",
+    "line": 250,
+    "reference": "CREATE POLICY \"pdf_reading_attempts service role\""
+  },
+  {
+    "project": "web",
+    "file": "migrations/004_teacher_workspace.sql",
+    "line": 251,
+    "reference": "ON public.pdf_reading_attempts FOR ALL"
+  },
+  {
+    "project": "web",
+    "file": "migrations/007_fix_pdf_rls_recursion.sql",
+    "line": 2,
+    "reference": "-- read pdf materials\" policy subqueries pdf_assignments, and pdf_assignments'"
+  },
+  {
+    "project": "web",
+    "file": "migrations/007_fix_pdf_rls_recursion.sql",
+    "line": 35,
+    "reference": "SELECT 1 FROM public.pdf_assignments a"
+  },
+  {
+    "project": "web",
+    "file": "migrations/007_fix_pdf_rls_recursion.sql",
+    "line": 51,
+    "reference": "DROP POLICY IF EXISTS \"Teachers manage own pdf assignments\" ON public.pdf_assignments;"
+  },
+  {
+    "project": "web",
+    "file": "migrations/007_fix_pdf_rls_recursion.sql",
+    "line": 53,
+    "reference": "ON public.pdf_assignments FOR ALL TO authenticated"
+  },
+  {
+    "project": "web",
+    "file": "migrations/008_fix_children_student_id_ambiguity.sql",
+    "line": 14,
+    "reference": "-- pattern was used. Affects pdf_assignments (3 policies),"
+  },
+  {
+    "project": "web",
+    "file": "migrations/008_fix_children_student_id_ambiguity.sql",
+    "line": 15,
+    "reference": "-- pdf_reading_attempts (3 policies), teacher_assessment_scores (2 policies),"
+  },
+  {
+    "project": "web",
+    "file": "migrations/008_fix_children_student_id_ambiguity.sql",
+    "line": 18,
+    "reference": "DROP POLICY IF EXISTS \"Students read own pdf assignments\" ON public.pdf_assignments;"
+  },
+  {
+    "project": "web",
+    "file": "migrations/008_fix_children_student_id_ambiguity.sql",
+    "line": 20,
+    "reference": "ON public.pdf_assignments FOR SELECT TO authenticated"
+  },
+  {
+    "project": "web",
+    "file": "migrations/008_fix_children_student_id_ambiguity.sql",
+    "line": 21,
+    "reference": "USING (EXISTS (SELECT 1 FROM public.children c WHERE c.id = pdf_assignments.student_id AND c.auth_uid = auth.uid()));"
+  },
+  {
+    "project": "web",
+    "file": "migrations/008_fix_children_student_id_ambiguity.sql",
+    "line": 23,
+    "reference": "DROP POLICY IF EXISTS \"Students update own pdf assignment status\" ON public.pdf_assignments;"
+  },
+  {
+    "project": "web",
+    "file": "migrations/008_fix_children_student_id_ambiguity.sql",
+    "line": 25,
+    "reference": "ON public.pdf_assignments FOR UPDATE TO authenticated"
+  },
+  {
+    "project": "web",
+    "file": "migrations/008_fix_children_student_id_ambiguity.sql",
+    "line": 26,
+    "reference": "USING (EXISTS (SELECT 1 FROM public.children c WHERE c.id = pdf_assignments.student_id AND c.auth_uid = auth.uid()))"
+  },
+  {
+    "project": "web",
+    "file": "migrations/008_fix_children_student_id_ambiguity.sql",
+    "line": 27,
+    "reference": "WITH CHECK (EXISTS (SELECT 1 FROM public.children c WHERE c.id = pdf_assignments.student_id AND c.auth_uid = auth.uid()));"
+  },
+  {
+    "project": "web",
+    "file": "migrations/008_fix_children_student_id_ambiguity.sql",
+    "line": 29,
+    "reference": "DROP POLICY IF EXISTS \"Parents read child pdf assignments\" ON public.pdf_assignments;"
+  },
+  {
+    "project": "web",
+    "file": "migrations/008_fix_children_student_id_ambiguity.sql",
+    "line": 31,
+    "reference": "ON public.pdf_assignments FOR SELECT TO authenticated"
+  },
+  {
+    "project": "web",
+    "file": "migrations/008_fix_children_student_id_ambiguity.sql",
+    "line": 32,
+    "reference": "USING (EXISTS (SELECT 1 FROM public.children c WHERE c.id = pdf_assignments.student_id AND c.parent_id = auth.uid()));"
+  },
+  {
+    "project": "web",
+    "file": "migrations/008_fix_children_student_id_ambiguity.sql",
+    "line": 34,
+    "reference": "DROP POLICY IF EXISTS \"Students record own pdf reading attempts\" ON public.pdf_reading_attempts;"
+  },
+  {
+    "project": "web",
+    "file": "migrations/008_fix_children_student_id_ambiguity.sql",
+    "line": 36,
+    "reference": "ON public.pdf_reading_attempts FOR INSERT TO authenticated"
+  },
+  {
+    "project": "web",
+    "file": "migrations/008_fix_children_student_id_ambiguity.sql",
+    "line": 37,
+    "reference": "WITH CHECK (EXISTS (SELECT 1 FROM public.children c WHERE c.id = pdf_reading_attempts.student_id AND c.auth_uid = auth.uid()));"
+  },
+  {
+    "project": "web",
+    "file": "migrations/008_fix_children_student_id_ambiguity.sql",
+    "line": 39,
+    "reference": "DROP POLICY IF EXISTS \"Students read own pdf reading attempts\" ON public.pdf_reading_attempts;"
+  },
+  {
+    "project": "web",
+    "file": "migrations/008_fix_children_student_id_ambiguity.sql",
+    "line": 41,
+    "reference": "ON public.pdf_reading_attempts FOR SELECT TO authenticated"
+  },
+  {
+    "project": "web",
+    "file": "migrations/008_fix_children_student_id_ambiguity.sql",
+    "line": 42,
+    "reference": "USING (EXISTS (SELECT 1 FROM public.children c WHERE c.id = pdf_reading_attempts.student_id AND c.auth_uid = auth.uid()));"
+  },
+  {
+    "project": "web",
+    "file": "migrations/008_fix_children_student_id_ambiguity.sql",
+    "line": 44,
+    "reference": "DROP POLICY IF EXISTS \"Parents read child pdf reading attempts\" ON public.pdf_reading_attempts;"
+  },
+  {
+    "project": "web",
+    "file": "migrations/008_fix_children_student_id_ambiguity.sql",
+    "line": 46,
+    "reference": "ON public.pdf_reading_attempts FOR SELECT TO authenticated"
+  },
+  {
+    "project": "web",
+    "file": "migrations/008_fix_children_student_id_ambiguity.sql",
+    "line": 47,
+    "reference": "USING (EXISTS (SELECT 1 FROM public.children c WHERE c.id = pdf_reading_attempts.student_id AND c.parent_id = auth.uid()));"
+  },
+  {
+    "project": "web",
+    "file": "migrations/009_teacher_read_roster_children.sql",
+    "line": 20,
+    "reference": "-- Same gap, same fix, for Teacher Progress Reports (reads child_progress"
+  },
+  {
+    "project": "web",
+    "file": "migrations/009_teacher_read_roster_children.sql",
+    "line": 21,
+    "reference": "-- directly for the teacher's roster) -- child_progress's SELECT policy only"
+  },
+  {
+    "project": "web",
+    "file": "migrations/009_teacher_read_roster_children.sql",
+    "line": 23,
+    "reference": "DROP POLICY IF EXISTS \"Teachers read roster child progress\" ON public.child_progress;"
+  },
+  {
+    "project": "web",
+    "file": "migrations/009_teacher_read_roster_children.sql",
+    "line": 25,
+    "reference": "ON public.child_progress FOR SELECT TO authenticated"
+  },
+  {
+    "project": "web",
+    "file": "migrations/009_teacher_read_roster_children.sql",
+    "line": 29,
+    "reference": "WHERE tsl.student_id = child_progress.child_id AND tsl.teacher_id = auth.uid()"
+  },
+  {
+    "project": "web",
+    "file": "migrations/012_teacher_messages.sql",
+    "line": 12,
+    "reference": "-- pdf_assignments, etc)."
+  },
+  {
+    "project": "web",
+    "file": "migrations/016_pdf_syllable_drill.sql",
+    "line": 3,
+    "reference": "-- into scored practice items. Reuses the existing pdf_materials/pdf_assignments"
+  },
+  {
+    "project": "web",
+    "file": "migrations/016_pdf_syllable_drill.sql",
+    "line": 36,
+    "reference": "-- this doesn't reintroduce the same pdf_materials <-> pdf_assignments RLS"
+  },
+  {
+    "project": "web",
+    "file": "migrations/016_pdf_syllable_drill.sql",
+    "line": 61,
+    "reference": "-- pdf_reading_attempts: extend with drill-scoring columns (nullable -- plain"
+  },
+  {
+    "project": "web",
+    "file": "migrations/016_pdf_syllable_drill.sql",
+    "line": 64,
+    "reference": "ALTER TABLE public.pdf_reading_attempts"
+  },
+  {
+    "project": "web",
+    "file": "migrations/016_pdf_syllable_drill.sql",
+    "line": 66,
+    "reference": "ALTER TABLE public.pdf_reading_attempts"
+  },
+  {
+    "project": "web",
+    "file": "migrations/016_pdf_syllable_drill.sql",
+    "line": 68,
+    "reference": "ALTER TABLE public.pdf_reading_attempts"
+  },
+  {
+    "project": "web",
+    "file": "migrations/016_pdf_syllable_drill.sql",
+    "line": 69,
+    "reference": "ADD COLUMN IF NOT EXISTS xp_awarded INT;"
+  },
+  {
+    "project": "web",
+    "file": "migrations/016_pdf_syllable_drill.sql",
+    "line": 75,
+    "reference": "ON public.pdf_reading_attempts(student_id, drill_item_id)"
+  },
+  {
+    "project": "web",
+    "file": "migrations/018_nonsense_word_checks.sql",
+    "line": 21,
+    "reference": "xp_awarded INT NOT NULL DEFAULT 0,"
+  },
+  {
+    "project": "web",
+    "file": "migrations/018_nonsense_word_checks.sql",
+    "line": 32,
+    "reference": "-- and word_of_day_log's XP fields) -- the backend computes the score, the"
+  },
+  {
+    "project": "web",
+    "file": "migrations/026_atomic_badge_awards.sql",
+    "line": 8,
+    "reference": "xp_awarded INTEGER NOT NULL CHECK (xp_awarded >= 0 AND xp_awarded <= 500),"
+  },
+  {
+    "project": "web",
+    "file": "migrations/026_atomic_badge_awards.sql",
+    "line": 40,
+    "reference": "PERFORM 1 FROM public.child_progress WHERE child_id = p_student_id FOR UPDATE;"
+  },
+  {
+    "project": "web",
+    "file": "migrations/026_atomic_badge_awards.sql",
+    "line": 46,
+    "reference": "v_xp := (v_award->>'xp')::INTEGER;"
+  },
+  {
+    "project": "web",
+    "file": "migrations/026_atomic_badge_awards.sql",
+    "line": 51,
+    "reference": "INSERT INTO public.student_badge_awards(student_id, badge_id, xp_awarded)"
+  },
+  {
+    "project": "web",
+    "file": "migrations/026_atomic_badge_awards.sql",
+    "line": 62,
+    "reference": "UPDATE public.child_progress"
+  },
+  {
+    "project": "web",
+    "file": "migrations/026_atomic_badge_awards.sql",
+    "line": 64,
+    "reference": "xp = COALESCE(xp, 0) + v_total_xp,"
+  },
+  {
+    "project": "web",
+    "file": "migrations/026_atomic_badge_awards.sql",
+    "line": 67,
+    "reference": "RETURNING xp INTO v_new_xp;"
+  },
+  {
+    "project": "web",
+    "file": "migrations/029_guided_pdf_story_reading.sql",
+    "line": 12,
+    "reference": "ALTER TABLE public.pdf_reading_attempts ADD COLUMN IF NOT EXISTS chunk_index INTEGER, ADD COLUMN IF NOT EXISTS chunk_text TEXT;"
+  },
+  {
+    "project": "web",
+    "file": "migrations/029_guided_pdf_story_reading.sql",
+    "line": 13,
+    "reference": "CREATE INDEX IF NOT EXISTS pdf_reading_attempts_assignment_chunk_idx ON public.pdf_reading_attempts(pdf_assignment_id, student_id, chunk_index, created_at DESC) WHERE chunk_index IS NOT NULL;"
+  },
+  {
+    "project": "web",
+    "file": "migrations/029_guided_pdf_story_reading.sql",
+    "line": 14,
+    "reference": "ALTER TABLE public.pdf_assignments ADD COLUMN IF NOT EXISTS submitted_at TIMESTAMPTZ, ADD COLUMN IF NOT EXISTS reviewed_at TIMESTAMPTZ, ADD COLUMN IF NOT EXISTS reviewed_by UUID REFERENCES auth.users(id) ON DELETE SET NULL, ADD COLUMN IF NOT EXISTS teacher_feedback TEXT;"
+  },
+  {
+    "project": "web",
+    "file": "migrations/029_guided_pdf_story_reading.sql",
+    "line": 19,
+    "reference": "SELECT conname INTO constraint_name FROM pg_constraint WHERE conrelid = 'public.pdf_assignments'::regclass AND contype = 'c' AND pg_get_constraintdef(oid) LIKE '%status%';"
+  },
+  {
+    "project": "web",
+    "file": "migrations/029_guided_pdf_story_reading.sql",
+    "line": 20,
+    "reference": "IF constraint_name IS NOT NULL THEN EXECUTE format('ALTER TABLE public.pdf_assignments DROP CONSTRAINT %I', constraint_name); END IF;"
+  },
+  {
+    "project": "web",
+    "file": "migrations/029_guided_pdf_story_reading.sql",
+    "line": 23,
+    "reference": "ALTER TABLE public.pdf_assignments ADD CONSTRAINT pdf_assignments_status_check CHECK (status IN ('assigned', 'in_progress', 'submitted', 'reviewed', 'needs_review', 'completed'));"
+  },
+  {
+    "project": "web",
+    "file": "migrations/029_guided_pdf_story_reading.sql",
+    "line": 24,
+    "reference": "DROP POLICY IF EXISTS \"Students update own pdf assignment status\" ON public.pdf_assignments;"
+  },
+  {
+    "project": "web",
+    "file": "migrations/029_guided_pdf_story_reading.sql",
+    "line": 25,
+    "reference": "CREATE POLICY \"Students update own guided pdf progress\" ON public.pdf_assignments FOR UPDATE TO authenticated"
+  },
+  {
+    "project": "web",
+    "file": "migrations/029_guided_pdf_story_reading.sql",
+    "line": 26,
+    "reference": "USING (EXISTS (SELECT 1 FROM public.children c WHERE c.id = pdf_assignments.student_id AND c.auth_uid = auth.uid()))"
+  },
+  {
+    "project": "web",
+    "file": "migrations/031_direct_mutation_audit.sql",
+    "line": 35,
+    "reference": "'word_of_day_log','users','teacher_profiles','pdf_reading_attempts','pdf_assignments',"
+  },
+  {
+    "project": "web",
+    "file": "migrations/031_direct_mutation_audit.sql",
+    "line": 37,
+    "reference": "'pronunciation_practice_sessions','scheduled_activities','lessons','student_settings'"
+  },
+  {
+    "project": "web",
+    "file": "migrations/032_lock_down_pdf_reading_student_mutations.sql",
+    "line": 7,
+    "reference": "DROP POLICY IF EXISTS \"Students record own pdf reading attempts\" ON public.pdf_reading_attempts;"
+  },
+  {
+    "project": "web",
+    "file": "migrations/032_lock_down_pdf_reading_student_mutations.sql",
+    "line": 8,
+    "reference": "DROP POLICY IF EXISTS \"Students update own pdf assignment status\" ON public.pdf_assignments;"
+  },
+  {
+    "project": "web",
+    "file": "migrations/032_lock_down_pdf_reading_student_mutations.sql",
+    "line": 9,
+    "reference": "DROP POLICY IF EXISTS \"Students update own guided pdf progress\" ON public.pdf_assignments;"
+  },
+  {
+    "project": "web",
+    "file": "migrations/033_lock_down_practice_session_mutations.sql",
+    "line": 6,
+    "reference": "REVOKE INSERT ON TABLE public.pronunciation_practice_sessions FROM authenticated;"
+  },
+  {
+    "project": "web",
+    "file": "migrations/035_audit_action_taxonomy.sql",
+    "line": 12,
+    "reference": "WHEN 'child_progress' THEN 'STUDENT.PROGRESS_UPDATE'"
+  },
+  {
+    "project": "web",
+    "file": "migrations/035_audit_action_taxonomy.sql",
+    "line": 13,
+    "reference": "WHEN 'pdf_assignments' THEN 'ASSIGNMENT.' || CASE p_operation WHEN 'INSERT' THEN 'CREATE' WHEN 'DELETE' THEN 'DELETE' ELSE 'UPDATE' END"
+  },
+  {
+    "project": "web",
+    "file": "migrations/037_correct_demo_student_placements.sql",
+    "line": 15,
+    "reference": "UPDATE public.child_progress progress"
+  }
+]

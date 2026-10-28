@@ -1,7 +1,9 @@
 // In local development, use this repository's server/.env even if a terminal
 // has stale Supabase variables from another project. Production continues to
 // use its platform-provided environment configuration.
-require('dotenv').config({ override: process.env.NODE_ENV !== 'production' });
+if (require.main === module) {
+  require('dotenv').config({ path: require('node:path').join(__dirname, '.env'), override: process.env.NODE_ENV !== 'production' });
+}
 const { assertServerConfig } = require('./config/validateConfig');
 assertServerConfig();
 const express = require('express');
@@ -46,6 +48,7 @@ app.use(cors({
   },
   methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Authorization', 'Content-Type'],
+  exposedHeaders: ['X-API-Compatibility-Version', 'X-Request-ID', 'RateLimit', 'RateLimit-Policy', 'Retry-After'],
   maxAge: 86400,
 }));
 app.use(express.json({ limit: '1mb', strict: true }));
@@ -91,11 +94,12 @@ app.use('/api/notifications', notificationsRoutes);
 app.use('/api/auth', authEventsRoutes);
 app.use((req, res) => res.status(404).json({ error: 'Not found' }));
 app.use((err, req, res, _next) => {
-  console.error('[unhandled]', err);
   if (err?.type === 'entity.parse.failed') return res.status(400).json({ error: 'Malformed JSON request.' });
+  if (err?.type === 'entity.too.large') return res.status(413).json({ error: 'Request body is too large.' });
   if (err?.code === 'LIMIT_FILE_SIZE') return res.status(413).json({ error: 'PDF is too large (maximum 15 MB).' });
   if (err?.message === 'Only PDF files are allowed.') return res.status(400).json({ error: err.message });
   if (err?.message === 'Origin not allowed by CORS.') return res.status(403).json({ error: 'Origin not allowed.' });
+  console.error('[unhandled]', { requestId: req.requestId, code: err?.code, name: err?.name });
   return res.status(500).json({ error: 'Internal server error' });
 });
 

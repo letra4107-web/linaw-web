@@ -1,0 +1,26 @@
+{
+  "generatedAt": "2026-10-21T12:51:38.179Z",
+  "workspace": "frontend",
+  "exitCode": 0,
+  "status": "PASS: no registry advisories reported",
+  "metadata": {
+    "vulnerabilities": {
+      "info": 0,
+      "low": 0,
+      "moderate": 0,
+      "high": 0,
+      "critical": 0,
+      "total": 0
+    },
+    "dependencies": {
+      "prod": 64,
+      "dev": 103,
+      "optional": 69,
+      "peer": 1,
+      "peerOptional": 0,
+      "total": 167
+    }
+  },
+  "vulnerabilities": {},
+  "limitation": "Registry advisory inventory only; not a complete security review"
+}

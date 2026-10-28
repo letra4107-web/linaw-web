@@ -1,0 +1,91 @@
+{
+  "timestamp": "2026-10-18T08:44:42.270Z",
+  "status": "HOLD — MAIN DATABASE NOT YET CLEARED",
+  "ownerStatement": {
+    "recordedAt": "2026-10-18T08:41:00.607Z",
+    "source": "Explicit owner statement in chat",
+    "project": "MAIN project connected to deployed LinawLetra",
+    "migrationsReportedApplied": [
+      "047",
+      "048"
+    ],
+    "independentlyVerified": false,
+    "instruction": "Do not rerun migrations or modify main records/Auth/Storage; use dedicated read-only access without RLS bypass."
+  },
+  "mainConnectionAttempted": false,
+  "catalogStatus": "BLOCKED",
+  "integrityStatus": "BLOCKED",
+  "groups": [
+    {
+      "scenario": "047 RPC/signature/grants",
+      "status": "BLOCKED",
+      "actual": "Private read-only connection configuration is incomplete."
+    },
+    {
+      "scenario": "048 trigger-function body/security",
+      "status": "BLOCKED",
+      "actual": "Private read-only connection configuration is incomplete."
+    },
+    {
+      "scenario": "Membership trigger wiring",
+      "status": "BLOCKED",
+      "actual": "Private read-only connection configuration is incomplete."
+    },
+    {
+      "scenario": "Required constraints/RLS/non-nullability",
+      "status": "BLOCKED",
+      "actual": "Private read-only connection configuration is incomplete."
+    }
+  ],
+  "integrity": [
+    {
+      "scenario": "Duplicate memberships",
+      "status": "BLOCKED",
+      "actual": "No authorized full-visibility main-data inspection executed"
+    },
+    {
+      "scenario": "Section capacity",
+      "status": "BLOCKED",
+      "actual": "No authorized full-visibility main-data inspection executed"
+    },
+    {
+      "scenario": "Student/section grade and foreign-key relationships",
+      "status": "BLOCKED",
+      "actual": "No authorized full-visibility main-data inspection executed"
+    },
+    {
+      "scenario": "Teacher roster consistency",
+      "status": "BLOCKED",
+      "actual": "No authorized full-visibility main-data inspection executed"
+    }
+  ],
+  "mainTestsNotRun": [
+    "Write-capable assignment RPC invocation",
+    "Enrollment/Auth changes",
+    "Concurrency/serialization injection on main",
+    "Storage operations"
+  ],
+  "localVerifier": {
+    "cases": 6,
+    "passed": 6
+  },
+  "unitAndApi": {
+    "timestamp": "2026-10-18T08:41:00.589Z",
+    "scope": "Isolated configuration/role-scope guards and actual Express assignment routing with a substituted persistence boundary. No main database or production login.",
+    "exitCode": 0,
+    "pass": 11,
+    "fail": 0
+  },
+  "priorApplicationQa": {
+    "PASS": 472,
+    "FAIL": 15,
+    "BLOCKED": 66,
+    "NOT RUN": 3,
+    "NOT IMPLEMENTED": 5,
+    "total": 561,
+    "executed": 487,
+    "passRate": 96.92,
+    "scope": "Last complete application QA run; unchanged by diagnostic-only tests in this review"
+  },
+  "deploymentReady": false
+}

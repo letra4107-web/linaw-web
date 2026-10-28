@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useMutation } from '@tanstack/react-query';
+import {recordVerifiedAnswer} from '../../lib/progressEvents';
 import { api } from '../../lib/api';
 import { assessSpeech, isSpeechRecognitionSupported, listenOnce } from '../../lib/speech';
 import { playTtsSequence } from '../../lib/ttsPlayer';
@@ -44,6 +45,7 @@ interface Answered {
 export default function Assessment() {
   const { assessmentId } = useParams<{ assessmentId: string }>();
   const navigate = useNavigate();
+  const [pendingRetry,setPendingRetry]=useState<{item:AssessmentItem;transcript:string}|null>(null);
   const [started, setStarted] = useState<StartResponse | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [answers, setAnswers] = useState<Record<string, Answered>>({});
@@ -72,22 +74,20 @@ export default function Assessment() {
       item: AssessmentItem;
       transcript: string;
     }) => {
-      const attempt = await api<{ attempt_id: string }>(`/student/learn/content/${item.content_id}/attempt`, {
-        method: 'POST',
-        auth: true,
-        body: { transcript, source: 'assessment' },
-      });
+      const saved=await recordVerifiedAnswer({contentId:item.content_id,transcript,source:'assessment',assessmentAttemptId:started!.attempt_id,assessmentItemId:item.assessment_item_id});
+      const attempt=saved.result;
       return { item, attempt };
     },
     onMutate: ({ item }) => setPendingAnswerId(item.assessment_item_id),
     onSuccess: ({ item, attempt }) => {
+      setPendingRetry(null);setError(null);
       setAnswers((prev) => ({
         ...prev,
         [item.assessment_item_id]: { assessment_item_id: item.assessment_item_id, content_attempt_id: attempt.attempt_id },
       }));
       setPendingAnswerId(null);
     },
-    onError: (err: Error) => { setPendingAnswerId(null); setError(err.message); },
+    onError: (err: Error & {pendingTranscript?:string},variables) => {setPendingRetry({...variables,transcript:err.pendingTranscript||variables.transcript}); setPendingAnswerId(null); setError(err.message); },
   });
 
   const submitMutation = useMutation({
@@ -189,6 +189,7 @@ export default function Assessment() {
         total={started.items.length}
       />
 
+      {pendingRetry && <button disabled={recordAnswer.isPending} className="rounded-xl bg-purple-100 p-3" onClick={()=>recordAnswer.mutate(pendingRetry)}>I-save muli ang parehong sagot</button>}
       {error && <p role="alert" className="rounded-xl bg-[var(--color-danger-soft)] px-4 py-3 text-[var(--color-danger)]">{error}</p>}
 
       {started.items.map((item, idx) => {

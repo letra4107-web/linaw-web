@@ -20,8 +20,8 @@ export function ProtectedRoute({ role, children }: ProtectedRouteProps) {
 
   if (!user) return <Navigate to="/login" replace />;
 
-  if (!identity) {
-    return <Navigate to="/verify-email" replace />;
+  if (!identity || (identity.role !== 'student' && !identity.emailVerified)) {
+    return <Navigate to="/verify-email" state={{ email: user.email }} replace />;
   }
 
   if (identity.role !== role) {

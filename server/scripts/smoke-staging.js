@@ -1,5 +1,6 @@
 require('dotenv').config();
 const { createClient } = require('@supabase/supabase-js');
+const { assertStagingTargets } = require('../lib/stagingTarget');
 
 const enabled = process.env.E2E_ALLOW_STAGING_TESTS === 'true';
 if (!enabled) {
@@ -11,12 +12,9 @@ const apiUrl = String(process.env.E2E_API_URL || '').replace(/\/$/, '');
 const frontendUrl = String(process.env.E2E_FRONTEND_URL || '').replace(/\/$/, '');
 const supabaseUrl = process.env.E2E_SUPABASE_URL || '';
 const anonKey = process.env.E2E_SUPABASE_ANON_KEY || '';
-const targets = `${apiUrl} ${frontendUrl} ${supabaseUrl}`.toLowerCase();
 
 if (!apiUrl || !frontendUrl || !supabaseUrl || !anonKey) throw new Error('E2E API, frontend, Supabase URL, and anon key are required.');
-if (/linawletra-production|(^|\.)linawletra\.com/.test(targets) || !/staging|localhost|127\.0\.0\.1/.test(targets)) {
-  throw new Error('Smoke tests refuse production or non-staging targets.');
-}
+assertStagingTargets({ api: apiUrl, frontend: frontendUrl, supabase: supabaseUrl }, { allowedSupabaseHost: process.env.E2E_ALLOWED_SUPABASE_HOST });
 
 async function expectStatus(label, request, expected) {
   const response = await request;

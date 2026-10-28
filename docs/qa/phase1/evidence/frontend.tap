@@ -1,0 +1,178 @@
+TAP version 13
+# Subtest: QA email validation accepts single addresses and rejects embedded or whitespace addresses
+ok 1 - QA email validation accepts single addresses and rejects embedded or whitespace addresses
+  ---
+  duration_ms: 222.2514
+  type: 'test'
+  ...
+# Subtest: QA role resolution never repairs over a failed authoritative profile lookup
+ok 2 - QA role resolution never repairs over a failed authoritative profile lookup
+  ---
+  duration_ms: 20.0121
+  type: 'test'
+  ...
+# Subtest: QA role resolution never repairs when child identity lookup fails
+ok 3 - QA role resolution never repairs when child identity lookup fails
+  ---
+  duration_ms: 13.0783
+  type: 'test'
+  ...
+# Subtest: QA role resolution preserves authoritative teacher and child roles
+ok 4 - QA role resolution preserves authoritative teacher and child roles
+  ---
+  duration_ms: 24.861
+  type: 'test'
+  ...
+# Subtest: QA parent profile repair reports persistence failure
+ok 5 - QA parent profile repair reports persistence failure
+  ---
+  duration_ms: 11.1053
+  type: 'test'
+  ...
+# Subtest: QA confirmed parent repair preserves signup name; unconfirmed accounts are not repaired
+ok 6 - QA confirmed parent repair preserves signup name; unconfirmed accounts are not repaired
+  ---
+  duration_ms: 23.2558
+  type: 'test'
+  ...
+# Subtest: QA saved-profile picker ignores malformed entries without crashing
+ok 7 - QA saved-profile picker ignores malformed entries without crashing
+  ---
+  duration_ms: 16.1452
+  type: 'test'
+  ...
+# Subtest: QA saved profiles enforce expiration, student replacement, and profile limit
+ok 8 - QA saved profiles enforce expiration, student replacement, and profile limit
+  ---
+  duration_ms: 9.4204
+  type: 'test'
+  ...
+# Subtest: QA unavailable optional profile storage does not break login/logout
+ok 9 - QA unavailable optional profile storage does not break login/logout
+  ---
+  duration_ms: 8.8598
+  type: 'test'
+  ...
+# Subtest: QA signup without a session reaches verification without an unauthenticated profile write
+ok 10 - QA signup without a session reaches verification without an unauthenticated profile write
+  ---
+  duration_ms: 69.6203
+  type: 'test'
+  ...
+# Subtest: QA signup with a session persists its parent profile
+ok 11 - QA signup with a session persists its parent profile
+  ---
+  duration_ms: 57.3673
+  type: 'test'
+  ...
+# Subtest: QA account switching cannot publish an older asynchronous identity
+ok 12 - QA account switching cannot publish an older asynchronous identity
+  ---
+  duration_ms: 30.3133
+  type: 'test'
+  ...
+# Subtest: parent badges accept current atomic award records
+ok 13 - parent badges accept current atomic award records
+  ---
+  duration_ms: 2.4984
+  type: 'test'
+  ...
+# Subtest: parent badges accept legacy keyed achievements
+ok 14 - parent badges accept legacy keyed achievements
+  ---
+  duration_ms: 0.4071
+  type: 'test'
+  ...
+# Subtest: parent badges merge legacy strings without duplicate unlocks
+ok 15 - parent badges merge legacy strings without duplicate unlocks
+  ---
+  duration_ms: 0.27
+  type: 'test'
+  ...
+# Subtest: parent badges ignore absent or malformed records
+ok 16 - parent badges ignore absent or malformed records
+  ---
+  duration_ms: 0.1562
+  type: 'test'
+  ...
+# Subtest: parent async button callbacks invoke actions instead of discarding function references
+ok 17 - parent async button callbacks invoke actions instead of discarding function references
+  ---
+  duration_ms: 175.5409
+  type: 'test'
+  ...
+# Subtest: module table defaults to five rows with a correct visible range
+ok 18 - module table defaults to five rows with a correct visible range
+  ---
+  duration_ms: 2.0143
+  type: 'test'
+  ...
+# Subtest: next and last pages show distinct rows and the partial final range
+ok 19 - next and last pages show distinct rows and the partial final range
+  ---
+  duration_ms: 0.2271
+  type: 'test'
+  ...
+# Subtest: changing page size shows the selected number of modules
+ok 20 - changing page size shows the selected number of modules
+  ---
+  duration_ms: 0.3176
+  type: 'test'
+  ...
+# Subtest: a shrinking report clamps the page instead of producing an empty page
+ok 21 - a shrinking report clamps the page instead of producing an empty page
+  ---
+  duration_ms: 0.6404
+  type: 'test'
+  ...
+# Subtest: empty reports and invalid page requests remain in a valid state
+ok 22 - empty reports and invalid page requests remain in a valid state
+  ---
+  duration_ms: 0.8793
+  type: 'test'
+  ...
+# Subtest: large reports retain first, last, and adjacent page buttons
+ok 23 - large reports retain first, last, and adjacent page buttons
+  ---
+  duration_ms: 0.3771
+  type: 'test'
+  ...
+# Subtest: opening a module preserves child and selected month
+ok 24 - opening a module preserves child and selected month
+  ---
+  duration_ms: 1.2846
+  type: 'test'
+  ...
+# Subtest: returning to the module list clears only detail state
+ok 25 - returning to the module list clears only detail state
+  ---
+  duration_ms: 0.3229
+  type: 'test'
+  ...
+# Subtest: report tabs cannot accidentally retain a module filter
+ok 26 - report tabs cannot accidentally retain a module filter
+  ---
+  duration_ms: 0.2308
+  type: 'test'
+  ...
+# Subtest: practice record navigation retains its intended record
+ok 27 - practice record navigation retains its intended record
+  ---
+  duration_ms: 0.1528
+  type: 'test'
+  ...
+# Subtest: month selection accepts valid values and safely defaults malformed query dates
+ok 28 - month selection accepts valid values and safely defaults malformed query dates
+  ---
+  duration_ms: 1.5993
+  type: 'test'
+  ...
+1..28
+# tests 28
+# suites 0
+# pass 28
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 1166.4107

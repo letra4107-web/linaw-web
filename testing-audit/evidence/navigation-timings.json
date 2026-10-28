@@ -1,0 +1,701 @@
+{
+  "scope": "Single successful public navigations on local static fixture, no load/workload or production SLO; zero/unavailable entries retained.",
+  "rows": [
+    {
+      "browser": "edge",
+      "scenario": "/login renders without horizontal overflow at 375px",
+      "loadMs": 156,
+      "domContentLoadedMs": 155
+    },
+    {
+      "browser": "edge",
+      "scenario": "/signup renders without horizontal overflow at 375px",
+      "loadMs": 134,
+      "domContentLoadedMs": 134
+    },
+    {
+      "browser": "edge",
+      "scenario": "/forgot-password renders without horizontal overflow at 375px",
+      "loadMs": 102,
+      "domContentLoadedMs": 102
+    },
+    {
+      "browser": "edge",
+      "scenario": "/reset-password renders without horizontal overflow at 375px",
+      "loadMs": 82,
+      "domContentLoadedMs": 82
+    },
+    {
+      "browser": "edge",
+      "scenario": "/verify-email renders without horizontal overflow at 375px",
+      "loadMs": 117,
+      "domContentLoadedMs": 117
+    },
+    {
+      "browser": "edge",
+      "scenario": "/resend-verification renders without horizontal overflow at 375px",
+      "loadMs": 124,
+      "domContentLoadedMs": 124
+    },
+    {
+      "browser": "edge",
+      "scenario": "/privacy renders without horizontal overflow at 375px",
+      "loadMs": 95,
+      "domContentLoadedMs": 94
+    },
+    {
+      "browser": "edge",
+      "scenario": "/terms renders without horizontal overflow at 375px",
+      "loadMs": 116,
+      "domContentLoadedMs": 115
+    },
+    {
+      "browser": "edge",
+      "scenario": "/child-data renders without horizontal overflow at 375px",
+      "loadMs": 77,
+      "domContentLoadedMs": 77
+    },
+    {
+      "browser": "edge",
+      "scenario": "/account-deletion renders without horizontal overflow at 375px",
+      "loadMs": 90,
+      "domContentLoadedMs": 90
+    },
+    {
+      "browser": "edge",
+      "scenario": "/accessibility renders without horizontal overflow at 375px",
+      "loadMs": 80,
+      "domContentLoadedMs": 80
+    },
+    {
+      "browser": "edge",
+      "scenario": "/not-a-real-page renders without horizontal overflow at 375px",
+      "loadMs": 67,
+      "domContentLoadedMs": 67
+    },
+    {
+      "browser": "edge",
+      "scenario": "/ renders without horizontal overflow at 768px",
+      "loadMs": 73,
+      "domContentLoadedMs": 73
+    },
+    {
+      "browser": "edge",
+      "scenario": "/login renders without horizontal overflow at 768px",
+      "loadMs": 87,
+      "domContentLoadedMs": 83
+    },
+    {
+      "browser": "edge",
+      "scenario": "/signup renders without horizontal overflow at 768px",
+      "loadMs": 117,
+      "domContentLoadedMs": 116
+    },
+    {
+      "browser": "edge",
+      "scenario": "/forgot-password renders without horizontal overflow at 768px",
+      "loadMs": 103,
+      "domContentLoadedMs": 103
+    },
+    {
+      "browser": "edge",
+      "scenario": "/reset-password renders without horizontal overflow at 768px",
+      "loadMs": 147,
+      "domContentLoadedMs": 147
+    },
+    {
+      "browser": "edge",
+      "scenario": "/verify-email renders without horizontal overflow at 768px",
+      "loadMs": 107,
+      "domContentLoadedMs": 107
+    },
+    {
+      "browser": "edge",
+      "scenario": "/resend-verification renders without horizontal overflow at 768px",
+      "loadMs": 94,
+      "domContentLoadedMs": 94
+    },
+    {
+      "browser": "edge",
+      "scenario": "/privacy renders without horizontal overflow at 768px",
+      "loadMs": 67,
+      "domContentLoadedMs": 67
+    },
+    {
+      "browser": "edge",
+      "scenario": "/terms renders without horizontal overflow at 768px",
+      "loadMs": 66,
+      "domContentLoadedMs": 66
+    },
+    {
+      "browser": "edge",
+      "scenario": "/child-data renders without horizontal overflow at 768px",
+      "loadMs": 87,
+      "domContentLoadedMs": 87
+    },
+    {
+      "browser": "edge",
+      "scenario": "/account-deletion renders without horizontal overflow at 768px",
+      "loadMs": 104,
+      "domContentLoadedMs": 104
+    },
+    {
+      "browser": "edge",
+      "scenario": "/accessibility renders without horizontal overflow at 768px",
+      "loadMs": 106,
+      "domContentLoadedMs": 106
+    },
+    {
+      "browser": "edge",
+      "scenario": "/not-a-real-page renders without horizontal overflow at 768px",
+      "loadMs": 91,
+      "domContentLoadedMs": 91
+    },
+    {
+      "browser": "edge",
+      "scenario": "/ renders without horizontal overflow at 1440px",
+      "loadMs": 85,
+      "domContentLoadedMs": 85
+    },
+    {
+      "browser": "edge",
+      "scenario": "/login renders without horizontal overflow at 1440px",
+      "loadMs": 121,
+      "domContentLoadedMs": 120
+    },
+    {
+      "browser": "edge",
+      "scenario": "/signup renders without horizontal overflow at 1440px",
+      "loadMs": 110,
+      "domContentLoadedMs": 110
+    },
+    {
+      "browser": "edge",
+      "scenario": "/forgot-password renders without horizontal overflow at 1440px",
+      "loadMs": 102,
+      "domContentLoadedMs": 101
+    },
+    {
+      "browser": "edge",
+      "scenario": "/reset-password renders without horizontal overflow at 1440px",
+      "loadMs": 84,
+      "domContentLoadedMs": 84
+    },
+    {
+      "browser": "edge",
+      "scenario": "/verify-email renders without horizontal overflow at 1440px",
+      "loadMs": 124,
+      "domContentLoadedMs": 124
+    },
+    {
+      "browser": "edge",
+      "scenario": "/resend-verification renders without horizontal overflow at 1440px",
+      "loadMs": 120,
+      "domContentLoadedMs": 119
+    },
+    {
+      "browser": "edge",
+      "scenario": "/privacy renders without horizontal overflow at 1440px",
+      "loadMs": 115,
+      "domContentLoadedMs": 115
+    },
+    {
+      "browser": "edge",
+      "scenario": "/terms renders without horizontal overflow at 1440px",
+      "loadMs": 103,
+      "domContentLoadedMs": 102
+    },
+    {
+      "browser": "edge",
+      "scenario": "/child-data renders without horizontal overflow at 1440px",
+      "loadMs": 104,
+      "domContentLoadedMs": 104
+    },
+    {
+      "browser": "edge",
+      "scenario": "/account-deletion renders without horizontal overflow at 1440px",
+      "loadMs": 71,
+      "domContentLoadedMs": 71
+    },
+    {
+      "browser": "edge",
+      "scenario": "/accessibility renders without horizontal overflow at 1440px",
+      "loadMs": 92,
+      "domContentLoadedMs": 92
+    },
+    {
+      "browser": "edge",
+      "scenario": "/not-a-real-page renders without horizontal overflow at 1440px",
+      "loadMs": 72,
+      "domContentLoadedMs": 72
+    },
+    {
+      "browser": "chromium",
+      "scenario": "/ renders without horizontal overflow at 375px",
+      "loadMs": 213,
+      "domContentLoadedMs": 212
+    },
+    {
+      "browser": "chromium",
+      "scenario": "/login renders without horizontal overflow at 375px",
+      "loadMs": 98,
+      "domContentLoadedMs": 98
+    },
+    {
+      "browser": "chromium",
+      "scenario": "/signup renders without horizontal overflow at 375px",
+      "loadMs": 89,
+      "domContentLoadedMs": 89
+    },
+    {
+      "browser": "chromium",
+      "scenario": "/forgot-password renders without horizontal overflow at 375px",
+      "loadMs": 79,
+      "domContentLoadedMs": 79
+    },
+    {
+      "browser": "chromium",
+      "scenario": "/reset-password renders without horizontal overflow at 375px",
+      "loadMs": 74,
+      "domContentLoadedMs": 74
+    },
+    {
+      "browser": "chromium",
+      "scenario": "/verify-email renders without horizontal overflow at 375px",
+      "loadMs": 97,
+      "domContentLoadedMs": 97
+    },
+    {
+      "browser": "chromium",
+      "scenario": "/resend-verification renders without horizontal overflow at 375px",
+      "loadMs": 245,
+      "domContentLoadedMs": 245
+    },
+    {
+      "browser": "chromium",
+      "scenario": "/privacy renders without horizontal overflow at 375px",
+      "loadMs": 113,
+      "domContentLoadedMs": 113
+    },
+    {
+      "browser": "chromium",
+      "scenario": "/terms renders without horizontal overflow at 375px",
+      "loadMs": 103,
+      "domContentLoadedMs": 103
+    },
+    {
+      "browser": "chromium",
+      "scenario": "/child-data renders without horizontal overflow at 375px",
+      "loadMs": 88,
+      "domContentLoadedMs": 88
+    },
+    {
+      "browser": "chromium",
+      "scenario": "/account-deletion renders without horizontal overflow at 375px",
+      "loadMs": 68,
+      "domContentLoadedMs": 68
+    },
+    {
+      "browser": "chromium",
+      "scenario": "/accessibility renders without horizontal overflow at 375px",
+      "loadMs": 99,
+      "domContentLoadedMs": 99
+    },
+    {
+      "browser": "chromium",
+      "scenario": "/not-a-real-page renders without horizontal overflow at 375px",
+      "loadMs": 67,
+      "domContentLoadedMs": 67
+    },
+    {
+      "browser": "chromium",
+      "scenario": "/ renders without horizontal overflow at 768px",
+      "loadMs": 69,
+      "domContentLoadedMs": 69
+    },
+    {
+      "browser": "chromium",
+      "scenario": "/login renders without horizontal overflow at 768px",
+      "loadMs": 92,
+      "domContentLoadedMs": 92
+    },
+    {
+      "browser": "chromium",
+      "scenario": "/signup renders without horizontal overflow at 768px",
+      "loadMs": 129,
+      "domContentLoadedMs": 129
+    },
+    {
+      "browser": "chromium",
+      "scenario": "/forgot-password renders without horizontal overflow at 768px",
+      "loadMs": 121,
+      "domContentLoadedMs": 121
+    },
+    {
+      "browser": "chromium",
+      "scenario": "/reset-password renders without horizontal overflow at 768px",
+      "loadMs": 90,
+      "domContentLoadedMs": 90
+    },
+    {
+      "browser": "chromium",
+      "scenario": "/verify-email renders without horizontal overflow at 768px",
+      "loadMs": 95,
+      "domContentLoadedMs": 95
+    },
+    {
+      "browser": "chromium",
+      "scenario": "/resend-verification renders without horizontal overflow at 768px",
+      "loadMs": 111,
+      "domContentLoadedMs": 111
+    },
+    {
+      "browser": "chromium",
+      "scenario": "/privacy renders without horizontal overflow at 768px",
+      "loadMs": 91,
+      "domContentLoadedMs": 91
+    },
+    {
+      "browser": "chromium",
+      "scenario": "/terms renders without horizontal overflow at 768px",
+      "loadMs": 88,
+      "domContentLoadedMs": 87
+    },
+    {
+      "browser": "chromium",
+      "scenario": "/child-data renders without horizontal overflow at 768px",
+      "loadMs": 94,
+      "domContentLoadedMs": 94
+    },
+    {
+      "browser": "chromium",
+      "scenario": "/account-deletion renders without horizontal overflow at 768px",
+      "loadMs": 105,
+      "domContentLoadedMs": 105
+    },
+    {
+      "browser": "chromium",
+      "scenario": "/accessibility renders without horizontal overflow at 768px",
+      "loadMs": 84,
+      "domContentLoadedMs": 84
+    },
+    {
+      "browser": "chromium",
+      "scenario": "/not-a-real-page renders without horizontal overflow at 768px",
+      "loadMs": 83,
+      "domContentLoadedMs": 83
+    },
+    {
+      "browser": "chromium",
+      "scenario": "/ renders without horizontal overflow at 1440px",
+      "loadMs": 78,
+      "domContentLoadedMs": 78
+    },
+    {
+      "browser": "chromium",
+      "scenario": "/login renders without horizontal overflow at 1440px",
+      "loadMs": 80,
+      "domContentLoadedMs": 79
+    },
+    {
+      "browser": "chromium",
+      "scenario": "/signup renders without horizontal overflow at 1440px",
+      "loadMs": 84,
+      "domContentLoadedMs": 84
+    },
+    {
+      "browser": "chromium",
+      "scenario": "/forgot-password renders without horizontal overflow at 1440px",
+      "loadMs": 85,
+      "domContentLoadedMs": 85
+    },
+    {
+      "browser": "chromium",
+      "scenario": "/reset-password renders without horizontal overflow at 1440px",
+      "loadMs": 134,
+      "domContentLoadedMs": 133
+    },
+    {
+      "browser": "chromium",
+      "scenario": "/verify-email renders without horizontal overflow at 1440px",
+      "loadMs": 82,
+      "domContentLoadedMs": 82
+    },
+    {
+      "browser": "chromium",
+      "scenario": "/resend-verification renders without horizontal overflow at 1440px",
+      "loadMs": 84,
+      "domContentLoadedMs": 84
+    },
+    {
+      "browser": "chromium",
+      "scenario": "/privacy renders without horizontal overflow at 1440px",
+      "loadMs": 81,
+      "domContentLoadedMs": 81
+    },
+    {
+      "browser": "chromium",
+      "scenario": "/terms renders without horizontal overflow at 1440px",
+      "loadMs": 77,
+      "domContentLoadedMs": 77
+    },
+    {
+      "browser": "chromium",
+      "scenario": "/child-data renders without horizontal overflow at 1440px",
+      "loadMs": 85,
+      "domContentLoadedMs": 85
+    },
+    {
+      "browser": "chromium",
+      "scenario": "/account-deletion renders without horizontal overflow at 1440px",
+      "loadMs": 78,
+      "domContentLoadedMs": 78
+    },
+    {
+      "browser": "chromium",
+      "scenario": "/accessibility renders without horizontal overflow at 1440px",
+      "loadMs": 75,
+      "domContentLoadedMs": 75
+    },
+    {
+      "browser": "chromium",
+      "scenario": "/not-a-real-page renders without horizontal overflow at 1440px",
+      "loadMs": 113,
+      "domContentLoadedMs": 113
+    },
+    {
+      "browser": "firefox",
+      "scenario": "/ renders without horizontal overflow at 375px",
+      "loadMs": 1346,
+      "domContentLoadedMs": 992
+    },
+    {
+      "browser": "firefox",
+      "scenario": "/login renders without horizontal overflow at 375px",
+      "loadMs": 760,
+      "domContentLoadedMs": 340
+    },
+    {
+      "browser": "firefox",
+      "scenario": "/signup renders without horizontal overflow at 375px",
+      "loadMs": 2462,
+      "domContentLoadedMs": 2309
+    },
+    {
+      "browser": "firefox",
+      "scenario": "/forgot-password renders without horizontal overflow at 375px",
+      "loadMs": 398,
+      "domContentLoadedMs": 278
+    },
+    {
+      "browser": "firefox",
+      "scenario": "/reset-password renders without horizontal overflow at 375px",
+      "loadMs": 400,
+      "domContentLoadedMs": 245
+    },
+    {
+      "browser": "firefox",
+      "scenario": "/verify-email renders without horizontal overflow at 375px",
+      "loadMs": 508,
+      "domContentLoadedMs": 337
+    },
+    {
+      "browser": "firefox",
+      "scenario": "/resend-verification renders without horizontal overflow at 375px",
+      "loadMs": 422,
+      "domContentLoadedMs": 245
+    },
+    {
+      "browser": "firefox",
+      "scenario": "/privacy renders without horizontal overflow at 375px",
+      "loadMs": 334,
+      "domContentLoadedMs": 256
+    },
+    {
+      "browser": "firefox",
+      "scenario": "/terms renders without horizontal overflow at 375px",
+      "loadMs": 340,
+      "domContentLoadedMs": 248
+    },
+    {
+      "browser": "firefox",
+      "scenario": "/child-data renders without horizontal overflow at 375px",
+      "loadMs": 379,
+      "domContentLoadedMs": 294
+    },
+    {
+      "browser": "firefox",
+      "scenario": "/account-deletion renders without horizontal overflow at 375px",
+      "loadMs": 433,
+      "domContentLoadedMs": 334
+    },
+    {
+      "browser": "firefox",
+      "scenario": "/accessibility renders without horizontal overflow at 375px",
+      "loadMs": 283,
+      "domContentLoadedMs": 219
+    },
+    {
+      "browser": "firefox",
+      "scenario": "/not-a-real-page renders without horizontal overflow at 375px",
+      "loadMs": 405,
+      "domContentLoadedMs": 343
+    },
+    {
+      "browser": "firefox",
+      "scenario": "/ renders without horizontal overflow at 768px",
+      "loadMs": 398,
+      "domContentLoadedMs": 264
+    },
+    {
+      "browser": "firefox",
+      "scenario": "/login renders without horizontal overflow at 768px",
+      "loadMs": 390,
+      "domContentLoadedMs": 268
+    },
+    {
+      "browser": "firefox",
+      "scenario": "/signup renders without horizontal overflow at 768px",
+      "loadMs": 243,
+      "domContentLoadedMs": 160
+    },
+    {
+      "browser": "firefox",
+      "scenario": "/forgot-password renders without horizontal overflow at 768px",
+      "loadMs": 272,
+      "domContentLoadedMs": 195
+    },
+    {
+      "browser": "firefox",
+      "scenario": "/reset-password renders without horizontal overflow at 768px",
+      "loadMs": 316,
+      "domContentLoadedMs": 232
+    },
+    {
+      "browser": "firefox",
+      "scenario": "/verify-email renders without horizontal overflow at 768px",
+      "loadMs": 291,
+      "domContentLoadedMs": 209
+    },
+    {
+      "browser": "firefox",
+      "scenario": "/resend-verification renders without horizontal overflow at 768px",
+      "loadMs": 247,
+      "domContentLoadedMs": 154
+    },
+    {
+      "browser": "firefox",
+      "scenario": "/privacy renders without horizontal overflow at 768px",
+      "loadMs": 277,
+      "domContentLoadedMs": 190
+    },
+    {
+      "browser": "firefox",
+      "scenario": "/terms renders without horizontal overflow at 768px",
+      "loadMs": 227,
+      "domContentLoadedMs": 166
+    },
+    {
+      "browser": "firefox",
+      "scenario": "/child-data renders without horizontal overflow at 768px",
+      "loadMs": 193,
+      "domContentLoadedMs": 130
+    },
+    {
+      "browser": "firefox",
+      "scenario": "/account-deletion renders without horizontal overflow at 768px",
+      "loadMs": 261,
+      "domContentLoadedMs": 147
+    },
+    {
+      "browser": "firefox",
+      "scenario": "/accessibility renders without horizontal overflow at 768px",
+      "loadMs": 199,
+      "domContentLoadedMs": 141
+    },
+    {
+      "browser": "firefox",
+      "scenario": "/not-a-real-page renders without horizontal overflow at 768px",
+      "loadMs": 190,
+      "domContentLoadedMs": 125
+    },
+    {
+      "browser": "firefox",
+      "scenario": "/ renders without horizontal overflow at 1440px",
+      "loadMs": 398,
+      "domContentLoadedMs": 312
+    },
+    {
+      "browser": "firefox",
+      "scenario": "/login renders without horizontal overflow at 1440px",
+      "loadMs": 254,
+      "domContentLoadedMs": 168
+    },
+    {
+      "browser": "firefox",
+      "scenario": "/signup renders without horizontal overflow at 1440px",
+      "loadMs": 295,
+      "domContentLoadedMs": 171
+    },
+    {
+      "browser": "firefox",
+      "scenario": "/forgot-password renders without horizontal overflow at 1440px",
+      "loadMs": 307,
+      "domContentLoadedMs": 199
+    },
+    {
+      "browser": "firefox",
+      "scenario": "/reset-password renders without horizontal overflow at 1440px",
+      "loadMs": 230,
+      "domContentLoadedMs": 142
+    },
+    {
+      "browser": "firefox",
+      "scenario": "/verify-email renders without horizontal overflow at 1440px",
+      "loadMs": 347,
+      "domContentLoadedMs": 214
+    },
+    {
+      "browser": "firefox",
+      "scenario": "/resend-verification renders without horizontal overflow at 1440px",
+      "loadMs": 232,
+      "domContentLoadedMs": 146
+    },
+    {
+      "browser": "firefox",
+      "scenario": "/privacy renders without horizontal overflow at 1440px",
+      "loadMs": 261,
+      "domContentLoadedMs": 177
+    },
+    {
+      "browser": "firefox",
+      "scenario": "/terms renders without horizontal overflow at 1440px",
+      "loadMs": 198,
+      "domContentLoadedMs": 139
+    },
+    {
+      "browser": "firefox",
+      "scenario": "/child-data renders without horizontal overflow at 1440px",
+      "loadMs": 244,
+      "domContentLoadedMs": 160
+    },
+    {
+      "browser": "firefox",
+      "scenario": "/account-deletion renders without horizontal overflow at 1440px",
+      "loadMs": 423,
+      "domContentLoadedMs": 298
+    },
+    {
+      "browser": "firefox",
+      "scenario": "/accessibility renders without horizontal overflow at 1440px",
+      "loadMs": 332,
+      "domContentLoadedMs": 240
+    },
+    {
+      "browser": "firefox",
+      "scenario": "/not-a-real-page renders without horizontal overflow at 1440px",
+      "loadMs": 278,
+      "domContentLoadedMs": 182
+    }
+  ]
+}

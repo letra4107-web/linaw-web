@@ -1,0 +1,25 @@
+{
+  "timestamp": "2026-10-21T10:27:12.500Z",
+  "rows": [
+    {
+      "id": "TX-001",
+      "module": "Student Word of the Day",
+      "scenario": "XP persistence fails after correct completion; retry must permit recovery",
+      "expected": "Atomic rollback or retry recovers the promised 25 XP without duplicates",
+      "actual": {
+        "firstStatus": 500,
+        "retryStatus": 409,
+        "completed": true,
+        "awardedXp": 0,
+        "writes": [
+          "log completed",
+          "XP write failed"
+        ]
+      },
+      "status": "FAIL",
+      "defect": "AUD-005",
+      "evidence": "evidence/transaction-probes.json",
+      "limitation": "Real router with mocked persistence. Proves control-flow failure; not a live database concurrency or durability claim."
+    }
+  ]
+}

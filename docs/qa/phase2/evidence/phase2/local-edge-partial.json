@@ -1,0 +1,956 @@
+{
+  "version": "155.0.4283.62",
+  "rows": [
+    {
+      "id": "BR-001",
+      "module": "Local Edge browser",
+      "scenario": "/ renders without horizontal overflow at 375px",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "evidence/phase2/local-edge.json",
+      "actual": {
+        "path": "/",
+        "width": 375,
+        "content": 375,
+        "title": "Mas malinaw na pagbasa, mas masayang pagkatuto.",
+        "navigation": [
+          {
+            "loadMs": 4740,
+            "domContentLoadedMs": 4739
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "BR-002",
+      "module": "Local Edge browser",
+      "scenario": "/login renders without horizontal overflow at 375px",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "evidence/phase2/local-edge.json",
+      "actual": {
+        "path": "/login",
+        "width": 375,
+        "content": 375,
+        "title": "Handa ka na bang magbasa?",
+        "navigation": [
+          {
+            "loadMs": 1795,
+            "domContentLoadedMs": 1794
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "BR-003",
+      "module": "Local Edge browser",
+      "scenario": "/signup renders without horizontal overflow at 375px",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "evidence/phase2/local-edge.json",
+      "actual": {
+        "path": "/signup",
+        "width": 375,
+        "content": 375,
+        "title": "Gumawa ng account",
+        "navigation": [
+          {
+            "loadMs": 1999,
+            "domContentLoadedMs": 1997
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "BR-004",
+      "module": "Local Edge browser",
+      "scenario": "/forgot-password renders without horizontal overflow at 375px",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "evidence/phase2/local-edge.json",
+      "actual": {
+        "path": "/forgot-password",
+        "width": 375,
+        "content": 375,
+        "title": "Nakalimutan ang Password?",
+        "navigation": [
+          {
+            "loadMs": 622,
+            "domContentLoadedMs": 622
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "BR-005",
+      "module": "Local Edge browser",
+      "scenario": "/reset-password renders without horizontal overflow at 375px",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "evidence/phase2/local-edge.json",
+      "actual": {
+        "path": "/reset-password",
+        "width": 375,
+        "content": 375,
+        "title": "I-reset ang iyong password",
+        "navigation": [
+          {
+            "loadMs": 753,
+            "domContentLoadedMs": 752
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "BR-006",
+      "module": "Local Edge browser",
+      "scenario": "/verify-email renders without horizontal overflow at 375px",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "evidence/phase2/local-edge.json",
+      "actual": {
+        "path": "/verify-email",
+        "width": 375,
+        "content": 375,
+        "title": "I-verify ang iyong email",
+        "navigation": [
+          {
+            "loadMs": 388,
+            "domContentLoadedMs": 387
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "BR-007",
+      "module": "Local Edge browser",
+      "scenario": "/resend-verification renders without horizontal overflow at 375px",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "evidence/phase2/local-edge.json",
+      "actual": {
+        "path": "/resend-verification",
+        "width": 375,
+        "content": 375,
+        "title": "Muling ipadala ang code",
+        "navigation": [
+          {
+            "loadMs": 376,
+            "domContentLoadedMs": 375
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "BR-008",
+      "module": "Local Edge browser",
+      "scenario": "/privacy renders without horizontal overflow at 375px",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "evidence/phase2/local-edge.json",
+      "actual": {
+        "path": "/privacy",
+        "width": 375,
+        "content": 375,
+        "title": "Patakaran sa Privacy",
+        "navigation": [
+          {
+            "loadMs": 258,
+            "domContentLoadedMs": 258
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "BR-009",
+      "module": "Local Edge browser",
+      "scenario": "/terms renders without horizontal overflow at 375px",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "evidence/phase2/local-edge.json",
+      "actual": {
+        "path": "/terms",
+        "width": 375,
+        "content": 375,
+        "title": "Mga Tuntunin ng Serbisyo",
+        "navigation": [
+          {
+            "loadMs": 369,
+            "domContentLoadedMs": 356
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "BR-010",
+      "module": "Local Edge browser",
+      "scenario": "/child-data renders without horizontal overflow at 375px",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "evidence/phase2/local-edge.json",
+      "actual": {
+        "path": "/child-data",
+        "width": 375,
+        "content": 375,
+        "title": "Data ng Bata at Pahintulot ng Magulang",
+        "navigation": [
+          {
+            "loadMs": 262,
+            "domContentLoadedMs": 262
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "BR-011",
+      "module": "Local Edge browser",
+      "scenario": "/account-deletion renders without horizontal overflow at 375px",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "evidence/phase2/local-edge.json",
+      "actual": {
+        "path": "/account-deletion",
+        "width": 375,
+        "content": 375,
+        "title": "Pag-delete ng Account",
+        "navigation": [
+          {
+            "loadMs": 513,
+            "domContentLoadedMs": 512
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "BR-012",
+      "module": "Local Edge browser",
+      "scenario": "/accessibility renders without horizontal overflow at 375px",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "evidence/phase2/local-edge.json",
+      "actual": {
+        "path": "/accessibility",
+        "width": 375,
+        "content": 375,
+        "title": "Pahayag sa Accessibility",
+        "navigation": [
+          {
+            "loadMs": 331,
+            "domContentLoadedMs": 331
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "BR-013",
+      "module": "Local Edge browser",
+      "scenario": "/not-a-real-page renders without horizontal overflow at 375px",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "evidence/phase2/local-edge.json",
+      "actual": {
+        "path": "/not-a-real-page",
+        "width": 375,
+        "content": 375,
+        "title": "Naligaw ang pahina",
+        "navigation": [
+          {
+            "loadMs": 175,
+            "domContentLoadedMs": 174
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "BR-014",
+      "module": "Local Edge browser",
+      "scenario": "/ renders without horizontal overflow at 768px",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "evidence/phase2/local-edge.json",
+      "actual": {
+        "path": "/",
+        "width": 768,
+        "content": 768,
+        "title": "Mas malinaw na pagbasa, mas masayang pagkatuto.",
+        "navigation": [
+          {
+            "loadMs": 474,
+            "domContentLoadedMs": 474
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "BR-015",
+      "module": "Local Edge browser",
+      "scenario": "/login renders without horizontal overflow at 768px",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "evidence/phase2/local-edge.json",
+      "actual": {
+        "path": "/login",
+        "width": 768,
+        "content": 768,
+        "title": "Handa ka na bang magbasa?",
+        "navigation": [
+          {
+            "loadMs": 651,
+            "domContentLoadedMs": 651
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "BR-016",
+      "module": "Local Edge browser",
+      "scenario": "/signup renders without horizontal overflow at 768px",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "evidence/phase2/local-edge.json",
+      "actual": {
+        "path": "/signup",
+        "width": 768,
+        "content": 768,
+        "title": "Gumawa ng account",
+        "navigation": [
+          {
+            "loadMs": 769,
+            "domContentLoadedMs": 767
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "BR-017",
+      "module": "Local Edge browser",
+      "scenario": "/forgot-password renders without horizontal overflow at 768px",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "evidence/phase2/local-edge.json",
+      "actual": {
+        "path": "/forgot-password",
+        "width": 768,
+        "content": 768,
+        "title": "Nakalimutan ang Password?",
+        "navigation": [
+          {
+            "loadMs": 441,
+            "domContentLoadedMs": 440
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "BR-018",
+      "module": "Local Edge browser",
+      "scenario": "/reset-password renders without horizontal overflow at 768px",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "evidence/phase2/local-edge.json",
+      "actual": {
+        "path": "/reset-password",
+        "width": 768,
+        "content": 768,
+        "title": "I-reset ang iyong password",
+        "navigation": [
+          {
+            "loadMs": 530,
+            "domContentLoadedMs": 529
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "BR-019",
+      "module": "Local Edge browser",
+      "scenario": "/verify-email renders without horizontal overflow at 768px",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "evidence/phase2/local-edge.json",
+      "actual": {
+        "path": "/verify-email",
+        "width": 768,
+        "content": 768,
+        "title": "I-verify ang iyong email",
+        "navigation": [
+          {
+            "loadMs": 370,
+            "domContentLoadedMs": 369
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "BR-020",
+      "module": "Local Edge browser",
+      "scenario": "/resend-verification renders without horizontal overflow at 768px",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "evidence/phase2/local-edge.json",
+      "actual": {
+        "path": "/resend-verification",
+        "width": 768,
+        "content": 768,
+        "title": "Muling ipadala ang code",
+        "navigation": [
+          {
+            "loadMs": 542,
+            "domContentLoadedMs": 541
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "BR-021",
+      "module": "Local Edge browser",
+      "scenario": "/privacy renders without horizontal overflow at 768px",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "evidence/phase2/local-edge.json",
+      "actual": {
+        "path": "/privacy",
+        "width": 768,
+        "content": 768,
+        "title": "Patakaran sa Privacy",
+        "navigation": [
+          {
+            "loadMs": 603,
+            "domContentLoadedMs": 602
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "BR-022",
+      "module": "Local Edge browser",
+      "scenario": "/terms renders without horizontal overflow at 768px",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "evidence/phase2/local-edge.json",
+      "actual": {
+        "path": "/terms",
+        "width": 768,
+        "content": 768,
+        "title": "Mga Tuntunin ng Serbisyo",
+        "navigation": [
+          {
+            "loadMs": 367,
+            "domContentLoadedMs": 367
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "BR-023",
+      "module": "Local Edge browser",
+      "scenario": "/child-data renders without horizontal overflow at 768px",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "evidence/phase2/local-edge.json",
+      "actual": {
+        "path": "/child-data",
+        "width": 768,
+        "content": 768,
+        "title": "Data ng Bata at Pahintulot ng Magulang",
+        "navigation": [
+          {
+            "loadMs": 2201,
+            "domContentLoadedMs": 2200
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "BR-024",
+      "module": "Local Edge browser",
+      "scenario": "/account-deletion renders without horizontal overflow at 768px",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "evidence/phase2/local-edge.json",
+      "actual": {
+        "path": "/account-deletion",
+        "width": 768,
+        "content": 768,
+        "title": "Pag-delete ng Account",
+        "navigation": [
+          {
+            "loadMs": 289,
+            "domContentLoadedMs": 288
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "BR-025",
+      "module": "Local Edge browser",
+      "scenario": "/accessibility renders without horizontal overflow at 768px",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "evidence/phase2/local-edge.json",
+      "actual": {
+        "path": "/accessibility",
+        "width": 768,
+        "content": 768,
+        "title": "Pahayag sa Accessibility",
+        "navigation": [
+          {
+            "loadMs": 346,
+            "domContentLoadedMs": 346
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "BR-026",
+      "module": "Local Edge browser",
+      "scenario": "/not-a-real-page renders without horizontal overflow at 768px",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "evidence/phase2/local-edge.json",
+      "actual": {
+        "path": "/not-a-real-page",
+        "width": 768,
+        "content": 768,
+        "title": "Naligaw ang pahina",
+        "navigation": [
+          {
+            "loadMs": 379,
+            "domContentLoadedMs": 378
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "BR-027",
+      "module": "Local Edge browser",
+      "scenario": "/ renders without horizontal overflow at 1440px",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "evidence/phase2/local-edge.json",
+      "actual": {
+        "path": "/",
+        "width": 1440,
+        "content": 1440,
+        "title": "Mas malinaw na pagbasa, mas masayang pagkatuto.",
+        "navigation": [
+          {
+            "loadMs": 405,
+            "domContentLoadedMs": 405
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "BR-028",
+      "module": "Local Edge browser",
+      "scenario": "/login renders without horizontal overflow at 1440px",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "evidence/phase2/local-edge.json",
+      "actual": {
+        "path": "/login",
+        "width": 1440,
+        "content": 1440,
+        "title": "Handa ka na bang magbasa?",
+        "navigation": [
+          {
+            "loadMs": 609,
+            "domContentLoadedMs": 608
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "BR-029",
+      "module": "Local Edge browser",
+      "scenario": "/signup renders without horizontal overflow at 1440px",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "evidence/phase2/local-edge.json",
+      "actual": {
+        "path": "/signup",
+        "width": 1440,
+        "content": 1440,
+        "title": "Gumawa ng account",
+        "navigation": [
+          {
+            "loadMs": 497,
+            "domContentLoadedMs": 497
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "BR-030",
+      "module": "Local Edge browser",
+      "scenario": "/forgot-password renders without horizontal overflow at 1440px",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "evidence/phase2/local-edge.json",
+      "actual": {
+        "path": "/forgot-password",
+        "width": 1440,
+        "content": 1440,
+        "title": "Nakalimutan ang Password?",
+        "navigation": [
+          {
+            "loadMs": 324,
+            "domContentLoadedMs": 323
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "BR-031",
+      "module": "Local Edge browser",
+      "scenario": "/reset-password renders without horizontal overflow at 1440px",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "evidence/phase2/local-edge.json",
+      "actual": {
+        "path": "/reset-password",
+        "width": 1440,
+        "content": 1440,
+        "title": "I-reset ang iyong password",
+        "navigation": [
+          {
+            "loadMs": 311,
+            "domContentLoadedMs": 311
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "BR-032",
+      "module": "Local Edge browser",
+      "scenario": "/verify-email renders without horizontal overflow at 1440px",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "evidence/phase2/local-edge.json",
+      "actual": {
+        "path": "/verify-email",
+        "width": 1440,
+        "content": 1440,
+        "title": "I-verify ang iyong email",
+        "navigation": [
+          {
+            "loadMs": 983,
+            "domContentLoadedMs": 983
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "BR-033",
+      "module": "Local Edge browser",
+      "scenario": "/resend-verification renders without horizontal overflow at 1440px",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "evidence/phase2/local-edge.json",
+      "actual": {
+        "path": "/resend-verification",
+        "width": 1440,
+        "content": 1440,
+        "title": "Muling ipadala ang code",
+        "navigation": [
+          {
+            "loadMs": 808,
+            "domContentLoadedMs": 807
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "BR-034",
+      "module": "Local Edge browser",
+      "scenario": "/privacy renders without horizontal overflow at 1440px",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "evidence/phase2/local-edge.json",
+      "actual": {
+        "path": "/privacy",
+        "width": 1440,
+        "content": 1440,
+        "title": "Patakaran sa Privacy",
+        "navigation": [
+          {
+            "loadMs": 186,
+            "domContentLoadedMs": 185
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "BR-035",
+      "module": "Local Edge browser",
+      "scenario": "/terms renders without horizontal overflow at 1440px",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "evidence/phase2/local-edge.json",
+      "actual": {
+        "path": "/terms",
+        "width": 1440,
+        "content": 1440,
+        "title": "Mga Tuntunin ng Serbisyo",
+        "navigation": [
+          {
+            "loadMs": 224,
+            "domContentLoadedMs": 223
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "BR-036",
+      "module": "Local Edge browser",
+      "scenario": "/child-data renders without horizontal overflow at 1440px",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "evidence/phase2/local-edge.json",
+      "actual": {
+        "path": "/child-data",
+        "width": 1440,
+        "content": 1440,
+        "title": "Data ng Bata at Pahintulot ng Magulang",
+        "navigation": [
+          {
+            "loadMs": 1713,
+            "domContentLoadedMs": 1712
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "BR-037",
+      "module": "Local Edge browser",
+      "scenario": "/account-deletion renders without horizontal overflow at 1440px",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "evidence/phase2/local-edge.json",
+      "actual": {
+        "path": "/account-deletion",
+        "width": 1440,
+        "content": 1440,
+        "title": "Pag-delete ng Account",
+        "navigation": [
+          {
+            "loadMs": 1125,
+            "domContentLoadedMs": 1122
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "BR-038",
+      "module": "Local Edge browser",
+      "scenario": "/accessibility renders without horizontal overflow at 1440px",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "evidence/phase2/local-edge.json",
+      "actual": {
+        "path": "/accessibility",
+        "width": 1440,
+        "content": 1440,
+        "title": "Pahayag sa Accessibility",
+        "navigation": [
+          {
+            "loadMs": 1472,
+            "domContentLoadedMs": 1471
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "BR-039",
+      "module": "Local Edge browser",
+      "scenario": "/not-a-real-page renders without horizontal overflow at 1440px",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "evidence/phase2/local-edge.json",
+      "actual": {
+        "path": "/not-a-real-page",
+        "width": 1440,
+        "content": 1440,
+        "title": "Naligaw ang pahina",
+        "navigation": [
+          {
+            "loadMs": 503,
+            "domContentLoadedMs": 503
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "BR-040",
+      "module": "Local Edge browser",
+      "scenario": "Anonymous admin redirects to login",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "evidence/phase2/local-edge.json",
+      "actual": "Assertions passed",
+      "status": "PASS"
+    },
+    {
+      "id": "BR-041",
+      "module": "Local Edge browser",
+      "scenario": "Anonymous admin/settings redirects to login",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "evidence/phase2/local-edge.json",
+      "actual": "Assertions passed",
+      "status": "PASS"
+    },
+    {
+      "id": "BR-042",
+      "module": "Local Edge browser",
+      "scenario": "Anonymous admin/not-a-real-page redirects to login",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "evidence/phase2/local-edge.json",
+      "actual": "Assertions passed",
+      "status": "PASS"
+    },
+    {
+      "id": "BR-043",
+      "module": "Local Edge browser",
+      "scenario": "Anonymous teacher redirects to login",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "evidence/phase2/local-edge.json",
+      "actual": "Assertions passed",
+      "status": "PASS"
+    },
+    {
+      "id": "BR-044",
+      "module": "Local Edge browser",
+      "scenario": "Anonymous teacher/settings redirects to login",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "evidence/phase2/local-edge.json",
+      "actual": "page.waitForURL: Timeout 10000ms exceeded.\n=========================== logs ===========================\nwaiting for navigation until \"load\"\n  navigated to \"http://127.0.0.1:51825/teacher/settings\"\n============================================================",
+      "status": "FAIL"
+    },
+    {
+      "id": "BR-045",
+      "module": "Local Edge browser",
+      "scenario": "Anonymous teacher/not-a-real-page redirects to login",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "evidence/phase2/local-edge.json",
+      "actual": "Assertions passed",
+      "status": "PASS"
+    },
+    {
+      "id": "BR-046",
+      "module": "Local Edge browser",
+      "scenario": "Anonymous parent redirects to login",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "evidence/phase2/local-edge.json",
+      "actual": "Assertions passed",
+      "status": "PASS"
+    },
+    {
+      "id": "BR-047",
+      "module": "Local Edge browser",
+      "scenario": "Anonymous parent/settings redirects to login",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "evidence/phase2/local-edge.json",
+      "actual": "Assertions passed",
+      "status": "PASS"
+    },
+    {
+      "id": "BR-048",
+      "module": "Local Edge browser",
+      "scenario": "Anonymous parent/not-a-real-page redirects to login",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "evidence/phase2/local-edge.json",
+      "actual": "Assertions passed",
+      "status": "PASS"
+    },
+    {
+      "id": "BR-049",
+      "module": "Local Edge browser",
+      "scenario": "Anonymous student redirects to login",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "evidence/phase2/local-edge.json",
+      "actual": "Assertions passed",
+      "status": "PASS"
+    },
+    {
+      "id": "BR-050",
+      "module": "Local Edge browser",
+      "scenario": "Anonymous student/settings redirects to login",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "evidence/phase2/local-edge.json",
+      "actual": "Assertions passed",
+      "status": "PASS"
+    },
+    {
+      "id": "BR-051",
+      "module": "Local Edge browser",
+      "scenario": "Anonymous student/not-a-real-page redirects to login",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "evidence/phase2/local-edge.json",
+      "actual": "Assertions passed",
+      "status": "PASS"
+    },
+    {
+      "id": "BR-052",
+      "module": "Local Edge browser",
+      "scenario": "Empty login submission displays validation; password visibility and keyboard toggle work",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "evidence/phase2/local-edge.json",
+      "actual": "Assertions passed",
+      "status": "PASS"
+    },
+    {
+      "id": "BR-053",
+      "module": "Local Edge browser",
+      "scenario": "Empty signup submission displays required-field errors",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "evidence/phase2/local-edge.json",
+      "actual": "Assertions passed",
+      "status": "PASS"
+    },
+    {
+      "id": "BR-054",
+      "module": "Local Edge browser",
+      "scenario": "OTP keyboard navigation and nonnumeric input validation",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "evidence/phase2/local-edge.json",
+      "actual": "Assertions passed",
+      "status": "PASS"
+    },
+    {
+      "id": "BR-055",
+      "module": "Local Edge browser",
+      "scenario": "Public forms have accessible names for visible input controls",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "evidence/phase2/local-edge.json",
+      "actual": "Assertions passed",
+      "status": "PASS"
+    },
+    {
+      "id": "BR-056",
+      "module": "Local Edge browser",
+      "scenario": "No uncaught JavaScript exceptions during tested navigation and actions",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "evidence/phase2/local-edge.json",
+      "actual": "Assertions passed",
+      "status": "PASS"
+    },
+    {
+      "id": "BR-057",
+      "module": "Local Edge browser",
+      "scenario": "A failed route-bundle download displays retry feedback and recovers after reloading",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "evidence/phase2/local-edge.json",
+      "actual": "Assertions passed",
+      "status": "PASS"
+    },
+    {
+      "id": "BR-058",
+      "module": "Local Edge browser",
+      "scenario": "Ten fresh browser contexts render the cold mobile home route without bundle failures",
+      "expected": "Expected public UI behavior; no account or database writes",
+      "evidence": "evidence/phase2/local-edge.json",
+      "actual": "[{\"context\":0,\"errorScreen\":false},{\"context\":1,\"errorScreen\":true},{\"context\":2,\"errorScreen\":false},{\"context\":3,\"errorScreen\":false},{\"context\":4,\"errorScreen\":false},{\"context\":5,\"errorScreen\":false},{\"context\":6,\"errorScreen\":true},{\"context\":7,\"errorScreen\":false},{\"context\":8,\"errorScreen\":false},{\"context\":9,\"errorScreen\":false}]",
+      "status": "FAIL"
+    }
+  ]
+}

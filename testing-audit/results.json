@@ -1,0 +1,212 @@
+{
+  "date": "2026-10-21",
+  "scope": "Local working-tree audit; no shared Supabase operations",
+  "backend": {
+    "tests": 436,
+    "pass": 434,
+    "fail": 0,
+    "cancelled": 0,
+    "skipped": 2
+  },
+  "frontend": {
+    "tests": 41,
+    "pass": 41,
+    "fail": 0,
+    "cancelled": 0,
+    "skipped": 0
+  },
+  "coverage": {
+    "counts": {
+      "tests": 436,
+      "pass": 434,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 2
+    },
+    "loadedBackendLines": "46.61",
+    "loadedBackendBranches": "74.17",
+    "loadedBackendFunctions": "61.17"
+  },
+  "gates": [
+    {
+      "name": "backend",
+      "exitCode": 0,
+      "durationMs": 2931,
+      "tests": 436,
+      "pass": 434,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 2,
+      "rerunReason": "Counts and duration reflect the latest resolution TAP, including new regressions."
+    },
+    {
+      "name": "frontend",
+      "exitCode": 0,
+      "durationMs": 1547,
+      "tests": 41,
+      "pass": 41,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0,
+      "rerunReason": "Counts and duration reflect the latest resolution TAP, including new regressions."
+    },
+    {
+      "name": "lint",
+      "exitCode": 0,
+      "durationMs": 156,
+      "rerunReason": "Audit report helper changed; application source unchanged since passing tests/build."
+    },
+    {
+      "name": "build",
+      "exitCode": 0,
+      "durationMs": 17422
+    },
+    {
+      "name": "vite-build",
+      "exitCode": 0,
+      "durationMs": 9730
+    },
+    {
+      "name": "diff",
+      "exitCode": 0,
+      "durationMs": 156,
+      "rerunReason": "Audit report helper changed; application source unchanged since passing tests/build."
+    }
+  ],
+  "browserRecheck": [
+    {
+      "name": "edge",
+      "version": "155.0.4283.62",
+      "counts": {
+        "FAIL": 2,
+        "PASS": 56
+      }
+    },
+    {
+      "name": "chromium",
+      "version": "156.0.8078.4",
+      "counts": {
+        "PASS": 57,
+        "FAIL": 1
+      }
+    },
+    {
+      "name": "firefox",
+      "version": "157.0",
+      "counts": {
+        "PASS": 58
+      }
+    }
+  ],
+  "finalFirefox": {
+    "version": "157.0",
+    "counts": {
+      "PASS": 58
+    }
+  },
+  "dependencyAudits": [
+    {
+      "workspace": "frontend",
+      "info": 0,
+      "low": 0,
+      "moderate": 0,
+      "high": 0,
+      "critical": 0,
+      "total": 0
+    },
+    {
+      "workspace": "backend",
+      "info": 0,
+      "low": 0,
+      "moderate": 0,
+      "high": 0,
+      "critical": 0,
+      "total": 0
+    }
+  ],
+  "workflowCases": {
+    "BLOCKED": 33
+  },
+  "apiWorkflowCases": {
+    "BLOCKED": 74,
+    "PASS": 1
+  },
+  "controlCases": {
+    "NOT RUN": 110,
+    "BLOCKED": 434
+  },
+  "transactionProbes": {
+    "PASS": 2,
+    "BLOCKED": 1
+  },
+  "inventory": {
+    "files": 383,
+    "functions": 3078,
+    "productFunctions": 2143,
+    "pages": 54,
+    "routes": 131,
+    "controls": 544
+  },
+  "classification": "NOT READY — CRITICAL ISSUES REMAIN",
+  "resolution": {
+    "credentialStatus": "OPEN: owner rotation/revocation confirmation required regardless of history scan outcome",
+    "historicalCredentialBlobs": 1,
+    "currentExamplesPlaceholderOnly": true,
+    "existingLocalSql": {
+      "timestamp": "2026-10-21T10:50:45.267Z",
+      "runId": "0c117bbd-73dd-4222-a875-b85af953bd0b",
+      "workerExitCode": 0,
+      "freshEvidence": true,
+      "matchingRun": true,
+      "cases": 28,
+      "status": "PASS",
+      "scope": "Worker status and fresh matching-run JSON assertions both required; exit 0 alone is insufficient."
+    },
+    "wordOfDay": {
+      "code": "Prepared; actual router/service pass mocked contract tests",
+      "sqlProposalExecuted": false,
+      "installedSchemaVerified": false,
+      "deploymentStatus": "BLOCKED pending schema review and explicit approval; absent RPC fails closed with 503",
+      "historicalXpRepaired": false
+    },
+    "browserIndependentFixture": [
+      {
+        "browser": "Edge",
+        "routing": true,
+        "nodeHttpStatus": 200,
+        "contexts": 10,
+        "complete": 4,
+        "deniedPaths": 9,
+        "deniedPathsAbsentAtServer": 9
+      },
+      {
+        "browser": "Edge",
+        "routing": false,
+        "nodeHttpStatus": 200,
+        "contexts": 10,
+        "complete": 7,
+        "deniedPaths": 3,
+        "deniedPathsAbsentAtServer": 3
+      },
+      {
+        "browser": "Chromium",
+        "routing": true,
+        "nodeHttpStatus": 200,
+        "contexts": 10,
+        "complete": 7,
+        "deniedPaths": 6,
+        "deniedPathsAbsentAtServer": 6
+      },
+      {
+        "browser": "Chromium",
+        "routing": false,
+        "nodeHttpStatus": 200,
+        "contexts": 10,
+        "complete": 8,
+        "deniedPaths": 3,
+        "deniedPathsAbsentAtServer": 3
+      }
+    ],
+    "prohibitedActionsPerformed": false
+  }
+}

@@ -1,0 +1,3819 @@
+{
+  "generatedAt": "2026-10-21T11:32:19.543Z",
+  "headCommit": "d5fd34e2146c7eadbfeafcf3f4a80b51413b61ee",
+  "shallow": false,
+  "refs": [
+    {
+      "name": "refs/codex/turn-diffs/captures/1792581361107/18be490c-04a1-4ee8-ace0-3a3023f337c0/base",
+      "type": "tree",
+      "object": "cb5f7ad55ef2e1f94c9a6d5827858a32038f38c6"
+    },
+    {
+      "name": "refs/codex/turn-diffs/checkpoints/06cbf6717843e7f3f0166fb170d574ad/359d43141d7c003afedc0d5e757b7645/1792315982495/4adb50db-90e3-44cf-af91-a1897e682f20",
+      "type": "tree",
+      "object": "081ba404375f1319843bcddd85ac59a424b22ae4"
+    },
+    {
+      "name": "refs/codex/turn-diffs/checkpoints/594447f4ea056837c5359433a35d97b1/338ad1d7cd109d5aee3366f5f452fffc/1792343065231/6792b65c-15a0-4d3c-ad79-a61bceb4cee0",
+      "type": "tree",
+      "object": "081ba404375f1319843bcddd85ac59a424b22ae4"
+    },
+    {
+      "name": "refs/heads/main",
+      "type": "commit",
+      "object": "d5fd34e2146c7eadbfeafcf3f4a80b51413b61ee"
+    },
+    {
+      "name": "refs/remotes/origin/HEAD",
+      "type": "commit",
+      "object": "d5fd34e2146c7eadbfeafcf3f4a80b51413b61ee"
+    },
+    {
+      "name": "refs/remotes/origin/main",
+      "type": "commit",
+      "object": "d5fd34e2146c7eadbfeafcf3f4a80b51413b61ee"
+    }
+  ],
+  "counts": {
+    "commits": 206,
+    "storedCommits": 206,
+    "storedObjects": 5129,
+    "uniqueBlobs": 2128,
+    "indexEntries": 359,
+    "headFiles": 359,
+    "currentFiles": 876
+  },
+  "historical": [
+    {
+      "file": "src/pages/auth/Login.tsx",
+      "blob": "f90a50932517989b868f19711987d2025b785803",
+      "findings": [
+        {
+          "category": "Inline password/token literal (manual review)",
+          "line": 138,
+          "confidence": "candidate; may be fixture or documentation"
+        }
+      ],
+      "containingCommits": [
+        "d5fd34e2146c7eadbfeafcf3f4a80b51413b61ee",
+        "5a1a6d2b00f0d2410127d276ae124d698d665906",
+        "b5f62a128130faa0c5df07f2c9cdc0adb56cc267",
+        "de33abe4c078a6717d857935ae8580e79d698af4"
+      ]
+    },
+    {
+      "file": "src/pages/auth/SignUp.tsx",
+      "blob": "398fd423f1eb28131087e1c5e764254743fdab98",
+      "findings": [
+        {
+          "category": "Inline password/token literal (manual review)",
+          "line": 46,
+          "confidence": "candidate; may be fixture or documentation"
+        },
+        {
+          "category": "Inline password/token literal (manual review)",
+          "line": 47,
+          "confidence": "candidate; may be fixture or documentation"
+        },
+        {
+          "category": "Inline password/token literal (manual review)",
+          "line": 49,
+          "confidence": "candidate; may be fixture or documentation"
+        }
+      ],
+      "containingCommits": [
+        "d5fd34e2146c7eadbfeafcf3f4a80b51413b61ee",
+        "5a1a6d2b00f0d2410127d276ae124d698d665906",
+        "b5f62a128130faa0c5df07f2c9cdc0adb56cc267",
+        "de33abe4c078a6717d857935ae8580e79d698af4",
+        "48102ccad1c1f562a26a651755dab904945cf0d1"
+      ]
+    },
+    {
+      "file": "src/pages/auth/Login.tsx",
+      "blob": "8b0fb64c9426bd623eec753d27f6c6db6ac4073e",
+      "findings": [
+        {
+          "category": "Inline password/token literal (manual review)",
+          "line": 138,
+          "confidence": "candidate; may be fixture or documentation"
+        }
+      ],
+      "containingCommits": [
+        "48102ccad1c1f562a26a651755dab904945cf0d1"
+      ]
+    },
+    {
+      "file": "src/pages/auth/Login.tsx",
+      "blob": "1e87051c9861018d212f8a1b8846db1b256b34eb",
+      "findings": [
+        {
+          "category": "Inline password/token literal (manual review)",
+          "line": 138,
+          "confidence": "candidate; may be fixture or documentation"
+        }
+      ],
+      "containingCommits": [
+        "5d4c689b34a2554de74462e7c93ea2800850e02a",
+        "5c9d733e1569c242ce6941df82ccdeedd2e2afc8",
+        "0a09822df6f76cca9d1a345aedb1b43152b64501",
+        "518cb8a0a7cd152c2c4855f0d42b9fd6d1bfea38",
+        "b576b02f2388895cd31355e6a964c8f886c6cbbf",
+        "47eafa0c9aa955e7ca14be97ec9ee2f58b228207",
+        "8f9967fae7afe67134f6d93cbf054bbaefe559ca",
+        "c58937d738120eb16029d25749127ddbfcb5d18b",
+        "05537c220c4497418e954328c6a5ac2aa22cd1c3",
+        "d0419ea96e9772aca1b710be57dd61bf82b41584",
+        "1e0f41f4bbe779ca521b7b25d7dffeac825b6a2d",
+        "ef90aadca52f61c04d81d68a00d3cb85953250a1",
+        "5b20506cd565048bda4f2b35e1132fa81277eb8e",
+        "32eb3e61618661c296b338c35b1c1358fa1d24ea",
+        "809c7543690e708b04ce96b8648f20c09fd44830"
+      ]
+    },
+    {
+      "file": "src/pages/auth/SignUp.tsx",
+      "blob": "673ed4fb1c3456936e4d6525506b052cf7fcb1b6",
+      "findings": [
+        {
+          "category": "Inline password/token literal (manual review)",
+          "line": 47,
+          "confidence": "candidate; may be fixture or documentation"
+        },
+        {
+          "category": "Inline password/token literal (manual review)",
+          "line": 48,
+          "confidence": "candidate; may be fixture or documentation"
+        },
+        {
+          "category": "Inline password/token literal (manual review)",
+          "line": 50,
+          "confidence": "candidate; may be fixture or documentation"
+        }
+      ],
+      "containingCommits": [
+        "5d4c689b34a2554de74462e7c93ea2800850e02a",
+        "5c9d733e1569c242ce6941df82ccdeedd2e2afc8",
+        "0a09822df6f76cca9d1a345aedb1b43152b64501",
+        "518cb8a0a7cd152c2c4855f0d42b9fd6d1bfea38",
+        "b576b02f2388895cd31355e6a964c8f886c6cbbf",
+        "47eafa0c9aa955e7ca14be97ec9ee2f58b228207",
+        "8f9967fae7afe67134f6d93cbf054bbaefe559ca",
+        "c58937d738120eb16029d25749127ddbfcb5d18b",
+        "05537c220c4497418e954328c6a5ac2aa22cd1c3",
+        "d0419ea96e9772aca1b710be57dd61bf82b41584",
+        "1e0f41f4bbe779ca521b7b25d7dffeac825b6a2d",
+        "ef90aadca52f61c04d81d68a00d3cb85953250a1",
+        "5b20506cd565048bda4f2b35e1132fa81277eb8e",
+        "32eb3e61618661c296b338c35b1c1358fa1d24ea",
+        "809c7543690e708b04ce96b8648f20c09fd44830",
+        "23c0adb1bd7c9935b7f0bd18e14187a7bf5166bd",
+        "d8a5791e02e5466e28191a6d05e16199558986e2",
+        "f0d02b26f94b0c8dc5e7b4baeb0ad44f66d35618",
+        "b365aeb8890f63058d4ec9270203ffb1d19c4f60",
+        "913de3e708c17ba77a6c666e25459831a082eae6",
+        "64d44784f0f4c38c011f7fa2fdef8b00db7ab1e0",
+        "1e815c01aa6d5e291032c1c6dfd1a2f1df68d728",
+        "152d4004ee21745f33a36c91db8f356c1ef37f22",
+        "970aacc1166b012f9a75b15a629c6589ca6cdeb2",
+        "42349eba9bd6e70254cb8fce1375359440468057",
+        "82a188c727d6950cea62ae36c0f2bc687639d100",
+        "6e7a049632b0bf00a1fc442d47b4944667aa5242",
+        "a29082cc99a4315ce100be26ddcc6fe2adae3da7",
+        "4f55f53a7b88359931edc2e1cf462ce6aa31f233",
+        "3a952f5ee01e7997dec250a9092cd0d12f31f112",
+        "cea654388d875239ee612398561fa55a003f9873",
+        "860525cfa9d0181803e4dd05a8787217c73456e4",
+        "327b746836804cb41f47c521550de7fb2e958e74",
+        "51fce7e1240b5c1199b78a018d5c0d1727ddfa59",
+        "1dc049447280c1011cc369cb1f8bc39f6f222ce0",
+        "f16fb71575c9c99db50550a9196a09d7ca18e752",
+        "a8dd95e4f6386d1ab0b3fbe0edfd3c7dd658ee96",
+        "82526a20e41684bd92fd883abb52c0cb003fc08f",
+        "768991d6e1f3ea2fa3e3b176da1f14d22c169b5a",
+        "27196572ed37d1dbf16888ae229ed081688f4587",
+        "dd5aaf08384eab6c6c368efa6c9a206652aed6a3",
+        "123e155b25efde394ffade4357994e292f647089",
+        "09b170f48d029e1c8df5514f9f3720b1c1b7b78b",
+        "1d7678eed78258da817bade9734aa2872931ee61",
+        "e6313df96a4f07603ab2a04f79fb5b70b156c77c",
+        "6c819b26696acb0900a6d80b1b228b03ac9f7877",
+        "cd7609651e26434f2eefef258cc8651a6f1b3063",
+        "e9a987bd3c8ea167bc02f383a941c0491628977d",
+        "d029c0456db7ce1b8ca17035417070c7ef36f56c",
+        "0f545e85c21e35ef333b1ed7d6c48533e8583839",
+        "d3dd3442530be14e882b199980b4774fbb8a77a1",
+        "461044415d2ba84642f3ef21265ec5bce30cdcd7",
+        "13471857b71091d27860eb5fb1550b265c145c97",
+        "54f7fce4bb2a2ba379c6343aa589df82b6c81ed3",
+        "67ac3f3082f865772c54ddc2b5d051187b6e5944",
+        "548d449a297d5d64a650ce20467020ab0d01975d",
+        "cdaae53b45d4c32b4ddb4174e86622db693a55d8",
+        "fe25d51269115cdc90bf0259c3a5985e0fcdba7e",
+        "8827d0bf20213d35c10461c9e3a2bfd086e0c9ce",
+        "8b543a23ac2e474735ec0bdf6b7ade0a3b3fe564",
+        "809fcb872c0a2918df40abb473db6e98e49370b3",
+        "d6984dadd127122c4df61eba2ebfd72452296c4f",
+        "caac7b66343d3a26ef4faf32601de6b02519095d",
+        "0610d6a34ef30d88dc2540f9d602c2f0148a0d49",
+        "c6fe4ddb1dd5bc258aae303e5113cafde17848cc",
+        "2cd54988dcd1f2966f84bdc0ea587d5096594d51",
+        "ca2fb9abeca991ed4f6bc4532d774205e062a4d2",
+        "2d01eaa75b5dd1a93442ecdff6556e32f09cf09d",
+        "fa8913e1c06a8cd8083b4d80ed79f6474a4fa921",
+        "5da3f1d4357def6c5655a27d3eea33e75b212e53",
+        "90efb57e50ad5cdabd5e550241a39977c7f31377",
+        "ad79166afa827009423886f65746994b3dbf148d",
+        "fbdbbe7b8f463930ca7dacc8c91c5be9bb877515",
+        "080f71e3101a3a56adfcdc22d0d8455112a87513",
+        "156737eff82e7a3c3342493196e860aa524b4a6e",
+        "dd84e1c53982706a28cd4dd1cc68b62c88f3d167",
+        "38501955349720247067ac50240541cb27f00a22",
+        "a40dfd9a8c0d7f0769446c1812d7ec2982c57adf",
+        "c20d9973ff4142c20220e48326eb08abc5681411",
+        "a852e0c107a540f215c8c76b5f8d8b665e9a6fd3",
+        "86ae40539bd06cb8a38be0714f72ca75b73bb11d",
+        "9a0fa5695f510dbcec45f06799a12aa26c3fe8a1",
+        "86f872a1085af2698222f7072f5a6afde0591e63",
+        "f50932db13b089b1fd9e82eaf21628c0cb08f2ef",
+        "01cbf97382c1d2523f871c353e3abe98b53ea906",
+        "e06d2a9d2b95bb1752227c385037f3a37c4fc6b2",
+        "f4c3ecd5aa189b5b40d918a97f415f6076bf19b9",
+        "21984b8ad796daa4c4033edd03e77eaa90f9baf4",
+        "85f45a6c902b30dfd5b88a59ee03532c3c2b2010",
+        "faffe126df0d7576be75c7938897713867188450",
+        "3b6dedc7362f6d94dd8f0b84946df0948db107df",
+        "6255de381074d9b50bf60bc32c798475a358a491",
+        "2435458360f841db9fd757e4a016aa7bc6439ee8",
+        "4885490fe2b63ef3cc654be5631969a59d3ba659",
+        "51ce3ce17daf2f9bd7f2398851125845c353e730",
+        "8cca762842947f6888bffd2e1fc81007361253ca"
+      ]
+    },
+    {
+      "file": "src/pages/auth/Login.tsx",
+      "blob": "330fa843c48c7a5e870189d7a765726c742825ca",
+      "findings": [
+        {
+          "category": "Inline password/token literal (manual review)",
+          "line": 138,
+          "confidence": "candidate; may be fixture or documentation"
+        }
+      ],
+      "containingCommits": [
+        "23c0adb1bd7c9935b7f0bd18e14187a7bf5166bd"
+      ]
+    },
+    {
+      "file": "src/pages/auth/Login.tsx",
+      "blob": "dc2ebef457c99e4c0f8c5908013335cbff499e4d",
+      "findings": [
+        {
+          "category": "Inline password/token literal (manual review)",
+          "line": 138,
+          "confidence": "candidate; may be fixture or documentation"
+        }
+      ],
+      "containingCommits": [
+        "d8a5791e02e5466e28191a6d05e16199558986e2",
+        "f0d02b26f94b0c8dc5e7b4baeb0ad44f66d35618",
+        "b365aeb8890f63058d4ec9270203ffb1d19c4f60",
+        "913de3e708c17ba77a6c666e25459831a082eae6",
+        "64d44784f0f4c38c011f7fa2fdef8b00db7ab1e0",
+        "1e815c01aa6d5e291032c1c6dfd1a2f1df68d728",
+        "152d4004ee21745f33a36c91db8f356c1ef37f22",
+        "970aacc1166b012f9a75b15a629c6589ca6cdeb2",
+        "42349eba9bd6e70254cb8fce1375359440468057",
+        "82a188c727d6950cea62ae36c0f2bc687639d100",
+        "6e7a049632b0bf00a1fc442d47b4944667aa5242",
+        "a29082cc99a4315ce100be26ddcc6fe2adae3da7",
+        "4f55f53a7b88359931edc2e1cf462ce6aa31f233",
+        "3a952f5ee01e7997dec250a9092cd0d12f31f112"
+      ]
+    },
+    {
+      "file": "src/pages/auth/Login.tsx",
+      "blob": "a842d22c3bb2b6b5ee119a69defc581f61763e55",
+      "findings": [
+        {
+          "category": "Inline password/token literal (manual review)",
+          "line": 137,
+          "confidence": "candidate; may be fixture or documentation"
+        }
+      ],
+      "containingCommits": [
+        "cea654388d875239ee612398561fa55a003f9873",
+        "860525cfa9d0181803e4dd05a8787217c73456e4",
+        "327b746836804cb41f47c521550de7fb2e958e74"
+      ]
+    },
+    {
+      "file": "src/pages/auth/Login.tsx",
+      "blob": "e3b3f25175dd3c1c9abe11c06911e89f1b723861",
+      "findings": [
+        {
+          "category": "Inline password/token literal (manual review)",
+          "line": 137,
+          "confidence": "candidate; may be fixture or documentation"
+        }
+      ],
+      "containingCommits": [
+        "51fce7e1240b5c1199b78a018d5c0d1727ddfa59",
+        "1dc049447280c1011cc369cb1f8bc39f6f222ce0",
+        "f16fb71575c9c99db50550a9196a09d7ca18e752",
+        "a8dd95e4f6386d1ab0b3fbe0edfd3c7dd658ee96",
+        "82526a20e41684bd92fd883abb52c0cb003fc08f",
+        "768991d6e1f3ea2fa3e3b176da1f14d22c169b5a",
+        "27196572ed37d1dbf16888ae229ed081688f4587"
+      ]
+    },
+    {
+      "file": "server/tests/security.test.js",
+      "blob": "bd48b67b5e79120fcf0b516eb27443ad534f1e4f",
+      "findings": [
+        {
+          "category": "Sensitive configuration literal (manual review)",
+          "line": 274,
+          "confidence": "candidate; may be fixture or documentation"
+        }
+      ],
+      "containingCommits": [
+        "27196572ed37d1dbf16888ae229ed081688f4587",
+        "dd5aaf08384eab6c6c368efa6c9a206652aed6a3",
+        "123e155b25efde394ffade4357994e292f647089",
+        "09b170f48d029e1c8df5514f9f3720b1c1b7b78b"
+      ]
+    },
+    {
+      "file": "src/pages/auth/Login.tsx",
+      "blob": "c3f9ee25cb8b4757794f5941eb7d465f10568f2f",
+      "findings": [
+        {
+          "category": "Inline password/token literal (manual review)",
+          "line": 137,
+          "confidence": "candidate; may be fixture or documentation"
+        }
+      ],
+      "containingCommits": [
+        "dd5aaf08384eab6c6c368efa6c9a206652aed6a3"
+      ]
+    },
+    {
+      "file": "src/pages/auth/Login.tsx",
+      "blob": "5cac1b4c132f7b5f15d97cfa89e221bc9b1137d0",
+      "findings": [
+        {
+          "category": "Inline password/token literal (manual review)",
+          "line": 137,
+          "confidence": "candidate; may be fixture or documentation"
+        }
+      ],
+      "containingCommits": [
+        "123e155b25efde394ffade4357994e292f647089",
+        "09b170f48d029e1c8df5514f9f3720b1c1b7b78b",
+        "1d7678eed78258da817bade9734aa2872931ee61",
+        "e6313df96a4f07603ab2a04f79fb5b70b156c77c",
+        "6c819b26696acb0900a6d80b1b228b03ac9f7877",
+        "cd7609651e26434f2eefef258cc8651a6f1b3063",
+        "e9a987bd3c8ea167bc02f383a941c0491628977d",
+        "d029c0456db7ce1b8ca17035417070c7ef36f56c",
+        "0f545e85c21e35ef333b1ed7d6c48533e8583839",
+        "d3dd3442530be14e882b199980b4774fbb8a77a1",
+        "461044415d2ba84642f3ef21265ec5bce30cdcd7",
+        "13471857b71091d27860eb5fb1550b265c145c97",
+        "54f7fce4bb2a2ba379c6343aa589df82b6c81ed3",
+        "67ac3f3082f865772c54ddc2b5d051187b6e5944",
+        "548d449a297d5d64a650ce20467020ab0d01975d",
+        "cdaae53b45d4c32b4ddb4174e86622db693a55d8",
+        "fe25d51269115cdc90bf0259c3a5985e0fcdba7e",
+        "8827d0bf20213d35c10461c9e3a2bfd086e0c9ce",
+        "8b543a23ac2e474735ec0bdf6b7ade0a3b3fe564",
+        "809fcb872c0a2918df40abb473db6e98e49370b3",
+        "d6984dadd127122c4df61eba2ebfd72452296c4f",
+        "caac7b66343d3a26ef4faf32601de6b02519095d",
+        "0610d6a34ef30d88dc2540f9d602c2f0148a0d49",
+        "c6fe4ddb1dd5bc258aae303e5113cafde17848cc"
+      ]
+    },
+    {
+      "file": "server/tests/security.test.js",
+      "blob": "61e2e8cf746540051cf40368dc68a25e54487cd4",
+      "findings": [
+        {
+          "category": "Sensitive configuration literal (manual review)",
+          "line": 269,
+          "confidence": "candidate; may be fixture or documentation"
+        }
+      ],
+      "containingCommits": [
+        "1d7678eed78258da817bade9734aa2872931ee61",
+        "e6313df96a4f07603ab2a04f79fb5b70b156c77c",
+        "6c819b26696acb0900a6d80b1b228b03ac9f7877",
+        "cd7609651e26434f2eefef258cc8651a6f1b3063",
+        "e9a987bd3c8ea167bc02f383a941c0491628977d",
+        "d029c0456db7ce1b8ca17035417070c7ef36f56c",
+        "0f545e85c21e35ef333b1ed7d6c48533e8583839",
+        "d3dd3442530be14e882b199980b4774fbb8a77a1",
+        "461044415d2ba84642f3ef21265ec5bce30cdcd7",
+        "13471857b71091d27860eb5fb1550b265c145c97",
+        "54f7fce4bb2a2ba379c6343aa589df82b6c81ed3",
+        "67ac3f3082f865772c54ddc2b5d051187b6e5944",
+        "548d449a297d5d64a650ce20467020ab0d01975d",
+        "cdaae53b45d4c32b4ddb4174e86622db693a55d8",
+        "fe25d51269115cdc90bf0259c3a5985e0fcdba7e",
+        "8827d0bf20213d35c10461c9e3a2bfd086e0c9ce",
+        "8b543a23ac2e474735ec0bdf6b7ade0a3b3fe564",
+        "809fcb872c0a2918df40abb473db6e98e49370b3",
+        "d6984dadd127122c4df61eba2ebfd72452296c4f",
+        "caac7b66343d3a26ef4faf32601de6b02519095d",
+        "0610d6a34ef30d88dc2540f9d602c2f0148a0d49",
+        "c6fe4ddb1dd5bc258aae303e5113cafde17848cc",
+        "2cd54988dcd1f2966f84bdc0ea587d5096594d51"
+      ]
+    },
+    {
+      "file": "src/pages/auth/Login.tsx",
+      "blob": "54b5117e2c3a9cbbd5c4ccea115c85f4e0cda545",
+      "findings": [
+        {
+          "category": "Inline password/token literal (manual review)",
+          "line": 137,
+          "confidence": "candidate; may be fixture or documentation"
+        }
+      ],
+      "containingCommits": [
+        "2cd54988dcd1f2966f84bdc0ea587d5096594d51",
+        "ca2fb9abeca991ed4f6bc4532d774205e062a4d2",
+        "2d01eaa75b5dd1a93442ecdff6556e32f09cf09d"
+      ]
+    },
+    {
+      "file": "server/tests/security.test.js",
+      "blob": "04860231b97f06dc991b25c3603a1435c43c9fb3",
+      "findings": [
+        {
+          "category": "Sensitive configuration literal (manual review)",
+          "line": 269,
+          "confidence": "candidate; may be fixture or documentation"
+        }
+      ],
+      "containingCommits": [
+        "ca2fb9abeca991ed4f6bc4532d774205e062a4d2",
+        "2d01eaa75b5dd1a93442ecdff6556e32f09cf09d"
+      ]
+    },
+    {
+      "file": "server/tests/security.test.js",
+      "blob": "c49b14ad4ab9d897354d6898dd76085e93c99e75",
+      "findings": [
+        {
+          "category": "Sensitive configuration literal (manual review)",
+          "line": 248,
+          "confidence": "candidate; may be fixture or documentation"
+        }
+      ],
+      "containingCommits": [
+        "fa8913e1c06a8cd8083b4d80ed79f6474a4fa921",
+        "5da3f1d4357def6c5655a27d3eea33e75b212e53",
+        "90efb57e50ad5cdabd5e550241a39977c7f31377",
+        "ad79166afa827009423886f65746994b3dbf148d",
+        "fbdbbe7b8f463930ca7dacc8c91c5be9bb877515",
+        "080f71e3101a3a56adfcdc22d0d8455112a87513"
+      ]
+    },
+    {
+      "file": "src/pages/auth/Login.tsx",
+      "blob": "20be43d4e39848cc9a35ef78f9e203ffbb7d30f8",
+      "findings": [
+        {
+          "category": "Inline password/token literal (manual review)",
+          "line": 136,
+          "confidence": "candidate; may be fixture or documentation"
+        }
+      ],
+      "containingCommits": [
+        "fa8913e1c06a8cd8083b4d80ed79f6474a4fa921",
+        "5da3f1d4357def6c5655a27d3eea33e75b212e53",
+        "90efb57e50ad5cdabd5e550241a39977c7f31377",
+        "ad79166afa827009423886f65746994b3dbf148d",
+        "fbdbbe7b8f463930ca7dacc8c91c5be9bb877515",
+        "080f71e3101a3a56adfcdc22d0d8455112a87513",
+        "156737eff82e7a3c3342493196e860aa524b4a6e",
+        "dd84e1c53982706a28cd4dd1cc68b62c88f3d167",
+        "38501955349720247067ac50240541cb27f00a22",
+        "a40dfd9a8c0d7f0769446c1812d7ec2982c57adf",
+        "c20d9973ff4142c20220e48326eb08abc5681411",
+        "a852e0c107a540f215c8c76b5f8d8b665e9a6fd3",
+        "86ae40539bd06cb8a38be0714f72ca75b73bb11d",
+        "9a0fa5695f510dbcec45f06799a12aa26c3fe8a1",
+        "86f872a1085af2698222f7072f5a6afde0591e63",
+        "f50932db13b089b1fd9e82eaf21628c0cb08f2ef",
+        "01cbf97382c1d2523f871c353e3abe98b53ea906",
+        "e06d2a9d2b95bb1752227c385037f3a37c4fc6b2",
+        "f4c3ecd5aa189b5b40d918a97f415f6076bf19b9",
+        "21984b8ad796daa4c4033edd03e77eaa90f9baf4",
+        "85f45a6c902b30dfd5b88a59ee03532c3c2b2010",
+        "faffe126df0d7576be75c7938897713867188450",
+        "3b6dedc7362f6d94dd8f0b84946df0948db107df",
+        "6255de381074d9b50bf60bc32c798475a358a491",
+        "2435458360f841db9fd757e4a016aa7bc6439ee8",
+        "4885490fe2b63ef3cc654be5631969a59d3ba659",
+        "51ce3ce17daf2f9bd7f2398851125845c353e730",
+        "8cca762842947f6888bffd2e1fc81007361253ca"
+      ]
+    },
+    {
+      "file": "server/tests/security.test.js",
+      "blob": "9af6698a0e4be2bfd43f18161f6d3a74ecd00522",
+      "findings": [
+        {
+          "category": "Sensitive configuration literal (manual review)",
+          "line": 246,
+          "confidence": "candidate; may be fixture or documentation"
+        }
+      ],
+      "containingCommits": [
+        "156737eff82e7a3c3342493196e860aa524b4a6e"
+      ]
+    },
+    {
+      "file": "server/tests/security.test.js",
+      "blob": "88f2642aeb2729a6f86c7b51d5220ed57e5a3c3d",
+      "findings": [
+        {
+          "category": "Sensitive configuration literal (manual review)",
+          "line": 220,
+          "confidence": "candidate; may be fixture or documentation"
+        }
+      ],
+      "containingCommits": [
+        "dd84e1c53982706a28cd4dd1cc68b62c88f3d167",
+        "38501955349720247067ac50240541cb27f00a22",
+        "a40dfd9a8c0d7f0769446c1812d7ec2982c57adf",
+        "c20d9973ff4142c20220e48326eb08abc5681411",
+        "a852e0c107a540f215c8c76b5f8d8b665e9a6fd3",
+        "86ae40539bd06cb8a38be0714f72ca75b73bb11d",
+        "9a0fa5695f510dbcec45f06799a12aa26c3fe8a1",
+        "86f872a1085af2698222f7072f5a6afde0591e63",
+        "f50932db13b089b1fd9e82eaf21628c0cb08f2ef",
+        "01cbf97382c1d2523f871c353e3abe98b53ea906",
+        "e06d2a9d2b95bb1752227c385037f3a37c4fc6b2",
+        "f4c3ecd5aa189b5b40d918a97f415f6076bf19b9",
+        "21984b8ad796daa4c4033edd03e77eaa90f9baf4",
+        "85f45a6c902b30dfd5b88a59ee03532c3c2b2010",
+        "faffe126df0d7576be75c7938897713867188450",
+        "3b6dedc7362f6d94dd8f0b84946df0948db107df",
+        "6255de381074d9b50bf60bc32c798475a358a491",
+        "2435458360f841db9fd757e4a016aa7bc6439ee8",
+        "4885490fe2b63ef3cc654be5631969a59d3ba659",
+        "51ce3ce17daf2f9bd7f2398851125845c353e730",
+        "8cca762842947f6888bffd2e1fc81007361253ca"
+      ]
+    },
+    {
+      "file": "src/pages/auth/Login.tsx",
+      "blob": "6fdeb9889a632675675f0cfb12b0dd1cb8b80071",
+      "findings": [
+        {
+          "category": "Inline password/token literal (manual review)",
+          "line": 135,
+          "confidence": "candidate; may be fixture or documentation"
+        }
+      ],
+      "containingCommits": [
+        "6faaa2af889fc6fd5b761ce6f9eacd3705a1c95e",
+        "d081455babe441484e67b9efd6592c4555892ced",
+        "367eef97aca104ba000ce060c192e36d2f68a378",
+        "e7bc291d704a2ad9a4e34ed95d4002822f89499f",
+        "c04445d8e5d7b05cf4a987100b599560a4abc668",
+        "279815b9b3f599d8c3661eb9c70fb2ee856e839a",
+        "67ec76737a06eaa3ed3f97c6d67455f61ca8a2bc",
+        "ef83ec61866d8c3ee9b718d95d67f34d465bf2da",
+        "c12d208e041458d0619692949d8148e8e0c74030",
+        "e2d688d1ed379d1c7a9e583af0b7045fef32f545",
+        "b8942b6b0f1c720c3b30dab79ac3e81dcfcfeff0",
+        "45cb0da4252fbd15b4c9cb2b9479e85edb0f1dcb",
+        "ea49d3c907f502b3b4b58d8afa112b7f746e0f9e",
+        "c439069f20f15a8ac0198cf8ace953e19dc1d418",
+        "19706626d1185908929f05175be83d9d476fc801",
+        "720e6522845e42786b435fc747641ac6fe5aa022",
+        "4e9485a5e766d23d60874383732d94b2954fb668",
+        "c885b74ff2ca53850e8faba4e35fba76a1a9e496",
+        "ba78533b7ad080916df8bcae13b3213a999fe87c",
+        "c8c3551b77a89114daf22084d86145d486fd7deb",
+        "846b204670d1ecb852b7720d401a8cea0ba1c093",
+        "1b14fd33d2e27d713cf775ee50e7b45db9f1af49",
+        "fec62e0e9e9a31f48d3d23c3800a9ce00c18ce20",
+        "6b75fdce2f24780e583c148c10dcde67cb061aca",
+        "c97c6ee7a401d4f6fa09d3ef2db44c178d2893eb",
+        "3b4f70effe88a06d8dd0cc6b5235a33aca9befaa",
+        "260e0af494e2a65e31c7d9a2751cf250d190da6f",
+        "bf23f8a28859345fab8bed4ead8835e11a13095f",
+        "eed406b044ebc6d61a735e8b12c0eab6dd6fcaff",
+        "0623b791446ac78931dcb78336b8c40de62ae0b1",
+        "4abc6ca6d479b200fbae8177bf69c6d2463acb39",
+        "c48aeb3e08c67405ec013add11ba25458233ba23",
+        "e24173b7efbd99842398c3c45d46235b24eef6e2",
+        "2bdc94b0a1431880df66440e9e6c9bcdde31c58c",
+        "e3a31a73b6d1ea921dee40c0c1b364a25763d845",
+        "8866d9091b76311a84ff324e213e5b5fd4b0efaa",
+        "056be2e101e5dd542f9dd30054f11eef75dd3af9",
+        "6549aba31e7553387c460cebfb6c72407ea57f26",
+        "15533e2843dd34f2350fb1a791463223704d384a",
+        "f0c6398484cccfd5c3ae8aa61406defd09069e2e",
+        "309429b3cee21921e62573738bf7e951ca358bf9",
+        "4f8e8951f590117d474f97a71d54d6fce57bd208",
+        "18b2e1d6a98e0378b56916d28ac5e72f285c118d",
+        "dddad234b786f65ac378744c900e6af5df9a7cc5",
+        "daede088b98926fd05dffd738c7e994f43d6c759",
+        "441799f6ef57de9d5ea7e2395f1db3a894d589e0",
+        "b82f495aad87fb64125b0ffc4329e7e674f77325",
+        "6ada29880ffe288272cf91f60d547f5ed5cc052d",
+        "3363fb65362426153d60f575c57b7a4d569fb887",
+        "c9ddea9915896ebe5f1f20a52bb20df793e3df58",
+        "57820e5ae934b1245f92bfbd0d1ff156eaf5b642",
+        "702cc2c9cf53a4c34a5261c3914023904263fa7d",
+        "9661f460b1f530002c93c38b8235268fcf8bceb0",
+        "3e3aa673c1745be513baea1292ba6de036a2bf3f",
+        "b0ab038af7a0780910452b4186f04da380ceb113",
+        "c17480bf2fb7fc55a2ef7992c2c3dd4903390c36",
+        "980ddc8916fec4f76c38ff3311053c236f0480c2",
+        "e7ef48b5c06866b6819662a7e7bb2355862fdcc1",
+        "667f8144812b597cd573b6041720a437b988f417",
+        "318e247b3d6b90b4802728d535182e2343034ed9"
+      ]
+    },
+    {
+      "file": "src/pages/auth/SignUp.tsx",
+      "blob": "3a86904ca51fd4102811c52b7bf7ca809280c127",
+      "findings": [
+        {
+          "category": "Inline password/token literal (manual review)",
+          "line": 46,
+          "confidence": "candidate; may be fixture or documentation"
+        },
+        {
+          "category": "Inline password/token literal (manual review)",
+          "line": 47,
+          "confidence": "candidate; may be fixture or documentation"
+        },
+        {
+          "category": "Inline password/token literal (manual review)",
+          "line": 49,
+          "confidence": "candidate; may be fixture or documentation"
+        }
+      ],
+      "containingCommits": [
+        "6faaa2af889fc6fd5b761ce6f9eacd3705a1c95e",
+        "d081455babe441484e67b9efd6592c4555892ced",
+        "367eef97aca104ba000ce060c192e36d2f68a378",
+        "e7bc291d704a2ad9a4e34ed95d4002822f89499f",
+        "c04445d8e5d7b05cf4a987100b599560a4abc668",
+        "279815b9b3f599d8c3661eb9c70fb2ee856e839a",
+        "67ec76737a06eaa3ed3f97c6d67455f61ca8a2bc",
+        "ef83ec61866d8c3ee9b718d95d67f34d465bf2da",
+        "c12d208e041458d0619692949d8148e8e0c74030",
+        "e2d688d1ed379d1c7a9e583af0b7045fef32f545",
+        "b8942b6b0f1c720c3b30dab79ac3e81dcfcfeff0",
+        "45cb0da4252fbd15b4c9cb2b9479e85edb0f1dcb",
+        "ea49d3c907f502b3b4b58d8afa112b7f746e0f9e",
+        "c439069f20f15a8ac0198cf8ace953e19dc1d418",
+        "19706626d1185908929f05175be83d9d476fc801",
+        "720e6522845e42786b435fc747641ac6fe5aa022",
+        "4e9485a5e766d23d60874383732d94b2954fb668",
+        "c885b74ff2ca53850e8faba4e35fba76a1a9e496",
+        "ba78533b7ad080916df8bcae13b3213a999fe87c",
+        "c8c3551b77a89114daf22084d86145d486fd7deb",
+        "846b204670d1ecb852b7720d401a8cea0ba1c093",
+        "1b14fd33d2e27d713cf775ee50e7b45db9f1af49",
+        "fec62e0e9e9a31f48d3d23c3800a9ce00c18ce20",
+        "6b75fdce2f24780e583c148c10dcde67cb061aca",
+        "c97c6ee7a401d4f6fa09d3ef2db44c178d2893eb",
+        "3b4f70effe88a06d8dd0cc6b5235a33aca9befaa",
+        "260e0af494e2a65e31c7d9a2751cf250d190da6f",
+        "bf23f8a28859345fab8bed4ead8835e11a13095f",
+        "eed406b044ebc6d61a735e8b12c0eab6dd6fcaff",
+        "0623b791446ac78931dcb78336b8c40de62ae0b1",
+        "4abc6ca6d479b200fbae8177bf69c6d2463acb39",
+        "c48aeb3e08c67405ec013add11ba25458233ba23",
+        "e24173b7efbd99842398c3c45d46235b24eef6e2",
+        "2bdc94b0a1431880df66440e9e6c9bcdde31c58c",
+        "e3a31a73b6d1ea921dee40c0c1b364a25763d845",
+        "8866d9091b76311a84ff324e213e5b5fd4b0efaa",
+        "056be2e101e5dd542f9dd30054f11eef75dd3af9",
+        "6549aba31e7553387c460cebfb6c72407ea57f26",
+        "15533e2843dd34f2350fb1a791463223704d384a",
+        "f0c6398484cccfd5c3ae8aa61406defd09069e2e",
+        "309429b3cee21921e62573738bf7e951ca358bf9",
+        "4f8e8951f590117d474f97a71d54d6fce57bd208",
+        "18b2e1d6a98e0378b56916d28ac5e72f285c118d",
+        "dddad234b786f65ac378744c900e6af5df9a7cc5",
+        "daede088b98926fd05dffd738c7e994f43d6c759",
+        "441799f6ef57de9d5ea7e2395f1db3a894d589e0",
+        "b82f495aad87fb64125b0ffc4329e7e674f77325",
+        "6ada29880ffe288272cf91f60d547f5ed5cc052d",
+        "3363fb65362426153d60f575c57b7a4d569fb887",
+        "c9ddea9915896ebe5f1f20a52bb20df793e3df58",
+        "57820e5ae934b1245f92bfbd0d1ff156eaf5b642",
+        "702cc2c9cf53a4c34a5261c3914023904263fa7d",
+        "9661f460b1f530002c93c38b8235268fcf8bceb0",
+        "3e3aa673c1745be513baea1292ba6de036a2bf3f",
+        "b0ab038af7a0780910452b4186f04da380ceb113",
+        "c17480bf2fb7fc55a2ef7992c2c3dd4903390c36",
+        "980ddc8916fec4f76c38ff3311053c236f0480c2",
+        "e7ef48b5c06866b6819662a7e7bb2355862fdcc1",
+        "667f8144812b597cd573b6041720a437b988f417",
+        "318e247b3d6b90b4802728d535182e2343034ed9",
+        "78497509cb06ca42637ac1f97222b0a450584c9a",
+        "79c428a393e0ba0fbec44bead3832bf1c2b41bf6",
+        "f15bae514be9a29e87d4eee3851267bf919c8bcd",
+        "d09fae781a9b87da888d1615c825e34c09ef9fcb"
+      ]
+    },
+    {
+      "file": "src/pages/auth/Login.tsx",
+      "blob": "a981c9eb9bc9e5d7a4b73e873f25293a7fa02da4",
+      "findings": [
+        {
+          "category": "Inline password/token literal (manual review)",
+          "line": 32,
+          "confidence": "candidate; may be fixture or documentation"
+        }
+      ],
+      "containingCommits": [
+        "78497509cb06ca42637ac1f97222b0a450584c9a",
+        "79c428a393e0ba0fbec44bead3832bf1c2b41bf6",
+        "f15bae514be9a29e87d4eee3851267bf919c8bcd",
+        "d09fae781a9b87da888d1615c825e34c09ef9fcb"
+      ]
+    }
+  ],
+  "snapshotFindings": [
+    {
+      "file": "src/pages/auth/Login.tsx",
+      "blob": "f90a50932517989b868f19711987d2025b785803",
+      "findings": [
+        {
+          "category": "Inline password/token literal (manual review)",
+          "line": 138,
+          "confidence": "candidate; may be fixture or documentation"
+        }
+      ],
+      "snapshotRefs": [
+        "refs/codex/turn-diffs/captures/1792581361107/18be490c-04a1-4ee8-ace0-3a3023f337c0/base",
+        "refs/codex/turn-diffs/checkpoints/06cbf6717843e7f3f0166fb170d574ad/359d43141d7c003afedc0d5e757b7645/1792315982495/4adb50db-90e3-44cf-af91-a1897e682f20",
+        "refs/codex/turn-diffs/checkpoints/594447f4ea056837c5359433a35d97b1/338ad1d7cd109d5aee3366f5f452fffc/1792343065231/6792b65c-15a0-4d3c-ad79-a61bceb4cee0"
+      ],
+      "containingCommits": [
+        "d5fd34e2146c7eadbfeafcf3f4a80b51413b61ee",
+        "5a1a6d2b00f0d2410127d276ae124d698d665906",
+        "b5f62a128130faa0c5df07f2c9cdc0adb56cc267",
+        "de33abe4c078a6717d857935ae8580e79d698af4"
+      ]
+    },
+    {
+      "file": "src/pages/auth/SignUp.tsx",
+      "blob": "a83852f9bd428868bbb40e618f29ff0ac497879f",
+      "findings": [
+        {
+          "category": "Inline password/token literal (manual review)",
+          "line": 46,
+          "confidence": "candidate; may be fixture or documentation"
+        },
+        {
+          "category": "Inline password/token literal (manual review)",
+          "line": 47,
+          "confidence": "candidate; may be fixture or documentation"
+        },
+        {
+          "category": "Inline password/token literal (manual review)",
+          "line": 49,
+          "confidence": "candidate; may be fixture or documentation"
+        }
+      ],
+      "snapshotRefs": [
+        "refs/codex/turn-diffs/captures/1792581361107/18be490c-04a1-4ee8-ace0-3a3023f337c0/base",
+        "refs/codex/turn-diffs/checkpoints/06cbf6717843e7f3f0166fb170d574ad/359d43141d7c003afedc0d5e757b7645/1792315982495/4adb50db-90e3-44cf-af91-a1897e682f20",
+        "refs/codex/turn-diffs/checkpoints/594447f4ea056837c5359433a35d97b1/338ad1d7cd109d5aee3366f5f452fffc/1792343065231/6792b65c-15a0-4d3c-ad79-a61bceb4cee0"
+      ],
+      "containingCommits": []
+    },
+    {
+      "file": "tests/authQa.test.mjs",
+      "blob": "c15acf8001e7a910ea27e309f6469004abad1d31",
+      "findings": [
+        {
+          "category": "Inline password/token literal (manual review)",
+          "line": 107,
+          "confidence": "candidate; may be fixture or documentation"
+        }
+      ],
+      "snapshotRefs": [
+        "refs/codex/turn-diffs/captures/1792581361107/18be490c-04a1-4ee8-ace0-3a3023f337c0/base",
+        "refs/codex/turn-diffs/checkpoints/06cbf6717843e7f3f0166fb170d574ad/359d43141d7c003afedc0d5e757b7645/1792315982495/4adb50db-90e3-44cf-af91-a1897e682f20",
+        "refs/codex/turn-diffs/checkpoints/594447f4ea056837c5359433a35d97b1/338ad1d7cd109d5aee3366f5f452fffc/1792343065231/6792b65c-15a0-4d3c-ad79-a61bceb4cee0"
+      ],
+      "containingCommits": []
+    },
+    {
+      "file": "server/.env.example",
+      "blob": "e36a2425ec62bf9ae9d69ca1bfa67a71369007f9",
+      "findings": [
+        {
+          "category": "Supabase legacy service-role JWT",
+          "line": 5,
+          "confidence": "credential-shaped literal; validity untested"
+        },
+        {
+          "category": "Supabase service-role key",
+          "line": 5,
+          "confidence": "credential-shaped literal; validity untested"
+        },
+        {
+          "category": "SMTP password / app password",
+          "line": 11,
+          "confidence": "credential-shaped literal; validity untested"
+        },
+        {
+          "category": "Brevo API key",
+          "line": 14,
+          "confidence": "credential-shaped literal; validity untested"
+        },
+        {
+          "category": "ElevenLabs API key",
+          "line": 17,
+          "confidence": "credential-shaped literal; validity untested"
+        }
+      ],
+      "snapshotRefs": [
+        "refs/codex/turn-diffs/checkpoints/06cbf6717843e7f3f0166fb170d574ad/359d43141d7c003afedc0d5e757b7645/1792315982495/4adb50db-90e3-44cf-af91-a1897e682f20",
+        "refs/codex/turn-diffs/checkpoints/594447f4ea056837c5359433a35d97b1/338ad1d7cd109d5aee3366f5f452fffc/1792343065231/6792b65c-15a0-4d3c-ad79-a61bceb4cee0"
+      ],
+      "containingCommits": []
+    }
+  ],
+  "index": [
+    {
+      "file": "src/pages/auth/Login.tsx",
+      "blob": "f90a50932517989b868f19711987d2025b785803",
+      "stage": "0",
+      "mode": "100644",
+      "findings": [
+        {
+          "category": "Inline password/token literal (manual review)",
+          "line": 138,
+          "confidence": "candidate; may be fixture or documentation"
+        }
+      ],
+      "pathCategory": null
+    },
+    {
+      "file": "src/pages/auth/SignUp.tsx",
+      "blob": "398fd423f1eb28131087e1c5e764254743fdab98",
+      "stage": "0",
+      "mode": "100644",
+      "findings": [
+        {
+          "category": "Inline password/token literal (manual review)",
+          "line": 46,
+          "confidence": "candidate; may be fixture or documentation"
+        },
+        {
+          "category": "Inline password/token literal (manual review)",
+          "line": 47,
+          "confidence": "candidate; may be fixture or documentation"
+        },
+        {
+          "category": "Inline password/token literal (manual review)",
+          "line": 49,
+          "confidence": "candidate; may be fixture or documentation"
+        }
+      ],
+      "pathCategory": null
+    }
+  ],
+  "head": [
+    {
+      "file": "src/pages/auth/Login.tsx",
+      "blob": "f90a50932517989b868f19711987d2025b785803",
+      "findings": [
+        {
+          "category": "Inline password/token literal (manual review)",
+          "line": 138,
+          "confidence": "candidate; may be fixture or documentation"
+        }
+      ]
+    },
+    {
+      "file": "src/pages/auth/SignUp.tsx",
+      "blob": "398fd423f1eb28131087e1c5e764254743fdab98",
+      "findings": [
+        {
+          "category": "Inline password/token literal (manual review)",
+          "line": 46,
+          "confidence": "candidate; may be fixture or documentation"
+        },
+        {
+          "category": "Inline password/token literal (manual review)",
+          "line": 47,
+          "confidence": "candidate; may be fixture or documentation"
+        },
+        {
+          "category": "Inline password/token literal (manual review)",
+          "line": 49,
+          "confidence": "candidate; may be fixture or documentation"
+        }
+      ]
+    }
+  ],
+  "workingTree": [
+    {
+      "file": "src/pages/auth/Login.tsx",
+      "tracked": true,
+      "findings": [
+        {
+          "category": "Inline password/token literal (manual review)",
+          "line": 138,
+          "confidence": "candidate; may be fixture or documentation"
+        }
+      ],
+      "pathCategory": null
+    },
+    {
+      "file": "src/pages/auth/SignUp.tsx",
+      "tracked": true,
+      "findings": [
+        {
+          "category": "Inline password/token literal (manual review)",
+          "line": 46,
+          "confidence": "candidate; may be fixture or documentation"
+        },
+        {
+          "category": "Inline password/token literal (manual review)",
+          "line": 47,
+          "confidence": "candidate; may be fixture or documentation"
+        },
+        {
+          "category": "Inline password/token literal (manual review)",
+          "line": 49,
+          "confidence": "candidate; may be fixture or documentation"
+        }
+      ],
+      "pathCategory": null
+    },
+    {
+      "file": "tests/authQa.test.mjs",
+      "tracked": false,
+      "findings": [
+        {
+          "category": "Inline password/token literal (manual review)",
+          "line": 107,
+          "confidence": "candidate; may be fixture or documentation"
+        }
+      ],
+      "pathCategory": null
+    }
+  ],
+  "metadataCandidates": [],
+  "remoteConfigurationFindings": [],
+  "sensitivePathCandidates": [],
+  "binaryHistorical": [
+    {
+      "file": "docs/LinawLetra_Dyslexia_Friendly_Reading_Samples.pdf",
+      "blob": "19c1f5c5031533f57a7245da548ec0781986e81e",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "docs/LinawLetra_Thesis_System_Documentation.pdf",
+      "blob": "c6c4865b491dfe10e2d106a396bcc7196eda99c7",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "docs/reading-stories/advanced-01-klase-ni-gloria.pdf",
+      "blob": "bfdcdbea4fe8816778c360f241fb2660c126308e",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "docs/reading-stories/advanced-02-prutas-sa-hardin.pdf",
+      "blob": "44d57d9a94dc998212df4d738fbc996c057a965e",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "docs/reading-stories/beginner-01-aso-ni-ana.pdf",
+      "blob": "17f27ef2fd505671ba492b28756ae93f489e5ad0",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "docs/reading-stories/beginner-02-kubo-ni-lino.pdf",
+      "blob": "fd2c53eff07ff948c9afff9ec8640604d8fa4391",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "docs/reading-stories/intermediate-01-baboy-sa-bukid.pdf",
+      "blob": "68209eef58c48704a5b6f607f0e5ae4024a8fb14",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "docs/reading-stories/intermediate-02-araw-ni-maria.pdf",
+      "blob": "28f29decc8e71b461d0de6fb83bddc1c097d09f9",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "public/Logo.jpg",
+      "blob": "4a853a257c7d2d5c0b674381b0d4e643c741b146",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "public/favicon.jpg",
+      "blob": "4a853a257c7d2d5c0b674381b0d4e643c741b146",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "src/assets/Logo.jpg",
+      "blob": "4a853a257c7d2d5c0b674381b0d4e643c741b146",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "src/assets/admin_design/admin-hero-background.png",
+      "blob": "4d5277f0ecbdb0a0acf0b7ae88905bdcdf38905e",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "src/assets/admin_design/books-stack.png",
+      "blob": "3bff470d341ddcbbdfcf10315cb537e6c460afa8",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "src/assets/admin_design/owl-admin-mascot.png",
+      "blob": "b238276d17f94d230cf63add226e63a4ee505d37",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "src/assets/admin_design/school-building.png",
+      "blob": "896548fcecf283aba3d1ea8088fe1ced74eaa5b8",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "src/assets/admin_design/sidebar-foliage-left.png",
+      "blob": "e0b7b8d26381ad423a2b659d7aec08044031e217",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "src/assets/admin_design/sidebar-foliage-right.png",
+      "blob": "921540b65fe4dff0eb10dc638000dbaa738beb6c",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "src/assets/badges/Aking Unang Tagumpay.png",
+      "blob": "0c68b0472e2a47dc4d386acee647164c767888f7",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "src/assets/badges/Alamat ng Pagbasa.png",
+      "blob": "389456934447959a7f9d3546bb3ce792521196b9",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "src/assets/badges/Batang Mambabasa.png",
+      "blob": "76ebe3a2aaa754a81bf9a24f3aabe6e2e90c47a5",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "src/assets/badges/Bigkas Champion.png",
+      "blob": "4bc17301b44558762091f869900322e8f993b23a",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "src/assets/badges/Boses ng Tagumpay.png",
+      "blob": "b6cdd29c304d01331d616cfc744d05e9fbde8df9",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "src/assets/badges/Buwan ng Pagsisikap.png",
+      "blob": "c10991e552ced560e2240313b9d6e33dadad26a8",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "src/assets/badges/Dalubhasa sa Pagbasa.png",
+      "blob": "4fb3e7f39b2a5d60359f191cb537212f828d7db8",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "src/assets/badges/Hindi Ako Susuko.png",
+      "blob": "2e81d38c62dc1a07bb042757ea2fe552ec654064",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "src/assets/badges/Kampeon sa Pagbasa.png",
+      "blob": "bdea743306769c75058e5575c0ea605a91b1bb20",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "src/assets/badges/Lakas ng Loob.png",
+      "blob": "adda9590a0a08a57cf6e07c51b71515431907b30",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "src/assets/badges/Lingguhang Bayani.png",
+      "blob": "89b5be8eaaa3e095f83b5bae0024f5e3799bcc89",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "src/assets/badges/Malinaw Magsalita.png",
+      "blob": "dd1ba568d4c10e84eecf204a9446b4f58b05ff0f",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "src/assets/badges/Masigasig na Mambabasa.png",
+      "blob": "8707ddf630715356590441aa6ef84fe1f22fb52d",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "src/assets/badges/Matalinong Mag-aaral.png",
+      "blob": "3f069df4c9c5f2bea62b6ec741762d6aa64403a4",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "src/assets/badges/Patuloy na Umuunlad.png",
+      "blob": "77c1722347fcd6045460205e756dab04783a8fc7",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "src/assets/badges/Tamang Bigkas.png",
+      "blob": "f1dddd8e9dd6cec06a367f593e532190def40af4",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "src/assets/badges/Tuloy-Tuloy!.png",
+      "blob": "dd358ee2452dade7306b3978805589882f297a2c",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "src/assets/badges/Unang Araw.png",
+      "blob": "4919e707d1bff2b6544d6f11315c66639824eb6f",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "src/assets/badges/Unang Bigkas.png",
+      "blob": "660dab300c501002024c30d12ac08048b88c4a4a",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "src/assets/badges/Unang Hakbang.png",
+      "blob": "57e5ff7b84cac39d6400c44458e3e4e662fe73ec",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "src/assets/email.png",
+      "blob": "d2421e73cfc39d3747a66f35e2674355b736c2a0",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "src/assets/left.png",
+      "blob": "e2537166d99c726e0c153fdbde8f1d2f93695b63",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "src/assets/listen.png",
+      "blob": "031a211398b93eef76d0c014e89f573736525a8d",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "src/assets/parent/Sidebar background pattern.png",
+      "blob": "a42a5a809e81c7bf43470f8be92e971f8fe97879",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "src/assets/parent/current.png",
+      "blob": "84f9c09fd0ed721c643340cea1b65cb304d2f62d",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "src/assets/parent/hero.png",
+      "blob": "f13b8afd380a8436fed6b30a342e5e40dbb37f77",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "src/assets/parent/no activities.png",
+      "blob": "be1527db2874b3987f02fba09fd0281bce7a3b9c",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "src/assets/parent/no enrolled child.png",
+      "blob": "4e3a705b130a1a95ae33d6a264e0c08dcee62647",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "src/assets/parent/parent-bg.png",
+      "blob": "a0b47fd5f15c5f6bb58d47ba36bc1c3045e00b1d",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "src/assets/parent/reading.png",
+      "blob": "0d36e1312a8e15c88f48c52fbf2c586eba64b095",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "src/assets/parent/reading_champion.png",
+      "blob": "301caac318e1fe8072c3de1c1988ff30f3aa2996",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "src/assets/parent/streak.png",
+      "blob": "9f3799f23908d574cec1576bb36bde9d5c6b969a",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "src/assets/students/aralin/aralin-completed.png",
+      "blob": "f038da112ce4e8e4cb15604196b365c0bc82ace7",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "src/assets/students/aralin/aralin-completion-badge.png",
+      "blob": "36e9c7d85270e889aca81e1317c0f58ada8bca6d",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "src/assets/students/aralin/aralin-current.png",
+      "blob": "6edb6524c6084a33580e39a231ded71df3c7b011",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "src/assets/students/aralin/aralin-header-books.png",
+      "blob": "83eeae552f984fdb4728638051b7de652c6298dd",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "src/assets/students/aralin/aralin-journey-background.png",
+      "blob": "234f2a94b6e9ae5a0d2afcd69343dfd719128392",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "src/assets/students/aralin/aralin-learning-background.png",
+      "blob": "46bcab62e288dfb687c83490741bfb3579877ac0",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "src/assets/students/aralin/aralin-locked-books.png",
+      "blob": "9a4a1949dc5d66e285f3866def19ba0aadaefdbf",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "src/assets/students/aralin/aralin-mascot-guide.png",
+      "blob": "c83b22fb9cedd02c0079b25ad770de5a1e0b1b5e",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "src/assets/students/aralin/aralin-module-path.png",
+      "blob": "50df81926b6795f833d0c5f07de6f1932aea0c1a",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "src/assets/students/aralin/aralin-path-background.png",
+      "blob": "6f6f0ef7e3671abed733b3b704d291c3df125cb3",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "src/assets/students/aralin/aralin-pencil-stars.png",
+      "blob": "3cae3498f88d14c9a94303f0de5227db18721aba",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "src/assets/students/aralin/aralin-phonics-blocks.png",
+      "blob": "5e22acf89b0e3db8de36d9a5e7e7fc473dddd3ae",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "src/assets/students/aralin/aralin-reading-book.png",
+      "blob": "dab327ef80b27bd6a74e31a13410baf1bd2f30fb",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "src/assets/students/aralin/aralin-school-path-background.png",
+      "blob": "befce0c935fdb086ae57bb53ebd6678cd3125425",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "src/assets/students/backgrounds/sidebar-background.png",
+      "blob": "bb7cb581493d079b9f164412f6b10110d4c712b1",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "src/assets/students/backgrounds/student-hero-bg.png",
+      "blob": "2b528c39048db8481d6c531b93fcf6189e0fded1",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "src/assets/students/backgrounds/word-practice-background-v2.png",
+      "blob": "cc3b068924f93adf26493abc791ab93351b83205",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "src/assets/students/backgrounds/word-practice-background.png",
+      "blob": "55c0a645e62c3915b2dbd66be95610caff87f606",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "src/assets/students/characters/student-hero-character.png",
+      "blob": "07d4990dc6c8303def29aff2baaa7b129ac14418",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "src/assets/students/decorations/deadline-card-decoration.png",
+      "blob": "a205b864ea20a88d40a054b90d01c25b781a0ee6",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "src/assets/students/decorations/lesson-progress-decoration.png",
+      "blob": "af22686fdf55087c943cd3a3d0d5abf4b84440a0",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "src/assets/students/illustrations/achievement-illustration.png",
+      "blob": "a6da895e1ff8f7522bd937e94e647afca4312217",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "src/assets/students/illustrations/empty-state-illustration.png",
+      "blob": "f67bffe565bccd5f4c0568163c16b39be5492cdd",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "src/assets/students/illustrations/lesson-card-illustration.png",
+      "blob": "b7aa64199f159c08e3f1f028a6ba83b0829ecf3e",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "src/assets/students/mascot/owl-mascot.png",
+      "blob": "dd520d2123e27a756ac99b21e8352d3e7f92677e",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "src/assets/teacher/Hero Left Purple Decorative Shape.png",
+      "blob": "65c5944eade874278e88804a35d07908b5f4aa71",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "src/assets/teacher/Purple Sidebar Bottom Plants.png",
+      "blob": "add0cf08f98f8b7cbf63665d5866731776a958b9",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "src/assets/teacher/Teacher Home Hero Banner Background.png",
+      "blob": "ea32cf263eb03f5611fc92cd43084ddd628ac540",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "src/assets/teacher/Teacher Illustration.png",
+      "blob": "442d83c756b3c014635d7c6fd9669f822d031957",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "src/assets/left.png",
+      "blob": "e257d108c2e0706705b8e8af3fdbf370e9126228",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "src/assets/right.png",
+      "blob": "00466b98544886f4ee5a36f952dfa8491eb5a13a",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "src/assets/ad.webp",
+      "blob": "714c42bddbf4b18b088283d3d70e11bbf96c4f46",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "src/assets/ads.webp",
+      "blob": "da171005c527e87101c8db084d9fe7dbfc2b2d54",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "src/assets/bg.webp",
+      "blob": "d16747f1f8043dc286576b9b745b9b46af8b30e5",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "src/assets/book.png",
+      "blob": "9055f729c1e4d8933d38045e377f0c2c163b770f",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "src/assets/bulb.png",
+      "blob": "99365133c33f1f5a20d7fd4ccb9ebd97a0071fd0",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "src/assets/calendar.png",
+      "blob": "e82d08cb9f0a27bf65fd2a44ad166b3ed1504122",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "src/assets/confetti.png",
+      "blob": "55f76542d13e17bb243aca948073b35e24104a5f",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "src/assets/dot.png",
+      "blob": "8f5f8f1b3fa275babf7cd22d02dcfd15f5f1ab6e",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "src/assets/home.png",
+      "blob": "233b4a2b59800e77fa1061275a4fc572c6754acb",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "src/assets/land.webp",
+      "blob": "50069ab21c9a13bd4d3b34bae5964c8f1602860b",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "src/assets/logout.png",
+      "blob": "d57954385a77c466022415de28c76d517a72b8b2",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "src/assets/look.webp",
+      "blob": "bb2f3d4315ba434aca77906bf64329cef7cb0712",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "src/assets/menu.png",
+      "blob": "932ea3bcefa0dd319d1cebfa93317d6543e3b314",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "src/assets/mic.png",
+      "blob": "3b6c50aa08c80a31f48870ef8f74f54325f1f4de",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "src/assets/owlbook.png",
+      "blob": "d3d442f880d277cc8aaf5164afc50097b857a2dc",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "src/assets/owlup.png",
+      "blob": "45cd54b49a07821aad5a6b7637580915c98d2d6d",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "src/assets/owlwave.png",
+      "blob": "51bc37dfa5d383fc3a38c5cd07864207e8ae43ad",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "src/assets/pd.webp",
+      "blob": "01d7b67d46e51226ba0db81589f9a41148c60c19",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "src/assets/pds.webp",
+      "blob": "4fdb6b995fa5e99fd1e43dda247e895c07d70dec",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "src/assets/profile.png",
+      "blob": "eee4b11a49ddb2bad3d9f9e80c0fb9ba6219096e",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "src/assets/sd.webp",
+      "blob": "05ec6cc557e19f2f2c3f17ccf0bf85e349371f6f",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "src/assets/side.webp",
+      "blob": "8a413e312c1ffea1b2982dba66646400c2515006",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "src/assets/spark.png",
+      "blob": "6f644821f0fd9f23fc6968158424fca03c7523ce",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "src/assets/speech.png",
+      "blob": "57d6a817c0f256d82e2ddeec194e54b1e03aceba",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "src/assets/td.webp",
+      "blob": "b0c2068b4c0533c37ce1494d743075b4fdaefe00",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "src/assets/tds.webp",
+      "blob": "813f504657523edd6161095523723cf4b7cd0748",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "src/assets/trophy.png",
+      "blob": "36526104b78e2e6645defd893c8fb08a2737d69b",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "src/assets/ad.png",
+      "blob": "343c027a9117df5645e96afd1d74bccf47b87c44",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "src/assets/ads.png",
+      "blob": "5401fc21a7055448a949feb1a92df048503fae6b",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "src/assets/pd.png",
+      "blob": "b24a2e05271088ef71f076430de5a8fb0dc42481",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "src/assets/pds.png",
+      "blob": "3f816c3dae894736a50b7b62ab024c987e845411",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "src/assets/sd.png",
+      "blob": "3fb94cfbb1cc6d655f670253192b9593f64ef88e",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "src/assets/side.png",
+      "blob": "d67063f0a25d12d056ac76d30c67a8870b7d22c7",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "src/assets/td.png",
+      "blob": "3ecc6e0c8a0af8560bca01d26cb4f7635f3a81db",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "src/assets/tds.png",
+      "blob": "81a70e34903ae054075af61af4ebfc585320c31b",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "src/assets/hero.png",
+      "blob": "02251f4b956c55af2d76fd0788124d7eee2b45eb",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "docs/qa/evidence/live-login-1440.png",
+      "blob": "001f7627aac014e8e54bcf88e42addef26da3fd7",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "docs/qa/phase1/evidence/live-login-1440.png",
+      "blob": "001f7627aac014e8e54bcf88e42addef26da3fd7",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "docs/qa/phase2/evidence/live-login-1440.png",
+      "blob": "001f7627aac014e8e54bcf88e42addef26da3fd7",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "docs/qa/evidence/live-login-375.png",
+      "blob": "f5cdc9a1a998e498c4bca1fecef8e136344a163a",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "docs/qa/phase1/evidence/live-login-375.png",
+      "blob": "f5cdc9a1a998e498c4bca1fecef8e136344a163a",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "docs/qa/phase2/evidence/live-login-375.png",
+      "blob": "f5cdc9a1a998e498c4bca1fecef8e136344a163a",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "docs/qa/evidence/live-login-768.png",
+      "blob": "256cc382f49b65d0a7dfabc2697b3f62c1e05026",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "docs/qa/phase1/evidence/live-login-768.png",
+      "blob": "256cc382f49b65d0a7dfabc2697b3f62c1e05026",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "docs/qa/phase2/evidence/live-login-768.png",
+      "blob": "256cc382f49b65d0a7dfabc2697b3f62c1e05026",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "docs/qa/evidence/live-signup-375.png",
+      "blob": "a1ebbb2e24f56381c1f115744bf7d14432b18345",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "docs/qa/phase1/evidence/live-signup-375.png",
+      "blob": "a1ebbb2e24f56381c1f115744bf7d14432b18345",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "docs/qa/phase2/evidence/live-signup-375.png",
+      "blob": "a1ebbb2e24f56381c1f115744bf7d14432b18345",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "docs/qa/evidence/local-login-1440.png",
+      "blob": "fe0765bd96d253af0b077f4e7050f0de340bceed",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "docs/qa/evidence/phase3/BR-058-failure.png",
+      "blob": "fe0765bd96d253af0b077f4e7050f0de340bceed",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "docs/qa/evidence/phase3/CHROME-BR-058-failure.png",
+      "blob": "fe0765bd96d253af0b077f4e7050f0de340bceed",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "docs/qa/phase1/evidence/local-login-1440.png",
+      "blob": "fe0765bd96d253af0b077f4e7050f0de340bceed",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "docs/qa/phase2/evidence/local-login-1440.png",
+      "blob": "fe0765bd96d253af0b077f4e7050f0de340bceed",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "testing-audit/evidence/BR-058-failure.png",
+      "blob": "fe0765bd96d253af0b077f4e7050f0de340bceed",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "testing-audit/evidence/CHROME-BR-058-failure.png",
+      "blob": "fe0765bd96d253af0b077f4e7050f0de340bceed",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "testing-audit/evidence/browser-recheck/BR-058-failure.png",
+      "blob": "fe0765bd96d253af0b077f4e7050f0de340bceed",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "testing-audit/evidence/browser-recheck/CHROME-BR-058-failure.png",
+      "blob": "fe0765bd96d253af0b077f4e7050f0de340bceed",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "testing-audit/evidence/resolution/browser/BR-058-failure.png",
+      "blob": "fe0765bd96d253af0b077f4e7050f0de340bceed",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "testing-audit/evidence/resolution/browser/CHROME-BR-058-failure.png",
+      "blob": "fe0765bd96d253af0b077f4e7050f0de340bceed",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "docs/qa/evidence/local-login-375.png",
+      "blob": "66dbe9a9d58bdc0bac2d095b94e4cd3a49c8ec38",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "docs/qa/evidence/phase2/local-chromium-login-375.png",
+      "blob": "66dbe9a9d58bdc0bac2d095b94e4cd3a49c8ec38",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "docs/qa/evidence/phase2/local-edge-login-375.png",
+      "blob": "66dbe9a9d58bdc0bac2d095b94e4cd3a49c8ec38",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "docs/qa/evidence/phase3/local-edge-login-375.png",
+      "blob": "66dbe9a9d58bdc0bac2d095b94e4cd3a49c8ec38",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "docs/qa/phase1/evidence/local-login-375.png",
+      "blob": "66dbe9a9d58bdc0bac2d095b94e4cd3a49c8ec38",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "docs/qa/phase2/evidence/local-login-375.png",
+      "blob": "66dbe9a9d58bdc0bac2d095b94e4cd3a49c8ec38",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "docs/qa/phase2/evidence/phase2/local-chromium-login-375.png",
+      "blob": "66dbe9a9d58bdc0bac2d095b94e4cd3a49c8ec38",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "docs/qa/phase2/evidence/phase2/local-edge-login-375.png",
+      "blob": "66dbe9a9d58bdc0bac2d095b94e4cd3a49c8ec38",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "testing-audit/evidence/browser-recheck/local-chromium-login-375.png",
+      "blob": "66dbe9a9d58bdc0bac2d095b94e4cd3a49c8ec38",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "testing-audit/evidence/browser-recheck/local-edge-login-375.png",
+      "blob": "66dbe9a9d58bdc0bac2d095b94e4cd3a49c8ec38",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "testing-audit/evidence/local-edge-login-375.png",
+      "blob": "66dbe9a9d58bdc0bac2d095b94e4cd3a49c8ec38",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "testing-audit/evidence/resolution/browser/local-chromium-login-375.png",
+      "blob": "66dbe9a9d58bdc0bac2d095b94e4cd3a49c8ec38",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "testing-audit/evidence/resolution/browser/local-edge-login-375.png",
+      "blob": "66dbe9a9d58bdc0bac2d095b94e4cd3a49c8ec38",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "docs/qa/evidence/local-login-768.png",
+      "blob": "576aecda55a1f2d7799b0c3cab487c976452be6e",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "docs/qa/phase1/evidence/local-login-768.png",
+      "blob": "576aecda55a1f2d7799b0c3cab487c976452be6e",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "docs/qa/phase2/evidence/local-login-768.png",
+      "blob": "576aecda55a1f2d7799b0c3cab487c976452be6e",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "docs/qa/evidence/local-signup-375.png",
+      "blob": "e0f34b2614e5268e271b5d95c7a1c2f6d0841625",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "docs/qa/phase1/evidence/local-signup-375.png",
+      "blob": "e0f34b2614e5268e271b5d95c7a1c2f6d0841625",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "docs/qa/phase2/evidence/local-signup-375.png",
+      "blob": "e0f34b2614e5268e271b5d95c7a1c2f6d0841625",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "docs/qa/evidence/main-post-migration/deployed-readonly-2026-10-18/home-1440.png",
+      "blob": "59a39b03e1d540d55533b8ed738a8c59052bfb39",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "docs/qa/evidence/main-post-migration/deployed-readonly-2026-10-18/login-1440.png",
+      "blob": "fc6ef10ef45cdef81beaec22acda92415c56a361",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "docs/qa/evidence/phase2/BR-008-failure.png",
+      "blob": "db141d3d70cfc83410efa16cdd14fd579ee03190",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "docs/qa/evidence/phase2/CHROME-BR-008-failure.png",
+      "blob": "db141d3d70cfc83410efa16cdd14fd579ee03190",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "docs/qa/phase2/evidence/phase2/BR-008-failure.png",
+      "blob": "db141d3d70cfc83410efa16cdd14fd579ee03190",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "docs/qa/phase2/evidence/phase2/CHROME-BR-008-failure.png",
+      "blob": "db141d3d70cfc83410efa16cdd14fd579ee03190",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "docs/qa/evidence/phase2/BR-009-failure.png",
+      "blob": "eec2fc20792033e22fdb5f2096ca888d6255cd62",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "docs/qa/evidence/phase2/CHROME-BR-009-failure.png",
+      "blob": "eec2fc20792033e22fdb5f2096ca888d6255cd62",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "docs/qa/phase2/evidence/phase2/BR-009-failure.png",
+      "blob": "eec2fc20792033e22fdb5f2096ca888d6255cd62",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "docs/qa/phase2/evidence/phase2/CHROME-BR-009-failure.png",
+      "blob": "eec2fc20792033e22fdb5f2096ca888d6255cd62",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "docs/qa/evidence/phase2/BR-010-failure.png",
+      "blob": "b022a41f6f790ca48689f0d821ec19bed1a93d2b",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "docs/qa/evidence/phase2/CHROME-BR-010-failure.png",
+      "blob": "b022a41f6f790ca48689f0d821ec19bed1a93d2b",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "docs/qa/phase2/evidence/phase2/BR-010-failure.png",
+      "blob": "b022a41f6f790ca48689f0d821ec19bed1a93d2b",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "docs/qa/phase2/evidence/phase2/CHROME-BR-010-failure.png",
+      "blob": "b022a41f6f790ca48689f0d821ec19bed1a93d2b",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "docs/qa/evidence/phase2/BR-011-failure.png",
+      "blob": "18e27acad97eb7b4ff2249e788ab7c9725f5ddee",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "docs/qa/evidence/phase2/CHROME-BR-011-failure.png",
+      "blob": "18e27acad97eb7b4ff2249e788ab7c9725f5ddee",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "docs/qa/phase2/evidence/phase2/BR-011-failure.png",
+      "blob": "18e27acad97eb7b4ff2249e788ab7c9725f5ddee",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "docs/qa/phase2/evidence/phase2/CHROME-BR-011-failure.png",
+      "blob": "18e27acad97eb7b4ff2249e788ab7c9725f5ddee",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "docs/qa/evidence/phase2/BR-012-failure.png",
+      "blob": "6c411bbafeffa3bfa3e5c7efec58e53a01292fe7",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "docs/qa/evidence/phase2/CHROME-BR-012-failure.png",
+      "blob": "6c411bbafeffa3bfa3e5c7efec58e53a01292fe7",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "docs/qa/phase2/evidence/phase2/BR-012-failure.png",
+      "blob": "6c411bbafeffa3bfa3e5c7efec58e53a01292fe7",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "docs/qa/phase2/evidence/phase2/CHROME-BR-012-failure.png",
+      "blob": "6c411bbafeffa3bfa3e5c7efec58e53a01292fe7",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "docs/qa/evidence/phase2/BR-044-failure.png",
+      "blob": "fcb228628e1fa1950cc0ec107cce6893388e8c1e",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "docs/qa/phase2/evidence/phase2/BR-044-failure.png",
+      "blob": "fcb228628e1fa1950cc0ec107cce6893388e8c1e",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "docs/qa/evidence/phase2/BR-058-failure.png",
+      "blob": "93e497bdf0b9b02a6523882b49b63947e6c730a5",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "docs/qa/evidence/phase2/CHROME-BR-058-failure.png",
+      "blob": "93e497bdf0b9b02a6523882b49b63947e6c730a5",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "docs/qa/phase2/evidence/phase2/BR-058-failure.png",
+      "blob": "93e497bdf0b9b02a6523882b49b63947e6c730a5",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "docs/qa/phase2/evidence/phase2/CHROME-BR-058-failure.png",
+      "blob": "93e497bdf0b9b02a6523882b49b63947e6c730a5",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "docs/qa/evidence/phase2/CHROME-BR-001-failure.png",
+      "blob": "dba9b0b140fe00d0cc35c46216dd194b28336fee",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "docs/qa/evidence/phase2/chromium-cold-4-failure.png",
+      "blob": "dba9b0b140fe00d0cc35c46216dd194b28336fee",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "docs/qa/evidence/phase2/chromium-cold-7-failure.png",
+      "blob": "dba9b0b140fe00d0cc35c46216dd194b28336fee",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "docs/qa/evidence/phase2/chromium-cold-8-failure.png",
+      "blob": "dba9b0b140fe00d0cc35c46216dd194b28336fee",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "docs/qa/evidence/phase3/chromium-cold-0-failure.png",
+      "blob": "dba9b0b140fe00d0cc35c46216dd194b28336fee",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "docs/qa/evidence/phase3/chromium-cold-5-failure.png",
+      "blob": "dba9b0b140fe00d0cc35c46216dd194b28336fee",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "docs/qa/evidence/phase3/chromium-cold-6-failure.png",
+      "blob": "dba9b0b140fe00d0cc35c46216dd194b28336fee",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "docs/qa/phase2/evidence/phase2/CHROME-BR-001-failure.png",
+      "blob": "dba9b0b140fe00d0cc35c46216dd194b28336fee",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "docs/qa/phase2/evidence/phase2/chromium-cold-4-failure.png",
+      "blob": "dba9b0b140fe00d0cc35c46216dd194b28336fee",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "docs/qa/phase2/evidence/phase2/chromium-cold-7-failure.png",
+      "blob": "dba9b0b140fe00d0cc35c46216dd194b28336fee",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "docs/qa/phase2/evidence/phase2/chromium-cold-8-failure.png",
+      "blob": "dba9b0b140fe00d0cc35c46216dd194b28336fee",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "testing-audit/evidence/BR-001-failure.png",
+      "blob": "dba9b0b140fe00d0cc35c46216dd194b28336fee",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "testing-audit/evidence/CHROME-BR-001-failure.png",
+      "blob": "dba9b0b140fe00d0cc35c46216dd194b28336fee",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "testing-audit/evidence/browser-recheck/chromium-cold-4-failure.png",
+      "blob": "dba9b0b140fe00d0cc35c46216dd194b28336fee",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "testing-audit/evidence/chromium-cold-4-failure.png",
+      "blob": "dba9b0b140fe00d0cc35c46216dd194b28336fee",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "testing-audit/evidence/chromium-cold-8-failure.png",
+      "blob": "dba9b0b140fe00d0cc35c46216dd194b28336fee",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "testing-audit/evidence/resolution/browser/chromium-cold-2-failure.png",
+      "blob": "dba9b0b140fe00d0cc35c46216dd194b28336fee",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "testing-audit/evidence/resolution/browser/chromium-cold-4-failure.png",
+      "blob": "dba9b0b140fe00d0cc35c46216dd194b28336fee",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "testing-audit/evidence/resolution/browser/edge-cold-6-failure.png",
+      "blob": "dba9b0b140fe00d0cc35c46216dd194b28336fee",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "docs/qa/evidence/phase2/FIREFOX-BR-008-failure.png",
+      "blob": "5f0ae100d9476a63067c46995d608daf00eb6f5f",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "docs/qa/phase2/evidence/phase2/FIREFOX-BR-008-failure.png",
+      "blob": "5f0ae100d9476a63067c46995d608daf00eb6f5f",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "docs/qa/evidence/phase2/FIREFOX-BR-009-failure.png",
+      "blob": "cec110bf43126d75c839ed8509971d16b4c92c88",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "docs/qa/phase2/evidence/phase2/FIREFOX-BR-009-failure.png",
+      "blob": "cec110bf43126d75c839ed8509971d16b4c92c88",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "docs/qa/evidence/phase2/FIREFOX-BR-010-failure.png",
+      "blob": "845c6bff30b79e23caf8f8b2fda0dbe6a36bc2d2",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "docs/qa/phase2/evidence/phase2/FIREFOX-BR-010-failure.png",
+      "blob": "845c6bff30b79e23caf8f8b2fda0dbe6a36bc2d2",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "docs/qa/evidence/phase2/FIREFOX-BR-011-failure.png",
+      "blob": "9f7a40d11c61378b2d54ff42a87bdc02fca4aef5",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "docs/qa/phase2/evidence/phase2/FIREFOX-BR-011-failure.png",
+      "blob": "9f7a40d11c61378b2d54ff42a87bdc02fca4aef5",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "docs/qa/evidence/phase2/FIREFOX-BR-012-failure.png",
+      "blob": "6474fda298b55b6c3c383b3885f2130c964a1217",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "docs/qa/phase2/evidence/phase2/FIREFOX-BR-012-failure.png",
+      "blob": "6474fda298b55b6c3c383b3885f2130c964a1217",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "docs/qa/evidence/phase2/LIVE-BR-008-failure.png",
+      "blob": "bd2b14c58130c4e34bdbf8c803820338775726cc",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "docs/qa/evidence/phase3/LIVE-BR-008-failure.png",
+      "blob": "bd2b14c58130c4e34bdbf8c803820338775726cc",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "docs/qa/phase2/evidence/phase2/LIVE-BR-008-failure.png",
+      "blob": "bd2b14c58130c4e34bdbf8c803820338775726cc",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "docs/qa/evidence/phase2/LIVE-BR-009-failure.png",
+      "blob": "9dc38dfcf0041692207ba8c0ec2d06a8af4a2625",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "docs/qa/phase2/evidence/phase2/LIVE-BR-009-failure.png",
+      "blob": "9dc38dfcf0041692207ba8c0ec2d06a8af4a2625",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "docs/qa/evidence/phase2/LIVE-BR-010-failure.png",
+      "blob": "64bd6fc15b4af1c5470a0ddeddf4ae023c8707f7",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "docs/qa/evidence/phase3/LIVE-BR-010-failure.png",
+      "blob": "64bd6fc15b4af1c5470a0ddeddf4ae023c8707f7",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "docs/qa/phase2/evidence/phase2/LIVE-BR-010-failure.png",
+      "blob": "64bd6fc15b4af1c5470a0ddeddf4ae023c8707f7",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "docs/qa/evidence/phase2/LIVE-BR-011-failure.png",
+      "blob": "81e752a08860ba9fcda696283b1f3bc3ccb0f5b3",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "docs/qa/phase2/evidence/phase2/LIVE-BR-011-failure.png",
+      "blob": "81e752a08860ba9fcda696283b1f3bc3ccb0f5b3",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "docs/qa/evidence/phase2/LIVE-BR-012-failure.png",
+      "blob": "60c66ebc1c1a97368d5d9d4dcf073af466c7f89e",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "docs/qa/evidence/phase3/LIVE-BR-012-failure.png",
+      "blob": "60c66ebc1c1a97368d5d9d4dcf073af466c7f89e",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "docs/qa/phase2/evidence/phase2/LIVE-BR-012-failure.png",
+      "blob": "60c66ebc1c1a97368d5d9d4dcf073af466c7f89e",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "docs/qa/evidence/phase2/LIVE-BR-042-failure.png",
+      "blob": "d55278f3e2b438598e4711403761df4d062ba34a",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "docs/qa/evidence/phase2/LIVE-BR-045-failure.png",
+      "blob": "d55278f3e2b438598e4711403761df4d062ba34a",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "docs/qa/evidence/phase2/LIVE-BR-048-failure.png",
+      "blob": "d55278f3e2b438598e4711403761df4d062ba34a",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "docs/qa/evidence/phase2/LIVE-BR-050-failure.png",
+      "blob": "d55278f3e2b438598e4711403761df4d062ba34a",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "docs/qa/evidence/phase2/LIVE-BR-051-failure.png",
+      "blob": "d55278f3e2b438598e4711403761df4d062ba34a",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "docs/qa/evidence/phase3/LIVE-BR-042-failure.png",
+      "blob": "d55278f3e2b438598e4711403761df4d062ba34a",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "docs/qa/evidence/phase3/LIVE-BR-045-failure.png",
+      "blob": "d55278f3e2b438598e4711403761df4d062ba34a",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "docs/qa/evidence/phase3/LIVE-BR-048-failure.png",
+      "blob": "d55278f3e2b438598e4711403761df4d062ba34a",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "docs/qa/evidence/phase3/LIVE-BR-050-failure.png",
+      "blob": "d55278f3e2b438598e4711403761df4d062ba34a",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "docs/qa/evidence/phase3/LIVE-BR-051-failure.png",
+      "blob": "d55278f3e2b438598e4711403761df4d062ba34a",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "docs/qa/phase2/evidence/phase2/LIVE-BR-042-failure.png",
+      "blob": "d55278f3e2b438598e4711403761df4d062ba34a",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "docs/qa/phase2/evidence/phase2/LIVE-BR-045-failure.png",
+      "blob": "d55278f3e2b438598e4711403761df4d062ba34a",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "docs/qa/phase2/evidence/phase2/LIVE-BR-048-failure.png",
+      "blob": "d55278f3e2b438598e4711403761df4d062ba34a",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "docs/qa/phase2/evidence/phase2/LIVE-BR-050-failure.png",
+      "blob": "d55278f3e2b438598e4711403761df4d062ba34a",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "docs/qa/phase2/evidence/phase2/LIVE-BR-051-failure.png",
+      "blob": "d55278f3e2b438598e4711403761df4d062ba34a",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "docs/qa/evidence/phase2/chromium-cold-5-failure.png",
+      "blob": "62c3ef306e5c7ca3f091b156ca1883c3b481d099",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "docs/qa/evidence/phase2/chromium-cold-6-failure.png",
+      "blob": "62c3ef306e5c7ca3f091b156ca1883c3b481d099",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "docs/qa/evidence/phase2/chromium-cold-9-failure.png",
+      "blob": "62c3ef306e5c7ca3f091b156ca1883c3b481d099",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "docs/qa/evidence/phase3/chromium-cold-3-failure.png",
+      "blob": "62c3ef306e5c7ca3f091b156ca1883c3b481d099",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "docs/qa/evidence/phase3/chromium-cold-4-failure.png",
+      "blob": "62c3ef306e5c7ca3f091b156ca1883c3b481d099",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "docs/qa/evidence/phase3/chromium-cold-9-failure.png",
+      "blob": "62c3ef306e5c7ca3f091b156ca1883c3b481d099",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "docs/qa/phase2/evidence/phase2/chromium-cold-5-failure.png",
+      "blob": "62c3ef306e5c7ca3f091b156ca1883c3b481d099",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "docs/qa/phase2/evidence/phase2/chromium-cold-6-failure.png",
+      "blob": "62c3ef306e5c7ca3f091b156ca1883c3b481d099",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "docs/qa/phase2/evidence/phase2/chromium-cold-9-failure.png",
+      "blob": "62c3ef306e5c7ca3f091b156ca1883c3b481d099",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "testing-audit/evidence/browser-recheck/chromium-cold-5-failure.png",
+      "blob": "62c3ef306e5c7ca3f091b156ca1883c3b481d099",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "testing-audit/evidence/chromium-cold-6-failure.png",
+      "blob": "62c3ef306e5c7ca3f091b156ca1883c3b481d099",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "testing-audit/evidence/resolution/browser/chromium-cold-1-failure.png",
+      "blob": "62c3ef306e5c7ca3f091b156ca1883c3b481d099",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "testing-audit/evidence/resolution/browser/chromium-cold-3-failure.png",
+      "blob": "62c3ef306e5c7ca3f091b156ca1883c3b481d099",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "testing-audit/evidence/resolution/browser/chromium-cold-9-failure.png",
+      "blob": "62c3ef306e5c7ca3f091b156ca1883c3b481d099",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "docs/qa/evidence/phase2/edge-cold-1-failure.png",
+      "blob": "033361d955c161690cf8dd12353a031dd52b7ca7",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "docs/qa/evidence/phase3/BR-001-failure.png",
+      "blob": "033361d955c161690cf8dd12353a031dd52b7ca7",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "docs/qa/evidence/phase3/edge-cold-1-failure.png",
+      "blob": "033361d955c161690cf8dd12353a031dd52b7ca7",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "docs/qa/evidence/phase3/edge-cold-2-failure.png",
+      "blob": "033361d955c161690cf8dd12353a031dd52b7ca7",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "docs/qa/evidence/phase3/edge-cold-6-failure.png",
+      "blob": "033361d955c161690cf8dd12353a031dd52b7ca7",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "docs/qa/phase2/evidence/phase2/edge-cold-1-failure.png",
+      "blob": "033361d955c161690cf8dd12353a031dd52b7ca7",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "testing-audit/evidence/browser-recheck/BR-001-failure.png",
+      "blob": "033361d955c161690cf8dd12353a031dd52b7ca7",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "testing-audit/evidence/browser-recheck/edge-cold-1-failure.png",
+      "blob": "033361d955c161690cf8dd12353a031dd52b7ca7",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "testing-audit/evidence/chromium-cold-1-failure.png",
+      "blob": "033361d955c161690cf8dd12353a031dd52b7ca7",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "testing-audit/evidence/resolution/browser/BR-001-failure.png",
+      "blob": "033361d955c161690cf8dd12353a031dd52b7ca7",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "testing-audit/evidence/resolution/browser/edge-cold-1-failure.png",
+      "blob": "033361d955c161690cf8dd12353a031dd52b7ca7",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "testing-audit/evidence/resolution/browser/edge-cold-3-failure.png",
+      "blob": "033361d955c161690cf8dd12353a031dd52b7ca7",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "testing-audit/evidence/resolution/browser/edge-cold-4-failure.png",
+      "blob": "033361d955c161690cf8dd12353a031dd52b7ca7",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "testing-audit/evidence/resolution/browser/edge-cold-8-failure.png",
+      "blob": "033361d955c161690cf8dd12353a031dd52b7ca7",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "testing-audit/evidence/resolution/browser/edge-cold-9-failure.png",
+      "blob": "033361d955c161690cf8dd12353a031dd52b7ca7",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "docs/qa/evidence/phase2/edge-cold-6-failure.png",
+      "blob": "5d3bb610882568aa327a0d29dce727f939dcd71e",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "docs/qa/evidence/phase3/edge-cold-0-failure.png",
+      "blob": "5d3bb610882568aa327a0d29dce727f939dcd71e",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "docs/qa/evidence/phase3/edge-cold-5-failure.png",
+      "blob": "5d3bb610882568aa327a0d29dce727f939dcd71e",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "docs/qa/phase2/evidence/phase2/edge-cold-6-failure.png",
+      "blob": "5d3bb610882568aa327a0d29dce727f939dcd71e",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "docs/qa/evidence/phase2/live-edge-login-375.png",
+      "blob": "a11ecfc5e31ab4e873d9fed01db3b00a2061ff63",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "docs/qa/evidence/phase3/live-edge-login-375.png",
+      "blob": "a11ecfc5e31ab4e873d9fed01db3b00a2061ff63",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "docs/qa/phase2/evidence/phase2/live-edge-login-375.png",
+      "blob": "a11ecfc5e31ab4e873d9fed01db3b00a2061ff63",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "docs/qa/evidence/phase2/local-firefox-login-375.png",
+      "blob": "418a95a600fad0fe477b2d51035abc3ef0d26088",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "docs/qa/evidence/phase3/local-firefox-login-375.png",
+      "blob": "418a95a600fad0fe477b2d51035abc3ef0d26088",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "docs/qa/phase2/evidence/phase2/local-firefox-login-375.png",
+      "blob": "418a95a600fad0fe477b2d51035abc3ef0d26088",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "testing-audit/evidence/browser-final-approved/local-firefox-login-375.png",
+      "blob": "418a95a600fad0fe477b2d51035abc3ef0d26088",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "testing-audit/evidence/browser-recheck/local-firefox-login-375.png",
+      "blob": "418a95a600fad0fe477b2d51035abc3ef0d26088",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "testing-audit/evidence/resolution/browser/local-firefox-login-375.png",
+      "blob": "418a95a600fad0fe477b2d51035abc3ef0d26088",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "docs/qa/evidence/phase3/LIVE-BR-009-failure.png",
+      "blob": "0f11af51e9dd34ded69733cc83909c31ca09cd30",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "docs/qa/evidence/phase3/LIVE-BR-011-failure.png",
+      "blob": "4d8b3d8592dd5d9ec80550cd17f876da443ce265",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "docs/qa/evidence/phase3/local-chromium-login-375.png",
+      "blob": "95e632e15239f0faf979a7b8a6433a7af5a21aa7",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "testing-audit/evidence/local-chromium-login-375.png",
+      "blob": "95e632e15239f0faf979a7b8a6433a7af5a21aa7",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "testing-audit/evidence/admin-search-after.tap",
+      "blob": "99cad9efe245b689981cb1ff5e9a23daf9be1a60",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "testing-audit/evidence/admin-settings-after.tap",
+      "blob": "af831415045a0f9b400d0df7be124497481d4346",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "testing-audit/evidence/admin-settings-before.tap",
+      "blob": "0fa5292a2ad473924b032787c0f06505d3bdfcce",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "testing-audit/evidence/backend-coverage-final.tap",
+      "blob": "30890481ca67b9bf05f0dcbf487dcff373cd3ab2",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "testing-audit/evidence/backend-coverage.tap",
+      "blob": "21b3af4021ea389b8425c66fdabe3889c2ea484d",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "testing-audit/evidence/backend-dependencies-final.json",
+      "blob": "f7142cb3d70049805d357c8ba707b44f0ff45193",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "testing-audit/evidence/backend-dependencies-recheck.json",
+      "blob": "f7142cb3d70049805d357c8ba707b44f0ff45193",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "testing-audit/evidence/backend-dependencies.json",
+      "blob": "ebd0c7262903f1d564141283fdb569a8b4a26893",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "testing-audit/evidence/frontend-dependencies.json",
+      "blob": "ebd0c7262903f1d564141283fdb569a8b4a26893",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "testing-audit/evidence/frontend-dependencies-final.json",
+      "blob": "a1a4993116856f868095c9067c9fe3a2efddd1b4",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "testing-audit/evidence/frontend-dependencies-recheck.json",
+      "blob": "a6c8c7d53bf1d29bcecc173be0a6be7b0352b943",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "testing-audit/evidence/inactive-accounts-after.tap",
+      "blob": "747589f09f6d51dd29d58349fc21e6d56dfd38ac",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "testing-audit/evidence/inactive-accounts-before.tap",
+      "blob": "6f198acc203bed8787d13008ce7f7713629e03fa",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "testing-audit/evidence/notifications-before.tap",
+      "blob": "49f0ce50e58f6f651967d2710440a7957fe82e00",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "testing-audit/evidence/resolution/backend-coverage.tap",
+      "blob": "a464a4538534f1d3a2b8b87da325ad488ec26fbc",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "testing-audit/evidence/resolution/browser/chromium-cold-5-failure.png",
+      "blob": "ee1d2ece059a6cf8cc8167577307ae8fa6b619ab",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "testing-audit/evidence/resolution/credential-classifier.tap",
+      "blob": "b52dc096be76008f0007bc14dd414d7de97df7ad",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "testing-audit/evidence/resolution/gates/frontend.tap",
+      "blob": "13148c76566556d8bb4b7c031c50d1f95230db83",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "testing-audit/evidence/resolution/word-of-day-tests.tap",
+      "blob": "88010dc4a72e05b3efda8f5642fac352e7ad0965",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "testing-audit/evidence/role-matrix-http-original.tap",
+      "blob": "f7a0ef0b7009610d32c927143105248ce5ed114c",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "testing-audit/evidence/role-matrix.tap",
+      "blob": "f7a0ef0b7009610d32c927143105248ce5ed114c",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "testing-audit/evidence/role-matrix-inprocess.tap",
+      "blob": "1cf69043e95b03f809ada2b4989c7d826919aa69",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    },
+    {
+      "file": "testing-audit/evidence/targeted-after.tap",
+      "blob": "cd37de0af51e3af3175009d6536a3a23b3e72d8c",
+      "kind": "Binary bytes pattern-scanned; embedded/compressed content not decoded"
+    }
+  ],
+  "binaryCurrent": [
+    {
+      "file": "docs/LinawLetra_Dyslexia_Friendly_Reading_Samples.pdf",
+      "kind": "Binary content"
+    },
+    {
+      "file": "docs/LinawLetra_Thesis_System_Documentation.pdf",
+      "kind": "Binary content"
+    },
+    {
+      "file": "docs/reading-stories/advanced-01-klase-ni-gloria.pdf",
+      "kind": "Binary content"
+    },
+    {
+      "file": "docs/reading-stories/advanced-02-prutas-sa-hardin.pdf",
+      "kind": "Binary content"
+    },
+    {
+      "file": "docs/reading-stories/beginner-01-aso-ni-ana.pdf",
+      "kind": "Binary content"
+    },
+    {
+      "file": "docs/reading-stories/beginner-02-kubo-ni-lino.pdf",
+      "kind": "Binary content"
+    },
+    {
+      "file": "docs/reading-stories/intermediate-01-baboy-sa-bukid.pdf",
+      "kind": "Binary content"
+    },
+    {
+      "file": "docs/reading-stories/intermediate-02-araw-ni-maria.pdf",
+      "kind": "Binary content"
+    },
+    {
+      "file": "public/Logo.jpg",
+      "kind": "Binary content"
+    },
+    {
+      "file": "public/favicon.jpg",
+      "kind": "Binary content"
+    },
+    {
+      "file": "src/assets/Logo.jpg",
+      "kind": "Binary content"
+    },
+    {
+      "file": "src/assets/admin_design/admin-hero-background.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "src/assets/admin_design/books-stack.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "src/assets/admin_design/owl-admin-mascot.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "src/assets/admin_design/school-building.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "src/assets/admin_design/sidebar-foliage-left.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "src/assets/admin_design/sidebar-foliage-right.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "src/assets/badges/Aking Unang Tagumpay.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "src/assets/badges/Alamat ng Pagbasa.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "src/assets/badges/Batang Mambabasa.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "src/assets/badges/Bigkas Champion.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "src/assets/badges/Boses ng Tagumpay.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "src/assets/badges/Buwan ng Pagsisikap.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "src/assets/badges/Dalubhasa sa Pagbasa.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "src/assets/badges/Hindi Ako Susuko.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "src/assets/badges/Kampeon sa Pagbasa.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "src/assets/badges/Lakas ng Loob.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "src/assets/badges/Lingguhang Bayani.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "src/assets/badges/Malinaw Magsalita.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "src/assets/badges/Masigasig na Mambabasa.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "src/assets/badges/Matalinong Mag-aaral.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "src/assets/badges/Patuloy na Umuunlad.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "src/assets/badges/Tamang Bigkas.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "src/assets/badges/Tuloy-Tuloy!.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "src/assets/badges/Unang Araw.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "src/assets/badges/Unang Bigkas.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "src/assets/badges/Unang Hakbang.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "src/assets/email.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "src/assets/left.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "src/assets/listen.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "src/assets/parent/Sidebar background pattern.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "src/assets/parent/current.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "src/assets/parent/hero.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "src/assets/parent/no activities.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "src/assets/parent/no enrolled child.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "src/assets/parent/parent-bg.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "src/assets/parent/reading.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "src/assets/parent/reading_champion.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "src/assets/parent/streak.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "src/assets/students/aralin/aralin-completed.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "src/assets/students/aralin/aralin-completion-badge.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "src/assets/students/aralin/aralin-current.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "src/assets/students/aralin/aralin-header-books.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "src/assets/students/aralin/aralin-journey-background.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "src/assets/students/aralin/aralin-learning-background.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "src/assets/students/aralin/aralin-locked-books.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "src/assets/students/aralin/aralin-mascot-guide.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "src/assets/students/aralin/aralin-module-path.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "src/assets/students/aralin/aralin-path-background.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "src/assets/students/aralin/aralin-pencil-stars.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "src/assets/students/aralin/aralin-phonics-blocks.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "src/assets/students/aralin/aralin-reading-book.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "src/assets/students/aralin/aralin-school-path-background.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "src/assets/students/backgrounds/sidebar-background.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "src/assets/students/backgrounds/student-hero-bg.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "src/assets/students/backgrounds/word-practice-background-v2.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "src/assets/students/backgrounds/word-practice-background.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "src/assets/students/characters/student-hero-character.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "src/assets/students/decorations/deadline-card-decoration.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "src/assets/students/decorations/lesson-progress-decoration.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "src/assets/students/illustrations/achievement-illustration.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "src/assets/students/illustrations/empty-state-illustration.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "src/assets/students/illustrations/lesson-card-illustration.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "src/assets/students/mascot/owl-mascot.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "src/assets/teacher/Hero Left Purple Decorative Shape.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "src/assets/teacher/Purple Sidebar Bottom Plants.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "src/assets/teacher/Teacher Home Hero Banner Background.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "src/assets/teacher/Teacher Illustration.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "docs/qa/evidence/live-login-1440.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "docs/qa/evidence/live-login-375.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "docs/qa/evidence/live-login-768.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "docs/qa/evidence/live-signup-375.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "docs/qa/evidence/local-login-1440.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "docs/qa/evidence/local-login-375.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "docs/qa/evidence/local-login-768.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "docs/qa/evidence/local-signup-375.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "docs/qa/evidence/main-post-migration/deployed-readonly-2026-10-18/home-1440.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "docs/qa/evidence/main-post-migration/deployed-readonly-2026-10-18/login-1440.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "docs/qa/evidence/phase2/BR-008-failure.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "docs/qa/evidence/phase2/BR-009-failure.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "docs/qa/evidence/phase2/BR-010-failure.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "docs/qa/evidence/phase2/BR-011-failure.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "docs/qa/evidence/phase2/BR-012-failure.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "docs/qa/evidence/phase2/BR-044-failure.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "docs/qa/evidence/phase2/BR-058-failure.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "docs/qa/evidence/phase2/CHROME-BR-001-failure.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "docs/qa/evidence/phase2/CHROME-BR-008-failure.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "docs/qa/evidence/phase2/CHROME-BR-009-failure.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "docs/qa/evidence/phase2/CHROME-BR-010-failure.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "docs/qa/evidence/phase2/CHROME-BR-011-failure.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "docs/qa/evidence/phase2/CHROME-BR-012-failure.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "docs/qa/evidence/phase2/CHROME-BR-058-failure.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "docs/qa/evidence/phase2/FIREFOX-BR-008-failure.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "docs/qa/evidence/phase2/FIREFOX-BR-009-failure.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "docs/qa/evidence/phase2/FIREFOX-BR-010-failure.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "docs/qa/evidence/phase2/FIREFOX-BR-011-failure.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "docs/qa/evidence/phase2/FIREFOX-BR-012-failure.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "docs/qa/evidence/phase2/LIVE-BR-008-failure.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "docs/qa/evidence/phase2/LIVE-BR-009-failure.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "docs/qa/evidence/phase2/LIVE-BR-010-failure.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "docs/qa/evidence/phase2/LIVE-BR-011-failure.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "docs/qa/evidence/phase2/LIVE-BR-012-failure.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "docs/qa/evidence/phase2/LIVE-BR-042-failure.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "docs/qa/evidence/phase2/LIVE-BR-045-failure.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "docs/qa/evidence/phase2/LIVE-BR-048-failure.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "docs/qa/evidence/phase2/LIVE-BR-050-failure.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "docs/qa/evidence/phase2/LIVE-BR-051-failure.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "docs/qa/evidence/phase2/chromium-cold-4-failure.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "docs/qa/evidence/phase2/chromium-cold-5-failure.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "docs/qa/evidence/phase2/chromium-cold-6-failure.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "docs/qa/evidence/phase2/chromium-cold-7-failure.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "docs/qa/evidence/phase2/chromium-cold-8-failure.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "docs/qa/evidence/phase2/chromium-cold-9-failure.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "docs/qa/evidence/phase2/edge-cold-1-failure.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "docs/qa/evidence/phase2/edge-cold-6-failure.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "docs/qa/evidence/phase2/live-edge-login-375.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "docs/qa/evidence/phase2/local-chromium-login-375.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "docs/qa/evidence/phase2/local-edge-login-375.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "docs/qa/evidence/phase2/local-firefox-login-375.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "docs/qa/evidence/phase3/BR-001-failure.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "docs/qa/evidence/phase3/BR-058-failure.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "docs/qa/evidence/phase3/CHROME-BR-058-failure.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "docs/qa/evidence/phase3/LIVE-BR-008-failure.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "docs/qa/evidence/phase3/LIVE-BR-009-failure.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "docs/qa/evidence/phase3/LIVE-BR-010-failure.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "docs/qa/evidence/phase3/LIVE-BR-011-failure.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "docs/qa/evidence/phase3/LIVE-BR-012-failure.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "docs/qa/evidence/phase3/LIVE-BR-042-failure.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "docs/qa/evidence/phase3/LIVE-BR-045-failure.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "docs/qa/evidence/phase3/LIVE-BR-048-failure.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "docs/qa/evidence/phase3/LIVE-BR-050-failure.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "docs/qa/evidence/phase3/LIVE-BR-051-failure.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "docs/qa/evidence/phase3/chromium-cold-0-failure.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "docs/qa/evidence/phase3/chromium-cold-3-failure.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "docs/qa/evidence/phase3/chromium-cold-4-failure.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "docs/qa/evidence/phase3/chromium-cold-5-failure.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "docs/qa/evidence/phase3/chromium-cold-6-failure.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "docs/qa/evidence/phase3/chromium-cold-9-failure.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "docs/qa/evidence/phase3/edge-cold-0-failure.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "docs/qa/evidence/phase3/edge-cold-1-failure.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "docs/qa/evidence/phase3/edge-cold-2-failure.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "docs/qa/evidence/phase3/edge-cold-5-failure.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "docs/qa/evidence/phase3/edge-cold-6-failure.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "docs/qa/evidence/phase3/live-edge-login-375.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "docs/qa/evidence/phase3/local-chromium-login-375.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "docs/qa/evidence/phase3/local-edge-login-375.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "docs/qa/evidence/phase3/local-firefox-login-375.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "docs/qa/phase1/evidence/live-login-1440.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "docs/qa/phase1/evidence/live-login-375.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "docs/qa/phase1/evidence/live-login-768.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "docs/qa/phase1/evidence/live-signup-375.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "docs/qa/phase1/evidence/local-login-1440.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "docs/qa/phase1/evidence/local-login-375.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "docs/qa/phase1/evidence/local-login-768.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "docs/qa/phase1/evidence/local-signup-375.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "docs/qa/phase2/evidence/live-login-1440.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "docs/qa/phase2/evidence/live-login-375.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "docs/qa/phase2/evidence/live-login-768.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "docs/qa/phase2/evidence/live-signup-375.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "docs/qa/phase2/evidence/local-login-1440.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "docs/qa/phase2/evidence/local-login-375.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "docs/qa/phase2/evidence/local-login-768.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "docs/qa/phase2/evidence/local-signup-375.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "docs/qa/phase2/evidence/phase2/BR-008-failure.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "docs/qa/phase2/evidence/phase2/BR-009-failure.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "docs/qa/phase2/evidence/phase2/BR-010-failure.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "docs/qa/phase2/evidence/phase2/BR-011-failure.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "docs/qa/phase2/evidence/phase2/BR-012-failure.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "docs/qa/phase2/evidence/phase2/BR-044-failure.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "docs/qa/phase2/evidence/phase2/BR-058-failure.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "docs/qa/phase2/evidence/phase2/CHROME-BR-001-failure.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "docs/qa/phase2/evidence/phase2/CHROME-BR-008-failure.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "docs/qa/phase2/evidence/phase2/CHROME-BR-009-failure.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "docs/qa/phase2/evidence/phase2/CHROME-BR-010-failure.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "docs/qa/phase2/evidence/phase2/CHROME-BR-011-failure.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "docs/qa/phase2/evidence/phase2/CHROME-BR-012-failure.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "docs/qa/phase2/evidence/phase2/CHROME-BR-058-failure.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "docs/qa/phase2/evidence/phase2/FIREFOX-BR-008-failure.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "docs/qa/phase2/evidence/phase2/FIREFOX-BR-009-failure.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "docs/qa/phase2/evidence/phase2/FIREFOX-BR-010-failure.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "docs/qa/phase2/evidence/phase2/FIREFOX-BR-011-failure.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "docs/qa/phase2/evidence/phase2/FIREFOX-BR-012-failure.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "docs/qa/phase2/evidence/phase2/LIVE-BR-008-failure.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "docs/qa/phase2/evidence/phase2/LIVE-BR-009-failure.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "docs/qa/phase2/evidence/phase2/LIVE-BR-010-failure.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "docs/qa/phase2/evidence/phase2/LIVE-BR-011-failure.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "docs/qa/phase2/evidence/phase2/LIVE-BR-012-failure.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "docs/qa/phase2/evidence/phase2/LIVE-BR-042-failure.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "docs/qa/phase2/evidence/phase2/LIVE-BR-045-failure.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "docs/qa/phase2/evidence/phase2/LIVE-BR-048-failure.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "docs/qa/phase2/evidence/phase2/LIVE-BR-050-failure.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "docs/qa/phase2/evidence/phase2/LIVE-BR-051-failure.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "docs/qa/phase2/evidence/phase2/chromium-cold-4-failure.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "docs/qa/phase2/evidence/phase2/chromium-cold-5-failure.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "docs/qa/phase2/evidence/phase2/chromium-cold-6-failure.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "docs/qa/phase2/evidence/phase2/chromium-cold-7-failure.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "docs/qa/phase2/evidence/phase2/chromium-cold-8-failure.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "docs/qa/phase2/evidence/phase2/chromium-cold-9-failure.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "docs/qa/phase2/evidence/phase2/edge-cold-1-failure.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "docs/qa/phase2/evidence/phase2/edge-cold-6-failure.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "docs/qa/phase2/evidence/phase2/live-edge-login-375.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "docs/qa/phase2/evidence/phase2/local-chromium-login-375.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "docs/qa/phase2/evidence/phase2/local-edge-login-375.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "docs/qa/phase2/evidence/phase2/local-firefox-login-375.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "testing-audit/evidence/BR-001-failure.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "testing-audit/evidence/BR-058-failure.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "testing-audit/evidence/CHROME-BR-001-failure.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "testing-audit/evidence/CHROME-BR-058-failure.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "testing-audit/evidence/admin-search-after.tap",
+      "kind": "Binary content"
+    },
+    {
+      "file": "testing-audit/evidence/admin-settings-after.tap",
+      "kind": "Binary content"
+    },
+    {
+      "file": "testing-audit/evidence/admin-settings-before.tap",
+      "kind": "Binary content"
+    },
+    {
+      "file": "testing-audit/evidence/backend-coverage-final.tap",
+      "kind": "Binary content"
+    },
+    {
+      "file": "testing-audit/evidence/backend-coverage.tap",
+      "kind": "Binary content"
+    },
+    {
+      "file": "testing-audit/evidence/backend-dependencies-final.json",
+      "kind": "Binary content"
+    },
+    {
+      "file": "testing-audit/evidence/backend-dependencies-recheck.json",
+      "kind": "Binary content"
+    },
+    {
+      "file": "testing-audit/evidence/backend-dependencies.json",
+      "kind": "Binary content"
+    },
+    {
+      "file": "testing-audit/evidence/browser-final-approved/local-firefox-login-375.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "testing-audit/evidence/browser-recheck/BR-001-failure.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "testing-audit/evidence/browser-recheck/BR-058-failure.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "testing-audit/evidence/browser-recheck/CHROME-BR-058-failure.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "testing-audit/evidence/browser-recheck/chromium-cold-4-failure.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "testing-audit/evidence/browser-recheck/chromium-cold-5-failure.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "testing-audit/evidence/browser-recheck/edge-cold-1-failure.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "testing-audit/evidence/browser-recheck/local-chromium-login-375.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "testing-audit/evidence/browser-recheck/local-edge-login-375.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "testing-audit/evidence/browser-recheck/local-firefox-login-375.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "testing-audit/evidence/chromium-cold-1-failure.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "testing-audit/evidence/chromium-cold-4-failure.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "testing-audit/evidence/chromium-cold-6-failure.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "testing-audit/evidence/chromium-cold-8-failure.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "testing-audit/evidence/frontend-dependencies-final.json",
+      "kind": "Binary content"
+    },
+    {
+      "file": "testing-audit/evidence/frontend-dependencies-recheck.json",
+      "kind": "Binary content"
+    },
+    {
+      "file": "testing-audit/evidence/frontend-dependencies.json",
+      "kind": "Binary content"
+    },
+    {
+      "file": "testing-audit/evidence/inactive-accounts-after.tap",
+      "kind": "Binary content"
+    },
+    {
+      "file": "testing-audit/evidence/inactive-accounts-before.tap",
+      "kind": "Binary content"
+    },
+    {
+      "file": "testing-audit/evidence/local-chromium-login-375.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "testing-audit/evidence/local-edge-login-375.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "testing-audit/evidence/notifications-before.tap",
+      "kind": "Binary content"
+    },
+    {
+      "file": "testing-audit/evidence/resolution/backend-coverage.tap",
+      "kind": "Binary content"
+    },
+    {
+      "file": "testing-audit/evidence/resolution/browser/BR-001-failure.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "testing-audit/evidence/resolution/browser/BR-058-failure.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "testing-audit/evidence/resolution/browser/CHROME-BR-058-failure.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "testing-audit/evidence/resolution/browser/chromium-cold-1-failure.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "testing-audit/evidence/resolution/browser/chromium-cold-2-failure.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "testing-audit/evidence/resolution/browser/chromium-cold-3-failure.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "testing-audit/evidence/resolution/browser/chromium-cold-4-failure.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "testing-audit/evidence/resolution/browser/chromium-cold-5-failure.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "testing-audit/evidence/resolution/browser/chromium-cold-9-failure.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "testing-audit/evidence/resolution/browser/edge-cold-1-failure.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "testing-audit/evidence/resolution/browser/edge-cold-3-failure.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "testing-audit/evidence/resolution/browser/edge-cold-4-failure.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "testing-audit/evidence/resolution/browser/edge-cold-6-failure.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "testing-audit/evidence/resolution/browser/edge-cold-8-failure.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "testing-audit/evidence/resolution/browser/edge-cold-9-failure.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "testing-audit/evidence/resolution/browser/local-chromium-login-375.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "testing-audit/evidence/resolution/browser/local-edge-login-375.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "testing-audit/evidence/resolution/browser/local-firefox-login-375.png",
+      "kind": "Binary content"
+    },
+    {
+      "file": "testing-audit/evidence/resolution/credential-classifier.tap",
+      "kind": "Binary content"
+    },
+    {
+      "file": "testing-audit/evidence/resolution/gates/frontend.tap",
+      "kind": "Binary content"
+    },
+    {
+      "file": "testing-audit/evidence/resolution/word-of-day-tests.tap",
+      "kind": "Binary content"
+    },
+    {
+      "file": "testing-audit/evidence/role-matrix-http-original.tap",
+      "kind": "Binary content"
+    },
+    {
+      "file": "testing-audit/evidence/role-matrix-inprocess.tap",
+      "kind": "Binary content"
+    },
+    {
+      "file": "testing-audit/evidence/role-matrix.tap",
+      "kind": "Binary content"
+    },
+    {
+      "file": "testing-audit/evidence/targeted-after.tap",
+      "kind": "Binary content"
+    }
+  ],
+  "gitlinks": [],
+  "pdfReviews": [
+    {
+      "blob": "19c1f5c5031533f57a7245da548ec0781986e81e",
+      "files": [
+        "docs/LinawLetra_Dyslexia_Friendly_Reading_Samples.pdf"
+      ],
+      "status": "Extracted text pattern-scanned; images/annotations not certified",
+      "pages": 4
+    },
+    {
+      "blob": "c6c4865b491dfe10e2d106a396bcc7196eda99c7",
+      "files": [
+        "docs/LinawLetra_Thesis_System_Documentation.pdf"
+      ],
+      "status": "Extracted text pattern-scanned; images/annotations not certified",
+      "pages": 10
+    },
+    {
+      "blob": "bfdcdbea4fe8816778c360f241fb2660c126308e",
+      "files": [
+        "docs/reading-stories/advanced-01-klase-ni-gloria.pdf"
+      ],
+      "status": "Extracted text pattern-scanned; images/annotations not certified",
+      "pages": 3
+    },
+    {
+      "blob": "44d57d9a94dc998212df4d738fbc996c057a965e",
+      "files": [
+        "docs/reading-stories/advanced-02-prutas-sa-hardin.pdf"
+      ],
+      "status": "Extracted text pattern-scanned; images/annotations not certified",
+      "pages": 3
+    },
+    {
+      "blob": "17f27ef2fd505671ba492b28756ae93f489e5ad0",
+      "files": [
+        "docs/reading-stories/beginner-01-aso-ni-ana.pdf"
+      ],
+      "status": "Extracted text pattern-scanned; images/annotations not certified",
+      "pages": 3
+    },
+    {
+      "blob": "fd2c53eff07ff948c9afff9ec8640604d8fa4391",
+      "files": [
+        "docs/reading-stories/beginner-02-kubo-ni-lino.pdf"
+      ],
+      "status": "Extracted text pattern-scanned; images/annotations not certified",
+      "pages": 3
+    },
+    {
+      "blob": "68209eef58c48704a5b6f607f0e5ae4024a8fb14",
+      "files": [
+        "docs/reading-stories/intermediate-01-baboy-sa-bukid.pdf"
+      ],
+      "status": "Extracted text pattern-scanned; images/annotations not certified",
+      "pages": 3
+    },
+    {
+      "blob": "28f29decc8e71b461d0de6fb83bddc1c097d09f9",
+      "files": [
+        "docs/reading-stories/intermediate-02-araw-ni-maria.pdf"
+      ],
+      "status": "Extracted text pattern-scanned; images/annotations not certified",
+      "pages": 3
+    },
+    {
+      "blob": "42c18f4e3739f79396693a8c558191f98f931dd7",
+      "files": [],
+      "status": "Extracted text pattern-scanned; images/annotations not certified",
+      "pages": 10
+    },
+    {
+      "blob": "933a5579f906dc9ea34991743c072c4c97e90798",
+      "files": [],
+      "status": "Extracted text pattern-scanned; images/annotations not certified",
+      "pages": 7
+    },
+    {
+      "blob": "f6fa4df5de6430d2fbb49369986e73332993a211",
+      "files": [],
+      "status": "Extracted text pattern-scanned; images/annotations not certified",
+      "pages": 9
+    }
+  ],
+  "retainedBlobFindings": [
+    {
+      "blob": "05f26c981ff6097a2801e4fd1b57622961379f3f",
+      "findings": [
+        {
+          "category": "Sensitive configuration literal (manual review)",
+          "line": 237,
+          "confidence": "candidate; may be fixture or documentation"
+        }
+      ],
+      "file": "Unattributed retained local blob; filename not recovered",
+      "containingCommits": []
+    },
+    {
+      "blob": "3dff773343ea18fc553085438fe174122b196637",
+      "findings": [
+        {
+          "category": "Sensitive configuration literal (manual review)",
+          "line": 230,
+          "confidence": "candidate; may be fixture or documentation"
+        }
+      ],
+      "file": "Unattributed retained local blob; filename not recovered",
+      "containingCommits": []
+    },
+    {
+      "blob": "7223ce9bbe25840b272d7fbf50e4a9af248c01c1",
+      "findings": [
+        {
+          "category": "Sensitive configuration literal (manual review)",
+          "line": 269,
+          "confidence": "candidate; may be fixture or documentation"
+        }
+      ],
+      "file": "Unattributed retained local blob; filename not recovered",
+      "containingCommits": []
+    },
+    {
+      "blob": "815bfababb14a76053014bc3fa5fe295c11ee800",
+      "findings": [
+        {
+          "category": "Sensitive configuration literal (manual review)",
+          "line": 224,
+          "confidence": "candidate; may be fixture or documentation"
+        }
+      ],
+      "file": "Unattributed retained local blob; filename not recovered",
+      "containingCommits": []
+    },
+    {
+      "blob": "c5b65e8b4a81ebbe9d6857a5232ab61299e1fb2e",
+      "findings": [
+        {
+          "category": "Inline password/token literal (manual review)",
+          "line": 138,
+          "confidence": "candidate; may be fixture or documentation"
+        }
+      ],
+      "file": "Unattributed retained local blob; filename not recovered",
+      "containingCommits": []
+    },
+    {
+      "blob": "c8834a27f1fbcb58201e48dbef6e1a6d951f0491",
+      "findings": [
+        {
+          "category": "Sensitive configuration literal (manual review)",
+          "line": 233,
+          "confidence": "candidate; may be fixture or documentation"
+        }
+      ],
+      "file": "Unattributed retained local blob; filename not recovered",
+      "containingCommits": []
+    },
+    {
+      "blob": "e789dac476b9a7789aa01b84cfa7403069934143",
+      "findings": [
+        {
+          "category": "Sensitive configuration literal (manual review)",
+          "line": 227,
+          "confidence": "candidate; may be fixture or documentation"
+        }
+      ],
+      "file": "Unattributed retained local blob; filename not recovered",
+      "containingCommits": []
+    }
+  ],
+  "limitations": [
+    "Local objects only; remote ref advertisement is recorded separately",
+    "No credential validity checks",
+    "Ignored private environment contents excluded",
+    "No OCR, archive extraction or LFS payload retrieval",
+    "Retained blobs scanned, but historical dangling-tree filenames and reflog messages are not reconstructed",
+    "Heuristic detector; zero matches does not prove no sensitive data"
+  ]
+}

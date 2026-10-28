@@ -1,0 +1,6 @@
+{
+  "timestamp": "2026-10-21T13:29:31.714Z",
+  "status": "BLOCKED",
+  "actual": "listen EACCES: permission denied 127.0.0.1",
+  "scope": "Local browser fixture could not listen; browser assertions were not executed."
+}

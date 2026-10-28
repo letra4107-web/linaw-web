@@ -1,0 +1,1094 @@
+TAP version 13
+# Subtest: audit migrations are ordered, append-only, and redact direct-write secrets
+ok 1 - audit migrations are ordered, append-only, and redact direct-write secrets
+  ---
+  duration_ms: 3.362
+  type: 'test'
+  ...
+# Subtest: audit platform label is web-only until native audit integration is enabled
+ok 2 - audit platform label is web-only until native audit integration is enabled
+  ---
+  duration_ms: 2.757
+  type: 'test'
+  ...
+# Subtest: audit platform label stays web for all user agents
+ok 3 - audit platform label stays web for all user agents
+  ---
+  duration_ms: 0.5047
+  type: 'test'
+  ...
+# Subtest: only successful non-admin sign-ins create an admin notification
+ok 4 - only successful non-admin sign-ins create an admin notification
+  ---
+  duration_ms: 0.4368
+  type: 'test'
+  ...
+# Subtest: QA first completed activity awards its badge and first-badge cascade through the atomic RPC
+ok 5 - QA first completed activity awards its badge and first-badge cascade through the atomic RPC
+  ---
+  duration_ms: 8.09
+  type: 'test'
+  ...
+# Subtest: QA existing badges and unmet thresholds do not reissue awards
+ok 6 - QA existing badges and unmet thresholds do not reissue awards
+  ---
+  duration_ms: 0.6386
+  type: 'test'
+  ...
+# Subtest: QA streak badge threshold unlocks on day seven and preserves prior awards
+ok 7 - QA streak badge threshold unlocks on day seven and preserves prior awards
+  ---
+  duration_ms: 1.2109
+  type: 'test'
+  ...
+# Subtest: QA badge storage failures propagate instead of reporting a successful award
+ok 8 - QA badge storage failures propagate instead of reporting a successful award
+  ---
+  duration_ms: 2.2317
+  type: 'test'
+  ...
+# Subtest: QA completion loader reads beyond the first database page and stops on the partial page
+ok 9 - QA completion loader reads beyond the first database page and stops on the partial page
+  ---
+  duration_ms: 2.1462
+  type: 'test'
+  ...
+# Subtest: QA completion loader fails on database error without returning a misleading partial report
+ok 10 - QA completion loader fails on database error without returning a misleading partial report
+  ---
+  duration_ms: 1.5671
+  type: 'test'
+  ...
+# Subtest: QA empty reading profiles distinguish missing observations from a measured score
+ok 11 - QA empty reading profiles distinguish missing observations from a measured score
+  ---
+  duration_ms: 15.7847
+  type: 'test'
+  ...
+# Subtest: QA learning promotion denies missing, incomplete, under-threshold and terminal-level paths
+ok 12 - QA learning promotion denies missing, incomplete, under-threshold and terminal-level paths
+  ---
+  duration_ms: 0.9094
+  type: 'test'
+  ...
+# Subtest: staging role smoke checks
+ok 13 - staging role smoke checks # SKIP
+  ---
+  duration_ms: 2.1801
+  type: 'test'
+  ...
+# Subtest: staging Supabase RLS isolation checks
+ok 14 - staging Supabase RLS isolation checks # SKIP
+  ---
+  duration_ms: 0.3519
+  type: 'test'
+  ...
+# Subtest: ElevenLabs receives explicit Filipino sounds for isolated letter drills
+ok 15 - ElevenLabs receives explicit Filipino sounds for isolated letter drills
+  ---
+  duration_ms: 9.1885
+  type: 'test'
+  ...
+# Subtest: isolated Filipino vowels use IPA instead of English letter names
+ok 16 - isolated Filipino vowels use IPA instead of English letter names
+  ---
+  duration_ms: 1.0727
+  type: 'test'
+  ...
+# Subtest: isolated consonants use Filipino letter sounds instead of English names
+ok 17 - isolated consonants use Filipino letter sounds instead of English names
+  ---
+  duration_ms: 1.1608
+  type: 'test'
+  ...
+# Subtest: Filipino SSML spaces clauses, sentences, and paragraphs for processing time
+ok 18 - Filipino SSML spaces clauses, sentences, and paragraphs for processing time
+  ---
+  duration_ms: 2.5976
+  type: 'test'
+  ...
+# Subtest: multi-syllable Filipino words receive the slow-reading classification
+ok 19 - multi-syllable Filipino words receive the slow-reading classification
+  ---
+  duration_ms: 1.2608
+  type: 'test'
+  ...
+# Subtest: reading difficulty advances only after every current-level module is complete at the passing score
+ok 20 - reading difficulty advances only after every current-level module is complete at the passing score
+  ---
+  duration_ms: 5.94
+  type: 'test'
+  ...
+# Subtest: patched Nodemailer composes a credential-style email locally without SMTP delivery
+ok 21 - patched Nodemailer composes a credential-style email locally without SMTP delivery
+  ---
+  duration_ms: 37.486
+  type: 'test'
+  ...
+# Subtest: patched Multer preserves memory uploads, file filtering, and size-limit errors over real local HTTP
+ok 22 - patched Multer preserves memory uploads, file filtering, and size-limit errors over real local HTTP
+  ---
+  duration_ms: 185.9102
+  type: 'test'
+  ...
+# Subtest: local HTTP health returns compatibility, security headers, and correlation ID
+ok 23 - local HTTP health returns compatibility, security headers, and correlation ID
+  ---
+  duration_ms: 70.0262
+  type: 'test'
+  ...
+# {"event":"api_response","requestId":"c2d7e7d0-0910-42da-acf1-2947e8120451","method":"GET","route":"unmatched","status":401,"durationMs":8}
+# Subtest: local HTTP admin API rejects anonymous access
+ok 24 - local HTTP admin API rejects anonymous access
+  ---
+  duration_ms: 18.1406
+  type: 'test'
+  ...
+# {"event":"api_response","requestId":"44658037-2672-48be-9611-84796303a42e","method":"GET","route":"unmatched","status":401,"durationMs":2}
+# Subtest: local HTTP teacher API rejects anonymous access
+ok 25 - local HTTP teacher API rejects anonymous access
+  ---
+  duration_ms: 7.3352
+  type: 'test'
+  ...
+# {"event":"api_response","requestId":"a607e607-37ce-4100-8be7-7703322b38c9","method":"GET","route":"unmatched","status":401,"durationMs":1}
+# Subtest: local HTTP parent API rejects anonymous access
+ok 26 - local HTTP parent API rejects anonymous access
+  ---
+  duration_ms: 6.0036
+  type: 'test'
+  ...
+# {"event":"api_response","requestId":"9006dc3b-deef-4d50-8ff2-ffd6315b7258","method":"GET","route":"unmatched","status":401,"durationMs":2}
+# Subtest: local HTTP student API rejects anonymous access
+ok 27 - local HTTP student API rejects anonymous access
+  ---
+  duration_ms: 5.9543
+  type: 'test'
+  ...
+# {"event":"api_response","requestId":"bfef764c-3283-4607-abc7-b212f2bfada8","method":"GET","route":"unmatched","status":401,"durationMs":2}
+# Subtest: local HTTP notifications API rejects anonymous access
+ok 28 - local HTTP notifications API rejects anonymous access
+  ---
+  duration_ms: 6.2739
+  type: 'test'
+  ...
+# {"event":"api_response","requestId":"88e44b45-2825-4a03-94bf-ab2130058374","method":"POST","route":"/events","status":401,"durationMs":2}
+# Subtest: local HTTP auth API rejects anonymous access
+ok 29 - local HTTP auth API rejects anonymous access
+  ---
+  duration_ms: 8.3509
+  type: 'test'
+  ...
+# {"event":"api_response","requestId":"2fd7a5a5-5fa6-4f7a-8840-fd9fb21c10fa","method":"POST","route":"unmatched","status":401,"durationMs":1}
+# Subtest: local HTTP TTS rejects anonymous synthesis before service use
+ok 30 - local HTTP TTS rejects anonymous synthesis before service use
+  ---
+  duration_ms: 35.9997
+  type: 'test'
+  ...
+# Subtest: local HTTP CORS exposes version headers to the configured frontend
+ok 31 - local HTTP CORS exposes version headers to the configured frontend
+  ---
+  duration_ms: 9.5132
+  type: 'test'
+  ...
+# Subtest: local HTTP CORS denies unapproved origins
+ok 32 - local HTTP CORS denies unapproved origins
+  ---
+  duration_ms: 5.267
+  type: 'test'
+  ...
+# Subtest: local HTTP handles malformed and oversized JSON with client errors
+ok 33 - local HTTP handles malformed and oversized JSON with client errors
+  ---
+  duration_ms: 24.1486
+  type: 'test'
+  ...
+# {"event":"api_response","requestId":"2e4b3ef7-a099-428a-83b4-cbfc4f92040e","method":"GET","route":"unmatched","status":404,"durationMs":2}
+# Subtest: local HTTP returns a JSON 404 for an unknown endpoint
+ok 34 - local HTTP returns a JSON 404 for an unknown endpoint
+  ---
+  duration_ms: 9.8931
+  type: 'test'
+  ...
+# {"event":"api_response","requestId":"21051dbb-b0b0-42c0-97c7-c212f3d35945","method":"GET","route":"unmatched","status":401,"durationMs":2}
+# Subtest: local HTTP endpoint matrix GET /api/admin/operations denies anonymous
+ok 35 - local HTTP endpoint matrix GET /api/admin/operations denies anonymous
+  ---
+  duration_ms: 6.9254
+  type: 'test'
+  ...
+# {"event":"api_response","requestId":"3cd41a23-9eef-4370-9a0d-eeeadd5ad6c6","method":"GET","route":"unmatched","status":401,"durationMs":1}
+# Subtest: local HTTP endpoint matrix GET /api/admin/audit-logs denies anonymous
+ok 36 - local HTTP endpoint matrix GET /api/admin/audit-logs denies anonymous
+  ---
+  duration_ms: 5.6177
+  type: 'test'
+  ...
+# {"event":"api_response","requestId":"30f020a5-8707-40d1-a9f0-8d31a4eb0fb0","method":"GET","route":"unmatched","status":401,"durationMs":1}
+# Subtest: local HTTP endpoint matrix GET /api/admin/monitoring/users denies anonymous
+ok 37 - local HTTP endpoint matrix GET /api/admin/monitoring/users denies anonymous
+  ---
+  duration_ms: 4.6781
+  type: 'test'
+  ...
+# {"event":"api_response","requestId":"eebc3e5c-8c72-4fdd-8b0d-2e1ce6eed0a0","method":"GET","route":"unmatched","status":401,"durationMs":1}
+# Subtest: local HTTP endpoint matrix GET /api/admin/monitoring/users/:id denies anonymous
+ok 38 - local HTTP endpoint matrix GET /api/admin/monitoring/users/:id denies anonymous
+  ---
+  duration_ms: 4.8133
+  type: 'test'
+  ...
+# {"event":"api_response","requestId":"ceeedc19-6588-4d0c-82ac-498a6efab4fa","method":"GET","route":"unmatched","status":401,"durationMs":1}
+# Subtest: local HTTP endpoint matrix GET /api/admin/monitoring/users/:id/notes denies anonymous
+ok 39 - local HTTP endpoint matrix GET /api/admin/monitoring/users/:id/notes denies anonymous
+  ---
+  duration_ms: 5.0529
+  type: 'test'
+  ...
+# {"event":"api_response","requestId":"d32e6577-3139-4fd9-81a8-49e77b3b2cb1","method":"POST","route":"unmatched","status":401,"durationMs":1}
+# Subtest: local HTTP endpoint matrix POST /api/admin/monitoring/users/:id/notes denies anonymous
+ok 40 - local HTTP endpoint matrix POST /api/admin/monitoring/users/:id/notes denies anonymous
+  ---
+  duration_ms: 5.4962
+  type: 'test'
+  ...
+# {"event":"api_response","requestId":"a7fb5307-e967-4dd8-82e1-cd727ed07411","method":"DELETE","route":"unmatched","status":401,"durationMs":1}
+# Subtest: local HTTP endpoint matrix DELETE /api/admin/monitoring/users/:id/notes/:noteId denies anonymous
+ok 41 - local HTTP endpoint matrix DELETE /api/admin/monitoring/users/:id/notes/:noteId denies anonymous
+  ---
+  duration_ms: 8.3932
+  type: 'test'
+  ...
+# {"event":"api_response","requestId":"eacf09f2-7cbd-4987-a1bd-03614b2f947b","method":"GET","route":"unmatched","status":401,"durationMs":1}
+# Subtest: local HTTP endpoint matrix GET /api/admin/users denies anonymous
+ok 42 - local HTTP endpoint matrix GET /api/admin/users denies anonymous
+  ---
+  duration_ms: 6.2425
+  type: 'test'
+  ...
+# {"event":"api_response","requestId":"ea328dac-15c8-45b6-8a31-0efd7da3851f","method":"GET","route":"unmatched","status":401,"durationMs":1}
+# Subtest: local HTTP endpoint matrix GET /api/admin/users/archived denies anonymous
+ok 43 - local HTTP endpoint matrix GET /api/admin/users/archived denies anonymous
+  ---
+  duration_ms: 5.308
+  type: 'test'
+  ...
+# {"event":"api_response","requestId":"3783e33f-5b45-4b13-bb31-c0dfb9edf006","method":"GET","route":"unmatched","status":401,"durationMs":1}
+# Subtest: local HTTP endpoint matrix GET /api/admin/credential-security denies anonymous
+ok 44 - local HTTP endpoint matrix GET /api/admin/credential-security denies anonymous
+  ---
+  duration_ms: 3.1922
+  type: 'test'
+  ...
+# {"event":"api_response","requestId":"f2ebc0de-132c-4812-8839-6a4a1b69b0ad","method":"GET","route":"unmatched","status":401,"durationMs":1}
+# Subtest: local HTTP endpoint matrix GET /api/admin/storage-readiness denies anonymous
+ok 45 - local HTTP endpoint matrix GET /api/admin/storage-readiness denies anonymous
+  ---
+  duration_ms: 3.0182
+  type: 'test'
+  ...
+# {"event":"api_response","requestId":"808c2f89-ca0b-4826-954b-a91478301051","method":"POST","route":"unmatched","status":401,"durationMs":1}
+# Subtest: local HTTP endpoint matrix POST /api/admin/users/:id/disable denies anonymous
+ok 46 - local HTTP endpoint matrix POST /api/admin/users/:id/disable denies anonymous
+  ---
+  duration_ms: 8.5135
+  type: 'test'
+  ...
+# {"event":"api_response","requestId":"f1fae1b9-52a8-4ed9-a1ac-7dd3d187f014","method":"POST","route":"unmatched","status":401,"durationMs":1}
+# Subtest: local HTTP endpoint matrix POST /api/admin/users/:id/restore denies anonymous
+ok 47 - local HTTP endpoint matrix POST /api/admin/users/:id/restore denies anonymous
+  ---
+  duration_ms: 6.6603
+  type: 'test'
+  ...
+# {"event":"api_response","requestId":"0d6c8f23-45b2-42d6-92dc-a644ee774c90","method":"POST","route":"unmatched","status":401,"durationMs":1}
+# Subtest: local HTTP endpoint matrix POST /api/admin/users/:id/archive denies anonymous
+ok 48 - local HTTP endpoint matrix POST /api/admin/users/:id/archive denies anonymous
+  ---
+  duration_ms: 5.3426
+  type: 'test'
+  ...
+# {"event":"api_response","requestId":"8fe772ad-1fd9-4265-bc40-3997d73c238b","method":"DELETE","route":"unmatched","status":401,"durationMs":1}
+# Subtest: local HTTP endpoint matrix DELETE /api/admin/users/:id denies anonymous
+ok 49 - local HTTP endpoint matrix DELETE /api/admin/users/:id denies anonymous
+  ---
+  duration_ms: 6.4484
+  type: 'test'
+  ...
+# {"event":"api_response","requestId":"d7df0246-b1bd-4e0a-8d0c-69a536ba875c","method":"POST","route":"unmatched","status":401,"durationMs":1}
+# Subtest: local HTTP endpoint matrix POST /api/admin/teachers denies anonymous
+ok 50 - local HTTP endpoint matrix POST /api/admin/teachers denies anonymous
+  ---
+  duration_ms: 5.7851
+  type: 'test'
+  ...
+# {"event":"api_response","requestId":"b93af4bf-2df4-4c2b-bce3-f1532e2cf9b1","method":"GET","route":"unmatched","status":401,"durationMs":1}
+# Subtest: local HTTP endpoint matrix GET /api/admin/sections denies anonymous
+ok 51 - local HTTP endpoint matrix GET /api/admin/sections denies anonymous
+  ---
+  duration_ms: 5.4548
+  type: 'test'
+  ...
+# {"event":"api_response","requestId":"f2347c86-638e-474b-a5ec-26c31ce0ef70","method":"POST","route":"unmatched","status":401,"durationMs":1}
+# Subtest: local HTTP endpoint matrix POST /api/admin/sections denies anonymous
+ok 52 - local HTTP endpoint matrix POST /api/admin/sections denies anonymous
+  ---
+  duration_ms: 4.1822
+  type: 'test'
+  ...
+# {"event":"api_response","requestId":"9f564038-3b00-45c7-bd29-5038c1dbfab5","method":"GET","route":"unmatched","status":401,"durationMs":1}
+# Subtest: local HTTP endpoint matrix GET /api/admin/sections/:id/students denies anonymous
+ok 53 - local HTTP endpoint matrix GET /api/admin/sections/:id/students denies anonymous
+  ---
+  duration_ms: 3.2921
+  type: 'test'
+  ...
+# {"event":"api_response","requestId":"d360a793-f28c-4a5c-95a9-3435851e22d9","method":"POST","route":"unmatched","status":401,"durationMs":1}
+# Subtest: local HTTP endpoint matrix POST /api/admin/sections/:id/students denies anonymous
+ok 54 - local HTTP endpoint matrix POST /api/admin/sections/:id/students denies anonymous
+  ---
+  duration_ms: 4.8611
+  type: 'test'
+  ...
+# {"event":"api_response","requestId":"44a3050b-c8c9-4506-875f-c66bd37cb915","method":"GET","route":"unmatched","status":401,"durationMs":5}
+# Subtest: local HTTP endpoint matrix GET /api/admin/analytics/students denies anonymous
+ok 55 - local HTTP endpoint matrix GET /api/admin/analytics/students denies anonymous
+  ---
+  duration_ms: 12.3276
+  type: 'test'
+  ...
+# {"event":"api_response","requestId":"d5ed53ac-b519-4f4c-a978-13210b291ca5","method":"GET","route":"unmatched","status":401,"durationMs":1}
+# Subtest: local HTTP endpoint matrix GET /api/admin/analytics denies anonymous
+ok 56 - local HTTP endpoint matrix GET /api/admin/analytics denies anonymous
+  ---
+  duration_ms: 5.4737
+  type: 'test'
+  ...
+# {"event":"api_response","requestId":"f220aabc-ff29-4b97-927d-00ed07b15833","method":"GET","route":"unmatched","status":401,"durationMs":1}
+# Subtest: local HTTP endpoint matrix GET /api/admin/system-settings denies anonymous
+ok 57 - local HTTP endpoint matrix GET /api/admin/system-settings denies anonymous
+  ---
+  duration_ms: 4.059
+  type: 'test'
+  ...
+# {"event":"api_response","requestId":"6c834977-45a1-4c95-9806-8d944955c393","method":"PATCH","route":"unmatched","status":401,"durationMs":1}
+# Subtest: local HTTP endpoint matrix PATCH /api/admin/system-settings denies anonymous
+ok 58 - local HTTP endpoint matrix PATCH /api/admin/system-settings denies anonymous
+  ---
+  duration_ms: 3.9592
+  type: 'test'
+  ...
+# {"event":"api_response","requestId":"51e85f68-f09f-4cdf-b8f2-4a7fc43e2b47","method":"GET","route":"unmatched","status":401,"durationMs":1}
+# Subtest: local HTTP endpoint matrix GET /api/teacher/students/:studentId/modules denies anonymous
+ok 59 - local HTTP endpoint matrix GET /api/teacher/students/:studentId/modules denies anonymous
+  ---
+  duration_ms: 3.7179
+  type: 'test'
+  ...
+# {"event":"api_response","requestId":"a9e334df-f3b5-407b-adc6-9a4070bbf594","method":"POST","route":"unmatched","status":401,"durationMs":1}
+# Subtest: local HTTP endpoint matrix POST /api/teacher/pdf denies anonymous
+ok 60 - local HTTP endpoint matrix POST /api/teacher/pdf denies anonymous
+  ---
+  duration_ms: 4.6735
+  type: 'test'
+  ...
+# {"event":"api_response","requestId":"009244fc-652e-4fc9-8d90-fd90bc837950","method":"GET","route":"unmatched","status":401,"durationMs":1}
+# Subtest: local HTTP endpoint matrix GET /api/teacher/pdf/:id/access-url denies anonymous
+ok 61 - local HTTP endpoint matrix GET /api/teacher/pdf/:id/access-url denies anonymous
+  ---
+  duration_ms: 3.4122
+  type: 'test'
+  ...
+# {"event":"api_response","requestId":"25fd36bb-a5ac-4d63-8398-74342f77e2c8","method":"GET","route":"unmatched","status":401,"durationMs":1}
+# Subtest: local HTTP endpoint matrix GET /api/teacher/lessons/:id/access-url denies anonymous
+ok 62 - local HTTP endpoint matrix GET /api/teacher/lessons/:id/access-url denies anonymous
+  ---
+  duration_ms: 3.2096
+  type: 'test'
+  ...
+# {"event":"api_response","requestId":"32728db5-1dd4-4af1-b2af-18ab7305a190","method":"PATCH","route":"unmatched","status":401,"durationMs":1}
+# Subtest: local HTTP endpoint matrix PATCH /api/teacher/pdf/:id denies anonymous
+ok 63 - local HTTP endpoint matrix PATCH /api/teacher/pdf/:id denies anonymous
+  ---
+  duration_ms: 3.5243
+  type: 'test'
+  ...
+# {"event":"api_response","requestId":"63cb743f-7a41-434e-b9d6-bee2da77d915","method":"POST","route":"unmatched","status":401,"durationMs":1}
+# Subtest: local HTTP endpoint matrix POST /api/teacher/pdf/:id/archive denies anonymous
+ok 64 - local HTTP endpoint matrix POST /api/teacher/pdf/:id/archive denies anonymous
+  ---
+  duration_ms: 3.4602
+  type: 'test'
+  ...
+# {"event":"api_response","requestId":"263eac2f-c05c-4bba-9517-dbf3b89e1eb8","method":"POST","route":"unmatched","status":401,"durationMs":1}
+# Subtest: local HTTP endpoint matrix POST /api/teacher/pdf/:id/unarchive denies anonymous
+ok 65 - local HTTP endpoint matrix POST /api/teacher/pdf/:id/unarchive denies anonymous
+  ---
+  duration_ms: 4.163
+  type: 'test'
+  ...
+# {"event":"api_response","requestId":"38fcf095-4e0d-48d0-9868-ba09afd551c2","method":"POST","route":"unmatched","status":401,"durationMs":1}
+# Subtest: local HTTP endpoint matrix POST /api/teacher/pdf-drill denies anonymous
+ok 66 - local HTTP endpoint matrix POST /api/teacher/pdf-drill denies anonymous
+  ---
+  duration_ms: 3.7569
+  type: 'test'
+  ...
+# {"event":"api_response","requestId":"03f7a786-656c-4566-8867-193324cb2185","method":"GET","route":"unmatched","status":401,"durationMs":1}
+# Subtest: local HTTP endpoint matrix GET /api/teacher/pdf-drill/:materialId/items denies anonymous
+ok 67 - local HTTP endpoint matrix GET /api/teacher/pdf-drill/:materialId/items denies anonymous
+  ---
+  duration_ms: 2.9856
+  type: 'test'
+  ...
+# {"event":"api_response","requestId":"2e1ae891-8ded-408e-9ba4-15c4543092b3","method":"PATCH","route":"unmatched","status":401,"durationMs":1}
+# Subtest: local HTTP endpoint matrix PATCH /api/teacher/pdf-drill/:materialId/items denies anonymous
+ok 68 - local HTTP endpoint matrix PATCH /api/teacher/pdf-drill/:materialId/items denies anonymous
+  ---
+  duration_ms: 4.7346
+  type: 'test'
+  ...
+# {"event":"api_response","requestId":"3d10aea3-4b78-43b3-9a6f-cc6b1845f493","method":"POST","route":"unmatched","status":401,"durationMs":1}
+# Subtest: local HTTP endpoint matrix POST /api/teacher/pdf-drill/:materialId/publish denies anonymous
+ok 69 - local HTTP endpoint matrix POST /api/teacher/pdf-drill/:materialId/publish denies anonymous
+  ---
+  duration_ms: 4.2933
+  type: 'test'
+  ...
+# {"event":"api_response","requestId":"5bfee48d-42b3-4ba5-a47c-2771822d9224","method":"GET","route":"unmatched","status":401,"durationMs":1}
+# Subtest: local HTTP endpoint matrix GET /api/parent/children/credential-security denies anonymous
+ok 70 - local HTTP endpoint matrix GET /api/parent/children/credential-security denies anonymous
+  ---
+  duration_ms: 4.034
+  type: 'test'
+  ...
+# {"event":"api_response","requestId":"48a99093-53b1-40c5-b432-3afebdaf6dca","method":"GET","route":"unmatched","status":401,"durationMs":1}
+# Subtest: local HTTP endpoint matrix GET /api/parent/children denies anonymous
+ok 71 - local HTTP endpoint matrix GET /api/parent/children denies anonymous
+  ---
+  duration_ms: 3.5608
+  type: 'test'
+  ...
+# {"event":"api_response","requestId":"e2c08eba-3b17-47c4-b17b-671587cbc56e","method":"POST","route":"unmatched","status":401,"durationMs":1}
+# Subtest: local HTTP endpoint matrix POST /api/parent/children denies anonymous
+ok 72 - local HTTP endpoint matrix POST /api/parent/children denies anonymous
+  ---
+  duration_ms: 3.5683
+  type: 'test'
+  ...
+# {"event":"api_response","requestId":"e8ff8bf0-9312-421e-8954-26475bcd51b9","method":"POST","route":"unmatched","status":401,"durationMs":1}
+# Subtest: local HTTP endpoint matrix POST /api/parent/children/:id/reading-level denies anonymous
+ok 73 - local HTTP endpoint matrix POST /api/parent/children/:id/reading-level denies anonymous
+  ---
+  duration_ms: 4.2058
+  type: 'test'
+  ...
+# {"event":"api_response","requestId":"dae4f406-5b10-4af7-ae5e-f8c029e02a64","method":"GET","route":"unmatched","status":401,"durationMs":1}
+# Subtest: local HTTP endpoint matrix GET /api/parent/children/:id/reading-profile denies anonymous
+ok 74 - local HTTP endpoint matrix GET /api/parent/children/:id/reading-profile denies anonymous
+  ---
+  duration_ms: 4.0845
+  type: 'test'
+  ...
+# {"event":"api_response","requestId":"373f2ecb-faf8-414f-92cd-9d5c23fe2a3b","method":"GET","route":"unmatched","status":401,"durationMs":1}
+# Subtest: local HTTP endpoint matrix GET /api/parent/children/:id/learning-path denies anonymous
+ok 75 - local HTTP endpoint matrix GET /api/parent/children/:id/learning-path denies anonymous
+  ---
+  duration_ms: 3.9395
+  type: 'test'
+  ...
+# {"event":"api_response","requestId":"12bd3fbc-4955-4b16-968f-70d757a835e5","method":"GET","route":"unmatched","status":401,"durationMs":1}
+# Subtest: local HTTP endpoint matrix GET /api/parent/children/:id/materials denies anonymous
+ok 76 - local HTTP endpoint matrix GET /api/parent/children/:id/materials denies anonymous
+  ---
+  duration_ms: 9.0369
+  type: 'test'
+  ...
+# {"event":"api_response","requestId":"70538ab4-c11c-453a-88dc-04728f97dca5","method":"GET","route":"unmatched","status":401,"durationMs":1}
+# Subtest: local HTTP endpoint matrix GET /api/parent/children/:id/materials/:assignmentId/access-url denies anonymous
+ok 77 - local HTTP endpoint matrix GET /api/parent/children/:id/materials/:assignmentId/access-url denies anonymous
+  ---
+  duration_ms: 5.1448
+  type: 'test'
+  ...
+# {"event":"api_response","requestId":"d86bdd7d-4b2d-4902-9045-eb3f2ac2d112","method":"GET","route":"unmatched","status":401,"durationMs":1}
+# Subtest: local HTTP endpoint matrix GET /api/parent/children/:id/settings denies anonymous
+ok 78 - local HTTP endpoint matrix GET /api/parent/children/:id/settings denies anonymous
+  ---
+  duration_ms: 4.6301
+  type: 'test'
+  ...
+# {"event":"api_response","requestId":"78acd7f0-cc82-4566-8c5b-080e675f39a2","method":"PATCH","route":"unmatched","status":401,"durationMs":1}
+# Subtest: local HTTP endpoint matrix PATCH /api/parent/children/:id/settings denies anonymous
+ok 79 - local HTTP endpoint matrix PATCH /api/parent/children/:id/settings denies anonymous
+  ---
+  duration_ms: 4.8698
+  type: 'test'
+  ...
+# {"event":"api_response","requestId":"9e5c8b87-fd64-4312-83fb-8dad395230ef","method":"POST","route":"unmatched","status":401,"durationMs":1}
+# Subtest: local HTTP endpoint matrix POST /api/parent/children/:id/reset-password denies anonymous
+ok 80 - local HTTP endpoint matrix POST /api/parent/children/:id/reset-password denies anonymous
+  ---
+  duration_ms: 8.7349
+  type: 'test'
+  ...
+# {"event":"api_response","requestId":"16b231da-e1b7-4c71-b9d3-e49e78b0d154","method":"POST","route":"unmatched","status":401,"durationMs":1}
+# Subtest: local HTTP endpoint matrix POST /api/student/notify-login denies anonymous
+ok 81 - local HTTP endpoint matrix POST /api/student/notify-login denies anonymous
+  ---
+  duration_ms: 4.9221
+  type: 'test'
+  ...
+# {"event":"api_response","requestId":"699932b9-20bc-4188-8331-bb297e9493aa","method":"GET","route":"unmatched","status":401,"durationMs":1}
+# Subtest: local HTTP endpoint matrix GET /api/student/learn/path denies anonymous
+ok 82 - local HTTP endpoint matrix GET /api/student/learn/path denies anonymous
+  ---
+  duration_ms: 2.7131
+  type: 'test'
+  ...
+# {"event":"api_response","requestId":"e1ae4da5-e10f-4b2e-90ef-b1a2edeb899c","method":"GET","route":"unmatched","status":401,"durationMs":1}
+# Subtest: local HTTP endpoint matrix GET /api/student/learn/module/:moduleId denies anonymous
+ok 83 - local HTTP endpoint matrix GET /api/student/learn/module/:moduleId denies anonymous
+  ---
+  duration_ms: 2.4702
+  type: 'test'
+  ...
+# {"event":"api_response","requestId":"24b7342c-8357-4fa9-90e9-b140307f3fb0","method":"POST","route":"unmatched","status":401,"durationMs":1}
+# Subtest: local HTTP endpoint matrix POST /api/student/learn/content/:contentId/attempt denies anonymous
+ok 84 - local HTTP endpoint matrix POST /api/student/learn/content/:contentId/attempt denies anonymous
+  ---
+  duration_ms: 3.5442
+  type: 'test'
+  ...
+# {"event":"api_response","requestId":"48a264be-2c4c-41f7-97ce-5d4d37e0c2c3","method":"POST","route":"unmatched","status":401,"durationMs":1}
+# Subtest: local HTTP endpoint matrix POST /api/student/learn/content/:contentId/authoritative-attempt denies anonymous
+ok 85 - local HTTP endpoint matrix POST /api/student/learn/content/:contentId/authoritative-attempt denies anonymous
+  ---
+  duration_ms: 3.3308
+  type: 'test'
+  ...
+# {"event":"api_response","requestId":"914bc759-f999-4e99-ae41-c0d1895fab39","method":"POST","route":"unmatched","status":401,"durationMs":1}
+# Subtest: local HTTP endpoint matrix POST /api/student/learn/assessment/:assessmentId/start denies anonymous
+ok 86 - local HTTP endpoint matrix POST /api/student/learn/assessment/:assessmentId/start denies anonymous
+  ---
+  duration_ms: 3.6081
+  type: 'test'
+  ...
+# {"event":"api_response","requestId":"97647dae-edb5-417c-9562-ee7b20c29b1c","method":"POST","route":"unmatched","status":401,"durationMs":1}
+# Subtest: local HTTP endpoint matrix POST /api/student/learn/assessment/:attemptId/submit denies anonymous
+ok 87 - local HTTP endpoint matrix POST /api/student/learn/assessment/:attemptId/submit denies anonymous
+  ---
+  duration_ms: 3.0596
+  type: 'test'
+  ...
+# {"event":"api_response","requestId":"3c105849-13c2-4d5d-9ba6-683e458fbd0d","method":"GET","route":"unmatched","status":401,"durationMs":1}
+# Subtest: local HTTP endpoint matrix GET /api/student/learn/module/:moduleId/nonsense-check denies anonymous
+ok 88 - local HTTP endpoint matrix GET /api/student/learn/module/:moduleId/nonsense-check denies anonymous
+  ---
+  duration_ms: 2.4123
+  type: 'test'
+  ...
+# {"event":"api_response","requestId":"6421be88-fcc7-4a62-adaf-72928be007f2","method":"POST","route":"unmatched","status":401,"durationMs":1}
+# Subtest: local HTTP endpoint matrix POST /api/student/learn/module/:moduleId/nonsense-check/submit denies anonymous
+ok 89 - local HTTP endpoint matrix POST /api/student/learn/module/:moduleId/nonsense-check/submit denies anonymous
+  ---
+  duration_ms: 3.4314
+  type: 'test'
+  ...
+# {"event":"api_response","requestId":"95ff0f54-e26c-4dcd-aa4d-83cdeb34e64b","method":"GET","route":"unmatched","status":401,"durationMs":1}
+# Subtest: local HTTP endpoint matrix GET /api/student/learn/module/:moduleId/challenge-words denies anonymous
+ok 90 - local HTTP endpoint matrix GET /api/student/learn/module/:moduleId/challenge-words denies anonymous
+  ---
+  duration_ms: 2.8575
+  type: 'test'
+  ...
+# {"event":"api_response","requestId":"ad87b98a-bf50-4216-832a-626942384088","method":"POST","route":"unmatched","status":401,"durationMs":1}
+# Subtest: local HTTP endpoint matrix POST /api/student/learn/module/:moduleId/equip denies anonymous
+ok 91 - local HTTP endpoint matrix POST /api/student/learn/module/:moduleId/equip denies anonymous
+  ---
+  duration_ms: 3.4418
+  type: 'test'
+  ...
+# {"event":"api_response","requestId":"df4dcf66-12e7-44bb-add0-6cda4576dcbb","method":"POST","route":"unmatched","status":401,"durationMs":1}
+# Subtest: local HTTP endpoint matrix POST /api/student/learn/module/:moduleId/unequip denies anonymous
+ok 92 - local HTTP endpoint matrix POST /api/student/learn/module/:moduleId/unequip denies anonymous
+  ---
+  duration_ms: 3.8672
+  type: 'test'
+  ...
+# {"event":"api_response","requestId":"de4346ea-dba7-4d57-9a68-c7c1ce563cf3","method":"GET","route":"unmatched","status":401,"durationMs":1}
+# Subtest: local HTTP endpoint matrix GET /api/student/reading-profile denies anonymous
+ok 93 - local HTTP endpoint matrix GET /api/student/reading-profile denies anonymous
+  ---
+  duration_ms: 2.624
+  type: 'test'
+  ...
+# {"event":"api_response","requestId":"0ea48086-e93c-48b2-bfba-1c7308a0ff08","method":"POST","route":"unmatched","status":401,"durationMs":1}
+# Subtest: local HTTP endpoint matrix POST /api/student/practice/attempt denies anonymous
+ok 94 - local HTTP endpoint matrix POST /api/student/practice/attempt denies anonymous
+  ---
+  duration_ms: 3.2803
+  type: 'test'
+  ...
+# {"event":"api_response","requestId":"1a9d853f-eb61-41e4-a0f2-be7cf6e73a74","method":"POST","route":"unmatched","status":401,"durationMs":1}
+# Subtest: local HTTP endpoint matrix POST /api/student/word-of-day/attempt denies anonymous
+ok 95 - local HTTP endpoint matrix POST /api/student/word-of-day/attempt denies anonymous
+  ---
+  duration_ms: 3.9782
+  type: 'test'
+  ...
+# {"event":"api_response","requestId":"1cae511e-b610-4e92-9359-2e285ada0fd6","method":"GET","route":"unmatched","status":401,"durationMs":1}
+# Subtest: local HTTP endpoint matrix GET /api/student/pdf-drill/:assignmentId denies anonymous
+ok 96 - local HTTP endpoint matrix GET /api/student/pdf-drill/:assignmentId denies anonymous
+  ---
+  duration_ms: 3.0458
+  type: 'test'
+  ...
+# {"event":"api_response","requestId":"6266bad7-b206-46c4-a0bf-bcc19ef07812","method":"GET","route":"unmatched","status":401,"durationMs":1}
+# Subtest: local HTTP endpoint matrix GET /api/student/pdf-materials/:assignmentId/access-url denies anonymous
+ok 97 - local HTTP endpoint matrix GET /api/student/pdf-materials/:assignmentId/access-url denies anonymous
+  ---
+  duration_ms: 2.5762
+  type: 'test'
+  ...
+# {"event":"api_response","requestId":"056a7b55-2cf4-48e2-a6f2-a4501467ffe2","method":"GET","route":"unmatched","status":401,"durationMs":1}
+# Subtest: local HTTP endpoint matrix GET /api/student/pdf-reading/:assignmentId denies anonymous
+ok 98 - local HTTP endpoint matrix GET /api/student/pdf-reading/:assignmentId denies anonymous
+  ---
+  duration_ms: 2.6419
+  type: 'test'
+  ...
+# {"event":"api_response","requestId":"839b4ca9-207c-46eb-ab9b-1cbf131a85ff","method":"POST","route":"unmatched","status":401,"durationMs":1}
+# Subtest: local HTTP endpoint matrix POST /api/student/pdf-reading/attempt denies anonymous
+ok 99 - local HTTP endpoint matrix POST /api/student/pdf-reading/attempt denies anonymous
+  ---
+  duration_ms: 3.0269
+  type: 'test'
+  ...
+# {"event":"api_response","requestId":"ae1bb306-1c83-4115-bc65-c64c86fbb67b","method":"POST","route":"unmatched","status":401,"durationMs":1}
+# Subtest: local HTTP endpoint matrix POST /api/student/pdf-reading/:assignmentId/submit denies anonymous
+ok 100 - local HTTP endpoint matrix POST /api/student/pdf-reading/:assignmentId/submit denies anonymous
+  ---
+  duration_ms: 4.7768
+  type: 'test'
+  ...
+# {"event":"api_response","requestId":"4047cbac-0479-4260-bba2-060eb50b90d5","method":"GET","route":"unmatched","status":401,"durationMs":1}
+# Subtest: local HTTP endpoint matrix GET /api/student/lessons/:lessonId/access-url denies anonymous
+ok 101 - local HTTP endpoint matrix GET /api/student/lessons/:lessonId/access-url denies anonymous
+  ---
+  duration_ms: 3.7034
+  type: 'test'
+  ...
+# {"event":"api_response","requestId":"d1721667-e425-459d-bcd5-ebdef34264e4","method":"POST","route":"unmatched","status":401,"durationMs":1}
+# Subtest: local HTTP endpoint matrix POST /api/student/pdf-drill/attempt denies anonymous
+ok 102 - local HTTP endpoint matrix POST /api/student/pdf-drill/attempt denies anonymous
+  ---
+  duration_ms: 3.5096
+  type: 'test'
+  ...
+# {"event":"api_response","requestId":"c2ec24fc-7fff-461a-aba8-5a7d31b4ee8f","method":"GET","route":"unmatched","status":401,"durationMs":1}
+# Subtest: local HTTP endpoint matrix GET /api/notifications/ denies anonymous
+ok 103 - local HTTP endpoint matrix GET /api/notifications/ denies anonymous
+  ---
+  duration_ms: 2.4696
+  type: 'test'
+  ...
+# {"event":"api_response","requestId":"a72feacd-59c4-4d39-b765-18ca1d507335","method":"POST","route":"unmatched","status":401,"durationMs":1}
+# Subtest: local HTTP endpoint matrix POST /api/notifications/:id/read denies anonymous
+ok 104 - local HTTP endpoint matrix POST /api/notifications/:id/read denies anonymous
+  ---
+  duration_ms: 3.2274
+  type: 'test'
+  ...
+# {"event":"api_response","requestId":"754a719c-4f3f-47ab-aa7b-a3acb51ab2f4","method":"POST","route":"unmatched","status":401,"durationMs":1}
+# Subtest: local HTTP endpoint matrix POST /api/notifications/read-all denies anonymous
+ok 105 - local HTTP endpoint matrix POST /api/notifications/read-all denies anonymous
+  ---
+  duration_ms: 3.032
+  type: 'test'
+  ...
+# {"event":"api_response","requestId":"75253637-3e60-4368-a258-2f37d1e4473c","method":"POST","route":"/events","status":401,"durationMs":1}
+# Subtest: local HTTP endpoint matrix POST /api/auth/events denies anonymous
+ok 106 - local HTTP endpoint matrix POST /api/auth/events denies anonymous
+  ---
+  duration_ms: 3.3669
+  type: 'test'
+  ...
+# Subtest: parent reference endpoints reject missing authentication and non-parent accounts
+ok 107 - parent reference endpoints reject missing authentication and non-parent accounts
+  ---
+  duration_ms: 832.0852
+  type: 'test'
+  ...
+# Subtest: parent learning path returns authoritative curriculum counts for an owned child
+ok 108 - parent learning path returns authoritative curriculum counts for an owned child
+  ---
+  duration_ms: 43.5109
+  type: 'test'
+  ...
+# Subtest: parent reference endpoints deny another parent before curriculum or material access
+ok 109 - parent reference endpoints deny another parent before curriculum or material access
+  ---
+  duration_ms: 43.7464
+  type: 'test'
+  ...
+# Subtest: parent materials contain only owned, active assignment metadata
+ok 110 - parent materials contain only owned, active assignment metadata
+  ---
+  duration_ms: 69.6242
+  type: 'test'
+  ...
+# Subtest: parent signed material access honors storage metadata and rejects unrelated or archived assignments
+ok 111 - parent signed material access honors storage metadata and rejects unrelated or archived assignments
+  ---
+  duration_ms: 28.0049
+  type: 'test'
+  ...
+# Subtest: parent legacy material access keeps the existing URL fallback
+ok 112 - parent legacy material access keeps the existing URL fallback
+  ---
+  duration_ms: 18.4625
+  type: 'test'
+  ...
+# Subtest: parent reference routes validate child and assignment UUIDs before database access
+ok 113 - parent reference routes validate child and assignment UUIDs before database access
+  ---
+  duration_ms: 22.5617
+  type: 'test'
+  ...
+# Subtest: parent material failures return a safe error without a partial result
+ok 114 - parent material failures return a safe error without a partial result
+  ---
+  duration_ms: 24.1097
+  type: 'test'
+  ...
+# Subtest: QA numeric validators reject coercible non-numbers
+ok 115 - QA numeric validators reject coercible non-numbers
+  ---
+  duration_ms: 2.8145
+  type: 'test'
+  ...
+# Subtest: QA authentication handles an upstream rejection with a safe response
+ok 116 - QA authentication handles an upstream rejection with a safe response
+  ---
+  duration_ms: 1.3916
+  type: 'test'
+  ...
+# Subtest: QA authorization handles a rejected role query with a safe response
+ok 117 - QA authorization handles a rejected role query with a safe response
+  ---
+  duration_ms: 0.6455
+  type: 'test'
+  ...
+# Subtest: QA role authorization rejects inactive account {"role":"admin","account_status":"disabled"}
+ok 118 - QA role authorization rejects inactive account {"role":"admin","account_status":"disabled"}
+  ---
+  duration_ms: 0.3702
+  type: 'test'
+  ...
+# Subtest: QA role authorization rejects inactive account {"role":"admin","account_status":"archived"}
+ok 119 - QA role authorization rejects inactive account {"role":"admin","account_status":"archived"}
+  ---
+  duration_ms: 0.1802
+  type: 'test'
+  ...
+# Subtest: QA role authorization rejects inactive account {"role":"teacher","is_active":false}
+ok 120 - QA role authorization rejects inactive account {"role":"teacher","is_active":false}
+  ---
+  duration_ms: 0.145
+  type: 'test'
+  ...
+# Subtest: QA drill update rejects missing items before any mutation
+ok 121 - QA drill update rejects missing items before any mutation
+  ---
+  duration_ms: 1422.7239
+  type: 'test'
+  ...
+# Subtest: QA drill update rejects non-array items before any mutation
+ok 122 - QA drill update rejects non-array items before any mutation
+  ---
+  duration_ms: 26.5119
+  type: 'test'
+  ...
+# Subtest: QA drill update rejects null item before any mutation
+ok 123 - QA drill update rejects null item before any mutation
+  ---
+  duration_ms: 19.3923
+  type: 'test'
+  ...
+# Subtest: QA drill update rejects zero XP violates SQL constraint before any mutation
+ok 124 - QA drill update rejects zero XP violates SQL constraint before any mutation
+  ---
+  duration_ms: 19.2244
+  type: 'test'
+  ...
+# Subtest: QA drill update rejects invalid ordering before any mutation
+ok 125 - QA drill update rejects invalid ordering before any mutation
+  ---
+  duration_ms: 21.4636
+  type: 'test'
+  ...
+# Subtest: QA assessment null responses produce a validation error instead of 500
+ok 126 - QA assessment null responses produce a validation error instead of 500
+  ---
+  duration_ms: 211.6049
+  type: 'test'
+  ...
+# Subtest: QA replacing a published drill cannot cascade-delete student attempt history
+ok 127 - QA replacing a published drill cannot cascade-delete student attempt history
+  ---
+  duration_ms: 20.2188
+  type: 'test'
+  ...
+# Subtest: QA word-of-day streak uses the Manila day around midnight and year changes
+ok 128 - QA word-of-day streak uses the Manila day around midnight and year changes
+  ---
+  duration_ms: 114.0773
+  type: 'test'
+  ...
+# Subtest: QA temporary passwords always have twelve allowed characters, uppercase, and a digit
+ok 129 - QA temporary passwords always have twelve allowed characters, uppercase, and a digit
+  ---
+  duration_ms: 7.3897
+  type: 'test'
+  ...
+# Subtest: QA missing SMTP never logs credential email contents or reports delivery success
+ok 130 - QA missing SMTP never logs credential email contents or reports delivery success
+  ---
+  duration_ms: 29.7151
+  type: 'test'
+  ...
+# Subtest: QA staging guard validates each host and refuses query/path/username tricks
+ok 131 - QA staging guard validates each host and refuses query/path/username tricks
+  ---
+  duration_ms: 2.6854
+  type: 'test'
+  ...
+# Subtest: QA archived assignment access is denied even to the assigned student
+ok 132 - QA archived assignment access is denied even to the assigned student
+  ---
+  duration_ms: 0.9977
+  type: 'test'
+  ...
+# Subtest: credential lockdown migration removes client read policy without deleting legacy rows
+ok 133 - credential lockdown migration removes client read policy without deleting legacy rows
+  ---
+  duration_ms: 3.3401
+  type: 'test'
+  ...
+# Subtest: storage transition migration preserves public URL columns and never privatizes buckets
+ok 134 - storage transition migration preserves public URL columns and never privatizes buckets
+  ---
+  duration_ms: 1.8948
+  type: 'test'
+  ...
+# Subtest: badge reward migration uses a database uniqueness boundary and service-role RPC
+ok 135 - badge reward migration uses a database uniqueness boundary and service-role RPC
+  ---
+  duration_ms: 2.2254
+  type: 'test'
+  ...
+# Subtest: guided PDF reading mutations are removed from the browser RLS surface
+ok 136 - guided PDF reading mutations are removed from the browser RLS surface
+  ---
+  duration_ms: 1.8589
+  type: 'test'
+  ...
+# Subtest: practice-session writes are no longer granted to authenticated browsers
+ok 137 - practice-session writes are no longer granted to authenticated browsers
+  ---
+  duration_ms: 1.7586
+  type: 'test'
+  ...
+# Subtest: nonsense-word issued sets are server-only and scoped to one student/module
+ok 138 - nonsense-word issued sets are server-only and scoped to one student/module
+  ---
+  duration_ms: 3.1172
+  type: 'test'
+  ...
+# Subtest: QA section assignment deduplicates IDs and calls one atomic RPC
+ok 139 - QA section assignment deduplicates IDs and calls one atomic RPC
+  ---
+  duration_ms: 2108.5035
+  type: 'test'
+  ...
+# Subtest: QA section assignment rejects empty selections before persistence
+ok 140 - QA section assignment rejects empty selections before persistence
+  ---
+  duration_ms: 30.8877
+  type: 'test'
+  ...
+# Subtest: QA section assignment rejects malformed UUIDs before persistence
+ok 141 - QA section assignment rejects malformed UUIDs before persistence
+  ---
+  duration_ms: 44.1292
+  type: 'test'
+  ...
+# Subtest: QA section assignment returns actionable capacity and missing-section errors
+ok 142 - QA section assignment returns actionable capacity and missing-section errors
+  ---
+  duration_ms: 39.7941
+  type: 'test'
+  ...
+# Subtest: QA section assignment reports RPC failure without claiming success or issuing fallback writes
+ok 143 - QA section assignment reports RPC failure without claiming success or issuing fallback writes
+  ---
+  duration_ms: 19.0831
+  type: 'test'
+  ...
+# Subtest: QA section assignment reports concurrent transaction conflicts as retryable
+ok 144 - QA section assignment reports concurrent transaction conflicts as retryable
+  ---
+  duration_ms: 44.8083
+  type: 'test'
+  ...
+# [auth validation] invalid
+# Subtest: PDF validation accepts a structurally plausible PDF
+ok 145 - PDF validation accepts a structurally plausible PDF
+  ---
+  duration_ms: 4.6977
+  type: 'test'
+  ...
+# Subtest: PDF validation rejects spoofed MIME, extension, signature, empty, and truncated files
+ok 146 - PDF validation rejects spoofed MIME, extension, signature, empty, and truncated files
+  ---
+  duration_ms: 0.8501
+  type: 'test'
+  ...
+# Subtest: reading profile keeps progress calculations bounded and flags weak performance
+ok 147 - reading profile keeps progress calculations bounded and flags weak performance
+  ---
+  duration_ms: 8.3556
+  type: 'test'
+  ...
+# Subtest: security-critical routes retain authorization and ownership checks
+ok 148 - security-critical routes retain authorization and ownership checks
+  ---
+  duration_ms: 49.7728
+  type: 'test'
+  ...
+# Subtest: admin analytics distinguishes student accounts from child enrollment records
+ok 149 - admin analytics distinguishes student accounts from child enrollment records
+  ---
+  duration_ms: 3.866
+  type: 'test'
+  ...
+# Subtest: teacher creation generates and emails an email-verification OTP
+ok 150 - teacher creation generates and emails an email-verification OTP
+  ---
+  duration_ms: 0.9178
+  type: 'test'
+  ...
+# Subtest: unconfirmed sign-ins are routed to the email verification screen
+ok 151 - unconfirmed sign-ins are routed to the email verification screen
+  ---
+  duration_ms: 3.31
+  type: 'test'
+  ...
+# Subtest: bearer and role middleware rejects missing, invalid, and unauthorized sessions
+ok 152 - bearer and role middleware rejects missing, invalid, and unauthorized sessions
+  ---
+  duration_ms: 3.7159
+  type: 'test'
+  ...
+# Subtest: central authorization denies cross-parent, cross-teacher, and cross-student access
+ok 153 - central authorization denies cross-parent, cross-teacher, and cross-student access
+  ---
+  duration_ms: 1.6612
+  type: 'test'
+  ...
+# Subtest: notification ownership and primitive input validation fail closed
+ok 154 - notification ownership and primitive input validation fail closed
+  ---
+  duration_ms: 5.2334
+  type: 'test'
+  ...
+# Subtest: TTS route enforces auth, input bounds, successful synthesis, and per-user rate limits
+ok 155 - TTS route enforces auth, input bounds, successful synthesis, and per-user rate limits
+  ---
+  duration_ms: 822.9174
+  type: 'test'
+  ...
+# Subtest: TTS uses ElevenLabs multilingual speech with a bounded voice speed
+ok 156 - TTS uses ElevenLabs multilingual speech with a bounded voice speed
+  ---
+  duration_ms: 29.3503
+  type: 'test'
+  ...
+# Subtest: TTS uses the configured IPA pronunciation dictionary for letter drills
+ok 157 - TTS uses the configured IPA pronunciation dictionary for letter drills
+  ---
+  duration_ms: 18.5213
+  type: 'test'
+  ...
+# Subtest: U drill uses its Filipino sound spelling instead of a voice-specific IPA rule
+ok 158 - U drill uses its Filipino sound spelling instead of a voice-specific IPA rule
+  ---
+  duration_ms: 17.8331
+  type: 'test'
+  ...
+# [tts] pronunciation dictionary unavailable; using fallback { status: 422, requestId: undefined }
+# Subtest: TTS falls back to multilingual speech when a pronunciation dictionary request is rejected
+ok 159 - TTS falls back to multilingual speech when a pronunciation dictionary request is rejected
+  ---
+  duration_ms: 31.5691
+  type: 'test'
+  ...
+# Subtest: material access abstraction supports legacy and short-lived signed URLs
+ok 160 - material access abstraction supports legacy and short-lived signed URLs
+  ---
+  duration_ms: 2.3774
+  type: 'test'
+  ...
+# Subtest: legacy credential reporting is aggregate and never returns credential values
+ok 161 - legacy credential reporting is aggregate and never returns credential values
+  ---
+  duration_ms: 1.1158
+  type: 'test'
+  ...
+# Subtest: production configuration validation fails closed without printing secret values
+ok 162 - production configuration validation fails closed without printing secret values
+  ---
+  duration_ms: 1.3722
+  type: 'test'
+  ...
+# Subtest: storage paths are extracted without destroying legacy URLs
+ok 163 - storage paths are extracted without destroying legacy URLs
+  ---
+  duration_ms: 2.9327
+  type: 'test'
+  ...
+# Subtest: speech scoring normalizes casing, punctuation, and diacritics
+ok 164 - speech scoring normalizes casing, punctuation, and diacritics
+  ---
+  duration_ms: 4.9549
+  type: 'test'
+  ...
+# Subtest: speech scoring is deterministic and does not award an empty transcript
+ok 165 - speech scoring is deterministic and does not award an empty transcript
+  ---
+  duration_ms: 2.0429
+  type: 'test'
+  ...
+# Subtest: speech scoring normalizes Filipino punctuation, hyphens, apostrophes, and whitespace
+ok 166 - speech scoring normalizes Filipino punctuation, hyphens, apostrophes, and whitespace
+  ---
+  duration_ms: 1.963
+  type: 'test'
+  ...
+# Subtest: speech scoring resists simple noise artifacts without accepting wrong Filipino phonemes
+ok 167 - speech scoring resists simple noise artifacts without accepting wrong Filipino phonemes
+  ---
+  duration_ms: 0.5584
+  type: 'test'
+  ...
+1..167
+# tests 167
+# suites 0
+# pass 165
+# fail 0
+# cancelled 0
+# skipped 2
+# todo 0
+# duration_ms 7848.6323

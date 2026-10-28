@@ -1,0 +1,26 @@
+{
+  "generatedAt": "2026-10-21T12:51:49.208Z",
+  "workspace": "qa-tools",
+  "exitCode": 0,
+  "status": "PASS: no registry advisories reported",
+  "metadata": {
+    "vulnerabilities": {
+      "info": 0,
+      "low": 0,
+      "moderate": 0,
+      "high": 0,
+      "critical": 0,
+      "total": 0
+    },
+    "dependencies": {
+      "prod": 20,
+      "dev": 56,
+      "optional": 9,
+      "peer": 0,
+      "peerOptional": 0,
+      "total": 84
+    }
+  },
+  "vulnerabilities": {},
+  "limitation": "Registry advisory inventory only; not a complete security review"
+}

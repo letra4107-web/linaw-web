@@ -1,0 +1,172 @@
+TAP version 13
+# Subtest: final upload /pdf: metadata failure compensates only the new owned storage object
+not ok 1 - final upload /pdf: metadata failure compensates only the new owned storage object
+  ---
+  duration_ms: 919.5494
+  type: 'test'
+  location: 'C:\\Users\\Samantha\\OneDrive\\Desktop\\web\\server\\tests\\finalUploadContracts.test.js:49:3'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    
+    0 !== 1
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 1
+  actual: 0
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (C:\Users\Samantha\OneDrive\Desktop\web\server\tests\finalUploadContracts.test.js:52:12)
+    process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async startSubtestAfterBootstrap (node:internal/test_runner/harness:296:3)
+  ...
+# Subtest: final upload /pdf: rejected upload never deletes any object
+ok 2 - final upload /pdf: rejected upload never deletes any object
+  ---
+  duration_ms: 90.8399
+  type: 'test'
+  ...
+# Subtest: final upload /pdf: compensation failure preserves a safe HTTP failure
+not ok 3 - final upload /pdf: compensation failure preserves a safe HTTP failure
+  ---
+  duration_ms: 47.9142
+  type: 'test'
+  location: 'C:\\Users\\Samantha\\OneDrive\\Desktop\\web\\server\\tests\\finalUploadContracts.test.js:59:3'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    
+    0 !== 1
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 1
+  actual: 0
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (C:\Users\Samantha\OneDrive\Desktop\web\server\tests\finalUploadContracts.test.js:61:54)
+    process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: final upload /pdf: invalid bytes are rejected before storage access
+ok 4 - final upload /pdf: invalid bytes are rejected before storage access
+  ---
+  duration_ms: 46.9047
+  type: 'test'
+  ...
+# Subtest: final upload /pdf: simultaneous same-name uploads use distinct owned paths
+not ok 5 - final upload /pdf: simultaneous same-name uploads use distinct owned paths
+  ---
+  duration_ms: 219.027
+  type: 'test'
+  location: 'C:\\Users\\Samantha\\OneDrive\\Desktop\\web\\server\\tests\\finalUploadContracts.test.js:69:3'
+  failureType: 'testCodeFailure'
+  error: |-
+    The expression evaluated to a falsy value:
+    
+      assert.ok(h.responses.every((response) => response.status === 200))
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: true
+  actual: false
+  operator: '=='
+  stack: |-
+    TestContext.<anonymous> (C:\Users\Samantha\OneDrive\Desktop\web\server\tests\finalUploadContracts.test.js:71:12)
+    process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: final upload /pdf-drill: metadata failure compensates only the new owned storage object
+not ok 6 - final upload /pdf-drill: metadata failure compensates only the new owned storage object
+  ---
+  duration_ms: 134.0865
+  type: 'test'
+  location: 'C:\\Users\\Samantha\\OneDrive\\Desktop\\web\\server\\tests\\finalUploadContracts.test.js:49:3'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    
+    0 !== 1
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 1
+  actual: 0
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (C:\Users\Samantha\OneDrive\Desktop\web\server\tests\finalUploadContracts.test.js:52:12)
+    process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: final upload /pdf-drill: rejected upload never deletes any object
+ok 7 - final upload /pdf-drill: rejected upload never deletes any object
+  ---
+  duration_ms: 52.3991
+  type: 'test'
+  ...
+# Subtest: final upload /pdf-drill: compensation failure preserves a safe HTTP failure
+not ok 8 - final upload /pdf-drill: compensation failure preserves a safe HTTP failure
+  ---
+  duration_ms: 47.3222
+  type: 'test'
+  location: 'C:\\Users\\Samantha\\OneDrive\\Desktop\\web\\server\\tests\\finalUploadContracts.test.js:59:3'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    
+    0 !== 1
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 1
+  actual: 0
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (C:\Users\Samantha\OneDrive\Desktop\web\server\tests\finalUploadContracts.test.js:61:54)
+    process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: final upload /pdf-drill: invalid bytes are rejected before storage access
+ok 9 - final upload /pdf-drill: invalid bytes are rejected before storage access
+  ---
+  duration_ms: 65.2587
+  type: 'test'
+  ...
+# Subtest: final upload /pdf-drill: simultaneous same-name uploads use distinct owned paths
+not ok 10 - final upload /pdf-drill: simultaneous same-name uploads use distinct owned paths
+  ---
+  duration_ms: 96.803
+  type: 'test'
+  location: 'C:\\Users\\Samantha\\OneDrive\\Desktop\\web\\server\\tests\\finalUploadContracts.test.js:69:3'
+  failureType: 'testCodeFailure'
+  error: |-
+    The expression evaluated to a falsy value:
+    
+      assert.ok(h.responses.every((response) => response.status === 200))
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: true
+  actual: false
+  operator: '=='
+  stack: |-
+    TestContext.<anonymous> (C:\Users\Samantha\OneDrive\Desktop\web\server\tests\finalUploadContracts.test.js:71:12)
+    process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+1..10
+# tests 10
+# suites 0
+# pass 4
+# fail 6
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 4106.5503

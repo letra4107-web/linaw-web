@@ -1,0 +1,144 @@
+{
+  "errors": 0,
+  "warnings": 18,
+  "messages": [
+    {
+      "file": "src\\components\\TabHeroHeader.tsx",
+      "messages": [
+        {
+          "line": 6,
+          "rule": "@typescript-eslint/no-unused-vars",
+          "severity": 1,
+          "message": "'colors' is defined but never used."
+        },
+        {
+          "line": 6,
+          "rule": "@typescript-eslint/no-unused-vars",
+          "severity": 1,
+          "message": "'roleColors' is defined but never used."
+        }
+      ]
+    },
+    {
+      "file": "src\\screens\\DashboardSettingsScreen.tsx",
+      "messages": [
+        {
+          "line": 21,
+          "rule": "@typescript-eslint/no-unused-vars",
+          "severity": 1,
+          "message": "'LinearGradient' is defined but never used."
+        },
+        {
+          "line": 103,
+          "rule": "@typescript-eslint/no-unused-vars",
+          "severity": 1,
+          "message": "'savingProfile' is assigned a value but never used."
+        },
+        {
+          "line": 234,
+          "rule": "@typescript-eslint/no-unused-vars",
+          "severity": 1,
+          "message": "'saveProfile' is assigned a value but never used."
+        },
+        {
+          "line": 263,
+          "rule": "@typescript-eslint/no-unused-vars",
+          "severity": 1,
+          "message": "'pickAvatar' is assigned a value but never used."
+        }
+      ]
+    },
+    {
+      "file": "src\\screens\\ParentDashboardEnhanced.tsx",
+      "messages": [
+        {
+          "line": 738,
+          "rule": "react-hooks/exhaustive-deps",
+          "severity": 1,
+          "message": "The ref value 'childrenRequest.current' will likely have changed by the time this effect cleanup function runs. If this ref points to a node rendered by React, copy 'childrenRequest.current' to a variable inside the effect, and use that variable in the cleanup function."
+        },
+        {
+          "line": 738,
+          "rule": "react-hooks/exhaustive-deps",
+          "severity": 1,
+          "message": "The ref value 'insightsRequest.current' will likely have changed by the time this effect cleanup function runs. If this ref points to a node rendered by React, copy 'insightsRequest.current' to a variable inside the effect, and use that variable in the cleanup function."
+        }
+      ]
+    },
+    {
+      "file": "src\\screens\\SplashScreen.tsx",
+      "messages": [
+        {
+          "line": 61,
+          "rule": "@typescript-eslint/no-unused-vars",
+          "severity": 1,
+          "message": "'error' is defined but never used."
+        }
+      ]
+    },
+    {
+      "file": "src\\screens\\StudentDashboard.tsx",
+      "messages": [
+        {
+          "line": 186,
+          "rule": "@typescript-eslint/no-unused-vars",
+          "severity": 1,
+          "message": "'categorizeWord' is assigned a value but never used."
+        },
+        {
+          "line": 231,
+          "rule": "@typescript-eslint/no-unused-vars",
+          "severity": 1,
+          "message": "'uploads' is assigned a value but never used."
+        },
+        {
+          "line": 249,
+          "rule": "@typescript-eslint/no-unused-vars",
+          "severity": 1,
+          "message": "'uploadsError' is assigned a value but never used."
+        },
+        {
+          "line": 274,
+          "rule": "@typescript-eslint/no-unused-vars",
+          "severity": 1,
+          "message": "'completedContentIds' is assigned a value but never used."
+        },
+        {
+          "line": 973,
+          "rule": "react-hooks/exhaustive-deps",
+          "severity": 1,
+          "message": "React Hook useEffect has a missing dependency: 'loadCurrentPracticeItem'. Either include it or remove the dependency array."
+        },
+        {
+          "line": 1149,
+          "rule": "@typescript-eslint/no-unused-vars",
+          "severity": 1,
+          "message": "'iconForUpload' is assigned a value but never used."
+        },
+        {
+          "line": 1156,
+          "rule": "@typescript-eslint/no-unused-vars",
+          "severity": 1,
+          "message": "'openUpload' is assigned a value but never used."
+        }
+      ]
+    },
+    {
+      "file": "src\\services\\localAuthService.ts",
+      "messages": [
+        {
+          "line": 8,
+          "rule": null,
+          "severity": 1,
+          "message": "Unused eslint-disable directive (no problems were reported from '@typescript-eslint/no-var-requires')."
+        },
+        {
+          "line": 9,
+          "rule": "@typescript-eslint/no-require-imports",
+          "severity": 1,
+          "message": "A `require()` style import is forbidden."
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,256 @@
+{
+  "generatedAt": "2026-10-21T13:43:37.702Z",
+  "baselinePass": 478,
+  "finalPass": 548,
+  "skipped": 2,
+  "newCases": 70,
+  "gates": [
+    {
+      "name": "backend",
+      "exitCode": 0,
+      "durationMs": 7942,
+      "tests": 496,
+      "pass": 494,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 2
+    },
+    {
+      "name": "frontend",
+      "exitCode": 0,
+      "durationMs": 5951,
+      "tests": 54,
+      "pass": 54,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0
+    },
+    {
+      "name": "lint",
+      "exitCode": 0,
+      "durationMs": 323
+    },
+    {
+      "name": "build",
+      "exitCode": 0,
+      "durationMs": 34883
+    },
+    {
+      "name": "vite-build",
+      "exitCode": 0,
+      "durationMs": 15419
+    },
+    {
+      "name": "diff",
+      "exitCode": 0,
+      "durationMs": 244
+    }
+  ],
+  "coverage": [
+    {
+      "area": "backend",
+      "exitCode": 0,
+      "tests": 496,
+      "pass": 494,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 2,
+      "files": 38,
+      "totals": {
+        "lines": {
+          "total": 4617,
+          "covered": 2830,
+          "skipped": 0,
+          "pct": 61.29
+        },
+        "statements": {
+          "total": 4617,
+          "covered": 2830,
+          "skipped": 0,
+          "pct": 61.29
+        },
+        "functions": {
+          "total": 148,
+          "covered": 118,
+          "skipped": 0,
+          "pct": 79.72
+        },
+        "branches": {
+          "total": 1106,
+          "covered": 758,
+          "skipped": 0,
+          "pct": 68.53
+        },
+        "branchesTrue": {
+          "total": 0,
+          "covered": 0,
+          "skipped": 0,
+          "pct": 100
+        }
+      },
+      "scope": "c8 --all for backend JS excluding tests and operator scripts; unloaded eligible files included"
+    },
+    {
+      "area": "frontend",
+      "exitCode": 0,
+      "tests": 54,
+      "pass": 54,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0,
+      "files": 12,
+      "totals": {
+        "lines": {
+          "total": 1013,
+          "covered": 790,
+          "skipped": 0,
+          "pct": 77.98
+        },
+        "statements": {
+          "total": 1013,
+          "covered": 790,
+          "skipped": 0,
+          "pct": 77.98
+        },
+        "functions": {
+          "total": 47,
+          "covered": 28,
+          "skipped": 0,
+          "pct": 59.57
+        },
+        "branches": {
+          "total": 232,
+          "covered": 175,
+          "skipped": 0,
+          "pct": 75.43
+        },
+        "branchesTrue": {
+          "total": 0,
+          "covered": 0,
+          "skipped": 0,
+          "pct": 100
+        }
+      },
+      "scope": "Source-mapped frontend TS units executed through the test loader; loaded modules only; excludes browser rendering coverage and unloaded pages"
+    }
+  ],
+  "sql": {
+    "PASS": 28
+  },
+  "browsers": [
+    {
+      "name": "role-desktop-final",
+      "file": "roles-verified-firefox/firefox-populated.json",
+      "counts": {
+        "PASS": 46,
+        "FAIL": 1
+      }
+    },
+    {
+      "name": "admin-header-final",
+      "file": "admin-header-final/firefox-populated.json",
+      "counts": {
+        "PASS": 6
+      }
+    },
+    {
+      "name": "role-responsive",
+      "file": "roles-responsive-firefox/firefox-populated-empty.json",
+      "counts": {
+        "PASS": 135,
+        "FAIL": 5
+      }
+    },
+    {
+      "name": "role-edge",
+      "file": "roles-edge/edge-populated.json",
+      "counts": {
+        "PASS": 43,
+        "FAIL": 4
+      }
+    },
+    {
+      "name": "role-chromium",
+      "file": "roles-chromium/chromium-populated.json",
+      "counts": {
+        "PASS": 46,
+        "FAIL": 1
+      }
+    },
+    {
+      "name": "dashboard-outage",
+      "file": "roles-outage-final/firefox-error.json",
+      "counts": {
+        "PASS": 6,
+        "FAIL": 2
+      }
+    },
+    {
+      "name": "student-outage-settled",
+      "file": "student-outage-fixed-port/firefox-error.json",
+      "counts": {
+        "PASS": 2
+      }
+    },
+    {
+      "name": "public-firefox",
+      "file": "public-final/local-firefox.json",
+      "counts": {
+        "PASS": 58
+      }
+    },
+    {
+      "name": "public-edge",
+      "file": "public-edge-fixed-port/local-edge.json",
+      "counts": {
+        "FAIL": 3,
+        "PASS": 55
+      }
+    },
+    {
+      "name": "public-chromium",
+      "file": "public-chromium-fixed-port/local-chromium.json",
+      "counts": {
+        "PASS": 57,
+        "FAIL": 1
+      }
+    }
+  ],
+  "currentCredentialShapedFiles": 0,
+  "knownSecretBearingSnapshots": 1,
+  "disposition": "NOT READY — CRITICAL ISSUES REMAIN",
+  "productionFiles": [
+    "server/routes/admin.js",
+    "server/routes/teacher.js",
+    "server/routes/parent.js",
+    "src/components/QueryErrorNotice.tsx",
+    "src/pages/admin/Dashboard.tsx",
+    "src/pages/teacher/Dashboard.tsx",
+    "src/pages/student/Dashboard.tsx",
+    "src/index.css",
+    "src/pages/parent/parent-dashboard-reference.css"
+  ],
+  "testingFiles": [
+    "server/tests/sectionAssignmentQa.test.js",
+    "server/tests/finalApiContracts.test.js",
+    "server/tests/finalUploadContracts.test.js",
+    "server/tests/finalEnrollmentContracts.test.js",
+    "tests/finalClientContracts.test.mjs",
+    "tests/helpers/load-ts.mjs",
+    "scripts/qa-tools/package.json",
+    "scripts/qa-tools/package-lock.json",
+    "scripts/qa-playwright.mjs",
+    "testing-audit/fixtures/roleModel.mjs",
+    "testing-audit/fixtures/browserSupabase.mjs",
+    "testing-audit/role-browser.mjs",
+    "testing-audit/coverage-run.mjs",
+    "testing-audit/dependency-review.mjs",
+    "testing-audit/analytics-performance.mjs",
+    "testing-audit/final-local-checks.mjs",
+    "testing-audit/github-credential-scan.mjs",
+    "testing-audit/final-verification-report.mjs",
+    "testing-audit/review/WORD_OF_DAY_ISOLATED_VALIDATION.md",
+    "testing-audit/inventory.mjs",
+    "testing-audit/verify-final-reports.mjs"
+  ]
+}

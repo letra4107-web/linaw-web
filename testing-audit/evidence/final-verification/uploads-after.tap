@@ -1,0 +1,70 @@
+TAP version 13
+# Subtest: final upload /pdf: metadata failure compensates only the new owned storage object
+ok 1 - final upload /pdf: metadata failure compensates only the new owned storage object
+  ---
+  duration_ms: 918.3391
+  type: 'test'
+  ...
+# Subtest: final upload /pdf: rejected upload never deletes any object
+ok 2 - final upload /pdf: rejected upload never deletes any object
+  ---
+  duration_ms: 101.7292
+  type: 'test'
+  ...
+# Subtest: final upload /pdf: compensation failure preserves a safe HTTP failure
+ok 3 - final upload /pdf: compensation failure preserves a safe HTTP failure
+  ---
+  duration_ms: 87.3091
+  type: 'test'
+  ...
+# Subtest: final upload /pdf: invalid bytes are rejected before storage access
+ok 4 - final upload /pdf: invalid bytes are rejected before storage access
+  ---
+  duration_ms: 54.3875
+  type: 'test'
+  ...
+# Subtest: final upload /pdf: simultaneous same-name uploads use distinct owned paths
+ok 5 - final upload /pdf: simultaneous same-name uploads use distinct owned paths
+  ---
+  duration_ms: 150.2244
+  type: 'test'
+  ...
+# Subtest: final upload /pdf-drill: metadata failure compensates only the new owned storage object
+ok 6 - final upload /pdf-drill: metadata failure compensates only the new owned storage object
+  ---
+  duration_ms: 62.3687
+  type: 'test'
+  ...
+# Subtest: final upload /pdf-drill: rejected upload never deletes any object
+ok 7 - final upload /pdf-drill: rejected upload never deletes any object
+  ---
+  duration_ms: 45.9575
+  type: 'test'
+  ...
+# Subtest: final upload /pdf-drill: compensation failure preserves a safe HTTP failure
+ok 8 - final upload /pdf-drill: compensation failure preserves a safe HTTP failure
+  ---
+  duration_ms: 101.7925
+  type: 'test'
+  ...
+# Subtest: final upload /pdf-drill: invalid bytes are rejected before storage access
+ok 9 - final upload /pdf-drill: invalid bytes are rejected before storage access
+  ---
+  duration_ms: 99.8262
+  type: 'test'
+  ...
+# Subtest: final upload /pdf-drill: simultaneous same-name uploads use distinct owned paths
+ok 10 - final upload /pdf-drill: simultaneous same-name uploads use distinct owned paths
+  ---
+  duration_ms: 210.7981
+  type: 'test'
+  ...
+1..10
+# tests 10
+# suites 0
+# pass 10
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 3492.756

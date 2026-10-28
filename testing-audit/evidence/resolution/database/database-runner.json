@@ -1,0 +1,10 @@
+{
+  "timestamp": "2026-10-21T10:50:45.267Z",
+  "runId": "0c117bbd-73dd-4222-a875-b85af953bd0b",
+  "workerExitCode": 0,
+  "freshEvidence": true,
+  "matchingRun": true,
+  "cases": 28,
+  "status": "PASS",
+  "scope": "Worker status and fresh matching-run JSON assertions both required; exit 0 alone is insufficient."
+}

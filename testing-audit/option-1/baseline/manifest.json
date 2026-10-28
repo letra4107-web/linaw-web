@@ -1,0 +1,254 @@
+[
+  {
+    "source": "C:\\Users\\Samantha\\OneDrive\\Desktop\\LinawLm\\LinawLm\\testing-audit\\xp-progress\\database-fixture.sql",
+    "sha256": "061cd811db23981edccbe60fc385e852132f9e52478ca836678a1a08561f677e"
+  },
+  {
+    "source": "C:\\Users\\Samantha\\OneDrive\\Desktop\\LinawLm\\LinawLm\\testing-audit\\xp-progress\\progress-events-rollback.PROPOSED.sql",
+    "sha256": "e7d3ce31e1e7a71495c1290a7a9b5825e7589de90ac9fa8676d0f1ef5a0420b0"
+  },
+  {
+    "source": "C:\\Users\\Samantha\\OneDrive\\Desktop\\LinawLm\\LinawLm\\testing-audit\\xp-progress\\progress-events.PROPOSED.sql",
+    "sha256": "fb1da04e566cacb37eb5d56dee126ad32ab71f6424fd65ce4ec2ebafe5db9e69"
+  },
+  {
+    "source": "C:\\Users\\Samantha\\OneDrive\\Desktop\\LinawLm\\LinawLm\\testing-audit\\xp-progress\\progress-preflight.READONLY.sql",
+    "sha256": "ab80e1e25f8b00ab07b58953a007dbe6136cdc144ff68062c6ae8dc703059e5c"
+  },
+  {
+    "source": "C:\\Users\\Samantha\\OneDrive\\Desktop\\LinawLm\\LinawLm\\testing-audit\\xp-progress\\README.md",
+    "sha256": "accf50fac39a55f3f3b571543c49131ba19714514300f4a651bee6c35bd9a0bc"
+  },
+  {
+    "source": "C:\\Users\\Samantha\\OneDrive\\Desktop\\LinawLm\\LinawLm\\testing-audit\\xp-progress\\XP_PROGRESS_BUG_FIX_REPORT.md",
+    "sha256": "5489d03837005e05acf302e55a34b9011e3339343948378c195015b1de616d2d"
+  },
+  {
+    "source": "C:\\Users\\Samantha\\OneDrive\\Desktop\\LinawLm\\LinawLm\\testing-audit\\xp-progress\\XP_PROGRESS_CONTRACT.md",
+    "sha256": "c9c135a21f708274f56d5f5fd956e2253d5b5e95811d2bf74bfdf8bacf9c675b"
+  },
+  {
+    "source": "C:\\Users\\Samantha\\OneDrive\\Desktop\\LinawLm\\LinawLm\\testing-audit\\xp-progress\\XP_PROGRESS_DATABASE_READINESS.md",
+    "sha256": "6c7ab9a0e7755487d2afc3a882c165d1a010f6f490c0df47c883f04aa88d21dd"
+  },
+  {
+    "source": "C:\\Users\\Samantha\\OneDrive\\Desktop\\LinawLm\\LinawLm\\testing-audit\\xp-progress\\XP_PROGRESS_FINAL_STATUS.md",
+    "sha256": "db7867c793c30bbd1ee6e9a9bfb3844ff9be2a4a2d6362faca5db1e77de24dc3"
+  },
+  {
+    "source": "C:\\Users\\Samantha\\OneDrive\\Desktop\\LinawLm\\LinawLm\\testing-audit\\xp-progress\\XP_PROGRESS_REGRESSION_RESULTS.md",
+    "sha256": "2ba0eb85ea523530742acd067c44ed42cabdd4a4a568ab0e919f1a083a62fc5e"
+  },
+  {
+    "source": "C:\\Users\\Samantha\\OneDrive\\Desktop\\LinawLm\\LinawLm\\testing-audit\\xp-progress\\XP_PROGRESS_SECURITY_AUDIT.md",
+    "sha256": "9aa5ca958abb9d3250751403641b1e75609eee71cb095be7f354f161552ddbd3"
+  },
+  {
+    "source": "C:\\Users\\Samantha\\OneDrive\\Desktop\\LinawLm\\LinawLm\\testing-audit\\xp-progress\\evidence\\backend-checks.json",
+    "sha256": "1fdb726856c9897812be3b1c1d77d3754ace9f59e477a3bd1ed1e2ed7dd63ec3"
+  },
+  {
+    "source": "C:\\Users\\Samantha\\OneDrive\\Desktop\\LinawLm\\LinawLm\\testing-audit\\xp-progress\\evidence\\backend-date_utils.test.js.log",
+    "sha256": "2bf253560e1260758ea7b6a6c08b2485cf99632b9b9739f4c6d595bc05deb946"
+  },
+  {
+    "source": "C:\\Users\\Samantha\\OneDrive\\Desktop\\LinawLm\\LinawLm\\testing-audit\\xp-progress\\evidence\\backend-env_validation.test.js.log",
+    "sha256": "3c31295bfebbb6f32308cd34aeb3798d0594dcf289d84c77df72f877bf063ed7"
+  },
+  {
+    "source": "C:\\Users\\Samantha\\OneDrive\\Desktop\\LinawLm\\LinawLm\\testing-audit\\xp-progress\\evidence\\backend-mobile_auth_audit.test.js.log",
+    "sha256": "600f9fc51a5f371391dc760bd379d2ddea223608f35c578271f84ef35d603a67"
+  },
+  {
+    "source": "C:\\Users\\Samantha\\OneDrive\\Desktop\\LinawLm\\LinawLm\\testing-audit\\xp-progress\\evidence\\backend-personalization.test.js.log",
+    "sha256": "8bd179ea35e7f0474cf95f1f78cb7e4d2f243b5fbcfa943f3f92f525ff8291ad"
+  },
+  {
+    "source": "C:\\Users\\Samantha\\OneDrive\\Desktop\\LinawLm\\LinawLm\\testing-audit\\xp-progress\\evidence\\backend-practice_auth.test.js.log",
+    "sha256": "08a97fecec2d5ef66c06ccc1b787c786634d6d3055a784c0341c12a33035183e"
+  },
+  {
+    "source": "C:\\Users\\Samantha\\OneDrive\\Desktop\\LinawLm\\LinawLm\\testing-audit\\xp-progress\\evidence\\backend-progress_auth.test.js.log",
+    "sha256": "06877211a9f727f1a1d49c267eb5f8b6487801176599d153176a2af42014f81a"
+  },
+  {
+    "source": "C:\\Users\\Samantha\\OneDrive\\Desktop\\LinawLm\\LinawLm\\testing-audit\\xp-progress\\evidence\\backend-progress_security.test.js.log",
+    "sha256": "e28bd0c0b3cb79d63b173552387eba7ee683135847c69d1b4acff4206d9c5a96"
+  },
+  {
+    "source": "C:\\Users\\Samantha\\OneDrive\\Desktop\\LinawLm\\LinawLm\\testing-audit\\xp-progress\\evidence\\backend-pronunciation_tests.js.log",
+    "sha256": "bcd1ef11099b62679b5f22f414f4f199abcc003e6be719a97201ef77ebca30e1"
+  },
+  {
+    "source": "C:\\Users\\Samantha\\OneDrive\\Desktop\\LinawLm\\LinawLm\\testing-audit\\xp-progress\\evidence\\backend-reading_insights.test.js.log",
+    "sha256": "f453a9167e37bdbcb050735c9803897ddf3de05eca31d78205bee185df91b97d"
+  },
+  {
+    "source": "C:\\Users\\Samantha\\OneDrive\\Desktop\\LinawLm\\LinawLm\\testing-audit\\xp-progress\\evidence\\backend-server_smoke.test.js.log",
+    "sha256": "3b9ab0d73d0f65a65fe64c57922ac74421d221cf1b9c0252128239041479107e"
+  },
+  {
+    "source": "C:\\Users\\Samantha\\OneDrive\\Desktop\\LinawLm\\LinawLm\\testing-audit\\xp-progress\\evidence\\backend-words_level_isolation.test.js.log",
+    "sha256": "db12ea1584d4683be2efe80bcf7d86bcc25764f4820b7f7f6dbe9fcd9106ed49"
+  },
+  {
+    "source": "C:\\Users\\Samantha\\OneDrive\\Desktop\\LinawLm\\LinawLm\\testing-audit\\xp-progress\\evidence\\backend-word_of_day_progress_security.test.js.log",
+    "sha256": "5771f93c7c05eda4e556001296d762ab883c8535005f24c55ab27cf6642dfd04"
+  },
+  {
+    "source": "C:\\Users\\Samantha\\OneDrive\\Desktop\\LinawLm\\LinawLm\\testing-audit\\xp-progress\\evidence\\backend-word_of_day_scoring.test.js.log",
+    "sha256": "2d7cbe046eb43eb39cfdeb6021f2e424e56ffdd7f28dca030518838dee304c93"
+  },
+  {
+    "source": "C:\\Users\\Samantha\\OneDrive\\Desktop\\LinawLm\\LinawLm\\testing-audit\\xp-progress\\evidence\\before-vectors.json",
+    "sha256": "5615971f05083ce878c9ab08bc80f77a60687b09df9fc41dd8eaaacf3c6eba74"
+  },
+  {
+    "source": "C:\\Users\\Samantha\\OneDrive\\Desktop\\LinawLm\\LinawLm\\testing-audit\\xp-progress\\evidence\\bundle-checks.json",
+    "sha256": "2ad3b2ed6804d78697948184dbf8fd667f010f7505feae9bb36e5a2b1170ca80"
+  },
+  {
+    "source": "C:\\Users\\Samantha\\OneDrive\\Desktop\\LinawLm\\LinawLm\\testing-audit\\xp-progress\\evidence\\mobile-checks.json",
+    "sha256": "00fcb487f91249eb609970b58e25b75be85d5e4785377c1e3da093a050deb071"
+  },
+  {
+    "source": "C:\\Users\\Samantha\\OneDrive\\Desktop\\LinawLm\\LinawLm\\testing-audit\\xp-progress\\evidence\\mobile-jest.json",
+    "sha256": "5663e001ebc9f97b2f8a8e66beee04699fa71cb65fec465e7d82accdadfd193b"
+  },
+  {
+    "source": "C:\\Users\\Samantha\\OneDrive\\Desktop\\LinawLm\\LinawLm\\testing-audit\\xp-progress\\evidence\\mobile-jest.log",
+    "sha256": "f28f83bcd93203f891859a2048258674a2225ed37b2095b0c3af47a6d520059c"
+  },
+  {
+    "source": "C:\\Users\\Samantha\\OneDrive\\Desktop\\LinawLm\\LinawLm\\testing-audit\\xp-progress\\evidence\\mobile-lint-summary.json",
+    "sha256": "c0a2208b0815b8fa2981aadcb594db063a2d64bc762d1034b24158707347b2fe"
+  },
+  {
+    "source": "C:\\Users\\Samantha\\OneDrive\\Desktop\\LinawLm\\LinawLm\\testing-audit\\xp-progress\\evidence\\mobile-lint.log",
+    "sha256": "d0b0e21c43048cb5d72cd58f89f82911ad84890c35ca646d26ef08158288d354"
+  },
+  {
+    "source": "C:\\Users\\Samantha\\OneDrive\\Desktop\\LinawLm\\LinawLm\\testing-audit\\xp-progress\\evidence\\mobile-production-export.log",
+    "sha256": "aa6ffb3d2930f1b76cadfcd794a7d6e074e1142fade7cc317379b4420b4cb07a"
+  },
+  {
+    "source": "C:\\Users\\Samantha\\OneDrive\\Desktop\\LinawLm\\LinawLm\\testing-audit\\xp-progress\\evidence\\mobile-types.log",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "source": "C:\\Users\\Samantha\\OneDrive\\Desktop\\LinawLm\\LinawLm\\testing-audit\\xp-progress\\evidence\\open-01-before.json",
+    "sha256": "a986d32557461070dcd1ba97641976a7647c6caac1a782c40e5cea2d32ed91f8"
+  },
+  {
+    "source": "C:\\Users\\Samantha\\OneDrive\\Desktop\\LinawLm\\LinawLm\\testing-audit\\xp-progress\\evidence\\open-01-probe.log",
+    "sha256": "4c8e3894623d8f1f52a4eeb3f95c50924bf69dd9c2609cb92a0ff16066e0c201"
+  },
+  {
+    "source": "C:\\Users\\Samantha\\OneDrive\\Desktop\\LinawLm\\LinawLm\\testing-audit\\xp-progress\\evidence\\sql-engine.json",
+    "sha256": "42c5bcc5700f2bb98ae064911b5ece82909df211aee21db6f263d6e7e85070e0"
+  },
+  {
+    "source": "C:\\Users\\Samantha\\OneDrive\\Desktop\\LinawLm\\LinawLm\\testing-audit\\xp-progress\\evidence\\sql-results.json",
+    "sha256": "a1b94e1b00275a286fb8c1d97dc4f6ee2d5b68f8212cf49d877e5655e5a3f798"
+  },
+  {
+    "source": "C:\\Users\\Samantha\\OneDrive\\Desktop\\LinawLm\\LinawLm\\testing-audit\\xp-progress\\evidence\\summary.json",
+    "sha256": "8cb5c6f153dfff58eee642491ab7cc27ec4e2f0a065742b2251d1298ada4adda"
+  },
+  {
+    "source": "C:\\Users\\Samantha\\OneDrive\\Desktop\\LinawLm\\LinawLm\\testing-audit\\xp-progress\\evidence\\test-cases.csv",
+    "sha256": "f7154df45b7b507900e3191182c91f16f044b90195c92734f66e0ffb3e60b450"
+  },
+  {
+    "source": "C:\\Users\\Samantha\\OneDrive\\Desktop\\LinawLm\\LinawLm\\testing-audit\\xp-progress\\evidence\\test-cases.json",
+    "sha256": "6f2162edb4a1e80f06d7f3824f9b272053e5df5c3874de204ed73a585096664f"
+  },
+  {
+    "source": "C:\\Users\\Samantha\\OneDrive\\Desktop\\LinawLm\\LinawLm\\testing-audit\\xp-progress\\evidence\\web-application-receipt.json",
+    "sha256": "3b429539b30f26be3cc4d9e2d1174c570d59ef0592fafe06364409053489d4b2"
+  },
+  {
+    "source": "C:\\Users\\Samantha\\OneDrive\\Desktop\\LinawLm\\LinawLm\\testing-audit\\xp-progress\\evidence\\web-baseline-files.json",
+    "sha256": "cc6a2b1127e9dd75f1b6d7d00c3bf1dd7b6c049233d3b79e7df00732f0eecc81"
+  },
+  {
+    "source": "C:\\Users\\Samantha\\OneDrive\\Desktop\\LinawLm\\LinawLm\\testing-audit\\xp-progress\\evidence\\web-build.log",
+    "sha256": "ed5b46cca29cdb2bd4a6ce98d77670e5d0a41c2ea5e93e0bf182209ee0158f85"
+  },
+  {
+    "source": "C:\\Users\\Samantha\\OneDrive\\Desktop\\LinawLm\\LinawLm\\testing-audit\\xp-progress\\evidence\\web-checks.json",
+    "sha256": "d9f87eaf1f9acaaeea4562e7b30464a14fc503ae2ea9335c409a8b797acfc1c1"
+  },
+  {
+    "source": "C:\\Users\\Samantha\\OneDrive\\Desktop\\LinawLm\\LinawLm\\testing-audit\\xp-progress\\evidence\\web-lint.log",
+    "sha256": "6ad71604a4d20a7bc1349616008ea0992be95be42459b59b88e6a8c88810ed4b"
+  },
+  {
+    "source": "C:\\Users\\Samantha\\OneDrive\\Desktop\\LinawLm\\LinawLm\\testing-audit\\xp-progress\\evidence\\web-patch-manifest.json",
+    "sha256": "2e2ecc3718956c0396d6851b8a4215595bfc143585e241a81813704e919fb795"
+  },
+  {
+    "source": "C:\\Users\\Samantha\\OneDrive\\Desktop\\LinawLm\\LinawLm\\testing-audit\\xp-progress\\evidence\\web-server.log",
+    "sha256": "a645273b1c5b2ceaadc160fcb1c84f3368b88f2ba55fb4bbb9099279cb19f577"
+  },
+  {
+    "source": "C:\\Users\\Samantha\\OneDrive\\Desktop\\LinawLm\\LinawLm\\testing-audit\\xp-progress\\evidence\\web-types-app.log",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "source": "C:\\Users\\Samantha\\OneDrive\\Desktop\\LinawLm\\LinawLm\\testing-audit\\xp-progress\\evidence\\web-types-node.log",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "source": "C:\\Users\\Samantha\\OneDrive\\Desktop\\LinawLm\\LinawLm\\testing-audit\\xp-progress\\evidence\\web-ui.log",
+    "sha256": "d8ea12b5bb0096dfb94f1b4d95de371fbce09decadfebe12df783e2cb2e59ac3"
+  },
+  {
+    "source": "C:\\Users\\Samantha\\OneDrive\\Desktop\\LinawLm\\LinawLm\\testing-audit\\xp-progress\\evidence\\writer-references.json",
+    "sha256": "8b1801f3e7d5a38e7434709691f18f7eb7cd2d9258618ce942d00935d70984e6"
+  },
+  {
+    "source": "C:\\Users\\Samantha\\OneDrive\\Desktop\\web\\server\\services\\progressEvents.js",
+    "sha256": "381e613c8ce0e5405a1e91734637ba3294f87fa6bcefe6238377977182a5ef1a"
+  },
+  {
+    "source": "C:\\Users\\Samantha\\OneDrive\\Desktop\\web\\server\\tests\\progressEvents.test.js",
+    "sha256": "d7cbfb94756a0b5a57285bb984babf8d215ad8680fa6190f0a43fd2ed66006d7"
+  },
+  {
+    "source": "C:\\Users\\Samantha\\OneDrive\\Desktop\\web\\src\\lib\\progressEvents.ts",
+    "sha256": "ef239eb40ebc2a01769b79360e612939d5edcd38c7a110463044085122bcc13d"
+  },
+  {
+    "source": "C:\\Users\\Samantha\\OneDrive\\Desktop\\web\\src\\pages\\student\\Practice.tsx",
+    "sha256": "860c63852f54dcf7ae22840e6bb6ba051bc405ea28f678c125c4b70eed8c157a"
+  },
+  {
+    "source": "C:\\Users\\Samantha\\OneDrive\\Desktop\\web\\src\\pages\\student\\Module.tsx",
+    "sha256": "b57544f4a6e7fea2574846de92248911c0e2de664800664624063f8ef71e6a34"
+  },
+  {
+    "source": "C:\\Users\\Samantha\\OneDrive\\Desktop\\web\\testing-audit\\review\\word-of-day-atomic.PROPOSED.sql",
+    "sha256": "1f41d056d690be1b50768f896481fb4563807bd2ac44c62dce0686134c90ac53"
+  },
+  {
+    "source": "C:\\Users\\Samantha\\OneDrive\\Desktop\\LinawLm\\LinawLm\\backend\\services\\progressEvents.js",
+    "sha256": "9d7e786443b4124bac427807bc5b3cf8de4f9ab56530c96206f1c468aa58321c"
+  },
+  {
+    "source": "C:\\Users\\Samantha\\OneDrive\\Desktop\\LinawLm\\LinawLm\\backend\\tests\\progress_security.test.js",
+    "sha256": "7f2bf8e336e493bd0d44df7ca6988098bf84c29b4b557e17359b9d43dd4c6ebb"
+  },
+  {
+    "source": "C:\\Users\\Samantha\\OneDrive\\Desktop\\LinawLm\\LinawLm\\src\\services\\learningAttemptService.ts",
+    "sha256": "b6c1aabe2ca4546f589a03e12405231ebf8c11749ce172077cd6ae31b9779368"
+  },
+  {
+    "source": "C:\\Users\\Samantha\\OneDrive\\Desktop\\LinawLm\\LinawLm\\src\\services\\learningAttemptService.test.js",
+    "sha256": "f481f665131b63c212d7464be6db93f32de27eb54d5cd0e18fa68df7ac7c6de9"
+  },
+  {
+    "source": "C:\\Users\\Samantha\\OneDrive\\Desktop\\LinawLm\\LinawLm\\src\\screens\\StudentDashboard.tsx",
+    "sha256": "9db31dd39a88b8cc195b4f904b10a16a095e8d240f69d9d737e7390485f33fa9"
+  }
+]

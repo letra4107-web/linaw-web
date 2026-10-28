@@ -1,0 +1,17 @@
+Phase 3 code/test/tool changes (prior QA changes remain in the working tree):
+migrations/048_section_capacity_snapshot_safety.sql
+server/routes/admin.js
+server/tests/sectionAssignmentQa.test.js
+scripts/qa-database.mjs
+scripts/qa-database-worker.mjs
+scripts/qa-schema-contract.mjs
+scripts/qa-network-diagnostic.mjs
+scripts/qa-playwright.mjs
+scripts/qa-public-http.mjs
+scripts/qa-checks.mjs
+scripts/qa-phase3-report.mjs
+scripts/qa-report.mjs
+scripts/qa-continuation-report.mjs
+scripts/qa-validate-report.mjs
+
+Reports, schema preflight, environment documentation and evidence under docs/qa were also updated.

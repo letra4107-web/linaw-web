@@ -1,0 +1,30 @@
+{
+  "timestamp": "2026-10-18T08:44:14.859Z",
+  "scope": "Fresh synthetic loopback database only; main never contacted. Fixture DDL is not a main migration execution.",
+  "rows": [
+    {
+      "scenario": "Dedicated reader connects without elevated attributes and a read-only transaction is enforced",
+      "status": "PASS"
+    },
+    {
+      "scenario": "Catalog verifier recognizes copied function signatures/bodies/trigger/constraints without invoking either RPC",
+      "status": "PASS"
+    },
+    {
+      "scenario": "RLS-filtered empty results are refused as global integrity proof",
+      "status": "PASS"
+    },
+    {
+      "scenario": "Approved local SELECT policies permit aggregate checks without bypassing RLS",
+      "status": "PASS"
+    },
+    {
+      "scenario": "Aggregate verifier detects synthetic over-capacity, wrong-grade and missing-roster defects",
+      "status": "PASS"
+    },
+    {
+      "scenario": "Writes are refused in the local reader session",
+      "status": "PASS"
+    }
+  ]
+}

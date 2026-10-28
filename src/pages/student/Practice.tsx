@@ -2,6 +2,8 @@ import { useEffect, useRef, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '../../lib/supabaseClient';
+import {recordVerifiedAnswer} from '../../lib/progressEvents';
+import {practiceRewardMessage} from '../../lib/progressReward';
 import { api } from '../../lib/api';
 import { assessSpeech, isSpeechRecognitionSupported, listenOnce } from '../../lib/speech';
 import { syllabifyWord } from '../../lib/syllabify';
@@ -208,6 +210,19 @@ export default function Practice() {
     }
   };
 
+  const [pendingRetry,setPendingRetry]=useState<{contentId:string;transcript:string}|null>(null);
+  const saveInFlight=useRef(false);
+  const saveAnswer=async(input:{contentId:string;transcript:string})=>{
+    if(saveInFlight.current)return;
+    saveInFlight.current=true;setSavingAttempt(true);
+    try{const saved=await recordVerifiedAnswer({...input,source:'practice'});const result=saved.result;
+      setPendingRetry(null);setError(null);
+      setLastResult({transcript:input.transcript,accuracy:result.accuracy,correct:result.correct,message:randomFrom(result.correct?CORRECT_MESSAGES:ENCOURAGE_MESSAGES)+' '+practiceRewardMessage(saved)});
+      if(!saved.replayed)setStreak(s=>result.correct?s+1:0);
+      trackEvent('reading_attempt_completed',{surface:'practice',mode,correct:result.correct});
+    }catch(caught){const err=caught as Error&{pendingTranscript?:string};setPendingRetry({...input,transcript:err.pendingTranscript||input.transcript});setError(err.message||'Hindi pa nakumpirma ang pag-save. I-save muli ang parehong sagot.');}
+    finally{saveInFlight.current=false;setSavingAttempt(false);}
+  };
   const handleTry = () => {
     if (!current) return;
     setError(null);
@@ -219,20 +234,7 @@ export default function Practice() {
         setListening(false);
         const assessment = assessSpeech(current.word, transcript, confidence);
         if (assessment.outcome === 'retry') { setError(assessment.message); return; }
-        setSavingAttempt(true);
-        try {
-          const result = await api<{ accuracy: number; correct: boolean }>('/student/practice/attempt', {
-            method: 'POST', auth: true, body: { contentId: current.id, transcript },
-          });
-          const message = randomFrom(result.correct ? CORRECT_MESSAGES : ENCOURAGE_MESSAGES);
-          setLastResult({ transcript, accuracy: result.accuracy, correct: result.correct, message });
-          setStreak((s) => (result.correct ? s + 1 : 0));
-          trackEvent('reading_attempt_completed', { surface: 'practice', mode, correct: result.correct });
-        } catch (err) {
-          setError(err instanceof Error ? err.message : 'Hindi na-save ang resulta. Subukan muli.');
-        } finally {
-          setSavingAttempt(false);
-        }
+        await saveAnswer({contentId:current.id,transcript});
       },
       (message) => {
         setListening(false);
@@ -404,7 +406,8 @@ export default function Practice() {
                 word={!lastResult.correct ? current?.word : undefined}
               />
             )}
-            {error && (
+            {pendingRetry && <button disabled={savingAttempt} className="rounded-xl bg-purple-100 p-3" onClick={()=>void saveAnswer(pendingRetry)}>I-save muli ang parehong sagot</button>}
+      {error && (
               <p role="alert" className="w-full rounded-2xl bg-[var(--color-danger-soft)] px-4 py-3 text-sm text-[var(--color-danger)]">
                 {error}
               </p>

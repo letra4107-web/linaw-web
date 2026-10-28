@@ -1,0 +1,17 @@
+[
+  {
+    "name": "mobile-jest",
+    "status": "PASS",
+    "exitCode": 0
+  },
+  {
+    "name": "mobile-types",
+    "status": "PASS",
+    "exitCode": 0
+  },
+  {
+    "name": "mobile-lint",
+    "status": "PASS",
+    "exitCode": 0
+  }
+]

@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
 import { Link, useParams, useNavigate } from 'react-router-dom';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import {recordVerifiedAnswer} from '../../lib/progressEvents';
+import {practiceRewardMessage} from '../../lib/progressReward';
 import { api } from '../../lib/api';
 import { assessSpeech, isSpeechRecognitionSupported, listenOnce } from '../../lib/speech';
 import { CORRECT_MESSAGES, ENCOURAGE_MESSAGES, randomFrom } from '../../lib/feedbackMessages';
@@ -45,6 +47,7 @@ export default function Module() {
     { contentId: string; transcript: string; accuracy: number; correct: boolean; message: string } | null
   >(null);
   const [error, setError] = useState<string | null>(null);
+  const [pendingRetry,setPendingRetry]=useState<{item:ModuleItem;transcript:string}|null>(null);
   const [newlyUnlockedBadges, setNewlyUnlockedBadges] = useState<string[]>([]);
 
   useEffect(() => {
@@ -59,31 +62,26 @@ export default function Module() {
 
   const submitAttempt = useMutation({
     mutationFn: async ({ item, transcript }: { item: ModuleItem; transcript: string }) => {
-      const res = await api<{ accuracy: number; correct: boolean; newlyUnlockedBadges?: string[]; levelAdvancedTo?: string | null }>(`/student/learn/content/${item.content_id}/attempt`, {
-        method: 'POST',
-        auth: true,
-        body: {
-          transcript,
-          source: 'practice',
-        },
-      });
+      const saved=await recordVerifiedAnswer({contentId:item.content_id,transcript,source:'practice'});
+      const res={...saved.result,rewardMessage:practiceRewardMessage(saved),newlyUnlockedBadges:saved.newlyPersistedAchievementIds,levelAdvancedTo:null};
       return { item, transcript, res };
     },
     onSuccess: ({ item, transcript, res }) => {
+      setPendingRetry(null);setError(null);
       if (res.newlyUnlockedBadges?.length) setNewlyUnlockedBadges(res.newlyUnlockedBadges);
       setLastResult({
         contentId: item.content_id,
         transcript,
         accuracy: res.accuracy,
         correct: res.correct,
-        message: randomFrom(res.correct ? CORRECT_MESSAGES : ENCOURAGE_MESSAGES),
+        message: randomFrom(res.correct ? CORRECT_MESSAGES : ENCOURAGE_MESSAGES)+' '+res.rewardMessage,
       });
       queryClient.invalidateQueries({ queryKey: ['student-module', moduleId] });
       queryClient.invalidateQueries({ queryKey: ['student-learn-path'] });
       trackEvent('reading_attempt_completed', { surface: 'lesson' });
       if (res.levelAdvancedTo) navigate('/student/learn');
     },
-    onError: (err: Error) => { setError(err.message); trackEvent('reading_attempt_failed', { surface: 'lesson' }); },
+    onError: (err: Error & {pendingTranscript?:string},variables) => { setPendingRetry({...variables,transcript:err.pendingTranscript||variables.transcript});setError(err.message); trackEvent('reading_attempt_failed', { surface: 'lesson' }); },
   });
 
   const practice = (item: ModuleItem) => {
@@ -137,6 +135,7 @@ export default function Module() {
         total={totalCount > 0 ? totalCount : undefined}
       />
 
+      {pendingRetry && <button className="rounded-xl bg-purple-100 p-3" disabled={submitAttempt.isPending} onClick={()=>submitAttempt.mutate(pendingRetry)}>I-save muli ang parehong sagot</button>}
       {error && <p role="alert" className="rounded-xl bg-[var(--color-danger-soft)] px-4 py-3 text-[var(--color-danger)]">{error}</p>}
 
       {data.module.instructional_content_type === 'paragraph' && <ChallengeWordsPractice moduleId={data.module.id} />}

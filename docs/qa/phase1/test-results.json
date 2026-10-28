@@ -1,0 +1,4663 @@
+{
+  "date": "2026-10-17",
+  "timezone": "Asia/Manila",
+  "summary": {
+    "total": 407,
+    "executed": 331,
+    "PASS": 324,
+    "FAIL": 7,
+    "BLOCKED": 68,
+    "NOT RUN": 3,
+    "NOT IMPLEMENTED": 5,
+    "passRate": 97.89
+  },
+  "cases": [
+    {
+      "id": "BE-001",
+      "module": "backend isolated unit/source assertions",
+      "scenario": "audit migrations are ordered, append-only, and redact direct-write secrets",
+      "expected": "Assertions in the named test succeed",
+      "actual": "Node test assertions passed",
+      "status": "PASS",
+      "evidence": "evidence/backend.tap"
+    },
+    {
+      "id": "BE-002",
+      "module": "backend isolated unit/source assertions",
+      "scenario": "audit platform label is web-only until native audit integration is enabled",
+      "expected": "Assertions in the named test succeed",
+      "actual": "Node test assertions passed",
+      "status": "PASS",
+      "evidence": "evidence/backend.tap"
+    },
+    {
+      "id": "BE-003",
+      "module": "backend isolated unit/source assertions",
+      "scenario": "audit platform label stays web for all user agents",
+      "expected": "Assertions in the named test succeed",
+      "actual": "Node test assertions passed",
+      "status": "PASS",
+      "evidence": "evidence/backend.tap"
+    },
+    {
+      "id": "BE-004",
+      "module": "backend isolated unit/source assertions",
+      "scenario": "only successful non-admin sign-ins create an admin notification",
+      "expected": "Assertions in the named test succeed",
+      "actual": "Node test assertions passed",
+      "status": "PASS",
+      "evidence": "evidence/backend.tap"
+    },
+    {
+      "id": "BE-005",
+      "module": "backend isolated unit/source assertions",
+      "scenario": "QA first completed activity awards its badge and first-badge cascade through the atomic RPC",
+      "expected": "Assertions in the named test succeed",
+      "actual": "Node test assertions passed",
+      "status": "PASS",
+      "evidence": "evidence/backend.tap"
+    },
+    {
+      "id": "BE-006",
+      "module": "backend isolated unit/source assertions",
+      "scenario": "QA existing badges and unmet thresholds do not reissue awards",
+      "expected": "Assertions in the named test succeed",
+      "actual": "Node test assertions passed",
+      "status": "PASS",
+      "evidence": "evidence/backend.tap"
+    },
+    {
+      "id": "BE-007",
+      "module": "backend isolated unit/source assertions",
+      "scenario": "QA streak badge threshold unlocks on day seven and preserves prior awards",
+      "expected": "Assertions in the named test succeed",
+      "actual": "Node test assertions passed",
+      "status": "PASS",
+      "evidence": "evidence/backend.tap"
+    },
+    {
+      "id": "BE-008",
+      "module": "backend isolated unit/source assertions",
+      "scenario": "QA badge storage failures propagate instead of reporting a successful award",
+      "expected": "Assertions in the named test succeed",
+      "actual": "Node test assertions passed",
+      "status": "PASS",
+      "evidence": "evidence/backend.tap"
+    },
+    {
+      "id": "BE-009",
+      "module": "backend isolated unit/source assertions",
+      "scenario": "QA completion loader reads beyond the first database page and stops on the partial page",
+      "expected": "Assertions in the named test succeed",
+      "actual": "Node test assertions passed",
+      "status": "PASS",
+      "evidence": "evidence/backend.tap"
+    },
+    {
+      "id": "BE-010",
+      "module": "backend isolated unit/source assertions",
+      "scenario": "QA completion loader fails on database error without returning a misleading partial report",
+      "expected": "Assertions in the named test succeed",
+      "actual": "Node test assertions passed",
+      "status": "PASS",
+      "evidence": "evidence/backend.tap"
+    },
+    {
+      "id": "BE-011",
+      "module": "backend isolated unit/source assertions",
+      "scenario": "QA empty reading profiles distinguish missing observations from a measured score",
+      "expected": "Assertions in the named test succeed",
+      "actual": "Node test assertions passed",
+      "status": "PASS",
+      "evidence": "evidence/backend.tap"
+    },
+    {
+      "id": "BE-012",
+      "module": "backend isolated unit/source assertions",
+      "scenario": "QA learning promotion denies missing, incomplete, under-threshold and terminal-level paths",
+      "expected": "Assertions in the named test succeed",
+      "actual": "Node test assertions passed",
+      "status": "PASS",
+      "evidence": "evidence/backend.tap"
+    },
+    {
+      "id": "BE-013",
+      "module": "backend isolated unit/source assertions",
+      "scenario": "staging role smoke checks",
+      "expected": "Dedicated staging accounts and isolated Supabase verify real role/RLS behavior",
+      "actual": "Staging suite skipped; no separate staging environment or dedicated account configuration supplied",
+      "status": "BLOCKED",
+      "evidence": "evidence/backend.tap"
+    },
+    {
+      "id": "BE-014",
+      "module": "backend isolated unit/source assertions",
+      "scenario": "staging Supabase RLS isolation checks",
+      "expected": "Dedicated staging accounts and isolated Supabase verify real role/RLS behavior",
+      "actual": "Staging suite skipped; no separate staging environment or dedicated account configuration supplied",
+      "status": "BLOCKED",
+      "evidence": "evidence/backend.tap"
+    },
+    {
+      "id": "BE-015",
+      "module": "backend isolated unit/source assertions",
+      "scenario": "ElevenLabs receives explicit Filipino sounds for isolated letter drills",
+      "expected": "Assertions in the named test succeed",
+      "actual": "Node test assertions passed",
+      "status": "PASS",
+      "evidence": "evidence/backend.tap"
+    },
+    {
+      "id": "BE-016",
+      "module": "backend isolated unit/source assertions",
+      "scenario": "isolated Filipino vowels use IPA instead of English letter names",
+      "expected": "Assertions in the named test succeed",
+      "actual": "Node test assertions passed",
+      "status": "PASS",
+      "evidence": "evidence/backend.tap"
+    },
+    {
+      "id": "BE-017",
+      "module": "backend isolated unit/source assertions",
+      "scenario": "isolated consonants use Filipino letter sounds instead of English names",
+      "expected": "Assertions in the named test succeed",
+      "actual": "Node test assertions passed",
+      "status": "PASS",
+      "evidence": "evidence/backend.tap"
+    },
+    {
+      "id": "BE-018",
+      "module": "backend isolated unit/source assertions",
+      "scenario": "Filipino SSML spaces clauses, sentences, and paragraphs for processing time",
+      "expected": "Assertions in the named test succeed",
+      "actual": "Node test assertions passed",
+      "status": "PASS",
+      "evidence": "evidence/backend.tap"
+    },
+    {
+      "id": "BE-019",
+      "module": "backend isolated unit/source assertions",
+      "scenario": "multi-syllable Filipino words receive the slow-reading classification",
+      "expected": "Assertions in the named test succeed",
+      "actual": "Node test assertions passed",
+      "status": "PASS",
+      "evidence": "evidence/backend.tap"
+    },
+    {
+      "id": "BE-020",
+      "module": "backend isolated unit/source assertions",
+      "scenario": "reading difficulty advances only after every current-level module is complete at the passing score",
+      "expected": "Assertions in the named test succeed",
+      "actual": "Node test assertions passed",
+      "status": "PASS",
+      "evidence": "evidence/backend.tap"
+    },
+    {
+      "id": "BE-021",
+      "module": "Local HTTP integration",
+      "scenario": "patched Nodemailer composes a credential-style email locally without SMTP delivery",
+      "expected": "Assertions in the named test succeed",
+      "actual": "Node test assertions passed",
+      "status": "PASS",
+      "evidence": "evidence/backend.tap"
+    },
+    {
+      "id": "BE-022",
+      "module": "Local HTTP integration",
+      "scenario": "patched Multer preserves memory uploads, file filtering, and size-limit errors over real local HTTP",
+      "expected": "Assertions in the named test succeed",
+      "actual": "Node test assertions passed",
+      "status": "PASS",
+      "evidence": "evidence/backend.tap"
+    },
+    {
+      "id": "BE-023",
+      "module": "Local HTTP integration",
+      "scenario": "local HTTP health returns compatibility, security headers, and correlation ID",
+      "expected": "Assertions in the named test succeed",
+      "actual": "Node test assertions passed",
+      "status": "PASS",
+      "evidence": "evidence/backend.tap"
+    },
+    {
+      "id": "BE-024",
+      "module": "Local HTTP integration",
+      "scenario": "local HTTP admin API rejects anonymous access",
+      "expected": "Assertions in the named test succeed",
+      "actual": "Node test assertions passed",
+      "status": "PASS",
+      "evidence": "evidence/backend.tap"
+    },
+    {
+      "id": "BE-025",
+      "module": "Local HTTP integration",
+      "scenario": "local HTTP teacher API rejects anonymous access",
+      "expected": "Assertions in the named test succeed",
+      "actual": "Node test assertions passed",
+      "status": "PASS",
+      "evidence": "evidence/backend.tap"
+    },
+    {
+      "id": "BE-026",
+      "module": "Local HTTP integration",
+      "scenario": "local HTTP parent API rejects anonymous access",
+      "expected": "Assertions in the named test succeed",
+      "actual": "Node test assertions passed",
+      "status": "PASS",
+      "evidence": "evidence/backend.tap"
+    },
+    {
+      "id": "BE-027",
+      "module": "Local HTTP integration",
+      "scenario": "local HTTP student API rejects anonymous access",
+      "expected": "Assertions in the named test succeed",
+      "actual": "Node test assertions passed",
+      "status": "PASS",
+      "evidence": "evidence/backend.tap"
+    },
+    {
+      "id": "BE-028",
+      "module": "Local HTTP integration",
+      "scenario": "local HTTP notifications API rejects anonymous access",
+      "expected": "Assertions in the named test succeed",
+      "actual": "Node test assertions passed",
+      "status": "PASS",
+      "evidence": "evidence/backend.tap"
+    },
+    {
+      "id": "BE-029",
+      "module": "Local HTTP integration",
+      "scenario": "local HTTP auth API rejects anonymous access",
+      "expected": "Assertions in the named test succeed",
+      "actual": "Node test assertions passed",
+      "status": "PASS",
+      "evidence": "evidence/backend.tap"
+    },
+    {
+      "id": "BE-030",
+      "module": "Local HTTP integration",
+      "scenario": "local HTTP TTS rejects anonymous synthesis before service use",
+      "expected": "Assertions in the named test succeed",
+      "actual": "Node test assertions passed",
+      "status": "PASS",
+      "evidence": "evidence/backend.tap"
+    },
+    {
+      "id": "BE-031",
+      "module": "Local HTTP integration",
+      "scenario": "local HTTP CORS exposes version headers to the configured frontend",
+      "expected": "Assertions in the named test succeed",
+      "actual": "Node test assertions passed",
+      "status": "PASS",
+      "evidence": "evidence/backend.tap"
+    },
+    {
+      "id": "BE-032",
+      "module": "Local HTTP integration",
+      "scenario": "local HTTP CORS denies unapproved origins",
+      "expected": "Assertions in the named test succeed",
+      "actual": "Node test assertions passed",
+      "status": "PASS",
+      "evidence": "evidence/backend.tap"
+    },
+    {
+      "id": "BE-033",
+      "module": "Local HTTP integration",
+      "scenario": "local HTTP handles malformed and oversized JSON with client errors",
+      "expected": "Assertions in the named test succeed",
+      "actual": "Node test assertions passed",
+      "status": "PASS",
+      "evidence": "evidence/backend.tap"
+    },
+    {
+      "id": "BE-034",
+      "module": "Local HTTP integration",
+      "scenario": "local HTTP returns a JSON 404 for an unknown endpoint",
+      "expected": "Assertions in the named test succeed",
+      "actual": "Node test assertions passed",
+      "status": "PASS",
+      "evidence": "evidence/backend.tap"
+    },
+    {
+      "id": "BE-035",
+      "module": "Local HTTP integration",
+      "scenario": "local HTTP endpoint matrix GET /api/admin/operations denies anonymous",
+      "expected": "Assertions in the named test succeed",
+      "actual": "Node test assertions passed",
+      "status": "PASS",
+      "evidence": "evidence/backend.tap"
+    },
+    {
+      "id": "BE-036",
+      "module": "Local HTTP integration",
+      "scenario": "local HTTP endpoint matrix GET /api/admin/audit-logs denies anonymous",
+      "expected": "Assertions in the named test succeed",
+      "actual": "Node test assertions passed",
+      "status": "PASS",
+      "evidence": "evidence/backend.tap"
+    },
+    {
+      "id": "BE-037",
+      "module": "Local HTTP integration",
+      "scenario": "local HTTP endpoint matrix GET /api/admin/monitoring/users denies anonymous",
+      "expected": "Assertions in the named test succeed",
+      "actual": "Node test assertions passed",
+      "status": "PASS",
+      "evidence": "evidence/backend.tap"
+    },
+    {
+      "id": "BE-038",
+      "module": "Local HTTP integration",
+      "scenario": "local HTTP endpoint matrix GET /api/admin/monitoring/users/:id denies anonymous",
+      "expected": "Assertions in the named test succeed",
+      "actual": "Node test assertions passed",
+      "status": "PASS",
+      "evidence": "evidence/backend.tap"
+    },
+    {
+      "id": "BE-039",
+      "module": "Local HTTP integration",
+      "scenario": "local HTTP endpoint matrix GET /api/admin/monitoring/users/:id/notes denies anonymous",
+      "expected": "Assertions in the named test succeed",
+      "actual": "Node test assertions passed",
+      "status": "PASS",
+      "evidence": "evidence/backend.tap"
+    },
+    {
+      "id": "BE-040",
+      "module": "Local HTTP integration",
+      "scenario": "local HTTP endpoint matrix POST /api/admin/monitoring/users/:id/notes denies anonymous",
+      "expected": "Assertions in the named test succeed",
+      "actual": "Node test assertions passed",
+      "status": "PASS",
+      "evidence": "evidence/backend.tap"
+    },
+    {
+      "id": "BE-041",
+      "module": "Local HTTP integration",
+      "scenario": "local HTTP endpoint matrix DELETE /api/admin/monitoring/users/:id/notes/:noteId denies anonymous",
+      "expected": "Assertions in the named test succeed",
+      "actual": "Node test assertions passed",
+      "status": "PASS",
+      "evidence": "evidence/backend.tap"
+    },
+    {
+      "id": "BE-042",
+      "module": "Local HTTP integration",
+      "scenario": "local HTTP endpoint matrix GET /api/admin/users denies anonymous",
+      "expected": "Assertions in the named test succeed",
+      "actual": "Node test assertions passed",
+      "status": "PASS",
+      "evidence": "evidence/backend.tap"
+    },
+    {
+      "id": "BE-043",
+      "module": "Local HTTP integration",
+      "scenario": "local HTTP endpoint matrix GET /api/admin/users/archived denies anonymous",
+      "expected": "Assertions in the named test succeed",
+      "actual": "Node test assertions passed",
+      "status": "PASS",
+      "evidence": "evidence/backend.tap"
+    },
+    {
+      "id": "BE-044",
+      "module": "Local HTTP integration",
+      "scenario": "local HTTP endpoint matrix GET /api/admin/credential-security denies anonymous",
+      "expected": "Assertions in the named test succeed",
+      "actual": "Node test assertions passed",
+      "status": "PASS",
+      "evidence": "evidence/backend.tap"
+    },
+    {
+      "id": "BE-045",
+      "module": "Local HTTP integration",
+      "scenario": "local HTTP endpoint matrix GET /api/admin/storage-readiness denies anonymous",
+      "expected": "Assertions in the named test succeed",
+      "actual": "Node test assertions passed",
+      "status": "PASS",
+      "evidence": "evidence/backend.tap"
+    },
+    {
+      "id": "BE-046",
+      "module": "Local HTTP integration",
+      "scenario": "local HTTP endpoint matrix POST /api/admin/users/:id/disable denies anonymous",
+      "expected": "Assertions in the named test succeed",
+      "actual": "Node test assertions passed",
+      "status": "PASS",
+      "evidence": "evidence/backend.tap"
+    },
+    {
+      "id": "BE-047",
+      "module": "Local HTTP integration",
+      "scenario": "local HTTP endpoint matrix POST /api/admin/users/:id/restore denies anonymous",
+      "expected": "Assertions in the named test succeed",
+      "actual": "Node test assertions passed",
+      "status": "PASS",
+      "evidence": "evidence/backend.tap"
+    },
+    {
+      "id": "BE-048",
+      "module": "Local HTTP integration",
+      "scenario": "local HTTP endpoint matrix POST /api/admin/users/:id/archive denies anonymous",
+      "expected": "Assertions in the named test succeed",
+      "actual": "Node test assertions passed",
+      "status": "PASS",
+      "evidence": "evidence/backend.tap"
+    },
+    {
+      "id": "BE-049",
+      "module": "Local HTTP integration",
+      "scenario": "local HTTP endpoint matrix DELETE /api/admin/users/:id denies anonymous",
+      "expected": "Assertions in the named test succeed",
+      "actual": "Node test assertions passed",
+      "status": "PASS",
+      "evidence": "evidence/backend.tap"
+    },
+    {
+      "id": "BE-050",
+      "module": "Local HTTP integration",
+      "scenario": "local HTTP endpoint matrix POST /api/admin/teachers denies anonymous",
+      "expected": "Assertions in the named test succeed",
+      "actual": "Node test assertions passed",
+      "status": "PASS",
+      "evidence": "evidence/backend.tap"
+    },
+    {
+      "id": "BE-051",
+      "module": "Local HTTP integration",
+      "scenario": "local HTTP endpoint matrix GET /api/admin/sections denies anonymous",
+      "expected": "Assertions in the named test succeed",
+      "actual": "Node test assertions passed",
+      "status": "PASS",
+      "evidence": "evidence/backend.tap"
+    },
+    {
+      "id": "BE-052",
+      "module": "Local HTTP integration",
+      "scenario": "local HTTP endpoint matrix POST /api/admin/sections denies anonymous",
+      "expected": "Assertions in the named test succeed",
+      "actual": "Node test assertions passed",
+      "status": "PASS",
+      "evidence": "evidence/backend.tap"
+    },
+    {
+      "id": "BE-053",
+      "module": "Local HTTP integration",
+      "scenario": "local HTTP endpoint matrix GET /api/admin/sections/:id/students denies anonymous",
+      "expected": "Assertions in the named test succeed",
+      "actual": "Node test assertions passed",
+      "status": "PASS",
+      "evidence": "evidence/backend.tap"
+    },
+    {
+      "id": "BE-054",
+      "module": "Local HTTP integration",
+      "scenario": "local HTTP endpoint matrix POST /api/admin/sections/:id/students denies anonymous",
+      "expected": "Assertions in the named test succeed",
+      "actual": "Node test assertions passed",
+      "status": "PASS",
+      "evidence": "evidence/backend.tap"
+    },
+    {
+      "id": "BE-055",
+      "module": "Local HTTP integration",
+      "scenario": "local HTTP endpoint matrix GET /api/admin/analytics/students denies anonymous",
+      "expected": "Assertions in the named test succeed",
+      "actual": "Node test assertions passed",
+      "status": "PASS",
+      "evidence": "evidence/backend.tap"
+    },
+    {
+      "id": "BE-056",
+      "module": "Local HTTP integration",
+      "scenario": "local HTTP endpoint matrix GET /api/admin/analytics denies anonymous",
+      "expected": "Assertions in the named test succeed",
+      "actual": "Node test assertions passed",
+      "status": "PASS",
+      "evidence": "evidence/backend.tap"
+    },
+    {
+      "id": "BE-057",
+      "module": "Local HTTP integration",
+      "scenario": "local HTTP endpoint matrix GET /api/admin/system-settings denies anonymous",
+      "expected": "Assertions in the named test succeed",
+      "actual": "Node test assertions passed",
+      "status": "PASS",
+      "evidence": "evidence/backend.tap"
+    },
+    {
+      "id": "BE-058",
+      "module": "Local HTTP integration",
+      "scenario": "local HTTP endpoint matrix PATCH /api/admin/system-settings denies anonymous",
+      "expected": "Assertions in the named test succeed",
+      "actual": "Node test assertions passed",
+      "status": "PASS",
+      "evidence": "evidence/backend.tap"
+    },
+    {
+      "id": "BE-059",
+      "module": "Local HTTP integration",
+      "scenario": "local HTTP endpoint matrix GET /api/teacher/students/:studentId/modules denies anonymous",
+      "expected": "Assertions in the named test succeed",
+      "actual": "Node test assertions passed",
+      "status": "PASS",
+      "evidence": "evidence/backend.tap"
+    },
+    {
+      "id": "BE-060",
+      "module": "Local HTTP integration",
+      "scenario": "local HTTP endpoint matrix POST /api/teacher/pdf denies anonymous",
+      "expected": "Assertions in the named test succeed",
+      "actual": "Node test assertions passed",
+      "status": "PASS",
+      "evidence": "evidence/backend.tap"
+    },
+    {
+      "id": "BE-061",
+      "module": "Local HTTP integration",
+      "scenario": "local HTTP endpoint matrix GET /api/teacher/pdf/:id/access-url denies anonymous",
+      "expected": "Assertions in the named test succeed",
+      "actual": "Node test assertions passed",
+      "status": "PASS",
+      "evidence": "evidence/backend.tap"
+    },
+    {
+      "id": "BE-062",
+      "module": "Local HTTP integration",
+      "scenario": "local HTTP endpoint matrix GET /api/teacher/lessons/:id/access-url denies anonymous",
+      "expected": "Assertions in the named test succeed",
+      "actual": "Node test assertions passed",
+      "status": "PASS",
+      "evidence": "evidence/backend.tap"
+    },
+    {
+      "id": "BE-063",
+      "module": "Local HTTP integration",
+      "scenario": "local HTTP endpoint matrix PATCH /api/teacher/pdf/:id denies anonymous",
+      "expected": "Assertions in the named test succeed",
+      "actual": "Node test assertions passed",
+      "status": "PASS",
+      "evidence": "evidence/backend.tap"
+    },
+    {
+      "id": "BE-064",
+      "module": "Local HTTP integration",
+      "scenario": "local HTTP endpoint matrix POST /api/teacher/pdf/:id/archive denies anonymous",
+      "expected": "Assertions in the named test succeed",
+      "actual": "Node test assertions passed",
+      "status": "PASS",
+      "evidence": "evidence/backend.tap"
+    },
+    {
+      "id": "BE-065",
+      "module": "Local HTTP integration",
+      "scenario": "local HTTP endpoint matrix POST /api/teacher/pdf/:id/unarchive denies anonymous",
+      "expected": "Assertions in the named test succeed",
+      "actual": "Node test assertions passed",
+      "status": "PASS",
+      "evidence": "evidence/backend.tap"
+    },
+    {
+      "id": "BE-066",
+      "module": "Local HTTP integration",
+      "scenario": "local HTTP endpoint matrix POST /api/teacher/pdf-drill denies anonymous",
+      "expected": "Assertions in the named test succeed",
+      "actual": "Node test assertions passed",
+      "status": "PASS",
+      "evidence": "evidence/backend.tap"
+    },
+    {
+      "id": "BE-067",
+      "module": "Local HTTP integration",
+      "scenario": "local HTTP endpoint matrix GET /api/teacher/pdf-drill/:materialId/items denies anonymous",
+      "expected": "Assertions in the named test succeed",
+      "actual": "Node test assertions passed",
+      "status": "PASS",
+      "evidence": "evidence/backend.tap"
+    },
+    {
+      "id": "BE-068",
+      "module": "Local HTTP integration",
+      "scenario": "local HTTP endpoint matrix PATCH /api/teacher/pdf-drill/:materialId/items denies anonymous",
+      "expected": "Assertions in the named test succeed",
+      "actual": "Node test assertions passed",
+      "status": "PASS",
+      "evidence": "evidence/backend.tap"
+    },
+    {
+      "id": "BE-069",
+      "module": "Local HTTP integration",
+      "scenario": "local HTTP endpoint matrix POST /api/teacher/pdf-drill/:materialId/publish denies anonymous",
+      "expected": "Assertions in the named test succeed",
+      "actual": "Node test assertions passed",
+      "status": "PASS",
+      "evidence": "evidence/backend.tap"
+    },
+    {
+      "id": "BE-070",
+      "module": "Local HTTP integration",
+      "scenario": "local HTTP endpoint matrix GET /api/parent/children/credential-security denies anonymous",
+      "expected": "Assertions in the named test succeed",
+      "actual": "Node test assertions passed",
+      "status": "PASS",
+      "evidence": "evidence/backend.tap"
+    },
+    {
+      "id": "BE-071",
+      "module": "Local HTTP integration",
+      "scenario": "local HTTP endpoint matrix GET /api/parent/children denies anonymous",
+      "expected": "Assertions in the named test succeed",
+      "actual": "Node test assertions passed",
+      "status": "PASS",
+      "evidence": "evidence/backend.tap"
+    },
+    {
+      "id": "BE-072",
+      "module": "Local HTTP integration",
+      "scenario": "local HTTP endpoint matrix POST /api/parent/children denies anonymous",
+      "expected": "Assertions in the named test succeed",
+      "actual": "Node test assertions passed",
+      "status": "PASS",
+      "evidence": "evidence/backend.tap"
+    },
+    {
+      "id": "BE-073",
+      "module": "Local HTTP integration",
+      "scenario": "local HTTP endpoint matrix POST /api/parent/children/:id/reading-level denies anonymous",
+      "expected": "Assertions in the named test succeed",
+      "actual": "Node test assertions passed",
+      "status": "PASS",
+      "evidence": "evidence/backend.tap"
+    },
+    {
+      "id": "BE-074",
+      "module": "Local HTTP integration",
+      "scenario": "local HTTP endpoint matrix GET /api/parent/children/:id/reading-profile denies anonymous",
+      "expected": "Assertions in the named test succeed",
+      "actual": "Node test assertions passed",
+      "status": "PASS",
+      "evidence": "evidence/backend.tap"
+    },
+    {
+      "id": "BE-075",
+      "module": "Local HTTP integration",
+      "scenario": "local HTTP endpoint matrix GET /api/parent/children/:id/learning-path denies anonymous",
+      "expected": "Assertions in the named test succeed",
+      "actual": "Node test assertions passed",
+      "status": "PASS",
+      "evidence": "evidence/backend.tap"
+    },
+    {
+      "id": "BE-076",
+      "module": "Local HTTP integration",
+      "scenario": "local HTTP endpoint matrix GET /api/parent/children/:id/materials denies anonymous",
+      "expected": "Assertions in the named test succeed",
+      "actual": "Node test assertions passed",
+      "status": "PASS",
+      "evidence": "evidence/backend.tap"
+    },
+    {
+      "id": "BE-077",
+      "module": "Local HTTP integration",
+      "scenario": "local HTTP endpoint matrix GET /api/parent/children/:id/materials/:assignmentId/access-url denies anonymous",
+      "expected": "Assertions in the named test succeed",
+      "actual": "Node test assertions passed",
+      "status": "PASS",
+      "evidence": "evidence/backend.tap"
+    },
+    {
+      "id": "BE-078",
+      "module": "Local HTTP integration",
+      "scenario": "local HTTP endpoint matrix GET /api/parent/children/:id/settings denies anonymous",
+      "expected": "Assertions in the named test succeed",
+      "actual": "Node test assertions passed",
+      "status": "PASS",
+      "evidence": "evidence/backend.tap"
+    },
+    {
+      "id": "BE-079",
+      "module": "Local HTTP integration",
+      "scenario": "local HTTP endpoint matrix PATCH /api/parent/children/:id/settings denies anonymous",
+      "expected": "Assertions in the named test succeed",
+      "actual": "Node test assertions passed",
+      "status": "PASS",
+      "evidence": "evidence/backend.tap"
+    },
+    {
+      "id": "BE-080",
+      "module": "Local HTTP integration",
+      "scenario": "local HTTP endpoint matrix POST /api/parent/children/:id/reset-password denies anonymous",
+      "expected": "Assertions in the named test succeed",
+      "actual": "Node test assertions passed",
+      "status": "PASS",
+      "evidence": "evidence/backend.tap"
+    },
+    {
+      "id": "BE-081",
+      "module": "Local HTTP integration",
+      "scenario": "local HTTP endpoint matrix POST /api/student/notify-login denies anonymous",
+      "expected": "Assertions in the named test succeed",
+      "actual": "Node test assertions passed",
+      "status": "PASS",
+      "evidence": "evidence/backend.tap"
+    },
+    {
+      "id": "BE-082",
+      "module": "Local HTTP integration",
+      "scenario": "local HTTP endpoint matrix GET /api/student/learn/path denies anonymous",
+      "expected": "Assertions in the named test succeed",
+      "actual": "Node test assertions passed",
+      "status": "PASS",
+      "evidence": "evidence/backend.tap"
+    },
+    {
+      "id": "BE-083",
+      "module": "Local HTTP integration",
+      "scenario": "local HTTP endpoint matrix GET /api/student/learn/module/:moduleId denies anonymous",
+      "expected": "Assertions in the named test succeed",
+      "actual": "Node test assertions passed",
+      "status": "PASS",
+      "evidence": "evidence/backend.tap"
+    },
+    {
+      "id": "BE-084",
+      "module": "Local HTTP integration",
+      "scenario": "local HTTP endpoint matrix POST /api/student/learn/content/:contentId/attempt denies anonymous",
+      "expected": "Assertions in the named test succeed",
+      "actual": "Node test assertions passed",
+      "status": "PASS",
+      "evidence": "evidence/backend.tap"
+    },
+    {
+      "id": "BE-085",
+      "module": "Local HTTP integration",
+      "scenario": "local HTTP endpoint matrix POST /api/student/learn/content/:contentId/authoritative-attempt denies anonymous",
+      "expected": "Assertions in the named test succeed",
+      "actual": "Node test assertions passed",
+      "status": "PASS",
+      "evidence": "evidence/backend.tap"
+    },
+    {
+      "id": "BE-086",
+      "module": "Local HTTP integration",
+      "scenario": "local HTTP endpoint matrix POST /api/student/learn/assessment/:assessmentId/start denies anonymous",
+      "expected": "Assertions in the named test succeed",
+      "actual": "Node test assertions passed",
+      "status": "PASS",
+      "evidence": "evidence/backend.tap"
+    },
+    {
+      "id": "BE-087",
+      "module": "Local HTTP integration",
+      "scenario": "local HTTP endpoint matrix POST /api/student/learn/assessment/:attemptId/submit denies anonymous",
+      "expected": "Assertions in the named test succeed",
+      "actual": "Node test assertions passed",
+      "status": "PASS",
+      "evidence": "evidence/backend.tap"
+    },
+    {
+      "id": "BE-088",
+      "module": "Local HTTP integration",
+      "scenario": "local HTTP endpoint matrix GET /api/student/learn/module/:moduleId/nonsense-check denies anonymous",
+      "expected": "Assertions in the named test succeed",
+      "actual": "Node test assertions passed",
+      "status": "PASS",
+      "evidence": "evidence/backend.tap"
+    },
+    {
+      "id": "BE-089",
+      "module": "Local HTTP integration",
+      "scenario": "local HTTP endpoint matrix POST /api/student/learn/module/:moduleId/nonsense-check/submit denies anonymous",
+      "expected": "Assertions in the named test succeed",
+      "actual": "Node test assertions passed",
+      "status": "PASS",
+      "evidence": "evidence/backend.tap"
+    },
+    {
+      "id": "BE-090",
+      "module": "Local HTTP integration",
+      "scenario": "local HTTP endpoint matrix GET /api/student/learn/module/:moduleId/challenge-words denies anonymous",
+      "expected": "Assertions in the named test succeed",
+      "actual": "Node test assertions passed",
+      "status": "PASS",
+      "evidence": "evidence/backend.tap"
+    },
+    {
+      "id": "BE-091",
+      "module": "Local HTTP integration",
+      "scenario": "local HTTP endpoint matrix POST /api/student/learn/module/:moduleId/equip denies anonymous",
+      "expected": "Assertions in the named test succeed",
+      "actual": "Node test assertions passed",
+      "status": "PASS",
+      "evidence": "evidence/backend.tap"
+    },
+    {
+      "id": "BE-092",
+      "module": "Local HTTP integration",
+      "scenario": "local HTTP endpoint matrix POST /api/student/learn/module/:moduleId/unequip denies anonymous",
+      "expected": "Assertions in the named test succeed",
+      "actual": "Node test assertions passed",
+      "status": "PASS",
+      "evidence": "evidence/backend.tap"
+    },
+    {
+      "id": "BE-093",
+      "module": "Local HTTP integration",
+      "scenario": "local HTTP endpoint matrix GET /api/student/reading-profile denies anonymous",
+      "expected": "Assertions in the named test succeed",
+      "actual": "Node test assertions passed",
+      "status": "PASS",
+      "evidence": "evidence/backend.tap"
+    },
+    {
+      "id": "BE-094",
+      "module": "Local HTTP integration",
+      "scenario": "local HTTP endpoint matrix POST /api/student/practice/attempt denies anonymous",
+      "expected": "Assertions in the named test succeed",
+      "actual": "Node test assertions passed",
+      "status": "PASS",
+      "evidence": "evidence/backend.tap"
+    },
+    {
+      "id": "BE-095",
+      "module": "Local HTTP integration",
+      "scenario": "local HTTP endpoint matrix POST /api/student/word-of-day/attempt denies anonymous",
+      "expected": "Assertions in the named test succeed",
+      "actual": "Node test assertions passed",
+      "status": "PASS",
+      "evidence": "evidence/backend.tap"
+    },
+    {
+      "id": "BE-096",
+      "module": "Local HTTP integration",
+      "scenario": "local HTTP endpoint matrix GET /api/student/pdf-drill/:assignmentId denies anonymous",
+      "expected": "Assertions in the named test succeed",
+      "actual": "Node test assertions passed",
+      "status": "PASS",
+      "evidence": "evidence/backend.tap"
+    },
+    {
+      "id": "BE-097",
+      "module": "Local HTTP integration",
+      "scenario": "local HTTP endpoint matrix GET /api/student/pdf-materials/:assignmentId/access-url denies anonymous",
+      "expected": "Assertions in the named test succeed",
+      "actual": "Node test assertions passed",
+      "status": "PASS",
+      "evidence": "evidence/backend.tap"
+    },
+    {
+      "id": "BE-098",
+      "module": "Local HTTP integration",
+      "scenario": "local HTTP endpoint matrix GET /api/student/pdf-reading/:assignmentId denies anonymous",
+      "expected": "Assertions in the named test succeed",
+      "actual": "Node test assertions passed",
+      "status": "PASS",
+      "evidence": "evidence/backend.tap"
+    },
+    {
+      "id": "BE-099",
+      "module": "Local HTTP integration",
+      "scenario": "local HTTP endpoint matrix POST /api/student/pdf-reading/attempt denies anonymous",
+      "expected": "Assertions in the named test succeed",
+      "actual": "Node test assertions passed",
+      "status": "PASS",
+      "evidence": "evidence/backend.tap"
+    },
+    {
+      "id": "BE-100",
+      "module": "Local HTTP integration",
+      "scenario": "local HTTP endpoint matrix POST /api/student/pdf-reading/:assignmentId/submit denies anonymous",
+      "expected": "Assertions in the named test succeed",
+      "actual": "Node test assertions passed",
+      "status": "PASS",
+      "evidence": "evidence/backend.tap"
+    },
+    {
+      "id": "BE-101",
+      "module": "Local HTTP integration",
+      "scenario": "local HTTP endpoint matrix GET /api/student/lessons/:lessonId/access-url denies anonymous",
+      "expected": "Assertions in the named test succeed",
+      "actual": "Node test assertions passed",
+      "status": "PASS",
+      "evidence": "evidence/backend.tap"
+    },
+    {
+      "id": "BE-102",
+      "module": "Local HTTP integration",
+      "scenario": "local HTTP endpoint matrix POST /api/student/pdf-drill/attempt denies anonymous",
+      "expected": "Assertions in the named test succeed",
+      "actual": "Node test assertions passed",
+      "status": "PASS",
+      "evidence": "evidence/backend.tap"
+    },
+    {
+      "id": "BE-103",
+      "module": "Local HTTP integration",
+      "scenario": "local HTTP endpoint matrix GET /api/notifications/ denies anonymous",
+      "expected": "Assertions in the named test succeed",
+      "actual": "Node test assertions passed",
+      "status": "PASS",
+      "evidence": "evidence/backend.tap"
+    },
+    {
+      "id": "BE-104",
+      "module": "Local HTTP integration",
+      "scenario": "local HTTP endpoint matrix POST /api/notifications/:id/read denies anonymous",
+      "expected": "Assertions in the named test succeed",
+      "actual": "Node test assertions passed",
+      "status": "PASS",
+      "evidence": "evidence/backend.tap"
+    },
+    {
+      "id": "BE-105",
+      "module": "Local HTTP integration",
+      "scenario": "local HTTP endpoint matrix POST /api/notifications/read-all denies anonymous",
+      "expected": "Assertions in the named test succeed",
+      "actual": "Node test assertions passed",
+      "status": "PASS",
+      "evidence": "evidence/backend.tap"
+    },
+    {
+      "id": "BE-106",
+      "module": "Local HTTP integration",
+      "scenario": "local HTTP endpoint matrix POST /api/auth/events denies anonymous",
+      "expected": "Assertions in the named test succeed",
+      "actual": "Node test assertions passed",
+      "status": "PASS",
+      "evidence": "evidence/backend.tap"
+    },
+    {
+      "id": "BE-107",
+      "module": "backend isolated unit/source assertions",
+      "scenario": "parent reference endpoints reject missing authentication and non-parent accounts",
+      "expected": "Assertions in the named test succeed",
+      "actual": "Node test assertions passed",
+      "status": "PASS",
+      "evidence": "evidence/backend.tap"
+    },
+    {
+      "id": "BE-108",
+      "module": "backend isolated unit/source assertions",
+      "scenario": "parent learning path returns authoritative curriculum counts for an owned child",
+      "expected": "Assertions in the named test succeed",
+      "actual": "Node test assertions passed",
+      "status": "PASS",
+      "evidence": "evidence/backend.tap"
+    },
+    {
+      "id": "BE-109",
+      "module": "backend isolated unit/source assertions",
+      "scenario": "parent reference endpoints deny another parent before curriculum or material access",
+      "expected": "Assertions in the named test succeed",
+      "actual": "Node test assertions passed",
+      "status": "PASS",
+      "evidence": "evidence/backend.tap"
+    },
+    {
+      "id": "BE-110",
+      "module": "backend isolated unit/source assertions",
+      "scenario": "parent materials contain only owned, active assignment metadata",
+      "expected": "Assertions in the named test succeed",
+      "actual": "Node test assertions passed",
+      "status": "PASS",
+      "evidence": "evidence/backend.tap"
+    },
+    {
+      "id": "BE-111",
+      "module": "backend isolated unit/source assertions",
+      "scenario": "parent signed material access honors storage metadata and rejects unrelated or archived assignments",
+      "expected": "Assertions in the named test succeed",
+      "actual": "Node test assertions passed",
+      "status": "PASS",
+      "evidence": "evidence/backend.tap"
+    },
+    {
+      "id": "BE-112",
+      "module": "backend isolated unit/source assertions",
+      "scenario": "parent legacy material access keeps the existing URL fallback",
+      "expected": "Assertions in the named test succeed",
+      "actual": "Node test assertions passed",
+      "status": "PASS",
+      "evidence": "evidence/backend.tap"
+    },
+    {
+      "id": "BE-113",
+      "module": "backend isolated unit/source assertions",
+      "scenario": "parent reference routes validate child and assignment UUIDs before database access",
+      "expected": "Assertions in the named test succeed",
+      "actual": "Node test assertions passed",
+      "status": "PASS",
+      "evidence": "evidence/backend.tap"
+    },
+    {
+      "id": "BE-114",
+      "module": "backend isolated unit/source assertions",
+      "scenario": "parent material failures return a safe error without a partial result",
+      "expected": "Assertions in the named test succeed",
+      "actual": "Node test assertions passed",
+      "status": "PASS",
+      "evidence": "evidence/backend.tap"
+    },
+    {
+      "id": "BE-115",
+      "module": "backend isolated unit/source assertions",
+      "scenario": "QA numeric validators reject coercible non-numbers",
+      "expected": "Assertions in the named test succeed",
+      "actual": "Node test assertions passed",
+      "status": "PASS",
+      "evidence": "evidence/backend.tap"
+    },
+    {
+      "id": "BE-116",
+      "module": "backend isolated unit/source assertions",
+      "scenario": "QA authentication handles an upstream rejection with a safe response",
+      "expected": "Assertions in the named test succeed",
+      "actual": "Node test assertions passed",
+      "status": "PASS",
+      "evidence": "evidence/backend.tap"
+    },
+    {
+      "id": "BE-117",
+      "module": "backend isolated unit/source assertions",
+      "scenario": "QA authorization handles a rejected role query with a safe response",
+      "expected": "Assertions in the named test succeed",
+      "actual": "Node test assertions passed",
+      "status": "PASS",
+      "evidence": "evidence/backend.tap"
+    },
+    {
+      "id": "BE-118",
+      "module": "backend isolated unit/source assertions",
+      "scenario": "QA role authorization rejects inactive account {\"role\":\"admin\",\"account_status\":\"disabled\"}",
+      "expected": "Assertions in the named test succeed",
+      "actual": "Node test assertions passed",
+      "status": "PASS",
+      "evidence": "evidence/backend.tap"
+    },
+    {
+      "id": "BE-119",
+      "module": "backend isolated unit/source assertions",
+      "scenario": "QA role authorization rejects inactive account {\"role\":\"admin\",\"account_status\":\"archived\"}",
+      "expected": "Assertions in the named test succeed",
+      "actual": "Node test assertions passed",
+      "status": "PASS",
+      "evidence": "evidence/backend.tap"
+    },
+    {
+      "id": "BE-120",
+      "module": "backend isolated unit/source assertions",
+      "scenario": "QA role authorization rejects inactive account {\"role\":\"teacher\",\"is_active\":false}",
+      "expected": "Assertions in the named test succeed",
+      "actual": "Node test assertions passed",
+      "status": "PASS",
+      "evidence": "evidence/backend.tap"
+    },
+    {
+      "id": "BE-121",
+      "module": "backend isolated unit/source assertions",
+      "scenario": "QA drill update rejects missing items before any mutation",
+      "expected": "Assertions in the named test succeed",
+      "actual": "Node test assertions passed",
+      "status": "PASS",
+      "evidence": "evidence/backend.tap"
+    },
+    {
+      "id": "BE-122",
+      "module": "backend isolated unit/source assertions",
+      "scenario": "QA drill update rejects non-array items before any mutation",
+      "expected": "Assertions in the named test succeed",
+      "actual": "Node test assertions passed",
+      "status": "PASS",
+      "evidence": "evidence/backend.tap"
+    },
+    {
+      "id": "BE-123",
+      "module": "backend isolated unit/source assertions",
+      "scenario": "QA drill update rejects null item before any mutation",
+      "expected": "Assertions in the named test succeed",
+      "actual": "Node test assertions passed",
+      "status": "PASS",
+      "evidence": "evidence/backend.tap"
+    },
+    {
+      "id": "BE-124",
+      "module": "backend isolated unit/source assertions",
+      "scenario": "QA drill update rejects zero XP violates SQL constraint before any mutation",
+      "expected": "Assertions in the named test succeed",
+      "actual": "Node test assertions passed",
+      "status": "PASS",
+      "evidence": "evidence/backend.tap"
+    },
+    {
+      "id": "BE-125",
+      "module": "backend isolated unit/source assertions",
+      "scenario": "QA drill update rejects invalid ordering before any mutation",
+      "expected": "Assertions in the named test succeed",
+      "actual": "Node test assertions passed",
+      "status": "PASS",
+      "evidence": "evidence/backend.tap"
+    },
+    {
+      "id": "BE-126",
+      "module": "backend isolated unit/source assertions",
+      "scenario": "QA assessment null responses produce a validation error instead of 500",
+      "expected": "Assertions in the named test succeed",
+      "actual": "Node test assertions passed",
+      "status": "PASS",
+      "evidence": "evidence/backend.tap"
+    },
+    {
+      "id": "BE-127",
+      "module": "backend isolated unit/source assertions",
+      "scenario": "QA replacing a published drill cannot cascade-delete student attempt history",
+      "expected": "Assertions in the named test succeed",
+      "actual": "Node test assertions passed",
+      "status": "PASS",
+      "evidence": "evidence/backend.tap"
+    },
+    {
+      "id": "BE-128",
+      "module": "backend isolated unit/source assertions",
+      "scenario": "QA word-of-day streak uses the Manila day around midnight and year changes",
+      "expected": "Assertions in the named test succeed",
+      "actual": "Node test assertions passed",
+      "status": "PASS",
+      "evidence": "evidence/backend.tap"
+    },
+    {
+      "id": "BE-129",
+      "module": "backend isolated unit/source assertions",
+      "scenario": "QA temporary passwords always have twelve allowed characters, uppercase, and a digit",
+      "expected": "Assertions in the named test succeed",
+      "actual": "Node test assertions passed",
+      "status": "PASS",
+      "evidence": "evidence/backend.tap"
+    },
+    {
+      "id": "BE-130",
+      "module": "backend isolated unit/source assertions",
+      "scenario": "QA missing SMTP never logs credential email contents or reports delivery success",
+      "expected": "Assertions in the named test succeed",
+      "actual": "Node test assertions passed",
+      "status": "PASS",
+      "evidence": "evidence/backend.tap"
+    },
+    {
+      "id": "BE-131",
+      "module": "backend isolated unit/source assertions",
+      "scenario": "QA staging guard validates each host and refuses query/path/username tricks",
+      "expected": "Assertions in the named test succeed",
+      "actual": "Node test assertions passed",
+      "status": "PASS",
+      "evidence": "evidence/backend.tap"
+    },
+    {
+      "id": "BE-132",
+      "module": "backend isolated unit/source assertions",
+      "scenario": "QA archived assignment access is denied even to the assigned student",
+      "expected": "Assertions in the named test succeed",
+      "actual": "Node test assertions passed",
+      "status": "PASS",
+      "evidence": "evidence/backend.tap"
+    },
+    {
+      "id": "BE-133",
+      "module": "backend isolated unit/source assertions",
+      "scenario": "credential lockdown migration removes client read policy without deleting legacy rows",
+      "expected": "Assertions in the named test succeed",
+      "actual": "Node test assertions passed",
+      "status": "PASS",
+      "evidence": "evidence/backend.tap"
+    },
+    {
+      "id": "BE-134",
+      "module": "backend isolated unit/source assertions",
+      "scenario": "storage transition migration preserves public URL columns and never privatizes buckets",
+      "expected": "Assertions in the named test succeed",
+      "actual": "Node test assertions passed",
+      "status": "PASS",
+      "evidence": "evidence/backend.tap"
+    },
+    {
+      "id": "BE-135",
+      "module": "backend isolated unit/source assertions",
+      "scenario": "badge reward migration uses a database uniqueness boundary and service-role RPC",
+      "expected": "Assertions in the named test succeed",
+      "actual": "Node test assertions passed",
+      "status": "PASS",
+      "evidence": "evidence/backend.tap"
+    },
+    {
+      "id": "BE-136",
+      "module": "backend isolated unit/source assertions",
+      "scenario": "guided PDF reading mutations are removed from the browser RLS surface",
+      "expected": "Assertions in the named test succeed",
+      "actual": "Node test assertions passed",
+      "status": "PASS",
+      "evidence": "evidence/backend.tap"
+    },
+    {
+      "id": "BE-137",
+      "module": "backend isolated unit/source assertions",
+      "scenario": "practice-session writes are no longer granted to authenticated browsers",
+      "expected": "Assertions in the named test succeed",
+      "actual": "Node test assertions passed",
+      "status": "PASS",
+      "evidence": "evidence/backend.tap"
+    },
+    {
+      "id": "BE-138",
+      "module": "backend isolated unit/source assertions",
+      "scenario": "nonsense-word issued sets are server-only and scoped to one student/module",
+      "expected": "Assertions in the named test succeed",
+      "actual": "Node test assertions passed",
+      "status": "PASS",
+      "evidence": "evidence/backend.tap"
+    },
+    {
+      "id": "BE-139",
+      "module": "backend isolated unit/source assertions",
+      "scenario": "PDF validation accepts a structurally plausible PDF",
+      "expected": "Assertions in the named test succeed",
+      "actual": "Node test assertions passed",
+      "status": "PASS",
+      "evidence": "evidence/backend.tap"
+    },
+    {
+      "id": "BE-140",
+      "module": "backend isolated unit/source assertions",
+      "scenario": "PDF validation rejects spoofed MIME, extension, signature, empty, and truncated files",
+      "expected": "Assertions in the named test succeed",
+      "actual": "Node test assertions passed",
+      "status": "PASS",
+      "evidence": "evidence/backend.tap"
+    },
+    {
+      "id": "BE-141",
+      "module": "backend isolated unit/source assertions",
+      "scenario": "reading profile keeps progress calculations bounded and flags weak performance",
+      "expected": "Assertions in the named test succeed",
+      "actual": "Node test assertions passed",
+      "status": "PASS",
+      "evidence": "evidence/backend.tap"
+    },
+    {
+      "id": "BE-142",
+      "module": "backend isolated unit/source assertions",
+      "scenario": "security-critical routes retain authorization and ownership checks",
+      "expected": "Assertions in the named test succeed",
+      "actual": "Node test assertions passed",
+      "status": "PASS",
+      "evidence": "evidence/backend.tap"
+    },
+    {
+      "id": "BE-143",
+      "module": "backend isolated unit/source assertions",
+      "scenario": "admin analytics distinguishes student accounts from child enrollment records",
+      "expected": "Assertions in the named test succeed",
+      "actual": "Node test assertions passed",
+      "status": "PASS",
+      "evidence": "evidence/backend.tap"
+    },
+    {
+      "id": "BE-144",
+      "module": "backend isolated unit/source assertions",
+      "scenario": "teacher creation generates and emails an email-verification OTP",
+      "expected": "Assertions in the named test succeed",
+      "actual": "Node test assertions passed",
+      "status": "PASS",
+      "evidence": "evidence/backend.tap"
+    },
+    {
+      "id": "BE-145",
+      "module": "backend isolated unit/source assertions",
+      "scenario": "unconfirmed sign-ins are routed to the email verification screen",
+      "expected": "Assertions in the named test succeed",
+      "actual": "Node test assertions passed",
+      "status": "PASS",
+      "evidence": "evidence/backend.tap"
+    },
+    {
+      "id": "BE-146",
+      "module": "backend isolated unit/source assertions",
+      "scenario": "bearer and role middleware rejects missing, invalid, and unauthorized sessions",
+      "expected": "Assertions in the named test succeed",
+      "actual": "Node test assertions passed",
+      "status": "PASS",
+      "evidence": "evidence/backend.tap"
+    },
+    {
+      "id": "BE-147",
+      "module": "backend isolated unit/source assertions",
+      "scenario": "central authorization denies cross-parent, cross-teacher, and cross-student access",
+      "expected": "Assertions in the named test succeed",
+      "actual": "Node test assertions passed",
+      "status": "PASS",
+      "evidence": "evidence/backend.tap"
+    },
+    {
+      "id": "BE-148",
+      "module": "backend isolated unit/source assertions",
+      "scenario": "notification ownership and primitive input validation fail closed",
+      "expected": "Assertions in the named test succeed",
+      "actual": "Node test assertions passed",
+      "status": "PASS",
+      "evidence": "evidence/backend.tap"
+    },
+    {
+      "id": "BE-149",
+      "module": "backend isolated unit/source assertions",
+      "scenario": "TTS route enforces auth, input bounds, successful synthesis, and per-user rate limits",
+      "expected": "Assertions in the named test succeed",
+      "actual": "Node test assertions passed",
+      "status": "PASS",
+      "evidence": "evidence/backend.tap"
+    },
+    {
+      "id": "BE-150",
+      "module": "backend isolated unit/source assertions",
+      "scenario": "TTS uses ElevenLabs multilingual speech with a bounded voice speed",
+      "expected": "Assertions in the named test succeed",
+      "actual": "Node test assertions passed",
+      "status": "PASS",
+      "evidence": "evidence/backend.tap"
+    },
+    {
+      "id": "BE-151",
+      "module": "backend isolated unit/source assertions",
+      "scenario": "TTS uses the configured IPA pronunciation dictionary for letter drills",
+      "expected": "Assertions in the named test succeed",
+      "actual": "Node test assertions passed",
+      "status": "PASS",
+      "evidence": "evidence/backend.tap"
+    },
+    {
+      "id": "BE-152",
+      "module": "backend isolated unit/source assertions",
+      "scenario": "U drill uses its Filipino sound spelling instead of a voice-specific IPA rule",
+      "expected": "Assertions in the named test succeed",
+      "actual": "Node test assertions passed",
+      "status": "PASS",
+      "evidence": "evidence/backend.tap"
+    },
+    {
+      "id": "BE-153",
+      "module": "backend isolated unit/source assertions",
+      "scenario": "TTS falls back to multilingual speech when a pronunciation dictionary request is rejected",
+      "expected": "Assertions in the named test succeed",
+      "actual": "Node test assertions passed",
+      "status": "PASS",
+      "evidence": "evidence/backend.tap"
+    },
+    {
+      "id": "BE-154",
+      "module": "backend isolated unit/source assertions",
+      "scenario": "material access abstraction supports legacy and short-lived signed URLs",
+      "expected": "Assertions in the named test succeed",
+      "actual": "Node test assertions passed",
+      "status": "PASS",
+      "evidence": "evidence/backend.tap"
+    },
+    {
+      "id": "BE-155",
+      "module": "backend isolated unit/source assertions",
+      "scenario": "legacy credential reporting is aggregate and never returns credential values",
+      "expected": "Assertions in the named test succeed",
+      "actual": "Node test assertions passed",
+      "status": "PASS",
+      "evidence": "evidence/backend.tap"
+    },
+    {
+      "id": "BE-156",
+      "module": "backend isolated unit/source assertions",
+      "scenario": "production configuration validation fails closed without printing secret values",
+      "expected": "Assertions in the named test succeed",
+      "actual": "Node test assertions passed",
+      "status": "PASS",
+      "evidence": "evidence/backend.tap"
+    },
+    {
+      "id": "BE-157",
+      "module": "backend isolated unit/source assertions",
+      "scenario": "storage paths are extracted without destroying legacy URLs",
+      "expected": "Assertions in the named test succeed",
+      "actual": "Node test assertions passed",
+      "status": "PASS",
+      "evidence": "evidence/backend.tap"
+    },
+    {
+      "id": "BE-158",
+      "module": "backend isolated unit/source assertions",
+      "scenario": "speech scoring normalizes casing, punctuation, and diacritics",
+      "expected": "Assertions in the named test succeed",
+      "actual": "Node test assertions passed",
+      "status": "PASS",
+      "evidence": "evidence/backend.tap"
+    },
+    {
+      "id": "BE-159",
+      "module": "backend isolated unit/source assertions",
+      "scenario": "speech scoring is deterministic and does not award an empty transcript",
+      "expected": "Assertions in the named test succeed",
+      "actual": "Node test assertions passed",
+      "status": "PASS",
+      "evidence": "evidence/backend.tap"
+    },
+    {
+      "id": "BE-160",
+      "module": "backend isolated unit/source assertions",
+      "scenario": "speech scoring normalizes Filipino punctuation, hyphens, apostrophes, and whitespace",
+      "expected": "Assertions in the named test succeed",
+      "actual": "Node test assertions passed",
+      "status": "PASS",
+      "evidence": "evidence/backend.tap"
+    },
+    {
+      "id": "BE-161",
+      "module": "backend isolated unit/source assertions",
+      "scenario": "speech scoring resists simple noise artifacts without accepting wrong Filipino phonemes",
+      "expected": "Assertions in the named test succeed",
+      "actual": "Node test assertions passed",
+      "status": "PASS",
+      "evidence": "evidence/backend.tap"
+    },
+    {
+      "id": "UI-001",
+      "module": "frontend isolated unit/source assertions",
+      "scenario": "QA email validation accepts single addresses and rejects embedded or whitespace addresses",
+      "expected": "Assertions in the named test succeed",
+      "actual": "Node test assertions passed",
+      "status": "PASS",
+      "evidence": "evidence/frontend.tap"
+    },
+    {
+      "id": "UI-002",
+      "module": "frontend isolated unit/source assertions",
+      "scenario": "QA role resolution never repairs over a failed authoritative profile lookup",
+      "expected": "Assertions in the named test succeed",
+      "actual": "Node test assertions passed",
+      "status": "PASS",
+      "evidence": "evidence/frontend.tap"
+    },
+    {
+      "id": "UI-003",
+      "module": "frontend isolated unit/source assertions",
+      "scenario": "QA role resolution never repairs when child identity lookup fails",
+      "expected": "Assertions in the named test succeed",
+      "actual": "Node test assertions passed",
+      "status": "PASS",
+      "evidence": "evidence/frontend.tap"
+    },
+    {
+      "id": "UI-004",
+      "module": "frontend isolated unit/source assertions",
+      "scenario": "QA role resolution preserves authoritative teacher and child roles",
+      "expected": "Assertions in the named test succeed",
+      "actual": "Node test assertions passed",
+      "status": "PASS",
+      "evidence": "evidence/frontend.tap"
+    },
+    {
+      "id": "UI-005",
+      "module": "frontend isolated unit/source assertions",
+      "scenario": "QA parent profile repair reports persistence failure",
+      "expected": "Assertions in the named test succeed",
+      "actual": "Node test assertions passed",
+      "status": "PASS",
+      "evidence": "evidence/frontend.tap"
+    },
+    {
+      "id": "UI-006",
+      "module": "frontend isolated unit/source assertions",
+      "scenario": "QA confirmed parent repair preserves signup name; unconfirmed accounts are not repaired",
+      "expected": "Assertions in the named test succeed",
+      "actual": "Node test assertions passed",
+      "status": "PASS",
+      "evidence": "evidence/frontend.tap"
+    },
+    {
+      "id": "UI-007",
+      "module": "frontend isolated unit/source assertions",
+      "scenario": "QA saved-profile picker ignores malformed entries without crashing",
+      "expected": "Assertions in the named test succeed",
+      "actual": "Node test assertions passed",
+      "status": "PASS",
+      "evidence": "evidence/frontend.tap"
+    },
+    {
+      "id": "UI-008",
+      "module": "frontend isolated unit/source assertions",
+      "scenario": "QA saved profiles enforce expiration, student replacement, and profile limit",
+      "expected": "Assertions in the named test succeed",
+      "actual": "Node test assertions passed",
+      "status": "PASS",
+      "evidence": "evidence/frontend.tap"
+    },
+    {
+      "id": "UI-009",
+      "module": "frontend isolated unit/source assertions",
+      "scenario": "QA unavailable optional profile storage does not break login/logout",
+      "expected": "Assertions in the named test succeed",
+      "actual": "Node test assertions passed",
+      "status": "PASS",
+      "evidence": "evidence/frontend.tap"
+    },
+    {
+      "id": "UI-010",
+      "module": "frontend isolated unit/source assertions",
+      "scenario": "QA signup without a session reaches verification without an unauthenticated profile write",
+      "expected": "Assertions in the named test succeed",
+      "actual": "Node test assertions passed",
+      "status": "PASS",
+      "evidence": "evidence/frontend.tap"
+    },
+    {
+      "id": "UI-011",
+      "module": "frontend isolated unit/source assertions",
+      "scenario": "QA signup with a session persists its parent profile",
+      "expected": "Assertions in the named test succeed",
+      "actual": "Node test assertions passed",
+      "status": "PASS",
+      "evidence": "evidence/frontend.tap"
+    },
+    {
+      "id": "UI-012",
+      "module": "frontend isolated unit/source assertions",
+      "scenario": "QA account switching cannot publish an older asynchronous identity",
+      "expected": "Assertions in the named test succeed",
+      "actual": "Node test assertions passed",
+      "status": "PASS",
+      "evidence": "evidence/frontend.tap"
+    },
+    {
+      "id": "UI-013",
+      "module": "frontend isolated unit/source assertions",
+      "scenario": "parent badges accept current atomic award records",
+      "expected": "Assertions in the named test succeed",
+      "actual": "Node test assertions passed",
+      "status": "PASS",
+      "evidence": "evidence/frontend.tap"
+    },
+    {
+      "id": "UI-014",
+      "module": "frontend isolated unit/source assertions",
+      "scenario": "parent badges accept legacy keyed achievements",
+      "expected": "Assertions in the named test succeed",
+      "actual": "Node test assertions passed",
+      "status": "PASS",
+      "evidence": "evidence/frontend.tap"
+    },
+    {
+      "id": "UI-015",
+      "module": "frontend isolated unit/source assertions",
+      "scenario": "parent badges merge legacy strings without duplicate unlocks",
+      "expected": "Assertions in the named test succeed",
+      "actual": "Node test assertions passed",
+      "status": "PASS",
+      "evidence": "evidence/frontend.tap"
+    },
+    {
+      "id": "UI-016",
+      "module": "frontend isolated unit/source assertions",
+      "scenario": "parent badges ignore absent or malformed records",
+      "expected": "Assertions in the named test succeed",
+      "actual": "Node test assertions passed",
+      "status": "PASS",
+      "evidence": "evidence/frontend.tap"
+    },
+    {
+      "id": "UI-017",
+      "module": "frontend isolated unit/source assertions",
+      "scenario": "parent async button callbacks invoke actions instead of discarding function references",
+      "expected": "Assertions in the named test succeed",
+      "actual": "Node test assertions passed",
+      "status": "PASS",
+      "evidence": "evidence/frontend.tap"
+    },
+    {
+      "id": "UI-018",
+      "module": "frontend isolated unit/source assertions",
+      "scenario": "module table defaults to five rows with a correct visible range",
+      "expected": "Assertions in the named test succeed",
+      "actual": "Node test assertions passed",
+      "status": "PASS",
+      "evidence": "evidence/frontend.tap"
+    },
+    {
+      "id": "UI-019",
+      "module": "frontend isolated unit/source assertions",
+      "scenario": "next and last pages show distinct rows and the partial final range",
+      "expected": "Assertions in the named test succeed",
+      "actual": "Node test assertions passed",
+      "status": "PASS",
+      "evidence": "evidence/frontend.tap"
+    },
+    {
+      "id": "UI-020",
+      "module": "frontend isolated unit/source assertions",
+      "scenario": "changing page size shows the selected number of modules",
+      "expected": "Assertions in the named test succeed",
+      "actual": "Node test assertions passed",
+      "status": "PASS",
+      "evidence": "evidence/frontend.tap"
+    },
+    {
+      "id": "UI-021",
+      "module": "frontend isolated unit/source assertions",
+      "scenario": "a shrinking report clamps the page instead of producing an empty page",
+      "expected": "Assertions in the named test succeed",
+      "actual": "Node test assertions passed",
+      "status": "PASS",
+      "evidence": "evidence/frontend.tap"
+    },
+    {
+      "id": "UI-022",
+      "module": "frontend isolated unit/source assertions",
+      "scenario": "empty reports and invalid page requests remain in a valid state",
+      "expected": "Assertions in the named test succeed",
+      "actual": "Node test assertions passed",
+      "status": "PASS",
+      "evidence": "evidence/frontend.tap"
+    },
+    {
+      "id": "UI-023",
+      "module": "frontend isolated unit/source assertions",
+      "scenario": "large reports retain first, last, and adjacent page buttons",
+      "expected": "Assertions in the named test succeed",
+      "actual": "Node test assertions passed",
+      "status": "PASS",
+      "evidence": "evidence/frontend.tap"
+    },
+    {
+      "id": "UI-024",
+      "module": "frontend isolated unit/source assertions",
+      "scenario": "opening a module preserves child and selected month",
+      "expected": "Assertions in the named test succeed",
+      "actual": "Node test assertions passed",
+      "status": "PASS",
+      "evidence": "evidence/frontend.tap"
+    },
+    {
+      "id": "UI-025",
+      "module": "frontend isolated unit/source assertions",
+      "scenario": "returning to the module list clears only detail state",
+      "expected": "Assertions in the named test succeed",
+      "actual": "Node test assertions passed",
+      "status": "PASS",
+      "evidence": "evidence/frontend.tap"
+    },
+    {
+      "id": "UI-026",
+      "module": "frontend isolated unit/source assertions",
+      "scenario": "report tabs cannot accidentally retain a module filter",
+      "expected": "Assertions in the named test succeed",
+      "actual": "Node test assertions passed",
+      "status": "PASS",
+      "evidence": "evidence/frontend.tap"
+    },
+    {
+      "id": "UI-027",
+      "module": "frontend isolated unit/source assertions",
+      "scenario": "practice record navigation retains its intended record",
+      "expected": "Assertions in the named test succeed",
+      "actual": "Node test assertions passed",
+      "status": "PASS",
+      "evidence": "evidence/frontend.tap"
+    },
+    {
+      "id": "UI-028",
+      "module": "frontend isolated unit/source assertions",
+      "scenario": "month selection accepts valid values and safely defaults malformed query dates",
+      "expected": "Assertions in the named test succeed",
+      "actual": "Node test assertions passed",
+      "status": "PASS",
+      "evidence": "evidence/frontend.tap"
+    },
+    {
+      "id": "BR-001",
+      "module": "Local Edge browser",
+      "scenario": "/ renders without horizontal overflow at 375px",
+      "expected": "Expected UI behavior",
+      "actual": "The page rendered an error screen\n\ntrue !== false\n",
+      "status": "FAIL",
+      "evidence": "evidence/local-browser.json"
+    },
+    {
+      "id": "BR-002",
+      "module": "Local Edge browser",
+      "scenario": "/login renders without horizontal overflow at 375px",
+      "expected": "Expected UI behavior without authenticated data access",
+      "actual": {
+        "width": 375,
+        "content": 375,
+        "title": "Handa ka na bang magbasa?",
+        "path": "/login",
+        "navigation": [
+          {
+            "domContentLoadedMs": 95,
+            "loadMs": 95,
+            "transferBytes": 2579
+          }
+        ]
+      },
+      "status": "PASS",
+      "evidence": "evidence/local-browser.json"
+    },
+    {
+      "id": "BR-003",
+      "module": "Local Edge browser",
+      "scenario": "/signup renders without horizontal overflow at 375px",
+      "expected": "Expected UI behavior without authenticated data access",
+      "actual": {
+        "width": 375,
+        "content": 375,
+        "title": "Gumawa ng account",
+        "path": "/signup",
+        "navigation": [
+          {
+            "domContentLoadedMs": 102,
+            "loadMs": 103,
+            "transferBytes": 2579
+          }
+        ]
+      },
+      "status": "PASS",
+      "evidence": "evidence/local-browser.json"
+    },
+    {
+      "id": "BR-004",
+      "module": "Local Edge browser",
+      "scenario": "/forgot-password renders without horizontal overflow at 375px",
+      "expected": "Expected UI behavior without authenticated data access",
+      "actual": {
+        "width": 375,
+        "content": 375,
+        "title": "Nakalimutan ang Password?",
+        "path": "/forgot-password",
+        "navigation": [
+          {
+            "domContentLoadedMs": 82,
+            "loadMs": 82,
+            "transferBytes": 2579
+          }
+        ]
+      },
+      "status": "PASS",
+      "evidence": "evidence/local-browser.json"
+    },
+    {
+      "id": "BR-005",
+      "module": "Local Edge browser",
+      "scenario": "/reset-password renders without horizontal overflow at 375px",
+      "expected": "Expected UI behavior without authenticated data access",
+      "actual": {
+        "width": 375,
+        "content": 375,
+        "title": "I-reset ang iyong password",
+        "path": "/reset-password",
+        "navigation": [
+          {
+            "domContentLoadedMs": 68,
+            "loadMs": 68,
+            "transferBytes": 2579
+          }
+        ]
+      },
+      "status": "PASS",
+      "evidence": "evidence/local-browser.json"
+    },
+    {
+      "id": "BR-006",
+      "module": "Local Edge browser",
+      "scenario": "/verify-email renders without horizontal overflow at 375px",
+      "expected": "Expected UI behavior without authenticated data access",
+      "actual": {
+        "width": 375,
+        "content": 375,
+        "title": "I-verify ang iyong email",
+        "path": "/verify-email",
+        "navigation": [
+          {
+            "domContentLoadedMs": 61,
+            "loadMs": 61,
+            "transferBytes": 2579
+          }
+        ]
+      },
+      "status": "PASS",
+      "evidence": "evidence/local-browser.json"
+    },
+    {
+      "id": "BR-007",
+      "module": "Local Edge browser",
+      "scenario": "/resend-verification renders without horizontal overflow at 375px",
+      "expected": "Expected UI behavior without authenticated data access",
+      "actual": {
+        "width": 375,
+        "content": 375,
+        "title": "Muling ipadala ang code",
+        "path": "/resend-verification",
+        "navigation": [
+          {
+            "domContentLoadedMs": 76,
+            "loadMs": 76,
+            "transferBytes": 2579
+          }
+        ]
+      },
+      "status": "PASS",
+      "evidence": "evidence/local-browser.json"
+    },
+    {
+      "id": "BR-008",
+      "module": "Local Edge browser",
+      "scenario": "/privacy renders without horizontal overflow at 375px",
+      "expected": "Expected UI behavior without authenticated data access",
+      "actual": {
+        "width": 714,
+        "content": 714,
+        "title": "Patakaran sa Privacy",
+        "path": "/privacy",
+        "navigation": [
+          {
+            "domContentLoadedMs": 112,
+            "loadMs": 112,
+            "transferBytes": 2579
+          }
+        ]
+      },
+      "status": "PASS",
+      "evidence": "evidence/local-browser.json"
+    },
+    {
+      "id": "BR-009",
+      "module": "Local Edge browser",
+      "scenario": "/terms renders without horizontal overflow at 375px",
+      "expected": "Expected UI behavior without authenticated data access",
+      "actual": {
+        "width": 714,
+        "content": 714,
+        "title": "Mga Tuntunin ng Serbisyo",
+        "path": "/terms",
+        "navigation": [
+          {
+            "domContentLoadedMs": 60,
+            "loadMs": 60,
+            "transferBytes": 2579
+          }
+        ]
+      },
+      "status": "PASS",
+      "evidence": "evidence/local-browser.json"
+    },
+    {
+      "id": "BR-010",
+      "module": "Local Edge browser",
+      "scenario": "/child-data renders without horizontal overflow at 375px",
+      "expected": "Expected UI behavior without authenticated data access",
+      "actual": {
+        "width": 714,
+        "content": 714,
+        "title": "Data ng Bata at Pahintulot ng Magulang",
+        "path": "/child-data",
+        "navigation": [
+          {
+            "domContentLoadedMs": 50,
+            "loadMs": 50,
+            "transferBytes": 2579
+          }
+        ]
+      },
+      "status": "PASS",
+      "evidence": "evidence/local-browser.json"
+    },
+    {
+      "id": "BR-011",
+      "module": "Local Edge browser",
+      "scenario": "/account-deletion renders without horizontal overflow at 375px",
+      "expected": "Expected UI behavior without authenticated data access",
+      "actual": {
+        "width": 587,
+        "content": 587,
+        "title": "Pag-delete ng Account",
+        "path": "/account-deletion",
+        "navigation": [
+          {
+            "domContentLoadedMs": 47,
+            "loadMs": 47,
+            "transferBytes": 2579
+          }
+        ]
+      },
+      "status": "PASS",
+      "evidence": "evidence/local-browser.json"
+    },
+    {
+      "id": "BR-012",
+      "module": "Local Edge browser",
+      "scenario": "/accessibility renders without horizontal overflow at 375px",
+      "expected": "Expected UI behavior without authenticated data access",
+      "actual": {
+        "width": 587,
+        "content": 587,
+        "title": "Pahayag sa Accessibility",
+        "path": "/accessibility",
+        "navigation": [
+          {
+            "domContentLoadedMs": 77,
+            "loadMs": 77,
+            "transferBytes": 2579
+          }
+        ]
+      },
+      "status": "PASS",
+      "evidence": "evidence/local-browser.json"
+    },
+    {
+      "id": "BR-013",
+      "module": "Local Edge browser",
+      "scenario": "/not-a-real-page renders without horizontal overflow at 375px",
+      "expected": "Expected UI behavior without authenticated data access",
+      "actual": {
+        "width": 375,
+        "content": 375,
+        "title": "Naligaw ang pahina",
+        "path": "/not-a-real-page",
+        "navigation": [
+          {
+            "domContentLoadedMs": 89,
+            "loadMs": 90,
+            "transferBytes": 2579
+          }
+        ]
+      },
+      "status": "PASS",
+      "evidence": "evidence/local-browser.json"
+    },
+    {
+      "id": "BR-014",
+      "module": "Local Edge browser",
+      "scenario": "/ renders without horizontal overflow at 768px",
+      "expected": "Expected UI behavior without authenticated data access",
+      "actual": {
+        "width": 768,
+        "content": 758,
+        "title": "Mas malinaw na pagbasa, mas masayang pagkatuto.",
+        "path": "/",
+        "navigation": [
+          {
+            "domContentLoadedMs": 61,
+            "loadMs": 61,
+            "transferBytes": 2579
+          }
+        ]
+      },
+      "status": "PASS",
+      "evidence": "evidence/local-browser.json"
+    },
+    {
+      "id": "BR-015",
+      "module": "Local Edge browser",
+      "scenario": "/login renders without horizontal overflow at 768px",
+      "expected": "Expected UI behavior without authenticated data access",
+      "actual": {
+        "width": 768,
+        "content": 758,
+        "title": "Handa ka na bang magbasa?",
+        "path": "/login",
+        "navigation": [
+          {
+            "domContentLoadedMs": 160,
+            "loadMs": 160,
+            "transferBytes": 2579
+          }
+        ]
+      },
+      "status": "PASS",
+      "evidence": "evidence/local-browser.json"
+    },
+    {
+      "id": "BR-016",
+      "module": "Local Edge browser",
+      "scenario": "/signup renders without horizontal overflow at 768px",
+      "expected": "Expected UI behavior without authenticated data access",
+      "actual": {
+        "width": 768,
+        "content": 758,
+        "title": "Gumawa ng account",
+        "path": "/signup",
+        "navigation": [
+          {
+            "domContentLoadedMs": 55,
+            "loadMs": 55,
+            "transferBytes": 2579
+          }
+        ]
+      },
+      "status": "PASS",
+      "evidence": "evidence/local-browser.json"
+    },
+    {
+      "id": "BR-017",
+      "module": "Local Edge browser",
+      "scenario": "/forgot-password renders without horizontal overflow at 768px",
+      "expected": "Expected UI behavior without authenticated data access",
+      "actual": {
+        "width": 768,
+        "content": 768,
+        "title": "Nakalimutan ang Password?",
+        "path": "/forgot-password",
+        "navigation": [
+          {
+            "domContentLoadedMs": 67,
+            "loadMs": 67,
+            "transferBytes": 2579
+          }
+        ]
+      },
+      "status": "PASS",
+      "evidence": "evidence/local-browser.json"
+    },
+    {
+      "id": "BR-018",
+      "module": "Local Edge browser",
+      "scenario": "/reset-password renders without horizontal overflow at 768px",
+      "expected": "Expected UI behavior without authenticated data access",
+      "actual": {
+        "width": 768,
+        "content": 768,
+        "title": "I-reset ang iyong password",
+        "path": "/reset-password",
+        "navigation": [
+          {
+            "domContentLoadedMs": 75,
+            "loadMs": 75,
+            "transferBytes": 2579
+          }
+        ]
+      },
+      "status": "PASS",
+      "evidence": "evidence/local-browser.json"
+    },
+    {
+      "id": "BR-019",
+      "module": "Local Edge browser",
+      "scenario": "/verify-email renders without horizontal overflow at 768px",
+      "expected": "Expected UI behavior without authenticated data access",
+      "actual": {
+        "width": 768,
+        "content": 768,
+        "title": "I-verify ang iyong email",
+        "path": "/verify-email",
+        "navigation": [
+          {
+            "domContentLoadedMs": 84,
+            "loadMs": 84,
+            "transferBytes": 2579
+          }
+        ]
+      },
+      "status": "PASS",
+      "evidence": "evidence/local-browser.json"
+    },
+    {
+      "id": "BR-020",
+      "module": "Local Edge browser",
+      "scenario": "/resend-verification renders without horizontal overflow at 768px",
+      "expected": "Expected UI behavior without authenticated data access",
+      "actual": {
+        "width": 768,
+        "content": 768,
+        "title": "Muling ipadala ang code",
+        "path": "/resend-verification",
+        "navigation": [
+          {
+            "domContentLoadedMs": 59,
+            "loadMs": 60,
+            "transferBytes": 2579
+          }
+        ]
+      },
+      "status": "PASS",
+      "evidence": "evidence/local-browser.json"
+    },
+    {
+      "id": "BR-021",
+      "module": "Local Edge browser",
+      "scenario": "/privacy renders without horizontal overflow at 768px",
+      "expected": "Expected UI behavior without authenticated data access",
+      "actual": {
+        "width": 768,
+        "content": 758,
+        "title": "Patakaran sa Privacy",
+        "path": "/privacy",
+        "navigation": [
+          {
+            "domContentLoadedMs": 45,
+            "loadMs": 46,
+            "transferBytes": 2579
+          }
+        ]
+      },
+      "status": "PASS",
+      "evidence": "evidence/local-browser.json"
+    },
+    {
+      "id": "BR-022",
+      "module": "Local Edge browser",
+      "scenario": "/terms renders without horizontal overflow at 768px",
+      "expected": "Expected UI behavior without authenticated data access",
+      "actual": {
+        "width": 768,
+        "content": 758,
+        "title": "Mga Tuntunin ng Serbisyo",
+        "path": "/terms",
+        "navigation": [
+          {
+            "domContentLoadedMs": 49,
+            "loadMs": 49,
+            "transferBytes": 2579
+          }
+        ]
+      },
+      "status": "PASS",
+      "evidence": "evidence/local-browser.json"
+    },
+    {
+      "id": "BR-023",
+      "module": "Local Edge browser",
+      "scenario": "/child-data renders without horizontal overflow at 768px",
+      "expected": "Expected UI behavior without authenticated data access",
+      "actual": {
+        "width": 768,
+        "content": 758,
+        "title": "Data ng Bata at Pahintulot ng Magulang",
+        "path": "/child-data",
+        "navigation": [
+          {
+            "domContentLoadedMs": 51,
+            "loadMs": 51,
+            "transferBytes": 2579
+          }
+        ]
+      },
+      "status": "PASS",
+      "evidence": "evidence/local-browser.json"
+    },
+    {
+      "id": "BR-024",
+      "module": "Local Edge browser",
+      "scenario": "/account-deletion renders without horizontal overflow at 768px",
+      "expected": "Expected UI behavior without authenticated data access",
+      "actual": {
+        "width": 768,
+        "content": 758,
+        "title": "Pag-delete ng Account",
+        "path": "/account-deletion",
+        "navigation": [
+          {
+            "domContentLoadedMs": 69,
+            "loadMs": 69,
+            "transferBytes": 2579
+          }
+        ]
+      },
+      "status": "PASS",
+      "evidence": "evidence/local-browser.json"
+    },
+    {
+      "id": "BR-025",
+      "module": "Local Edge browser",
+      "scenario": "/accessibility renders without horizontal overflow at 768px",
+      "expected": "Expected UI behavior without authenticated data access",
+      "actual": {
+        "width": 768,
+        "content": 758,
+        "title": "Pahayag sa Accessibility",
+        "path": "/accessibility",
+        "navigation": [
+          {
+            "domContentLoadedMs": 53,
+            "loadMs": 53,
+            "transferBytes": 2579
+          }
+        ]
+      },
+      "status": "PASS",
+      "evidence": "evidence/local-browser.json"
+    },
+    {
+      "id": "BR-026",
+      "module": "Local Edge browser",
+      "scenario": "/not-a-real-page renders without horizontal overflow at 768px",
+      "expected": "Expected UI behavior without authenticated data access",
+      "actual": {
+        "width": 768,
+        "content": 768,
+        "title": "Naligaw ang pahina",
+        "path": "/not-a-real-page",
+        "navigation": [
+          {
+            "domContentLoadedMs": 53,
+            "loadMs": 53,
+            "transferBytes": 2579
+          }
+        ]
+      },
+      "status": "PASS",
+      "evidence": "evidence/local-browser.json"
+    },
+    {
+      "id": "BR-027",
+      "module": "Local Edge browser",
+      "scenario": "/ renders without horizontal overflow at 1440px",
+      "expected": "Expected UI behavior without authenticated data access",
+      "actual": {
+        "width": 1440,
+        "content": 1430,
+        "title": "Mas malinaw na pagbasa, mas masayang pagkatuto.",
+        "path": "/",
+        "navigation": [
+          {
+            "domContentLoadedMs": 53,
+            "loadMs": 53,
+            "transferBytes": 2579
+          }
+        ]
+      },
+      "status": "PASS",
+      "evidence": "evidence/local-browser.json"
+    },
+    {
+      "id": "BR-028",
+      "module": "Local Edge browser",
+      "scenario": "/login renders without horizontal overflow at 1440px",
+      "expected": "Expected UI behavior without authenticated data access",
+      "actual": {
+        "width": 1440,
+        "content": 1440,
+        "title": "Handa ka na bang magbasa?",
+        "path": "/login",
+        "navigation": [
+          {
+            "domContentLoadedMs": 77,
+            "loadMs": 77,
+            "transferBytes": 2579
+          }
+        ]
+      },
+      "status": "PASS",
+      "evidence": "evidence/local-browser.json"
+    },
+    {
+      "id": "BR-029",
+      "module": "Local Edge browser",
+      "scenario": "/signup renders without horizontal overflow at 1440px",
+      "expected": "Expected UI behavior without authenticated data access",
+      "actual": {
+        "width": 1440,
+        "content": 1440,
+        "title": "Gumawa ng account",
+        "path": "/signup",
+        "navigation": [
+          {
+            "domContentLoadedMs": 70,
+            "loadMs": 71,
+            "transferBytes": 2579
+          }
+        ]
+      },
+      "status": "PASS",
+      "evidence": "evidence/local-browser.json"
+    },
+    {
+      "id": "BR-030",
+      "module": "Local Edge browser",
+      "scenario": "/forgot-password renders without horizontal overflow at 1440px",
+      "expected": "Expected UI behavior without authenticated data access",
+      "actual": {
+        "width": 1440,
+        "content": 1440,
+        "title": "Nakalimutan ang Password?",
+        "path": "/forgot-password",
+        "navigation": [
+          {
+            "domContentLoadedMs": 55,
+            "loadMs": 55,
+            "transferBytes": 2579
+          }
+        ]
+      },
+      "status": "PASS",
+      "evidence": "evidence/local-browser.json"
+    },
+    {
+      "id": "BR-031",
+      "module": "Local Edge browser",
+      "scenario": "/reset-password renders without horizontal overflow at 1440px",
+      "expected": "Expected UI behavior without authenticated data access",
+      "actual": {
+        "width": 1440,
+        "content": 1440,
+        "title": "I-reset ang iyong password",
+        "path": "/reset-password",
+        "navigation": [
+          {
+            "domContentLoadedMs": 60,
+            "loadMs": 60,
+            "transferBytes": 2579
+          }
+        ]
+      },
+      "status": "PASS",
+      "evidence": "evidence/local-browser.json"
+    },
+    {
+      "id": "BR-032",
+      "module": "Local Edge browser",
+      "scenario": "/verify-email renders without horizontal overflow at 1440px",
+      "expected": "Expected UI behavior without authenticated data access",
+      "actual": {
+        "width": 1440,
+        "content": 1440,
+        "title": "I-verify ang iyong email",
+        "path": "/verify-email",
+        "navigation": [
+          {
+            "domContentLoadedMs": 69,
+            "loadMs": 69,
+            "transferBytes": 2579
+          }
+        ]
+      },
+      "status": "PASS",
+      "evidence": "evidence/local-browser.json"
+    },
+    {
+      "id": "BR-033",
+      "module": "Local Edge browser",
+      "scenario": "/resend-verification renders without horizontal overflow at 1440px",
+      "expected": "Expected UI behavior without authenticated data access",
+      "actual": {
+        "width": 1440,
+        "content": 1440,
+        "title": "Muling ipadala ang code",
+        "path": "/resend-verification",
+        "navigation": [
+          {
+            "domContentLoadedMs": 63,
+            "loadMs": 63,
+            "transferBytes": 2579
+          }
+        ]
+      },
+      "status": "PASS",
+      "evidence": "evidence/local-browser.json"
+    },
+    {
+      "id": "BR-034",
+      "module": "Local Edge browser",
+      "scenario": "/privacy renders without horizontal overflow at 1440px",
+      "expected": "Expected UI behavior without authenticated data access",
+      "actual": {
+        "width": 1440,
+        "content": 1430,
+        "title": "Patakaran sa Privacy",
+        "path": "/privacy",
+        "navigation": [
+          {
+            "domContentLoadedMs": 59,
+            "loadMs": 60,
+            "transferBytes": 2579
+          }
+        ]
+      },
+      "status": "PASS",
+      "evidence": "evidence/local-browser.json"
+    },
+    {
+      "id": "BR-035",
+      "module": "Local Edge browser",
+      "scenario": "/terms renders without horizontal overflow at 1440px",
+      "expected": "Expected UI behavior without authenticated data access",
+      "actual": {
+        "width": 1440,
+        "content": 1430,
+        "title": "Mga Tuntunin ng Serbisyo",
+        "path": "/terms",
+        "navigation": [
+          {
+            "domContentLoadedMs": 58,
+            "loadMs": 58,
+            "transferBytes": 2579
+          }
+        ]
+      },
+      "status": "PASS",
+      "evidence": "evidence/local-browser.json"
+    },
+    {
+      "id": "BR-036",
+      "module": "Local Edge browser",
+      "scenario": "/child-data renders without horizontal overflow at 1440px",
+      "expected": "Expected UI behavior without authenticated data access",
+      "actual": {
+        "width": 1440,
+        "content": 1430,
+        "title": "Data ng Bata at Pahintulot ng Magulang",
+        "path": "/child-data",
+        "navigation": [
+          {
+            "domContentLoadedMs": 75,
+            "loadMs": 75,
+            "transferBytes": 2579
+          }
+        ]
+      },
+      "status": "PASS",
+      "evidence": "evidence/local-browser.json"
+    },
+    {
+      "id": "BR-037",
+      "module": "Local Edge browser",
+      "scenario": "/account-deletion renders without horizontal overflow at 1440px",
+      "expected": "Expected UI behavior without authenticated data access",
+      "actual": {
+        "width": 1440,
+        "content": 1430,
+        "title": "Pag-delete ng Account",
+        "path": "/account-deletion",
+        "navigation": [
+          {
+            "domContentLoadedMs": 46,
+            "loadMs": 46,
+            "transferBytes": 2579
+          }
+        ]
+      },
+      "status": "PASS",
+      "evidence": "evidence/local-browser.json"
+    },
+    {
+      "id": "BR-038",
+      "module": "Local Edge browser",
+      "scenario": "/accessibility renders without horizontal overflow at 1440px",
+      "expected": "Expected UI behavior without authenticated data access",
+      "actual": {
+        "width": 1440,
+        "content": 1430,
+        "title": "Pahayag sa Accessibility",
+        "path": "/accessibility",
+        "navigation": [
+          {
+            "domContentLoadedMs": 54,
+            "loadMs": 55,
+            "transferBytes": 2579
+          }
+        ]
+      },
+      "status": "PASS",
+      "evidence": "evidence/local-browser.json"
+    },
+    {
+      "id": "BR-039",
+      "module": "Local Edge browser",
+      "scenario": "/not-a-real-page renders without horizontal overflow at 1440px",
+      "expected": "Expected UI behavior without authenticated data access",
+      "actual": {
+        "width": 1440,
+        "content": 1440,
+        "title": "Naligaw ang pahina",
+        "path": "/not-a-real-page",
+        "navigation": [
+          {
+            "domContentLoadedMs": 62,
+            "loadMs": 62,
+            "transferBytes": 2579
+          }
+        ]
+      },
+      "status": "PASS",
+      "evidence": "evidence/local-browser.json"
+    },
+    {
+      "id": "BR-040",
+      "module": "Local Edge browser",
+      "scenario": "Anonymous admin redirects to login",
+      "expected": "Expected UI behavior without authenticated data access",
+      "actual": "Assertions passed",
+      "status": "PASS",
+      "evidence": "evidence/local-browser.json"
+    },
+    {
+      "id": "BR-041",
+      "module": "Local Edge browser",
+      "scenario": "Anonymous admin/settings redirects to login",
+      "expected": "Expected UI behavior without authenticated data access",
+      "actual": "Assertions passed",
+      "status": "PASS",
+      "evidence": "evidence/local-browser.json"
+    },
+    {
+      "id": "BR-042",
+      "module": "Local Edge browser",
+      "scenario": "Anonymous admin/not-a-real-page redirects to login",
+      "expected": "Expected UI behavior without authenticated data access",
+      "actual": "Assertions passed",
+      "status": "PASS",
+      "evidence": "evidence/local-browser.json"
+    },
+    {
+      "id": "BR-043",
+      "module": "Local Edge browser",
+      "scenario": "Anonymous teacher redirects to login",
+      "expected": "Expected UI behavior without authenticated data access",
+      "actual": "Assertions passed",
+      "status": "PASS",
+      "evidence": "evidence/local-browser.json"
+    },
+    {
+      "id": "BR-044",
+      "module": "Local Edge browser",
+      "scenario": "Anonymous teacher/settings redirects to login",
+      "expected": "Expected UI behavior without authenticated data access",
+      "actual": "Assertions passed",
+      "status": "PASS",
+      "evidence": "evidence/local-browser.json"
+    },
+    {
+      "id": "BR-045",
+      "module": "Local Edge browser",
+      "scenario": "Anonymous teacher/not-a-real-page redirects to login",
+      "expected": "Expected UI behavior without authenticated data access",
+      "actual": "Assertions passed",
+      "status": "PASS",
+      "evidence": "evidence/local-browser.json"
+    },
+    {
+      "id": "BR-046",
+      "module": "Local Edge browser",
+      "scenario": "Anonymous parent redirects to login",
+      "expected": "Expected UI behavior without authenticated data access",
+      "actual": "Assertions passed",
+      "status": "PASS",
+      "evidence": "evidence/local-browser.json"
+    },
+    {
+      "id": "BR-047",
+      "module": "Local Edge browser",
+      "scenario": "Anonymous parent/settings redirects to login",
+      "expected": "Expected UI behavior without authenticated data access",
+      "actual": "Assertions passed",
+      "status": "PASS",
+      "evidence": "evidence/local-browser.json"
+    },
+    {
+      "id": "BR-048",
+      "module": "Local Edge browser",
+      "scenario": "Anonymous parent/not-a-real-page redirects to login",
+      "expected": "Expected UI behavior without authenticated data access",
+      "actual": "Assertions passed",
+      "status": "PASS",
+      "evidence": "evidence/local-browser.json"
+    },
+    {
+      "id": "BR-049",
+      "module": "Local Edge browser",
+      "scenario": "Anonymous student redirects to login",
+      "expected": "Expected UI behavior without authenticated data access",
+      "actual": "Assertions passed",
+      "status": "PASS",
+      "evidence": "evidence/local-browser.json"
+    },
+    {
+      "id": "BR-050",
+      "module": "Local Edge browser",
+      "scenario": "Anonymous student/settings redirects to login",
+      "expected": "Expected UI behavior without authenticated data access",
+      "actual": "Assertions passed",
+      "status": "PASS",
+      "evidence": "evidence/local-browser.json"
+    },
+    {
+      "id": "BR-051",
+      "module": "Local Edge browser",
+      "scenario": "Anonymous student/not-a-real-page redirects to login",
+      "expected": "Expected UI behavior without authenticated data access",
+      "actual": "Assertions passed",
+      "status": "PASS",
+      "evidence": "evidence/local-browser.json"
+    },
+    {
+      "id": "BR-052",
+      "module": "Local Edge browser",
+      "scenario": "Empty login submission displays validation; password visibility and keyboard toggle work",
+      "expected": "Expected UI behavior without authenticated data access",
+      "actual": "Assertions passed",
+      "status": "PASS",
+      "evidence": "evidence/local-browser.json"
+    },
+    {
+      "id": "BR-053",
+      "module": "Local Edge browser",
+      "scenario": "Empty signup submission displays required-field errors",
+      "expected": "Expected UI behavior without authenticated data access",
+      "actual": "Assertions passed",
+      "status": "PASS",
+      "evidence": "evidence/local-browser.json"
+    },
+    {
+      "id": "BR-054",
+      "module": "Local Edge browser",
+      "scenario": "OTP keyboard navigation and nonnumeric input validation",
+      "expected": "Expected UI behavior without authenticated data access",
+      "actual": "Assertions passed",
+      "status": "PASS",
+      "evidence": "evidence/local-browser.json"
+    },
+    {
+      "id": "BR-055",
+      "module": "Local Edge browser",
+      "scenario": "Public forms have accessible names for visible input controls",
+      "expected": "Expected UI behavior without authenticated data access",
+      "actual": "Assertions passed",
+      "status": "PASS",
+      "evidence": "evidence/local-browser.json"
+    },
+    {
+      "id": "BR-056",
+      "module": "Local Edge browser",
+      "scenario": "No uncaught JavaScript exceptions during the tested navigation and actions",
+      "expected": "Expected UI behavior without authenticated data access",
+      "actual": "Assertions passed",
+      "status": "PASS",
+      "evidence": "evidence/local-browser.json"
+    },
+    {
+      "id": "BR-057",
+      "module": "Local Edge browser",
+      "scenario": "A failed route-bundle download displays retry feedback and recovers after reloading",
+      "expected": "Expected UI behavior without authenticated data access",
+      "actual": "Assertions passed",
+      "status": "PASS",
+      "evidence": "evidence/local-browser.json"
+    },
+    {
+      "id": "LIVE-BR-001",
+      "module": "Deployed Edge browser",
+      "scenario": "/ renders without horizontal overflow at 375px",
+      "expected": "Expected UI behavior without authenticated data access",
+      "actual": {
+        "width": 375,
+        "content": 375,
+        "title": "Checking your browser before accessinglinawletra.com",
+        "path": "/"
+      },
+      "status": "PASS",
+      "evidence": "evidence/deployed-browser.json"
+    },
+    {
+      "id": "LIVE-BR-002",
+      "module": "Deployed Edge browser",
+      "scenario": "/login renders without horizontal overflow at 375px",
+      "expected": "Expected UI behavior without authenticated data access",
+      "actual": {
+        "width": 375,
+        "content": 375,
+        "title": "Handa ka na bang magbasa?",
+        "path": "/login"
+      },
+      "status": "PASS",
+      "evidence": "evidence/deployed-browser.json"
+    },
+    {
+      "id": "LIVE-BR-003",
+      "module": "Deployed Edge browser",
+      "scenario": "/signup renders without horizontal overflow at 375px",
+      "expected": "Expected UI behavior without authenticated data access",
+      "actual": {
+        "width": 375,
+        "content": 375,
+        "title": "Gumawa ng account",
+        "path": "/signup"
+      },
+      "status": "PASS",
+      "evidence": "evidence/deployed-browser.json"
+    },
+    {
+      "id": "LIVE-BR-004",
+      "module": "Deployed Edge browser",
+      "scenario": "/forgot-password renders without horizontal overflow at 375px",
+      "expected": "Expected UI behavior without authenticated data access",
+      "actual": {
+        "width": 375,
+        "content": 375,
+        "title": "Nakalimutan ang Password?",
+        "path": "/forgot-password"
+      },
+      "status": "PASS",
+      "evidence": "evidence/deployed-browser.json"
+    },
+    {
+      "id": "LIVE-BR-005",
+      "module": "Deployed Edge browser",
+      "scenario": "/reset-password renders without horizontal overflow at 375px",
+      "expected": "Expected UI behavior without authenticated data access",
+      "actual": {
+        "width": 375,
+        "content": 375,
+        "title": "I-reset ang iyong password",
+        "path": "/reset-password"
+      },
+      "status": "PASS",
+      "evidence": "evidence/deployed-browser.json"
+    },
+    {
+      "id": "LIVE-BR-006",
+      "module": "Deployed Edge browser",
+      "scenario": "/verify-email renders without horizontal overflow at 375px",
+      "expected": "Expected UI behavior without authenticated data access",
+      "actual": {
+        "width": 375,
+        "content": 375,
+        "title": "I-verify ang iyong email",
+        "path": "/verify-email"
+      },
+      "status": "PASS",
+      "evidence": "evidence/deployed-browser.json"
+    },
+    {
+      "id": "LIVE-BR-007",
+      "module": "Deployed Edge browser",
+      "scenario": "/resend-verification renders without horizontal overflow at 375px",
+      "expected": "Expected UI behavior without authenticated data access",
+      "actual": {
+        "width": 375,
+        "content": 375,
+        "title": "Muling ipadala ang code",
+        "path": "/resend-verification"
+      },
+      "status": "PASS",
+      "evidence": "evidence/deployed-browser.json"
+    },
+    {
+      "id": "LIVE-BR-008",
+      "module": "Deployed Edge browser",
+      "scenario": "/privacy renders without horizontal overflow at 375px",
+      "expected": "Expected UI behavior without authenticated data access",
+      "actual": {
+        "width": 714,
+        "content": 714,
+        "title": "Patakaran sa Privacy",
+        "path": "/privacy"
+      },
+      "status": "PASS",
+      "evidence": "evidence/deployed-browser.json"
+    },
+    {
+      "id": "LIVE-BR-009",
+      "module": "Deployed Edge browser",
+      "scenario": "/terms renders without horizontal overflow at 375px",
+      "expected": "Expected UI behavior without authenticated data access",
+      "actual": {
+        "width": 714,
+        "content": 714,
+        "title": "Mga Tuntunin ng Serbisyo",
+        "path": "/terms"
+      },
+      "status": "PASS",
+      "evidence": "evidence/deployed-browser.json"
+    },
+    {
+      "id": "LIVE-BR-010",
+      "module": "Deployed Edge browser",
+      "scenario": "/child-data renders without horizontal overflow at 375px",
+      "expected": "Expected UI behavior without authenticated data access",
+      "actual": {
+        "width": 714,
+        "content": 714,
+        "title": "Data ng Bata at Pahintulot ng Magulang",
+        "path": "/child-data"
+      },
+      "status": "PASS",
+      "evidence": "evidence/deployed-browser.json"
+    },
+    {
+      "id": "LIVE-BR-011",
+      "module": "Deployed Edge browser",
+      "scenario": "/account-deletion renders without horizontal overflow at 375px",
+      "expected": "Expected UI behavior without authenticated data access",
+      "actual": {
+        "width": 714,
+        "content": 714,
+        "title": "Pag-delete ng Account",
+        "path": "/account-deletion"
+      },
+      "status": "PASS",
+      "evidence": "evidence/deployed-browser.json"
+    },
+    {
+      "id": "LIVE-BR-012",
+      "module": "Deployed Edge browser",
+      "scenario": "/accessibility renders without horizontal overflow at 375px",
+      "expected": "Expected UI behavior without authenticated data access",
+      "actual": {
+        "width": 714,
+        "content": 714,
+        "title": "Pahayag sa Accessibility",
+        "path": "/accessibility"
+      },
+      "status": "PASS",
+      "evidence": "evidence/deployed-browser.json"
+    },
+    {
+      "id": "LIVE-BR-013",
+      "module": "Deployed Edge browser",
+      "scenario": "/not-a-real-page renders without horizontal overflow at 375px",
+      "expected": "Expected UI behavior without authenticated data access",
+      "actual": {
+        "width": 375,
+        "content": 375,
+        "title": "Naligaw ang pahina",
+        "path": "/not-a-real-page"
+      },
+      "status": "PASS",
+      "evidence": "evidence/deployed-browser.json"
+    },
+    {
+      "id": "LIVE-BR-014",
+      "module": "Deployed Edge browser",
+      "scenario": "/ renders without horizontal overflow at 768px",
+      "expected": "Expected UI behavior without authenticated data access",
+      "actual": {
+        "width": 768,
+        "content": 758,
+        "title": "Mas malinaw na pagbasa, mas masayang pagkatuto.",
+        "path": "/"
+      },
+      "status": "PASS",
+      "evidence": "evidence/deployed-browser.json"
+    },
+    {
+      "id": "LIVE-BR-015",
+      "module": "Deployed Edge browser",
+      "scenario": "/login renders without horizontal overflow at 768px",
+      "expected": "Expected UI behavior without authenticated data access",
+      "actual": {
+        "width": 768,
+        "content": 758,
+        "title": "Handa ka na bang magbasa?",
+        "path": "/login"
+      },
+      "status": "PASS",
+      "evidence": "evidence/deployed-browser.json"
+    },
+    {
+      "id": "LIVE-BR-016",
+      "module": "Deployed Edge browser",
+      "scenario": "/signup renders without horizontal overflow at 768px",
+      "expected": "Expected UI behavior without authenticated data access",
+      "actual": {
+        "width": 768,
+        "content": 758,
+        "title": "Gumawa ng account",
+        "path": "/signup"
+      },
+      "status": "PASS",
+      "evidence": "evidence/deployed-browser.json"
+    },
+    {
+      "id": "LIVE-BR-017",
+      "module": "Deployed Edge browser",
+      "scenario": "/forgot-password renders without horizontal overflow at 768px",
+      "expected": "Expected UI behavior without authenticated data access",
+      "actual": {
+        "width": 768,
+        "content": 758,
+        "title": "Nakalimutan ang Password?",
+        "path": "/forgot-password"
+      },
+      "status": "PASS",
+      "evidence": "evidence/deployed-browser.json"
+    },
+    {
+      "id": "LIVE-BR-018",
+      "module": "Deployed Edge browser",
+      "scenario": "/reset-password renders without horizontal overflow at 768px",
+      "expected": "Expected UI behavior without authenticated data access",
+      "actual": {
+        "width": 768,
+        "content": 768,
+        "title": "I-reset ang iyong password",
+        "path": "/reset-password"
+      },
+      "status": "PASS",
+      "evidence": "evidence/deployed-browser.json"
+    },
+    {
+      "id": "LIVE-BR-019",
+      "module": "Deployed Edge browser",
+      "scenario": "/verify-email renders without horizontal overflow at 768px",
+      "expected": "Expected UI behavior without authenticated data access",
+      "actual": {
+        "width": 768,
+        "content": 768,
+        "title": "I-verify ang iyong email",
+        "path": "/verify-email"
+      },
+      "status": "PASS",
+      "evidence": "evidence/deployed-browser.json"
+    },
+    {
+      "id": "LIVE-BR-020",
+      "module": "Deployed Edge browser",
+      "scenario": "/resend-verification renders without horizontal overflow at 768px",
+      "expected": "Expected UI behavior without authenticated data access",
+      "actual": {
+        "width": 768,
+        "content": 768,
+        "title": "Muling ipadala ang code",
+        "path": "/resend-verification"
+      },
+      "status": "PASS",
+      "evidence": "evidence/deployed-browser.json"
+    },
+    {
+      "id": "LIVE-BR-021",
+      "module": "Deployed Edge browser",
+      "scenario": "/privacy renders without horizontal overflow at 768px",
+      "expected": "Expected UI behavior without authenticated data access",
+      "actual": {
+        "width": 768,
+        "content": 758,
+        "title": "Patakaran sa Privacy",
+        "path": "/privacy"
+      },
+      "status": "PASS",
+      "evidence": "evidence/deployed-browser.json"
+    },
+    {
+      "id": "LIVE-BR-022",
+      "module": "Deployed Edge browser",
+      "scenario": "/terms renders without horizontal overflow at 768px",
+      "expected": "Expected UI behavior without authenticated data access",
+      "actual": {
+        "width": 768,
+        "content": 758,
+        "title": "Mga Tuntunin ng Serbisyo",
+        "path": "/terms"
+      },
+      "status": "PASS",
+      "evidence": "evidence/deployed-browser.json"
+    },
+    {
+      "id": "LIVE-BR-023",
+      "module": "Deployed Edge browser",
+      "scenario": "/child-data renders without horizontal overflow at 768px",
+      "expected": "Expected UI behavior without authenticated data access",
+      "actual": {
+        "width": 768,
+        "content": 758,
+        "title": "Data ng Bata at Pahintulot ng Magulang",
+        "path": "/child-data"
+      },
+      "status": "PASS",
+      "evidence": "evidence/deployed-browser.json"
+    },
+    {
+      "id": "LIVE-BR-024",
+      "module": "Deployed Edge browser",
+      "scenario": "/account-deletion renders without horizontal overflow at 768px",
+      "expected": "Expected UI behavior without authenticated data access",
+      "actual": {
+        "width": 768,
+        "content": 758,
+        "title": "Pag-delete ng Account",
+        "path": "/account-deletion"
+      },
+      "status": "PASS",
+      "evidence": "evidence/deployed-browser.json"
+    },
+    {
+      "id": "LIVE-BR-025",
+      "module": "Deployed Edge browser",
+      "scenario": "/accessibility renders without horizontal overflow at 768px",
+      "expected": "Expected UI behavior without authenticated data access",
+      "actual": {
+        "width": 768,
+        "content": 758,
+        "title": "Pahayag sa Accessibility",
+        "path": "/accessibility"
+      },
+      "status": "PASS",
+      "evidence": "evidence/deployed-browser.json"
+    },
+    {
+      "id": "LIVE-BR-026",
+      "module": "Deployed Edge browser",
+      "scenario": "/not-a-real-page renders without horizontal overflow at 768px",
+      "expected": "Expected UI behavior without authenticated data access",
+      "actual": {
+        "width": 768,
+        "content": 768,
+        "title": "Naligaw ang pahina",
+        "path": "/not-a-real-page"
+      },
+      "status": "PASS",
+      "evidence": "evidence/deployed-browser.json"
+    },
+    {
+      "id": "LIVE-BR-027",
+      "module": "Deployed Edge browser",
+      "scenario": "/ renders without horizontal overflow at 1440px",
+      "expected": "Expected UI behavior without authenticated data access",
+      "actual": {
+        "width": 1440,
+        "content": 1430,
+        "title": "Mas malinaw na pagbasa, mas masayang pagkatuto.",
+        "path": "/"
+      },
+      "status": "PASS",
+      "evidence": "evidence/deployed-browser.json"
+    },
+    {
+      "id": "LIVE-BR-028",
+      "module": "Deployed Edge browser",
+      "scenario": "/login renders without horizontal overflow at 1440px",
+      "expected": "Expected UI behavior without authenticated data access",
+      "actual": {
+        "width": 1440,
+        "content": 1440,
+        "title": "Handa ka na bang magbasa?",
+        "path": "/login"
+      },
+      "status": "PASS",
+      "evidence": "evidence/deployed-browser.json"
+    },
+    {
+      "id": "LIVE-BR-029",
+      "module": "Deployed Edge browser",
+      "scenario": "/signup renders without horizontal overflow at 1440px",
+      "expected": "Expected UI behavior without authenticated data access",
+      "actual": {
+        "width": 1440,
+        "content": 1440,
+        "title": "Gumawa ng account",
+        "path": "/signup"
+      },
+      "status": "PASS",
+      "evidence": "evidence/deployed-browser.json"
+    },
+    {
+      "id": "LIVE-BR-030",
+      "module": "Deployed Edge browser",
+      "scenario": "/forgot-password renders without horizontal overflow at 1440px",
+      "expected": "Expected UI behavior without authenticated data access",
+      "actual": {
+        "width": 1440,
+        "content": 1440,
+        "title": "Nakalimutan ang Password?",
+        "path": "/forgot-password"
+      },
+      "status": "PASS",
+      "evidence": "evidence/deployed-browser.json"
+    },
+    {
+      "id": "LIVE-BR-031",
+      "module": "Deployed Edge browser",
+      "scenario": "/reset-password renders without horizontal overflow at 1440px",
+      "expected": "Expected UI behavior without authenticated data access",
+      "actual": {
+        "width": 1440,
+        "content": 1440,
+        "title": "I-reset ang iyong password",
+        "path": "/reset-password"
+      },
+      "status": "PASS",
+      "evidence": "evidence/deployed-browser.json"
+    },
+    {
+      "id": "LIVE-BR-032",
+      "module": "Deployed Edge browser",
+      "scenario": "/verify-email renders without horizontal overflow at 1440px",
+      "expected": "Expected UI behavior without authenticated data access",
+      "actual": {
+        "width": 1440,
+        "content": 1440,
+        "title": "I-verify ang iyong email",
+        "path": "/verify-email"
+      },
+      "status": "PASS",
+      "evidence": "evidence/deployed-browser.json"
+    },
+    {
+      "id": "LIVE-BR-033",
+      "module": "Deployed Edge browser",
+      "scenario": "/resend-verification renders without horizontal overflow at 1440px",
+      "expected": "Expected UI behavior without authenticated data access",
+      "actual": {
+        "width": 1440,
+        "content": 1440,
+        "title": "Muling ipadala ang code",
+        "path": "/resend-verification"
+      },
+      "status": "PASS",
+      "evidence": "evidence/deployed-browser.json"
+    },
+    {
+      "id": "LIVE-BR-034",
+      "module": "Deployed Edge browser",
+      "scenario": "/privacy renders without horizontal overflow at 1440px",
+      "expected": "Expected UI behavior without authenticated data access",
+      "actual": {
+        "width": 1440,
+        "content": 1430,
+        "title": "Patakaran sa Privacy",
+        "path": "/privacy"
+      },
+      "status": "PASS",
+      "evidence": "evidence/deployed-browser.json"
+    },
+    {
+      "id": "LIVE-BR-035",
+      "module": "Deployed Edge browser",
+      "scenario": "/terms renders without horizontal overflow at 1440px",
+      "expected": "Expected UI behavior without authenticated data access",
+      "actual": {
+        "width": 1440,
+        "content": 1430,
+        "title": "Mga Tuntunin ng Serbisyo",
+        "path": "/terms"
+      },
+      "status": "PASS",
+      "evidence": "evidence/deployed-browser.json"
+    },
+    {
+      "id": "LIVE-BR-036",
+      "module": "Deployed Edge browser",
+      "scenario": "/child-data renders without horizontal overflow at 1440px",
+      "expected": "Expected UI behavior without authenticated data access",
+      "actual": {
+        "width": 1440,
+        "content": 1430,
+        "title": "Data ng Bata at Pahintulot ng Magulang",
+        "path": "/child-data"
+      },
+      "status": "PASS",
+      "evidence": "evidence/deployed-browser.json"
+    },
+    {
+      "id": "LIVE-BR-037",
+      "module": "Deployed Edge browser",
+      "scenario": "/account-deletion renders without horizontal overflow at 1440px",
+      "expected": "Expected UI behavior without authenticated data access",
+      "actual": {
+        "width": 1440,
+        "content": 1430,
+        "title": "Pag-delete ng Account",
+        "path": "/account-deletion"
+      },
+      "status": "PASS",
+      "evidence": "evidence/deployed-browser.json"
+    },
+    {
+      "id": "LIVE-BR-038",
+      "module": "Deployed Edge browser",
+      "scenario": "/accessibility renders without horizontal overflow at 1440px",
+      "expected": "Expected UI behavior without authenticated data access",
+      "actual": {
+        "width": 1440,
+        "content": 1430,
+        "title": "Pahayag sa Accessibility",
+        "path": "/accessibility"
+      },
+      "status": "PASS",
+      "evidence": "evidence/deployed-browser.json"
+    },
+    {
+      "id": "LIVE-BR-039",
+      "module": "Deployed Edge browser",
+      "scenario": "/not-a-real-page renders without horizontal overflow at 1440px",
+      "expected": "Expected UI behavior without authenticated data access",
+      "actual": {
+        "width": 1440,
+        "content": 1440,
+        "title": "Naligaw ang pahina",
+        "path": "/not-a-real-page"
+      },
+      "status": "PASS",
+      "evidence": "evidence/deployed-browser.json"
+    },
+    {
+      "id": "LIVE-BR-040",
+      "module": "Deployed Edge browser",
+      "scenario": "Anonymous admin redirects to login",
+      "expected": "Expected UI behavior without authenticated data access",
+      "actual": "Assertions passed",
+      "status": "PASS",
+      "evidence": "evidence/deployed-browser.json"
+    },
+    {
+      "id": "LIVE-BR-041",
+      "module": "Deployed Edge browser",
+      "scenario": "Anonymous admin/settings redirects to login",
+      "expected": "Expected UI behavior without authenticated data access",
+      "actual": "Assertions passed",
+      "status": "PASS",
+      "evidence": "evidence/deployed-browser.json"
+    },
+    {
+      "id": "LIVE-BR-042",
+      "module": "Deployed Edge browser",
+      "scenario": "Anonymous admin/not-a-real-page redirects to login",
+      "expected": "Expected UI behavior",
+      "actual": "Browser condition not satisfied: document.readyState === \"complete\" && location.pathname === \"/login\" && !!document.querySelector(\"h1\")",
+      "status": "FAIL",
+      "evidence": "evidence/deployed-browser.json"
+    },
+    {
+      "id": "LIVE-BR-043",
+      "module": "Deployed Edge browser",
+      "scenario": "Anonymous teacher redirects to login",
+      "expected": "Expected UI behavior without authenticated data access",
+      "actual": "Assertions passed",
+      "status": "PASS",
+      "evidence": "evidence/deployed-browser.json"
+    },
+    {
+      "id": "LIVE-BR-044",
+      "module": "Deployed Edge browser",
+      "scenario": "Anonymous teacher/settings redirects to login",
+      "expected": "Expected UI behavior without authenticated data access",
+      "actual": "Assertions passed",
+      "status": "PASS",
+      "evidence": "evidence/deployed-browser.json"
+    },
+    {
+      "id": "LIVE-BR-045",
+      "module": "Deployed Edge browser",
+      "scenario": "Anonymous teacher/not-a-real-page redirects to login",
+      "expected": "Expected UI behavior",
+      "actual": "Browser condition not satisfied: document.readyState === \"complete\" && location.pathname === \"/login\" && !!document.querySelector(\"h1\")",
+      "status": "FAIL",
+      "evidence": "evidence/deployed-browser.json"
+    },
+    {
+      "id": "LIVE-BR-046",
+      "module": "Deployed Edge browser",
+      "scenario": "Anonymous parent redirects to login",
+      "expected": "Expected UI behavior without authenticated data access",
+      "actual": "Assertions passed",
+      "status": "PASS",
+      "evidence": "evidence/deployed-browser.json"
+    },
+    {
+      "id": "LIVE-BR-047",
+      "module": "Deployed Edge browser",
+      "scenario": "Anonymous parent/settings redirects to login",
+      "expected": "Expected UI behavior without authenticated data access",
+      "actual": "Assertions passed",
+      "status": "PASS",
+      "evidence": "evidence/deployed-browser.json"
+    },
+    {
+      "id": "LIVE-BR-048",
+      "module": "Deployed Edge browser",
+      "scenario": "Anonymous parent/not-a-real-page redirects to login",
+      "expected": "Expected UI behavior",
+      "actual": "Browser condition not satisfied: document.readyState === \"complete\" && location.pathname === \"/login\" && !!document.querySelector(\"h1\")",
+      "status": "FAIL",
+      "evidence": "evidence/deployed-browser.json"
+    },
+    {
+      "id": "LIVE-BR-049",
+      "module": "Deployed Edge browser",
+      "scenario": "Anonymous student redirects to login",
+      "expected": "Expected UI behavior without authenticated data access",
+      "actual": "Assertions passed",
+      "status": "PASS",
+      "evidence": "evidence/deployed-browser.json"
+    },
+    {
+      "id": "LIVE-BR-050",
+      "module": "Deployed Edge browser",
+      "scenario": "Anonymous student/settings redirects to login",
+      "expected": "Expected UI behavior",
+      "actual": "Browser condition not satisfied: document.readyState === \"complete\" && location.pathname === \"/login\" && !!document.querySelector(\"h1\")",
+      "status": "FAIL",
+      "evidence": "evidence/deployed-browser.json"
+    },
+    {
+      "id": "LIVE-BR-051",
+      "module": "Deployed Edge browser",
+      "scenario": "Anonymous student/not-a-real-page redirects to login",
+      "expected": "Expected UI behavior",
+      "actual": "Browser condition not satisfied: document.readyState === \"complete\" && location.pathname === \"/login\" && !!document.querySelector(\"h1\")",
+      "status": "FAIL",
+      "evidence": "evidence/deployed-browser.json"
+    },
+    {
+      "id": "LIVE-BR-052",
+      "module": "Deployed Edge browser",
+      "scenario": "Empty login submission displays validation; password visibility and keyboard toggle work",
+      "expected": "Expected UI behavior without authenticated data access",
+      "actual": "Assertions passed",
+      "status": "PASS",
+      "targetedRerun": true,
+      "evidence": "evidence/deployed-browser-actions.json"
+    },
+    {
+      "id": "LIVE-BR-053",
+      "module": "Deployed Edge browser",
+      "scenario": "Empty signup submission displays required-field errors",
+      "expected": "Expected UI behavior without authenticated data access",
+      "actual": "Assertions passed",
+      "status": "PASS",
+      "targetedRerun": true,
+      "evidence": "evidence/deployed-browser-actions.json"
+    },
+    {
+      "id": "LIVE-BR-054",
+      "module": "Deployed Edge browser",
+      "scenario": "OTP keyboard navigation and nonnumeric input validation",
+      "expected": "Expected UI behavior without authenticated data access",
+      "actual": "Assertions passed",
+      "status": "PASS",
+      "targetedRerun": true,
+      "evidence": "evidence/deployed-browser-actions.json"
+    },
+    {
+      "id": "LIVE-BR-055",
+      "module": "Deployed Edge browser",
+      "scenario": "Public forms have accessible names for visible input controls",
+      "expected": "Expected UI behavior without authenticated data access",
+      "actual": "Assertions passed",
+      "status": "PASS",
+      "targetedRerun": true,
+      "evidence": "evidence/deployed-browser-actions.json"
+    },
+    {
+      "id": "LIVE-BR-056",
+      "module": "Deployed Edge browser",
+      "scenario": "No uncaught JavaScript exceptions during the tested navigation and actions",
+      "expected": "Expected UI behavior without authenticated data access",
+      "actual": "Assertions passed",
+      "status": "PASS",
+      "targetedRerun": true,
+      "evidence": "evidence/deployed-browser-actions.json"
+    },
+    {
+      "id": "LIVE-001",
+      "module": "Deployed public HTTP",
+      "url": "https://linawletra.com/",
+      "expected": "HTTP 200",
+      "actual": "HTTP 200",
+      "status": "PASS",
+      "durationMs": 258,
+      "bytes": 2279,
+      "headers": {
+        "content-type": "text/html",
+        "content-security-policy": "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' data: blob: https://*.supabase.co; connect-src 'self' https://*.supabase.co wss://*.supabase.co https://linawletra-production-409e.up.railway.app; media-src 'self' data: blob:; frame-src 'self' blob: https://*.supabase.co; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'self'; upgrade-insecure-requests",
+        "cache-control": "no-cache, no-store, must-revalidate",
+        "x-content-type-options": "nosniff",
+        "x-api-compatibility-version": null,
+        "access-control-allow-origin": null,
+        "access-control-expose-headers": null,
+        "x-request-id": null,
+        "ratelimit-policy": null
+      },
+      "scenario": "https://linawletra.com/",
+      "evidence": "evidence/deployed-public-http.json"
+    },
+    {
+      "id": "LIVE-002",
+      "module": "Deployed public HTTP",
+      "url": "https://linawletra.com/login",
+      "expected": "HTTP 200",
+      "actual": "HTTP 200",
+      "status": "PASS",
+      "durationMs": 63,
+      "bytes": 2279,
+      "headers": {
+        "content-type": "text/html",
+        "content-security-policy": "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' data: blob: https://*.supabase.co; connect-src 'self' https://*.supabase.co wss://*.supabase.co https://linawletra-production-409e.up.railway.app; media-src 'self' data: blob:; frame-src 'self' blob: https://*.supabase.co; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'self'; upgrade-insecure-requests",
+        "cache-control": "no-cache, no-store, must-revalidate",
+        "x-content-type-options": "nosniff",
+        "x-api-compatibility-version": null,
+        "access-control-allow-origin": null,
+        "access-control-expose-headers": null,
+        "x-request-id": null,
+        "ratelimit-policy": null
+      },
+      "scenario": "https://linawletra.com/login",
+      "evidence": "evidence/deployed-public-http.json"
+    },
+    {
+      "id": "LIVE-003",
+      "module": "Deployed public HTTP",
+      "url": "https://linawletra.com/signup",
+      "expected": "HTTP 200",
+      "actual": "HTTP 200",
+      "status": "PASS",
+      "durationMs": 327,
+      "bytes": 2279,
+      "headers": {
+        "content-type": "text/html",
+        "content-security-policy": "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' data: blob: https://*.supabase.co; connect-src 'self' https://*.supabase.co wss://*.supabase.co https://linawletra-production-409e.up.railway.app; media-src 'self' data: blob:; frame-src 'self' blob: https://*.supabase.co; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'self'; upgrade-insecure-requests",
+        "cache-control": "no-cache, no-store, must-revalidate",
+        "x-content-type-options": "nosniff",
+        "x-api-compatibility-version": null,
+        "access-control-allow-origin": null,
+        "access-control-expose-headers": null,
+        "x-request-id": null,
+        "ratelimit-policy": null
+      },
+      "scenario": "https://linawletra.com/signup",
+      "evidence": "evidence/deployed-public-http.json"
+    },
+    {
+      "id": "LIVE-004",
+      "module": "Deployed public HTTP",
+      "url": "https://linawletra.com/forgot-password",
+      "expected": "HTTP 200",
+      "actual": "HTTP 200",
+      "status": "PASS",
+      "durationMs": 55,
+      "bytes": 2279,
+      "headers": {
+        "content-type": "text/html",
+        "content-security-policy": "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' data: blob: https://*.supabase.co; connect-src 'self' https://*.supabase.co wss://*.supabase.co https://linawletra-production-409e.up.railway.app; media-src 'self' data: blob:; frame-src 'self' blob: https://*.supabase.co; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'self'; upgrade-insecure-requests",
+        "cache-control": "no-cache, no-store, must-revalidate",
+        "x-content-type-options": "nosniff",
+        "x-api-compatibility-version": null,
+        "access-control-allow-origin": null,
+        "access-control-expose-headers": null,
+        "x-request-id": null,
+        "ratelimit-policy": null
+      },
+      "scenario": "https://linawletra.com/forgot-password",
+      "evidence": "evidence/deployed-public-http.json"
+    },
+    {
+      "id": "LIVE-005",
+      "module": "Deployed public HTTP",
+      "url": "https://linawletra.com/reset-password",
+      "expected": "HTTP 200",
+      "actual": "HTTP 200",
+      "status": "PASS",
+      "durationMs": 57,
+      "bytes": 2279,
+      "headers": {
+        "content-type": "text/html",
+        "content-security-policy": "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' data: blob: https://*.supabase.co; connect-src 'self' https://*.supabase.co wss://*.supabase.co https://linawletra-production-409e.up.railway.app; media-src 'self' data: blob:; frame-src 'self' blob: https://*.supabase.co; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'self'; upgrade-insecure-requests",
+        "cache-control": "no-cache, no-store, must-revalidate",
+        "x-content-type-options": "nosniff",
+        "x-api-compatibility-version": null,
+        "access-control-allow-origin": null,
+        "access-control-expose-headers": null,
+        "x-request-id": null,
+        "ratelimit-policy": null
+      },
+      "scenario": "https://linawletra.com/reset-password",
+      "evidence": "evidence/deployed-public-http.json"
+    },
+    {
+      "id": "LIVE-006",
+      "module": "Deployed public HTTP",
+      "url": "https://linawletra.com/verify-email",
+      "expected": "HTTP 200",
+      "actual": "HTTP 200",
+      "status": "PASS",
+      "durationMs": 56,
+      "bytes": 2279,
+      "headers": {
+        "content-type": "text/html",
+        "content-security-policy": "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' data: blob: https://*.supabase.co; connect-src 'self' https://*.supabase.co wss://*.supabase.co https://linawletra-production-409e.up.railway.app; media-src 'self' data: blob:; frame-src 'self' blob: https://*.supabase.co; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'self'; upgrade-insecure-requests",
+        "cache-control": "no-cache, no-store, must-revalidate",
+        "x-content-type-options": "nosniff",
+        "x-api-compatibility-version": null,
+        "access-control-allow-origin": null,
+        "access-control-expose-headers": null,
+        "x-request-id": null,
+        "ratelimit-policy": null
+      },
+      "scenario": "https://linawletra.com/verify-email",
+      "evidence": "evidence/deployed-public-http.json"
+    },
+    {
+      "id": "LIVE-007",
+      "module": "Deployed public HTTP",
+      "url": "https://linawletra.com/resend-verification",
+      "expected": "HTTP 200",
+      "actual": "HTTP 200",
+      "status": "PASS",
+      "durationMs": 62,
+      "bytes": 2279,
+      "headers": {
+        "content-type": "text/html",
+        "content-security-policy": "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' data: blob: https://*.supabase.co; connect-src 'self' https://*.supabase.co wss://*.supabase.co https://linawletra-production-409e.up.railway.app; media-src 'self' data: blob:; frame-src 'self' blob: https://*.supabase.co; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'self'; upgrade-insecure-requests",
+        "cache-control": "no-cache, no-store, must-revalidate",
+        "x-content-type-options": "nosniff",
+        "x-api-compatibility-version": null,
+        "access-control-allow-origin": null,
+        "access-control-expose-headers": null,
+        "x-request-id": null,
+        "ratelimit-policy": null
+      },
+      "scenario": "https://linawletra.com/resend-verification",
+      "evidence": "evidence/deployed-public-http.json"
+    },
+    {
+      "id": "LIVE-008",
+      "module": "Deployed public HTTP",
+      "url": "https://linawletra.com/privacy",
+      "expected": "HTTP 200",
+      "actual": "HTTP 200",
+      "status": "PASS",
+      "durationMs": 68,
+      "bytes": 2279,
+      "headers": {
+        "content-type": "text/html",
+        "content-security-policy": "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' data: blob: https://*.supabase.co; connect-src 'self' https://*.supabase.co wss://*.supabase.co https://linawletra-production-409e.up.railway.app; media-src 'self' data: blob:; frame-src 'self' blob: https://*.supabase.co; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'self'; upgrade-insecure-requests",
+        "cache-control": "no-cache, no-store, must-revalidate",
+        "x-content-type-options": "nosniff",
+        "x-api-compatibility-version": null,
+        "access-control-allow-origin": null,
+        "access-control-expose-headers": null,
+        "x-request-id": null,
+        "ratelimit-policy": null
+      },
+      "scenario": "https://linawletra.com/privacy",
+      "evidence": "evidence/deployed-public-http.json"
+    },
+    {
+      "id": "LIVE-009",
+      "module": "Deployed public HTTP",
+      "url": "https://linawletra.com/terms",
+      "expected": "HTTP 200",
+      "actual": "HTTP 200",
+      "status": "PASS",
+      "durationMs": 61,
+      "bytes": 2279,
+      "headers": {
+        "content-type": "text/html",
+        "content-security-policy": "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' data: blob: https://*.supabase.co; connect-src 'self' https://*.supabase.co wss://*.supabase.co https://linawletra-production-409e.up.railway.app; media-src 'self' data: blob:; frame-src 'self' blob: https://*.supabase.co; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'self'; upgrade-insecure-requests",
+        "cache-control": "no-cache, no-store, must-revalidate",
+        "x-content-type-options": "nosniff",
+        "x-api-compatibility-version": null,
+        "access-control-allow-origin": null,
+        "access-control-expose-headers": null,
+        "x-request-id": null,
+        "ratelimit-policy": null
+      },
+      "scenario": "https://linawletra.com/terms",
+      "evidence": "evidence/deployed-public-http.json"
+    },
+    {
+      "id": "LIVE-010",
+      "module": "Deployed public HTTP",
+      "url": "https://linawletra.com/child-data",
+      "expected": "HTTP 200",
+      "actual": "HTTP 200",
+      "status": "PASS",
+      "durationMs": 61,
+      "bytes": 2279,
+      "headers": {
+        "content-type": "text/html",
+        "content-security-policy": "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' data: blob: https://*.supabase.co; connect-src 'self' https://*.supabase.co wss://*.supabase.co https://linawletra-production-409e.up.railway.app; media-src 'self' data: blob:; frame-src 'self' blob: https://*.supabase.co; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'self'; upgrade-insecure-requests",
+        "cache-control": "no-cache, no-store, must-revalidate",
+        "x-content-type-options": "nosniff",
+        "x-api-compatibility-version": null,
+        "access-control-allow-origin": null,
+        "access-control-expose-headers": null,
+        "x-request-id": null,
+        "ratelimit-policy": null
+      },
+      "scenario": "https://linawletra.com/child-data",
+      "evidence": "evidence/deployed-public-http.json"
+    },
+    {
+      "id": "LIVE-011",
+      "module": "Deployed public HTTP",
+      "url": "https://linawletra.com/account-deletion",
+      "expected": "HTTP 200",
+      "actual": "HTTP 200",
+      "status": "PASS",
+      "durationMs": 64,
+      "bytes": 2279,
+      "headers": {
+        "content-type": "text/html",
+        "content-security-policy": "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' data: blob: https://*.supabase.co; connect-src 'self' https://*.supabase.co wss://*.supabase.co https://linawletra-production-409e.up.railway.app; media-src 'self' data: blob:; frame-src 'self' blob: https://*.supabase.co; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'self'; upgrade-insecure-requests",
+        "cache-control": "no-cache, no-store, must-revalidate",
+        "x-content-type-options": "nosniff",
+        "x-api-compatibility-version": null,
+        "access-control-allow-origin": null,
+        "access-control-expose-headers": null,
+        "x-request-id": null,
+        "ratelimit-policy": null
+      },
+      "scenario": "https://linawletra.com/account-deletion",
+      "evidence": "evidence/deployed-public-http.json"
+    },
+    {
+      "id": "LIVE-012",
+      "module": "Deployed public HTTP",
+      "url": "https://linawletra.com/accessibility",
+      "expected": "HTTP 200",
+      "actual": "HTTP 200",
+      "status": "PASS",
+      "durationMs": 55,
+      "bytes": 2279,
+      "headers": {
+        "content-type": "text/html",
+        "content-security-policy": "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' data: blob: https://*.supabase.co; connect-src 'self' https://*.supabase.co wss://*.supabase.co https://linawletra-production-409e.up.railway.app; media-src 'self' data: blob:; frame-src 'self' blob: https://*.supabase.co; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'self'; upgrade-insecure-requests",
+        "cache-control": "no-cache, no-store, must-revalidate",
+        "x-content-type-options": "nosniff",
+        "x-api-compatibility-version": null,
+        "access-control-allow-origin": null,
+        "access-control-expose-headers": null,
+        "x-request-id": null,
+        "ratelimit-policy": null
+      },
+      "scenario": "https://linawletra.com/accessibility",
+      "evidence": "evidence/deployed-public-http.json"
+    },
+    {
+      "id": "LIVE-013",
+      "module": "Deployed public HTTP",
+      "url": "https://linawletra.com/admin",
+      "expected": "HTTP 200",
+      "actual": "HTTP 200",
+      "status": "PASS",
+      "durationMs": 56,
+      "bytes": 2279,
+      "headers": {
+        "content-type": "text/html",
+        "content-security-policy": "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' data: blob: https://*.supabase.co; connect-src 'self' https://*.supabase.co wss://*.supabase.co https://linawletra-production-409e.up.railway.app; media-src 'self' data: blob:; frame-src 'self' blob: https://*.supabase.co; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'self'; upgrade-insecure-requests",
+        "cache-control": "no-cache, no-store, must-revalidate",
+        "x-content-type-options": "nosniff",
+        "x-api-compatibility-version": null,
+        "access-control-allow-origin": null,
+        "access-control-expose-headers": null,
+        "x-request-id": null,
+        "ratelimit-policy": null
+      },
+      "scenario": "https://linawletra.com/admin",
+      "evidence": "evidence/deployed-public-http.json"
+    },
+    {
+      "id": "LIVE-014",
+      "module": "Deployed public HTTP",
+      "url": "https://linawletra.com/teacher",
+      "expected": "HTTP 200",
+      "actual": "HTTP 200",
+      "status": "PASS",
+      "durationMs": 54,
+      "bytes": 2279,
+      "headers": {
+        "content-type": "text/html",
+        "content-security-policy": "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' data: blob: https://*.supabase.co; connect-src 'self' https://*.supabase.co wss://*.supabase.co https://linawletra-production-409e.up.railway.app; media-src 'self' data: blob:; frame-src 'self' blob: https://*.supabase.co; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'self'; upgrade-insecure-requests",
+        "cache-control": "no-cache, no-store, must-revalidate",
+        "x-content-type-options": "nosniff",
+        "x-api-compatibility-version": null,
+        "access-control-allow-origin": null,
+        "access-control-expose-headers": null,
+        "x-request-id": null,
+        "ratelimit-policy": null
+      },
+      "scenario": "https://linawletra.com/teacher",
+      "evidence": "evidence/deployed-public-http.json"
+    },
+    {
+      "id": "LIVE-015",
+      "module": "Deployed public HTTP",
+      "url": "https://linawletra.com/parent",
+      "expected": "HTTP 200",
+      "actual": "HTTP 200",
+      "status": "PASS",
+      "durationMs": 56,
+      "bytes": 2279,
+      "headers": {
+        "content-type": "text/html",
+        "content-security-policy": "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' data: blob: https://*.supabase.co; connect-src 'self' https://*.supabase.co wss://*.supabase.co https://linawletra-production-409e.up.railway.app; media-src 'self' data: blob:; frame-src 'self' blob: https://*.supabase.co; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'self'; upgrade-insecure-requests",
+        "cache-control": "no-cache, no-store, must-revalidate",
+        "x-content-type-options": "nosniff",
+        "x-api-compatibility-version": null,
+        "access-control-allow-origin": null,
+        "access-control-expose-headers": null,
+        "x-request-id": null,
+        "ratelimit-policy": null
+      },
+      "scenario": "https://linawletra.com/parent",
+      "evidence": "evidence/deployed-public-http.json"
+    },
+    {
+      "id": "LIVE-016",
+      "module": "Deployed public HTTP",
+      "url": "https://linawletra.com/student",
+      "expected": "HTTP 200",
+      "actual": "HTTP 200",
+      "status": "PASS",
+      "durationMs": 57,
+      "bytes": 2279,
+      "headers": {
+        "content-type": "text/html",
+        "content-security-policy": "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' data: blob: https://*.supabase.co; connect-src 'self' https://*.supabase.co wss://*.supabase.co https://linawletra-production-409e.up.railway.app; media-src 'self' data: blob:; frame-src 'self' blob: https://*.supabase.co; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'self'; upgrade-insecure-requests",
+        "cache-control": "no-cache, no-store, must-revalidate",
+        "x-content-type-options": "nosniff",
+        "x-api-compatibility-version": null,
+        "access-control-allow-origin": null,
+        "access-control-expose-headers": null,
+        "x-request-id": null,
+        "ratelimit-policy": null
+      },
+      "scenario": "https://linawletra.com/student",
+      "evidence": "evidence/deployed-public-http.json"
+    },
+    {
+      "id": "LIVE-017",
+      "module": "Deployed public HTTP",
+      "url": "https://linawletra.com/robots.txt",
+      "expected": "HTTP 200",
+      "actual": "HTTP 200",
+      "status": "PASS",
+      "durationMs": 56,
+      "bytes": 191,
+      "headers": {
+        "content-type": "text/plain",
+        "content-security-policy": "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' data: blob: https://*.supabase.co; connect-src 'self' https://*.supabase.co wss://*.supabase.co https://linawletra-production-409e.up.railway.app; media-src 'self' data: blob:; frame-src 'self' blob: https://*.supabase.co; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'self'; upgrade-insecure-requests",
+        "cache-control": "public, max-age=3600",
+        "x-content-type-options": "nosniff",
+        "x-api-compatibility-version": null,
+        "access-control-allow-origin": null,
+        "access-control-expose-headers": null,
+        "x-request-id": null,
+        "ratelimit-policy": null
+      },
+      "scenario": "https://linawletra.com/robots.txt",
+      "evidence": "evidence/deployed-public-http.json"
+    },
+    {
+      "id": "LIVE-018",
+      "module": "Deployed public HTTP",
+      "url": "https://linawletra.com/sitemap.xml",
+      "expected": "HTTP 200",
+      "actual": "HTTP 200",
+      "status": "PASS",
+      "durationMs": 57,
+      "bytes": 619,
+      "headers": {
+        "content-type": "application/xml",
+        "content-security-policy": "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' data: blob: https://*.supabase.co; connect-src 'self' https://*.supabase.co wss://*.supabase.co https://linawletra-production-409e.up.railway.app; media-src 'self' data: blob:; frame-src 'self' blob: https://*.supabase.co; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'self'; upgrade-insecure-requests",
+        "cache-control": "public, max-age=3600",
+        "x-content-type-options": "nosniff",
+        "x-api-compatibility-version": null,
+        "access-control-allow-origin": null,
+        "access-control-expose-headers": null,
+        "x-request-id": null,
+        "ratelimit-policy": null
+      },
+      "scenario": "https://linawletra.com/sitemap.xml",
+      "evidence": "evidence/deployed-public-http.json"
+    },
+    {
+      "id": "LIVE-019",
+      "module": "Deployed API",
+      "url": "https://linawletra-production-409e.up.railway.app/api/health",
+      "expected": "HTTP 200",
+      "actual": "HTTP 200",
+      "status": "PASS",
+      "durationMs": 431,
+      "bytes": 144,
+      "headers": {
+        "content-type": "application/json; charset=utf-8",
+        "content-security-policy": null,
+        "cache-control": null,
+        "x-content-type-options": "nosniff",
+        "x-api-compatibility-version": "3",
+        "access-control-allow-origin": "https://linawletra.com",
+        "access-control-expose-headers": null,
+        "x-request-id": "4562aa12-58c7-4fcb-9645-daf157a7cf00",
+        "ratelimit-policy": null
+      },
+      "scenario": "https://linawletra-production-409e.up.railway.app/api/health",
+      "evidence": "evidence/deployed-public-http.json"
+    },
+    {
+      "id": "LIVE-020",
+      "module": "Deployed anonymous authorization",
+      "url": "https://linawletra-production-409e.up.railway.app/api/admin/analytics",
+      "expected": "HTTP 401",
+      "actual": "HTTP 401",
+      "status": "PASS",
+      "durationMs": 441,
+      "bytes": 47,
+      "headers": {
+        "content-type": "application/json; charset=utf-8",
+        "content-security-policy": null,
+        "cache-control": null,
+        "x-content-type-options": "nosniff",
+        "x-api-compatibility-version": "3",
+        "access-control-allow-origin": "https://linawletra.com",
+        "access-control-expose-headers": null,
+        "x-request-id": "34f49852-1be9-46f1-9b0f-b3b97ccc121e",
+        "ratelimit-policy": "3000;w=900"
+      },
+      "scenario": "https://linawletra-production-409e.up.railway.app/api/admin/analytics",
+      "evidence": "evidence/deployed-public-http.json"
+    },
+    {
+      "id": "LIVE-021",
+      "module": "Deployed anonymous authorization",
+      "url": "https://linawletra-production-409e.up.railway.app/api/teacher/students/11111111-1111-4111-8111-111111111111/modules",
+      "expected": "HTTP 401",
+      "actual": "HTTP 401",
+      "status": "PASS",
+      "durationMs": 244,
+      "bytes": 47,
+      "headers": {
+        "content-type": "application/json; charset=utf-8",
+        "content-security-policy": null,
+        "cache-control": null,
+        "x-content-type-options": "nosniff",
+        "x-api-compatibility-version": "3",
+        "access-control-allow-origin": "https://linawletra.com",
+        "access-control-expose-headers": null,
+        "x-request-id": "76e5bc61-8160-4156-8223-fcef031d4a84",
+        "ratelimit-policy": "3000;w=900"
+      },
+      "scenario": "https://linawletra-production-409e.up.railway.app/api/teacher/students/11111111-1111-4111-8111-111111111111/modules",
+      "evidence": "evidence/deployed-public-http.json"
+    },
+    {
+      "id": "LIVE-022",
+      "module": "Deployed anonymous authorization",
+      "url": "https://linawletra-production-409e.up.railway.app/api/parent/children",
+      "expected": "HTTP 401",
+      "actual": "HTTP 401",
+      "status": "PASS",
+      "durationMs": 259,
+      "bytes": 47,
+      "headers": {
+        "content-type": "application/json; charset=utf-8",
+        "content-security-policy": null,
+        "cache-control": null,
+        "x-content-type-options": "nosniff",
+        "x-api-compatibility-version": "3",
+        "access-control-allow-origin": "https://linawletra.com",
+        "access-control-expose-headers": null,
+        "x-request-id": "70990fc1-7043-40ca-86cc-695fae21179c",
+        "ratelimit-policy": "3000;w=900"
+      },
+      "scenario": "https://linawletra-production-409e.up.railway.app/api/parent/children",
+      "evidence": "evidence/deployed-public-http.json"
+    },
+    {
+      "id": "LIVE-023",
+      "module": "Deployed anonymous authorization",
+      "url": "https://linawletra-production-409e.up.railway.app/api/student/learn/path",
+      "expected": "HTTP 401",
+      "actual": "HTTP 401",
+      "status": "PASS",
+      "durationMs": 257,
+      "bytes": 47,
+      "headers": {
+        "content-type": "application/json; charset=utf-8",
+        "content-security-policy": null,
+        "cache-control": null,
+        "x-content-type-options": "nosniff",
+        "x-api-compatibility-version": "3",
+        "access-control-allow-origin": "https://linawletra.com",
+        "access-control-expose-headers": null,
+        "x-request-id": "8d35ab21-1081-4fa2-b50b-0487d05db1a5",
+        "ratelimit-policy": "3000;w=900"
+      },
+      "scenario": "https://linawletra-production-409e.up.railway.app/api/student/learn/path",
+      "evidence": "evidence/deployed-public-http.json"
+    },
+    {
+      "id": "LIVE-024",
+      "module": "Deployed anonymous authorization",
+      "url": "https://linawletra-production-409e.up.railway.app/api/notifications",
+      "expected": "HTTP 401",
+      "actual": "HTTP 401",
+      "status": "PASS",
+      "durationMs": 248,
+      "bytes": 47,
+      "headers": {
+        "content-type": "application/json; charset=utf-8",
+        "content-security-policy": null,
+        "cache-control": null,
+        "x-content-type-options": "nosniff",
+        "x-api-compatibility-version": "3",
+        "access-control-allow-origin": "https://linawletra.com",
+        "access-control-expose-headers": null,
+        "x-request-id": "9afed8da-3559-4a91-8d12-f8d97c6ec324",
+        "ratelimit-policy": "3000;w=900"
+      },
+      "scenario": "https://linawletra-production-409e.up.railway.app/api/notifications",
+      "evidence": "evidence/deployed-public-http.json"
+    },
+    {
+      "id": "LIVE-025",
+      "module": "Deployed CORS compatibility",
+      "url": "https://linawletra-production-409e.up.railway.app/api/health",
+      "expected": "HTTP 200",
+      "actual": "The input did not match the regular expression /x-api-compatibility-version/i. Input:\n\n''\n",
+      "status": "FAIL",
+      "durationMs": 266,
+      "scenario": "https://linawletra-production-409e.up.railway.app/api/health",
+      "evidence": "evidence/deployed-public-http.json"
+    },
+    {
+      "id": "GATE-lint",
+      "module": "Build/static checks",
+      "scenario": "lint",
+      "expected": "Exit 0; lint additionally denies warnings",
+      "actual": "Exit 0; 125 ms wall time",
+      "status": "PASS",
+      "evidence": "evidence/lint.txt"
+    },
+    {
+      "id": "GATE-build",
+      "module": "Build/static checks",
+      "scenario": "build",
+      "expected": "Exit 0; lint additionally denies warnings",
+      "actual": "Exit 0; 12715 ms wall time",
+      "status": "PASS",
+      "evidence": "evidence/build.txt"
+    },
+    {
+      "id": "GATE-vite-build",
+      "module": "Build/static checks",
+      "scenario": "vite-build",
+      "expected": "Exit 0; lint additionally denies warnings",
+      "actual": "Exit 0; 3268 ms wall time",
+      "status": "PASS",
+      "evidence": "evidence/vite-build.txt"
+    },
+    {
+      "id": "GATE-diff",
+      "module": "Build/static checks",
+      "scenario": "diff",
+      "expected": "Exit 0; lint additionally denies warnings",
+      "actual": "Exit 0; 161 ms wall time",
+      "status": "PASS",
+      "evidence": "evidence/diff.txt"
+    },
+    {
+      "id": "NFT-audit-frontend",
+      "module": "Production dependency advisories",
+      "scenario": "npm audit --omit=dev (frontend)",
+      "expected": "Zero known advisories in the audited dependency tree",
+      "actual": "0 findings; this does not prove application exploitability or absence of unknown vulnerabilities",
+      "status": "PASS",
+      "evidence": "evidence/frontend-audit.json"
+    },
+    {
+      "id": "NFT-audit-backend",
+      "module": "Production dependency advisories",
+      "scenario": "npm audit --omit=dev (backend)",
+      "expected": "Zero known advisories in the audited dependency tree",
+      "actual": "0 findings; this does not prove application exploitability or absence of unknown vulnerabilities",
+      "status": "PASS",
+      "evidence": "evidence/server-audit-after.json"
+    },
+    {
+      "id": "WF-001",
+      "module": "Authentication",
+      "scenario": "Valid password login and correct landing page for each of four roles",
+      "expected": "Feature behaves as described; authorized persistence/visibility verified against an isolated real database",
+      "actual": "No dedicated role accounts supplied, no separate staging database, and live records not confirmed disposable. No authenticated live workflow or database write was attempted.",
+      "status": "BLOCKED",
+      "evidence": "configuration-presence.json; user confirmed no separate staging environment"
+    },
+    {
+      "id": "WF-002",
+      "module": "Authentication",
+      "scenario": "Invalid credentials and duplicate registration without account enumeration",
+      "expected": "Feature behaves as described; authorized persistence/visibility verified against an isolated real database",
+      "actual": "No dedicated role accounts supplied, no separate staging database, and live records not confirmed disposable. No authenticated live workflow or database write was attempted.",
+      "status": "BLOCKED",
+      "evidence": "configuration-presence.json; user confirmed no separate staging environment"
+    },
+    {
+      "id": "WF-003",
+      "module": "Authentication",
+      "scenario": "Signup, actual email delivery, confirmation OTP and expiry",
+      "expected": "Feature behaves as described; authorized persistence/visibility verified against an isolated real database",
+      "actual": "No dedicated role accounts supplied, no separate staging database, and live records not confirmed disposable. No authenticated live workflow or database write was attempted.",
+      "status": "BLOCKED",
+      "evidence": "configuration-presence.json; user confirmed no separate staging environment"
+    },
+    {
+      "id": "WF-004",
+      "module": "Authentication",
+      "scenario": "Forgot password, recovery OTP, password update and actual email delivery",
+      "expected": "Feature behaves as described; authorized persistence/visibility verified against an isolated real database",
+      "actual": "No dedicated role accounts supplied, no separate staging database, and live records not confirmed disposable. No authenticated live workflow or database write was attempted.",
+      "status": "BLOCKED",
+      "evidence": "configuration-presence.json; user confirmed no separate staging environment"
+    },
+    {
+      "id": "WF-005",
+      "module": "Authentication",
+      "scenario": "Persisted login, token expiry, refresh, logout, full revoke and saved-profile switch on shared devices",
+      "expected": "Feature behaves as described; authorized persistence/visibility verified against an isolated real database",
+      "actual": "No dedicated role accounts supplied, no separate staging database, and live records not confirmed disposable. No authenticated live workflow or database write was attempted.",
+      "status": "BLOCKED",
+      "evidence": "configuration-presence.json; user confirmed no separate staging environment"
+    },
+    {
+      "id": "WF-006",
+      "module": "Authentication",
+      "scenario": "Disabled and archived tokens denied by API AND Supabase RLS",
+      "expected": "Feature behaves as described; authorized persistence/visibility verified against an isolated real database",
+      "actual": "No dedicated role accounts supplied, no separate staging database, and live records not confirmed disposable. No authenticated live workflow or database write was attempted.",
+      "status": "BLOCKED",
+      "evidence": "configuration-presence.json; user confirmed no separate staging environment"
+    },
+    {
+      "id": "WF-007",
+      "module": "Admin",
+      "scenario": "Home statistics and recent activity match independent database counts",
+      "expected": "Feature behaves as described; authorized persistence/visibility verified against an isolated real database",
+      "actual": "No dedicated role accounts supplied, no separate staging database, and live records not confirmed disposable. No authenticated live workflow or database write was attempted.",
+      "status": "BLOCKED",
+      "evidence": "configuration-presence.json; user confirmed no separate staging environment"
+    },
+    {
+      "id": "WF-008",
+      "module": "Admin",
+      "scenario": "Students: list, search, filters, detail, linked parent and progress",
+      "expected": "Feature behaves as described; authorized persistence/visibility verified against an isolated real database",
+      "actual": "No dedicated role accounts supplied, no separate staging database, and live records not confirmed disposable. No authenticated live workflow or database write was attempted.",
+      "status": "BLOCKED",
+      "evidence": "configuration-presence.json; user confirmed no separate staging environment"
+    },
+    {
+      "id": "WF-009",
+      "module": "Admin",
+      "scenario": "Parents: list, search, filters, detail and linked children",
+      "expected": "Feature behaves as described; authorized persistence/visibility verified against an isolated real database",
+      "actual": "No dedicated role accounts supplied, no separate staging database, and live records not confirmed disposable. No authenticated live workflow or database write was attempted.",
+      "status": "BLOCKED",
+      "evidence": "configuration-presence.json; user confirmed no separate staging environment"
+    },
+    {
+      "id": "WF-010",
+      "module": "Admin",
+      "scenario": "Teachers: list, search, filters, grade assignments, detail action",
+      "expected": "Feature behaves as described; authorized persistence/visibility verified against an isolated real database",
+      "actual": "No dedicated role accounts supplied, no separate staging database, and live records not confirmed disposable. No authenticated live workflow or database write was attempted.",
+      "status": "BLOCKED",
+      "evidence": "configuration-presence.json; user confirmed no separate staging environment"
+    },
+    {
+      "id": "WF-011",
+      "module": "Admin",
+      "scenario": "Create teacher: valid creation, duplicate email, role, credential email, OTP and rollback on failure",
+      "expected": "Feature behaves as described; authorized persistence/visibility verified against an isolated real database",
+      "actual": "No dedicated role accounts supplied, no separate staging database, and live records not confirmed disposable. No authenticated live workflow or database write was attempted.",
+      "status": "BLOCKED",
+      "evidence": "configuration-presence.json; user confirmed no separate staging environment"
+    },
+    {
+      "id": "WF-012",
+      "module": "Admin",
+      "scenario": "Sections: creation, adviser role, grade checks and roster membership",
+      "expected": "Feature behaves as described; authorized persistence/visibility verified against an isolated real database",
+      "actual": "No dedicated role accounts supplied, no separate staging database, and live records not confirmed disposable. No authenticated live workflow or database write was attempted.",
+      "status": "BLOCKED",
+      "evidence": "configuration-presence.json; user confirmed no separate staging environment"
+    },
+    {
+      "id": "WF-013",
+      "module": "Admin",
+      "scenario": "Section capacity: repeated requests, duplicate IDs and concurrent inserts",
+      "expected": "Feature behaves as described; authorized persistence/visibility verified against an isolated real database",
+      "actual": "No dedicated role accounts supplied, no separate staging database, and live records not confirmed disposable. No authenticated live workflow or database write was attempted.",
+      "status": "BLOCKED",
+      "evidence": "configuration-presence.json; user confirmed no separate staging environment"
+    },
+    {
+      "id": "WF-014",
+      "module": "Admin",
+      "scenario": "Analytics: charts, filters, empty data, complete counts above 1,000 records",
+      "expected": "Feature behaves as described; authorized persistence/visibility verified against an isolated real database",
+      "actual": "No dedicated role accounts supplied, no separate staging database, and live records not confirmed disposable. No authenticated live workflow or database write was attempted.",
+      "status": "BLOCKED",
+      "evidence": "configuration-presence.json; user confirmed no separate staging environment"
+    },
+    {
+      "id": "WF-015",
+      "module": "Admin",
+      "scenario": "Audit trail: correct action, actor, timestamp, filters, redaction and pagination",
+      "expected": "Feature behaves as described; authorized persistence/visibility verified against an isolated real database",
+      "actual": "No dedicated role accounts supplied, no separate staging database, and live records not confirmed disposable. No authenticated live workflow or database write was attempted.",
+      "status": "BLOCKED",
+      "evidence": "configuration-presence.json; user confirmed no separate staging environment"
+    },
+    {
+      "id": "WF-016",
+      "module": "Admin",
+      "scenario": "Archive/disable/restore: Auth ban and database consistency, last-admin safety",
+      "expected": "Feature behaves as described; authorized persistence/visibility verified against an isolated real database",
+      "actual": "No dedicated role accounts supplied, no separate staging database, and live records not confirmed disposable. No authenticated live workflow or database write was attempted.",
+      "status": "BLOCKED",
+      "evidence": "configuration-presence.json; user confirmed no separate staging environment"
+    },
+    {
+      "id": "WF-017",
+      "module": "Admin",
+      "scenario": "Permanent deletion: archived-only requirement and relationship integrity",
+      "expected": "Feature behaves as described; authorized persistence/visibility verified against an isolated real database",
+      "actual": "No dedicated role accounts supplied, no separate staging database, and live records not confirmed disposable. No authenticated live workflow or database write was attempted.",
+      "status": "BLOCKED",
+      "evidence": "configuration-presence.json; user confirmed no separate staging environment"
+    },
+    {
+      "id": "WF-018",
+      "module": "Admin",
+      "scenario": "Profile, password, system settings and notifications persist after reload",
+      "expected": "Feature behaves as described; authorized persistence/visibility verified against an isolated real database",
+      "actual": "No dedicated role accounts supplied, no separate staging database, and live records not confirmed disposable. No authenticated live workflow or database write was attempted.",
+      "status": "BLOCKED",
+      "evidence": "configuration-presence.json; user confirmed no separate staging environment"
+    },
+    {
+      "id": "WF-019",
+      "module": "Admin",
+      "scenario": "Complete Admin control audit, modal keyboard behavior, error feedback and responsive layout",
+      "expected": "Feature behaves as described; authorized persistence/visibility verified against an isolated real database",
+      "actual": "No dedicated role accounts supplied, no separate staging database, and live records not confirmed disposable. No authenticated live workflow or database write was attempted.",
+      "status": "BLOCKED",
+      "evidence": "configuration-presence.json; user confirmed no separate staging environment"
+    },
+    {
+      "id": "WF-020",
+      "module": "Teacher",
+      "scenario": "Home summary, assigned roster and activity counts match owned data",
+      "expected": "Feature behaves as described; authorized persistence/visibility verified against an isolated real database",
+      "actual": "No dedicated role accounts supplied, no separate staging database, and live records not confirmed disposable. No authenticated live workflow or database write was attempted.",
+      "status": "BLOCKED",
+      "evidence": "configuration-presence.json; user confirmed no separate staging environment"
+    },
+    {
+      "id": "WF-021",
+      "module": "Teacher",
+      "scenario": "Roster: search, filters, pagination, student detail, module progress and reports",
+      "expected": "Feature behaves as described; authorized persistence/visibility verified against an isolated real database",
+      "actual": "No dedicated role accounts supplied, no separate staging database, and live records not confirmed disposable. No authenticated live workflow or database write was attempted.",
+      "status": "BLOCKED",
+      "evidence": "configuration-presence.json; user confirmed no separate staging environment"
+    },
+    {
+      "id": "WF-022",
+      "module": "Teacher",
+      "scenario": "Cross-teacher roster and student access denied by APIs AND direct Supabase queries",
+      "expected": "Feature behaves as described; authorized persistence/visibility verified against an isolated real database",
+      "actual": "No dedicated role accounts supplied, no separate staging database, and live records not confirmed disposable. No authenticated live workflow or database write was attempted.",
+      "status": "BLOCKED",
+      "evidence": "configuration-presence.json; user confirmed no separate staging environment"
+    },
+    {
+      "id": "WF-023",
+      "module": "Teacher",
+      "scenario": "Lesson upload, publish toggle, open, download, missing file, deletion and storage cleanup",
+      "expected": "Feature behaves as described; authorized persistence/visibility verified against an isolated real database",
+      "actual": "No dedicated role accounts supplied, no separate staging database, and live records not confirmed disposable. No authenticated live workflow or database write was attempted.",
+      "status": "BLOCKED",
+      "evidence": "configuration-presence.json; user confirmed no separate staging environment"
+    },
+    {
+      "id": "WF-024",
+      "module": "Teacher",
+      "scenario": "PDF upload: valid file, spoofed type, signature, oversized file and aborted upload",
+      "expected": "Feature behaves as described; authorized persistence/visibility verified against an isolated real database",
+      "actual": "No dedicated role accounts supplied, no separate staging database, and live records not confirmed disposable. No authenticated live workflow or database write was attempted.",
+      "status": "BLOCKED",
+      "evidence": "configuration-presence.json; user confirmed no separate staging environment"
+    },
+    {
+      "id": "WF-025",
+      "module": "Teacher",
+      "scenario": "Drill upload, parse, edit, save, publish and immutable published-material feedback",
+      "expected": "Feature behaves as described; authorized persistence/visibility verified against an isolated real database",
+      "actual": "No dedicated role accounts supplied, no separate staging database, and live records not confirmed disposable. No authenticated live workflow or database write was attempted.",
+      "status": "BLOCKED",
+      "evidence": "configuration-presence.json; user confirmed no separate staging environment"
+    },
+    {
+      "id": "WF-026",
+      "module": "Teacher",
+      "scenario": "Assignment creation: correct roster, due dates, duplicate submission, student and parent visibility",
+      "expected": "Feature behaves as described; authorized persistence/visibility verified against an isolated real database",
+      "actual": "No dedicated role accounts supplied, no separate staging database, and live records not confirmed disposable. No authenticated live workflow or database write was attempted.",
+      "status": "BLOCKED",
+      "evidence": "configuration-presence.json; user confirmed no separate staging environment"
+    },
+    {
+      "id": "WF-027",
+      "module": "Teacher",
+      "scenario": "Progress charts and export match assessment, module and practice data",
+      "expected": "Feature behaves as described; authorized persistence/visibility verified against an isolated real database",
+      "actual": "No dedicated role accounts supplied, no separate staging database, and live records not confirmed disposable. No authenticated live workflow or database write was attempted.",
+      "status": "BLOCKED",
+      "evidence": "configuration-presence.json; user confirmed no separate staging environment"
+    },
+    {
+      "id": "WF-028",
+      "module": "Teacher",
+      "scenario": "Send message, receive parent reply, correct recipients, read state and history after reload",
+      "expected": "Feature behaves as described; authorized persistence/visibility verified against an isolated real database",
+      "actual": "No dedicated role accounts supplied, no separate staging database, and live records not confirmed disposable. No authenticated live workflow or database write was attempted.",
+      "status": "BLOCKED",
+      "evidence": "configuration-presence.json; user confirmed no separate staging environment"
+    },
+    {
+      "id": "WF-029",
+      "module": "Teacher",
+      "scenario": "Profile/avatar, password and notification preferences persist after reload",
+      "expected": "Feature behaves as described; authorized persistence/visibility verified against an isolated real database",
+      "actual": "No dedicated role accounts supplied, no separate staging database, and live records not confirmed disposable. No authenticated live workflow or database write was attempted.",
+      "status": "BLOCKED",
+      "evidence": "configuration-presence.json; user confirmed no separate staging environment"
+    },
+    {
+      "id": "WF-030",
+      "module": "Teacher",
+      "scenario": "Complete Teacher control audit, accessible dialog focus, loading/error states and responsive layout",
+      "expected": "Feature behaves as described; authorized persistence/visibility verified against an isolated real database",
+      "actual": "No dedicated role accounts supplied, no separate staging database, and live records not confirmed disposable. No authenticated live workflow or database write was attempted.",
+      "status": "BLOCKED",
+      "evidence": "configuration-presence.json; user confirmed no separate staging environment"
+    },
+    {
+      "id": "WF-031",
+      "module": "Parent",
+      "scenario": "Home child summaries, recent activities and selected-child switching show real data",
+      "expected": "Feature behaves as described; authorized persistence/visibility verified against an isolated real database",
+      "actual": "No dedicated role accounts supplied, no separate staging database, and live records not confirmed disposable. No authenticated live workflow or database write was attempted.",
+      "status": "BLOCKED",
+      "evidence": "configuration-presence.json; user confirmed no separate staging environment"
+    },
+    {
+      "id": "WF-032",
+      "module": "Parent",
+      "scenario": "Enroll child: duplicate prevention, grade 1–6, linked Auth account and bcrypt-only credential record",
+      "expected": "Feature behaves as described; authorized persistence/visibility verified against an isolated real database",
+      "actual": "No dedicated role accounts supplied, no separate staging database, and live records not confirmed disposable. No authenticated live workflow or database write was attempted.",
+      "status": "BLOCKED",
+      "evidence": "configuration-presence.json; user confirmed no separate staging environment"
+    },
+    {
+      "id": "WF-033",
+      "module": "Parent",
+      "scenario": "Enrollment rollback: orphan Auth/profile/child/link cleanup after each failed step",
+      "expected": "Feature behaves as described; authorized persistence/visibility verified against an isolated real database",
+      "actual": "No dedicated role accounts supplied, no separate staging database, and live records not confirmed disposable. No authenticated live workflow or database write was attempted.",
+      "status": "BLOCKED",
+      "evidence": "configuration-presence.json; user confirmed no separate staging environment"
+    },
+    {
+      "id": "WF-034",
+      "module": "Parent",
+      "scenario": "Reset child password: one-time delivery and invalidation of prior password",
+      "expected": "Feature behaves as described; authorized persistence/visibility verified against an isolated real database",
+      "actual": "No dedicated role accounts supplied, no separate staging database, and live records not confirmed disposable. No authenticated live workflow or database write was attempted.",
+      "status": "BLOCKED",
+      "evidence": "configuration-presence.json; user confirmed no separate staging environment"
+    },
+    {
+      "id": "WF-035",
+      "module": "Parent",
+      "scenario": "Children: parent-child ownership, accessibility settings and student sync",
+      "expected": "Feature behaves as described; authorized persistence/visibility verified against an isolated real database",
+      "actual": "No dedicated role accounts supplied, no separate staging database, and live records not confirmed disposable. No authenticated live workflow or database write was attempted.",
+      "status": "BLOCKED",
+      "evidence": "configuration-presence.json; user confirmed no separate staging environment"
+    },
+    {
+      "id": "WF-036",
+      "module": "Parent",
+      "scenario": "Progress: module, assessment, practice, month filters, badges and drill detail match real records",
+      "expected": "Feature behaves as described; authorized persistence/visibility verified against an isolated real database",
+      "actual": "No dedicated role accounts supplied, no separate staging database, and live records not confirmed disposable. No authenticated live workflow or database write was attempted.",
+      "status": "BLOCKED",
+      "evidence": "configuration-presence.json; user confirmed no separate staging environment"
+    },
+    {
+      "id": "WF-037",
+      "module": "Parent",
+      "scenario": "Calendar: day/week/month navigation, create, invalid date/time, status update and reload",
+      "expected": "Feature behaves as described; authorized persistence/visibility verified against an isolated real database",
+      "actual": "No dedicated role accounts supplied, no separate staging database, and live records not confirmed disposable. No authenticated live workflow or database write was attempted.",
+      "status": "BLOCKED",
+      "evidence": "configuration-presence.json; user confirmed no separate staging environment"
+    },
+    {
+      "id": "WF-038",
+      "module": "Parent",
+      "scenario": "Calendar and material assignment updates appear for the correct child",
+      "expected": "Feature behaves as described; authorized persistence/visibility verified against an isolated real database",
+      "actual": "No dedicated role accounts supplied, no separate staging database, and live records not confirmed disposable. No authenticated live workflow or database write was attempted.",
+      "status": "BLOCKED",
+      "evidence": "configuration-presence.json; user confirmed no separate staging environment"
+    },
+    {
+      "id": "WF-039",
+      "module": "Parent",
+      "scenario": "Messages: teacher conversation, parent reply, attachment ownership and read state",
+      "expected": "Feature behaves as described; authorized persistence/visibility verified against an isolated real database",
+      "actual": "No dedicated role accounts supplied, no separate staging database, and live records not confirmed disposable. No authenticated live workflow or database write was attempted.",
+      "status": "BLOCKED",
+      "evidence": "configuration-presence.json; user confirmed no separate staging environment"
+    },
+    {
+      "id": "WF-040",
+      "module": "Parent",
+      "scenario": "Materials: active owned assignments, PDF access, download, archived and missing files",
+      "expected": "Feature behaves as described; authorized persistence/visibility verified against an isolated real database",
+      "actual": "No dedicated role accounts supplied, no separate staging database, and live records not confirmed disposable. No authenticated live workflow or database write was attempted.",
+      "status": "BLOCKED",
+      "evidence": "configuration-presence.json; user confirmed no separate staging environment"
+    },
+    {
+      "id": "WF-041",
+      "module": "Parent",
+      "scenario": "Profile/password, preferences, theme and notifications persist after reload",
+      "expected": "Feature behaves as described; authorized persistence/visibility verified against an isolated real database",
+      "actual": "No dedicated role accounts supplied, no separate staging database, and live records not confirmed disposable. No authenticated live workflow or database write was attempted.",
+      "status": "BLOCKED",
+      "evidence": "configuration-presence.json; user confirmed no separate staging environment"
+    },
+    {
+      "id": "WF-042",
+      "module": "Parent",
+      "scenario": "Complete Parent control audit, keyboard focus, failure feedback and responsive layout",
+      "expected": "Feature behaves as described; authorized persistence/visibility verified against an isolated real database",
+      "actual": "No dedicated role accounts supplied, no separate staging database, and live records not confirmed disposable. No authenticated live workflow or database write was attempted.",
+      "status": "BLOCKED",
+      "evidence": "configuration-presence.json; user confirmed no separate staging environment"
+    },
+    {
+      "id": "WF-043",
+      "module": "Student",
+      "scenario": "Home learner identity, progress, recommendations and navigation match server data",
+      "expected": "Feature behaves as described; authorized persistence/visibility verified against an isolated real database",
+      "actual": "No dedicated role accounts supplied, no separate staging database, and live records not confirmed disposable. No authenticated live workflow or database write was attempted.",
+      "status": "BLOCKED",
+      "evidence": "configuration-presence.json; user confirmed no separate staging environment"
+    },
+    {
+      "id": "WF-044",
+      "module": "Student",
+      "scenario": "Aralin learning path: frontier locks, completion state, equipped slots and refresh",
+      "expected": "Feature behaves as described; authorized persistence/visibility verified against an isolated real database",
+      "actual": "No dedicated role accounts supplied, no separate staging database, and live records not confirmed disposable. No authenticated live workflow or database write was attempted.",
+      "status": "BLOCKED",
+      "evidence": "configuration-presence.json; user confirmed no separate staging environment"
+    },
+    {
+      "id": "WF-045",
+      "module": "Student",
+      "scenario": "Module content attempt: server score, persistence, duplicate submission and XP consistency",
+      "expected": "Feature behaves as described; authorized persistence/visibility verified against an isolated real database",
+      "actual": "No dedicated role accounts supplied, no separate staging database, and live records not confirmed disposable. No authenticated live workflow or database write was attempted.",
+      "status": "BLOCKED",
+      "evidence": "configuration-presence.json; user confirmed no separate staging environment"
+    },
+    {
+      "id": "WF-046",
+      "module": "Student",
+      "scenario": "Assessment: start, spoken and multiple-choice answers, scoring, submit, pass/fail and refresh",
+      "expected": "Feature behaves as described; authorized persistence/visibility verified against an isolated real database",
+      "actual": "No dedicated role accounts supplied, no separate staging database, and live records not confirmed disposable. No authenticated live workflow or database write was attempted.",
+      "status": "BLOCKED",
+      "evidence": "configuration-presence.json; user confirmed no separate staging environment"
+    },
+    {
+      "id": "WF-047",
+      "module": "Student",
+      "scenario": "Cross-student content attempt and assessment IDs denied by RPCs and RLS",
+      "expected": "Feature behaves as described; authorized persistence/visibility verified against an isolated real database",
+      "actual": "No dedicated role accounts supplied, no separate staging database, and live records not confirmed disposable. No authenticated live workflow or database write was attempted.",
+      "status": "BLOCKED",
+      "evidence": "configuration-presence.json; user confirmed no separate staging environment"
+    },
+    {
+      "id": "WF-048",
+      "module": "Student",
+      "scenario": "Automatic level promotion: all required modules, passing score, concurrent completion and override consistency",
+      "expected": "Feature behaves as described; authorized persistence/visibility verified against an isolated real database",
+      "actual": "No dedicated role accounts supplied, no separate staging database, and live records not confirmed disposable. No authenticated live workflow or database write was attempted.",
+      "status": "BLOCKED",
+      "evidence": "configuration-presence.json; user confirmed no separate staging environment"
+    },
+    {
+      "id": "WF-049",
+      "module": "Student",
+      "scenario": "Nonsense-word issued set: correct student/module, one-time XP, replay, concurrent submit and failure rollback",
+      "expected": "Feature behaves as described; authorized persistence/visibility verified against an isolated real database",
+      "actual": "No dedicated role accounts supplied, no separate staging database, and live records not confirmed disposable. No authenticated live workflow or database write was attempted.",
+      "status": "BLOCKED",
+      "evidence": "configuration-presence.json; user confirmed no separate staging environment"
+    },
+    {
+      "id": "WF-050",
+      "module": "Student",
+      "scenario": "Word of day: deterministic target, three tries, Manila midnight, replay, streak, XP and failure rollback",
+      "expected": "Feature behaves as described; authorized persistence/visibility verified against an isolated real database",
+      "actual": "No dedicated role accounts supplied, no separate staging database, and live records not confirmed disposable. No authenticated live workflow or database write was attempted.",
+      "status": "BLOCKED",
+      "evidence": "configuration-presence.json; user confirmed no separate staging environment"
+    },
+    {
+      "id": "WF-051",
+      "module": "Student",
+      "scenario": "Free practice: microphone support, real transcript, authoritative score, saved progress and badges",
+      "expected": "Feature behaves as described; authorized persistence/visibility verified against an isolated real database",
+      "actual": "No dedicated role accounts supplied, no separate staging database, and live records not confirmed disposable. No authenticated live workflow or database write was attempted.",
+      "status": "BLOCKED",
+      "evidence": "configuration-presence.json; user confirmed no separate staging environment"
+    },
+    {
+      "id": "WF-052",
+      "module": "Student",
+      "scenario": "PDF reading: assigned access, chunk resume, server-scored attempts, complete-only submission and refresh",
+      "expected": "Feature behaves as described; authorized persistence/visibility verified against an isolated real database",
+      "actual": "No dedicated role accounts supplied, no separate staging database, and live records not confirmed disposable. No authenticated live workflow or database write was attempted.",
+      "status": "BLOCKED",
+      "evidence": "configuration-presence.json; user confirmed no separate staging environment"
+    },
+    {
+      "id": "WF-053",
+      "module": "Student",
+      "scenario": "PDF drill: published-only, archived denial, correct item, one-time reward, completion notification and race handling",
+      "expected": "Feature behaves as described; authorized persistence/visibility verified against an isolated real database",
+      "actual": "No dedicated role accounts supplied, no separate staging database, and live records not confirmed disposable. No authenticated live workflow or database write was attempted.",
+      "status": "BLOCKED",
+      "evidence": "configuration-presence.json; user confirmed no separate staging environment"
+    },
+    {
+      "id": "WF-054",
+      "module": "Student",
+      "scenario": "Achievements: actual criteria, legacy migration, atomic award, XP and parent/teacher visibility",
+      "expected": "Feature behaves as described; authorized persistence/visibility verified against an isolated real database",
+      "actual": "No dedicated role accounts supplied, no separate staging database, and live records not confirmed disposable. No authenticated live workflow or database write was attempted.",
+      "status": "BLOCKED",
+      "evidence": "configuration-presence.json; user confirmed no separate staging environment"
+    },
+    {
+      "id": "WF-055",
+      "module": "Student",
+      "scenario": "Profile and accessibility settings, keyboard support and screen reader feedback",
+      "expected": "Feature behaves as described; authorized persistence/visibility verified against an isolated real database",
+      "actual": "No dedicated role accounts supplied, no separate staging database, and live records not confirmed disposable. No authenticated live workflow or database write was attempted.",
+      "status": "BLOCKED",
+      "evidence": "configuration-presence.json; user confirmed no separate staging environment"
+    },
+    {
+      "id": "WF-056",
+      "module": "Student",
+      "scenario": "Real ElevenLabs Filipino audio and provider failure handling without leaking credentials",
+      "expected": "Feature behaves as described; authorized persistence/visibility verified against an isolated real database",
+      "actual": "No dedicated role accounts supplied, no separate staging database, and live records not confirmed disposable. No authenticated live workflow or database write was attempted.",
+      "status": "BLOCKED",
+      "evidence": "configuration-presence.json; user confirmed no separate staging environment"
+    },
+    {
+      "id": "WF-057",
+      "module": "Student",
+      "scenario": "Real browser speech recognition: Tagalog accuracy, permission denied, no-speech, unsupported browser and interruption",
+      "expected": "Feature behaves as described; authorized persistence/visibility verified against an isolated real database",
+      "actual": "No dedicated role accounts supplied, no separate staging database, and live records not confirmed disposable. No authenticated live workflow or database write was attempted.",
+      "status": "BLOCKED",
+      "evidence": "configuration-presence.json; user confirmed no separate staging environment"
+    },
+    {
+      "id": "WF-058",
+      "module": "Student",
+      "scenario": "Complete Student control audit, touch sizes, reduced motion, modals and responsive layout",
+      "expected": "Feature behaves as described; authorized persistence/visibility verified against an isolated real database",
+      "actual": "No dedicated role accounts supplied, no separate staging database, and live records not confirmed disposable. No authenticated live workflow or database write was attempted.",
+      "status": "BLOCKED",
+      "evidence": "configuration-presence.json; user confirmed no separate staging environment"
+    },
+    {
+      "id": "WF-059",
+      "module": "Database",
+      "scenario": "Shared baseline schema and all migrations installed in a disposable test database",
+      "expected": "Feature behaves as described; authorized persistence/visibility verified against an isolated real database",
+      "actual": "No dedicated role accounts supplied, no separate staging database, and live records not confirmed disposable. No authenticated live workflow or database write was attempted.",
+      "status": "BLOCKED",
+      "evidence": "configuration-presence.json; user confirmed no separate staging environment"
+    },
+    {
+      "id": "WF-060",
+      "module": "Database",
+      "scenario": "Role/ownership RLS probes for every table read or written directly by the browser",
+      "expected": "Feature behaves as described; authorized persistence/visibility verified against an isolated real database",
+      "actual": "No dedicated role accounts supplied, no separate staging database, and live records not confirmed disposable. No authenticated live workflow or database write was attempted.",
+      "status": "BLOCKED",
+      "evidence": "configuration-presence.json; user confirmed no separate staging environment"
+    },
+    {
+      "id": "WF-061",
+      "module": "Database",
+      "scenario": "CRUD, FK, unique constraints, deletion, archival and cascading history integrity",
+      "expected": "Feature behaves as described; authorized persistence/visibility verified against an isolated real database",
+      "actual": "No dedicated role accounts supplied, no separate staging database, and live records not confirmed disposable. No authenticated live workflow or database write was attempted.",
+      "status": "BLOCKED",
+      "evidence": "configuration-presence.json; user confirmed no separate staging environment"
+    },
+    {
+      "id": "WF-062",
+      "module": "Database",
+      "scenario": "Parallel XP updates and partial-failure recovery across awards, word of day, drills and promotion",
+      "expected": "Feature behaves as described; authorized persistence/visibility verified against an isolated real database",
+      "actual": "No dedicated role accounts supplied, no separate staging database, and live records not confirmed disposable. No authenticated live workflow or database write was attempted.",
+      "status": "BLOCKED",
+      "evidence": "configuration-presence.json; user confirmed no separate staging environment"
+    },
+    {
+      "id": "WF-063",
+      "module": "Database",
+      "scenario": "Storage bucket policy, ownership-checked access URLs and coordinated mobile compatibility",
+      "expected": "Feature behaves as described; authorized persistence/visibility verified against an isolated real database",
+      "actual": "No dedicated role accounts supplied, no separate staging database, and live records not confirmed disposable. No authenticated live workflow or database write was attempted.",
+      "status": "BLOCKED",
+      "evidence": "configuration-presence.json; user confirmed no separate staging environment"
+    },
+    {
+      "id": "WF-064",
+      "module": "Database",
+      "scenario": "Scheduling duplicates and capacity remain correct under concurrent transactions",
+      "expected": "Feature behaves as described; authorized persistence/visibility verified against an isolated real database",
+      "actual": "No dedicated role accounts supplied, no separate staging database, and live records not confirmed disposable. No authenticated live workflow or database write was attempted.",
+      "status": "BLOCKED",
+      "evidence": "configuration-presence.json; user confirmed no separate staging environment"
+    },
+    {
+      "id": "NR-1",
+      "module": "Extended non-functional evaluation",
+      "scenario": "Screen reader testing on authenticated dashboards and complete focus/contrast audit",
+      "expected": "Record genuine measurements and assistive/device behavior",
+      "actual": "Not executed in this run; requires the relevant device/tooling and isolated workload",
+      "status": "NOT RUN"
+    },
+    {
+      "id": "NR-2",
+      "module": "Extended non-functional evaluation",
+      "scenario": "Multi-user performance/load test with representative large datasets and database query plans",
+      "expected": "Record genuine measurements and assistive/device behavior",
+      "actual": "Not executed in this run; requires the relevant device/tooling and isolated workload",
+      "status": "NOT RUN"
+    },
+    {
+      "id": "NR-3",
+      "module": "Extended non-functional evaluation",
+      "scenario": "Visual and interaction testing on actual iOS/Android devices",
+      "expected": "Record genuine measurements and assistive/device behavior",
+      "actual": "Not executed in this run; requires the relevant device/tooling and isolated workload",
+      "status": "NOT RUN"
+    },
+    {
+      "id": "COMPAT-Chrome",
+      "module": "Compatibility",
+      "scenario": "Functional browser suite in Chrome",
+      "expected": "Same suite runs in the named browser",
+      "actual": "Named browser executable was not found in the inspected standard installation locations; Edge results do not certify another browser",
+      "status": "BLOCKED"
+    },
+    {
+      "id": "COMPAT-Firefox",
+      "module": "Compatibility",
+      "scenario": "Functional browser suite in Firefox",
+      "expected": "Same suite runs in the named browser",
+      "actual": "Named browser executable was not found in the inspected standard installation locations; Edge results do not certify another browser",
+      "status": "BLOCKED"
+    },
+    {
+      "id": "NI-1",
+      "module": "Teacher scheduling",
+      "scenario": "Requested functionality inventory",
+      "expected": "A real implementation exists before functional testing",
+      "actual": "No implemented teacher session-creation/cancellation/rescheduling UI or API found; parent scheduled_activities calendar is a separate implemented feature.",
+      "status": "NOT IMPLEMENTED"
+    },
+    {
+      "id": "NI-2",
+      "module": "Teacher bulk selection",
+      "scenario": "Requested functionality inventory",
+      "expected": "A real implementation exists before functional testing",
+      "actual": "Roster selection checkboxes had no selection action; now explicitly disabled with an unavailable explanation.",
+      "status": "NOT IMPLEMENTED"
+    },
+    {
+      "id": "NI-3",
+      "module": "Advancement badge",
+      "scenario": "Requested functionality inventory",
+      "expected": "A real implementation exists before functional testing",
+      "actual": "patuloy_na_umuunlad has no server award predicate; badgeEngine explicitly documents missing level history.",
+      "status": "NOT IMPLEMENTED"
+    },
+    {
+      "id": "NI-4",
+      "module": "Parent engagement analytics",
+      "scenario": "Requested functionality inventory",
+      "expected": "A real implementation exists before functional testing",
+      "actual": "Progress-view/notices-view and notifications-sent counters are not backed by measurements; untracked values now show unavailable rather than fabricated zeros.",
+      "status": "NOT IMPLEMENTED"
+    },
+    {
+      "id": "NI-5",
+      "module": "Login-specific OTP / Google TTS",
+      "scenario": "Requested functionality inventory",
+      "expected": "A real implementation exists before functional testing",
+      "actual": "Current auth implements signup/recovery email OTP rather than a separate login OTP challenge; current server TTS uses ElevenLabs, not Google.",
+      "status": "NOT IMPLEMENTED"
+    }
+  ]
+}

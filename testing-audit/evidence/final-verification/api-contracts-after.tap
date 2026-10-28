@@ -1,0 +1,250 @@
+TAP version 13
+# Subtest: final API admin GET /operations: persistence outage returns a sanitized server error over real HTTP
+ok 1 - final API admin GET /operations: persistence outage returns a sanitized server error over real HTTP
+  ---
+  duration_ms: 136.2685
+  type: 'test'
+  ...
+# Subtest: final API admin GET /audit-logs: persistence outage returns a sanitized server error over real HTTP
+ok 2 - final API admin GET /audit-logs: persistence outage returns a sanitized server error over real HTTP
+  ---
+  duration_ms: 10.8488
+  type: 'test'
+  ...
+# Subtest: final API admin GET /monitoring/users: persistence outage returns a sanitized server error over real HTTP
+ok 3 - final API admin GET /monitoring/users: persistence outage returns a sanitized server error over real HTTP
+  ---
+  duration_ms: 7.7798
+  type: 'test'
+  ...
+# Subtest: final API admin GET /monitoring/users/:id: persistence outage returns a sanitized server error over real HTTP
+ok 4 - final API admin GET /monitoring/users/:id: persistence outage returns a sanitized server error over real HTTP
+  ---
+  duration_ms: 7.3105
+  type: 'test'
+  ...
+# Subtest: final API admin GET /monitoring/users/:id/notes: persistence outage returns a sanitized server error over real HTTP
+ok 5 - final API admin GET /monitoring/users/:id/notes: persistence outage returns a sanitized server error over real HTTP
+  ---
+  duration_ms: 8.4157
+  type: 'test'
+  ...
+# Subtest: final API admin GET /users: persistence outage returns a sanitized server error over real HTTP
+ok 6 - final API admin GET /users: persistence outage returns a sanitized server error over real HTTP
+  ---
+  duration_ms: 6.8242
+  type: 'test'
+  ...
+# Subtest: final API admin GET /users/archived: persistence outage returns a sanitized server error over real HTTP
+ok 7 - final API admin GET /users/archived: persistence outage returns a sanitized server error over real HTTP
+  ---
+  duration_ms: 12.4684
+  type: 'test'
+  ...
+# Subtest: final API admin GET /credential-security: persistence outage returns a sanitized server error over real HTTP
+ok 8 - final API admin GET /credential-security: persistence outage returns a sanitized server error over real HTTP
+  ---
+  duration_ms: 12.8862
+  type: 'test'
+  ...
+# Subtest: final API admin GET /storage-readiness: persistence outage returns a sanitized server error over real HTTP
+ok 9 - final API admin GET /storage-readiness: persistence outage returns a sanitized server error over real HTTP
+  ---
+  duration_ms: 14.2238
+  type: 'test'
+  ...
+# Subtest: final API admin GET /sections: persistence outage returns a sanitized server error over real HTTP
+ok 10 - final API admin GET /sections: persistence outage returns a sanitized server error over real HTTP
+  ---
+  duration_ms: 5.7824
+  type: 'test'
+  ...
+# Subtest: final API admin GET /sections/:id/students: persistence outage returns a sanitized server error over real HTTP
+ok 11 - final API admin GET /sections/:id/students: persistence outage returns a sanitized server error over real HTTP
+  ---
+  duration_ms: 6.8525
+  type: 'test'
+  ...
+# Subtest: final API admin GET /analytics/students: persistence outage returns a sanitized server error over real HTTP
+ok 12 - final API admin GET /analytics/students: persistence outage returns a sanitized server error over real HTTP
+  ---
+  duration_ms: 8.0229
+  type: 'test'
+  ...
+# Subtest: final API admin GET /analytics: persistence outage returns a sanitized server error over real HTTP
+ok 13 - final API admin GET /analytics: persistence outage returns a sanitized server error over real HTTP
+  ---
+  duration_ms: 6.0228
+  type: 'test'
+  ...
+# Subtest: final API admin GET /system-settings: persistence outage returns a sanitized server error over real HTTP
+ok 14 - final API admin GET /system-settings: persistence outage returns a sanitized server error over real HTTP
+  ---
+  duration_ms: 6.0485
+  type: 'test'
+  ...
+# Subtest: final API teacher GET /students/:studentId/modules: persistence outage returns a sanitized server error over real HTTP
+ok 15 - final API teacher GET /students/:studentId/modules: persistence outage returns a sanitized server error over real HTTP
+  ---
+  duration_ms: 8.3871
+  type: 'test'
+  ...
+# Subtest: final API teacher GET /pdf/:id/access-url: persistence outage returns a sanitized server error over real HTTP
+ok 16 - final API teacher GET /pdf/:id/access-url: persistence outage returns a sanitized server error over real HTTP
+  ---
+  duration_ms: 9.4243
+  type: 'test'
+  ...
+# Subtest: final API teacher GET /lessons/:id/access-url: persistence outage returns a sanitized server error over real HTTP
+ok 17 - final API teacher GET /lessons/:id/access-url: persistence outage returns a sanitized server error over real HTTP
+  ---
+  duration_ms: 4.664
+  type: 'test'
+  ...
+# Subtest: final API teacher GET /pdf-drill/:materialId/items: persistence outage returns a sanitized server error over real HTTP
+ok 18 - final API teacher GET /pdf-drill/:materialId/items: persistence outage returns a sanitized server error over real HTTP
+  ---
+  duration_ms: 12.4654
+  type: 'test'
+  ...
+# Subtest: final API parent GET /children/credential-security: persistence outage returns a sanitized server error over real HTTP
+ok 19 - final API parent GET /children/credential-security: persistence outage returns a sanitized server error over real HTTP
+  ---
+  duration_ms: 14.6728
+  type: 'test'
+  ...
+# Subtest: final API parent GET /children: persistence outage returns a sanitized server error over real HTTP
+ok 20 - final API parent GET /children: persistence outage returns a sanitized server error over real HTTP
+  ---
+  duration_ms: 7.9882
+  type: 'test'
+  ...
+# Subtest: final API parent GET /children/:id/reading-profile: persistence outage returns a sanitized server error over real HTTP
+ok 21 - final API parent GET /children/:id/reading-profile: persistence outage returns a sanitized server error over real HTTP
+  ---
+  duration_ms: 7.0232
+  type: 'test'
+  ...
+# Subtest: final API parent GET /children/:id/learning-path: persistence outage returns a sanitized server error over real HTTP
+ok 22 - final API parent GET /children/:id/learning-path: persistence outage returns a sanitized server error over real HTTP
+  ---
+  duration_ms: 6.801
+  type: 'test'
+  ...
+# Subtest: final API parent GET /children/:id/materials: persistence outage returns a sanitized server error over real HTTP
+ok 23 - final API parent GET /children/:id/materials: persistence outage returns a sanitized server error over real HTTP
+  ---
+  duration_ms: 12.7113
+  type: 'test'
+  ...
+# Subtest: final API parent GET /children/:id/materials/:assignmentId/access-url: persistence outage returns a sanitized server error over real HTTP
+ok 24 - final API parent GET /children/:id/materials/:assignmentId/access-url: persistence outage returns a sanitized server error over real HTTP
+  ---
+  duration_ms: 4.7053
+  type: 'test'
+  ...
+# Subtest: final API parent GET /children/:id/settings: persistence outage returns a sanitized server error over real HTTP
+ok 25 - final API parent GET /children/:id/settings: persistence outage returns a sanitized server error over real HTTP
+  ---
+  duration_ms: 3.9825
+  type: 'test'
+  ...
+# Subtest: final API student GET /learn/path: persistence outage returns a sanitized server error over real HTTP
+ok 26 - final API student GET /learn/path: persistence outage returns a sanitized server error over real HTTP
+  ---
+  duration_ms: 7.1327
+  type: 'test'
+  ...
+# Subtest: final API student GET /learn/module/:moduleId: persistence outage returns a sanitized server error over real HTTP
+ok 27 - final API student GET /learn/module/:moduleId: persistence outage returns a sanitized server error over real HTTP
+  ---
+  duration_ms: 4.9902
+  type: 'test'
+  ...
+# Subtest: final API student GET /learn/module/:moduleId/nonsense-check: persistence outage returns a sanitized server error over real HTTP
+ok 28 - final API student GET /learn/module/:moduleId/nonsense-check: persistence outage returns a sanitized server error over real HTTP
+  ---
+  duration_ms: 4.9054
+  type: 'test'
+  ...
+# Subtest: final API student GET /learn/module/:moduleId/challenge-words: persistence outage returns a sanitized server error over real HTTP
+ok 29 - final API student GET /learn/module/:moduleId/challenge-words: persistence outage returns a sanitized server error over real HTTP
+  ---
+  duration_ms: 5.0388
+  type: 'test'
+  ...
+# Subtest: final API student GET /reading-profile: persistence outage returns a sanitized server error over real HTTP
+ok 30 - final API student GET /reading-profile: persistence outage returns a sanitized server error over real HTTP
+  ---
+  duration_ms: 4.3512
+  type: 'test'
+  ...
+# Subtest: final API student GET /pdf-drill/:assignmentId: persistence outage returns a sanitized server error over real HTTP
+ok 31 - final API student GET /pdf-drill/:assignmentId: persistence outage returns a sanitized server error over real HTTP
+  ---
+  duration_ms: 3.8129
+  type: 'test'
+  ...
+# Subtest: final API student GET /pdf-materials/:assignmentId/access-url: persistence outage returns a sanitized server error over real HTTP
+ok 32 - final API student GET /pdf-materials/:assignmentId/access-url: persistence outage returns a sanitized server error over real HTTP
+  ---
+  duration_ms: 8.6631
+  type: 'test'
+  ...
+# Subtest: final API student GET /pdf-reading/:assignmentId: persistence outage returns a sanitized server error over real HTTP
+ok 33 - final API student GET /pdf-reading/:assignmentId: persistence outage returns a sanitized server error over real HTTP
+  ---
+  duration_ms: 4.2637
+  type: 'test'
+  ...
+# Subtest: final API student GET /lessons/:lessonId/access-url: persistence outage returns a sanitized server error over real HTTP
+ok 34 - final API student GET /lessons/:lessonId/access-url: persistence outage returns a sanitized server error over real HTTP
+  ---
+  duration_ms: 4.6405
+  type: 'test'
+  ...
+# Subtest: final API notifications GET /: persistence outage returns a sanitized server error over real HTTP
+ok 35 - final API notifications GET /: persistence outage returns a sanitized server error over real HTTP
+  ---
+  duration_ms: 9.3063
+  type: 'test'
+  ...
+# Subtest: final API analytics refuses partial totals when children fails
+ok 36 - final API analytics refuses partial totals when children fails
+  ---
+  duration_ms: 13.7512
+  type: 'test'
+  ...
+# Subtest: final API analytics refuses partial totals when users fails
+ok 37 - final API analytics refuses partial totals when users fails
+  ---
+  duration_ms: 15.7653
+  type: 'test'
+  ...
+# Subtest: final API analytics refuses partial totals when child_progress fails
+ok 38 - final API analytics refuses partial totals when child_progress fails
+  ---
+  duration_ms: 10.462
+  type: 'test'
+  ...
+# Subtest: final API analytics refuses partial totals when pronunciation_practice_sessions fails
+ok 39 - final API analytics refuses partial totals when pronunciation_practice_sessions fails
+  ---
+  duration_ms: 10.6311
+  type: 'test'
+  ...
+# Subtest: final API parent children combines grade fallback, stored progress and active override correctly
+ok 40 - final API parent children combines grade fallback, stored progress and active override correctly
+  ---
+  duration_ms: 12.6328
+  type: 'test'
+  ...
+1..40
+# tests 40
+# suites 0
+# pass 40
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 1468.5998

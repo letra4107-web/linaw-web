@@ -1,0 +1,459 @@
+﻿TAP version 13
+# Subtest: QA numeric validators reject coercible non-numbers
+not ok 1 - QA numeric validators reject coercible non-numbers
+  ---
+  duration_ms: 3.52
+  type: 'test'
+  location: 'C:\\Users\\Samantha\\OneDrive\\Desktop\\web\\server\\tests\\qaRegression.test.js:12:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    null
+    
+    true !== false
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: false
+  actual: true
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (C:\Users\Samantha\OneDrive\Desktop\web\server\tests\qaRegression.test.js:13:73)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.start (node:internal/test_runner/test:944:17)
+    startSubtestAfterBootstrap (node:internal/test_runner/harness:296:17)
+  ...
+# Subtest: QA authentication handles an upstream rejection with a safe response
+not ok 2 - QA authentication handles an upstream rejection with a safe response
+  ---
+  duration_ms: 0.5802
+  type: 'test'
+  location: 'C:\\Users\\Samantha\\OneDrive\\Desktop\\web\\server\\tests\\qaRegression.test.js:18:1'
+  failureType: 'testCodeFailure'
+  error: 'private diagnostic'
+  code: 'ERR_TEST_FAILURE'
+  stack: |-
+    Object.getUser (C:\Users\Samantha\OneDrive\Desktop\web\server\tests\qaRegression.test.js:19:82)
+    Object.requireAuth (C:\Users\Samantha\OneDrive\Desktop\web\server\middleware\authCore.js:10:47)
+    TestContext.<anonymous> (C:\Users\Samantha\OneDrive\Desktop\web\server\tests\qaRegression.test.js:21:20)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+    Test.postRun (node:internal/test_runner/test:1173:19)
+    Test.run (node:internal/test_runner/test:1101:12)
+    async startSubtestAfterBootstrap (node:internal/test_runner/harness:296:3)
+  ...
+# Subtest: QA authorization handles a rejected role query with a safe response
+not ok 3 - QA authorization handles a rejected role query with a safe response
+  ---
+  duration_ms: 0.3944
+  type: 'test'
+  location: 'C:\\Users\\Samantha\\OneDrive\\Desktop\\web\\server\\tests\\qaRegression.test.js:25:1'
+  failureType: 'testCodeFailure'
+  error: 'private diagnostic'
+  code: 'ERR_TEST_FAILURE'
+  stack: |-
+    Object.from (C:\Users\Samantha\OneDrive\Desktop\web\server\tests\qaRegression.test.js:26:60)
+    C:\Users\Samantha\OneDrive\Desktop\web\server\middleware\authCore.js:23:53
+    TestContext.<anonymous> (C:\Users\Samantha\OneDrive\Desktop\web\server\tests\qaRegression.test.js:28:40)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+    Test.postRun (node:internal/test_runner/test:1173:19)
+    Test.run (node:internal/test_runner/test:1101:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: QA role authorization rejects inactive account {"role":"admin","account_status":"disabled"}
+not ok 4 - QA role authorization rejects inactive account {"role":"admin","account_status":"disabled"}
+  ---
+  duration_ms: 0.4518
+  type: 'test'
+  location: 'C:\\Users\\Samantha\\OneDrive\\Desktop\\web\\server\\tests\\qaRegression.test.js:33:3'
+  failureType: 'testCodeFailure'
+  error: 'inactive account must not continue'
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  operator: 'fail'
+  stack: |-
+    C:\Users\Samantha\OneDrive\Desktop\web\server\tests\qaRegression.test.js:36:110
+    C:\Users\Samantha\OneDrive\Desktop\web\server\middleware\authCore.js:27:14
+    async TestContext.<anonymous> (C:\Users\Samantha\OneDrive\Desktop\web\server\tests\qaRegression.test.js:36:5)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: QA role authorization rejects inactive account {"role":"admin","account_status":"archived"}
+not ok 5 - QA role authorization rejects inactive account {"role":"admin","account_status":"archived"}
+  ---
+  duration_ms: 0.1978
+  type: 'test'
+  location: 'C:\\Users\\Samantha\\OneDrive\\Desktop\\web\\server\\tests\\qaRegression.test.js:33:3'
+  failureType: 'testCodeFailure'
+  error: 'inactive account must not continue'
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  operator: 'fail'
+  stack: |-
+    C:\Users\Samantha\OneDrive\Desktop\web\server\tests\qaRegression.test.js:36:110
+    C:\Users\Samantha\OneDrive\Desktop\web\server\middleware\authCore.js:27:14
+    async TestContext.<anonymous> (C:\Users\Samantha\OneDrive\Desktop\web\server\tests\qaRegression.test.js:36:5)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: QA role authorization rejects inactive account {"role":"teacher","is_active":false}
+not ok 6 - QA role authorization rejects inactive account {"role":"teacher","is_active":false}
+  ---
+  duration_ms: 0.2584
+  type: 'test'
+  location: 'C:\\Users\\Samantha\\OneDrive\\Desktop\\web\\server\\tests\\qaRegression.test.js:33:3'
+  failureType: 'testCodeFailure'
+  error: 'inactive account must not continue'
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  operator: 'fail'
+  stack: |-
+    C:\Users\Samantha\OneDrive\Desktop\web\server\tests\qaRegression.test.js:36:110
+    C:\Users\Samantha\OneDrive\Desktop\web\server\middleware\authCore.js:27:14
+    async TestContext.<anonymous> (C:\Users\Samantha\OneDrive\Desktop\web\server\tests\qaRegression.test.js:36:5)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: QA drill update rejects missing items before any mutation
+not ok 7 - QA drill update rejects missing items before any mutation
+  ---
+  duration_ms: 309.8374
+  type: 'test'
+  location: 'C:\\Users\\Samantha\\OneDrive\\Desktop\\web\\server\\tests\\qaRegression.test.js:81:3'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    
+    200 !== 400
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 400
+  actual: 200
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (C:\Users\Samantha\OneDrive\Desktop\web\server\tests\qaRegression.test.js:84:12)
+    process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: QA drill update rejects non-array items before any mutation
+not ok 8 - QA drill update rejects non-array items before any mutation
+  ---
+  duration_ms: 29.0486
+  type: 'test'
+  location: 'C:\\Users\\Samantha\\OneDrive\\Desktop\\web\\server\\tests\\qaRegression.test.js:81:3'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    
+    200 !== 400
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 400
+  actual: 200
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (C:\Users\Samantha\OneDrive\Desktop\web\server\tests\qaRegression.test.js:84:12)
+    process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: QA drill update rejects null item before any mutation
+not ok 9 - QA drill update rejects null item before any mutation
+  ---
+  duration_ms: 27.4203
+  type: 'test'
+  location: 'C:\\Users\\Samantha\\OneDrive\\Desktop\\web\\server\\tests\\qaRegression.test.js:81:3'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    
+    500 !== 400
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 400
+  actual: 500
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (C:\Users\Samantha\OneDrive\Desktop\web\server\tests\qaRegression.test.js:84:12)
+    process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: QA drill update rejects zero XP violates SQL constraint before any mutation
+not ok 10 - QA drill update rejects zero XP violates SQL constraint before any mutation
+  ---
+  duration_ms: 18.3345
+  type: 'test'
+  location: 'C:\\Users\\Samantha\\OneDrive\\Desktop\\web\\server\\tests\\qaRegression.test.js:81:3'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    
+    200 !== 400
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 400
+  actual: 200
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (C:\Users\Samantha\OneDrive\Desktop\web\server\tests\qaRegression.test.js:84:12)
+    process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: QA drill update rejects invalid ordering before any mutation
+not ok 11 - QA drill update rejects invalid ordering before any mutation
+  ---
+  duration_ms: 20.3462
+  type: 'test'
+  location: 'C:\\Users\\Samantha\\OneDrive\\Desktop\\web\\server\\tests\\qaRegression.test.js:81:3'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    
+    200 !== 400
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 400
+  actual: 200
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (C:\Users\Samantha\OneDrive\Desktop\web\server\tests\qaRegression.test.js:84:12)
+    process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: QA assessment null responses produce a validation error instead of 500
+not ok 12 - QA assessment null responses produce a validation error instead of 500
+  ---
+  duration_ms: 49.7558
+  type: 'test'
+  location: 'C:\\Users\\Samantha\\OneDrive\\Desktop\\web\\server\\tests\\qaRegression.test.js:88:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    
+    500 !== 400
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 400
+  actual: 500
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (C:\Users\Samantha\OneDrive\Desktop\web\server\tests\qaRegression.test.js:90:10)
+    process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: QA email validation accepts single addresses and rejects embedded or whitespace addresses
+not ok 13 - QA email validation accepts single addresses and rejects embedded or whitespace addresses
+  ---
+  duration_ms: 328.291
+  type: 'test'
+  location: 'C:\\Users\\Samantha\\OneDrive\\Desktop\\web\\tests\\authQa.test.mjs:6:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    "first a@b.test last"
+    
+    true !== false
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: false
+  actual: true
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (file:///C:/Users/Samantha/OneDrive/Desktop/web/tests/authQa.test.mjs:9:138)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.start (node:internal/test_runner/test:944:17)
+    startSubtestAfterBootstrap (node:internal/test_runner/harness:296:17)
+  ...
+# Subtest: QA role resolution never repairs over a failed authoritative profile lookup
+not ok 14 - QA role resolution never repairs over a failed authoritative profile lookup
+  ---
+  duration_ms: 37.796
+  type: 'test'
+  location: 'C:\\Users\\Samantha\\OneDrive\\Desktop\\web\\tests\\authQa.test.mjs:24:1'
+  failureType: 'testCodeFailure'
+  error: 'Missing expected rejection.'
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  operator: 'rejects'
+  stack: |-
+    async TestContext.<anonymous> (file:///C:/Users/Samantha/OneDrive/Desktop/web/tests/authQa.test.mjs:26:3)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: QA role resolution never repairs when child identity lookup fails
+not ok 15 - QA role resolution never repairs when child identity lookup fails
+  ---
+  duration_ms: 22.0522
+  type: 'test'
+  location: 'C:\\Users\\Samantha\\OneDrive\\Desktop\\web\\tests\\authQa.test.mjs:29:1'
+  failureType: 'testCodeFailure'
+  error: 'Missing expected rejection.'
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  operator: 'rejects'
+  stack: |-
+    async TestContext.<anonymous> (file:///C:/Users/Samantha/OneDrive/Desktop/web/tests/authQa.test.mjs:31:3)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: QA role resolution preserves authoritative teacher and child roles
+ok 16 - QA role resolution preserves authoritative teacher and child roles
+  ---
+  duration_ms: 27.9357
+  type: 'test'
+  ...
+# Subtest: QA parent profile repair reports persistence failure
+not ok 17 - QA parent profile repair reports persistence failure
+  ---
+  duration_ms: 14.244
+  type: 'test'
+  location: 'C:\\Users\\Samantha\\OneDrive\\Desktop\\web\\tests\\authQa.test.mjs:40:1'
+  failureType: 'testCodeFailure'
+  error: 'Missing expected rejection.'
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  operator: 'rejects'
+  stack: |-
+    async TestContext.<anonymous> (file:///C:/Users/Samantha/OneDrive/Desktop/web/tests/authQa.test.mjs:42:3)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: QA confirmed parent repair preserves signup name; unconfirmed accounts are not repaired
+not ok 18 - QA confirmed parent repair preserves signup name; unconfirmed accounts are not repaired
+  ---
+  duration_ms: 16.2814
+  type: 'test'
+  location: 'C:\\Users\\Samantha\\OneDrive\\Desktop\\web\\tests\\authQa.test.mjs:44:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    + actual - expected
+    
+    + undefined
+    - 'Test Parent'
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 'Test Parent'
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (file:///C:/Users/Samantha/OneDrive/Desktop/web/tests/authQa.test.mjs:47:10)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: QA saved-profile picker ignores malformed entries without crashing
+not ok 19 - QA saved-profile picker ignores malformed entries without crashing
+  ---
+  duration_ms: 14.2472
+  type: 'test'
+  location: 'C:\\Users\\Samantha\\OneDrive\\Desktop\\web\\tests\\authQa.test.mjs:61:1'
+  failureType: 'testCodeFailure'
+  error: "Cannot read properties of null (reading 'savedAt')"
+  code: 'ERR_TEST_FAILURE'
+  name: 'TypeError'
+  stack: |-
+    /C:/Users/Samantha/OneDrive/Desktop/web/src/lib/auth/savedProfiles.ts:39:54
+    Array.filter (<anonymous>)
+    Object.getSavedProfiles (/C:/Users/Samantha/OneDrive/Desktop/web/src/lib/auth/savedProfiles.ts:39:23)
+    TestContext.<anonymous> (file:///C:/Users/Samantha/OneDrive/Desktop/web/tests/authQa.test.mjs:63:40)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+    Test.postRun (node:internal/test_runner/test:1173:19)
+    Test.run (node:internal/test_runner/test:1101:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: QA saved profiles enforce expiration, student replacement, and profile limit
+ok 20 - QA saved profiles enforce expiration, student replacement, and profile limit
+  ---
+  duration_ms: 29.084
+  type: 'test'
+  ...
+# Subtest: QA unavailable optional profile storage does not break login/logout
+not ok 21 - QA unavailable optional profile storage does not break login/logout
+  ---
+  duration_ms: 9.9566
+  type: 'test'
+  location: 'C:\\Users\\Samantha\\OneDrive\\Desktop\\web\\tests\\authQa.test.mjs:73:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Got unwanted exception.
+    Actual message: "Storage denied"
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  actual:
+  error: 'Storage denied'
+  stack: |-
+    Object.setItem (file:///C:/Users/Samantha/OneDrive/Desktop/web/tests/authQa.test.mjs:57:53)
+    writeAll (/C:/Users/Samantha/OneDrive/Desktop/web/src/lib/auth/savedProfiles.ts:33:18)
+    Object.saveAuthProfile (/C:/Users/Samantha/OneDrive/Desktop/web/src/lib/auth/savedProfiles.ts:50:5)
+    file:///C:/Users/Samantha/OneDrive/Desktop/web/tests/authQa.test.mjs:75:38
+    getActual (node:assert:609:5)
+    Function.doesNotThrow (node:assert:777:32)
+    TestContext.<anonymous> (file:///C:/Users/Samantha/OneDrive/Desktop/web/tests/authQa.test.mjs:75:10)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+  operator: 'doesNotThrow'
+  stack: |-
+    TestContext.<anonymous> (file:///C:/Users/Samantha/OneDrive/Desktop/web/tests/authQa.test.mjs:75:10)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+    Test.postRun (node:internal/test_runner/test:1173:19)
+    Test.run (node:internal/test_runner/test:1101:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: QA signup without a session reaches verification without an unauthenticated profile write
+not ok 22 - QA signup without a session reaches verification without an unauthenticated profile write
+  ---
+  duration_ms: 95.4868
+  type: 'test'
+  location: 'C:\\Users\\Samantha\\OneDrive\\Desktop\\web\\tests\\authQa.test.mjs:100:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    + actual - expected
+    
+    + undefined
+    - '/verify-email'
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: '/verify-email'
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (file:///C:/Users/Samantha/OneDrive/Desktop/web/tests/authQa.test.mjs:103:10)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: QA signup with a session persists its parent profile
+ok 23 - QA signup with a session persists its parent profile
+  ---
+  duration_ms: 93.936
+  type: 'test'
+  ...
+1..23
+# tests 23
+# suites 0
+# pass 3
+# fail 20
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 1526.9516

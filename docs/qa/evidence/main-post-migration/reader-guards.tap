@@ -1,0 +1,40 @@
+TAP version 13
+# Subtest: Main verifier refuses incomplete or disabled connection setup before networking
+ok 1 - Main verifier refuses incomplete or disabled connection setup before networking
+  ---
+  duration_ms: 2.0491
+  type: 'test'
+  ...
+# Subtest: Main verifier rejects administrator identities, wrong targets and transaction pooler configuration
+ok 2 - Main verifier rejects administrator identities, wrong targets and transaction pooler configuration
+  ---
+  duration_ms: 0.3939
+  type: 'test'
+  ...
+# Subtest: Main verifier rejects actual elevated roles, impersonated sessions and writable transactions
+ok 3 - Main verifier rejects actual elevated roles, impersonated sessions and writable transactions
+  ---
+  duration_ms: 0.4433
+  type: 'test'
+  ...
+# Subtest: Main integrity checks require proven unfiltered visibility across every joined table
+ok 4 - Main integrity checks require proven unfiltered visibility across every joined table
+  ---
+  duration_ms: 0.3538
+  type: 'test'
+  ...
+# Subtest: Main integrity checks refuse reader ownership or inherited write privileges
+ok 5 - Main integrity checks refuse reader ownership or inherited write privileges
+  ---
+  duration_ms: 0.3136
+  type: 'test'
+  ...
+1..5
+# tests 5
+# suites 0
+# pass 5
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 142.741

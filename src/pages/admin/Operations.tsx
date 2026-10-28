@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { api } from '../../lib/api';
 import { cardStyle } from '../../lib/cardStyle';
@@ -36,7 +36,8 @@ export default function Operations() {
     return { title: child(row.child_id), meta: `${Number(row.activities_completed || 0)} gawain · ${Number(row.xp || 0).toLocaleString()} XP · ${Number(row.streak || 0)} araw na streak`, badge: 'Progress', when: row.updated_at };
   };
   const rows = data?.[tab] ?? [];
-  const filtered = useMemo(() => { const query = search.trim().toLowerCase(); return query ? rows.filter((row) => { const item = detail(row); return `${item.title} ${item.meta} ${item.badge}`.toLowerCase().includes(query); }) : rows; }, [rows, search, tab, data]);
+  const query = search.trim().toLowerCase();
+  const filtered = query ? rows.filter((row) => { const item = detail(row); return `${item.title} ${item.meta} ${item.badge}`.toLowerCase().includes(query); }) : rows;
   const totalPages = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE)); const shown = filtered.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
   useEffect(() => setPage(1), [tab, search]);
   return <div className="mx-auto flex w-full max-w-[1500px] flex-col gap-5 pb-8">

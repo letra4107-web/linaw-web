@@ -27,14 +27,24 @@ function readAll(): SavedAuthProfile[] {
     const raw = localStorage.getItem(STORE_KEY);
     if (!raw) return [];
     const parsed = JSON.parse(raw);
-    return Array.isArray(parsed) ? parsed : [];
+    return Array.isArray(parsed) ? parsed.filter((profile): profile is SavedAuthProfile => (
+      profile !== null && typeof profile === 'object'
+      && ['admin', 'parent', 'student', 'teacher'].includes(profile.role)
+      && ['userId', 'displayName', 'email', 'refreshToken', 'savedAt'].every((key) => typeof profile[key] === 'string')
+      && Boolean(profile.userId) && Boolean(profile.refreshToken)
+      && Number.isFinite(Date.parse(profile.savedAt))
+    )) : [];
   } catch {
     return [];
   }
 }
 
 function writeAll(profiles: SavedAuthProfile[]) {
-  localStorage.setItem(STORE_KEY, JSON.stringify(profiles));
+  try {
+    localStorage.setItem(STORE_KEY, JSON.stringify(profiles));
+  } catch {
+    // Saved profiles are optional; quota/privacy settings must not break auth.
+  }
 }
 
 /** Returns saved profiles, pruning (and persisting the prune of) any past their role's TTL of disuse. */

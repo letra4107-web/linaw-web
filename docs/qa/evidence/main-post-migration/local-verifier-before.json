@@ -1,0 +1,32 @@
+{
+  "timestamp": "2026-10-18T08:33:18.358Z",
+  "scope": "Fresh synthetic loopback database only; main never contacted. Fixture DDL is not a main migration execution.",
+  "rows": [
+    {
+      "scenario": "Dedicated reader connects without elevated attributes and a read-only transaction is enforced",
+      "status": "PASS"
+    },
+    {
+      "scenario": "Catalog verifier recognizes copied function signatures/bodies/trigger/constraints without invoking either RPC",
+      "status": "FAIL",
+      "actual": "Expected values to be strictly deep-equal:\n+ actual - expected\n\n+ [\n+   {\n+     actual: 'Expected PRIMARY KEY(id)',\n+     id: 'MAIN-section-primary-key',\n+     scenario: 'Section primary key is validated',\n+     status: 'FAIL'\n+   },\n+   {\n+     actual: 'Expected UNIQUE(grade_level, name)',\n+     id: 'MAIN-section-name-unique',\n+     scenario: 'Section name is unique within grade',\n+     status: 'FAIL'\n+   },\n+   {\n+     actual: 'Expected adviser reference to auth.users; no Auth rows queried',\n+     id: 'MAIN-section-adviser-fk',\n+     scenario: 'Section adviser foreign key is validated',\n+     status: 'FAIL'\n+   },\n+   {\n+     actual: 'Expected PRIMARY KEY(section_id, student_id)',\n+     id: 'MAIN-membership-primary-key',\n+     scenario: 'Section membership composite primary key is validated',\n+     status: 'FAIL'\n+   },\n+   {\n+     actual: 'Expected section and child foreign keys',\n+     id: 'MAIN-membership-foreign-keys',\n+     scenario: 'Membership foreign keys exist and are validated',\n+     status: 'FAIL'\n+   },\n+   {\n+     actual: 'Expected UNIQUE(teacher_id, student_id)',\n+     id: 'MAIN-roster-unique',\n+     scenario: 'Teacher roster pair uniqueness is enforced',\n+     status: 'FAIL'\n+   },\n+   {\n+     actual: 'Expected Auth/child relationships; Auth-row scans remain outside scope',\n+     id: 'MAIN-roster-foreign-keys',\n+     scenario: 'Teacher roster foreign keys are validated',\n+     status: 'FAIL'\n+   }\n+ ]\n- []\n"
+    },
+    {
+      "scenario": "RLS-filtered empty results are refused as global integrity proof",
+      "status": "PASS"
+    },
+    {
+      "scenario": "Approved local SELECT policies permit aggregate checks without bypassing RLS",
+      "status": "PASS"
+    },
+    {
+      "scenario": "Aggregate verifier detects synthetic over-capacity, wrong-grade and missing-roster defects",
+      "status": "FAIL",
+      "actual": "Expected values to be strictly equal:\n\n1 !== 2\n"
+    },
+    {
+      "scenario": "Writes are refused in the local reader session",
+      "status": "PASS"
+    }
+  ]
+}

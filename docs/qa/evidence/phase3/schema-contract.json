@@ -1,0 +1,805 @@
+{
+  "timestamp": "2026-10-18T07:59:13.683Z",
+  "status": "BLOCKED",
+  "scope": "Static dependency/lineage inspection, not a verified complete baseline or migration replay.",
+  "reason": "No isolated Supabase project or schema-only authoritative snapshot is configured.",
+  "tables": [
+    "admin_student_notes",
+    "audit_logs",
+    "authoritative_speech_attempt_keys",
+    "child_credentials",
+    "child_progress",
+    "children",
+    "class_sections",
+    "lessons",
+    "notifications",
+    "parent_teacher_replies",
+    "parents",
+    "parents_settings",
+    "pdf_assignments",
+    "pdf_drill_items",
+    "pdf_materials",
+    "pdf_reading_attempts",
+    "phoneme_confusion",
+    "pronunciation_practice_sessions",
+    "reading_content",
+    "reading_module_items",
+    "reading_modules",
+    "scheduled_activities",
+    "section_students",
+    "student_content_completions",
+    "student_nonsense_check_sets",
+    "student_nonsense_checks",
+    "student_reading_level_overrides",
+    "student_settings",
+    "system_settings",
+    "teacher_messages",
+    "teacher_profiles",
+    "teacher_student_links",
+    "teacher_uploads",
+    "users",
+    "word_definitions",
+    "word_of_day_log"
+  ],
+  "functions": [
+    "assign_section_students",
+    "award_student_badges",
+    "equip_student_module",
+    "get_reading_module_content",
+    "get_student_module_path",
+    "record_student_content_attempt",
+    "start_module_assessment",
+    "submit_module_assessment",
+    "unequip_student_module"
+  ],
+  "roots": [
+    [
+      "children",
+      "id",
+      "uuid"
+    ],
+    [
+      "children",
+      "parent_id",
+      "uuid"
+    ],
+    [
+      "children",
+      "auth_uid",
+      "uuid"
+    ],
+    [
+      "users",
+      "id",
+      null
+    ],
+    [
+      "child_progress",
+      "child_id",
+      "uuid"
+    ],
+    [
+      "users",
+      "lastLoginAt",
+      null
+    ]
+  ],
+  "migrations": [
+    {
+      "id": "web/001_web_login_otp.sql",
+      "sha256": "044bc4dd0d0fbb3ed662938ee809d2178b286e315bc212e50ad0ab4f2dfaa6ad",
+      "bytes": 1007,
+      "invalidPolicyIfNotExists": false,
+      "dataStatements": false
+    },
+    {
+      "id": "web/002_users_archive_trail.sql",
+      "sha256": "668802c025909fa2d76f1ef07d55302ece14ac8ab6ca7c8ee4a5aec7ae527bef",
+      "bytes": 513,
+      "invalidPolicyIfNotExists": false,
+      "dataStatements": false
+    },
+    {
+      "id": "web/003_teacher_profiles.sql",
+      "sha256": "d63d985c77dae10ffe4b25cc05b6fe3045756cfbc12e590c62141adc892eb95f",
+      "bytes": 914,
+      "invalidPolicyIfNotExists": false,
+      "dataStatements": false
+    },
+    {
+      "id": "web/004_teacher_workspace.sql",
+      "sha256": "6f07831f74726c198df855e55a1b16b4547dcc79f477ea6d2bc7d82e6422afa8",
+      "bytes": 23143,
+      "invalidPolicyIfNotExists": false,
+      "dataStatements": true
+    },
+    {
+      "id": "web/005_lesson_pdfs_bucket.sql",
+      "sha256": "2ab06e6ba1926fb8280aa7d0b5731552a6b2ca8786c6d9e2d8831ada958fff10",
+      "bytes": 979,
+      "invalidPolicyIfNotExists": false,
+      "dataStatements": true
+    },
+    {
+      "id": "web/006_teacher_settings.sql",
+      "sha256": "38bb2ff2191f2fa92a3a873a70a4146fb538d609c2c97759cf15beb749e5ee2f",
+      "bytes": 1227,
+      "invalidPolicyIfNotExists": false,
+      "dataStatements": false
+    },
+    {
+      "id": "web/007_fix_pdf_rls_recursion.sql",
+      "sha256": "d53dcf36db749f3f393303d35e0f082b0911cba1941a160266021ae03467d146",
+      "bytes": 2585,
+      "invalidPolicyIfNotExists": false,
+      "dataStatements": false
+    },
+    {
+      "id": "web/008_fix_children_student_id_ambiguity.sql",
+      "sha256": "097f348492b9a590b533048f028f1c9da6a078dbae4be736e4d20727ef5811cd",
+      "bytes": 4495,
+      "invalidPolicyIfNotExists": false,
+      "dataStatements": false
+    },
+    {
+      "id": "web/009_teacher_read_roster_children.sql",
+      "sha256": "9166db0e642d3f45a59e310a3592f34633a01a1f7551fcdb55745b2ee060434d",
+      "bytes": 1496,
+      "invalidPolicyIfNotExists": false,
+      "dataStatements": false
+    },
+    {
+      "id": "web/010_parent_notifications_and_rls.sql",
+      "sha256": "5612e5f6c767b511a608410cfaf46228a527fdc01f0f7d22d435b9721ed7f031",
+      "bytes": 5465,
+      "invalidPolicyIfNotExists": false,
+      "dataStatements": true
+    },
+    {
+      "id": "web/011_dedupe_parent_notifications.sql",
+      "sha256": "6a1d868f0f7cabb492688612f34f23cb962dfac2cfa787fa7e47ff23cb5b2a1a",
+      "bytes": 3373,
+      "invalidPolicyIfNotExists": false,
+      "dataStatements": true
+    },
+    {
+      "id": "web/012_teacher_messages.sql",
+      "sha256": "a53a3e4a402268f29146d535f9866816d713974c792e243b8d18ba90d6e8aca0",
+      "bytes": 3875,
+      "invalidPolicyIfNotExists": false,
+      "dataStatements": true
+    },
+    {
+      "id": "web/013_fix_teacher_messages_policy_leak.sql",
+      "sha256": "ed8217ecfb1f4631221e2852bba525318bfec38d92a7811e8ef3000ed4facdcc",
+      "bytes": 2312,
+      "invalidPolicyIfNotExists": false,
+      "dataStatements": false
+    },
+    {
+      "id": "web/014_fix_parent_teacher_name_rls_recursion.sql",
+      "sha256": "ebab421d7298084726345a6052309acf171628996b182c1b00ddf86d3269e1b9",
+      "bytes": 1927,
+      "invalidPolicyIfNotExists": false,
+      "dataStatements": false
+    },
+    {
+      "id": "web/015_teacher_read_parent_name.sql",
+      "sha256": "3d527331d04835854205fdf82353fde53f4ab4777af9350b2c28631ba30c3c58",
+      "bytes": 826,
+      "invalidPolicyIfNotExists": false,
+      "dataStatements": false
+    },
+    {
+      "id": "web/016_pdf_syllable_drill.sql",
+      "sha256": "3d12b80b3226bc80025e931a23c150a14d1ab77a2d41d334839df1009d9feb3d",
+      "bytes": 3860,
+      "invalidPolicyIfNotExists": false,
+      "dataStatements": false
+    },
+    {
+      "id": "web/017_pdf_materials_archive.sql",
+      "sha256": "f7751d9297b3d99f3a6268051f06672c29234113e2c831269f9c3c9676073204",
+      "bytes": 901,
+      "invalidPolicyIfNotExists": false,
+      "dataStatements": false
+    },
+    {
+      "id": "web/018_nonsense_word_checks.sql",
+      "sha256": "dfea4675744c6eb02cac1cd77c403c8012fbedf130fed22ea5bf6beea04246b1",
+      "bytes": 2372,
+      "invalidPolicyIfNotExists": false,
+      "dataStatements": false
+    },
+    {
+      "id": "web/019_module1_marungko_realign.sql",
+      "sha256": "ea813c06f043bfca8b6cf3675fa9314620489490524f229449ea7667e1e32f17",
+      "bytes": 4781,
+      "invalidPolicyIfNotExists": false,
+      "dataStatements": true
+    },
+    {
+      "id": "web/020_beginner_modules_marungko_order.sql",
+      "sha256": "f4aa29b960e09897cce52ce19caa0eb3997b5f1973e40a09e60156337e03ac11",
+      "bytes": 1878,
+      "invalidPolicyIfNotExists": false,
+      "dataStatements": true
+    },
+    {
+      "id": "web/021_intermediate_m1_d_coverage.sql",
+      "sha256": "75bed3522762a5c70faa23f86866af87c0044064c405a8c3ea16f3ca17be8d3d",
+      "bytes": 1658,
+      "invalidPolicyIfNotExists": false,
+      "dataStatements": true
+    },
+    {
+      "id": "web/022_advanced_kwento1_content.sql",
+      "sha256": "4229b2b8789934e9829a3092627cd2b9c0ccd26a7f71834aae8a9bca056991b8",
+      "bytes": 2927,
+      "invalidPolicyIfNotExists": false,
+      "dataStatements": true
+    },
+    {
+      "id": "web/023_retire_plaintext_student_credentials.sql",
+      "sha256": "3fcc0306a6c6bd63afe595f6c3877e60cd9b007fe71955a89836fb8836059613",
+      "bytes": 929,
+      "invalidPolicyIfNotExists": false,
+      "dataStatements": false
+    },
+    {
+      "id": "web/024_lock_down_student_credentials.sql",
+      "sha256": "45068c0c41f19e1ae5de42927b1f7c09c28998103050be7cfcec0b1c2000d384",
+      "bytes": 1816,
+      "invalidPolicyIfNotExists": false,
+      "dataStatements": false
+    },
+    {
+      "id": "web/025_storage_path_transition.sql",
+      "sha256": "6395b1a743f68edbb62805d3ee7b307a50515d57a0913e5c013fa25b3d971694",
+      "bytes": 1599,
+      "invalidPolicyIfNotExists": false,
+      "dataStatements": true
+    },
+    {
+      "id": "web/026_atomic_badge_awards.sql",
+      "sha256": "ccd743b62149bc0ad192c103863bcfbb8e84ffb0381f88bf7ddd24891cecb8a6",
+      "bytes": 2914,
+      "invalidPolicyIfNotExists": false,
+      "dataStatements": true
+    },
+    {
+      "id": "web/027_authoritative_speech_scoring_pilot.sql",
+      "sha256": "97d49b0935d7fddddad7ace9949b9133bc9530480ff8a0f26e77296db7fa50e7",
+      "bytes": 1014,
+      "invalidPolicyIfNotExists": false,
+      "dataStatements": false
+    },
+    {
+      "id": "web/029_guided_pdf_story_reading.sql",
+      "sha256": "46c55a4ab353881bfaffb662def58edaa8624eeb0fa169e4cc6d4f25b6044543",
+      "bytes": 2411,
+      "invalidPolicyIfNotExists": false,
+      "dataStatements": false
+    },
+    {
+      "id": "web/030_admin_audit_logs.sql",
+      "sha256": "700534bb7a2de4cef3da151746195a218d70849978d0a9f72442d89d3cd5f125",
+      "bytes": 1566,
+      "invalidPolicyIfNotExists": false,
+      "dataStatements": false
+    },
+    {
+      "id": "web/031_direct_mutation_audit.sql",
+      "sha256": "e5de9b01253a056b587f75969f3ee0232a926c5f846d246cc6e2a5fa9ee6ba81",
+      "bytes": 2466,
+      "invalidPolicyIfNotExists": false,
+      "dataStatements": true
+    },
+    {
+      "id": "web/032_lock_down_pdf_reading_student_mutations.sql",
+      "sha256": "eb8e404cd293af28af2446c88d187150e21403dd207c8b49b8a45d7d9bb4e718",
+      "bytes": 859,
+      "invalidPolicyIfNotExists": false,
+      "dataStatements": false
+    },
+    {
+      "id": "web/033_lock_down_practice_session_mutations.sql",
+      "sha256": "03cf5facc4f608e3a15501b25d51685fde0fbc939e3c44e987dd58cc59ef0f55",
+      "bytes": 494,
+      "invalidPolicyIfNotExists": false,
+      "dataStatements": false
+    },
+    {
+      "id": "web/034_authoritative_nonsense_word_sets.sql",
+      "sha256": "2de6af16a895d9ea7804efcad9a5c95227a3a9167008fc18f275f8977be6da08",
+      "bytes": 865,
+      "invalidPolicyIfNotExists": false,
+      "dataStatements": false
+    },
+    {
+      "id": "web/035_audit_action_taxonomy.sql",
+      "sha256": "2829d3479c80382b0af9ff34085ca1c6f21baac23b647d39209c2ea1b4aaf542",
+      "bytes": 4060,
+      "invalidPolicyIfNotExists": false,
+      "dataStatements": true
+    },
+    {
+      "id": "web/036_fill_active_word_definitions.sql",
+      "sha256": "76dcc9adbd6671e60e1a960d708e7a5a83f69923f9d464d6f753c6fdb8b5eea2",
+      "bytes": 12679,
+      "invalidPolicyIfNotExists": false,
+      "dataStatements": true
+    },
+    {
+      "id": "web/037_correct_demo_student_placements.sql",
+      "sha256": "a246b8d4fda42a033fdca405d6043cc546a17d599d397af792854cccb6195549",
+      "bytes": 2283,
+      "invalidPolicyIfNotExists": false,
+      "dataStatements": true
+    },
+    {
+      "id": "web/038_audit_login_sessions.sql",
+      "sha256": "8c67261693df2448ec1ec1ad18ef129fefd2744940ac44fe43689d184873fce3",
+      "bytes": 302,
+      "invalidPolicyIfNotExists": false,
+      "dataStatements": false
+    },
+    {
+      "id": "web/039_admin_system_settings.sql",
+      "sha256": "c64bc2c9626f7156c481be6626341d1db4a1049a2af7fa3bcbbe6c99c7d06769",
+      "bytes": 614,
+      "invalidPolicyIfNotExists": false,
+      "dataStatements": false
+    },
+    {
+      "id": "web/040_parent_teacher_replies.sql",
+      "sha256": "4c05a11d60a8b3fedda6a9dd46c9973de9e13d6a7ba394c3a37fe9baaf76f832",
+      "bytes": 4060,
+      "invalidPolicyIfNotExists": false,
+      "dataStatements": true
+    },
+    {
+      "id": "web/041_parent_settings_preferences.sql",
+      "sha256": "daed388fafe8007995d36e489af4c56e61352e9c6046e778736394fbf83f9bbc",
+      "bytes": 940,
+      "invalidPolicyIfNotExists": false,
+      "dataStatements": true
+    },
+    {
+      "id": "web/042_parent_theme_preference.sql",
+      "sha256": "29930b306191fafbaebc148f3b1a03826159d3fca949a2caceb5bfe506bc33dc",
+      "bytes": 297,
+      "invalidPolicyIfNotExists": false,
+      "dataStatements": false
+    },
+    {
+      "id": "web/043_parent_avatar_uploads.sql",
+      "sha256": "6c5a9ab957d844f789501b1827b5ce66d5e5aca29e55c0c4813bbe1d325dec5c",
+      "bytes": 745,
+      "invalidPolicyIfNotExists": false,
+      "dataStatements": true
+    },
+    {
+      "id": "web/044_admin_student_notes.sql",
+      "sha256": "55357e6fed138706f70d40a40c264946bcce9d418eb5b4309fb9307dc24e0fc8",
+      "bytes": 814,
+      "invalidPolicyIfNotExists": false,
+      "dataStatements": false
+    },
+    {
+      "id": "web/045_teacher_avatar_uploads.sql",
+      "sha256": "81d16790ecd343c547e0fbe588f1f3ffdcca9c8aa8bd1cb5e067b0ba0b098d2f",
+      "bytes": 1452,
+      "invalidPolicyIfNotExists": false,
+      "dataStatements": true
+    },
+    {
+      "id": "web/046_sections_and_reading_support_groups.sql",
+      "sha256": "87bce29e12d94b0ea7cca882d59b56d1039d0328817c16d15fb32753e07ada51",
+      "bytes": 2827,
+      "invalidPolicyIfNotExists": false,
+      "dataStatements": false
+    },
+    {
+      "id": "web/047_atomic_section_assignments.sql",
+      "sha256": "4025d8d21eeb9ea8e6ad02ab26e845629f63e17fa355e669de9276ff8fc406e6",
+      "bytes": 3339,
+      "invalidPolicyIfNotExists": false,
+      "dataStatements": true
+    },
+    {
+      "id": "web/048_section_capacity_snapshot_safety.sql",
+      "sha256": "9dd49d8738f65e539d275483ae407457005b3d62fcaf0ba2cba4c16b5fd9d75e",
+      "bytes": 1673,
+      "invalidPolicyIfNotExists": false,
+      "dataStatements": true
+    },
+    {
+      "id": "mobile/001_schema.sql",
+      "sha256": "0f3e79da328744cc55494b040186728baf4d56084b29f571a104dad543304d9b",
+      "bytes": 3059,
+      "invalidPolicyIfNotExists": true,
+      "dataStatements": true
+    },
+    {
+      "id": "mobile/002_new_tables.sql",
+      "sha256": "80925ce4b5176e1979302a44c34da6f8f8998ec3e8fd3fc0e6c90e3cae293a1f",
+      "bytes": 4474,
+      "invalidPolicyIfNotExists": false,
+      "dataStatements": false
+    },
+    {
+      "id": "mobile/003_parents.sql",
+      "sha256": "1809c2f803f41c47498c25b1026b1fb6b2eb5bc1673bde13782c1a365ba3dda5",
+      "bytes": 4404,
+      "invalidPolicyIfNotExists": false,
+      "dataStatements": true
+    },
+    {
+      "id": "mobile/004_user_settings.sql",
+      "sha256": "38f72f7918dd087ecee0aeefc73f1e67a2cb43cc5f565cd32b9825a02b14f06f",
+      "bytes": 12659,
+      "invalidPolicyIfNotExists": false,
+      "dataStatements": true
+    },
+    {
+      "id": "mobile/005_activities.sql",
+      "sha256": "f71ed18716263fbfa9deb93528425027f130029b6f8fa8ebd1581aea8096702e",
+      "bytes": 3405,
+      "invalidPolicyIfNotExists": false,
+      "dataStatements": false
+    },
+    {
+      "id": "mobile/006_lessons.sql",
+      "sha256": "e9871652cea5cd842b58db9ba96143bb10b9c899d3a30ac701e01f31ab7808d4",
+      "bytes": 3915,
+      "invalidPolicyIfNotExists": false,
+      "dataStatements": true
+    },
+    {
+      "id": "mobile/007_pronunciation_practice_sessions.sql",
+      "sha256": "8020adcc0c5430ee66d3243ca2945a3c1ca840348619300c6db771bd692106e1",
+      "bytes": 2878,
+      "invalidPolicyIfNotExists": false,
+      "dataStatements": false
+    },
+    {
+      "id": "mobile/008_notifications_rls.sql",
+      "sha256": "244bcc24cb2b5185c8b4fbcd89c3c9b7c8dd0e05ea3d6709e9e6b280febd1582",
+      "bytes": 1255,
+      "invalidPolicyIfNotExists": false,
+      "dataStatements": false
+    },
+    {
+      "id": "mobile/009_parent_monitoring_notifications.sql",
+      "sha256": "119a3cd8360e865795d12894e07c11b04d5d0b5e08fe6866a80eebfdaf837120",
+      "bytes": 4449,
+      "invalidPolicyIfNotExists": false,
+      "dataStatements": true
+    },
+    {
+      "id": "mobile/010_child_progress_stability.sql",
+      "sha256": "b5cec1fbeea2bef31d922fc04a4db476fad9b0c3abb61cc3b0dc151d7f80eb54",
+      "bytes": 1316,
+      "invalidPolicyIfNotExists": false,
+      "dataStatements": true
+    },
+    {
+      "id": "mobile/011_practice_schema_and_notifications_stability.sql",
+      "sha256": "cca37cae9ed04b5028f65ef09ce4d4481dd5b348daa2b38be29439ba1b91c55b",
+      "bytes": 5141,
+      "invalidPolicyIfNotExists": false,
+      "dataStatements": true
+    },
+    {
+      "id": "mobile/012_achievement_badges_v2.sql",
+      "sha256": "733b055803074c70940e0481898718e8d8c7a3064d37fe77be3fa4f7e89a9ec5",
+      "bytes": 1032,
+      "invalidPolicyIfNotExists": false,
+      "dataStatements": true
+    },
+    {
+      "id": "mobile/013_lesson_progress.sql",
+      "sha256": "a1fd1c69ea2a0c5c48bc3a4c7c66763b3fa14d7afc21426171aa52d3860d7dee",
+      "bytes": 3012,
+      "invalidPolicyIfNotExists": false,
+      "dataStatements": false
+    },
+    {
+      "id": "mobile/014_pronunciation_session_duration.sql",
+      "sha256": "68187461726f91168b5a6fbb35ba1589a32cc0bf8556b7835c270f753b3f4b1d",
+      "bytes": 432,
+      "invalidPolicyIfNotExists": false,
+      "dataStatements": false
+    },
+    {
+      "id": "mobile/015_settings_real_wiring.sql",
+      "sha256": "8ada5e2a6b36c84714958ac9ac49b657ce49777522feb2c5c2e4ba198031b1b6",
+      "bytes": 2517,
+      "invalidPolicyIfNotExists": false,
+      "dataStatements": true
+    },
+    {
+      "id": "mobile/016_scheduled_activities.sql",
+      "sha256": "8f7946c49aaf24deec925431fd8dd8bdf31e40921d8a9745656dff9bf3fb1ec8",
+      "bytes": 3259,
+      "invalidPolicyIfNotExists": false,
+      "dataStatements": false
+    },
+    {
+      "id": "mobile/017_children_rls.sql",
+      "sha256": "50ee3be5c34221e4a7e07bca490ad3938c332d10635ba9dd39635245f8d8080d",
+      "bytes": 1886,
+      "invalidPolicyIfNotExists": false,
+      "dataStatements": false
+    },
+    {
+      "id": "mobile/018_reading_activities_rls.sql",
+      "sha256": "9a07ab53c17b3b7f6353ee6d450f78d4b6df0866cfa996819af16555889ed97a",
+      "bytes": 813,
+      "invalidPolicyIfNotExists": false,
+      "dataStatements": false
+    },
+    {
+      "id": "mobile/019_word_definitions.sql",
+      "sha256": "97426d99a231bc9b9fb1ce0eac355231a511b1bdeddae52c50a487271f6c3b97",
+      "bytes": 5450,
+      "invalidPolicyIfNotExists": false,
+      "dataStatements": true
+    },
+    {
+      "id": "mobile/020_words_table.sql",
+      "sha256": "7210562e543d5f3122909bcb15217028ebdc3c57048d14083c01514c69151369",
+      "bytes": 1940,
+      "invalidPolicyIfNotExists": false,
+      "dataStatements": false
+    },
+    {
+      "id": "mobile/021_longest_streak.sql",
+      "sha256": "9c727a8d115c2fa122226f75354694221d5cac31bda5bdfaf6cdf0242e9a442a",
+      "bytes": 533,
+      "invalidPolicyIfNotExists": false,
+      "dataStatements": true
+    },
+    {
+      "id": "mobile/022_avatar_storage_policies.sql",
+      "sha256": "f300ca88c6e477a9ada30b303bc474ee1ff7e7e795ce529c40d62b68df07a20f",
+      "bytes": 1117,
+      "invalidPolicyIfNotExists": false,
+      "dataStatements": false
+    },
+    {
+      "id": "mobile/022_word_of_day_server_streak.sql",
+      "sha256": "cdc68d4a511dd602cf3b649682296c69add4a14da594c903829f5ea907f77624",
+      "bytes": 3371,
+      "invalidPolicyIfNotExists": false,
+      "dataStatements": true
+    },
+    {
+      "id": "mobile/023_phoneme_confusion.sql",
+      "sha256": "3754ac17723b3043054dc12414024bab4bf132a60332575fb4fc0e967c658f29",
+      "bytes": 2741,
+      "invalidPolicyIfNotExists": false,
+      "dataStatements": false
+    },
+    {
+      "id": "mobile/024_personalized_recommendation_foundation.sql",
+      "sha256": "01e89a2d1edb3aec333cb6fde37221d4f295141d0995502960c7d232e6e82bc4",
+      "bytes": 9204,
+      "invalidPolicyIfNotExists": false,
+      "dataStatements": false
+    },
+    {
+      "id": "mobile/025_reading_content_foundation.sql",
+      "sha256": "39c207f716b0194c7656ad2455a5636f3c5e779f00b344e9b5c429d56bd78d44",
+      "bytes": 10156,
+      "invalidPolicyIfNotExists": false,
+      "dataStatements": true
+    },
+    {
+      "id": "mobile/026_server_owned_reading_progression.sql",
+      "sha256": "f33d794f18d025f191b1428c3109e2e6e9ad1499f9ac6ccfb279f69312533a68",
+      "bytes": 8241,
+      "invalidPolicyIfNotExists": false,
+      "dataStatements": true
+    },
+    {
+      "id": "mobile/027_remove_legacy_child_progress_write_policies.sql",
+      "sha256": "115bc034d20d8799c0800bfc21642e9a23fffe2429088b57098f2ac80c92fcfe",
+      "bytes": 1132,
+      "invalidPolicyIfNotExists": false,
+      "dataStatements": false
+    },
+    {
+      "id": "mobile/028_personalization_curriculum_items.sql",
+      "sha256": "fa779b0b6ddc400cfea05dd65ca910dce0422689e0d1403f9cc954ed0c29d6dc",
+      "bytes": 1776,
+      "invalidPolicyIfNotExists": false,
+      "dataStatements": true
+    },
+    {
+      "id": "mobile/029_remove_rejected_shorts_curriculum.sql",
+      "sha256": "950b3fa18fa6cecde83525eb2ad132c622506ef6254f4eef929a374985dc3298",
+      "bytes": 1587,
+      "invalidPolicyIfNotExists": false,
+      "dataStatements": true
+    },
+    {
+      "id": "mobile/030_personalized_reading_session_details.sql",
+      "sha256": "5ae1be400ca4d4832c0d65cb3dd02fa9e89289b0bf772f056721a74480ad96ce",
+      "bytes": 1056,
+      "invalidPolicyIfNotExists": false,
+      "dataStatements": false
+    },
+    {
+      "id": "mobile/031_word_of_day_idempotent_xp.sql",
+      "sha256": "a1bad2e06f546bc5c3d2a88d687641638bbb7df884301fd6af1eeca5f6354c47",
+      "bytes": 3179,
+      "invalidPolicyIfNotExists": false,
+      "dataStatements": true
+    },
+    {
+      "id": "mobile/032_fix_ambiguous_word_of_day_attempts_column.sql",
+      "sha256": "7e58c49eedf3932c42c8620001aa4cbed2a229d973de5f91cd8a8ad8815c3c76",
+      "bytes": 3527,
+      "invalidPolicyIfNotExists": false,
+      "dataStatements": true
+    },
+    {
+      "id": "mobile/033_sync_missed_migrations_022_through_021_015_009.sql",
+      "sha256": "b62bcf01eea6c1b79fcbfc3046d5184d10ad72b6b3a498b6e2f1882ddb593f71",
+      "bytes": 13259,
+      "invalidPolicyIfNotExists": false,
+      "dataStatements": true
+    },
+    {
+      "id": "mobile/034_fix_word_of_day_uuid_child_id.sql",
+      "sha256": "b99f926a54e98845086cb0f61242e34e42bc76f3356bc7c3982b85983e4a3cb4",
+      "bytes": 6197,
+      "invalidPolicyIfNotExists": false,
+      "dataStatements": true
+    },
+    {
+      "id": "mobile/035_fix_ambiguous_longest_streak_column.sql",
+      "sha256": "3509e6cc603eec8f8dc6ff935a79d60e528ada5167268ccf1ce7060fab3e9451",
+      "bytes": 3124,
+      "invalidPolicyIfNotExists": false,
+      "dataStatements": true
+    },
+    {
+      "id": "mobile/036_add_missing_touch_and_settings_triggers.sql",
+      "sha256": "021545c065641f2694cebba129801b7de3d11bc4c91c83efa4b3043b092ecbcf",
+      "bytes": 3347,
+      "invalidPolicyIfNotExists": false,
+      "dataStatements": true
+    },
+    {
+      "id": "mobile/037_document_undocumented_triggers.sql",
+      "sha256": "60d1f48021cab17a8e4ad8e6aca20d1422bff9d26829d5f1994608240045699f",
+      "bytes": 2350,
+      "invalidPolicyIfNotExists": false,
+      "dataStatements": true
+    },
+    {
+      "id": "mobile/038_word_definitions_batch1_beginner.sql",
+      "sha256": "892280a1303577541cf1222b25a8812677b8336f6506063071361be5ff138d60",
+      "bytes": 4098,
+      "invalidPolicyIfNotExists": false,
+      "dataStatements": true
+    },
+    {
+      "id": "mobile/039_reading_content_syllables_and_definitions.sql",
+      "sha256": "a96a14d2a373ad15b8ffb964f049355d48ad2ee7344468891d0839413c0a959a",
+      "bytes": 1124,
+      "invalidPolicyIfNotExists": false,
+      "dataStatements": false
+    },
+    {
+      "id": "mobile/040_remove_intermediate_fragment_words.sql",
+      "sha256": "71cd121964ad0aea7a2b2ebcb69f4fe6d5c25e0c30a3110b77cca65bfe242128",
+      "bytes": 1189,
+      "invalidPolicyIfNotExists": false,
+      "dataStatements": true
+    },
+    {
+      "id": "mobile/041_enable_notifications_realtime.sql",
+      "sha256": "bb4acdd4c6e20b2cfdc77fe74bcc2eb59c9eebeeb16dcd5b54eb4c37f6eeb25d",
+      "bytes": 1392,
+      "invalidPolicyIfNotExists": false,
+      "dataStatements": false
+    },
+    {
+      "id": "mobile/042_module_curriculum_foundation.sql",
+      "sha256": "b40d4d2867c5e7bde5e4c2a475aa69bc483e820f6644560eb69b5f00445f1a71",
+      "bytes": 44196,
+      "invalidPolicyIfNotExists": false,
+      "dataStatements": true
+    },
+    {
+      "id": "mobile/043_beginner_modules_1_5_presentation_mvp.sql",
+      "sha256": "7ebd29539b37ad67697c349dcf687358243cbd2d73dceced5f2f0d04937c36bf",
+      "bytes": 41267,
+      "invalidPolicyIfNotExists": false,
+      "dataStatements": true
+    },
+    {
+      "id": "mobile/044_secure_scheduled_activity_ownership_and_realtime.sql",
+      "sha256": "e44310ea63be2ad602af4a3f62a0f65b48ef3766809a48a95d37f6b12337b999",
+      "bytes": 3703,
+      "invalidPolicyIfNotExists": false,
+      "dataStatements": true
+    },
+    {
+      "id": "mobile/045_student_avatar_source_of_truth.sql",
+      "sha256": "19c08fd1c2f9aea48a224e3dda2f6ee5ec4a115bb00e8130df296bb63193297f",
+      "bytes": 3127,
+      "invalidPolicyIfNotExists": false,
+      "dataStatements": true
+    },
+    {
+      "id": "mobile/046_student_module_avatars.sql",
+      "sha256": "efecf1331e97afa01a0239022f033b5115974d6832d32d7befd8b52a569c9257",
+      "bytes": 3915,
+      "invalidPolicyIfNotExists": false,
+      "dataStatements": true
+    },
+    {
+      "id": "mobile/047_intermediate_advanced_modules.sql",
+      "sha256": "f58c56899d217c9c5af052eb9f8f2c063fda533879948cb8cf85e799fd5e3307",
+      "bytes": 10949,
+      "invalidPolicyIfNotExists": false,
+      "dataStatements": true
+    },
+    {
+      "id": "mobile/048_beginner_modules_5_to_17.sql",
+      "sha256": "0aed654d1253bb27aeb12bbf2a20077183d950cc04c79b31e456b71bb054bef3",
+      "bytes": 24618,
+      "invalidPolicyIfNotExists": false,
+      "dataStatements": true
+    },
+    {
+      "id": "mobile/049_module_17_metadata_consistency.sql",
+      "sha256": "c445fd7028af40d8e854121613846230c81e405a9cdb24f5ad53b01f75beefa3",
+      "bytes": 1486,
+      "invalidPolicyIfNotExists": false,
+      "dataStatements": true
+    },
+    {
+      "id": "mobile/050_intermediate_modules_1_5_curated_phrases.sql",
+      "sha256": "17392d12276b9bd79c8a4e3c7c70afe5b38b81b682b25c6af25829b9d9b6dce2",
+      "bytes": 15461,
+      "invalidPolicyIfNotExists": false,
+      "dataStatements": true
+    },
+    {
+      "id": "mobile/051_advanced_comprehension_assessment_infra.sql",
+      "sha256": "a5e2b8343aa1d2240898210dda6af926035a48d9477fad744b927364cdc82472",
+      "bytes": 13103,
+      "invalidPolicyIfNotExists": false,
+      "dataStatements": true
+    },
+    {
+      "id": "mobile/052_advanced_modules_1_5_shells.sql",
+      "sha256": "6c0e2b129daf5ef82fb102e5284efacab73255dea635ffe732a76d67a02ffba7",
+      "bytes": 5473,
+      "invalidPolicyIfNotExists": false,
+      "dataStatements": true
+    },
+    {
+      "id": "mobile/053_parent_teacher_replies.sql",
+      "sha256": "6269e49ee793641344ee5de81bc71aa17f0dec2d4f99cb28a3d3a7ee5a27b94e",
+      "bytes": 2293,
+      "invalidPolicyIfNotExists": false,
+      "dataStatements": false
+    }
+  ],
+  "unresolved": [
+    "Mobile 001 contains CREATE POLICY IF NOT EXISTS, unsupported by PostgreSQL.",
+    "Mobile 001/002 declare TEXT children and related keys; mobile 017/025 and web UUID foreign keys require the deployed UUID foundation. The conversion is not recorded.",
+    "public.users.id type must be measured; UUID-shaped strings do not prove a UUID column. Do not blindly convert it.",
+    "Runtime expects case-sensitive users.lastLoginAt, but no tracked creation/addition was found. Its actual definition is required.",
+    "Migration numbers overlap between web/mobile and mobile has two 022 files. Use stream-qualified paths and hashes, not a shared numeric ledger.",
+    "Web 036/037 and mobile curriculum/data migrations mutate rows. Never replay them automatically on shared or populated databases.",
+    "Original 047 has a repeatable-read capacity hole; additive 048 is required. Full Auth/Storage/Realtime behavior remains separately blocked."
+  ]
+}

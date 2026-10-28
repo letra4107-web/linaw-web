@@ -1,0 +1,23 @@
+{
+  "files": 29,
+  "lines": {
+    "total": 1845,
+    "covered": 1211,
+    "pct": 65.64
+  },
+  "statements": {
+    "total": 2192,
+    "covered": 1398,
+    "pct": 63.78
+  },
+  "functions": {
+    "total": 521,
+    "covered": 246,
+    "pct": 47.22
+  },
+  "branches": {
+    "total": 2069,
+    "covered": 1015,
+    "pct": 49.06
+  }
+}

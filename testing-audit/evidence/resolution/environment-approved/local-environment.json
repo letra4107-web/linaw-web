@@ -1,0 +1,45 @@
+{
+  "timestamp": "2026-10-21T10:47:34.107Z",
+  "platform": "win32",
+  "scope": "Loopback bind and new disposable initdb directories only; no app env, shared database or existing cluster used; no OS security setting changed.",
+  "rows": [
+    {
+      "host": "127.0.0.1",
+      "requestedPort": 0,
+      "assignedPort": 54118,
+      "status": "PASS"
+    },
+    {
+      "host": "127.0.0.1",
+      "requestedPort": 45432,
+      "assignedPort": 45432,
+      "status": "PASS"
+    },
+    {
+      "host": "::1",
+      "requestedPort": 0,
+      "assignedPort": 54119,
+      "status": "PASS"
+    },
+    {
+      "location": "workspace",
+      "operation": "initdb",
+      "directory": "C:\\Users\\Samantha\\OneDrive\\Desktop\\web\\.qa\\initdb-diagnostic-cf2947ad-1d63-4a8e-b5aa-c27528364cb1",
+      "exitCode": null,
+      "status": "BLOCKED",
+      "stdout": "The files belonging to this database system will be owned by user \"Samantha\".\r\nThis user must also own the server process.\r\n\r\nThe database cluster will be initialized with this locale configuration:\r\n  locale provider:   libc\r\n  LC_COLLATE:  English_Philippines.1252\r\n  LC_CTYPE:    English_Philippines.1252\r\n  LC_MESSAGES: C\r\n  LC_MONETARY: English_Philippines.1252\r\n  LC_NUMERIC:  English_Philippines.1252\r\n  LC_TIME:     English_Philippines.1252\r\nThe default database encoding has accordingly been set to \"WIN1252\".\r\nThe default text search configuration will be set to \"english\".\r\n\r\nData page checksums are enabled.\r\n\r\ncreating directory C:/Users/Samantha/OneDrive/Desktop/web/.qa/initdb-diagnostic-cf2947ad-1d63-4a8e-b5aa-c27528364cb1 ... ok\r\ncreating subdirectories ... ok\r\nselecting dynamic shared memory implementation ... windows\r\nselecting default \"max_connections\" ... 100\r\nselecting default \"shared_buffers\" ... 128MB\r\nselecting default time zone ... Asia/Kuala_Lumpur\r\ncreating configuration files ... ok\r\nrunning bootstrap script ... ok\r\nperforming post-bootstrap initialization ... ",
+      "stderr": "",
+      "error": "ETIMEDOUT"
+    },
+    {
+      "location": "temporary",
+      "operation": "initdb",
+      "directory": "C:\\Users\\Samantha\\AppData\\Local\\Temp\\linawletra-disposable-qa\\initdb-diagnostic-141c28c8-e33e-4327-a99e-23f9fd9750b7",
+      "exitCode": null,
+      "status": "BLOCKED",
+      "stdout": "The files belonging to this database system will be owned by user \"Samantha\".\r\nThis user must also own the server process.\r\n\r\nThe database cluster will be initialized with this locale configuration:\r\n  locale provider:   libc\r\n  LC_COLLATE:  English_Philippines.1252\r\n  LC_CTYPE:    English_Philippines.1252\r\n  LC_MESSAGES: C\r\n  LC_MONETARY: English_Philippines.1252\r\n  LC_NUMERIC:  English_Philippines.1252\r\n  LC_TIME:     English_Philippines.1252\r\nThe default database encoding has accordingly been set to \"WIN1252\".\r\nThe default text search configuration will be set to \"english\".\r\n\r\nData page checksums are enabled.\r\n\r\ncreating directory C:/Users/Samantha/AppData/Local/Temp/linawletra-disposable-qa/initdb-diagnostic-141c28c8-e33e-4327-a99e-23f9fd9750b7 ... ok\r\ncreating subdirectories ... ok\r\nselecting dynamic shared memory implementation ... windows\r\nselecting default \"max_connections\" ... 100\r\nselecting default \"shared_buffers\" ... 128MB\r\nselecting default time zone ... Asia/Kuala_Lumpur\r\ncreating configuration files ... ok\r\nrunning bootstrap script ... ",
+      "stderr": "",
+      "error": "ETIMEDOUT"
+    }
+  ]
+}

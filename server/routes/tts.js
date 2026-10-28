@@ -1,5 +1,5 @@
 const express = require('express');
-const { requireAuth } = require('../middleware/auth');
+const { requireAuth, requireRole } = require('../middleware/auth');
 const { ttsLimiter } = require('../lib/rateLimiters');
 const { elevenLabsText, isIsolatedFilipinoVowel } = require('../lib/filipinoPhonemes');
 const { logAudit } = require('../services/audit');
@@ -13,7 +13,7 @@ const publicAudioCache = new Map();
 
 // POST /api/tts  { text }  -> { audioContent: base64 mp3 }
 function createTtsRouter({
-  authMiddleware = requireAuth,
+  authMiddleware = [requireAuth, requireRole('admin', 'teacher', 'parent', 'student')],
   limiter = ttsLimiter,
   fetchImpl = global.fetch,
   apiKey = process.env.ELEVENLABS_API_KEY,

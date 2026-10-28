@@ -8,11 +8,13 @@ import Assessment from '../pages/student/Assessment';
 import Practice from '../pages/student/Practice';
 import Profile from '../pages/student/Profile';
 import Achievements from '../pages/student/Achievements';
+import NotFound from '../pages/NotFound';
 
 export default function StudentArea() {
   return <Routes><Route element={<ProtectedRoute role="student"><StudentLayout /></ProtectedRoute>}>
     <Route index element={<Dashboard />} /><Route path="learn" element={<Learn />} /><Route path="learn/module/:moduleId" element={<Module />} />
     <Route path="learn/assessment/:assessmentId" element={<Assessment />} /><Route path="practice" element={<Practice />} />
     <Route path="achievements" element={<Achievements />} /><Route path="profile" element={<Profile />} />
+    <Route path="*" element={<NotFound />} />
   </Route></Routes>;
 }
