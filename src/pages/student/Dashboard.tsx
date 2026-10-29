@@ -1,446 +1,117 @@
+import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { Link } from 'react-router-dom';
+import { ArrowRight, BookOpen, ChartNoAxesColumnIncreasing, Check, Flame, Heart, Lightbulb, LockKeyhole, Mic, Play, Star, Sun, Target, Trophy, Volume2 } from 'lucide-react';
 import { supabase } from '../../lib/supabaseClient';
 import { useAuth } from '../../lib/auth/AuthContext';
 import { api } from '../../lib/api';
 import { QueryErrorNotice } from '../../components/QueryErrorNotice';
-import { IconLabel } from '../../components/a11y/IconLabel';
-import { WordOfDayCard } from '../../components/WordOfDayCard';
-import { cardStyle } from '../../lib/cardStyle';
-import type { ReadingProfile } from '../../components/ReadingInsightsPanel';
-import owlbook from '../../lib/emptyImage';
-import owlup from '../../lib/emptyImage';
-import spark from '../../lib/emptyImage';
-import bookIcon from '../../lib/emptyImage';
-import micIcon from '../../lib/emptyImage';
-import trophyIcon from '../../lib/emptyImage';
-import calendarIcon from '../../lib/emptyImage';
-import speechIcon from '../../lib/emptyImage';
-import bulbIcon from '../../lib/emptyImage';
-import confetti from '../../lib/emptyImage';
-import heroBackground from '../../assets/students/backgrounds/student-hero-bg.png';
-import heroCharacter from '../../assets/students/characters/student-hero-character.png';
-import deadlineDecoration from '../../assets/students/decorations/deadline-card-decoration.png';
-import lessonProgressDecoration from '../../assets/students/decorations/lesson-progress-decoration.png';
-import emptyStateIllustration from '../../assets/students/illustrations/empty-state-illustration.png';
+import { WordOfDayCard, type DailyWordStatus } from '../../components/WordOfDayCard';
+import lessonBooks from '../../assets/students/home/lesson-books.png';
+import './home-reference.css';
 
-interface ChildProgress {
-  xp: number;
-  streak: number;
-  activities_completed: number;
-  achievements: { id: string }[] | Record<string, unknown>;
+interface LearningModule {
+  id: string; title: string; state: 'locked' | 'unlocked' | 'completed';
+  content_item_count: number; completed_content_item_count: number;
 }
-
-interface ModuleSummary {
-  id: string;
-  module_number: number;
-  title: string;
-  state: 'locked' | 'unlocked' | 'completed';
-  content_item_count: number;
-  completed_content_item_count: number;
-}
-
-interface LearnPath {
-  configured: boolean;
-  modules: ModuleSummary[];
-}
-
-interface PdfAssignment {
-  id: string;
-  status: string;
-  due_date: string | null;
-  pdf_materials: { title: string } | null;
-}
-
-interface PracticeSession {
-  created_at: string;
-}
-
-const PRACTICE_MODES = [
-  {
-    to: '/student/practice?mode=say',
-    icon: micIcon,
-    title: 'Sabihin ang Salita',
-    subtitle: 'Pagsasanay sa Bigkas gamit ang Speech Support',
-    brandVar: '--color-brand-coral',
-  },
-  {
-    to: '/student/practice?mode=listen',
-    icon: speechIcon,
-    title: 'Pakinggan at Basahin',
-    subtitle: 'Suporta sa Text-to-Speech',
-    brandVar: '--color-brand-lavender',
-  },
-];
-
-const MODULE_COLORS = ['--color-brand-violet', '--color-brand-coral', '--color-brand-lavender', '--color-brand-sage', '--color-brand-sun'] as const;
-
-function IconBadge({ img, brandVar }: { img: string; brandVar: string }) {
-  return (
-    <span
-      aria-hidden="true"
-      className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl shadow-sm"
-      style={{ backgroundColor: `color-mix(in srgb, var(${brandVar}) 22%, white)` }}
-    >
-      <img src={img} alt="" className="h-7 w-7 object-contain" />
-    </span>
-  );
-}
-
-function getDeadlinePresentation(dueDate: string) {
-  const due = new Date(dueDate);
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
-  due.setHours(0, 0, 0, 0);
-  const daysLeft = Math.ceil((due.getTime() - today.getTime()) / 86_400_000);
-
-  if (daysLeft < 0) {
-    return { label: 'Lampas na', detail: `${Math.abs(daysLeft)} araw na ang lumipas`, tone: '--color-danger' };
-  }
-  if (daysLeft === 0) return { label: 'Ngayong araw', detail: 'Tapusin ngayon', tone: '--color-danger' };
-  if (daysLeft === 1) return { label: 'Bukas', detail: '1 araw na lang', tone: '--color-brand-orange' };
-  if (daysLeft <= 3) return { label: 'Malapit na', detail: `${daysLeft} araw na lang`, tone: '--color-brand-orange' };
-  return { label: 'Paparating', detail: `${daysLeft} araw pa`, tone: '--color-brand-sage' };
-}
-
-function getAssignmentStatusLabel(status: string) {
-  if (status === 'in_progress') return 'Ginagawa na';
-  if (status === 'assigned' || status === 'pending') return 'Hindi pa nasisimulan';
-  return 'Hindi pa tapos';
-}
+interface LearningPath { configured: boolean; effective_level: string; modules: LearningModule[] }
+interface Progress { xp: number; streak: number; longest_streak: number }
+interface Assignment { id: string; status: string; due_date: string | null; pdf_materials: { title: string } | null }
+const INITIAL_WORD_STATUS: DailyWordStatus = { available: false, listened: false, read: false, completed: false };
 
 export default function Dashboard() {
   const { user, identity } = useAuth();
-
+  const [wordStatus, setWordStatus] = useState(INITIAL_WORD_STATUS);
   const { data: child, error: childError, refetch: refetchChild } = useQuery({
-    queryKey: ['student-self', user?.id],
+    queryKey: ['student-profile-details', user?.id], refetchOnMount: 'always',
     queryFn: async () => {
-      const { data, error } = await supabase.from('children').select('id, name').eq('auth_uid', user!.id).maybeSingle();
+      const { data, error } = await supabase.from('children').select('id, name, grade_level, username').eq('auth_uid', user!.id).maybeSingle();
       if (error) throw error;
-      return data as { id: string; name: string } | null;
-    },
-    enabled: Boolean(user),
+      return data as { id: string; name: string; grade_level: number; username: string } | null;
+    }, enabled: Boolean(user),
   });
-
-  const { data: progress, error: progressError, refetch: refetchProgress } = useQuery({
-    queryKey: ['student-progress', child?.id],
+  const { data: progress, isPending: progressPending, error: progressError, refetch: refetchProgress } = useQuery({
+    queryKey: ['student-progress', child?.id, 'home'], refetchOnMount: 'always',
     queryFn: async () => {
-      const { data, error } = await supabase
-        .from('child_progress')
-        .select('xp, streak, activities_completed, achievements')
-        .eq('child_id', child!.id)
-        .maybeSingle();
+      const { data, error } = await supabase.from('child_progress').select('xp, streak, longest_streak').eq('child_id', child!.id).maybeSingle();
       if (error) throw error;
-      return data as ChildProgress | null;
-    },
-    enabled: Boolean(child?.id),
+      return data as Progress | null;
+    }, enabled: Boolean(child?.id),
   });
-
-  const { data: path, error: pathError, refetch: refetchPath } = useQuery({
+  const { data: path, isPending: pathPending, error: pathError, refetch: refetchPath } = useQuery({
     queryKey: ['student-learn-path'],
-    queryFn: () => api<LearnPath>('/student/learn/path', { auth: true }),
-    enabled: Boolean(user),
+    queryFn: () => api<LearningPath>('/student/learn/path', { auth: true }), enabled: Boolean(user),
   });
-
-  const { data: deadlines, error: deadlinesError, refetch: refetchDeadlines } = useQuery({
+  const { data: assignments, error: assignmentsError, refetch: refetchAssignments } = useQuery({
     queryKey: ['student-pdf-deadlines', child?.id],
     queryFn: async () => {
-      const { data, error } = await supabase
-        .from('pdf_assignments')
-        .select('id, status, due_date, pdf_materials(title)')
-        .eq('student_id', child!.id)
-        .neq('status', 'completed')
-        .not('due_date', 'is', null)
-        .order('due_date', { ascending: true })
-        .limit(3);
+      const { data, error } = await supabase.from('pdf_assignments').select('id, status, due_date, pdf_materials(title)').eq('student_id', child!.id).neq('status', 'completed').not('due_date', 'is', null).order('due_date', { ascending: true }).limit(3);
       if (error) throw error;
-      return data as unknown as PdfAssignment[];
-    },
-    enabled: Boolean(child?.id),
+      return data as unknown as Assignment[];
+    }, enabled: Boolean(child?.id),
   });
-
-  const { data: recentSessions, error: sessionsError, refetch: refetchSessions } = useQuery({
-    queryKey: ['student-recent-sessions', child?.id],
-    queryFn: async () => {
-      const { data, error } = await supabase
-        .from('pronunciation_practice_sessions')
-        .select('created_at')
-        .eq('student_id', child!.id)
-        .order('created_at', { ascending: false })
-        .limit(3);
-      if (error) throw error;
-      return data as PracticeSession[];
-    },
-    enabled: Boolean(child?.id),
-  });
-
-  const { data: readingProfile, error: profileError, refetch: refetchProfile } = useQuery({
-    queryKey: ['student-reading-profile', user?.id],
-    queryFn: () => api<{ profile: ReadingProfile }>('/student/reading-profile', { auth: true }),
-    enabled: Boolean(user),
-  });
-
-  const achievementCount = Array.isArray(progress?.achievements)
-    ? progress.achievements.length
-    : progress?.achievements
-      ? Object.keys(progress.achievements).length
-      : 0;
-  const profile = readingProfile?.profile;
-  const recommendedFocus = profile?.weakSounds[0]?.unit?.toUpperCase() ?? profile?.weakWords[0]?.word ?? null;
   const modules = path?.modules ?? [];
-  const currentModuleIndex = modules.findIndex((module) => module.state === 'unlocked');
-  const currentModule = currentModuleIndex >= 0 ? modules[currentModuleIndex] : undefined;
-  const allCompleted = modules.length > 0 && modules.every((module) => module.state === 'completed');
-  const modulePct = currentModule
-    ? Math.round((currentModule.completed_content_item_count / Math.max(1, currentModule.content_item_count)) * 100)
-    : 0;
-  const firstName = child?.name?.split(' ')[0] ?? identity?.displayName ?? 'kaibigan';
-  const hasActivity = (progress?.activities_completed ?? 0) > 0;
+  const completedModules = modules.filter(module => module.state === 'completed').length;
+  const currentIndex = modules.findIndex(module => module.state === 'unlocked');
+  const current = modules[currentIndex];
+  const allCompleted = modules.length > 0 && completedModules === modules.length;
+  const percentage = current ? Math.min(100, Math.max(0, Math.round(current.completed_content_item_count / Math.max(1, current.content_item_count) * 100))) : allCompleted ? 100 : 0;
+  const firstName = child?.name?.trim().split(/\s+/)[0] || identity?.displayName?.trim().split(/\s+/)[0] || 'Mag-aaral';
+  const number = (value: number | undefined) => progressError ? '—' : progressPending ? '…' : String(value ?? 0);
+  const stats = [
+    { label: 'Antas', value: childError ? '—' : child ? `Grade ${child.grade_level}` : '…', icon: BookOpen, tone: 'lilac' },
+    { label: 'Kabuuang XP', value: number(progress?.xp), icon: Star, tone: 'gold' },
+    { label: 'Kasalukuyang Streak', value: `${number(progress?.streak)}${progressError || progressPending ? '' : ' araw'}`, icon: Flame, tone: 'coral' },
+    { label: 'Pinakamahabang Streak', value: `${number(progress?.longest_streak)}${progressError || progressPending ? '' : ' araw'}`, icon: Trophy, tone: 'sky' },
+    { label: 'Mga Aralin Natatapos', value: pathError ? '—' : pathPending ? '…' : String(completedModules), icon: Target, tone: 'mint' },
+  ];
+  const tasks = [
+    { title: 'Pakinggan ang Salita', detail: 'Makinig muna sa tamang bigkas.', icon: Volume2, action: 'listen', done: wordStatus.listened || wordStatus.completed, locked: !wordStatus.available, tone: 'blue' },
+    { title: 'Basahin ang mga Pantig', detail: 'Dahan-dahang basahin ang salita.', icon: BookOpen, action: 'read', done: wordStatus.read || wordStatus.completed, locked: !wordStatus.available || !wordStatus.listened, tone: 'gold' },
+    { title: 'Bigkasin ang Salita', detail: 'Ikaw naman! Sabihin nang malinaw.', icon: Mic, action: 'speak', done: wordStatus.completed, locked: !wordStatus.available || !wordStatus.read, tone: 'purple' },
+  ];
+  const completedTasks = tasks.filter(task => task.done).length;
+  const startWordStep = (action: string) => {
+    const target = document.querySelector<HTMLButtonElement>(`#salita-ngayon [data-word-action="${action}"]`);
+    target?.scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth', block: 'center' });
+    target?.focus({ preventScroll: true }); target?.click();
+  };
 
-  return (
-    <div className="student-storybook student-home-dashboard flex flex-col gap-8 pb-8 sm:gap-9 sm:pb-10">
-      <QueryErrorNotice error={childError || progressError || pathError || deadlinesError || sessionsError || profileError} onRetry={() => { void refetchChild(); void refetchProgress(); void refetchPath(); void refetchDeadlines(); void refetchSessions(); void refetchProfile(); }} />
-      {/* 1. Header */}
-      <section aria-labelledby="dashboard-title" className="contents">
-        <div
-          className="student-home-hero relative min-h-[280px] overflow-hidden rounded-[2rem] border px-5 py-7 shadow-hero sm:px-9 sm:py-9"
-          style={{ backgroundImage: `url(${heroBackground})` }}
-        >
-          <div aria-hidden="true" className="student-home-hero-scrim" />
-          <img src={heroCharacter} alt="" aria-hidden="true" className="student-home-hero-character" />
-
-          <div className="relative z-10 grid min-h-[232px] items-center gap-3 pr-12 sm:grid-cols-[1fr_auto] sm:pr-28 lg:pr-0">
-            <div className="student-home-hero-copy max-w-2xl">
-              <p className="text-sm font-bold tracking-[0.12em] text-[var(--color-primary)] uppercase">Bukas na ang iyong learning book</p>
-              <h1 id="dashboard-title" className="mt-0.5 text-2xl leading-tight font-bold text-[var(--color-text)] sm:text-3xl">
-                Magandang araw, {firstName}! 👋
-              </h1>
-              <p className="mt-1 max-w-xl text-sm leading-relaxed text-[var(--color-text-muted)] sm:text-base">
-                Handa ka na bang magbasa, makinig, at matuto ng bagong salita?
-              </p>
-            </div>
-            <div className="flex flex-wrap gap-2 pr-14 sm:col-span-2 sm:pr-0">
-              <span className="student-home-stat flex min-h-9 items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-bold sm:text-sm">
-                <span className="flex h-5 w-5 items-center justify-center rounded-full bg-white/20 p-0.5"><img src={spark} alt="" className="h-full w-full object-contain" /></span>
-                {progress?.xp ?? 0} XP
-              </span>
-              <span className="student-home-stat flex min-h-9 items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-bold sm:text-sm">
-                <span className="flex h-5 w-5 items-center justify-center rounded-full bg-white/20" aria-hidden="true">🔥</span>
-                {progress?.streak ?? 0} araw na streak
-              </span>
-              <span className="student-home-stat flex min-h-9 items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-bold sm:text-sm">
-                <span className="flex h-5 w-5 items-center justify-center rounded-full bg-white/20 p-0.5"><img src={trophyIcon} alt="" className="h-full w-full object-contain" /></span>
-                {achievementCount} parangal
-              </span>
-            </div>
-            <Link to="/student/practice" className="student-home-primary-action relative z-10 inline-flex min-h-12 w-fit items-center gap-2 rounded-full px-6 py-3 text-sm font-bold text-white shadow-card transition-all hover:-translate-y-0.5 hover:shadow-raised sm:col-span-2">
-              <img src={micIcon} alt="" aria-hidden="true" className="h-5 w-5 object-contain" />
-              Simulan ang Pagsasanay
-            </Link>
-          </div>
-        </div>
-
-        <section aria-label="Salita Ngayon" className="order-3">
-          <WordOfDayCard streak={progress?.streak ?? 0} />
-        </section>
-
-        <div className="order-4 grid grid-cols-1 gap-4">
-          <div className="student-home-lesson">
-            <div aria-hidden="true" className="student-home-lesson-atmosphere" />
-            <div aria-hidden="true" className="student-home-lesson-glow" />
-            <img src={lessonProgressDecoration} alt="" aria-hidden="true" className="student-home-lesson-decoration" />
-            <div className="student-home-lesson-content">
-              <div className="student-home-lesson-heading">
-                <IconBadge img={bookIcon} brandVar="--color-brand-lavender" />
-                <div>
-                  <p className="student-home-lesson-eyebrow">Susunod mong hakbang</p>
-                  <h2>Ipagpatuloy ang aralin</h2>
-                </div>
-              </div>
-              {allCompleted ? (
-                <p className="student-home-lesson-detail flex items-center gap-2">
-                  Tapos na ang mga aralin sa modyul na ito!
-                  <img src={confetti} alt="" aria-hidden="true" className="h-6 w-6 object-contain" />
-                </p>
-              ) : currentModule ? (
-                <>
-                  <p className="student-home-lesson-detail">Aralin {currentModuleIndex + 1} ng {modules.length} — {currentModule.title}</p>
-                  <div className="student-home-lesson-progress" role="progressbar" aria-label="Progreso sa kasalukuyang aralin" aria-valuenow={modulePct} aria-valuemin={0} aria-valuemax={100}>
-                    <div className="student-home-lesson-progress-track">
-                      <div className="student-home-lesson-progress-fill transition-[width] duration-500" style={{ width: `${modulePct}%` }} />
-                    </div>
-                    <span>{modulePct}%</span>
-                  </div>
-                  <Link to={`/student/learn/module/${currentModule.id}`} className="student-home-lesson-cta">{modulePct > 0 ? 'Ipagpatuloy ang Aralin' : 'Simulan ang Aralin'} <span aria-hidden="true">→</span></Link>
-                </>
-              ) : (
-                <>
-                  <p className="student-home-lesson-detail">Wala pang binabasang aralin — simulan ang isa!</p>
-                  <Link to="/student/learn" className="student-home-lesson-cta">Tingnan ang mga Aralin <span aria-hidden="true">→</span></Link>
-                </>
-              )}
-            </div>
-          </div>
-        </div>
+  return <div className="student-home-reference">
+    <QueryErrorNotice error={childError || progressError || pathError || assignmentsError} onRetry={() => { void refetchChild(); void refetchProgress(); void refetchPath(); void refetchAssignments(); }} />
+    <section className="home-welcome" aria-labelledby="home-title">
+      <div className="home-welcome-copy">
+        <p>Magandang araw,</p>
+        <h1 id="home-title">{firstName}! <span aria-hidden="true">🌟</span></h1>
+        <div className="home-welcome-description">Handa ka na bang matuto today?<br /><span aria-hidden="true">⭐</span> Kaya mo ito!</div>
+        <Link to="/student/practice" className="home-purple-button home-welcome-button"><span className="home-play-icon"><Play size={13} fill="currentColor" aria-hidden="true" /></span> Simulan ang Pagsasanay <ArrowRight size={17} aria-hidden="true" /></Link>
+      </div>
+      <blockquote className="home-quote-board">“Bawat maliit<br />na hakbang<br />ay malaking<br />tagumpay!”<Heart aria-hidden="true" size={21} fill="currentColor" /></blockquote>
+    </section>
+    <section className="home-number-grid" aria-label="Aking mga numero">
+      {stats.map(({ label, value, icon: Icon, tone }) => <article key={label} className={`home-number-card home-tone-${tone}`}><span className="home-number-icon"><Icon size={32} strokeWidth={2.3} aria-hidden="true" /></span><h2>{label}</h2><strong>{value}</strong></article>)}
+    </section>
+    <div className="home-daily-grid">
+      <section className="home-daily-card home-panel" aria-labelledby="home-daily-title">
+        <header className="home-daily-heading"><Sun className="home-sun" size={33} aria-hidden="true" /><div><h2 id="home-daily-title">Gawain Para sa Araw na Ito</h2><p>Maliit na gawain, malaking pag-unlad!</p></div></header>
+        <div className="home-daily-progress" role="img" aria-label={`${completedTasks} sa 3 hakbang ang natapos`}><strong>{completedTasks}/3</strong><span aria-hidden="true">{tasks.map(task => <i key={task.action} data-complete={task.done} />)}</span></div>
+        <ol className="home-task-list">{tasks.map(({ title, detail, icon: Icon, action, done, locked, tone }, index) => <li key={action} className={`home-task home-task-${tone}`}>
+          <span className="home-task-icon"><Icon size={30} aria-hidden="true" /></span><div className="home-task-copy"><h3>{title}</h3><p>{detail}</p></div>
+          {done ? <span className="home-task-done" role="img" aria-label="Tapos na"><Check size={23} aria-hidden="true" /></span> : locked ? <span className="home-task-lock" role="img" aria-label={index === 0 ? 'Inihahanda ang salita' : `Tapusin muna ang hakbang ${index}`}><LockKeyhole size={22} aria-hidden="true" /></span> : <button type="button" className="home-purple-button home-task-start" onClick={() => startWordStep(action)}>Simulan <ArrowRight size={15} aria-hidden="true" /></button>}
+        </li>)}</ol>
+        <div className="home-daily-footer">{wordStatus.completed ? 'Ang galing! Natapos mo ang salita ngayong araw.' : 'Makinig. Magbasa. Bigkasin. Kaya mo ito!'}</div>
+        <img className="home-task-books" src={lessonBooks} alt="" aria-hidden="true" />
       </section>
-
-      <section aria-labelledby="modules-title" className="hidden">
-        <div className="mb-4 flex flex-wrap items-end justify-between gap-3 px-1">
-          <div><p className="text-sm font-bold tracking-[0.12em] text-[var(--color-primary)] uppercase">Learning adventure</p><h2 id="modules-title" className="mt-1 text-2xl font-bold sm:text-3xl">Mga Modyul Ko</h2><p className="mt-1 text-sm text-[var(--color-text-muted)]">Pumili ng isang kabanata at magpatuloy sa sariling bilis.</p></div>
-          <Link to="/student/learn" className="min-h-11 rounded-full border border-[var(--color-primary)]/30 bg-[var(--color-surface)] px-4 py-2 text-sm font-bold text-[var(--color-primary)]">Lahat ng aralin →</Link>
-        </div>
-        {modules.length ? <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">{modules.map((module, index) => { const percent = Math.round(module.completed_content_item_count / Math.max(1, module.content_item_count) * 100); const isLocked = module.state === 'locked'; const tone = MODULE_COLORS[index % MODULE_COLORS.length]; return <article key={module.id} className={`relative overflow-hidden rounded-3xl border p-5 shadow-card transition-all ${isLocked ? 'opacity-75' : 'hover:-translate-y-1 hover:shadow-raised'}`} style={cardStyle(tone, 12, 35)}><span aria-hidden="true" className="absolute -right-3 -top-5 text-7xl opacity-20">{isLocked ? '🔒' : module.state === 'completed' ? '⭐' : '📖'}</span><div className="relative"><p className="text-xs font-bold tracking-wide text-[var(--color-text-muted)] uppercase">Modyul {module.module_number}</p><h3 className="mt-1 min-h-14 text-lg leading-snug font-bold">{module.title}</h3><div className="mt-4 flex items-center gap-3"><div className="h-2.5 flex-1 overflow-hidden rounded-full bg-white/75"><div className="h-full rounded-full" style={{ width: `${percent}%`, backgroundColor: `var(${tone})` }} /></div><span className="text-xs font-bold">{percent}%</span></div><p className="mt-2 text-xs text-[var(--color-text-muted)]">{module.state === 'completed' ? 'Natapos na • Ang galing!' : isLocked ? 'Makakabukas pagkatapos ng naunang aralin' : `${module.completed_content_item_count} sa ${module.content_item_count} na bahagi`}</p>{isLocked ? <span className="mt-4 inline-flex min-h-10 items-center rounded-full border border-[var(--color-border)] bg-white/45 px-4 text-sm font-bold">Naka-lock</span> : <Link to={`/student/learn/module/${module.id}`} className="mt-4 inline-flex min-h-10 items-center rounded-full bg-[var(--color-primary)] px-4 text-sm font-bold text-white shadow-sm">{module.state === 'completed' ? 'Balikan ang Modyul' : 'Buksan ang Modyul'}</Link>}</div></article>; })}</div> : <div className="rounded-3xl border border-dashed p-6 text-sm text-[var(--color-text-muted)]">Ihahanda ang mga modyul kapag available na ang iyong learning path.</div>}
-      </section>
-
-      {/* 2. Deadlines */}
-      <section aria-labelledby="deadlines-title" className="order-2 flex flex-col gap-4">
-        <div className="student-home-section-heading flex flex-wrap items-end justify-between gap-3 px-1">
-          <div>
-            <p className="text-sm font-bold tracking-[0.12em] text-[var(--color-warning-text)] uppercase">Huwag kalimutan</p>
-            <h2 id="deadlines-title" className="mt-1 flex items-center gap-3 text-2xl font-bold sm:text-3xl">
-              <IconBadge img={calendarIcon} brandVar="--color-brand-sun" />
-              Mga Deadline
-            </h2>
-            <p className="mt-1 text-[var(--color-text-muted)]">Narito ang mga gawaing dapat mong tapusin.</p>
-          </div>
-          <Link to="/student/learn" className="inline-flex min-h-11 items-center rounded-full px-4 py-2 text-sm font-bold text-[var(--color-primary)] transition-colors hover:bg-[var(--color-primary-soft)]">
-            Tingnan lahat <span aria-hidden="true" className="ml-2">→</span>
-          </Link>
-        </div>
-
-        {deadlines && deadlines.length > 0 ? (
-          <div className="relative">
-          <img src={deadlineDecoration} alt="" aria-hidden="true" className="student-home-deadline-decoration" />
-          <ul className="relative z-10 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {deadlines.map((deadline) => {
-              const presentation = getDeadlinePresentation(deadline.due_date!);
-              return (
-                <li key={deadline.id}>
-                  <Link
-                    to="/student/learn"
-                    className="group flex h-full min-h-44 flex-col rounded-3xl border bg-[var(--color-surface)] p-5 shadow-card transition-all hover:-translate-y-1 hover:shadow-raised active:scale-[0.98]"
-                    style={{ borderColor: `color-mix(in srgb, var(${presentation.tone}) 35%, var(--color-border))` }}
-                  >
-                    <div className="flex items-center justify-between gap-3">
-                      <span className="rounded-full px-3 py-1 text-xs font-bold" style={{ color: `var(${presentation.tone})`, backgroundColor: `color-mix(in srgb, var(${presentation.tone}) 13%, white)` }}>
-                        {presentation.label}
-                      </span>
-                      <span className="text-xs font-semibold text-[var(--color-text-muted)]">{getAssignmentStatusLabel(deadline.status)}</span>
-                    </div>
-                    <h3 className="mt-4 line-clamp-2 text-lg leading-snug font-bold">{deadline.pdf_materials?.title ?? 'Aralin'}</h3>
-                    <div className="mt-auto flex items-end justify-between gap-3 pt-5">
-                      <div>
-                        <p className="text-xs font-semibold text-[var(--color-text-muted)]">Takdang araw</p>
-                        <time dateTime={deadline.due_date!} className="font-bold">
-                          {new Date(deadline.due_date!).toLocaleDateString('fil-PH', { month: 'long', day: 'numeric' })}
-                        </time>
-                      </div>
-                      <span className="text-right text-sm font-bold" style={{ color: `var(${presentation.tone})` }}>{presentation.detail}</span>
-                    </div>
-                  </Link>
-                </li>
-              );
-            })}
-          </ul>
-          </div>
-        ) : (
-          <div className="student-home-empty-deadline flex min-h-36 items-center gap-5 rounded-3xl border bg-[#FFF9EE] p-6 shadow-card sm:px-7">
-            <div className="min-w-0">
-              <h3 className="text-lg font-bold">Ayos! Wala kang nalalapit na deadline.</h3>
-              <p className="mt-1 text-[var(--color-text-muted)]">Malinis ang schedule mo ngayon. Magpatuloy sa pagsasanay!</p>
-            </div>
-            <img src={emptyStateIllustration} alt="" aria-hidden="true" className="student-home-empty-illustration ml-auto h-24 w-24 shrink-0 object-contain sm:h-28 sm:w-32" />
-          </div>
-        )}
-      </section>
-
-      {/* Secondary choices stay available without competing with the next reading step. */}
-      <details className="hidden group rounded-3xl border bg-white/55 shadow-card" style={cardStyle('--color-brand-lavender', 5, 20)}>
-        <summary className="flex min-h-14 cursor-pointer list-none items-center justify-between gap-3 px-5 py-3 font-bold text-[var(--color-primary)] marker:content-none">
-          Iba pang opsyon
-          <span aria-hidden="true" className="text-lg transition-transform group-open:rotate-45">+</span>
-        </summary>
-      <section aria-label="Iba pang gawain" className="flex flex-col gap-5 border-t border-[var(--color-border)] p-5">
-        <div className="relative flex flex-wrap items-center justify-between gap-4 overflow-hidden rounded-3xl border p-6 shadow-card sm:p-7" style={cardStyle('--color-brand-coral', 12, 35)}>
-          <img src={spark} alt="" aria-hidden="true" className="pointer-events-none absolute top-3 right-6 h-6 w-6 opacity-50" />
-          <div className="relative z-10 flex items-center gap-3">
-            <IconBadge img={micIcon} brandVar="--color-brand-coral" />
-            <p className="font-bold">Bawat pagsasanay ay isang hakbang pasulong!</p>
-          </div>
-          <Link to="/student/practice" className="relative z-10 inline-flex min-h-12 shrink-0 items-center rounded-full bg-[var(--color-brand-coral)] px-6 py-3 font-bold text-white shadow-card transition-all hover:-translate-y-0.5 hover:shadow-raised active:scale-95">
-            <IconLabel img={micIcon} label="Ipagpatuloy ang Pagsasanay" className="inline-flex items-center gap-2 [&_img]:rounded-full [&_img]:bg-white/25 [&_img]:p-0.5" />
-          </Link>
-        </div>
-
-        {!hasActivity && (
-          <p className="flex items-center justify-center gap-2 rounded-full bg-[var(--color-success-soft)] px-5 py-3 text-center font-bold text-[var(--color-success)]">
-            <img src={owlup} alt="" aria-hidden="true" className="h-6 w-6 object-contain" />
-            Simulan ang unang pagsasanay ngayon!
-          </p>
-        )}
-
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-          {PRACTICE_MODES.map((item) => (
-            <Link key={item.to} to={item.to} className="group flex min-h-28 items-center gap-4 rounded-3xl border p-5 shadow-card transition-all hover:-translate-y-1 hover:shadow-raised active:scale-95" style={cardStyle(item.brandVar, 10, 35)}>
-              <span className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-white/70 shadow-sm transition-transform group-hover:scale-110" aria-hidden="true"><img src={item.icon} alt="" className="h-8 w-8 object-contain" /></span>
-              <div>
-                <h3 className="font-bold">{item.title}</h3>
-                <p className="text-sm text-[var(--color-text-muted)]">{item.subtitle}</p>
-              </div>
-            </Link>
-          ))}
-        </div>
-
-        {profile && profile.sessionCount > 0 && (
-          <div className="rounded-3xl border p-6 shadow-card" style={cardStyle('--color-brand-violet', 10, 35)}>
-            <div className="mb-3 flex flex-wrap items-center justify-between gap-3">
-              <div className="flex items-center gap-3">
-                <IconBadge img={owlbook} brandVar="--color-brand-violet" />
-                <h2 className="text-xl font-bold">Inirekomendang Pagsasanay</h2>
-              </div>
-              <span className="rounded-full bg-white/70 px-3 py-1 text-sm font-bold text-[var(--color-brand-violet)]">{profile.confidenceScore}% Kumpiyansa</span>
-            </div>
-            <p>{profile.recommendedHomePractice}</p>
-            {recommendedFocus && <p className="mt-1 text-sm text-[var(--color-text-muted)]">Pokus: {recommendedFocus}</p>}
-            <Link to="/student/practice" className="mt-4 inline-flex min-h-11 items-center rounded-full bg-[var(--color-brand-violet)] px-5 py-2.5 text-sm font-bold text-white shadow-card transition-all hover:-translate-y-0.5 hover:shadow-raised active:scale-95">Simulan ang Pagsasanay</Link>
-          </div>
-        )}
-
-        <div className="grid grid-cols-1 gap-5 lg:grid-cols-2">
-          <div className="rounded-3xl border p-6 shadow-card" style={cardStyle('--color-brand-sage', 10, 35)}>
-            <div className="mb-3 flex items-center gap-3">
-              <IconBadge img={speechIcon} brandVar="--color-brand-sage" />
-              <h2 className="text-lg font-bold">Kamakailang Aktibidad</h2>
-            </div>
-            {recentSessions && recentSessions.length > 0 ? (
-              <ul className="flex flex-col gap-2">
-                {recentSessions.map((session, index) => (
-                  <li key={index} className="flex items-center justify-between rounded-xl border border-white bg-white/60 px-4 py-2.5 text-sm">
-                    <IconLabel img={micIcon} label="Pagsasanay sa Bigkas" />
-                    <time dateTime={session.created_at} className="text-[var(--color-text-muted)]">{new Date(session.created_at).toLocaleDateString('fil-PH', { month: 'short', day: 'numeric' })}</time>
-                  </li>
-                ))}
-              </ul>
-            ) : (
-              <p className="text-[var(--color-text-muted)]">Wala ka pang aktibidad. Magsimula ng pagsasanay ngayon!</p>
-            )}
-          </div>
-
-          <div className="flex items-start gap-3 rounded-3xl border p-6 shadow-card" style={cardStyle('--color-brand-teal', 10, 35)}>
-            <IconBadge img={bulbIcon} brandVar="--color-brand-teal" />
-            <div>
-              <h2 className="mb-1 text-lg font-bold">Tip sa Pagbasa</h2>
-              <p className="text-[var(--color-text-muted)]">Basahin ang bawat pantig nang dahan-dahan bago sabihin ang buong salita.</p>
-            </div>
-          </div>
-        </div>
-
-        <div className="relative flex flex-col items-center gap-2 pt-2">
-          <img src={confetti} alt="" aria-hidden="true" className="pointer-events-none h-10 w-10 object-contain opacity-80" />
-          <p className="text-center text-lg font-bold text-[var(--color-primary)]">Bawat salitang nababasa mo, lumalakas ka!</p>
-        </div>
-      </section>
-      </details>
+      <aside className="home-encouragement" aria-label="Kaya mo ito"><h2>Kaya Mo Ito! <span aria-hidden="true">🌟</span></h2><p>“Magbasa,<br />Mag-isip,<br />Magpursigi,<br />Magtagumpay!” <Heart size={21} fill="currentColor" aria-hidden="true" /></p></aside>
     </div>
-  );
+    <WordOfDayCard streak={progress?.streak ?? 0} onStatusChange={setWordStatus} />
+    <div className="home-bottom-grid">
+      <section className="home-lesson-card home-panel" aria-labelledby="home-lesson-title"><div className="home-bottom-heading"><span className="home-small-icon"><ChartNoAxesColumnIncreasing size={23} aria-hidden="true" /></span><div><h2 id="home-lesson-title">Pag-unlad ng Aralin</h2><p>{pathPending ? 'Inihahanda ang iyong aralin…' : pathError ? 'Hindi ma-load ang aralin ngayon.' : allCompleted ? 'Ang galing! Natapos mo ang lahat ng aralin.' : current ? `Aralin ${currentIndex + 1} ng ${modules.length} — ${current.title}` : 'Handa ka na ba sa unang aralin?'}</p></div></div>
+        {!pathError && !pathPending && <div className="home-lesson-progress" role="progressbar" aria-label="Pag-unlad sa kasalukuyang aralin" aria-valuenow={percentage} aria-valuemin={0} aria-valuemax={100}><div><span style={{ width: `${percentage}%` }} /></div><strong>{percentage}%</strong></div>}
+        <Link to={current ? `/student/learn/module/${current.id}` : '/student/learn'} className="home-purple-button home-lesson-button">{allCompleted ? 'Balikan ang mga Aralin' : current && percentage > 0 ? 'Ipagpatuloy ang Aralin' : 'Simulan ang Aralin'} <ArrowRight size={17} aria-hidden="true" /></Link><img src={lessonBooks} alt="" aria-hidden="true" />
+      </section>
+      <aside className="home-reminder-card home-panel"><div className="home-bottom-heading"><Lightbulb className="home-lightbulb" size={30} aria-hidden="true" /><h2>Maliit na Paalala</h2></div><ul>{['Magpahinga kung napapagod.', 'Gawin ang mga gawain nang maayos.', 'Huwag matakot magkamali.', 'Mas magiging magaling ka pa!'].map(reminder => <li key={reminder}><span><Check size={12} strokeWidth={4} aria-hidden="true" /></span>{reminder}</li>)}</ul><Heart className="home-reminder-heart" size={26} fill="currentColor" aria-hidden="true" /></aside>
+    </div>
+    {Boolean(assignments?.length) && <section className="home-assignment-card home-panel" aria-labelledby="home-assignment-title"><h2 id="home-assignment-title">Mga Gawaing May Takdang Araw</h2><ul>{assignments!.map(assignment => <li key={assignment.id}><Link to="/student/learn"><BookOpen size={20} aria-hidden="true" /><span>{assignment.pdf_materials?.title || 'Gawain sa Pagbasa'}</span><time dateTime={assignment.due_date!}>{new Date(assignment.due_date!).toLocaleDateString('fil-PH', { month: 'long', day: 'numeric' })}</time><ArrowRight size={17} aria-hidden="true" /></Link></li>)}</ul></section>}
+  </div>;
 }

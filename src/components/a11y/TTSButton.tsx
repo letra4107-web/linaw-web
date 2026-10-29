@@ -12,6 +12,8 @@ interface TTSButtonProps {
   className?: string;
   /** Lets public pages use the server-side ElevenLabs voice with a strict anonymous rate limit. */
   publicAccess?: boolean;
+  /** Supplies the target when a compact lesson button hides its visible label. */
+  ariaLabel?: string;
 }
 
 // Cache decoded audio per spoken text+rate so repeat plays (e.g. re-reading the same word)
@@ -28,7 +30,7 @@ function base64ToObjectUrl(base64: string): string {
 
 /** Reads `text` aloud through the server-side Filipino Cloud TTS voice. Acts as a toggle --
  *  clicking again while speaking stops playback instead of restarting it. */
-export function TTSButton({ text, lang = 'fil-PH', rate: requestedRate, className, publicAccess = false }: TTSButtonProps) {
+export function TTSButton({ text, lang = 'fil-PH', rate: requestedRate, className, publicAccess = false, ariaLabel }: TTSButtonProps) {
   void lang; // Server-side Filipino Cloud TTS is authoritative for pronunciation.
   const [status, setStatus] = useState<'idle' | 'loading' | 'speaking'>('idle');
   const audioRef = useRef<HTMLAudioElement | null>(null);
@@ -105,6 +107,7 @@ export function TTSButton({ text, lang = 'fil-PH', rate: requestedRate, classNam
       onClick={speak}
       disabled={status === 'loading'}
       aria-pressed={status === 'speaking'}
+      aria-label={status === 'idle' ? ariaLabel : undefined}
       className={
         className ??
         `inline-flex min-h-11 items-center gap-2 rounded-full border px-3 py-1.5 text-sm focus-visible:outline-3 disabled:opacity-60 ${

@@ -1,6 +1,7 @@
 import { useEffect, useId, useRef, useState } from 'react';
-import { NavLink, Outlet } from 'react-router-dom';
-import { BookOpen, ChevronDown, CircleUserRound, House, LogOut, Trophy, UserRound } from 'lucide-react';
+import type { KeyboardEvent as ReactKeyboardEvent } from 'react';
+import { Link, NavLink, Outlet, useLocation } from 'react-router-dom';
+import { BookOpen, ChevronDown, CircleUserRound, House, LogOut, PanelLeftClose, Trophy, UserRound } from 'lucide-react';
 import { supabase } from '../../lib/supabaseClient';
 import { useAuth } from '../../lib/auth/AuthContext';
 import { useAccessibility, type FontScale } from '../../lib/a11y/AccessibilityContext';
@@ -10,6 +11,8 @@ import { softSignOut } from '../../lib/auth/softSignOut';
 import logo from '../../assets/Logo.jpg';
 import sidebarBackground from '../../assets/students/backgrounds/sidebar-background.png';
 import owlMascot from '../../assets/students/mascot/owl-mascot.png';
+import './student-dashboard.css';
+import './student-sidebar.css';
 
 const PRIMARY_TABS = [
   { to: '/student', end: true, icon: House, label: 'Simula' },
@@ -29,6 +32,7 @@ function useStudentAccessibilitySync() {
   const { setFont, setTheme, setReadingGuide, setFontScale } = useAccessibility();
 
   useEffect(() => {
+    setFont('default');
     if (!user) return;
     let active = true;
 
@@ -91,31 +95,42 @@ function NavItem({
   onNavigate?: () => void;
 }) {
   const NavIcon = icon;
+  const { pathname } = useLocation();
+  const path = pathname.replace(/\/+$/, '');
+  const isActive = (end ? path === to : path === to || path.startsWith(`${to}/`))
+    || (to === '/student' && path === '/student/practice');
   return (
-    <NavLink to={to} end={end} title={label} className={navClass(collapsed)} onClick={onNavigate}>
-      {({ isActive }) => (
-        <>
+    <Link to={to} title={label} aria-current={isActive ? 'page' : undefined} className={navClass(collapsed)({ isActive })} onClick={onNavigate}>
           <span className={`student-sidebar-nav-icon flex h-9 w-9 shrink-0 items-center justify-center rounded-xl transition-transform group-hover:scale-105 ${isActive ? 'bg-white/90 shadow-sm' : 'bg-white/65'}`}>
             <NavIcon aria-hidden="true" className="h-6 w-6" strokeWidth={2.2} />
           </span>
-          <span className={collapsed ? 'sr-only' : undefined}>{label}</span>
-        </>
-      )}
-    </NavLink>
+          <span className={`student-sidebar-nav-label ${collapsed ? 'sr-only' : ''}`}>{label}</span>
+    </Link>
   );
 }
 
-function ProfileMenu({ collapsed, mobile = false }: { collapsed: boolean; mobile?: boolean }) {
+function ProfileMenu({ collapsed, mobile = false, navigationOpen = false, onOpen }: {
+  collapsed: boolean;
+  mobile?: boolean;
+  navigationOpen?: boolean;
+  onOpen?: () => void;
+}) {
   const [open, setOpen] = useState(false);
   const menuId = useId();
   const menuRef = useRef<HTMLDivElement>(null);
   const triggerRef = useRef<HTMLButtonElement>(null);
   const { identity, user } = useAuth();
+  const { pathname } = useLocation();
+  const profileActive = pathname === '/student/profile' || pathname.startsWith('/student/profile/');
   const displayName = identity?.displayName ?? 'Mag-aaral';
   const initial = displayName.trim().charAt(0).toUpperCase() || 'M';
 
+  useEffect(() => { setOpen(false); }, [pathname]);
+  useEffect(() => { if (navigationOpen) setOpen(false); }, [navigationOpen]);
+
   useEffect(() => {
     if (!open) return;
+    const frame = requestAnimationFrame(() => menuRef.current?.querySelector<HTMLElement>('[role="menuitem"]')?.focus());
     const onClickOutside = (event: MouseEvent) => {
       if (menuRef.current && !menuRef.current.contains(event.target as Node)) setOpen(false);
     };
@@ -127,10 +142,22 @@ function ProfileMenu({ collapsed, mobile = false }: { collapsed: boolean; mobile
     };
     document.addEventListener('keydown', onKeyDown);
     return () => {
+      cancelAnimationFrame(frame);
       document.removeEventListener('mousedown', onClickOutside);
       document.removeEventListener('keydown', onKeyDown);
     };
   }, [open]);
+
+  const onMenuKeyDown = (event: ReactKeyboardEvent<HTMLDivElement>) => {
+    if (!['ArrowDown', 'ArrowUp', 'Home', 'End'].includes(event.key)) return;
+    const items = Array.from(menuRef.current?.querySelectorAll<HTMLElement>('[role="menuitem"]') ?? []);
+    if (!items.length) return;
+    event.preventDefault();
+    const current = items.indexOf(document.activeElement as HTMLElement);
+    const next = event.key === 'Home' ? 0 : event.key === 'End' ? items.length - 1
+      : (current + (event.key === 'ArrowDown' ? 1 : -1) + items.length) % items.length;
+    items[next].focus();
+  };
 
   const signOut = () => {
     if (user) {
@@ -146,15 +173,24 @@ function ProfileMenu({ collapsed, mobile = false }: { collapsed: boolean; mobile
   };
 
   return (
-    <div ref={menuRef} className="student-sidebar-profile-menu relative min-w-0">
+    <div ref={menuRef} data-mobile={mobile} data-collapsed={collapsed} data-active={profileActive} className="student-sidebar-profile-menu relative min-w-0">
       <button
         ref={triggerRef}
         type="button"
-        onClick={() => setOpen((value) => !value)}
+        onClick={() => { if (!open) onOpen?.(); setOpen((value) => !value); }}
         aria-expanded={open}
+        aria-label={`Aking profile ni ${displayName}`}
         aria-haspopup="menu"
         aria-controls={open ? menuId : undefined}
         title="Aking profile"
+        onKeyDown={(event) => {
+          if (event.key === 'ArrowDown') {
+            event.preventDefault();
+            onOpen?.();
+            setOpen(true);
+            menuRef.current?.querySelector<HTMLElement>('[role="menuitem"]')?.focus();
+          }
+        }}
         className={`student-sidebar-profile-trigger flex min-h-12 w-full min-w-0 items-center gap-3 rounded-2xl border p-2 text-left transition-all ${open ? 'student-sidebar-profile-trigger-open' : ''} ${mobile ? 'border-[var(--color-border)] bg-white/75 hover:border-[var(--color-primary)]' : 'border-white/20 bg-white/10 text-white hover:bg-white/15'} ${collapsed ? 'justify-center' : ''}`}
       >
         <span className="relative flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded-xl bg-[var(--color-primary)] text-lg font-bold text-white shadow-sm">
@@ -174,6 +210,8 @@ function ProfileMenu({ collapsed, mobile = false }: { collapsed: boolean; mobile
         <div
           id={menuId}
           role="menu"
+          aria-label="Aking account"
+          onKeyDown={onMenuKeyDown}
           className={`student-profile-popover absolute z-50 ${mobile ? 'student-profile-popover-mobile' : ''}`}
         >
           <div className="student-profile-popover-header flex items-center gap-3">
@@ -201,7 +239,7 @@ function ProfileMenu({ collapsed, mobile = false }: { collapsed: boolean; mobile
 function NavContents({ collapsed, onNavigate }: { collapsed: boolean; onNavigate?: () => void }) {
   return (
     <>
-      <nav aria-label="Mga bahagi ng student dashboard" className="student-sidebar-nav flex flex-1 flex-col gap-1.5 px-3 py-4">
+      <nav id="student-desktop-navigation" aria-label="Mga bahagi ng student dashboard" className="student-sidebar-nav flex flex-1 flex-col gap-1.5 px-3 py-4">
         {PRIMARY_TABS.map((tab) => (
           <NavItem key={tab.to} to={tab.to} end={tab.end} icon={tab.icon} label={tab.label} collapsed={collapsed} onNavigate={onNavigate} />
         ))}
@@ -220,7 +258,10 @@ export default function StudentLayout() {
   const [collapsed, setCollapsed] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const mobileMenuButtonRef = useRef<HTMLButtonElement>(null);
+  const { pathname } = useLocation();
   useStudentAccessibilitySync();
+
+  useEffect(() => { setMobileOpen(false); }, [pathname]);
 
   useEffect(() => {
     if (!mobileOpen) return;
@@ -237,27 +278,29 @@ export default function StudentLayout() {
     <DashboardShell roleLabel="Mag-aaral" hideHeader roleTheme="student">
       <div className="flex min-h-screen min-w-0">
         <aside
+          data-collapsed={collapsed}
           className={`student-sidebar dashboard-sidebar sticky top-0 hidden h-screen shrink-0 flex-col border-r border-white/35 transition-[width] duration-300 lg:flex ${collapsed ? 'w-[4.75rem]' : 'w-56'}`}
-          style={{ backgroundImage: `linear-gradient(180deg, rgba(101,122,203,.78) 0%, rgba(120,134,213,.70) 28%, rgba(146,142,219,.62) 55%, rgba(183,166,223,.52) 76%, rgba(213,190,227,.32) 100%), url(${sidebarBackground})` }}
+          style={{ backgroundImage: `linear-gradient(180deg, rgba(82,98,183,.96) 0%, rgba(99,105,188,.94) 38%, rgba(146,142,219,.62) 65%, rgba(183,166,223,.52) 76%, rgba(213,190,227,.32) 100%), url(${sidebarBackground})` }}
         >
           <div className={`student-sidebar-logo-header flex h-16 items-center gap-2 border-b border-white/20 px-3 ${collapsed ? 'justify-center' : ''}`}>
-            <button type="button" onClick={() => setCollapsed((value) => !value)} title={collapsed ? 'Palawakin ang sidebar' : 'Paliitin ang sidebar'} className="student-sidebar-logo-button flex min-w-0 items-center gap-2 rounded-xl p-1 text-[var(--color-text)] transition-colors hover:bg-[#FFF9EE]/60">
+            <button type="button" onClick={() => setCollapsed((value) => !value)} aria-label={collapsed ? 'Palawakin ang sidebar' : 'Paliitin ang sidebar'} aria-expanded={!collapsed} aria-controls="student-desktop-navigation" title={collapsed ? 'Palawakin ang sidebar' : 'Paliitin ang sidebar'} className="student-sidebar-logo-button flex min-w-0 items-center gap-2 rounded-xl p-1 text-[var(--color-text)] transition-colors hover:bg-[#FFF9EE]/60">
               <img src={logo} alt="LinawLetra" className="h-10 w-10 shrink-0 rounded-xl object-cover shadow-sm" />
               {!collapsed && <span className="truncate font-bold">LinawLetra</span>}
+              {!collapsed && <PanelLeftClose className="student-sidebar-collapse-hint" size={16} aria-hidden="true" />}
             </button>
           </div>
           <NavContents collapsed={collapsed} />
         </aside>
 
         <div className="flex min-w-0 flex-1 flex-col">
-          <header className="sticky top-0 z-40 flex h-16 items-center justify-between border-b border-[var(--color-border)] bg-[var(--color-surface)]/95 px-4 shadow-sm backdrop-blur lg:hidden">
+          <header className="student-mobile-header sticky top-0 z-40 flex h-16 items-center justify-between border-b border-[var(--color-border)] bg-[var(--color-surface)]/95 px-4 shadow-sm backdrop-blur lg:hidden">
             <div className="flex min-w-0 items-center gap-2">
               <img src={logo} alt="LinawLetra" className="h-10 w-10 shrink-0 rounded-xl object-cover" />
               <span className="truncate font-bold text-[var(--color-primary)]">LinawLetra</span>
             </div>
             <div className="flex items-center gap-2">
-              <ProfileMenu collapsed mobile />
-              <button ref={mobileMenuButtonRef} type="button" onClick={() => setMobileOpen((value) => !value)} aria-expanded={mobileOpen} aria-controls="student-mobile-nav" className="flex h-12 min-w-12 items-center justify-center rounded-2xl border border-[var(--color-border)] bg-white/70 transition-colors hover:border-[var(--color-primary)]">
+              <ProfileMenu collapsed mobile navigationOpen={mobileOpen} onOpen={() => setMobileOpen(false)} />
+              <button ref={mobileMenuButtonRef} type="button" onClick={() => setMobileOpen((value) => !value)} aria-label={mobileOpen ? 'Isara ang menu' : 'Buksan ang menu'} aria-expanded={mobileOpen} aria-controls={mobileOpen ? 'student-mobile-nav' : undefined} className="student-mobile-menu-button flex h-12 min-w-12 items-center justify-center rounded-2xl border border-[var(--color-border)] bg-white/70 transition-colors hover:border-[var(--color-primary)]">
                 <IconLabel icon="☰" label="Menu" />
               </button>
             </div>

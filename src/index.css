@@ -968,6 +968,12 @@ body[data-font="comic"] :is(h1, h2, h3, h4, h5, h6, button, input, select, texta
   word-spacing: normal;
 }
 
+/* Comic Sans is the site default, including public forms and role workspaces
+   that declare their own font. Student routes select their own font mode. */
+body[data-font="comic"] * {
+  font-family: "Comic Sans MS", "Comic Sans", cursive !important;
+}
+
 /* Comic Sans has a comparatively small x-height, so the same nominal size
    reads smaller than the default and OpenDyslexic faces.  Give every Comic
    Sans view a larger type scale, including the parent portal which always

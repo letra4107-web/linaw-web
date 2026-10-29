@@ -18,9 +18,11 @@ function base64ToObjectUrl(base64: string): string {
   return URL.createObjectURL(new Blob([buffer], { type: 'audio/mpeg' }));
 }
 
-function playAudioAndWait(url: string, rate: number, sequenceId?: number): Promise<void> {
-  return new Promise((resolve) => {
-    if (sequenceId !== undefined && sequenceId !== activeSequenceId) {
+interface PlaybackOptions { signal?: AbortSignal; reportErrors?: boolean }
+
+function playAudioAndWait(url: string, rate: number, sequenceId?: number, options: PlaybackOptions = {}): Promise<void> {
+  return new Promise((resolve, reject) => {
+    if (options.signal?.aborted || (sequenceId !== undefined && sequenceId !== activeSequenceId)) {
       resolve();
       return;
     }
@@ -31,12 +33,21 @@ function playAudioAndWait(url: string, rate: number, sequenceId?: number): Promi
       activeSequenceAudio = audio;
     }
     const finish = () => {
+      options.signal?.removeEventListener('abort', cancel);
       if (activeSequenceAudio === audio) activeSequenceAudio = null;
       resolve();
     };
+    const cancel = () => { audio.pause(); finish(); };
+    const fail = () => {
+      if (!options.reportErrors) { finish(); return; }
+      options.signal?.removeEventListener('abort', cancel);
+      if (activeSequenceAudio === audio) activeSequenceAudio = null;
+      reject(new Error('Hindi tumugtog ang tunog. Subukan muli ang audio button.'));
+    };
+    options.signal?.addEventListener('abort', cancel, { once: true });
     audio.onended = finish;
-    audio.onerror = finish;
-    audio.play().catch(() => resolve());
+    audio.onerror = fail;
+    audio.play().catch(fail);
   });
 }
 
@@ -71,15 +82,17 @@ interface TtsQueueItem {
 }
 
 /** Speaks each item in order, waiting for one to finish before starting the next. */
-export async function playTtsSequence(items: (string | TtsQueueItem)[], lang = 'fil-PH'): Promise<void> {
+export async function playTtsSequence(items: (string | TtsQueueItem)[], lang = 'fil-PH', options: PlaybackOptions = {}): Promise<void> {
   const sequenceId = ++activeSequenceId;
   activeSequenceAudio?.pause();
   for (const item of items) {
-    if (sequenceId !== activeSequenceId) return;
+    if (options.signal?.aborted || sequenceId !== activeSequenceId) return;
     const { text, rate = getTtsRate() } = typeof item === 'string' ? { text: item } : item;
     const effectiveRate = isIsolatedFilipinoVowel(text) ? 1 : rate;
     void lang;
     const url = await resolveAudioUrl(text, effectiveRate);
-    if (url) await playAudioAndWait(url, effectiveRate, sequenceId);
+    if (options.signal?.aborted || sequenceId !== activeSequenceId) return;
+    if (url) await playAudioAndWait(url, effectiveRate, sequenceId, options);
+    else if (options.reportErrors) throw new Error('Hindi ma-load ang tunog. Suriin ang koneksyon at subukan muli.');
   }
 }

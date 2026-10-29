@@ -15,7 +15,6 @@ import { IconLabel } from '../../components/a11y/IconLabel';
 import { ReadingTarget } from '../../components/student/ReadingTarget';
 import { WordMeaning } from '../../components/student/WordMeaning';
 import { cardStyle } from '../../lib/cardStyle';
-import speechIcon from '../../lib/emptyImage';
 import { trackEvent } from '../../lib/analytics';
 import { getTtsPlaybackRate, getTtsRate } from '../../lib/ttsSettings';
 import listenIllustration from '../../assets/listen.png';
@@ -338,8 +337,7 @@ export default function Practice() {
                   className="inline-flex min-h-10 items-center gap-2 rounded-full border border-[var(--color-border)] bg-[var(--color-surface)] px-3 py-1.5 text-sm text-[var(--color-text)] hover:border-[var(--color-primary)] disabled:opacity-60"
                   >
                     <IconLabel
-                      icon={speechStatus === 'loading' ? '⏳' : undefined}
-                      img={speechStatus !== 'loading' ? speechIcon : undefined}
+                      icon={speechStatus === 'loading' ? '⏳' : speechStatus === 'speaking' ? '⏹️' : '🔊'}
                       label={speechStatus === 'loading' ? 'Naglo-load...' : speechStatus === 'speaking' ? 'Ihinto' : 'Basahin nang Malakas'}
                     />
                   </button>
@@ -350,7 +348,7 @@ export default function Practice() {
             {mode === 'listen' && (
               <div className="practice-listen-actions">
                 <button type="button" onClick={playWord} disabled={speechStatus === 'loading'}>
-                  <IconLabel img={speechIcon} label={speechStatus === 'loading' ? 'Naglo-load...' : speechStatus === 'speaking' ? 'Ihinto ang Pagbasa' : 'Basahin nang Malakas'} />
+                  <IconLabel icon={speechStatus === 'loading' ? '⏳' : speechStatus === 'speaking' ? '⏹️' : '🔊'} label={speechStatus === 'loading' ? 'Naglo-load...' : speechStatus === 'speaking' ? 'Ihinto ang Pagbasa' : 'Basahin nang Malakas'} />
                 </button>
                 <SlowTTSButton text={current.word} />
               </div>

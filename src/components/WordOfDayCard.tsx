@@ -7,20 +7,25 @@ import { getOrCreateWordOfDay, MAX_ATTEMPTS } from '../lib/wordOfDay';
 import { assessSpeech, isSpeechRecognitionSupported, listenOnce } from '../lib/speech';
 import { syllabifyWord } from '../lib/syllabify';
 import { CORRECT_MESSAGES, ENCOURAGE_MESSAGES, randomFrom } from '../lib/feedbackMessages';
-import { SyllableKaraokeText } from './SyllableKaraokeText';
 import { PronunciationFeedback } from './PronunciationFeedback';
 import { BadgeUnlockToast } from './BadgeUnlockToast';
-import { SlowTTSButton } from './a11y/SlowTTSButton';
-import { IconLabel } from './a11y/IconLabel';
+import { BookOpen, Flame, Mic, Volume2 } from 'lucide-react';
 import { getTtsPlaybackRate, getTtsRate } from '../lib/ttsSettings';
 import { WordMeaning } from './student/WordMeaning';
 
 interface WordOfDayCardProps {
   streak?: number;
+  onStatusChange?: (status: DailyWordStatus) => void;
 }
 
+export interface DailyWordStatus {
+  available: boolean;
+  listened: boolean;
+  read: boolean;
+  completed: boolean;
+}
 
-export function WordOfDayCard({ streak = 0 }: WordOfDayCardProps) {
+export function WordOfDayCard({ streak = 0, onStatusChange }: WordOfDayCardProps) {
   const { user } = useAuth();
   const queryClient = useQueryClient();
   const [listening, setListening] = useState(false);
@@ -36,14 +41,23 @@ export function WordOfDayCard({ streak = 0 }: WordOfDayCardProps) {
   const [newlyUnlockedBadges, setNewlyUnlockedBadges] = useState<string[]>([]);
   const [speechStatus, setSpeechStatus] = useState<'idle' | 'loading' | 'speaking'>('idle');
   const speechAudioRef = useRef<HTMLAudioElement | null>(null);
+  const speechUrlRef = useRef<string | null>(null);
+  const playbackRequestRef = useRef(0);
+  const stopRecognitionRef = useRef<() => void>(() => {});
+  const wordBoardRef = useRef<HTMLDivElement>(null);
+  const [steps, setSteps] = useState({ id: '', listened: false, read: false });
+  const [saving, setSaving] = useState(false);
 
   useEffect(() => {
     return () => {
+      playbackRequestRef.current += 1;
       speechAudioRef.current?.pause();
+      if (speechUrlRef.current) URL.revokeObjectURL(speechUrlRef.current);
+      stopRecognitionRef.current();
     };
   }, []);
 
-  const { data: child } = useQuery({
+  const { data: child, isPending: childPending, error: childError, refetch: refetchChild } = useQuery({
     queryKey: ['student-self', user?.id],
     queryFn: async () => {
       const { data, error: err } = await supabase.from('children').select('id, grade_level').eq('auth_uid', user!.id).maybeSingle();
@@ -53,13 +67,13 @@ export function WordOfDayCard({ streak = 0 }: WordOfDayCardProps) {
     enabled: Boolean(user),
   });
 
-  const { data: path } = useQuery({
+  const { data: path, isPending: pathPending, error: pathError, refetch: refetchPath } = useQuery({
     queryKey: ['student-learn-path'],
     queryFn: () => api<{ effective_level: string }>('/student/learn/path', { auth: true }),
     enabled: Boolean(user),
   });
 
-  const { data: wordOfDay, isLoading } = useQuery({
+  const { data: wordOfDay, isLoading, error: wordError, refetch: refetchWord } = useQuery({
     queryKey: ['word-of-day', child?.id, path?.effective_level],
     queryFn: () => getOrCreateWordOfDay(child!.id, path!.effective_level || 'Beginner'),
     enabled: Boolean(child?.id) && Boolean(path?.effective_level),
@@ -67,6 +81,11 @@ export function WordOfDayCard({ streak = 0 }: WordOfDayCardProps) {
 
   const attemptsUsed = wordOfDay?.attempts ?? 0;
   const isDone = Boolean(wordOfDay?.completed_at);
+  const listened = steps.id === wordOfDay?.id && steps.listened;
+  const read = steps.id === wordOfDay?.id && steps.read;
+  useEffect(() => {
+    onStatusChange?.({ available: Boolean(wordOfDay), listened, read, completed: isDone });
+  }, [onStatusChange, wordOfDay, listened, read, isDone]);
   // Stable fallback for a page load that lands on an already-completed word (no local
   // attempt just happened to pick a message) -- memoized so it doesn't re-roll on re-render.
   const fallbackDoneMessage = useMemo(
@@ -76,8 +95,11 @@ export function WordOfDayCard({ streak = 0 }: WordOfDayCardProps) {
   const canTry = wordOfDay && !isDone && attemptsUsed < MAX_ATTEMPTS && isSpeechRecognitionSupported();
 
   const stopSpeech = () => {
+    playbackRequestRef.current += 1;
     speechAudioRef.current?.pause();
     speechAudioRef.current = null;
+    if (speechUrlRef.current) URL.revokeObjectURL(speechUrlRef.current);
+    speechUrlRef.current = null;
     setSpeechStatus('idle');
   };
 
@@ -86,20 +108,23 @@ export function WordOfDayCard({ streak = 0 }: WordOfDayCardProps) {
   // separate marked-SSML call, which sometimes came out mispronounced (reading like English
   // instead of Tagalog); reading the full word at once avoids that.
   const playWord = async () => {
-    if (!wordOfDay) return;
+    if (!wordOfDay || speechStatus === 'loading') return;
     if (speechStatus === 'speaking') {
       stopSpeech();
       return;
     }
     setSpeechStatus('loading');
     setError(null);
+    const playbackRequest = ++playbackRequestRef.current;
     try {
       const rate = getTtsRate();
       const res = await api<{ audioContent: string }>('/tts', { method: 'POST', auth: true, body: { text: wordOfDay.word, rate } });
+      if (playbackRequest !== playbackRequestRef.current) return;
       const bytes = atob(res.audioContent);
       const buffer = new Uint8Array(bytes.length);
       for (let i = 0; i < bytes.length; i += 1) buffer[i] = bytes.charCodeAt(i);
       const url = URL.createObjectURL(new Blob([buffer], { type: 'audio/mpeg' }));
+      speechUrlRef.current = url;
       const audio = new Audio(url);
       audio.playbackRate = getTtsPlaybackRate(rate);
       speechAudioRef.current = audio;
@@ -107,23 +132,26 @@ export function WordOfDayCard({ streak = 0 }: WordOfDayCardProps) {
         setSpeechStatus('idle');
         speechAudioRef.current = null;
         URL.revokeObjectURL(url);
+        speechUrlRef.current = null;
+        setSteps(previous => ({ id: wordOfDay.id, listened: true, read: previous.id === wordOfDay.id && previous.read }));
       };
-      audio.onerror = () => setSpeechStatus('idle');
+      audio.onerror = () => { stopSpeech(); setError('Hindi ma-play ang audio ngayon. Subukan muli.'); };
       setSpeechStatus('speaking');
-      audio.play();
+      await audio.play();
     } catch {
-      setSpeechStatus('idle');
+      if (playbackRequest !== playbackRequestRef.current) return;
+      stopSpeech();
       setError('Hindi ma-play ang audio ngayon.');
     }
   };
 
   const handleTry = () => {
-    if (!wordOfDay) return;
+    if (!wordOfDay || listening || saving) return;
     stopSpeech();
     setError(null);
     setWasWrongAttempt(false);
     setListening(true);
-    listenOnce(
+    stopRecognitionRef.current = listenOnce(
       'fil-PH',
       async ({ transcript, confidence }) => {
         setListening(false);
@@ -133,6 +161,7 @@ export function WordOfDayCard({ streak = 0 }: WordOfDayCardProps) {
         const nextAttempts = attemptsUsed + 1;
 
         try {
+          setSaving(true);
           const res = await api<{
             xpAwarded: number;
             isFinal: boolean;
@@ -150,8 +179,11 @@ export function WordOfDayCard({ streak = 0 }: WordOfDayCardProps) {
           if (!res.isFinal) setWasWrongAttempt(true);
           queryClient.invalidateQueries({ queryKey: ['word-of-day'] });
           queryClient.invalidateQueries({ queryKey: ['student-progress'] });
+          queryClient.invalidateQueries({ queryKey: ['student-profile-progress'] });
         } catch (err) {
           setError(err instanceof Error ? err.message : 'May problema sa pag-save ng sagot.');
+        } finally {
+          setSaving(false);
         }
       },
       (message) => {
@@ -161,129 +193,41 @@ export function WordOfDayCard({ streak = 0 }: WordOfDayCardProps) {
     );
   };
 
-  if (isLoading || !wordOfDay) return null;
+  const loadError = childError || pathError || wordError;
+  if (isLoading || !wordOfDay) return <section className="home-word-card home-word-placeholder" id="salita-ngayon" aria-labelledby="home-word-title">
+    <h2 id="home-word-title"><span aria-hidden="true">📣</span> Salita Ngayon</h2>
+    <p role={loadError ? 'alert' : 'status'}>{loadError ? 'Hindi ma-load ang salita ngayon. Subukan muli.' : isLoading || childPending || pathPending ? 'Inihahanda ang iyong salita…' : !child ? 'Hindi makita ang iyong student profile. Ipaalam sa iyong guro.' : 'Wala pang salita para sa iyong antas. Balikan natin mamaya.'}</p>
+    {loadError && <button type="button" className="home-purple-button" onClick={() => { void refetchChild(); void refetchPath(); if (child && path) void refetchWord(); }}>Subukan muli ang salita</button>}
+  </section>;
 
-  return (
-    <div id="salita-ngayon" className="student-word-practice relative overflow-hidden rounded-[2rem] border border-[#A99AD8]/35 shadow-hero">
-      <div
-        className="student-word-practice-header relative overflow-hidden p-5 sm:px-8 sm:py-6"
-      >
-        <div aria-hidden="true" className="pointer-events-none absolute -top-16 -right-10 h-40 w-40 rounded-full bg-white/10" />
-        <div aria-hidden="true" className="pointer-events-none absolute -bottom-20 left-1/3 h-36 w-36 rounded-full bg-white/10" />
-        <div className="relative flex flex-wrap items-start justify-between gap-4">
-          <div>
-            <p className="text-sm font-bold tracking-[0.12em] text-[var(--color-primary)] uppercase">Gawain para sa araw na ito</p>
-            <h2 className="mt-1 text-2xl font-bold sm:text-3xl">☀️ Salita Ngayon</h2>
-            <p className="mt-2 max-w-xl text-base text-[var(--color-text-muted)]">Makinig muna, saka bigkasin nang malinaw ang salita.</p>
-          </div>
-          {streak > 0 && (
-            <span className="flex min-h-10 items-center gap-1.5 rounded-full border border-[#A99AD8]/35 bg-white/55 px-4 py-1.5 text-sm font-bold text-[var(--color-text)] backdrop-blur">
-              🔥 Sunod-sunod!
-            </span>
-          )}
-        </div>
+  const syllables = syllabifyWord(wordOfDay.word);
+  const startReading = () => {
+    setSteps(previous => ({ id: wordOfDay.id, listened: previous.id === wordOfDay.id && previous.listened, read: true }));
+    wordBoardRef.current?.focus({ preventScroll: true });
+  };
+  return <section id="salita-ngayon" className="home-word-card" aria-labelledby="home-word-title">
+    <header className="home-word-heading"><span className="home-word-megaphone" aria-hidden="true">📣</span><div><h2 id="home-word-title">Salita Ngayon</h2><p>Makinig, basahin, at bigkasin ang salita.</p></div>{streak > 0 && <span className="home-word-streak"><Flame size={18} aria-hidden="true" /> Sunod-sunod!!</span>}</header>
+    <div className="home-word-stage">
+      <div className="home-word-signposts" aria-label="Mga hakbang sa salita">
+        <button type="button" data-word-action="listen" onClick={playWord} disabled={speechStatus === 'loading'} aria-pressed={speechStatus === 'speaking'}><Volume2 size={24} aria-hidden="true" />{speechStatus === 'loading' ? 'Sandali…' : speechStatus === 'speaking' ? 'Ihinto' : 'Makinig'}</button>
+        <button type="button" data-word-action="read" onClick={startReading} aria-pressed={read}><BookOpen size={24} aria-hidden="true" />Basahin</button>
+        <button type="button" data-word-action="speak" onClick={handleTry} disabled={!canTry || listening || saving} aria-describedby="word-of-day-microphone-help"><Mic size={24} aria-hidden="true" />{listening ? 'Nakikinig…' : saving ? 'Sine-save…' : isDone ? 'Tapos na!' : 'Bigkasin'}</button>
       </div>
-
-      <div
-        className="student-word-practice-content relative p-5 sm:px-8 sm:py-6"
-      >
-        <div className="student-word-reading-panel flex flex-col items-center gap-5 px-4 py-3 text-center sm:px-6 sm:py-4">
-          <SyllableKaraokeText syllables={syllabifyWord(wordOfDay.word)} activeIndex={null} colorVar="--color-brand-sun" alternateColorVar="--color-brand-sage" />
-          <button type="button" onClick={playWord} disabled={speechStatus === 'loading'} className="student-word-listen-cue" aria-label={speechStatus === 'speaking' ? 'Ihinto ang pagbasa' : 'Pakinggan ang salita'}>
-            <IconLabel icon={speechStatus === 'loading' ? '⏳' : '🔊'} label={speechStatus === 'speaking' ? 'Ihinto ang pagbasa' : 'Pakinggan ang salita'} />
-          </button>
-          <div className="student-word-controls flex flex-wrap justify-center gap-2">
-          <button
-            type="button"
-            onClick={playWord}
-            disabled={speechStatus === 'loading'}
-            className="inline-flex min-h-12 items-center gap-2 rounded-full border-2 border-[var(--color-brand-sun)] bg-[var(--color-surface)] px-5 py-2 text-sm font-bold text-[var(--color-text)] shadow-sm transition-all hover:-translate-y-0.5 hover:shadow-card disabled:opacity-60"
-          >
-            <IconLabel
-              label={speechStatus === 'loading' ? 'Naglo-load...' : speechStatus === 'speaking' ? 'Ihinto' : 'Basahin nang Malakas'}
-              icon={speechStatus === 'loading' ? '⏳' : '🔊'}
-            />
-          </button>
-          <SlowTTSButton text={wordOfDay.word} />
-          </div>
-        </div>
-        <WordMeaning word={wordOfDay.word} compactControls className="student-word-meaning mt-4" />
-
-        {isDone ? (
-          <PronunciationFeedback
-            className="mt-5"
-            correct={Boolean(wordOfDay.correct)}
-            message={wordOfDay.correct ? `${feedbackMessage || fallbackDoneMessage} +${wordOfDay.xp_awarded} XP` : feedbackMessage || fallbackDoneMessage}
-            speakText={feedbackMessage || fallbackDoneMessage}
-            hint="Magaling! Natapos mo na ito, bumalik bukas para sa susunod na salita."
-            word={!wordOfDay.correct ? wordOfDay.word : undefined}
-            autoPlay={justAnswered}
-          />
-        ) : (
-          <div className="mt-6 flex flex-col items-center gap-3">
-            {!isSpeechRecognitionSupported() ? (
-              <p className="text-sm text-[var(--color-text-muted)]">
-                Hindi suportado ng browser na ito ang pagkilala ng boses.
-              </p>
-            ) : (
-              canTry && (
-                <>
-                  <button
-                    type="button"
-                    onClick={handleTry}
-                    disabled={listening}
-                    aria-describedby="word-of-day-microphone-help"
-                    className={`student-word-practice-mic relative flex min-h-[52px] w-full max-w-sm items-center justify-center gap-3 overflow-hidden rounded-2xl px-6 py-3 text-white shadow-lg transition-all hover:-translate-y-0.5 hover:shadow-raised active:scale-[0.98] disabled:opacity-70 ${
-                      listening ? 'bg-[var(--color-danger)]' : ''
-                    }`}
-                    style={!listening ? { backgroundColor: '#7567B8' } : undefined}
-                  >
-                    {listening && <span className="absolute inset-0 animate-ping rounded-full bg-[var(--color-danger)]/60" />}
-                    <span aria-hidden="true" className="relative text-2xl">🎙️</span>
-                    <span className="relative text-base font-bold">{listening ? 'Nakikinig...' : 'Bigkasin ang salita'}</span>
-                  </button>
-                  <p id="word-of-day-microphone-help" aria-live="polite" className="text-center text-sm font-medium text-[var(--color-text-muted)]">
-                    {listening ? 'Magsalita nang malinaw.' : 'Pindutin ang mic kapag handa ka na.'}
-                  </p>
-                </>
-              )
-            )}
-
-            {lastHeard && wasWrongAttempt && (
-              <PronunciationFeedback
-                className="w-full"
-                correct={false}
-                message={feedbackMessage}
-                detail={`Narinig ko: "${lastHeard}"`}
-                hint="Ulitin natin, pakinggan mo ang tamang bigkas!"
-                word={wordOfDay.word}
-              />
-            )}
-            {lastHeard && !wasWrongAttempt && !isDone && (
-              <p className="text-sm text-[var(--color-text-muted)]">Narinig: "{lastHeard}"</p>
-            )}
-            {error && (
-              <p role="alert" className="w-full rounded-xl bg-[var(--color-danger-soft)] px-4 py-2.5 text-center text-sm text-[var(--color-danger)]">
-                {error}
-              </p>
-            )}
-
-            <div className="mt-2 flex items-center gap-3 rounded-full bg-white/60 px-4 py-2" role="img" aria-label={`${attemptsUsed} sa ${MAX_ATTEMPTS} pagsubok ang nagamit`}>
-              <span className="text-xs font-bold text-[var(--color-text-muted)]">Mga pagsubok</span>
-              {Array.from({ length: MAX_ATTEMPTS }).map((_, i) => (
-                <span
-                  key={i}
-                  className={`h-3 w-3 rounded-full transition-colors ${
-                    i < attemptsUsed ? 'bg-[var(--color-brand-sun)]' : 'border border-[var(--color-border)] bg-white'
-                  }`}
-                />
-              ))}
-            </div>
-          </div>
-        )}
+      <div ref={wordBoardRef} tabIndex={-1} role="group" className="home-word-board" data-reading={read} aria-label={`Salita: ${wordOfDay.word}`}>
+        <p className="home-word-syllables"><span className="sr-only">{wordOfDay.word}</span>{syllables.map((syllable, index) => <span key={index} className="home-syllable-group" aria-hidden="true">{index > 0 && <span className="home-syllable-divider">-</span>}<span className={index % 2 ? 'home-syllable-pink' : 'home-syllable-blue'}>{syllable}</span></span>)}</p>
+        <button type="button" className="home-word-speaker" onClick={playWord} disabled={speechStatus === 'loading'} aria-label={speechStatus === 'speaking' ? 'Ihinto ang pagbasa' : 'Pakinggan ang salita'}><Volume2 size={27} aria-hidden="true" /></button>
       </div>
-      {justAwardedXp !== null && <span className="sr-only">Nakakuha ng {justAwardedXp} XP</span>}
-      <BadgeUnlockToast badgeIds={newlyUnlockedBadges} onDismiss={() => setNewlyUnlockedBadges([])} />
+      <div className="home-owl-bubble">{listening ? 'Nakikinig ako. Kaya mo ito!' : isDone ? 'Ang galing! Balik tayo bukas.' : 'Uliting bigkasin ang salita!'}</div>
     </div>
-  );
+    <div className="home-word-feedback">
+      {error && <p role="alert" className="home-word-error">{error}</p>}
+      {isDone ? <PronunciationFeedback correct={Boolean(wordOfDay.correct)} message={wordOfDay.correct ? `${feedbackMessage || fallbackDoneMessage} +${wordOfDay.xp_awarded} XP` : feedbackMessage || fallbackDoneMessage} speakText={feedbackMessage || fallbackDoneMessage} hint="Natapos mo na ito. Bumalik bukas para sa susunod na salita." word={!wordOfDay.correct ? wordOfDay.word : undefined} autoPlay={justAnswered} /> :
+        <div className="home-word-help"><p id="word-of-day-microphone-help" aria-live="polite">{!isSpeechRecognitionSupported() ? 'Hindi suportado ng browser na ito ang pagkilala ng boses. Maaari ka pa ring makinig at magbasa.' : listening ? 'Magsalita nang malinaw.' : saving ? 'Sine-save ang iyong sagot…' : read ? 'Pindutin ang Bigkasin kapag handa ka na.' : 'Makinig muna, saka basahin ang mga pantig.'}</p><span role="img" aria-label={`${attemptsUsed} sa ${MAX_ATTEMPTS} pagsubok ang nagamit`}>{Array.from({ length: MAX_ATTEMPTS }, (_, index) => <i key={index} data-used={index < attemptsUsed} />)}</span></div>}
+      {lastHeard && wasWrongAttempt && !isDone && <PronunciationFeedback correct={false} message={feedbackMessage} detail={`Narinig ko: "${lastHeard}"`} hint="Ulitin natin. Pakinggan ang tamang bigkas!" word={wordOfDay.word} />}
+      {lastHeard && !wasWrongAttempt && !isDone && <p>Narinig: “{lastHeard}”</p>}
+    </div>
+    <details className="home-word-meaning"><summary>Kahulugan at halimbawa <span aria-hidden="true">＋</span></summary><WordMeaning word={wordOfDay.word} compactControls emptyMessage="Wala pang kahulugan para sa salitang ito. Maaari mo pa rin itong pakinggan at basahin." /></details>
+    {justAwardedXp !== null && <span className="sr-only">Nakakuha ng {justAwardedXp} XP</span>}
+    <BadgeUnlockToast badgeIds={newlyUnlockedBadges} onDismiss={() => setNewlyUnlockedBadges([])} />
+  </section>;
 }

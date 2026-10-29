@@ -1,0 +1,61 @@
+{
+  "scope": "Owner-supplied PostgreSQL metadata only; no learner records or live writes.",
+  "reviewedAt": "2026-10-29",
+  "baselineFunctions": [
+    {
+      "signature": "public.award_student_badges(uuid,jsonb)",
+      "md5": "b1a18d5cba78ba0e7d6a4716b31ce0b1"
+    },
+    {
+      "signature": "public.get_student_reading_progress(uuid)",
+      "md5": "fae1a3bfe382acc8011cdc4323a51fef"
+    },
+    {
+      "signature": "public.is_student_module_unlocked(uuid,uuid)",
+      "md5": "c8a841ec51d5930509ae9f2a7b02f451"
+    },
+    {
+      "signature": "public.record_student_content_attempt(uuid,uuid,numeric,text,integer,boolean,text)",
+      "md5": "2405a4375b5f588dcf4295abc2030d6e"
+    },
+    {
+      "signature": "public.start_module_assessment(uuid,uuid)",
+      "md5": "5de32a1262f7bfbc8606d9dade0c1ba8"
+    },
+    {
+      "signature": "public.submit_module_assessment(uuid,uuid,jsonb)",
+      "md5": "220cc1e7cd08e1c9c25061da05beb4f1"
+    }
+  ],
+  "prerequisiteColumnChecks": 19,
+  "missingTables": [
+    "student_progress_events",
+    "student_content_base_rewards",
+    "student_assessment_submit_receipts"
+  ],
+  "existingLegacyWordOfDayFunctions": [
+    {
+      "signature": "complete_personalized_word_of_day_attempt(uuid,integer,boolean)",
+      "acl": [
+        "postgres=X/postgres",
+        "anon=X/postgres",
+        "authenticated=X/postgres",
+        "service_role=X/postgres"
+      ]
+    },
+    {
+      "signature": "complete_word_of_day_attempt(uuid,integer,boolean)",
+      "acl": [
+        "=X/postgres",
+        "postgres=X/postgres",
+        "anon=X/postgres",
+        "authenticated=X/postgres",
+        "service_role=X/postgres"
+      ]
+    }
+  ],
+  "originalProposalSha256": "5ba7a4929e9e4b406b6d99f5efe0ba2472b92b2706cf255a0d4fa4d816c3e5f9",
+  "candidateSha256": "785391b0560d84e20aedbe7ea9165a5b6cece201f24b1603970ed2c13a29a51e",
+  "sharedDatabaseChanged": false,
+  "approval": "Not granted. Review SQL is not an applied migration."
+}

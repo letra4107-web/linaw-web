@@ -25,15 +25,15 @@ document.documentElement.dataset.appVersion = import.meta.env.VITE_APP_VERSION |
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <QueryClientProvider client={queryClient}>
-      <AccessibilityProvider>
-        <SoftGlowCursor />
-        <ReadingGuideOverlay />
-        <BrowserRouter>
+      <BrowserRouter>
+        <AccessibilityProvider>
+          <SoftGlowCursor />
+          <ReadingGuideOverlay />
           <AuthProvider>
             <App />
           </AuthProvider>
-        </BrowserRouter>
-      </AccessibilityProvider>
+        </AccessibilityProvider>
+      </BrowserRouter>
     </QueryClientProvider>
   </StrictMode>,
 );

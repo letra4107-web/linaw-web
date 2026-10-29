@@ -48,7 +48,7 @@ async function loadMeaning(word: string): Promise<DefinitionRow | null> {
 }
 
 /** A quiet Filipino-only meaning card for word-level learning activities. */
-export function WordMeaning({ word, className = '', compactControls = false, hideControls = false }: { word: string; className?: string; compactControls?: boolean; hideControls?: boolean }) {
+export function WordMeaning({ word, className = '', compactControls = false, hideControls = false, emptyMessage }: { word: string; className?: string; compactControls?: boolean; hideControls?: boolean; emptyMessage?: string }) {
   const { data: definition } = useQuery({
     queryKey: ['word-meaning', normalizeWordKey(word)],
     queryFn: () => loadMeaning(word),
@@ -56,7 +56,7 @@ export function WordMeaning({ word, className = '', compactControls = false, hid
     staleTime: 5 * 60_000,
   });
 
-  if (!definition) return null;
+  if (!definition) return emptyMessage ? <p className="px-4 py-3">{emptyMessage}</p> : null;
 
   const meaningToSpeak = [definition.meaning_fil, definition.example_sentence].filter(Boolean).join(' ');
 

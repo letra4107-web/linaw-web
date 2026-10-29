@@ -2,15 +2,17 @@ import type { ComponentType, SVGProps } from 'react';
 import {
   Accessibility, Archive, ArrowLeft, ArrowRight, Bell, BookOpen, Bot, Brain, CalendarDays,
   Check, CheckCircle2, ChevronDown, ChevronLeft, ChevronRight, CircleAlert, CircleCheck,
-  CircleUserRound, ClipboardCheck, Eye, EyeOff, FileText, GraduationCap, House, KeyRound,
-  Lightbulb, LockKeyhole, LogOut, Mail, Menu, Mic, Pencil, Plus, Puzzle,
+  CircleUserRound, ClipboardCheck, Eye, EyeOff, FileText, GraduationCap, Hourglass, House, KeyRound,
+  Lightbulb, LockKeyhole, LogOut, Mail, Menu, Mic, Pencil, Play, Plus, Puzzle, Rabbit,
   RefreshCcw, Rocket, RotateCcw, Settings, ShieldCheck, Sparkles, Square, Star,
-  Target, Trash2, Users, Volume2, WandSparkles, X, ZoomIn,
+  Target, Trash2, Turtle, Users, Volume2, WandSparkles, X, ZoomIn,
 } from 'lucide-react';
 
 type IconComponent = ComponentType<SVGProps<SVGSVGElement>>;
 
 const ICONS: Record<string, IconComponent> = {
+  '📚': BookOpen, '▶': Play, '▶️': Play, '⏳': Hourglass,
+  '⏹️': Square, '⏹': Square, '🔈': Volume2, '🐢': Turtle, '🐇': Rabbit,
   '⚠️': CircleAlert, '⚠': CircleAlert, '✅': CheckCircle2, '❌': X, '⬜': Square,
   '🙈': EyeOff, '👁️': Eye, '👁': Eye, '🚶': ArrowRight, '✕': X, '×': X,
   '➕': Plus, '🚪': LogOut, '🎯': Target, '🧩': Puzzle, '🎤': Mic, '🎙️': Mic, '🎙': Mic,

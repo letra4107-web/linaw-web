@@ -49,6 +49,28 @@ function handleRpcError(res, err) {
   res.status(status).json({ error: messages[status] || 'Unable to complete the student request.' });
 }
 
+// A student can edit only their own display name. Grade, username, rewards and
+// ownership remain managed by the existing parent/teacher enrollment flows.
+router.patch('/profile', async (req, res) => {
+  try {
+    const body = req.body;
+    if (!body || typeof body !== 'object' || Array.isArray(body) || Object.keys(body).some((key) => key !== 'name')
+      || typeof body.name !== 'string' || /\p{Cc}/u.test(body.name)) {
+      return res.status(400).json({ error: 'Pangalan lamang ang maaaring baguhin dito.' });
+    }
+    const name = body.name.trim().replace(/\s+/gu, ' ');
+    if (name.length < 2 || name.length > 100) return res.status(400).json({ error: 'Gumamit ng pangalang may 2 hanggang 100 character.' });
+    const studentId = await resolveStudentId(req.user.id);
+    const { data: child, error } = await supabaseAdmin.from('children').update({ name })
+      .eq('id', studentId).eq('auth_uid', req.user.id).select('id, name, grade_level, username').maybeSingle();
+    if (error) throw error;
+    if (!child) return res.status(404).json({ error: 'Hindi makita ang iyong student profile.' });
+    res.json({ success: true, child });
+  } catch (err) {
+    handleRpcError(res, err);
+  }
+});
+
 // POST /student/notify-login -- mirrors mobile's backend/routes/auth.js notify-login:
 // alerts the parent every time their student logs in via web. Called once from the
 // student's AuthContext right after role resolution, not on every token refresh.

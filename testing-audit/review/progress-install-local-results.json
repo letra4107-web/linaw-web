@@ -1,0 +1,59 @@
+{
+  "scope": "Disposable loopback PostgreSQL only. Supplied prerequisite function bodies plus synthetic data and migration-based defaults. Not a complete live Supabase clone or JWT/PostgREST validation.",
+  "timestamp": "2026-10-29T09:59:58.265Z",
+  "results": [
+    {
+      "name": "Missing existing INSERT default aborts before schema mutation",
+      "status": "PASS"
+    },
+    {
+      "name": "Changed prerequisite function aborts before schema mutation",
+      "status": "PASS"
+    },
+    {
+      "name": "Complete review migration installs against supplied prerequisite function bodies",
+      "status": "PASS"
+    },
+    {
+      "name": "Existing XP, streaks, completion labels and badge dates survive installation",
+      "status": "PASS"
+    },
+    {
+      "name": "Second install is rejected without changing the installed contract",
+      "status": "PASS"
+    },
+    {
+      "name": "Client roles cannot mint event receipts, write XP or execute reward RPCs",
+      "status": "PASS"
+    },
+    {
+      "name": "Assessment start still requires every instructional item to be completed",
+      "status": "PASS"
+    },
+    {
+      "name": "Five verified Filipino phonetic items complete practice without web base XP",
+      "status": "PASS"
+    },
+    {
+      "name": "Existing assessment start returns the five configured Ba items",
+      "status": "PASS"
+    },
+    {
+      "name": "Each assessment answer binds a verified content-attempt receipt with no base XP",
+      "status": "PASS"
+    },
+    {
+      "name": "Assessment submit passes once, preserves weighted scoring and unlocks the next module",
+      "status": "PASS"
+    },
+    {
+      "name": "Exact submit retry reuses one receipt and one module completion",
+      "status": "PASS"
+    },
+    {
+      "name": "Foreign learner and changed submission retries fail without altering the completed result",
+      "status": "PASS"
+    }
+  ],
+  "liveWrites": false
+}

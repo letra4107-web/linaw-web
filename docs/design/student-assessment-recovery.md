@@ -1,0 +1,11 @@
+# Assessment unavailable diagnosis and recovery
+
+On 29 October 2026 a read-only probe of the Supabase project configured by server/.env returned HTTP 404 / PGRST202 for progress_contract_version. The web and server configuration point to the same Supabase project, and the frontend API target is the local server. No credentials or student rows were printed, no student data was read, and no database writes or migrations were executed.
+
+The assessment start route in server/routes/student.js calls requireProgressContract before start_module_assessment. server/services/progressEvents.js requires contract version 2. The unavailable version function is mapped to the sanitized 503 message visible in the supplied screenshot. This prevents the assessment from starting. PGRST202 proves that the expected function is unavailable through the API's current schema cache; catalog absence versus an exposure/cache problem has not been independently established. Refreshing the page alone does not resolve that deployment dependency.
+
+The contract function and its related verified progress dependencies are defined in testing-audit/progress-events.PROPOSED.sql, rather than the applied migrations directory. That proposal is explicitly review-only, includes prerequisites and changes reward-related grants/functions, and is not installed by this UI fix. Reviewing deployment prerequisites and coordinating the shared web/mobile database rollout remain necessary before treating assessments or verified rewards as operational.
+
+Assessment.tsx now replaces the raw English failed-start message with a readable Filipino recovery panel, a retry for the same assessment ID, and a route back to the module list. A successful retry clears the old start error. It does not bypass the contract check, fabricate an exam attempt, or save rewards locally.
+
+Production build passed. Six isolated browser checks passed for desktop/mobile failure handling, back navigation, and retry after simulated service recovery. They use a synthetic backend; they do not prove the missing live dependency has been installed. The earlier module UI checks also used synthetic persistence/audio/speech boundaries and were not evidence that the live Supabase contract was ready.

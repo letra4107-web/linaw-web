@@ -3,7 +3,7 @@ import { getTtsRate, setTtsRate, TTS_RATE_PRESETS } from '../../lib/ttsSettings'
 import { IconLabel } from './IconLabel';
 
 /** Segmented control for the app-wide "how fast should text be read aloud" preference. */
-export function TTSSpeedControl() {
+export function TTSSpeedControl({ normalIcon }: { normalIcon?: string } = {}) {
   const [rate, setRate] = useState(getTtsRate);
 
   return (
@@ -26,7 +26,7 @@ export function TTSSpeedControl() {
                 : 'border-[var(--color-border)] hover:border-[var(--color-primary)]'
             }`}
           >
-            <IconLabel icon={preset.icon} label={preset.label} />
+            <IconLabel icon={preset.value === 0.5 && normalIcon ? normalIcon : preset.icon} label={preset.label} />
           </button>
         );
       })}

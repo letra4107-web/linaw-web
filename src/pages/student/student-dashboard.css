@@ -1,0 +1,88 @@
+/* Keep the original student artwork, colors, typography and activities.
+   These adjustments only reserve room for illustrations and space the content. */
+.role-student .student-main-content:has(.student-home-dashboard) {
+  max-width: 80rem;
+  padding-block: 2rem;
+}
+.role-student .student-home-dashboard { gap: 2rem; }
+.role-student .student-home-dashboard p { margin-bottom: 0; }
+.role-student .student-home-dashboard :is(h1, h2, h3) { line-height: 1.5; }
+.role-student .student-home-dashboard :is(p, a, button) { overflow-wrap: anywhere; }
+
+/* The welcome text, stats and button occupy their own area beside the artwork. */
+.role-student .student-home-dashboard .student-home-hero { min-height: 0; padding: 1.75rem 2rem; }
+.role-student .student-home-dashboard .student-home-hero-layout {
+  display: flex;
+  min-height: 15rem;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 1rem;
+  padding-right: clamp(12rem, 25vw, 19rem);
+}
+.role-student .student-home-dashboard .student-home-hero-copy { width: 100%; max-width: 43rem; }
+.role-student .student-home-dashboard .student-home-hero-copy h1 { margin-top: .4rem; }
+.role-student .student-home-dashboard .student-home-hero-copy > p:last-child { margin-top: .6rem; max-width: 45ch; }
+.role-student .student-home-dashboard .student-home-hero-layout > div:not(.student-home-hero-copy) { gap: .75rem; padding-right: 0; }
+.role-student .student-home-dashboard .student-home-stat { min-height: 2.5rem; padding: .5rem .8rem; }
+.role-student .student-home-dashboard .student-home-primary-action { max-width: 100%; min-height: 3rem; line-height: 1.6; }
+.role-student .student-home-dashboard .student-home-hero-character { right: 1rem; width: clamp(11rem, 24vw, 19rem); max-height: 88%; }
+
+/* Clear separation between each existing section; no extra competing panels. */
+.role-student .student-home-dashboard .student-home-section-heading { align-items: center; gap: 1rem; }
+.role-student .student-home-dashboard .student-home-section-heading h2 { font-size: clamp(1.4rem, 2.2vw, 1.8rem); }
+.role-student .student-home-dashboard .student-home-section-heading p { max-width: 50ch; }
+.role-student .student-home-dashboard section[aria-labelledby="deadlines-title"] { gap: 1.25rem; }
+.role-student .student-home-dashboard .student-home-empty-deadline { min-height: 0; gap: 1.5rem; padding: 1.5rem; }
+.role-student .student-home-dashboard .student-home-empty-deadline p { margin-top: .6rem; max-width: 46ch; }
+.role-student .student-home-dashboard .student-home-empty-illustration { width: 7rem; height: 6rem; }
+.role-student .student-home-dashboard .student-home-deadline-decoration { right: 0; top: -1.5rem; max-width: 8rem; }
+
+/* Align the word, its meaning and its controls on the same reading column. */
+.role-student .student-home-dashboard .student-word-practice-header { padding: 1.5rem 2rem; }
+.role-student .student-home-dashboard .student-word-practice-header > div:last-child { gap: 1.25rem; }
+.role-student .student-home-dashboard .student-word-practice-header h2 { font-size: clamp(1.4rem, 2.2vw, 1.8rem); }
+.role-student .student-home-dashboard .student-word-practice-content { padding: 1.75rem 2rem 2rem; }
+.role-student .student-home-dashboard .student-word-reading-panel { width: min(100%, 38rem); gap: 1.25rem; padding: 1.75rem; }
+.role-student .student-home-dashboard .student-word-reading-panel > p { max-width: 100%; line-height: 1.5; }
+.role-student .student-home-dashboard .student-word-controls { max-width: 100%; flex-direction: row; align-items: stretch; justify-content: center; gap: .75rem; }
+.role-student .student-home-dashboard .student-word-controls > button { min-height: 3rem; max-width: 100%; line-height: 1.6; }
+.role-student .student-home-dashboard .student-word-meaning { width: min(100%, 38rem); margin-top: 1.5rem; padding: 1.5rem; }
+.role-student .student-home-dashboard .student-word-meaning-controls { gap: .75rem; margin-top: .5rem; padding-top: 1rem; }
+.role-student .student-home-dashboard .student-word-practice-mic { height: auto; min-height: 3.25rem; max-width: 100%; padding: .85rem 1.25rem; }
+.role-student .student-home-dashboard #word-of-day-microphone-help { max-width: 100%; line-height: 1.7; }
+
+/* The lesson illustration stays beside the copy instead of behind it. */
+.role-student .student-home-dashboard .student-home-lesson-content { width: calc(100% - 12rem); max-width: 47rem; gap: 1rem; padding: 1.75rem 2rem; }
+.role-student .student-home-dashboard .student-home-lesson-heading { align-items: flex-start; gap: 1rem; }
+.role-student .student-home-dashboard .student-home-lesson-heading > span { margin-top: .3rem; }
+.role-student .student-home-dashboard .student-home-lesson h2 { font-size: clamp(1.4rem, 2.2vw, 1.8rem); }
+.role-student .student-home-dashboard .student-home-lesson-detail { max-width: 45ch; line-height: 1.7; }
+.role-student .student-home-dashboard .student-home-lesson-decoration { width: 10rem; right: 1rem; bottom: 1rem; }
+.role-student .student-home-dashboard .student-home-lesson-cta { max-width: 100%; min-height: 3.25rem; padding: .85rem 1.25rem; line-height: 1.6; }
+
+@media (max-width: 767px) {
+  .role-student .student-home-dashboard .student-home-hero { padding: 1.5rem 1.5rem 9.5rem; }
+  .role-student .student-home-dashboard .student-home-hero-layout { min-height: 0; padding-right: 0; }
+  .role-student .student-home-dashboard .student-home-hero-character { width: 9rem; max-height: 8.5rem; right: .75rem; }
+  .role-student .student-home-dashboard .student-home-lesson-content { width: 100%; padding-bottom: 8.5rem; }
+  .role-student .student-home-dashboard .student-home-lesson-decoration { width: 7rem; max-height: 7rem; }
+}
+@media (max-width: 479px) {
+  .role-student .student-main-content:has(.student-home-dashboard) { padding-block: 1.25rem; }
+  .role-student .student-home-dashboard { gap: 1.5rem; }
+  .role-student .student-home-dashboard .student-home-hero { padding-inline: 1.25rem; }
+  .role-student .student-home-dashboard .student-home-hero-copy h1 { font-size: 1.5rem; }
+  .role-student .student-home-dashboard .student-home-stat { font-size: .8rem; }
+  .role-student .student-home-dashboard .student-home-primary-action { padding-inline: 1rem; }
+  .role-student .student-home-dashboard .student-home-empty-deadline { gap: .75rem; padding: 1.25rem; }
+  .role-student .student-home-dashboard .student-home-empty-illustration { width: 4rem; height: 4rem; }
+  .role-student .student-home-dashboard .student-word-practice-header { padding: 1.25rem; }
+  .role-student .student-home-dashboard .student-word-practice-content { padding: 1.5rem 1rem; }
+  .role-student .student-home-dashboard .student-word-reading-panel { padding: 1.25rem .75rem; }
+  .role-student .student-home-dashboard .student-word-controls { width: 100%; flex-direction: column; }
+  .role-student .student-home-dashboard .student-word-reading-panel > p { font-size: 2.6rem; }
+  .role-student .student-home-dashboard .student-word-meaning { padding: 1.25rem; }
+  .role-student .student-home-dashboard .student-home-lesson-content { padding-inline: 1.25rem; }
+  .role-student .student-home-dashboard .student-home-lesson-heading { gap: .75rem; }
+}

@@ -1,185 +1,130 @@
-import { useState } from 'react';
+import { useRef, useState, type KeyboardEvent } from 'react';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { Link } from 'react-router-dom';
-import { BookOpen, Lock, Sparkles } from 'lucide-react';
+import { ArrowRight, BookOpen, Check, ChevronDown, FileText, Heart, LockKeyhole, Target } from 'lucide-react';
 import { supabase } from '../../lib/supabaseClient';
 import { useAuth } from '../../lib/auth/AuthContext';
 import { api } from '../../lib/api';
 import { PdfReadingAssistant } from '../../components/PdfReadingAssistant';
 import { PdfDrillPractice } from '../../components/PdfDrillPractice';
+import { QueryErrorNotice } from '../../components/QueryErrorNotice';
 import { IconLabel } from '../../components/a11y/IconLabel';
 import { cardStyle, CARD_COLORS } from '../../lib/cardStyle';
-import currentJourney from '../../assets/students/aralin/aralin-current.png';
-import headerBooks from '../../assets/students/aralin/aralin-header-books.png';
-import mascotGuide from '../../assets/students/aralin/aralin-mascot-guide.png';
-import modulePath from '../../assets/students/aralin/aralin-module-path.png';
-import pencilStars from '../../assets/students/aralin/aralin-pencil-stars.png';
-import phonicsBlocks from '../../assets/students/aralin/aralin-phonics-blocks.png';
-import readingBook from '../../assets/students/aralin/aralin-reading-book.png';
+import { compactModuleDescription, groupLearnModules, learnModuleArt, learnModulePercent, type LearnModule } from '../../lib/learnPresentation';
+import lessonBooks from '../../assets/students/home/lesson-books.png';
+import alphabetBlocks from '../../assets/students/learn-reference/alphabet-blocks.png';
+import readingStar from '../../assets/badges/Aking Unang Tagumpay.png';
+import tagalogModuleIcons from '../../assets/students/learn-reference/tagalog-module-icons.png';
+import './learn-reference.css';
+import './learn-modules.css';
 
-interface ModuleSummary {
-  id: string;
-  module_number: number;
-  title: string;
-  description: string | null;
-  instructional_content_type: string;
-  assessment_id: string | null;
-  state: 'locked' | 'unlocked' | 'completed';
-  content_item_count: number;
-  completed_content_item_count: number;
-}
-
-interface PathResponse {
-  configured: boolean;
-  effective_level: string;
-  modules: ModuleSummary[];
-}
-
+interface PathResponse { configured: boolean; effective_level: string; modules: LearnModule[] }
 interface PdfAssignment {
-  id: string;
-  status: string;
-  due_date: string | null;
+  id: string; status: string; due_date: string | null;
   pdf_materials: { id: string; title: string; extracted_text: string | null; file_url: string; drill_status: string | null } | null;
 }
-
-const STATE_META: Record<ModuleSummary['state'], { icon: string; label: string; textVar: string; bgVar: string }> = {
-  locked: { icon: '🔒', label: 'Naka-lock', textVar: '--color-text-muted', bgVar: '--color-border' },
-  unlocked: { icon: '▶', label: 'Handa nang simulan', textVar: '--color-primary', bgVar: '--color-brand-lavender' },
-  completed: { icon: '✓', label: 'Tapos na', textVar: '--color-success', bgVar: '--color-success' },
-};
-
 const PDF_STATUS_LABEL: Record<string, { icon: string; label: string }> = {
-  assigned: { icon: '✨', label: 'Bago' },
-  in_progress: { icon: '⏳', label: 'Ginagawa' },
-  completed: { icon: '✓', label: 'Tapos na' },
+  assigned: { icon: '✨', label: 'Bago' }, in_progress: { icon: '⏳', label: 'Ginagawa' }, completed: { icon: '✓', label: 'Tapos na' },
 };
-
-// Presentational waypoints only: lesson data and unlock rules still come from
-// the learning-path response.
-const JOURNEY_STAGES = [
-  { label: 'Panimula', tone: 'introduction', from: 1, to: 2, decoration: headerBooks },
-  { label: 'Pagkilala sa mga Pantig', tone: 'syllables', from: 3, to: 7, decoration: phonicsBlocks },
-  { label: 'Paghasa sa Pagbasa', tone: 'reading', from: 8, to: 12, decoration: currentJourney },
-  { label: 'Pagpapalawak', tone: 'growth', from: 13, to: 16, decoration: mascotGuide },
-  { label: 'Pagbuo ng Salita', tone: 'words', from: 17, to: 17, decoration: pencilStars },
-] as const;
-
 type Tab = 'modules' | 'pdf';
 
-function compactLockedDescription(description: string | null, contentType: string) {
-  if (!description || contentType.toLowerCase() !== 'phonetic') return description;
-  return description
-    .replace(/^Bigkasin ang\s*/i, '')
-    .replace(/,?\s*at\s+/i, ' • ')
-    .replace(/,\s*/g, ' • ')
-    .replace(/\.$/, '');
+function ModulePicture({ module, alphabet }: { module: LearnModule; alphabet: boolean }) {
+  const art = learnModuleArt(module);
+  return <div className={`learn-ref-module-art learn-ref-art-${art.color}`} aria-hidden={alphabet || !art.exampleWord ? true : undefined}>
+    {alphabet || !art.exampleWord ? <img src={alphabet ? alphabetBlocks : readingStar} alt="" /> : <>
+      <span className="learn-ref-example-picture">
+        <svg className="learn-ref-art-emoji" data-sprite={art.sprite} viewBox={art.pictureViewBox ?? undefined} preserveAspectRatio="xMidYMid meet" aria-hidden="true" focusable="false"><image href={tagalogModuleIcons} width="1619" height="972" /></svg>
+        <span className="learn-ref-example-word"><span className="sr-only">Halimbawa: </span>{art.exampleWord}</span>
+      </span>
+      <strong aria-hidden="true">{art.syllable}</strong>
+    </>}
+  </div>;
+}
+
+const MODULE_CONTENT_LABELS: Record<string, string> = {
+  phonetic: 'Mga tunog at pantig', syllable: 'Pagbasa ng mga pantig',
+  word: 'Pagbasa ng mga salita', phrase: 'Pagbasa ng mga parirala',
+  sentence: 'Pagbasa ng mga pangungusap', paragraph: 'Pagbasa at pag-unawa', story: 'Pagbasa ng kuwento',
+};
+
+function ModuleCard({ module, modules, alphabet, current, expanded, onToggle }: {
+  module: LearnModule; modules: LearnModule[]; alphabet: boolean;
+  current: boolean; expanded: boolean; onToggle: () => void;
+}) {
+  const percent = learnModulePercent(module);
+  const locked = module.state === 'locked';
+  const completed = module.state === 'completed';
+  const previous = [...modules].sort((a, b) => a.module_number - b.module_number).find(item => item.module_number < module.module_number && item.state !== 'completed');
+  const titleId = `learn-module-title-${module.id}`;
+  const detailId = `learn-module-details-${module.id}`;
+  const count = Math.max(0, module.content_item_count);
+  const done = Math.min(count, Math.max(0, module.completed_content_item_count));
+  const description = compactModuleDescription(module.description, module.instructional_content_type);
+  const typeLabel = MODULE_CONTENT_LABELS[module.instructional_content_type] ?? 'Gawain sa pagbasa';
+  const status = completed ? 'Natapos na' : locked ? 'Naka-lock' : current ? 'Kasalukuyang modyul' : 'Handa nang simulan';
+
+  return <article id={`learn-module-${module.id}`} className={`learn-ref-module learn-ref-module-${module.state} learn-course-module`} data-current={current} aria-current={current ? 'step' : undefined} aria-labelledby={titleId}>
+    <div className="learn-course-header">
+      <span className="learn-course-number" role="img" aria-label={`Modyul ${module.module_number}${completed ? ', tapos na' : ''}`}>{completed ? <Check size={23} aria-hidden="true" /> : String(module.module_number).padStart(2, '0')}</span>
+      <div className="learn-course-picture"><ModulePicture module={module} alphabet={alphabet} /></div>
+      <div className="learn-course-summary">
+        <p className="learn-course-type">Modyul {module.module_number} · {typeLabel}</p>
+        <h3 id={titleId}><button type="button" className="learn-course-toggle" aria-expanded={expanded} aria-controls={detailId} onClick={onToggle}><span>{module.title}</span><ChevronDown size={19} aria-hidden="true" /></button></h3>
+        <p className="learn-course-preview">{description || 'Basahin, pakinggan, at bigkasin ang mga gawain sa araling ito.'}</p>
+        <span className="learn-course-details-hint">{expanded ? 'Nabuksan ang detalye' : 'Pindutin ang pamagat para sa detalye'}</span>
+      </div>
+      <div className="learn-course-actions">
+        <span className="learn-course-status">{completed ? <Check size={14} aria-hidden="true" /> : locked ? <LockKeyhole size={13} aria-hidden="true" /> : <BookOpen size={13} aria-hidden="true" />}{status}</span>
+        <div className="learn-course-completion"><span>{done}/{count} gawain</span><strong>{percent}%</strong></div>
+        <div className="learn-ref-module-progress" role="progressbar" aria-label={`Progreso sa ${module.title}`} aria-valuemin={0} aria-valuemax={100} aria-valuenow={percent}><span><i style={{ width: `${percent}%` }} /></span></div>
+        {locked ? <span className="learn-course-lock-hint"><LockKeyhole size={14} aria-hidden="true" />{previous ? `Tapusin muna ang Modyul ${previous.module_number}.` : 'Hindi pa bukas ang modyul.'}</span> :
+          <Link className="learn-ref-start learn-module-open" to={`/student/learn/module/${module.id}`} aria-label={`${completed ? 'Balikan' : percent > 0 ? 'Ipagpatuloy' : 'Simulan'}: ${module.title}`}>{completed ? 'Balikan ang Modyul' : percent > 0 ? 'Ipagpatuloy ang Modyul' : 'Simulan ang Modyul'}<ArrowRight size={16} aria-hidden="true" /></Link>}
+      </div>
+    </div>
+    <div id={detailId} className="learn-course-details" hidden={!expanded}>
+      <div className="learn-module-objective"><h4><Target size={16} aria-hidden="true" />Pag-aaralan</h4><p>{description || 'Basahin, pakinggan, at bigkasin ang mga gawain sa araling ito.'}</p></div>
+      <div className="learn-module-contents"><h4><BookOpen size={16} aria-hidden="true" />Nilalaman</h4><p>{count} gawain</p>{module.assessment_id && <p>May pagsusulit pagkatapos ng mga gawain.</p>}</div>
+      <div className="learn-course-method"><h4>Paraan ng pagsasanay</h4><ol className="learn-module-method" aria-label="Paraan ng pagsasanay"><li><span>1</span>Makinig</li><li><span>2</span>Basahin</li><li><span>3</span>Bigkasin</li></ol></div>
+    </div>
+  </article>;
 }
 
 function ModulesTab() {
-  const { data, isLoading, error } = useQuery({
-    queryKey: ['student-learn-path'],
-    queryFn: () => api<PathResponse>('/student/learn/path', { auth: true }),
+  const { user } = useAuth();
+  const [expandedModuleId, setExpandedModuleId] = useState<string | null>();
+  const { data, isPending, error, refetch } = useQuery({
+    queryKey: ['student-learn-path'], refetchOnMount: 'always',
+    queryFn: () => api<PathResponse>('/student/learn/path', { auth: true }), enabled: Boolean(user),
   });
-
   const modules = data?.modules ?? [];
-  const completedModules = modules.filter((module) => module.state === 'completed').length;
-  const pathPct = modules.length > 0 ? Math.round((completedModules / modules.length) * 100) : 0;
-
-  return (
-    <div className="student-learn-modules-tab flex flex-col gap-4">
-      {data && (
-        <section className="student-learn-path-card" aria-label="Iyong landas">
-          <img src={modulePath} alt="" aria-hidden="true" className="student-learn-path-illustration" />
-          <div className="student-learn-path-heading">
-            <div className="flex items-center gap-3">
-              <span className="student-learn-path-icon"><Sparkles aria-hidden="true" className="h-6 w-6" /></span>
-              <div>
-                <p>Iyong landas</p>
-                <h2>Antas: {data.effective_level}</h2>
-              </div>
-            </div>
-            <span className="student-learn-path-count">{completedModules}/{modules.length} modyul</span>
-          </div>
-          <div className="student-learn-path-progress" role="progressbar" aria-label="Kabuuang progreso sa mga modyul" aria-valuemin={0} aria-valuemax={100} aria-valuenow={pathPct}>
-            <div className="student-learn-path-progress-track"><div className="student-learn-path-progress-fill transition-[width] duration-500" style={{ width: `${pathPct}%` }} /></div>
-            <span>{pathPct}%</span>
-          </div>
-          <p className="student-learn-path-note"><Sparkles aria-hidden="true" className="h-4 w-4" /> Magandang simula! Ipagpatuloy lang.</p>
-        </section>
-      )}
-
-      {isLoading && <p className="rounded-2xl bg-white/60 p-5 text-[var(--color-text-muted)]">Inihahanda ang iyong mga aralin...</p>}
-      {error && <p className="rounded-2xl bg-[var(--color-danger-soft)] p-4 text-[var(--color-danger)]">{(error as Error).message}</p>}
-      {data && !data.configured && (
-        <p className="rounded-3xl border p-6 text-[var(--color-text-muted)]" style={cardStyle('--color-brand-lavender')}>
-          Wala pang aralin na handa para sa antas na ito. Balik-balikan mo na lang mamaya!
-        </p>
-      )}
-
-      <div className="mx-auto flex w-full max-w-[980px] flex-col" aria-label="Landas ng mga modyul">
-        {JOURNEY_STAGES.map((stage) => {
-          const stageModules = modules.filter((module) => module.module_number >= stage.from && module.module_number <= stage.to);
-          if (!stageModules.length) return null;
-
-          return (
-            <section key={stage.label} className={`student-learn-stage student-learn-stage-${stage.tone}`} aria-label={stage.label}>
-              <div className={`student-learn-section-waypoint student-learn-section-${stage.tone} student-learn-section-waypoint-decorated`}>
-                <div className="student-learn-section-marker"><span>{stage.label}</span></div>
-                <img src={stage.decoration} alt="" aria-hidden="true" className="student-learn-section-decoration" />
-              </div>
-              {stageModules.map((module) => {
-          const index = modules.indexOf(module);
-          const state = STATE_META[module.state];
-          const clickable = module.state !== 'locked';
-          const isLast = index === modules.length - 1;
-          const pct = module.content_item_count > 0 ? Math.round((module.completed_content_item_count / module.content_item_count) * 100) : 0;
-          const previousIncomplete = modules.slice(0, index).find((item) => item.state !== 'completed');
-          const card = (
-            <article
-              className={`student-learn-module student-learn-module-${module.state} ${module.module_number === 2 ? 'student-learn-module-current-focus' : ''} ${module.module_number === 17 ? 'student-learn-module-final' : ''} group relative min-w-0 overflow-hidden border p-5 transition-all sm:p-6 ${clickable ? 'hover:-translate-y-0.5 active:scale-[0.99]' : ''}`}
-            >
-              <div className="relative flex flex-wrap items-start justify-between gap-3">
-                {module.state !== 'locked' && <span className="student-learn-status"><IconLabel icon={state.icon} label={state.label} /></span>}
-                {module.instructional_content_type && <span className={`student-learn-type student-learn-type-${module.instructional_content_type.toLowerCase()}`}>{module.instructional_content_type}</span>}
-              </div>
-              <h3 className="relative mt-3">{module.state === 'locked' && <Lock aria-hidden="true" className="student-learn-locked-title-icon h-4 w-4 shrink-0" />} {module.title}</h3>
-              {module.description && <p className="student-learn-module-description relative mt-1 max-w-2xl">{module.state === 'locked' ? compactLockedDescription(module.description, module.instructional_content_type) : module.description}</p>}
-
-              {module.state === 'locked' ? (
-                previousIncomplete && <p className="relative mt-4 text-sm font-semibold text-[var(--color-text-muted)]"><IconLabel icon="🔒" label={`Tapusin muna ang Modyul ${previousIncomplete.module_number}`} /></p>
-              ) : (
-                <div className="relative mt-5">
-                  <div className="student-learn-module-progress-label mb-2 flex items-center justify-between gap-3">
-                    <span>{module.state === 'completed' ? 'Kumpleto!' : 'Progreso sa modyul'}</span>
-                    <span>{module.completed_content_item_count}/{module.content_item_count} gawain</span>
-                  </div>
-                  <div className="student-learn-module-progress" role="progressbar" aria-label={`Progreso sa Modyul ${module.module_number}`} aria-valuemin={0} aria-valuemax={100} aria-valuenow={pct}>
-                    <div className="student-learn-module-progress-fill transition-[width] duration-500" style={{ width: `${pct}%` }} />
-                  </div>
-                  <p className="mt-3 text-sm font-bold text-[var(--color-primary)]">{module.state === 'completed' ? 'Balikan ang modyul' : pct > 0 ? 'Ipagpatuloy ang modyul →' : 'Simulan ang modyul →'}</p>
-                </div>
-              )}
-            </article>
-          );
-
-          return (
-            <div key={module.id} className="student-learn-timeline-group">
-              <div className={`student-learn-timeline-row student-learn-timeline-${module.state} flex min-w-0 gap-3 sm:gap-4`}>
-              <div className="student-learn-timeline-marker-column flex w-11 shrink-0 flex-col items-center sm:w-10">
-                <span className="z-10 flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl text-sm font-bold text-white shadow-card sm:h-12 sm:w-12" style={{ backgroundColor: `var(${state.bgVar})` }}>{module.state === 'completed' ? '✓' : module.module_number}</span>
-                {!isLast && <span className={`student-learn-timeline-connector student-learn-timeline-connector-${module.state} min-h-10 w-1 flex-1 rounded-full`} />}
-              </div>
-                <div className="min-w-0 flex-1 pb-5">{clickable ? <Link to={`/student/learn/module/${module.id}`} className="block">{card}</Link> : card}</div>
-              </div>
-            </div>
-          );
-              })}
-            </section>
-          );
-        })}
-      </div>
+  const completed = modules.filter(module => module.state === 'completed').length;
+  const percent = modules.length ? Math.round(completed / modules.length * 100) : 0;
+  const stages = groupLearnModules(modules, data?.effective_level ?? '');
+  const currentModule = [...modules].sort((a, b) => a.module_number - b.module_number).find(module => module.state === 'unlocked');
+  const expandedId = expandedModuleId === undefined ? currentModule?.id : expandedModuleId;
+  return <div className="learn-ref-modules">
+    <QueryErrorNotice error={error} onRetry={() => { void refetch(); }} message="Hindi ma-load ang iyong mga modyul. Pakisubukang muli." />
+    {isPending && <div className="learn-ref-empty" role="status"><span aria-hidden="true">📚</span><p>Inihahanda ang iyong mga aralin…</p></div>}
+    {data && <section className="learn-ref-path" aria-labelledby="learn-ref-path-title">
+      <span className="learn-ref-path-icon"><Target size={35} aria-hidden="true" /></span>
+      <div className="learn-ref-path-content"><div className="learn-ref-path-heading"><div><h2 id="learn-ref-path-title">Iyong Landas</h2><p>Antas: <strong>{data.effective_level}</strong></p></div><span>{completed}/{modules.length} modyul</span></div>
+        <div className="learn-ref-path-progress" role="progressbar" aria-label="Kabuuang progreso sa mga modyul" aria-valuemin={0} aria-valuemax={100} aria-valuenow={percent}><span><i style={{ width: `${percent}%` }} /></span><strong>{percent}%</strong></div>
+        <p className="learn-ref-path-note">{modules.length > 0 && completed === modules.length ? 'Ang galing! Natapos mo ang lahat ng modyul sa antas na ito.' : 'Magandang simula! Ipagpatuloy lang.'}</p>
+      </div><img src={lessonBooks} alt="" aria-hidden="true" />
+    </section>}
+    {data && !modules.length && <div className="learn-ref-empty"><span aria-hidden="true">📖</span><h2>Abangan ang iyong mga aralin!</h2><p>Wala pang modyul na handa para sa iyong antas. Balikan natin mamaya.</p></div>}
+    {modules.length > 0 && <div className="learn-course-guide"><p><BookOpen size={17} aria-hidden="true" />Buksan ang pamagat ng modyul para makita ang detalye.</p>{currentModule && <a href={`#learn-module-${currentModule.id}`}>Pumunta sa modyul ko <ArrowRight size={15} aria-hidden="true" /></a>}</div>}
+    <div className="learn-ref-timeline" role="group" aria-label="Landas ng mga modyul">
+      {stages.map(stage => {
+        const stageCompleted = stage.modules.filter(module => module.state === 'completed').length;
+        return <section key={stage.number} className={`learn-ref-stage learn-ref-stage-${stage.tone}`} data-active={stage.modules.some(module => module.id === currentModule?.id)} aria-labelledby={`learn-stage-${stage.number}`}>
+          <span className="learn-ref-stage-number" aria-hidden="true">{stage.number}</span>
+          <header className="learn-ref-stage-heading"><span className="learn-ref-stage-icon" aria-hidden="true">{stage.icon}</span><div><h2 id={`learn-stage-${stage.number}`}>{stage.title}</h2><p>{stage.description}</p></div><span className="learn-ref-stage-count">{stageCompleted}/{stage.modules.length} nakumpleto</span></header>
+          <div className="learn-ref-card-grid">{stage.modules.map(module => <ModuleCard key={module.id} module={module} modules={modules} alphabet={data?.effective_level === 'Beginner' && module.module_number === 1} current={module.id === currentModule?.id} expanded={module.id === expandedId} onToggle={() => setExpandedModuleId(module.id === expandedId ? null : module.id)} />)}</div>
+        </section>;
+      })}
     </div>
-  );
+  </div>;
 }
 
 function PdfTab() {
@@ -187,10 +132,11 @@ function PdfTab() {
   const queryClient = useQueryClient();
   const [openAssignmentId, setOpenAssignmentId] = useState<string | null>(null);
 
-  const { data: assignments, isLoading } = useQuery({
+  const { data: assignments, isLoading, error, refetch } = useQuery({
     queryKey: ['student-pdf-assignments', user?.id],
     queryFn: async () => {
-      const { data: child } = await supabase.from('children').select('id').eq('auth_uid', user!.id).maybeSingle();
+      const { data: child, error: childError } = await supabase.from('children').select('id').eq('auth_uid', user!.id).maybeSingle();
+      if (childError) throw childError;
       if (!child) return [];
       const { data, error } = await supabase
         .from('pdf_assignments')
@@ -207,6 +153,7 @@ function PdfTab() {
 
   return (
     <div className="flex flex-col gap-5">
+      <QueryErrorNotice error={error} onRetry={() => { void refetch(); }} message="Hindi ma-load ang mga materyales mula sa guro. Pakisubukang muli." />
       {!openAssignmentId && <p className="text-[var(--color-text-muted)]">Basahin nang malakas ang mga materyal na ibinigay ng iyong guro.</p>}
       {isLoading && <p className="rounded-2xl bg-white/60 p-5 text-[var(--color-text-muted)]">Inihahanda ang iyong mga PDF...</p>}
 
@@ -244,33 +191,25 @@ function PdfTab() {
   );
 }
 
+
 export default function Learn() {
   const [tab, setTab] = useState<Tab>('modules');
-
-  return (
-    <div className="student-learn-page flex min-w-0 flex-col gap-3 sm:gap-3">
-      <header className="student-learn-header">
-        <img src={readingBook} alt="" aria-hidden="true" className="student-learn-header-illustration" />
-        <div className="flex items-center gap-3">
-          <span className="student-learn-header-icon"><BookOpen aria-hidden="true" className="h-7 w-7" /></span>
-          <div>
-            <p className="student-learn-header-eyebrow">Ipagpatuloy ang pagkatuto</p>
-            <h1>Aralin</h1>
-            <p>Piliin ang susunod mong hakbang sa pagbabasa.</p>
-          </div>
-        </div>
-      </header>
-
-      <div className="student-learn-tabs grid grid-cols-2 gap-2" role="tablist" aria-label="Uri ng aralin">
-        {([
-          { value: 'modules' as const, icon: '📚', label: 'Mga Modyul' },
-          { value: 'pdf' as const, icon: '📄', label: 'Galing sa Guro' },
-        ]).map((item) => (
-          <button key={item.value} type="button" role="tab" onClick={() => setTab(item.value)} aria-selected={tab === item.value} className={`student-learn-tab min-h-12 px-3 py-2 text-sm font-bold transition-all sm:text-base ${tab === item.value ? 'student-learn-tab-active' : ''}`}><IconLabel icon={item.icon} label={item.label} /></button>
-        ))}
-      </div>
-
-      {tab === 'modules' ? <ModulesTab /> : <PdfTab />}
+  const tabsRef = useRef<HTMLDivElement>(null);
+  const selectTab = (value: Tab) => {
+    setTab(value);
+    tabsRef.current?.querySelector<HTMLButtonElement>(`[data-tab="${value}"]`)?.focus();
+  };
+  const onTabKeyDown = (event: KeyboardEvent<HTMLButtonElement>) => {
+    if (!['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(event.key)) return;
+    event.preventDefault();
+    selectTab(event.key === 'Home' ? 'modules' : event.key === 'End' ? 'pdf' : tab === 'modules' ? 'pdf' : 'modules');
+  };
+  return <div className="student-learn-reference student-learn-course-list">
+    <header className="learn-ref-hero"><div className="learn-ref-hero-illustration" aria-hidden="true" /><div className="learn-ref-hero-copy"><p>Ipagpatuloy ang pagkatuto</p><h1>Aralin</h1><p>Piliin ang modyul at simulan<br />ang iyong paglalakbay sa pagbasa!</p></div><blockquote className="learn-ref-quote">Bawat aralin,<br />isang hakbang<br />patungo sa mas<br />malaking<br />tagumpay!<Heart size={18} fill="currentColor" aria-hidden="true" /></blockquote></header>
+    <div ref={tabsRef} className="learn-ref-tabs" role="tablist" aria-label="Uri ng aralin">
+      {([{ value: 'modules' as const, icon: BookOpen, label: 'Mga Modyul' }, { value: 'pdf' as const, icon: FileText, label: 'Galing sa Guro' }]).map(({ value, icon: Icon, label }) => <button key={value} id={`learn-tab-${value}`} data-tab={value} type="button" role="tab" aria-controls={`learn-panel-${value}`} aria-selected={tab === value} tabIndex={tab === value ? 0 : -1} onClick={() => setTab(value)} onKeyDown={onTabKeyDown}><Icon size={20} aria-hidden="true" />{label}</button>)}
     </div>
-  );
+    <div id="learn-panel-modules" role="tabpanel" aria-labelledby="learn-tab-modules" tabIndex={0} hidden={tab !== 'modules'}>{tab === 'modules' && <ModulesTab />}</div>
+    <div id="learn-panel-pdf" role="tabpanel" aria-labelledby="learn-tab-pdf" tabIndex={0} hidden={tab !== 'pdf'} className="learn-ref-teacher">{tab === 'pdf' && <PdfTab />}</div>
+  </div>;
 }

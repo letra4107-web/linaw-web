@@ -1,0 +1,94 @@
+/* Shared navigation dimensions and typography for every student route. */
+.role-student .student-sidebar {
+  width:216px;
+  height:100dvh;
+  min-height:0;
+  color:#fff;
+  font-family:"OpenDyslexic",var(--font-dyslexic);
+  font-size:calc(14px * var(--font-scale,1));
+  line-height:1.5;
+  letter-spacing:normal;
+  word-spacing:normal;
+  transition:none;
+  z-index:45;
+}
+.role-student .student-sidebar[data-collapsed="true"] { width:76px; }
+.role-student :is(.student-sidebar,.student-mobile-nav) :is(a,button,span,p) { font-family:inherit; letter-spacing:normal; word-spacing:normal; }
+.role-student .student-sidebar .student-sidebar-logo-header { height:78px; min-height:78px; flex-shrink:0; padding:12px 10px; }
+.role-student .student-sidebar .student-sidebar-logo-button { width:100%; min-height:48px; gap:8px; padding:5px; color:#fff; }
+.role-student .student-sidebar .student-sidebar-logo-button > img { width:32px; height:32px; border-radius:10px; object-fit:cover; }
+.role-student .student-sidebar .student-sidebar-logo-button > span { min-width:0; flex:1; font-size:calc(13px * var(--font-scale,1)); text-align:left; }
+.role-student .student-sidebar .student-sidebar-collapse-hint { flex-shrink:0; opacity:.8; }
+.role-student .student-sidebar .student-sidebar-nav { min-height:0; flex:0 1 auto; gap:8px; overflow-y:auto; padding:12px 10px; }
+.role-student :is(.student-sidebar,.student-mobile-nav) .student-sidebar-nav-item {
+  position:relative;
+  display:flex;
+  width:100%;
+  min-width:0;
+  height:50px;
+  min-height:50px;
+  flex-shrink:0;
+  align-items:center;
+  gap:10px;
+  border:1px solid transparent;
+  border-radius:14px;
+  padding:7px 10px;
+  background:transparent;
+  color:#fff;
+  font-size:calc(14px * var(--font-scale,1));
+  font-weight:700;
+  line-height:1.4;
+  text-decoration:none;
+}
+.role-student :is(.student-sidebar,.student-mobile-nav) .student-sidebar-nav-label { min-width:0; white-space:nowrap; }
+.role-student :is(.student-sidebar,.student-mobile-nav) .student-sidebar-nav-icon { display:grid; width:32px; height:32px; flex-shrink:0; place-items:center; border-radius:9px; background:#ffffff29; color:#fff; }
+.role-student :is(.student-sidebar,.student-mobile-nav) .student-sidebar-nav-icon svg { width:22px; height:22px; }
+.role-student :is(.student-sidebar,.student-mobile-nav) .student-sidebar-nav-item[href="/student/learn"] .student-sidebar-nav-icon { background:#c3edff; color:#3187b5; }
+.role-student :is(.student-sidebar,.student-mobile-nav) .student-sidebar-nav-item[href="/student/achievements"] .student-sidebar-nav-icon { background:#ffe49f; color:#ac7618; }
+.role-student :is(.student-sidebar,.student-mobile-nav) .student-sidebar-nav-item:hover { border-color:#ffffff38; background:#ffffff19; color:#fff; }
+.role-student :is(.student-sidebar,.student-mobile-nav) .student-sidebar-nav-item[aria-current="page"] { border-color:#ffffffd9; background:#fffaf3; color:#5b368f; box-shadow:0 3px 9px #48317b14; }
+.role-student :is(.student-sidebar,.student-mobile-nav) .student-sidebar-nav-item[aria-current="page"]::before { content:none; }
+.role-student :is(.student-sidebar,.student-mobile-nav) .student-sidebar-nav-item[aria-current="page"] .student-sidebar-nav-icon { background:#eadfff; color:#7845cc; }
+.role-student .student-sidebar[data-collapsed="true"] .student-sidebar-logo-button { justify-content:center; }
+.role-student .student-sidebar[data-collapsed="true"] .student-sidebar-nav-item { justify-content:center; gap:0; padding:7px; }
+.role-student .student-sidebar .student-sidebar-scene,
+.role-student .student-sidebar:has(.student-profile-popover) .student-sidebar-scene { display:flex; height:clamp(64px,14vh,112px); min-height:0; flex:0 1 auto; align-items:flex-end; justify-content:center; margin:auto 10px 6px; padding:0; }
+.role-student .student-sidebar .student-sidebar-scene img { width:78px; max-height:88px; margin-bottom:4px; object-fit:contain; }
+.role-student .student-sidebar .student-sidebar-scene.is-collapsed { display:none; }
+.role-student .student-sidebar .student-sidebar-profile-area { flex-shrink:0; margin-top:0; padding:10px; }
+.role-student .student-sidebar[data-collapsed="true"] .student-sidebar-profile-area { margin-top:auto; }
+.role-student .student-sidebar-profile-menu { font-family:"OpenDyslexic",var(--font-dyslexic); letter-spacing:normal; word-spacing:normal; }
+.role-student .student-sidebar-profile-menu :is(button,a,span,p) { font-family:inherit; letter-spacing:normal; word-spacing:normal; }
+.role-student .student-sidebar-profile-trigger { min-height:64px; gap:8px; border:1px solid #ffffff9c; border-radius:14px; padding:8px; background:#fffaf3; color:#443550; }
+.role-student .student-sidebar-profile-trigger > span:first-child { width:34px; height:34px; flex-shrink:0; border-radius:10px; font-size:calc(17px * var(--font-scale,1)); }
+.role-student .student-sidebar-profile-trigger > span:nth-child(2) > span:first-child { font-size:calc(12px * var(--font-scale,1)); line-height:1.5; }
+.role-student .student-sidebar-profile-trigger > span:nth-child(2) > span:last-child { margin-top:2px; color:#675a75; font-size:calc(10px * var(--font-scale,1)); line-height:1.5; }
+.role-student .student-sidebar-profile-menu[data-active="true"] .student-sidebar-profile-trigger { border-color:#a686d8; background:#f2e9ff; box-shadow:0 0 0 2px #c6adeb70; }
+.role-student .student-sidebar-profile-menu[data-collapsed="true"] .student-sidebar-profile-trigger { min-height:52px; justify-content:center; gap:0; padding:7px; }
+.role-student .student-sidebar .student-profile-popover { right:auto; bottom:calc(100% + 10px); left:0; width:270px; max-width:calc(100vw - 24px); border-radius:15px; }
+.role-student .student-profile-popover-header { padding:12px; }
+.role-student .student-profile-popover-header p { margin:0; }
+.role-student .student-profile-popover-header p:first-child { font-size:calc(13px * var(--font-scale,1)); }
+.role-student .student-profile-popover-email { font-size:calc(11px * var(--font-scale,1)); }
+.role-student .student-profile-popover-item { min-height:48px; gap:8px; padding:10px 12px; font-size:calc(12px * var(--font-scale,1)); line-height:1.5; }
+.role-student .student-profile-popover-sign-out { color:#a24f49; }
+.role-student :is(.student-sidebar,.student-mobile-nav) :is(a,button):focus-visible { outline:3px solid #fff3bb; outline-offset:3px; }
+.role-student .student-profile-popover :is(a,button):focus-visible { outline:3px solid #7950b9; outline-offset:-3px; }
+
+.role-student .student-mobile-header { height:72px; min-height:72px; gap:8px; padding:8px 12px; }
+.role-student .student-mobile-header > div:first-child { min-width:0; gap:7px; }
+.role-student .student-mobile-header > div:first-child > img { width:34px; height:34px; }
+.role-student .student-mobile-header > div:first-child > span { font-family:"OpenDyslexic",var(--font-dyslexic); font-size:calc(13px * var(--font-scale,1)); letter-spacing:normal; }
+.role-student .student-mobile-menu-button { min-width:72px; min-height:46px; height:46px; gap:5px; padding:6px 8px; font-family:"OpenDyslexic",var(--font-dyslexic); font-size:calc(12px * var(--font-scale,1)); }
+.role-student .student-mobile-header .student-sidebar-profile-menu { flex-shrink:0; }
+.role-student .student-mobile-header .student-sidebar-profile-trigger { min-height:46px; width:46px; height:46px; padding:5px; }
+.role-student .student-mobile-header .student-sidebar-profile-trigger > span:first-child { width:32px; height:32px; }
+.role-student .student-mobile-nav { top:72px; background-image:linear-gradient(115deg,#6755b7,#7660be)!important; font-family:"OpenDyslexic",var(--font-dyslexic); }
+.role-student .student-mobile-nav > nav { gap:7px; padding:9px 10px; }
+.role-student .student-mobile-nav .student-sidebar-nav-item { height:auto; min-height:78px; flex-direction:column; justify-content:center; gap:5px; padding:8px 3px; font-size:calc(12px * var(--font-scale,1)); }
+.role-student .student-sidebar-profile-menu[data-mobile="true"] .student-profile-popover { position:fixed; top:82px; right:12px; bottom:auto; left:auto; width:min(300px,calc(100vw - 24px)); max-width:none; }
+
+html:is([data-theme="dark"],[data-theme="high-contrast"]) .role-student :is(.student-sidebar,.student-mobile-nav) { background-image:none!important; background-color:var(--color-surface); color:var(--color-text); }
+html:is([data-theme="dark"],[data-theme="high-contrast"]) .role-student :is(.student-sidebar,.student-mobile-nav) :is(.student-sidebar-logo-button,.student-sidebar-nav-item) { color:var(--color-text); }
+html:is([data-theme="dark"],[data-theme="high-contrast"]) .role-student :is(.student-sidebar,.student-mobile-nav) .student-sidebar-nav-item[aria-current="page"] { background:var(--color-primary-soft); color:var(--color-primary); border-color:var(--color-primary); }
+@media (prefers-reduced-motion:reduce) { .role-student :is(.student-sidebar,.student-mobile-nav,.student-sidebar-profile-menu) * { transition:none!important; animation:none!important; } }

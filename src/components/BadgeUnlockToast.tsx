@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
+import { PartyPopper } from 'lucide-react';
 import { findBadge } from '../lib/badges';
-import owlup from '../lib/emptyImage';
 
 interface BadgeUnlockToastProps {
   badgeIds: string[];
@@ -21,7 +21,7 @@ export function BadgeUnlockToast({ badgeIds, onDismiss }: BadgeUnlockToastProps)
 
   return (
     <div className="fixed inset-x-0 bottom-4 z-50 flex flex-col items-center gap-2 px-4">
-      <img src={owlup} alt="" aria-hidden="true" className="h-14 w-14 object-contain drop-shadow-lg" />
+      <PartyPopper aria-hidden="true" className="h-14 w-14 text-[var(--color-primary)] drop-shadow-lg" />
       {badgeIds.map((id) => {
         const badge = findBadge(id);
         if (!badge) return null;

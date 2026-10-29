@@ -1,0 +1,173 @@
+/* Home artwork and layout follow the supplied schoolyard reference. */
+.role-student:has(.student-home-reference) { background: #fff8e3; }
+.role-student:has(.student-home-reference) .student-main-content { max-width: 80rem; padding: 1.3rem 1.85rem 2.5rem; }
+.student-home-reference { --home-ink: #23175c; --home-muted: #686377; --home-purple: #6739d3; --home-panel: #fff; display: flex; min-width: 0; flex-direction: column; gap: 1.1rem; color: var(--home-ink); font-size: calc(14px * var(--font-scale, 1)); line-height: 1.6; }
+.role-student .student-home-reference :is(h1,h2,h3,p,blockquote,ul,ol) { margin: 0; }
+.student-home-reference :is(h1,h2,h3,p,a,button,strong) { overflow-wrap: anywhere; }
+.student-home-reference :is(h1,h2,h3,button) { font-family: inherit; }
+body[data-font="default"] .student-home-reference, body[data-font="default"] .student-home-reference :is(h1,h2,h3,button) { font-family: "Comic Sans MS", "Comic Sans", cursive; letter-spacing: .035em; word-spacing: normal; }
+.student-home-reference h2 { font-size: 1.3em; line-height: 1.45; font-weight: 700; }
+.student-home-reference h3 { font-size: 1em; line-height: 1.5; font-weight: 700; }
+.student-home-reference svg { flex-shrink: 0; }
+.student-home-reference :is(a,button,summary):focus-visible { outline: 3px solid #3c20a2; outline-offset: 4px; }
+.role-student .student-home-reference p:hover { background: transparent; box-shadow: none; }
+.home-panel { min-width: 0; border: 1px solid #edeaf2; border-radius: 1.4rem; background: var(--home-panel); box-shadow: 0 4px 12px #69502606; }
+.home-purple-button { display: inline-flex; min-height: 2.9rem; align-items: center; justify-content: center; gap: .65rem; border: 1px solid #8861e5; border-radius: 99px; padding: .65rem 1.15rem; background: linear-gradient(145deg,#8052e5,#6536cb); color: #fff; font-weight: 700; box-shadow: 0 4px 8px #7844cf25, inset 0 1px 2px #ffffff45; text-decoration: none; transition: transform 150ms, box-shadow 150ms; }
+.home-purple-button:hover { transform: translateY(-2px); box-shadow: 0 6px 12px #7844cf35; }
+.home-purple-button:disabled { opacity: .65; cursor: wait; }
+.home-welcome { position: relative; display: flex; min-height: 16.95rem; align-items: center; border: 1px solid #d3e9b8; border-radius: 1.45rem; background: url('../../assets/students/home/welcome-schoolyard.png') center / cover; box-shadow: 0 4px 10px #5e73590a; }
+.home-welcome-copy { position: relative; z-index: 1; width: 48%; margin-left: 19.5%; padding: 1.25rem 0; }
+.home-welcome-copy > p { padding-left: .15rem; color: #21125c; font-size: 1.85em; font-weight: 700; line-height: 1.25; text-shadow: 0 1px 3px #fff; }
+.home-welcome-copy h1 { color: #3d189b; font-size: clamp(2rem,4.15vw,3.1rem); line-height: 1.2; font-weight: 900; letter-spacing: -.02em; text-shadow: 0 2px 2px #ffffffbc; }
+.home-welcome-copy h1 > span { display: inline-block; font-size: .67em; vertical-align: middle; }
+.home-welcome-description { margin: .55rem 0 .8rem 25%; font-size: .95em; line-height: 1.5; color: #281c52; text-shadow: 0 1px 3px #fff; }
+.home-welcome-button { margin-left: 12%; font-size: .95em; min-height: 3.2rem; white-space: nowrap; }
+.home-play-icon { display: grid; width: 1.25rem; height: 1.25rem; place-items: center; border-radius: 50%; background: #fff; color: #7a4cde; }
+.home-quote-board { position: absolute; right: 1%; bottom: .65rem; display: flex; width: 21.5%; min-height: 10rem; flex-direction: column; align-items: center; justify-content: center; border: 8px solid #efb570; border-radius: 1.25rem; padding: .75rem .4rem; background: #fff9e9; color: #302447; font-size: 1.18em; font-weight: 700; line-height: 1.4; text-align: center; transform: rotate(-5deg); box-shadow: inset 0 0 0 2px #f5d9a4, 3px 4px 0 #b6773a65; }
+.home-quote-board::before { content: ''; position: absolute; inset: -4px; border: 1px dashed #bd7c37; border-radius: 1rem; pointer-events: none; }
+.home-quote-board > svg { margin-top: .4rem; color: #f34590; }
+.home-number-grid { display: grid; grid-template-columns: repeat(5,minmax(0,1fr)); gap: .65rem; }
+.home-number-card { display: flex; min-width: 0; min-height: 10.3rem; align-items: center; flex-direction: column; justify-content: flex-start; border: 1px solid var(--home-stat-border); border-radius: 1rem; padding: .75rem .45rem .85rem; background: var(--home-stat-bg); text-align: center; box-shadow: 0 3px 6px #6e4f1d04; }
+.home-number-icon { display: grid; width: 3.45rem; height: 3.45rem; flex-shrink: 0; place-items: center; border-radius: 50%; background: var(--home-stat-circle); color: var(--home-stat-color); }
+.home-number-icon > svg { filter: drop-shadow(0 2px 1px #ffffffd9); }
+.home-number-card h2 { display: flex; min-height: 2.75rem; align-items: center; justify-content: center; max-width: 8rem; margin-top: .35rem !important; color: #534d60; font-size: .96em; font-weight: 400; line-height: 1.4; }
+.home-number-card strong { color: var(--home-stat-color); font-size: 2em; line-height: 1.3; font-weight: 700; }
+.home-tone-lilac { --home-stat-bg:#f7f0ff; --home-stat-border:#e8dbff; --home-stat-circle:#e9d8ff; --home-stat-color:#5521ba; }
+.home-tone-gold { --home-stat-bg:#fff9ec; --home-stat-border:#fceac6; --home-stat-circle:#fff0bc; --home-stat-color:#2f2054; }
+.home-tone-gold .home-number-icon { color:#f9b112; }
+.home-tone-gold .home-number-icon svg { fill:#ffd143; }
+.home-tone-coral { --home-stat-bg:#fff3ed; --home-stat-border:#ffdfd3; --home-stat-circle:#ffddd1; --home-stat-color:#bd3516; }
+.home-tone-coral .home-number-icon svg { color:#f34f21; fill:#ffb32c; }
+.home-tone-sky { --home-stat-bg:#edf8ff; --home-stat-border:#d7edff; --home-stat-circle:#d4eeff; --home-stat-color:#0d49be; }
+.home-tone-sky .home-number-icon svg { color:#1398ed; fill:#81d5ff; }
+.home-tone-mint { --home-stat-bg:#edfbed; --home-stat-border:#d6efd7; --home-stat-circle:#cef4cc; --home-stat-color:#167831; }
+.home-tone-mint .home-number-icon svg { color:#159c34; }
+.home-daily-grid { display: grid; grid-template-columns: 1.95fr 1fr; gap: 1.2rem; align-items: stretch; }
+.home-daily-card { position: relative; min-height: 23.3rem; overflow: hidden; padding: .85rem 1.2rem 3.8rem; background: linear-gradient(#fafcffeb,#f8fbffff 77%,#d8f2e499),url('../../assets/students/profile/journey-landscape.png') bottom / cover; }
+.home-daily-heading { position: relative; z-index: 1; display: flex; align-items: center; gap: .65rem; padding-right: 0; }
+.home-daily-heading h2 { font-size: 1.23em; }
+.home-daily-heading p { color: #3d379a; font-size: .93em; }
+.home-sun { color: #f3a500; fill: #ffd43d; }
+.home-daily-progress { display: flex; align-items: center; justify-content: flex-end; gap: .5rem; margin-top: -.8rem; color: #221364; font-size: .87em; }
+.home-daily-progress > span { display: flex; width: 5.5rem; gap: .15rem; }
+.home-daily-progress i { height: .65rem; flex: 1; border-radius: 99px; background: #e8e5ef; }
+.home-daily-progress i[data-complete="true"] { background: #8650dd; }
+.home-task-list { position: relative; z-index: 1; display: flex; flex-direction: column; padding: .6rem 0 0; list-style: none; }
+.home-task { display: flex; min-width: 0; min-height: 4.9rem; align-items: center; gap: 1.05rem; border-bottom: 1px solid #e9eaf35c; padding: .5rem .7rem; }
+.home-task:last-child { border-bottom: 0; }
+.home-task-icon { display: grid; width: 3.7rem; height: 3.7rem; flex-shrink: 0; place-items: center; border-radius: 1.4rem; box-shadow: 0 4px 8px #5b60b10a; }
+.home-task-blue .home-task-icon { background: #e0eaff; color: #437fc9; }
+.home-task-gold .home-task-icon { background: #fff0c5; color: #e49b13; }
+.home-task-purple .home-task-icon { background: #e8d8ff; color: #7327db; }
+.home-task-copy { min-width: 0; flex: 1; }
+.home-task-copy p { color: var(--home-muted); font-size: .91em; line-height: 1.5; }
+.home-task-start { min-height: 2.4rem; gap: .3rem; padding: .35rem 1rem; font-size: .88em; }
+.home-task-lock,.home-task-done { display: grid; width: 3.4rem; height: 3.4rem; flex-shrink: 0; place-items: center; border-radius: 50%; background: #e8e7ee; color: #858394; }
+.home-task-done { background: #dbf5d7; color: #248533; }
+.home-daily-footer { position: absolute; bottom: 1.2rem; left: 1.5rem; max-width: 65%; color: #4e7763; font-size: .76em; }
+.home-task-books { position: absolute; right: -.3rem; bottom: -.5rem; width: 8.5rem; height: 6rem; object-fit: contain; object-position: bottom right; pointer-events: none; }
+.home-encouragement { position: relative; min-width: 0; min-height: 23rem; overflow: hidden; border: 1px solid #ffe1a9; border-radius: 1.4rem; background: url('../../assets/students/home/encouragement.png') center / 100% 100%; }
+.home-encouragement h2 { position: absolute; z-index: 1; top: 5%; left: 6%; padding: 0 .45rem; background: #fff8d5bb; color: #20368c; font-size: 1.85em; line-height: 1.3; text-shadow: 0 1px 1px #fff; transform: rotate(-8deg); }
+.home-encouragement p { position: absolute; left: 23%; right: 9%; bottom: 18%; color: #3c2e48; font-size: 1em; font-weight: 700; line-height: 1.35; transform: rotate(-4deg); }
+.home-encouragement p svg { position: absolute; right: -.3rem; bottom: 25%; color: #ef4491; }
+.home-word-card { position: relative; min-width: 0; min-height: 21.4rem; overflow: hidden; border: 1px solid #d3e6b4; border-radius: 1.4rem; padding: .15rem 1.1rem .5rem; background: url('../../assets/students/home/word-woodland.png') center / cover; box-shadow: 0 4px 10px #6d6e3608; }
+.home-word-heading { position: relative; z-index: 1; display: flex; align-items: center; gap: .65rem; padding: .2rem .3rem; }
+.home-word-heading > div { padding: .05rem .25rem; border-radius: .7rem; background: #effdffb3; }
+.home-word-heading h2 { color: #201260; font-size: 1.65em; }
+.home-word-heading p { color: #2e3981; font-size: .95em; }
+.home-word-megaphone { display: grid; width: 3rem; height: 3rem; place-items: center; border-radius: 50%; background: #ffffffb3; font-size: 1.8rem; }
+.home-word-streak { display: flex; align-items: center; gap: .45rem; margin-left: auto; border: 1px solid #fff; border-radius: 99px; padding: .5rem .9rem; background: #fffffff2; color: #3e294d; font-size: .86em; font-weight: 700; white-space: nowrap; }
+.home-word-streak svg { color: #ef5c1b; fill:#ffc146; }
+.home-word-stage { position: relative; display: grid; min-height: 15rem; grid-template-columns: 27% 46% 1fr; align-items: center; gap: 1rem; padding: .65rem 0 .5rem; }
+.home-word-signposts { display: flex; min-width: 0; flex-direction: column; align-items: center; gap: .65rem; padding-top: .6rem; padding-left:16%; }
+.home-word-signposts button { position: relative; display: inline-flex; width: 90%; min-height: 3.1rem; align-items: center; justify-content: center; gap: .7rem; border: 2px solid #e8a85b; border-radius: 99px; padding: .4rem .5rem; background: repeating-linear-gradient(0deg,transparent 0px,transparent 10px,#e6b26a33 11px,#e6b26a33 12px),linear-gradient(#ffdb9d,#fbc17e); color: #282365; font-size: 1.15em; font-weight: 700; box-shadow: inset 0 2px 2px #ffefc9,0 3px 0 #b67c3d75; }
+.home-word-signposts button:hover { background-color: #ffe3ab; transform: translateY(-1px); }
+.home-word-signposts button:disabled { cursor: default; opacity: .75; }
+.home-word-signposts button:focus-visible { outline-offset: 5px; }
+.home-word-board { position: relative; z-index: 1; display: flex; min-width: 0; min-height: 13.8rem; flex-direction: column; align-items: center; justify-content: center; gap: .3rem; border: 12px solid #edb06b; border-radius: 1.6rem; padding: .8rem .3rem; background: radial-gradient(ellipse at center,#fffdf4,#fff7df); box-shadow: inset 0 0 0 3px #f7d7a3,0 4px 0 #b07a3a66,0 7px 12px #55432315; }
+.home-word-board::before { content:''; position:absolute; inset:-7px; border:1px dashed #be853c; border-radius: 1.3rem; pointer-events:none; }
+.home-word-board[data-reading="true"] { outline: 3px solid #bc97f1; outline-offset: 3px; }
+.home-word-syllables { display: flex; min-width: 0; width: 100%; flex-wrap: wrap; align-items: center; justify-content: center; gap: .1rem; padding: .4rem .3rem; font-size: clamp(2.4rem,5.6vw,4.4rem); font-weight: 900; line-height: 1.25; letter-spacing: .01em; }
+.home-syllable-group { display: inline-flex; min-width: 0; align-items: center; overflow-wrap: anywhere; }
+.home-syllable-blue { color: #167ec0; text-shadow: 0 2px 0 #fff; }
+.home-syllable-pink { color: #eb4c72; text-shadow: 0 2px 0 #fff; }
+.home-syllable-divider { padding-inline: .08em; color: #96928e; }
+.home-word-speaker { display: grid; min-width: 3.2rem; min-height: 3.2rem; place-items: center; border: 1px solid #9b72ee; border-radius: 50%; background: linear-gradient(140deg,#8854e7,#6132c9); color: #fff; box-shadow: 0 4px 8px #764bc22e,inset 0 2px 3px #ffffff42; }
+.home-word-speaker:disabled { opacity: .65; }
+.home-owl-bubble { position: absolute; top: 1.4rem; right: 1.8%; max-width: 8.5rem; border: 1px solid #f5f4f7; border-radius: 50%; padding: .8rem 1rem; background: #fff; color: #342249; font-size: .93em; font-weight: 700; line-height: 1.2; text-align: center; }
+.home-owl-bubble::after { content:''; position:absolute; left:45%; bottom:-9px; width:1rem; height:1rem; background:#fff; clip-path: polygon(0 0,100% 0,70% 100%); }
+.home-word-feedback { --color-success:#512c9e; --color-brand-sun:#7a4314; position: relative; z-index: 1; }
+.home-word-help { display: flex; align-items: center; justify-content: center; gap: .5rem; max-width: 74%; margin: 0 auto; border-radius: 99px; padding: .15rem .65rem; background: #fffaf0eb; color: #51445a; font-size: .73em; text-align: center; }
+.home-word-help > span { display:flex; flex-shrink:0; gap:.2rem; }
+.home-word-help i { width:.45rem; height:.45rem; border:1px solid #aea4c4; border-radius:50%; background:#fff; }
+.home-word-help i[data-used="true"] { background:#9c6de5; }
+.home-word-error { margin: .4rem 0 !important; border:1px solid #f5b1a8; border-radius:.8rem; padding:.6rem 1rem; background:#fff1ec; color:#a83226; text-align:center; }
+.home-word-meaning { position:relative; z-index:1; max-width:74%; margin:.25rem auto 0; border-radius:.8rem; background:#fffaf0f5; color:#4e365d; font-size:.73em; }
+.home-word-meaning summary { display:flex; align-items:center; justify-content:center; gap:.5rem; padding:.1rem .6rem; cursor:pointer; list-style:none; }
+.home-word-meaning[open] { padding:.3rem; }
+.home-word-meaning[open] summary { padding:.4rem; }
+.home-word-placeholder { display:flex; flex-direction:column; justify-content:center; align-items:center; gap:1rem; padding:2rem; text-align:center; }
+.home-word-placeholder :is(h2,p) { border-radius:1rem; padding:.5rem 1rem; background:#fff9f0f2; }
+.home-bottom-grid { display:grid; grid-template-columns:1.36fr 1fr; gap:1rem; }
+.home-bottom-heading { display:flex; align-items:center; gap:.7rem; }
+.home-bottom-heading h2 { font-size:1.3em; }
+.home-bottom-heading p { color:var(--home-muted); font-size:.95em; line-height:1.5; }
+.home-small-icon { display:grid; width:2.6rem; height:2.6rem; flex-shrink:0; place-items:center; border-radius:50%; background:#eee7ff; color:#7840d7; }
+.home-lesson-card { position:relative; min-height:11.2rem; overflow:hidden; padding:.9rem 1.15rem 1rem; background:#f9f8ff; }
+.home-lesson-card .home-bottom-heading { position:relative; z-index:1; padding-right:3rem; }
+.home-lesson-progress { position:relative; z-index:1; display:flex; align-items:center; gap:.65rem; width:75%; margin:1rem 0 .65rem; color:#4f25b8; font-size:.9em; }
+.home-lesson-progress > div { height:.65rem; min-width:0; flex:1; overflow:hidden; border-radius:99px; background:#e6dcf9; }
+.home-lesson-progress > div > span { display:block; min-width:.25rem; height:100%; border-radius:inherit; background:linear-gradient(90deg,#8d5fe9,#6233cf); }
+.home-lesson-button { position:relative; z-index:1; max-width:80%; font-size:.92em; }
+.home-lesson-card > img { position:absolute; right:.35rem; bottom:.6rem; width:7.5rem; height:7.2rem; object-fit:contain; pointer-events:none; }
+.home-reminder-card { position:relative; padding:.85rem 1.1rem 1rem; background:#fffcfc; }
+.home-lightbulb { color:#f6ac00; fill:#ffda49; }
+.home-reminder-card ul { display:flex; flex-direction:column; gap:.2rem; padding:.65rem 0 0; list-style:none; }
+.home-reminder-card li { display:flex; align-items:center; gap:.5rem; color:#686171; font-size:.93em; line-height:1.55; }
+.home-reminder-card li > span { display:grid; width:.95rem; height:.95rem; flex-shrink:0; place-items:center; border-radius:50%; background:#269a18; color:#fff; }
+.home-reminder-heart { position:absolute; right:1.1rem; bottom:1.3rem; color:#ed428d; transform:rotate(-8deg); }
+.home-assignment-card { padding:1rem 1.2rem; }
+.home-assignment-card ul { display:flex; flex-direction:column; gap:.5rem; padding:.6rem 0 0; list-style:none; }
+.home-assignment-card li a { display:flex; min-height:2.8rem; align-items:center; gap:.7rem; border-radius:.8rem; padding:.5rem; background:#f7f2ff; }
+.home-assignment-card time { margin-left:auto; color:#786b79; font-size:.9em; }
+
+body[data-font="dyslexic"] .student-home-reference { font-family:"OpenDyslexic",var(--font-dyslexic); font-size:calc(13px * var(--font-scale,1)); }
+body[data-font="dyslexic"] .student-home-reference :is(h1,h2,h3,button) { font-family:inherit; }
+body[data-font="dyslexic"] .home-welcome { min-height:20rem; }
+body[data-font="dyslexic"] .home-welcome-copy { margin-left:27%; width:47%; }
+body[data-font="dyslexic"] .home-welcome-copy h1 { font-size:2.5em; }
+body[data-font="dyslexic"] .home-welcome-copy > p { font-size:1.5em; }
+body[data-font="dyslexic"] .home-welcome-description, body[data-font="dyslexic"] .home-welcome-button { margin-left:0; }
+body[data-font="dyslexic"] .home-welcome-button { white-space:normal; }
+body[data-font="dyslexic"] .home-quote-board { width:22%; font-size:.95em; }
+body[data-font="dyslexic"] .home-number-card { min-height:12rem; }
+body[data-font="dyslexic"] .home-number-card h2 { min-height:4rem; }
+body[data-font="dyslexic"] .home-number-card strong { font-size:1.7em; }
+body[data-font="dyslexic"] .home-daily-grid { grid-template-columns:2fr 1fr; }
+body[data-font="dyslexic"] .home-daily-card { padding-inline:1rem; }
+body[data-font="dyslexic"] .home-daily-heading h2 { font-size:1.1em; }
+body[data-font="dyslexic"] .home-daily-progress { margin-top:.4rem; }
+body[data-font="dyslexic"] .home-task { gap:.7rem; min-height:6rem; padding-inline:0; }
+body[data-font="dyslexic"] .home-task-icon { width:3rem; height:3rem; }
+body[data-font="dyslexic"] .home-task-start { padding:.4rem .6rem; font-size:.8em; }
+body[data-font="dyslexic"] .home-encouragement h2 { font-size:1.5em; }
+body[data-font="dyslexic"] .home-encouragement p { font-size:.9em; }
+body[data-font="dyslexic"] .home-word-stage { min-height:16rem; gap:.5rem; }
+body[data-font="dyslexic"] .home-word-signposts button { font-size:1em; }
+body[data-font="dyslexic"] .home-word-syllables { font-size:3.5em; }
+body[data-font="dyslexic"] .home-word-streak { font-size:.75em; }
+body[data-font="dyslexic"] .home-owl-bubble { font-size:.8em; max-width:7rem; padding:.65rem; }
+body[data-font="dyslexic"] .home-bottom-grid { grid-template-columns:1.3fr 1fr; }
+body[data-font="dyslexic"] .home-reminder-heart { display:none; }
+
+@media (min-width:1400px) { .home-welcome { min-height:20rem; } .home-welcome-copy h1 { font-size:3.4rem; } .home-daily-grid { grid-template-columns:1.95fr 1fr; } .home-encouragement { min-height:26rem; } .home-task { min-height:5.6rem; } .home-word-stage { min-height:18rem; } .home-word-board { min-height:16rem; } }
+@media (max-width:1023px) { .role-student:has(.student-home-reference) .student-main-content { padding:1rem 1.2rem 2rem; } .home-welcome-copy { width:49%; } .home-welcome-copy h1 { font-size:2.6rem; } .home-welcome-copy > p { font-size:1.6em; } .home-welcome-button { font-size:.85em; margin-left:5%; } .home-welcome-description { margin-left:13%; } .home-quote-board { font-size:1em; width:22%; } .home-daily-heading h2 { font-size:1.1em; } .home-task { padding-inline:0; gap:.7rem; } .home-task-icon { width:3.2rem; height:3.2rem; } .home-daily-progress { margin-top:.3rem; } .home-encouragement h2 { font-size:1.65em; } .home-encouragement p { font-size:.9em; } }
+@media (max-width:700px) { .home-welcome { min-height:18rem; background-position:25% center; } .home-welcome-copy { width:65%; margin-left:32%; padding:.8rem .6rem .8rem 0; } .home-welcome-copy > p { font-size:1.45em; } .home-welcome-copy h1 { font-size:2.4em; } .home-welcome-description { margin-left:0; font-size:.87em; border-radius:.6rem; padding:.3rem; background:#ffffffb5; } .home-welcome-button { white-space:normal; margin-left:0; padding:.65rem .7rem; font-size:.87em; } .home-quote-board { display:none; } .home-number-grid { grid-template-columns:repeat(3,minmax(0,1fr)); } .home-number-card { min-height:9rem; } .home-number-card h2 { font-size:.83em; min-height:2.8rem; } .home-number-card strong { font-size:1.7em; } .home-number-grid > :nth-child(4),.home-number-grid > :nth-child(5) { grid-column:span 1; } .home-daily-grid { grid-template-columns:1fr; } .home-daily-card { min-height:23rem; } .home-encouragement { display:none; } .home-word-card { background-position:65% center; padding:.5rem .6rem; } .home-word-heading { flex-wrap:wrap; gap:.4rem; } .home-word-heading h2 { font-size:1.5em; } .home-word-heading p { font-size:.84em; } .home-word-megaphone { width:2.4rem; height:2.4rem; font-size:1.5rem; } .home-word-streak { margin-left:3rem; padding:.2rem .6rem; font-size:.76em; } .home-word-stage { grid-template-columns:1fr; min-height:0; gap:.8rem; padding:.8rem .35rem; } .home-word-signposts { order:2; flex-direction:row; gap:.45rem; padding:0; } .home-word-signposts button { width:33.33%; min-height:3.2rem; flex-direction:column; gap:.2rem; border-radius:1rem; font-size:.83em; } .home-word-signposts button svg { width:1.3rem; height:1.3rem; } .home-word-board { width:87%; min-height:11.5rem; border-width:9px; padding:.9rem .25rem; } .home-word-syllables { font-size:2.7rem; } .home-owl-bubble { top:1.5rem; right:0; max-width:4.5rem; padding:.5rem; font-size:.7em; } .home-word-help { max-width:100%; border-radius:.7rem; font-size:.73em; padding:.4rem; } .home-word-meaning { max-width:100%; font-size:.8em; } .home-bottom-grid { grid-template-columns:1fr; } .home-lesson-card { min-height:11.5rem; } .home-bottom-heading h2 { font-size:1.2em; } .home-reminder-card { min-height:11rem; } .home-reminder-card ul { gap:.4rem; } .home-reminder-card li { padding-right:1.3rem; } .home-assignment-card li a { flex-wrap:wrap; } }
+@media (max-width:400px) { .role-student:has(.student-home-reference) .student-main-content { padding:.8rem .75rem 1.5rem; } .student-home-reference { gap:.9rem; font-size:calc(13px * var(--font-scale,1)); } .home-welcome-copy { width:66%; margin-left:31%; } .home-welcome-copy > p { font-size:1.35em; } .home-welcome-copy h1 { font-size:2.25em; } .home-welcome-button { gap:.35rem; } .home-number-grid { gap:.45rem; } .home-number-card { padding-inline:.25rem; } .home-number-icon { width:2.8rem; height:2.8rem; } .home-number-icon svg { width:1.7rem; height:1.7rem; } .home-daily-card { padding-inline:.8rem; } .home-daily-heading { gap:.5rem; } .home-daily-heading h2 { font-size:1.1em; } .home-daily-heading p { font-size:.83em; } .home-task { gap:.6rem; } .home-task-icon { width:2.8rem; height:3rem; } .home-task-start { padding:.4rem .6rem; } .home-task-lock,.home-task-done { width:2.8rem; height:2.8rem; } .home-task-copy h3 { font-size:.95em; } .home-task-copy p { font-size:.84em; } .home-task-books { width:6.5rem; } }
+@media (max-width:700px) { body[data-font="dyslexic"] .home-welcome-copy { width:66%; margin-left:32%; } body[data-font="dyslexic"] .home-welcome-copy h1 { font-size:2em; } body[data-font="dyslexic"] .home-welcome-copy > p { font-size:1.2em; } body[data-font="dyslexic"] .home-number-card { min-height:11.5rem; } body[data-font="dyslexic"] .home-daily-grid,body[data-font="dyslexic"] .home-bottom-grid { grid-template-columns:1fr; } body[data-font="dyslexic"] .home-word-stage { min-height:0; } body[data-font="dyslexic"] .home-task { flex-wrap:wrap; } body[data-font="dyslexic"] .home-task-copy { flex-basis:calc(100% - 4rem); } body[data-font="dyslexic"] .home-task :is(.home-task-start,.home-task-lock,.home-task-done) { margin-left:auto; } body[data-font="dyslexic"] .home-word-signposts button { font-size:.8em; } body[data-font="dyslexic"] .home-word-syllables { font-size:2.5em; } body[data-font="dyslexic"] .home-word-streak { margin-left:0; } body[data-font="dyslexic"] .home-owl-bubble { max-width:4.8rem; font-size:.6em; } }
+body[data-theme="high-contrast"] .student-home-reference,body[data-theme="dark"] .student-home-reference { --home-ink:var(--color-text); --home-muted:var(--color-text-muted); --home-panel:var(--color-surface); }
+body:is([data-theme="high-contrast"],[data-theme="dark"]) .role-student:has(.student-home-reference) { background:var(--color-bg); }
+body:is([data-theme="high-contrast"],[data-theme="dark"]) .student-home-reference :is(.home-panel,.home-number-card) { background:var(--color-surface); color:var(--color-text); border-color:var(--color-text-muted); }
+body:is([data-theme="high-contrast"],[data-theme="dark"]) .student-home-reference :is(.home-number-card h2,.home-number-card strong,.home-task-copy p,.home-daily-heading p,.home-reminder-card li,.home-daily-progress) { color:var(--color-text); }
+@media (prefers-reduced-motion:reduce) { .student-home-reference * { transition:none!important; scroll-behavior:auto!important; } }
+@media (max-width:700px) { .home-word-signposts { padding-left:0; } .home-owl-bubble { display:none; } }
