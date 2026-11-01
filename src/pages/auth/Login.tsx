@@ -7,6 +7,7 @@ import {
   removeSavedProfile,
   saveAuthProfile,
   updateSavedProfileToken,
+  savedAvatarUrl,
   type SavedAuthProfile,
 } from '../../lib/auth/savedProfiles';
 import {
@@ -38,6 +39,15 @@ function initialsFor(name: string) {
   const parts = name.trim().split(/\s+/).filter(Boolean);
   if (parts.length === 0) return '🙂';
   return (parts[0][0] + (parts[1]?.[0] ?? '')).toUpperCase();
+}
+
+function SavedProfileAvatar({ profile, busy }: { profile: SavedAuthProfile; busy: boolean }) {
+  const [failedUrl, setFailedUrl] = useState<string | null>(null);
+  const url = savedAvatarUrl(profile.avatarUrl);
+  if (busy) return <ButtonSpinner />;
+  return url && failedUrl !== url
+    ? <img src={url} alt={`Profile photo ni ${profile.displayName}`} className="h-full w-full object-cover" onError={() => setFailedUrl(url)} />
+    : <>{initialsFor(profile.displayName)}</>;
 }
 
 function ProfilePicker({
@@ -73,10 +83,10 @@ function ProfilePicker({
                 style={cardStyle(brand, 10, 30)}
               >
                 <span
-                  className="flex h-14 w-14 shrink-0 items-center justify-center rounded-full text-lg font-bold text-white shadow-md"
+                  className="flex h-14 w-14 shrink-0 items-center justify-center overflow-hidden rounded-full text-lg font-bold text-white shadow-md"
                   style={{ backgroundColor: `color-mix(in srgb, var(${brand}) 85%, black)` }}
                 >
-                  {busy ? <ButtonSpinner /> : initialsFor(p.displayName)}
+                  <SavedProfileAvatar profile={p} busy={busy} />
                 </span>
                 <span className="min-w-0 flex-1">
                   <span className="flex flex-wrap items-center gap-2">
@@ -127,8 +137,9 @@ export default function Login() {
   const [error, setError] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
   const [savedProfiles, setSavedProfiles] = useState<SavedAuthProfile[]>(() => getSavedProfiles());
-  // An old saved refresh token must never hide the normal password login.
-  const [showForm, setShowForm] = useState(true);
+  // Saved profiles lead back to their dashboard; the picker always keeps a
+  // visible option to use a different account or fall back to password login.
+  const [showForm, setShowForm] = useState(() => getSavedProfiles().length === 0);
   const [reloginBusyId, setReloginBusyId] = useState<string | null>(null);
 
   const validate = (cleanEmail: string): FieldErrors => {
@@ -168,8 +179,8 @@ export default function Login() {
 
       // Store a one-tap ticket only after authentication and role resolution
       // succeed. Student saves replace any prior student ticket in this browser.
-      if (identity?.role === 'student' && data.session?.refresh_token) {
-        saveAuthProfile({ userId: data.user.id, role: 'student', displayName: identity.displayName, email: data.user.email ?? cleanEmail, refreshToken: data.session.refresh_token });
+      if (identity && identity.role !== 'admin' && data.session?.refresh_token) {
+        saveAuthProfile({ userId: data.user.id, role: identity.role, displayName: identity.displayName, email: data.user.email ?? cleanEmail, avatarUrl: identity.avatarUrl ?? undefined, refreshToken: data.session.refresh_token });
         setSavedProfiles(getSavedProfiles());
       }
       if (identity) trackEvent('login_success', { role: identity.role });

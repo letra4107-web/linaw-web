@@ -1,0 +1,7 @@
+.role-teacher .teacher-profile-menu { box-sizing:border-box; overflow-x:hidden; overflow-y:auto; overscroll-behavior:contain; }
+.teacher-profile-menu .teacher-profile-summary { align-items:flex-start; }
+.teacher-profile-menu :is(.teacher-profile-name,.teacher-profile-email) { margin:0; white-space:normal; overflow-wrap:anywhere; }
+.teacher-profile-menu .teacher-profile-email { margin-top:5px; line-height:1.6; }
+.teacher-profile-menu [role="menuitem"] { min-width:0; }
+.role-teacher .teacher-sidebar-art > div:last-child > div > .teacher-profile-trigger { background:#50349eef; color:#fff; }
+:root[data-theme="dark"] .teacher-profile-menu button[role="menuitem"] { color:#f1b4a9; }

@@ -1,0 +1,20 @@
+/* Shared illustrated navigation across the Parent dashboard and account page. */
+.role-parent:has(.parent-illustrated-shell) .parent-sidebar { width:239px; border-radius:0; background:linear-gradient(160deg,#006d80,#00959b 40%,#40bfb4 70%,#046d7d) !important; }
+.role-parent:has(.parent-illustrated-shell) .parent-sidebar.is-collapsed { width:80px; }
+.role-parent:has(.parent-illustrated-shell) .parent-sidebar::before { content:none; }
+.role-parent:has(.parent-illustrated-shell) .parent-sidebar > .parent-sidebar-illustration { position:absolute; z-index:0; inset:auto 0 0; display:block; width:100%; height:61%; max-width:none; object-fit:cover; object-position:center bottom; pointer-events:none; }
+.role-parent:has(.parent-illustrated-shell) .parent-sidebar::after { position:absolute; z-index:0; inset:auto 0 0; height:25%; background:url('../../assets/admin_design/sidebar-foliage-left.png') left bottom / auto 100% no-repeat; content:''; pointer-events:none; }
+.role-parent:has(.parent-illustrated-shell) .parent-sidebar-brand { min-height:86px; background:#005f7625; }
+.role-parent:has(.parent-illustrated-shell) .parent-sidebar-brand strong { font-size:23px; }
+.role-parent:has(.parent-illustrated-shell) .parent-sidebar-brand small { font-size:11px; }
+.role-parent:has(.parent-illustrated-shell) .parent-sidebar-nav { gap:7px; padding:12px; }
+.role-parent:has(.parent-illustrated-shell) .parent-nav-item { min-height:59px; border-radius:18px; font-size:15px; }
+.role-parent:has(.parent-illustrated-shell) .parent-nav-icon { width:44px; height:44px; background:#00a7c8 !important; }
+.role-parent:has(.parent-illustrated-shell) .parent-nav-icon svg { width:27px; height:27px; }
+.role-parent:has(.parent-illustrated-shell) .parent-nav-item:nth-child(3) .parent-nav-icon { background:#ff7275 !important; }
+.role-parent:has(.parent-illustrated-shell) .parent-nav-item:nth-child(5) .parent-nav-icon { background:#9371ff !important; }
+.role-parent:has(.parent-illustrated-shell) .parent-nav-item[aria-current="page"] .parent-nav-icon { background:#ffdc75 !important; color:#fa6000 !important; }
+.role-parent:has(.parent-illustrated-shell) .parent-sidebar-profile > div > button { min-height:70px; border-radius:20px; background:#00667eb0; }
+@media (max-width:1350px) { .role-parent:has(.parent-illustrated-shell) .parent-sidebar { width:216px; } .role-parent:has(.parent-illustrated-shell) .parent-sidebar-brand strong { font-size:20px; } }
+:root[data-theme="dark"] .role-parent:has(.parent-illustrated-shell) .parent-sidebar { background:linear-gradient(160deg,#12463f,#132e47) !important; }
+@media (prefers-reduced-motion:reduce) { .role-parent:has(.parent-illustrated-shell) .parent-sidebar { transition:none; } }

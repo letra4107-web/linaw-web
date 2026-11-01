@@ -17,3 +17,17 @@ export const supabase = createClient(url, anonKey, {
     storageKey: 'linawletra-auth-v2',
   },
 });
+
+/** Check a password without replacing the current browser or MFA session. */
+export async function verifyAccountPassword(email: string, password: string, expectedUserId: string) {
+  const verifier = createClient(url, anonKey, { auth: {
+    persistSession: false, autoRefreshToken: false, detectSessionInUrl: false,
+    storageKey: `linawletra-password-check-${crypto.randomUUID()}`,
+  } });
+  try {
+    const { data, error } = await verifier.auth.signInWithPassword({ email, password });
+    if (error || data.user?.id !== expectedUserId) throw new Error('Hindi tama ang kasalukuyang password.');
+  } finally {
+    await verifier.auth.signOut({ scope: 'local' }).catch(() => {});
+  }
+}

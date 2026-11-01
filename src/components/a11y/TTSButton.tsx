@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { api } from '../../lib/api';
 import { getTtsPlaybackRate, getTtsRate, isIsolatedFilipinoVowel } from '../../lib/ttsSettings';
 import { IconLabel } from './IconLabel';
@@ -31,14 +31,30 @@ function base64ToObjectUrl(base64: string): string {
 /** Reads `text` aloud through the server-side Filipino Cloud TTS voice. Acts as a toggle --
  *  clicking again while speaking stops playback instead of restarting it. */
 export function TTSButton({ text, lang = 'fil-PH', rate: requestedRate, className, publicAccess = false, ariaLabel }: TTSButtonProps) {
-  void lang; // Server-side Filipino Cloud TTS is authoritative for pronunciation.
   const [status, setStatus] = useState<'idle' | 'loading' | 'speaking'>('idle');
+  const [error, setError] = useState('');
   const audioRef = useRef<HTMLAudioElement | null>(null);
+  const playbackId = useRef(0);
+  const browserSpeaking = useRef(false);
+
+  useEffect(() => {
+    setStatus('idle');
+    setError('');
+    return () => {
+      playbackId.current += 1;
+      audioRef.current?.pause();
+      audioRef.current = null;
+      if (browserSpeaking.current) window.speechSynthesis?.cancel();
+      browserSpeaking.current = false;
+    };
+  }, [text, lang, requestedRate, publicAccess]);
 
   const stop = () => {
+    playbackId.current += 1;
     audioRef.current?.pause();
     audioRef.current = null;
-    if (typeof window !== 'undefined' && 'speechSynthesis' in window) window.speechSynthesis.cancel();
+    if (browserSpeaking.current) window.speechSynthesis?.cancel();
+    browserSpeaking.current = false;
     setStatus('idle');
   };
 
@@ -46,19 +62,37 @@ export function TTSButton({ text, lang = 'fil-PH', rate: requestedRate, classNam
   // while the higher-quality API voice requires an authenticated session.
   // Keep the read-aloud button useful for public visitors with the browser's
   // built-in speech engine when the API is unavailable.
-  const speakWithBrowser = (rate: number) => {
-    if (typeof window === 'undefined' || !('speechSynthesis' in window)) {
+  const speakWithBrowser = (rate: number, id: number) => {
+    const fail = () => {
+      if (id !== playbackId.current) return;
+      browserSpeaking.current = false;
       setStatus('idle');
+      setError('Hindi tumugtog ang tunog. Suriin ang audio at subukan muli.');
+    };
+    if (typeof window === 'undefined' || !('speechSynthesis' in window)) {
+      fail();
       return;
     }
-    const utterance = new SpeechSynthesisUtterance(text);
-    utterance.lang = lang;
-    utterance.rate = getTtsPlaybackRate(rate);
-    utterance.onend = () => setStatus('idle');
-    utterance.onerror = () => setStatus('idle');
-    window.speechSynthesis.cancel();
-    setStatus('speaking');
-    window.speechSynthesis.speak(utterance);
+    try {
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.lang = lang;
+      utterance.rate = getTtsPlaybackRate(rate);
+      utterance.onend = () => {
+        if (id !== playbackId.current) return;
+        browserSpeaking.current = false;
+        setStatus('idle');
+      };
+      utterance.onerror = (event) => {
+        if (event.error === 'canceled' || event.error === 'interrupted') {
+          if (id === playbackId.current) { browserSpeaking.current = false; setStatus('idle'); }
+        } else fail();
+      };
+      window.speechSynthesis.cancel();
+      browserSpeaking.current = true;
+      setError('');
+      setStatus('speaking');
+      window.speechSynthesis.speak(utterance);
+    } catch { fail(); }
   };
 
   const speak = async () => {
@@ -66,43 +100,47 @@ export function TTSButton({ text, lang = 'fil-PH', rate: requestedRate, classNam
       stop();
       return;
     }
+    if (status === 'loading') return;
+    const id = ++playbackId.current;
+    setError('');
 
     // Letter-vowel drills are always clear, natural-speed sounds. This also
     // prevents a saved .4/.5 reading setting from slowing A/E/I/O/U.
     const rate = isIsolatedFilipinoVowel(text) ? 1 : requestedRate ?? getTtsRate();
     const cacheKey = `${TTS_AUDIO_CACHE_VERSION}::${text}::${rate}`;
-    const cached = audioCache.get(cacheKey);
-    if (cached) {
-      setStatus('speaking');
-      const audio = new Audio(cached);
-      audio.playbackRate = getTtsPlaybackRate(rate);
-      audioRef.current = audio;
-      audio.onended = () => setStatus('idle');
-      audio.onerror = () => setStatus('idle');
-      audio.play();
-      return;
-    }
-
     setStatus('loading');
     try {
-      const res = await api<{ audioContent: string }>(publicAccess ? '/public/tts' : '/tts', { method: 'POST', auth: !publicAccess, body: { text, rate } });
-      const url = base64ToObjectUrl(res.audioContent);
-      audioCache.set(cacheKey, url);
+      let url = audioCache.get(cacheKey);
+      if (!url) {
+        const res = await api<{ audioContent: string }>(publicAccess ? '/public/tts' : '/tts', { method: 'POST', auth: !publicAccess, body: { text, rate } });
+        if (id !== playbackId.current) return;
+        url = base64ToObjectUrl(res.audioContent);
+        audioCache.set(cacheKey, url);
+      }
+      if (id !== playbackId.current) return;
       setStatus('speaking');
       const audio = new Audio(url);
       audio.playbackRate = getTtsPlaybackRate(rate);
       audioRef.current = audio;
-      audio.onended = () => setStatus('idle');
-      audio.onerror = () => setStatus('idle');
-      audio.play();
+      audio.onended = () => { if (id === playbackId.current) setStatus('idle'); };
+      audio.onerror = () => {
+        if (id !== playbackId.current) return;
+        audioRef.current = null;
+        setStatus('idle');
+        setError('Hindi tumugtog ang tunog. Suriin ang audio at subukan muli.');
+      };
+      await audio.play();
     } catch {
+      if (id !== playbackId.current) return;
+      audioRef.current?.pause();
+      audioRef.current = null;
       trackEvent('speech_request_failed', { surface: 'tts_button' });
-      speakWithBrowser(rate);
+      speakWithBrowser(rate, id);
     }
   };
 
   return (
-    <button
+    <><button
       type="button"
       onClick={speak}
       disabled={status === 'loading'}
@@ -121,6 +159,6 @@ export function TTSButton({ text, lang = 'fil-PH', rate: requestedRate, classNam
         icon={status === 'loading' ? '⏳' : status === 'speaking' ? '⏹️' : '🔈'}
         label={status === 'loading' ? 'Naglo-load...' : status === 'speaking' ? 'Ihinto' : 'Basahin nang malakas'}
       />
-    </button>
+    </button>{error && <span role="alert" className="text-sm text-[var(--color-danger)]">{error}</span>}</>
   );
 }

@@ -11,11 +11,23 @@ const { validateUuidParam, isBoundedString, isGrade } = require('../lib/validati
 const { credentialLimiter } = require('../lib/rateLimiters');
 const { safeCredentialStatus } = require('../services/credentialSecurity');
 const { createMaterialAccessService } = require('../services/materialAccess');
+const { createMessageProfilePhotoService } = require('../services/messageProfilePhotos');
 
 const router = express.Router();
 router.use(requireAuth, requireRole('parent'));
 const authorization = createSupabaseAuthorizationService(supabaseAdmin);
 const materialAccess = createMaterialAccessService(supabaseAdmin);
+
+router.get('/message-profile-photos', async (req, res) => {
+  try {
+    const result = await createMessageProfilePhotoService(supabaseAdmin).load(req.user.id, 'parent');
+    res.setHeader('Cache-Control', 'private, no-store');
+    res.json(result);
+  } catch (error) {
+    console.error('[parent/message profile photos]', { code: error?.code });
+    res.status(500).json({ error: 'Hindi makuha ang profile photos. Subukan muli.' });
+  }
+});
 
 // Mirrors mobile's backend/routes/auth.js difficultyFromGrade -- keep these in sync.
 const difficultyFromGrade = (gradeLevel) => {

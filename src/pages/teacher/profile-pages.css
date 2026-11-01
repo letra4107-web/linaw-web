@@ -1,0 +1,66 @@
+.teacher-notifications-page { display:flex; min-width:0; flex-direction:column; gap:18px; color:var(--color-text); }
+.role-teacher .teacher-sidebar-art { overflow:visible; }
+.role-teacher .teacher-profile-menu { max-height:calc(100dvh - 6rem); overflow-y:auto; }
+:root:not([data-theme="dark"]):not([data-theme="high-contrast"]) .role-teacher header.sticky > div > span { color:#51406f; }
+.teacher-notices-hero { position:relative; min-height:200px; isolation:isolate; overflow:hidden; border:1px solid var(--color-border); border-radius:24px; background:#f0eafd; }
+.teacher-notices-hero > img:first-child { position:absolute; z-index:-2; inset:0; width:100%; height:100%; object-fit:cover; }
+.teacher-notices-hero::before { position:absolute; z-index:-1; inset:0; background:linear-gradient(90deg,#f5f0fffa,#f5f0ffe8 55%,#f5f0ff45); content:''; }
+.teacher-notices-hero > div { position:relative; z-index:1; max-width:68%; padding:28px; }
+.teacher-notices-hero p { margin:0 0 8px; color:#574184; font-size:12px; font-weight:700; }
+.teacher-notices-hero h1 { display:flex; align-items:center; gap:12px; margin:0 0 10px; color:#30275c; font-size:clamp(27px,3vw,40px); }
+.teacher-notices-hero h1 svg { color:#7953bd; }
+.teacher-notices-hero span { display:block; max-width:470px; color:#55476e; line-height:1.6; }
+.teacher-notices-illustration { position:absolute; z-index:0; right:2%; bottom:-8px; width:27%; height:95%; object-fit:contain; object-position:bottom; }
+.teacher-notices-panel { min-width:0; border:1px solid var(--color-border); border-radius:22px; background:var(--color-surface); padding:20px; }
+.teacher-notices-tools,.teacher-notices-tools nav { display:flex; align-items:center; flex-wrap:wrap; gap:9px; }
+.teacher-notices-tools { justify-content:space-between; }
+.teacher-notices-tools button,.teacher-settings-notifications-link { display:inline-flex; min-height:42px; align-items:center; justify-content:center; gap:8px; border:1px solid #d9ceec; border-radius:12px; background:#f3eefb; padding:9px 12px; color:#51406f; font:inherit; font-size:13px; font-weight:700; cursor:pointer; }
+.teacher-notices-tools button[aria-pressed="true"] { border-color:#7150aa; background:#7150aa; color:white; }
+.teacher-notices-tools button:disabled { opacity:.6; cursor:not-allowed; }
+.teacher-notices-search { display:flex; align-items:center; gap:10px; margin:16px 0; border:1px solid var(--color-border); border-radius:13px; background:var(--color-bg); padding:10px 13px; }
+.teacher-notices-search input { min-width:0; width:100%; border:0; background:transparent; color:var(--color-text); font:inherit; outline-offset:4px; }
+.teacher-notices-list { display:grid; gap:9px; }
+.teacher-notice-row { display:flex; min-width:0; width:100%; align-items:start; gap:13px; border:1px solid var(--color-border); border-radius:16px; background:var(--color-surface); padding:16px; color:var(--color-text); text-align:left; font:inherit; cursor:pointer; }
+.teacher-notice-row.unread { border-color:#cbb9e7; background:#f7f2ff; }
+.teacher-notice-icon { display:grid; width:40px; height:40px; flex-shrink:0; place-items:center; border-radius:13px; background:#eaddfa; color:#6f43a6; }
+.teacher-notice-copy { display:flex; min-width:0; flex:1; flex-direction:column; align-items:start; gap:5px; overflow-wrap:anywhere; }
+.teacher-notice-copy strong { font-size:15px; }
+.teacher-notice-copy > span:not(.teacher-notice-unread),.teacher-notice-copy time { color:var(--color-text-muted); font-size:13px; line-height:1.6; white-space:pre-wrap; }
+.teacher-notice-row.unread .teacher-notice-copy :is(.preview,.expanded,time) { color:#655e74; }
+.teacher-notice-copy .preview { display:-webkit-box; overflow:hidden; -webkit-box-orient:vertical; -webkit-line-clamp:2; }
+.teacher-notice-unread { border-radius:99px; background:#e8dbfa; padding:2px 8px; color:#593486; font-size:11px; font-weight:700; }
+.teacher-notice-row > svg { flex-shrink:0; transition:transform .15s; }
+.teacher-notice-row[aria-expanded="true"] > svg { transform:rotate(180deg); }
+.teacher-notices-empty { display:grid; min-height:220px; align-content:center; justify-items:center; gap:12px; color:var(--color-text-muted); text-align:center; }
+.teacher-notices-empty :is(h2,p) { margin:0; }
+.teacher-notices-empty h2 { color:var(--color-text); font-size:20px; }
+.teacher-settings-notifications-link { width:fit-content; margin-top:18px; text-decoration:none; }
+.teacher-notifications-page :is(button,input):focus-visible,.teacher-settings-notifications-link:focus-visible { outline:3px solid #7a5ab3; outline-offset:3px; }
+:root[data-theme="dark"] .role-teacher .teacher-notices-hero { background:#243640; }
+:root[data-theme="dark"] .role-teacher .teacher-notices-hero > img { filter:brightness(.6) saturate(.8); }
+:root[data-theme="dark"] .role-teacher .teacher-notices-hero::before { background:linear-gradient(90deg,#192d36f0,#192d36cc 55%,#192d3633); }
+:root[data-theme="dark"] .role-teacher .teacher-notices-hero :is(h1,p,span) { color:#d6e3e7; }
+:root[data-theme="dark"] .role-teacher :is(.teacher-notices-tools button,.teacher-notice-row,.teacher-settings-notifications-link) { border-color:#546072; background:#263b45; color:#d6e3e7; }
+:root[data-theme="dark"] .role-teacher :is(.teacher-notices-tools button[aria-pressed="true"],.teacher-notice-row.unread) { border-color:#82729e; background:#3d3b55; }
+:root[data-theme="dark"] .role-teacher :is(.teacher-notice-icon,.teacher-notice-unread) { background:#4c4162; color:#ded0f4; }
+:root[data-theme="dark"] .role-teacher .teacher-notice-copy :is(.preview,.expanded,time) { color:#c2cbd8; }
+:root[data-theme="dark"] .role-teacher .teacher-settings-hero > section { background:#1c2d36; color:#d6e3e7; border-color:#3b535d; }
+:root[data-theme="dark"] .role-teacher .teacher-settings-hero > section :is(b,small) { color:#d6e3e7 !important; }
+:root[data-theme="dark"] .role-teacher .teacher-avatar-upload { background:#3d3b55; color:#ded0f4; border-color:#82729e; }
+:root[data-theme="dark"] .role-teacher .teacher-settings-card :is(label,label > span,.teacher-grade-list > span) { color:#d6e3e7; }
+:root[data-theme="dark"] .role-teacher :is(.teacher-theme-options button,.teacher-password-layout aside,.teacher-password-fields label > span,.teacher-grade-list > div > label) { background:#263b45; color:#d6e3e7; border-color:#546072; }
+:root[data-theme="dark"] .role-teacher .teacher-password-fields input { background:transparent !important; }
+:root[data-theme="dark"] .role-teacher .teacher-settings-card form > button[type="submit"] { background:#5f478d; color:#fff; }
+:root[data-theme="dark"] .role-teacher .teacher-settings-notice.success { background:#294b40; color:#b5d7c7; }
+:root[data-theme="dark"] .role-teacher .teacher-settings-notice.error { background:#49333b; color:#e2b0bf; }
+:root[data-theme="high-contrast"] .role-teacher :is(.teacher-notices-panel,.teacher-notice-row,.teacher-notices-tools button,.teacher-notices-search) { border-color:var(--color-text); }
+@media(max-width:600px) {
+ .teacher-notices-hero > div { max-width:82%; padding:22px; }
+ .teacher-notices-illustration { width:33%; right:-5%; opacity:.65; }
+ .teacher-notices-panel { padding:13px; }
+ .teacher-notices-tools,.teacher-notices-tools nav { align-items:stretch; }
+ .teacher-notices-tools nav { width:100%; }
+ .teacher-notices-tools nav button { flex:1; padding:8px; font-size:11px; }
+ .teacher-notices-tools > button { width:100%; }
+ .teacher-notice-row { gap:9px; padding:13px 10px; }
+}

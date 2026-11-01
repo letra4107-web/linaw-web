@@ -1,0 +1,15 @@
+# Teacher Settings reference
+
+The Teacher Settings route follows the supplied composition: a warm illustrated classroom heading and note, a profile summary beside three visual theme choices, and notification, security and data panels below. The five existing Home sidebar destinations and profile menu remain unchanged; Settings stays in the profile menu.
+
+The banner and default portrait reuse `Teacher Home Hero Banner Background.png` and `Teacher Illustration.png`. An uploaded avatar replaces the decorative default. Headings, note and account values remain HTML. Theme thumbnails are code-native decorative miniatures rather than images of fabricated account records. The artwork recreates the supplied style rather than claiming a pixel-identical source image.
+
+The profile card reads the current identity and existing owner-scoped `teacher_profiles` record. Name/email are summaries; Edit Profile opens the existing protected profile page. The camera and password actions link directly to the profile's photo/password sections. Role and assigned grades stay read-only, including Kindergarten and all actually assigned grades.
+
+Light and Dark update the actual app theme. Automatic follows `prefers-color-scheme` changes throughout the Teacher area, including after navigating away from Settings. Theme selection and optional notice-display preferences are stored under a teacher-specific browser key. They survive reload and remain separate for each account. If browser storage is unavailable, the current session retains the selection and the UI reports that persistence is unavailable. The preview dialog supports independent theme selection, Apply, Escape and focus restoration.
+
+The four notification switches control optional in-app display categories in this browser: announcements, messages, schedules and progress. The notification list and unread count use the preferences throughout the Teacher dashboard. Account/security and unknown notification types remain visible. These controls do not delete records, alter read status, disable the message inbox, change email delivery, or claim cloud/device synchronization. Parent notification behavior is retained.
+
+Security reuses the verified TOTP enrollment/verification/cancellation and current-browser-session components from Teacher Profile. Data export reads only the signed-in teacher's existing profile, lesson metadata and sent/reply records, plus their browser preferences, and excludes passwords and auth tokens. Self-deletion has no supported Teacher endpoint, so the unsupported destructive action is replaced with the existing saved-profile logout flow. No new backend, schema or elevated query capability is introduced.
+
+The responsive layout supports desktop, tablet and mobile, inherits the existing font family, and includes muted dark surfaces. Loading, missing profiles and failed reads are distinct, with retry controls. No live account settings, messages or security factors were changed while implementing or testing the page.

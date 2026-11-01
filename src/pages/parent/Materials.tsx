@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { BookOpen, CheckCircle2, ChevronDown, Download, FileText, Heart, Lightbulb, LoaderCircle } from 'lucide-react';
 import { Link, useSearchParams } from 'react-router-dom';
@@ -36,21 +36,33 @@ export default function Materials() {
   const childrenQuery = useQuery({ queryKey: ['parent-materials-children', user?.id], queryFn: () => api<{ children: Child[] }>('/parent/children', { auth: true }), enabled: !!user });
   const children = childrenQuery.data?.children ?? [];
   const selected = children.find((child) => child.id === (childId || searchParams.get('child'))) ?? children[0];
+  const selectedChildRef = useRef(selected?.id);
+  selectedChildRef.current = selected?.id;
+  const accessRequest = useRef(0);
+  useEffect(() => {
+    ++accessRequest.current;
+    setOpeningId(null);
+    setOpenError('');
+    setMaterialLink(null);
+  }, [selected?.id]);
   const materialsQuery = useQuery({ queryKey: ['parent-materials', selected?.id], queryFn: () => api<{ assignments: Assignment[] }>(`/parent/children/${selected!.id}/materials`, { auth: true }), enabled: !!selected });
   const assignments = materialsQuery.data?.assignments ?? [];
   const shown = assignments.filter((assignment) => filter === 'all' || assignment.status === filter);
 
   async function openMaterial(assignment: Assignment) {
+    const requestedChild = selected?.id;
+    if (!requestedChild) return;
+    const request = ++accessRequest.current;
     setOpeningId(assignment.id);
     setOpenError('');
     try {
-      const result = await api<{ url: string | null }>(`/parent/children/${selected!.id}/materials/${assignment.id}/access-url`, { auth: true });
+      const result = await api<{ url: string | null }>(`/parent/children/${requestedChild}/materials/${assignment.id}/access-url`, { auth: true });
       if (!result.url || !/^https?:\/\//.test(result.url)) throw new Error('Wala pang available na file para sa materyal na ito.');
-      setMaterialLink({ id: assignment.id, url: result.url });
+      if (request === accessRequest.current && selectedChildRef.current === requestedChild) setMaterialLink({ id: assignment.id, url: result.url });
     } catch (error) {
-      setOpenError(error instanceof Error ? error.message : 'Hindi mabuksan ang materyal ngayon.');
+      if (request === accessRequest.current && selectedChildRef.current === requestedChild) setOpenError(error instanceof Error ? error.message : 'Hindi mabuksan ang materyal ngayon.');
     } finally {
-      setOpeningId(null);
+      if (request === accessRequest.current) setOpeningId(null);
     }
   }
 

@@ -11,11 +11,23 @@ const { uploadLimiter } = require('../lib/rateLimiters');
 const { validateUuidParam, isGrade, isBoundedString } = require('../lib/validation');
 const { createMaterialAccessService } = require('../services/materialAccess');
 const { createSupabaseAuthorizationService } = require('../services/authorization');
+const { createMessageProfilePhotoService } = require('../services/messageProfilePhotos');
 
 const router = express.Router();
 const materialAccess = createMaterialAccessService(supabaseAdmin);
 const authorization = createSupabaseAuthorizationService(supabaseAdmin);
 router.use(requireAuth, requireRole('teacher', 'admin'));
+
+router.get('/message-profile-photos', async (req, res) => {
+  try {
+    const result = await createMessageProfilePhotoService(supabaseAdmin).load(req.user.id, 'teacher');
+    res.setHeader('Cache-Control', 'private, no-store');
+    res.json(result);
+  } catch (error) {
+    console.error('[teacher/message profile photos]', { code: error?.code });
+    res.status(500).json({ error: 'Hindi makuha ang profile photos. Subukan muli.' });
+  }
+});
 
 // The student learning-path RPC already defines when a module is complete.
 // Expose only its safe summary after confirming the child belongs to the

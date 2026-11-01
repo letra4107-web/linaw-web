@@ -12,6 +12,7 @@ export type SavedAuthProfile = {
   role: 'admin' | 'parent' | 'student' | 'teacher';
   displayName: string;
   email: string;
+  avatarUrl?: string | null;
   refreshToken: string;
   savedAt: string; // ISO timestamp, refreshed on every successful login/relogin
 };
@@ -21,6 +22,14 @@ const MAX_PROFILES = 5;
 const STUDENT_TTL_DAYS = 7;
 const DEFAULT_TTL_DAYS = 30;
 const ttlDaysFor = (role: SavedAuthProfile['role']) => (role === 'student' ? STUDENT_TTL_DAYS : DEFAULT_TTL_DAYS);
+
+export function savedAvatarUrl(value: unknown): string | null {
+  if (typeof value !== 'string' || !value.trim()) return null;
+  try {
+    const url = new URL(value);
+    return ['https:', 'http:'].includes(url.protocol) && !url.username && !url.password ? url.href : null;
+  } catch { return null; }
+}
 
 function readAll(): SavedAuthProfile[] {
   try {
@@ -33,7 +42,7 @@ function readAll(): SavedAuthProfile[] {
       && ['userId', 'displayName', 'email', 'refreshToken', 'savedAt'].every((key) => typeof profile[key] === 'string')
       && Boolean(profile.userId) && Boolean(profile.refreshToken)
       && Number.isFinite(Date.parse(profile.savedAt))
-    )) : [];
+    )).map(profile => ({ ...profile, avatarUrl: savedAvatarUrl(profile.avatarUrl) })) : [];
   } catch {
     return [];
   }
@@ -60,8 +69,11 @@ export function getSavedProfiles(): SavedAuthProfile[] {
 export function saveAuthProfile(profile: Omit<SavedAuthProfile, 'savedAt'>) {
   // A shared browser must never become a directory of children. Keep only the
   // last successfully authenticated student, while retaining adult profiles.
-  const filtered = readAll().filter((p) => p.userId !== profile.userId && (profile.role !== 'student' || p.role !== 'student'));
-  const next = [{ ...profile, savedAt: new Date().toISOString() }, ...filtered].slice(0, MAX_PROFILES);
+  const existing = readAll();
+  const previous = existing.find(item => item.userId === profile.userId);
+  const avatarUrl = profile.avatarUrl === undefined ? previous?.avatarUrl ?? null : savedAvatarUrl(profile.avatarUrl);
+  const filtered = existing.filter((p) => p.userId !== profile.userId && (profile.role !== 'student' || p.role !== 'student'));
+  const next = [{ ...profile, avatarUrl, savedAt: new Date().toISOString() }, ...filtered].slice(0, MAX_PROFILES);
   writeAll(next);
 }
 

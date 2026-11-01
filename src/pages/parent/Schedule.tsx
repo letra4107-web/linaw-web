@@ -1,14 +1,17 @@
 import { useRef, useState } from 'react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { BellRing, BookOpen, CalendarDays, ChevronDown, ChevronLeft, ChevronRight, ClipboardList, Clock3, Heart, List, MoreHorizontal, Plus, Star, X } from 'lucide-react';
+import { BellRing, BookOpen, CalendarDays, ChevronDown, ChevronLeft, ChevronRight, ClipboardList, Clock3, Heart, List, Mic, MoreHorizontal, Plus, Users, X } from 'lucide-react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { api } from '../../lib/api';
 import { supabase } from '../../lib/supabaseClient';
 import { useAuth } from '../../lib/auth/AuthContext';
 import noActivitiesArt from '../../assets/parent/no activities.png';
-import scheduleMotivationArt from '../../assets/parent/current.png';
+import scheduleMotivationArt from '../../assets/students/profile/waving-student.png';
+import calendarBanner from '../../assets/parent/calendar-family-planner.png';
+import { ParentHomeArtwork } from './ParentHomeArtwork';
 import reminderFoliage from '../../assets/admin_design/sidebar-foliage-left.png';
 import './calendar-reference.css';
+import './calendar-overview-reference.css';
 
 interface Child { id: string; name: string; grade_level: number; level: string; }
 interface Activity {
@@ -26,10 +29,10 @@ type View = 'Buwan' | 'Linggo' | 'Araw';
 const views: View[] = ['Buwan', 'Linggo', 'Araw'];
 const weekdayLabels = ['Lun', 'Mar', 'Miy', 'Huw', 'Biy', 'Sab', 'Araw'];
 const types = [
-  { value: 'reading_lesson', label: 'Module / Lesson', color: 'green', icon: BookOpen },
-  { value: 'practice', label: 'Practice', color: 'blue', icon: Star },
-  { value: 'reminder', label: 'Assignment / Paalala', color: 'gold', icon: ClipboardList },
-  { value: 'appointment', label: 'Reading / Appointment', color: 'violet', icon: CalendarDays },
+  { value: 'reading_lesson', label: 'Module / Aralin', color: 'green', icon: BookOpen },
+  { value: 'practice', label: 'Practice', color: 'blue', icon: Mic },
+  { value: 'reminder', label: 'Takdang-aralin / Paalala', color: 'gold', icon: ClipboardList },
+  { value: 'appointment', label: 'Session / Appointment', color: 'rose', icon: Users },
 ];
 const statuses = [
   { value: 'scheduled', label: 'Nakatakda' },
@@ -72,7 +75,7 @@ export default function Schedule() {
   const [selectedChild, setSelectedChild] = useState(searchParams.get('child') ?? '');
   const [anchor, setAnchor] = useState(() => initialDate ? parseDate(initialDate) : new Date());
   const [mode, setMode] = useState<View>('Buwan');
-  const [selectedDate, setSelectedDate] = useState<string | null>(initialDate);
+  const [selectedDate, setSelectedDate] = useState<string | null>(() => initialDate ?? toKey(new Date()));
   const [showForm, setShowForm] = useState(false);
   const [showAllUpcoming, setShowAllUpcoming] = useState(false);
   const [detailId, setDetailId] = useState<string | null>(null);
@@ -160,7 +163,7 @@ export default function Schedule() {
     if (date !== today) return false;
     return !item.end_time || new Date(`${date}T${item.end_time}`).getTime() >= Date.now();
   });
-  const upcomingActivities = showAllUpcoming ? upcoming : upcoming.slice(0, 3);
+  const upcomingActivities = showAllUpcoming ? upcoming : upcoming.slice(0, 4);
   const nextScheduled = upcoming[0];
   const detail = filtered.find((item) => item.id === detailId);
   const dateLabel = mode === 'Araw'
@@ -213,9 +216,9 @@ export default function Schedule() {
   }
 
   return <div className="calendar-reference">
-    <header className="calendar-reference-hero">
-      <div><p>PLANO NG PAMILYA</p><div className="calendar-hero-heading"><h1>Kalendaryo at Iskedyul</h1><CalendarDays aria-hidden="true" /></div><span>Tingnan ang mga aktibidad, takdang-aralin, at mahahalagang petsa ng inyong anak. Sama-sama tayo sa kanyang pagkatuto!</span></div>
-      <aside className="calendar-hero-note" aria-label="Paalala"><Heart size={18} fill="currentColor" aria-hidden="true" /><span>Bawat maliit na hakbang, malaking pag-unlad!</span></aside>
+    <header className="calendar-reference-hero" style={{ backgroundImage: `url("${calendarBanner}")` }}>
+      <div><p>PLANO NG PAMILYA</p><div className="calendar-hero-heading"><h1>Kalendaryo at<br />Iskedyul</h1><CalendarDays aria-hidden="true" /></div><span>Tingnan ang mga aktibidad, takdang-aralin, at mahahalagang petsa ng inyong anak. Sama-sama tayo sa kanyang pagkatuto!</span></div>
+      <aside className="calendar-hero-note" aria-label="Paalala"><Heart size={23} fill="currentColor" aria-hidden="true" /><span>Bawat munting hakbang ngayon, malaking pag-unlad bukas!</span></aside>
     </header>
     {(childrenQuery.error || scheduleQuery.error) && <p className="calendar-error" role="alert">Hindi makuha ang iskedyul ngayon. {(childrenQuery.error ?? scheduleQuery.error)?.message}<button type="button" onClick={() => { void childrenQuery.refetch(); void scheduleQuery.refetch(); }}>Subukan muli</button></p>}
     <div className="calendar-reference-grid">
@@ -231,10 +234,10 @@ export default function Schedule() {
               const key = toKey(date);
               const inMonth = date.getMonth() === anchor.getMonth();
               const dayEvents = events[key] ?? [];
-              const visibleEvents = mode === 'Araw' ? dayEvents : dayEvents.slice(0, 2);
+              const visibleEvents = mode === 'Araw' ? dayEvents : dayEvents.slice(0, mode === 'Buwan' ? 1 : 2);
               return <button type="button" key={key} className={`${inMonth ? '' : 'outside'} ${key === today ? 'today' : ''} ${selectedDate === key ? 'selected' : ''}`} aria-label={`${formatDate(key)}${dayEvents.length ? `, ${dayEvents.length} aktibidad` : ''}`} aria-pressed={selectedDate === key} onClick={() => selectDate(key)}>
                 <strong>{date.getDate()}</strong>
-                {visibleEvents.map((event) => <small className={typeFor(event.activity_type).color} key={event.id} title={`${event.title} · ${activityTime(event)}`}>{mode === 'Araw' && <span>{activityTime(event)} · </span>}{event.title}</small>)}
+                {visibleEvents.map((event) => { const EventIcon = typeFor(event.activity_type).icon; return <small className={typeFor(event.activity_type).color} key={event.id} title={`${event.title} · ${activityTime(event)}`}><EventIcon size={16} aria-hidden="true" /><span>{mode === 'Araw' && `${activityTime(event)} · `}{event.title}</span></small>; })}
                 {dayEvents.length > visibleEvents.length && <span className="calendar-event-count">+{dayEvents.length - visibleEvents.length} pa</span>}
                 {mode === 'Araw' && !dayEvents.length && <span className="calendar-day-empty">Wala pang nakatakdang aktibidad sa araw na ito.</span>}
               </button>;
@@ -246,7 +249,7 @@ export default function Schedule() {
           <div className="calendar-details-heading"><span><List size={24} /></span><h2 id="calendar-details-title">Mga Detalye ng Aktibidad</h2><button type="button" disabled={!activeChildId || mutationPending} aria-expanded={showForm} onClick={() => showForm ? closeForm() : openForm()}>{showForm ? <X size={16} /> : <Plus size={16} />}{showForm ? 'Isara' : 'Magdagdag'}</button></div>
           {showForm && <form className="calendar-add-form" aria-busy={save.isPending} onSubmit={(event) => { event.preventDefault(); submitForm(); }}>
             <label className="calendar-title-field">Pamagat<input autoFocus maxLength={150} required disabled={mutationPending} value={form.title} placeholder="Pamagat ng aktibidad" onChange={(event) => setForm({ ...form, title: event.target.value })} /></label>
-            <label>Uri<select disabled={mutationPending} value={form.activity_type} onChange={(event) => setForm({ ...form, activity_type: event.target.value })}>{types.map((type) => <option key={type.value} value={type.value}>{type.label}</option>)}</select></label>
+            <label>Uri<select aria-label="Uri" disabled={mutationPending} value={form.activity_type} onChange={(event) => setForm({ ...form, activity_type: event.target.value })}>{types.map((type) => <option key={type.value} value={type.value}>{type.label}</option>)}</select></label>
             <label>Petsa<input type="date" required disabled={mutationPending} value={form.scheduled_date} onChange={(event) => setForm({ ...form, scheduled_date: event.target.value })} /></label>
             <label>Oras ng Simula<input type="time" disabled={mutationPending} value={form.start_time} onChange={(event) => setForm({ ...form, start_time: event.target.value })} /></label>
             <label>Oras ng Pagtatapos<input type="time" disabled={mutationPending} value={form.end_time} onChange={(event) => setForm({ ...form, end_time: event.target.value })} /></label>
@@ -254,23 +257,23 @@ export default function Schedule() {
             {save.error && <p className="calendar-error" role="alert">{save.error.message}</p>}
             <div className="calendar-form-actions"><button type="button" disabled={mutationPending} onClick={closeForm}>Kanselahin</button><button type="submit" disabled={mutationPending}>{save.isPending ? 'Sine-save…' : 'I-save ang Aktibidad'}</button></div>
           </form>}
-          <div className="calendar-details-filter"><span>{selectedDate ? formatDate(selectedDate, { weekday: 'long', month: 'short', day: 'numeric' }) : mode === 'Buwan' ? dateLabel : `Mga aktibidad sa ${mode.toLowerCase()}`}</span>{selectedDate && <button type="button" onClick={() => { setSelectedDate(null); setDetailId(null); }}>Buong {mode.toLowerCase()} <X size={12} /></button>}</div>
+          <div className="calendar-details-filter"><span>{selectedDate ? formatDate(selectedDate, { weekday: 'long', month: 'short', day: 'numeric', year: 'numeric' }) : mode === 'Buwan' ? dateLabel : `Mga aktibidad sa ${mode.toLowerCase()}`}</span>{selectedDate && <button type="button" onClick={() => { setSelectedDate(null); setDetailId(null); }}>Buong {mode.toLowerCase()} <X size={12} /></button>}</div>
           {savedNotice && <p className="calendar-saved" role="status">{savedNotice}</p>}
           {update.error && <p className="calendar-error" role="alert">Hindi na-update ang status. {update.error.message}</p>}
           <div className="calendar-table">
-            <table className="calendar-activity-table"><thead><tr><th>Petsa</th><th>Uri</th><th>Pamagat</th><th>Kategorya</th><th>Status</th><th>Aksyon</th></tr></thead><tbody>
-              {displayedActivities.map((item) => { const type = typeFor(item.activity_type); const TypeIcon = type.icon; return <tr key={item.id}><td>{formatDate(item.scheduled_date)}</td><td><span className={`calendar-type-icon ${type.color}`} title={type.label}><TypeIcon size={18} aria-hidden="true" /><span className="sr-only">{type.label}</span></span></td><td><strong>{item.title}</strong></td><td>{type.label}</td><td><select className={`calendar-status status-${item.status}`} aria-label={`Status ng ${item.title}`} disabled={mutationPending} value={item.status} onChange={(event) => updateStatus(item, event.target.value)}>{statuses.map((status) => <option key={status.value} value={status.value}>{status.label}</option>)}</select></td><td><button type="button" className="calendar-row-details" aria-expanded={detailId === item.id} aria-label={`Tingnan ang detalye ng ${item.title}`} onClick={() => setDetailId(detailId === item.id ? null : item.id)}><MoreHorizontal size={17} /></button></td></tr>; })}
-              {!displayedActivities.length && <tr><td colSpan={6}><div className="calendar-no-data"><img src={noActivitiesArt} alt="" /><div><strong>{scheduleQuery.isLoading || childrenQuery.isLoading ? 'Kinukuha ang iyong iskedyul…' : activeChildId ? 'May puwang para sa bagong pagkatuto.' : 'Simulan ang reading journey.'}</strong><p>{activeChildId ? 'Wala pang aktibidad sa panahong ito. Magdagdag ng maikling oras para sa pagbasa o practice.' : 'Mag-enroll muna ng anak upang gumawa ng kanyang iskedyul.'}</p>{activeChildId ? <button type="button" disabled={mutationPending} onClick={openForm}>Magplano ng aktibidad <Plus size={14} /></button> : <Link to="/parent/children">Magdagdag ng Anak <ChevronRight size={14} /></Link>}</div></div></td></tr>}
+            <table className="calendar-activity-table"><thead><tr><th>{selectedDate ? 'Oras' : 'Petsa / Oras'}</th><th>Uri</th><th>Pamagat</th><th>Kategorya</th><th>Status</th><th>Aksyon</th></tr></thead><tbody>
+              {displayedActivities.map((item) => { const type = typeFor(item.activity_type); const TypeIcon = type.icon; return <tr key={item.id}><td>{!selectedDate && <small className="calendar-row-date">{formatDate(item.scheduled_date)}</small>}<time>{item.start_time ? formatTime(item.start_time) : 'Buong araw'}</time></td><td><span className={`calendar-type-icon ${type.color}`} title={type.label}><TypeIcon size={18} aria-hidden="true" /><span className="sr-only">{type.label}</span></span></td><td><strong>{item.title}</strong></td><td>{type.label}</td><td><select className={`calendar-status status-${item.status}`} aria-label={`Status ng ${item.title}`} disabled={mutationPending} value={item.status} onChange={(event) => updateStatus(item, event.target.value)}>{statuses.map((status) => <option key={status.value} value={status.value}>{status.label}</option>)}</select></td><td><button type="button" className="calendar-row-details" aria-expanded={detailId === item.id} aria-label={`Tingnan ang detalye ng ${item.title}`} onClick={() => setDetailId(detailId === item.id ? null : item.id)}><MoreHorizontal size={17} /></button></td></tr>; })}
+              {!displayedActivities.length && <tr><td colSpan={6}><div className="calendar-no-data"><img src={noActivitiesArt} alt="" /><div><strong>{scheduleQuery.isLoading || childrenQuery.isLoading ? 'Kinukuha ang iyong iskedyul…' : activeChildId ? 'May puwang para sa bagong pagkatuto.' : 'Simulan ang reading journey.'}</strong><p>{activeChildId ? 'Wala pang aktibidad sa panahong ito. Magdagdag ng maikling oras para sa pagbasa o practice.' : 'Mag-enroll muna ng anak upang gumawa ng kanyang iskedyul.'}</p>{activeChildId ? <button type="button" disabled={mutationPending} onClick={openForm}>Magplano ng aktibidad <Plus size={14} /></button> : <Link to="/parent/children?enroll=1">Magdagdag ng Anak <ChevronRight size={14} /></Link>}</div></div></td></tr>}
             </tbody></table>
           </div>
           {detail && <div className="calendar-activity-detail"><button type="button" aria-label="Isara ang detalye" onClick={() => setDetailId(null)}><X size={17} /></button><h3>{detail.title}</h3><p><CalendarDays size={15} />{formatDate(detail.scheduled_date)}<Clock3 size={15} />{activityTime(detail)}</p>{detail.description && <p>{detail.description}</p>}</div>}
         </section>
       </div>
       <aside className="calendar-reference-side">
-        <section className="calendar-child-picker"><p>Piliin ang Anak</p><label htmlFor="calendar-child-picker"><i aria-hidden="true"><img src={scheduleMotivationArt} alt="" /><b>{activeChild?.name.charAt(0) ?? 'A'}</b></i><span><strong>{activeChild?.name ?? 'Wala pang naka-enroll'}</strong><small>{activeChild ? `Grade ${activeChild.grade_level} · ${activeChild.level}` : 'Magdagdag ng anak upang magsimula'}</small></span><ChevronDown size={17} aria-hidden="true" /><select id="calendar-child-picker" value={activeChildId} disabled={!children.length || mutationPending} onChange={(event) => { if (savePendingRef.current || updatePendingRef.current) return; setSelectedChild(event.target.value); setDetailId(null); setSavedNotice(''); const next = new URLSearchParams(searchParams); next.set('child', event.target.value); setSearchParams(next, { replace: true }); }}>{!children.length && <option value="">Wala pang anak</option>}{children.map((child) => <option key={child.id} value={child.id}>{child.name}</option>)}</select></label></section>
-        <section className="calendar-upcoming"><header><h2>Mga Paparating na Aktibidad</h2>{upcoming.length > 3 && <button className="calendar-section-link" type="button" onClick={() => setShowAllUpcoming((value) => !value)}>{showAllUpcoming ? 'Ipakita ang Una' : 'Tingnan Lahat'} <ChevronRight size={13} /></button>}</header><div className="calendar-upcoming-list">{upcomingActivities.map((item) => { const type = typeFor(item.activity_type); const TypeIcon = type.icon; return <button type="button" key={item.id} onClick={() => viewActivity(item)}><time className={type.color}><b>{formatDate(item.scheduled_date, { month: 'short' }).toUpperCase()}</b><strong>{parseDate(item.scheduled_date).getDate()}</strong></time><i className={`calendar-type-icon ${type.color}`}><TypeIcon size={21} /></i><span><b>{item.title}</b><small>{activityTime(item)}</small></span><ChevronRight size={16} aria-hidden="true" /></button>; })}{!upcomingActivities.length && <div className="calendar-upcoming-empty"><CalendarDays size={27} /><strong>Magplano ng susunod na hakbang.</strong><p>Wala pang paparating na aktibidad.</p><button type="button" disabled={!activeChildId || mutationPending} onClick={openForm}>Magdagdag sa iskedyul <Plus size={14} /></button></div>}</div></section>
+        <section className="calendar-child-picker"><p>Piliin ang Anak</p><label htmlFor="calendar-child-picker"><i aria-hidden="true"><ParentHomeArtwork kind={Math.max(0, children.findIndex(child => child.id === activeChildId)) % 2 ? 'girl' : 'boy'} /></i><span><strong>{activeChild?.name ?? 'Wala pang naka-enroll'}</strong><small>{activeChild ? `${activeChild.grade_level === 0 ? 'Kindergarten' : `Grade ${activeChild.grade_level}`} · ${activeChild.level}` : 'Magdagdag ng anak upang magsimula'}</small></span><ChevronDown size={17} aria-hidden="true" /><select id="calendar-child-picker" value={activeChildId} disabled={!children.length || mutationPending} onChange={(event) => { if (savePendingRef.current || updatePendingRef.current) return; setSelectedChild(event.target.value); setDetailId(null); setSavedNotice(''); const next = new URLSearchParams(searchParams); next.set('child', event.target.value); setSearchParams(next, { replace: true }); }}>{!children.length && <option value="">Wala pang anak</option>}{children.map((child) => <option key={child.id} value={child.id}>{child.name}</option>)}</select></label></section>
+        <section className="calendar-upcoming"><header><h2>Mga Paparating na Aktibidad</h2>{upcoming.length > 4 && <button className="calendar-section-link" type="button" onClick={() => setShowAllUpcoming((value) => !value)}>{showAllUpcoming ? 'Ipakita ang Una' : 'Tingnan Lahat'} <ChevronRight size={13} /></button>}</header><div className="calendar-upcoming-list">{upcomingActivities.map((item) => { const type = typeFor(item.activity_type); const TypeIcon = type.icon; return <button type="button" key={item.id} onClick={() => viewActivity(item)}><time className={type.color}><b>{formatDate(item.scheduled_date, { month: 'short' }).toUpperCase()}</b><strong>{parseDate(item.scheduled_date).getDate()}</strong></time><i className={`calendar-type-icon ${type.color}`}><TypeIcon size={21} /></i><span><b>{item.title}</b><small>{activityTime(item)}</small></span><ChevronRight size={16} aria-hidden="true" /></button>; })}{!upcomingActivities.length && <div className="calendar-upcoming-empty"><CalendarDays size={27} /><strong>Magplano ng susunod na hakbang.</strong><p>Wala pang paparating na aktibidad.</p><button type="button" disabled={!activeChildId || mutationPending} onClick={openForm}>Magdagdag sa iskedyul <Plus size={14} /></button></div>}</div></section>
         <section className="calendar-reminder"><header><span><BellRing size={22} /></span><h2>Mga Paalala</h2><Link className="calendar-section-link" to={progressLink}>Tingnan ang Progreso <ChevronRight size={13} /></Link></header><div className="calendar-reminder-list"><button type="button" disabled={!activeChildId || mutationPending} onClick={() => nextScheduled ? viewActivity(nextScheduled) : openForm()}><i className="blue"><BellRing size={19} /></i><span><b>{nextScheduled ? `Maghanda para sa ${nextScheduled.title}` : 'Maglaan ng oras sa pagbasa'}</b><small>{nextScheduled ? formatDate(nextScheduled.scheduled_date) : 'Magplano ng maikling reading session.'}</small></span></button><button type="button" disabled={!activeChildId || mutationPending} onClick={openForm}><i className="gold"><BellRing size={19} /></i><span><b>Panatilihing updated ang iskedyul</b><small>Magdagdag ng mga susunod na gawain.</small></span></button><Link to={progressLink}><i className="violet"><BellRing size={19} /></i><span><b>Suriin ang progress report</b><small>Alamin ang kanyang mga natapos na aralin.</small></span></Link></div><img className="calendar-reminder-foliage" src={reminderFoliage} alt="" /></section>
-        <section className="calendar-motivation" aria-label="Paalala sa pagkatuto"><div><strong>“Ang disiplina ngayon, mas magandang kinabukasan bukas.”</strong><p>Sama-sama tayo sa bawat hakbang ng kanyang pagkatuto.</p></div><img src={scheduleMotivationArt} alt="" /><Heart className="calendar-motivation-heart" size={24} aria-hidden="true" /></section>
+        <section className="calendar-motivation" aria-label="Paalala sa pagkatuto"><div><strong>“Disiplina ngayon,<br />mas magandang<br />kinabukasan bukas.”</strong></div><img src={scheduleMotivationArt} alt="" /><Heart className="calendar-motivation-heart" size={24} aria-hidden="true" /></section>
       </aside>
     </div>
   </div>;

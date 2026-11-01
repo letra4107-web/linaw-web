@@ -1,20 +1,21 @@
 import { Fragment, useEffect, useRef, useState, type ReactNode } from 'react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { Link, useSearchParams } from 'react-router-dom';
-import { ArrowRight, BarChart3, BookOpen, CheckCircle2, ChevronDown, ChevronLeft, ChevronRight, ClipboardCheck, Heart, KeyRound, Lightbulb, LockKeyhole, Mic, Pencil, Plus, ShieldCheck, Sparkles, Star, UsersRound, X } from 'lucide-react';
+import { ArrowRight, BarChart3, BookOpen, CheckCircle2, ChevronDown, ChevronLeft, ChevronRight, ClipboardCheck, Clock3, Crown, Heart, Home, KeyRound, Lightbulb, LockKeyhole, Mic, Pencil, Plus, Settings2, ShieldCheck, Sparkles, Star, Sun, UsersRound, X } from 'lucide-react';
 import { api } from '../../lib/api';
 import { supabase } from '../../lib/supabaseClient';
 import { useAuth } from '../../lib/auth/AuthContext';
 import { Toggle } from '../../components/a11y/Toggle';
 import type { ReadingProfile } from '../../components/ReadingInsightsPanel';
 import { paginateModules } from './parentModulePagination';
-import parentBackground from '../../assets/parent/parent-bg.png';
+import parentBackground from '../../assets/parent/children-family-garden.png';
 import childArtwork from '../../assets/parent/current.png';
-import owlArtwork from '../../assets/students/mascot/owl-mascot.png';
-import quoteBackground from '../../assets/students/aralin/aralin-journey-background.png';
+import familyArtwork from '../../assets/parent/home-sidebar-reading.png';
+import { ParentHomeArtwork } from './ParentHomeArtwork';
 import noEnrolledChildArt from '../../assets/parent/no enrolled child.png';
 import noActivitiesArt from '../../assets/parent/no activities.png';
 import './children-reference.css';
+import './children-overview-reference.css';
 
 type FontSize = 'small' | 'medium' | 'large';
 interface StudentAccessibility { dyslexia_font: boolean; font_size: FontSize; high_contrast: boolean; reading_guide: boolean; tts_enabled: boolean; }
@@ -35,9 +36,10 @@ const ACCESSIBILITY_OPTIONS = [
 ];
 
 function percentage(completed: number, total: number) { return total > 0 ? Math.min(100, Math.round(completed / total * 100)) : 0; }
-function ChildAvatar({ name, large = false }: { name: string; large?: boolean }) {
-  return <span className={`kid-avatar${large ? ' kid-avatar-large' : ''}`} aria-label={name}><img src={childArtwork} alt="" /><span>{name.charAt(0).toUpperCase()}</span></span>;
+function ChildAvatar({ large = false, index = 0 }: { large?: boolean; index?: number }) {
+  return <span className={`kid-avatar${large ? ' kid-avatar-large' : ''}`} aria-hidden="true"><ParentHomeArtwork kind={index % 4 === 1 || index % 4 === 2 ? 'girl' : 'boy'} /></span>;
 }
+function modulePreview(module: ModuleSummary, level: string) { return module.title.match(/^Hanay ng\s+([a-z]+)\b/i)?.[1] ?? (level === 'Beginner' && module.module_number === 1 ? 'Aa' : null); }
 function CardHeading({ icon, title, href }: { icon: ReactNode; title: string; href?: string }) {
   return <div className="kid-card-heading"><span>{icon}</span><h2>{title}</h2>{href && <Link to={href}>Tingnan Lahat <ArrowRight size={14} /></Link>}</div>;
 }
@@ -45,16 +47,31 @@ function ProgressBar({ value }: { value: number }) { return <span className="kid
 
 export function EnrollModal({ open, onClose, name, setName, grade, setGrade, onSubmit, pending, error }: { open: boolean; onClose: () => void; name: string; setName: (value: string) => void; grade: string; setGrade: (value: string) => void; onSubmit: () => void; pending: boolean; error?: string | null }) {
   const [step, setStep] = useState(1);
+  const dialogRef = useRef<HTMLElement>(null);
+  const closeRef = useRef(onClose);
+  const pendingRef = useRef(pending);
+  closeRef.current = onClose;
+  pendingRef.current = pending;
   useEffect(() => { if (open) setStep(1); }, [open]);
   useEffect(() => {
     if (!open) return;
-    const closeOnEscape = (event: KeyboardEvent) => { if (event.key === 'Escape' && !pending) onClose(); };
-    document.addEventListener('keydown', closeOnEscape);
-    return () => document.removeEventListener('keydown', closeOnEscape);
-  }, [open, onClose, pending]);
+    const previous = document.activeElement as HTMLElement | null;
+    dialogRef.current?.querySelector<HTMLElement>('input,select,button')?.focus();
+    const keepFocus = (event: KeyboardEvent) => {
+      if (event.key === 'Escape' && !pendingRef.current) { event.preventDefault(); closeRef.current(); }
+      if (event.key !== 'Tab') return;
+      const controls = Array.from(dialogRef.current?.querySelectorAll<HTMLElement>('button:not(:disabled),input:not(:disabled),select:not(:disabled)') ?? []);
+      const first = controls[0], last = controls.at(-1);
+      if (!first) { event.preventDefault(); return; }
+      if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last?.focus(); }
+      else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first.focus(); }
+    };
+    document.addEventListener('keydown', keepFocus);
+    return () => { document.removeEventListener('keydown', keepFocus); if (previous?.isConnected) previous.focus(); };
+  }, [open]);
   if (!open) return null;
   return <div className="kid-modal-backdrop" role="presentation" onClick={(event) => { if (event.target === event.currentTarget && !pending) onClose(); }}>
-    <section className="kid-enroll-modal" role="dialog" aria-modal="true" aria-labelledby="kid-enroll-title">
+    <section ref={dialogRef} className="kid-enroll-modal" role="dialog" aria-modal="true" aria-labelledby="kid-enroll-title">
       <button className="kid-modal-close" type="button" onClick={onClose} aria-label="Isara" disabled={pending}><X size={21} /></button>
       <header><span><UsersRound size={27} /></span><div><h2 id="kid-enroll-title">I-enroll ang Anak</h2><p>Simulan ang kanyang paglalakbay sa pagbasa.</p></div></header>
       <ol className="kid-enroll-steps">{['Impormasyon', 'Baitang', 'Kumpirmasyon'].map((label, index) => <li className={step === index + 1 ? 'active' : step > index + 1 ? 'done' : ''} key={label}><b>{step > index + 1 ? <CheckCircle2 size={17} /> : index + 1}</b>{label}</li>)}</ol>
@@ -86,6 +103,13 @@ export default function MyChildren() {
   const [expandedModuleId, setExpandedModuleId] = useState<string | null>(null);
   const enrollRequestPending = useRef(false);
   const accessRequestPending = useRef(false);
+  useEffect(() => {
+    if (params.get('enroll') !== '1') return;
+    setShowEnrollModal(true);
+    const next = new URLSearchParams(params);
+    next.delete('enroll');
+    setParams(next, { replace: true });
+  }, [params, setParams]);
 
   const { data: children, isLoading, isFetching: childrenFetching, error: childrenError, refetch: refetchChildren } = useQuery({
     queryKey: ['parent-children', user?.id],
@@ -108,6 +132,8 @@ export default function MyChildren() {
       setChildName(''); setGradeLevel('1'); setShowEnrollModal(false); setError(null);
       queryClient.invalidateQueries({ queryKey: ['parent-children'] });
       queryClient.invalidateQueries({ queryKey: ['parent-credential-security'] });
+      queryClient.invalidateQueries({ queryKey: ['parent-overview-children'] });
+      queryClient.invalidateQueries({ queryKey: ['parent-profile-children'] });
     },
     onError: (err: Error) => setError(err.message),
     onSettled: () => { enrollRequestPending.current = false; },
@@ -177,11 +203,14 @@ export default function MyChildren() {
   const currentProgress = currentModule ? percentage(currentModule.completed_content_item_count, currentModule.content_item_count) : 0;
   const credential = credentialSecurity?.children.find((item) => item.childId === childId);
   const progressLink = `/parent/progress${childId ? `?child=${childId}` : ''}`;
-  const currentModuleTitle = currentModule?.title ?? 'Unang reading activity';
+  const currentModuleTitle = currentModule?.title ?? 'Wala pang modyul';
+  const effectiveLevel = learningPath?.effective_level ?? selectedChild?.level ?? '—';
+  const currentModuleLink = currentModule ? `${progressLink}&tab=modules&module=${encodeURIComponent(currentModule.id)}` : progressLink;
+  const sessionLink = (session: PracticeSession) => { const date = new Date(session.created_at); return `${progressLink}&tab=activities&session=${encodeURIComponent(session.id)}&month=${date.getFullYear()}-${String(date.getMonth()+1).padStart(2,'0')}`; };
 
   return <div className="children-portal">
-    <header className="kid-hero" style={{ backgroundImage: `linear-gradient(90deg,rgba(255,251,229,.94),rgba(255,251,229,.85) 33%,rgba(255,255,255,0) 61%),url(${parentBackground})` }}>
-      <div className="kid-hero-copy"><h1><UsersRound aria-hidden="true" />Mga Anak Ko</h1><p>Tingnan ang progreso, aktibidad, at reading support ng bawat anak. Sama-sama tayo sa kanilang paglalakbay sa pagbasa!</p></div>
+    <header className="kid-hero" style={{ backgroundImage: `url(${parentBackground})` }}>
+      <div className="kid-hero-copy"><span className="kid-hero-eyebrow"><Home size={24} aria-hidden="true" />ATING PAMILYA</span><h1>Mga Anak Ko<Sun aria-hidden="true" /></h1><p>Tingnan ang progreso, aktibidad, at reading support ng bawat anak. Sama-sama tayo sa kanilang paglalakbay sa pagbasa!</p></div>
       <div className="kid-hero-note">Bawat maliit<br />na progreso ay<br />malaking panalo!<Heart size={22} fill="currentColor" aria-hidden="true" /></div>
     </header>
 
@@ -194,23 +223,23 @@ export default function MyChildren() {
       <aside className="kid-roster-column">
         <section className="kid-roster kid-panel">
           <div className="kid-roster-heading"><h2>Aking mga Anak</h2><button type="button" className="kid-primary-button" onClick={() => setShowEnrollModal(true)}><Plus size={15} />Magdagdag ng Anak</button></div>
-          <div className="kid-roster-list">{isLoading ? <p className="kid-empty-text">Kinukuha ang mga account...</p> : children?.length ? children.map((child) => <button type="button" className={`kid-roster-item${child.id === childId ? ' selected' : ''}`} aria-pressed={child.id === childId} onClick={() => { const next = new URLSearchParams(params); next.set('child', child.id); setParams(next, { replace: true }); setEditingId(null); setAccessOpenId(null); }} key={child.id}>
-            <ChildAvatar name={child.name} /><span><strong>{child.name}</strong><small>Grade {child.grade_level} · {child.level}</small></span><ChevronRight size={18} />
+          <div className="kid-roster-list">{isLoading ? <p className="kid-empty-text">Kinukuha ang mga account...</p> : children?.length ? children.map((child,index) => <button type="button" className={`kid-roster-item${child.id === childId ? ' selected' : ''}`} aria-pressed={child.id === childId} onClick={() => { const next = new URLSearchParams(params); next.set('child', child.id); setParams(next, { replace: true }); setEditingId(null); setAccessOpenId(null); }} key={child.id}>
+            <ChildAvatar index={index} /><span><strong>{child.name}</strong><small>{child.grade_level === 0 ? 'Kindergarten' : `Grade ${child.grade_level}`} · {child.level}</small></span><ChevronRight size={18} />
           </button>) : <div className="kid-roster-empty"><img src={noEnrolledChildArt} alt="" /><p>Wala ka pang naka-enroll na anak.</p><small>Idagdag ang iyong anak para masubaybayan ang kanyang pag-unlad.</small></div>}</div>
         </section>
-        <section className="kid-quote" style={{ backgroundImage: `linear-gradient(180deg,rgba(255,250,229,.2),rgba(255,250,229,.05)),url(${quoteBackground})` }} aria-label="Paalala sa magulang">
-          <Sparkles size={26} className="kid-quote-sparkle" aria-hidden="true" /><blockquote>“Ang tuloy-tuloy<br />na gabay ngayon,<br />mas maliwanag<br />na pagbabasa<br />bukas.” <Heart size={21} fill="currentColor" aria-hidden="true" /></blockquote><img src={owlArtwork} alt="" />
+        <section className="kid-quote" aria-label="Paalala sa magulang">
+          <Sparkles size={26} className="kid-quote-sparkle" aria-hidden="true" /><blockquote>“Ang tuloy-tuloy<br />na gabay ngayon,<br />mas maliwanag<br />na pagbabasa<br />bukas.” <Heart size={21} fill="currentColor" aria-hidden="true" /></blockquote><img src={familyArtwork} alt="" />
         </section>
       </aside>
 
       {selectedChild ? <div className="kid-main-column">
         <section className="kid-profile-card kid-panel">
-          <div className="kid-profile-heading"><ChildAvatar name={selectedChild.name} large /><div><div className="kid-profile-name"><h2>{selectedChild.name}</h2><span>Naka-enroll</span></div><p>Grade {selectedChild.grade_level} · {selectedChild.level}</p><small>Huling update: {selectedChild.progress_updated_at ? new Date(selectedChild.progress_updated_at).toLocaleString('fil-PH', { month: 'short', day: 'numeric', year: 'numeric', hour: 'numeric', minute: '2-digit' }) : 'Wala pang reading activity'}</small></div><button type="button" className="kid-edit-button" aria-expanded={editingId === childId} onClick={() => setEditingId(editingId === childId ? null : childId!)}><Pencil size={16} />I-edit ang Reading Support</button></div>
+          <div className="kid-profile-heading"><ChildAvatar index={Math.max(0,children?.findIndex(child => child.id === childId) ?? 0)} large /><div><div className="kid-profile-name"><h2>{selectedChild.name}</h2><button className="kid-account-shortcut" type="button" title="Account at Reading Support" aria-label={`Account at Reading Support ni ${selectedChild.name}`} aria-expanded={editingId === childId} onClick={() => setEditingId(editingId === childId ? null : childId!)}><Pencil size={16} /></button><span><CheckCircle2 size={16} aria-hidden="true" />Naka-enroll</span></div><p>{selectedChild.grade_level === 0 ? 'Kindergarten' : `Grade ${selectedChild.grade_level}`} · {effectiveLevel}</p><small>Huling update: {selectedChild.progress_updated_at ? new Date(selectedChild.progress_updated_at).toLocaleString('fil-PH', { month: 'short', day: 'numeric', year: 'numeric', hour: 'numeric', minute: '2-digit' }) : 'Wala pang reading activity'}</small></div><button type="button" className="kid-edit-button" aria-expanded={accessOpenId === childId} onClick={() => setAccessOpenId(accessOpenId === childId ? null : childId!)}><Settings2 size={18} />I-edit ang Reading Support</button></div>
           <div className="kid-metrics">
             <article className="kid-metric violet"><BookOpen aria-hidden="true" /><div><strong>{completedModules} / {modules.length || '—'}</strong><small>Mga Modyul</small></div><ProgressBar value={percentage(completedModules, modules.length)} /><b>{percentage(completedModules, modules.length)}%</b></article>
             <article className="kid-metric mint"><ClipboardCheck aria-hidden="true" /><div><strong>{completedActivities}</strong><small>Mga Aktibidad</small></div><ProgressBar value={percentage(completedActivities, totalActivities)} /><b>{percentage(completedActivities, totalActivities)}%</b></article>
             <article className="kid-metric gold"><Star fill="currentColor" aria-hidden="true" /><div><strong>{averageScore === null ? '—' : `${Math.round(averageScore)}%`}</strong><small>Average Score</small></div><ProgressBar value={averageScore ?? 0} /></article>
-            <article className="kid-metric rose"><BarChart3 aria-hidden="true" /><div><strong>{selectedChild.level}</strong><small>Kasalukuyang Level</small></div><span className="kid-level-caption">{selectedChild.xp} XP · {selectedChild.streak} araw na streak</span></article>
+            <article className="kid-metric rose"><BarChart3 aria-hidden="true" /><div><strong>{effectiveLevel}</strong><small>Kasalukuyang Level</small></div><Crown className="kid-level-crown" aria-hidden="true" /><span className="kid-level-caption">{selectedChild.xp} XP · {selectedChild.streak} araw na streak</span></article>
           </div>
         </section>
 
@@ -226,23 +255,23 @@ export default function MyChildren() {
         <div className="kid-detail-grid">
           <section className="kid-modules kid-panel"><CardHeading icon={<BookOpen size={24} />} title="Progreso sa Bawat Modyul" href={progressLink} /><p className="kid-panel-description">Tingnan ang kumpletong listahan ng modyul at progreso ni {selectedChild.name}.</p>
             {pathLoading ? <div className="kid-module-loading" role="status">Kinukuha ang mga modyul...</div> : pathError ? <div className="kid-empty-text" role="alert"><p>Hindi makuha ang mga modyul sa ngayon.</p><button type="button" className="kid-module-retry" onClick={() => void refetchPath()}>Subukan muli</button></div> : modules.length ? <>
-              <div className="kid-module-table-controls"><label>Mga row bawat pahina<select value={modulesPerPage} onChange={(event) => { setModulesPerPage(Number(event.target.value)); setModulePage(1); setExpandedModuleId(null); }} aria-label="Mga modyul bawat pahina">{[5, 10, 20].map((count) => <option key={count} value={count}>{count}</option>)}</select></label><span>{modules.length} modyul</span></div>
+              <div className="kid-module-table-controls"><label>Mga ipakita<select value={modulesPerPage} onChange={(event) => { setModulesPerPage(Number(event.target.value)); setModulePage(1); setExpandedModuleId(null); }} aria-label="Mga modyul bawat pahina">{[5, 10, 20].map((count) => <option key={count} value={count}>{count}</option>)}</select></label><details className="kid-page-menu"><summary><span>{firstVisibleModule}–{lastVisibleModule} sa {modules.length} modyul</span><ChevronDown size={14} /></summary><footer className="kid-module-pagination"><p role="status" aria-live="polite">{firstVisibleModule}–{lastVisibleModule} sa {modules.length} modyul</p><nav aria-label="Mga pahina ng modyul"><button type="button" aria-label="Nakaraang pahina ng mga modyul" disabled={currentModulePage === 1} onClick={() => changeModulePage(currentModulePage - 1)}><ChevronLeft size={16} /></button>{modulePages.map((page, index) => <Fragment key={page}>{index > 0 && page - modulePages[index - 1] > 1 && <span className="kid-page-ellipsis" aria-hidden="true">…</span>}<button type="button" aria-label={`Pahina ${page} ng mga modyul`} aria-current={page === currentModulePage ? 'page' : undefined} onClick={() => changeModulePage(page)}>{page}</button></Fragment>)}<button type="button" aria-label="Susunod na pahina ng mga modyul" disabled={currentModulePage === modulePageCount} onClick={() => changeModulePage(currentModulePage + 1)}><ChevronRight size={16} /></button></nav></footer></details><button className="kid-module-step" type="button" aria-label="Nakaraang pahina ng mga modyul" disabled={currentModulePage === 1} onClick={() => changeModulePage(currentModulePage - 1)}><ChevronLeft size={17} /></button><button className="kid-module-step" type="button" aria-label="Susunod na pahina ng mga modyul" disabled={currentModulePage === modulePageCount} onClick={() => changeModulePage(currentModulePage + 1)}><ChevronRight size={17} /></button></div>
               <div className="kid-module-table-scroll" tabIndex={0} role="region" aria-label={`Talaan ng progreso ng mga modyul ni ${selectedChild.name}`}>
                 <table className="kid-module-table"><caption className="sr-only">Progreso sa Bawat Modyul ni {selectedChild.name}</caption><thead><tr><th scope="col">#</th><th scope="col">Modyul</th><th scope="col">Aktibidad</th><th scope="col">Status</th><th scope="col">Progreso</th><th scope="col">Detalye</th></tr></thead><tbody>{visibleModules.map((module, index) => {
                   const value = percentage(module.completed_content_item_count, module.content_item_count);
                   const done = module.state === 'completed'; const locked = module.state === 'locked';
                   const status = done ? 'Tapos na' : locked ? 'Naka-lock' : module.completed_content_item_count > 0 ? 'Isinasagawa' : 'Hindi Pa Nagsisimula';
                   const expanded = expandedModuleId === module.id;
-                  return <Fragment key={module.id}><tr className={`kid-module-row tone-${(firstModuleIndex + index) % 5}`}><td><span className="kid-module-number">{module.module_number}</span></td><th scope="row">{module.title}</th><td className="kid-module-count">{module.completed_content_item_count} / {module.content_item_count}</td><td><span className={`kid-module-status ${done ? 'done' : locked ? 'locked' : module.completed_content_item_count > 0 ? 'started' : 'ready'}`}>{done ? <CheckCircle2 size={12} /> : locked ? <LockKeyhole size={11} /> : module.completed_content_item_count > 0 ? <Sparkles size={12} /> : null}{status}</span></td><td><div className="kid-module-progress"><ProgressBar value={value} /><b>{value}%</b></div></td><td><button type="button" className="kid-module-details-button" aria-label={`${expanded ? 'Isara' : 'Tingnan'} ang detalye ng ${module.title}`} aria-expanded={expanded} aria-controls={`kid-module-details-${module.id}`} onClick={() => setExpandedModuleId(expanded ? null : module.id)}>{expanded ? 'Isara' : 'Tingnan'}{expanded ? <ChevronDown size={14} /> : <ChevronRight size={14} />}</button></td></tr>{expanded && <tr id={`kid-module-details-${module.id}`} className="kid-module-details-row"><td colSpan={6}><div><BookOpen size={19} aria-hidden="true" /><span><strong>Modyul {module.module_number}: {module.title}</strong><p>{module.completed_content_item_count} sa {module.content_item_count} aktibidad ang nakumpleto · {value}% progreso.</p><p>{done ? 'Nakumpleto na ang modyul na ito.' : locked ? 'Kumpletuhin ang mga naunang modyul at abutin ang passing score upang ma-unlock ito.' : 'Available ang modyul na ito sa student account ng iyong anak.'}</p></span></div></td></tr>}</Fragment>;
+                  return <Fragment key={module.id}><tr className={`kid-module-row tone-${(firstModuleIndex + index) % 5}`}><td><span className="kid-module-number">{module.module_number}</span></td><th scope="row"><span className="kid-module-title"><span className="kid-phonetic-preview" aria-hidden="true">{modulePreview(module,effectiveLevel) ?? <BookOpen size={22} />}</span><span>{module.title}</span></span></th><td className="kid-module-count">{module.completed_content_item_count} / {module.content_item_count}</td><td><span className={`kid-module-status ${done ? 'done' : locked ? 'locked' : module.completed_content_item_count > 0 ? 'started' : 'ready'}`}>{done ? <CheckCircle2 size={12} /> : locked ? <LockKeyhole size={11} /> : module.completed_content_item_count > 0 ? <Sparkles size={12} /> : null}{status}</span></td><td><div className="kid-module-progress"><ProgressBar value={value} /><b>{value}%</b></div></td><td><button type="button" className="kid-module-details-button" aria-label={`${expanded ? 'Isara' : 'Tingnan'} ang detalye ng ${module.title}`} aria-expanded={expanded} aria-controls={`kid-module-details-${module.id}`} onClick={() => setExpandedModuleId(expanded ? null : module.id)}>{expanded ? 'Isara' : 'Tingnan'}{expanded ? <ChevronDown size={14} /> : <ChevronRight size={14} />}</button></td></tr>{expanded && <tr id={`kid-module-details-${module.id}`} className="kid-module-details-row"><td colSpan={6}><div><BookOpen size={19} aria-hidden="true" /><span><strong>Modyul {module.module_number}: {module.title}</strong><p>{module.completed_content_item_count} sa {module.content_item_count} aktibidad ang nakumpleto · {value}% progreso.</p><p>{done ? 'Nakumpleto na ang modyul na ito.' : locked ? 'Kumpletuhin ang mga naunang modyul at abutin ang passing score upang ma-unlock ito.' : 'Available ang modyul na ito sa student account ng iyong anak.'}</p></span></div></td></tr>}</Fragment>;
                 })}</tbody></table>
               </div>
-              <footer className="kid-module-pagination"><p role="status" aria-live="polite">{firstVisibleModule}–{lastVisibleModule} sa {modules.length} modyul</p><nav aria-label="Mga pahina ng modyul"><button type="button" aria-label="Nakaraang pahina ng mga modyul" disabled={currentModulePage === 1} onClick={() => changeModulePage(currentModulePage - 1)}><ChevronLeft size={16} /></button>{modulePages.map((page, index) => <Fragment key={page}>{index > 0 && page - modulePages[index - 1] > 1 && <span className="kid-page-ellipsis" aria-hidden="true">…</span>}<button type="button" aria-label={`Pahina ${page} ng mga modyul`} aria-current={page === currentModulePage ? 'page' : undefined} onClick={() => changeModulePage(page)}>{page}</button></Fragment>)}<button type="button" aria-label="Susunod na pahina ng mga modyul" disabled={currentModulePage === modulePageCount} onClick={() => changeModulePage(currentModulePage + 1)}><ChevronRight size={16} /></button></nav></footer>
+
             </> : <div className="kid-no-modules"><img src={noActivitiesArt} alt="" /><p>Wala pang nakaayos na modyul para sa antas na ito.</p></div>}
           </section>
           <aside className="kid-detail-side">
-            <section className="kid-current-module kid-panel"><CardHeading icon={<BookOpen size={22} />} title="Kasalukuyang Modyul" /><div className="kid-current-content"><img src={childArtwork} alt="" /><div><strong>{currentModuleTitle}</strong><small>{currentModule ? `Modyul ${currentModule.module_number} · ${currentModule.completed_content_item_count} / ${currentModule.content_item_count} aktibidad` : 'Ihahanda ang iyong reading path.'}</small><div className="kid-current-progress"><ProgressBar value={currentProgress} /><b>{currentProgress}%</b></div><Link className="kid-primary-button" to={progressLink}>Tingnan ang Progreso <ArrowRight size={14} /></Link></div></div></section>
-            <section className="kid-recent kid-panel"><CardHeading icon={<ClipboardCheck size={22} />} title="Kamakailang Aktibidad" href={`${progressLink}&tab=activities`} /><div className="kid-recent-list">{sessions?.length ? sessions.map((session, index) => <Link key={session.id} to={`${progressLink}&tab=activities`} className={`kid-recent-item tone-${index % 4}`}><span>{session.is_correct ? <CheckCircle2 size={20} /> : <Mic size={20} />}</span><div><strong>{session.is_correct ? 'Nakumpleto ang Pagsasanay' : 'Nag-practice sa Pagbigkas'}{session.word ? `: ${session.word}` : ''}</strong><small>{new Date(session.created_at).toLocaleString('fil-PH', { month: 'short', day: 'numeric', year: 'numeric', hour: 'numeric', minute: '2-digit' })}</small></div><ChevronRight size={16} /></Link>) : <div className="kid-recent-empty"><img src={noActivitiesArt} alt="" /><p>{sessionsError ? 'Hindi makuha ang mga aktibidad ngayon.' : 'Dito makikita ang mga unang tagumpay niya sa pagbasa.'}</p></div>}</div></section>
-            <section className="kid-recommendations kid-panel"><CardHeading icon={<Lightbulb size={23} />} title="Mga Rekomendasyon" href={progressLink} /><Link to={progressLink}><span><Lightbulb size={23} /></span><div><strong>{currentModule ? `Magpatuloy sa ${currentModule.title}` : 'Simulan ang reading journey'}</strong><small>{readingProfile?.profile.recommendedHomePractice || 'Maglaan ng ilang minuto sa pagbabasa nang magkasama.'}</small></div><ChevronRight size={16} /></Link></section>
+            <section className="kid-current-module kid-panel"><CardHeading icon={<BookOpen size={22} />} title="Kasalukuyang Modyul" /><div className="kid-current-content"><div className="kid-current-art" aria-hidden="true"><img src={childArtwork} alt="" />{currentModule && modulePreview(currentModule,effectiveLevel) && <span>{modulePreview(currentModule,effectiveLevel)}</span>}</div><div><strong>{currentModuleTitle}</strong><small>{currentModule ? `Modyul ${currentModule.module_number} · ${effectiveLevel}` : 'Ihahanda ang iyong reading path.'}</small><div className="kid-current-progress"><ProgressBar value={currentProgress} /></div><b className="kid-current-count">{currentModule ? `${currentModule.completed_content_item_count} / ${currentModule.content_item_count} aktibidad` : '—'}</b></div><Link className="kid-primary-button" to={currentModuleLink}>Tingnan ang Progreso <ArrowRight size={16} /></Link></div></section>
+            <section className="kid-recent kid-panel"><CardHeading icon={<Clock3 size={22} />} title="Kamakailang Aktibidad" href={`${progressLink}&tab=activities`} /><div className="kid-recent-list">{sessions?.length ? sessions.map((session, index) => <Link key={session.id} to={sessionLink(session)} className={`kid-recent-item tone-${index % 4}`}><span>{session.is_correct ? <CheckCircle2 size={20} /> : <Mic size={20} />}</span><div><strong>{session.is_correct ? 'Nakumpleto ang Pagsasanay' : 'Nag-practice sa Pagbigkas'}{session.word ? `: ${session.word}` : ''}</strong><small>{new Date(session.created_at).toLocaleString('fil-PH', { month: 'short', day: 'numeric', year: 'numeric', hour: 'numeric', minute: '2-digit' })}</small></div><ChevronRight size={16} /></Link>) : <div className="kid-recent-empty"><img src={noActivitiesArt} alt="" /><p>{sessionsError ? 'Hindi makuha ang mga aktibidad ngayon.' : 'Dito makikita ang mga unang tagumpay niya sa pagbasa.'}</p></div>}</div></section>
+            <section className="kid-recommendations kid-panel"><CardHeading icon={<Lightbulb size={23} />} title="Mga Rekomendasyon" href={`${progressLink}&tab=practice`} /><Link to={currentModuleLink}><span><BookOpen size={22} /></span><div><strong>{currentModule ? `Magpatuloy sa ${currentModule.title}` : 'Simulan ang reading journey'}</strong><small>{currentModule ? `${Math.max(0,currentModule.content_item_count-currentModule.completed_content_item_count)} aktibidad ang maaari pang tapusin.` : 'Tingnan ang mga aralin para sa iyong anak.'}</small></div><ChevronRight size={16} /></Link><Link to={`${progressLink}&tab=practice`}><span><Mic size={22} /></span><div><strong>Mag-practice ng Pagbigkas</strong><small>{readingProfile?.profile.recommendedHomePractice || 'Maglaan ng 5 minuto araw-araw.'}</small></div><ChevronRight size={16} /></Link><Link to={progressLink}><span><Star size={22} /></span><div><strong>Gawing Mas Masaya ang Pagbasa</strong><small>Balikan ang mga salita at aralin nang magkasama.</small></div><ChevronRight size={16} /></Link></section>
           </aside>
         </div>
       </div> : <section className="kid-start-panel kid-panel"><img src={noEnrolledChildArt} alt="" /><h2>{isLoading ? 'Kinukuha ang mga account...' : 'Simulan ang paglalakbay ng iyong anak'}</h2><p>Mag-enroll ng anak upang makita ang kanyang mga modyul, gawain, at progreso sa pagbasa.</p><button type="button" className="kid-primary-button" onClick={() => setShowEnrollModal(true)}><Plus size={18} />Magdagdag ng Anak</button></section>}

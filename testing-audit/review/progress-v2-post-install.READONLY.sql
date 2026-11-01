@@ -11,7 +11,7 @@ WITH required(signature) AS (
     ('public.student_assessment_submit_receipts')
 )
 SELECT jsonb_build_object(
-  'read_only', true,
+  'read_only', true,ppp
   'functions', (SELECT jsonb_agg(jsonb_build_object(
     'signature', signature,
     'present', to_regprocedure(signature) IS NOT NULL,

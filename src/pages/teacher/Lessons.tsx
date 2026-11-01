@@ -1,209 +1,120 @@
-import { useState } from 'react';
+import { useEffect, useId, useRef, useState } from 'react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { BookOpen, Eye, FileText, FolderOpen, MoreHorizontal, RotateCcw, Send, Trash2, UploadCloud, X } from 'lucide-react';
+import { ArrowRight, BookOpen, CheckCircle2, ChevronLeft, ChevronRight, Clock3, Eye, FileText, FolderOpen, GraduationCap, Pencil, RotateCcw, Search, Send, Star, Trash2, UploadCloud, UsersRound, X } from 'lucide-react';
 import { supabase } from '../../lib/supabaseClient';
 import { useAuth } from '../../lib/auth/AuthContext';
 import { openAccessUrl } from '../../lib/openAccessUrl';
+import { QueryErrorNotice } from '../../components/QueryErrorNotice';
+import { LessonDescription, LessonDescriptionEditor } from './LessonDescriptionEditor';
+import readingOwl from '../../assets/teacher/lessons-reading-owl.png';
 
 const SUBJECTS = ['Filipino', 'Ingles', 'Matematika', 'Agham', 'Araling Panlipunan', 'MAPEH'];
 const GRADES = [1, 2, 3, 4, 5, 6];
+interface Lesson { id: string; title: string; description: string | null; subject: string | null; grade_level: string | null; pdf_url: string; file_name: string | null; is_published: boolean; created_at: string; }
+interface Draft { title: string; description: string; subject: string; gradeLevel: string; }
+const EMPTY: Draft = { title: '', description: '', subject: '', gradeLevel: '' };
+const formatDate = (value: string) => new Intl.DateTimeFormat('fil-PH', { month: 'short', day: 'numeric', year: 'numeric', timeZone: 'Asia/Manila' }).format(new Date(value));
 
-interface Lesson {
-  id: string;
-  title: string;
-  description: string | null;
-  subject: string | null;
-  grade_level: string | null;
-  pdf_url: string;
-  file_name: string | null;
-  is_published: boolean;
-  created_at: string;
+function LessonFields({ draft, onChange, disabled, titleLimit = 100, descriptionLimit = 500 }: { draft: Draft; onChange: (draft: Draft) => void; disabled: boolean; titleLimit?: number; descriptionLimit?: number }) {
+  const id = useId();
+  return <><div className="tl-field"><label htmlFor={`${id}-title`}>Pamagat ng Aralin <span aria-hidden="true">*</span></label><input id={`${id}-title`} value={draft.title} onChange={(event) => onChange({ ...draft, title: event.target.value })} placeholder="Hal. Pagkilala sa mga Patinig" required maxLength={titleLimit} disabled={disabled} aria-describedby={`${id}-title-count`} /><small id={`${id}-title-count`}>{draft.title.length}/{titleLimit}</small></div>
+    <LessonDescriptionEditor value={draft.description} onChange={(description) => onChange({ ...draft, description })} disabled={disabled} maxLength={descriptionLimit} />
+    <div className="tl-fields-row"><div className="tl-field"><label htmlFor={`${id}-subject`}>Asignatura / Kasanayan <span aria-hidden="true">*</span></label><div className="tl-select"><BookOpen aria-hidden /><select id={`${id}-subject`} value={draft.subject} onChange={(event) => onChange({ ...draft, subject: event.target.value })} required disabled={disabled}><option value="">Piliin ang asignatura</option>{[...new Set([...SUBJECTS, ...(draft.subject ? [draft.subject] : [])])].map((item) => <option key={item} value={item}>{item}</option>)}</select></div></div><div className="tl-field"><label htmlFor={`${id}-grade`}>Baitang <span aria-hidden="true">*</span></label><div className="tl-select"><GraduationCap aria-hidden /><select id={`${id}-grade`} value={draft.gradeLevel} onChange={(event) => onChange({ ...draft, gradeLevel: event.target.value })} required disabled={disabled}><option value="">Piliin ang baitang</option>{[...new Set([...GRADES.map(String), ...(draft.gradeLevel ? [draft.gradeLevel] : [])])].map((grade) => <option key={grade} value={grade}>{grade === '0' ? 'Kindergarten' : `Grade ${grade}`}</option>)}</select></div></div></div>
+  </>;
 }
 
-const formatDate = (value: string) => new Intl.DateTimeFormat('en-PH', {
-  month: 'short', day: 'numeric', year: 'numeric',
-}).format(new Date(value));
+function LessonDialog({ lesson, mode, busy, error, onClose, onSave, onPublish, onDelete, onPreview }: { lesson: Lesson; mode: 'view' | 'edit' | 'delete'; busy: boolean; error: string | null; onClose: () => void; onSave: (draft: Draft) => void; onPublish: () => void; onDelete: () => void; onPreview: () => void }) {
+  const ref = useRef<HTMLDialogElement>(null);
+  const opener = useRef<HTMLElement | null>(null);
+  const titleId = useId();
+  const [draft, setDraft] = useState<Draft>({ title: lesson.title, description: lesson.description ?? '', subject: lesson.subject ?? '', gradeLevel: lesson.grade_level ?? '' });
+  useEffect(() => { const element = ref.current; if (!opener.current) opener.current = document.activeElement as HTMLElement; element?.showModal(); return () => { element?.close(); queueMicrotask(() => { if (opener.current?.isConnected) opener.current.focus({ preventScroll: true }); }); }; }, []);
+  return <dialog ref={ref} className="tl-dialog" aria-labelledby={titleId} onCancel={(event) => { event.preventDefault(); if (!busy) onClose(); }}><header><div><p>{mode === 'delete' ? 'KUMPIRMAHIN' : mode === 'edit' ? 'I-EDIT ANG ARALIN' : 'DETALYE NG ARALIN'}</p><h2 id={titleId}>{mode === 'delete' ? 'Tanggalin ang aralin?' : lesson.title}</h2></div><button type="button" disabled={busy} aria-label="Isara ang detalye ng aralin" onClick={onClose}><X aria-hidden /></button></header>
+    {mode === 'edit' ? <form onSubmit={(event) => { event.preventDefault(); onSave(draft); }}><LessonFields draft={draft} onChange={setDraft} disabled={busy} titleLimit={Math.max(100, lesson.title.length)} descriptionLimit={Math.max(500, lesson.description?.length ?? 0)} />{error && <p className="tl-error" role="alert">{error}</p>}<footer><button type="button" disabled={busy} className="tl-secondary" onClick={onClose}>Kanselahin</button><button type="submit" disabled={busy} className="tl-primary">{busy ? 'Sine-save…' : 'I-save ang mga Pagbabago'}</button></footer></form> : mode === 'delete' ? <div className="tl-dialog-body"><p>Matatanggal ang <strong>{lesson.title}</strong> sa iyong lesson library. Hindi na mababawi ang aralin kapag tinanggal.</p>{error && <p className="tl-error" role="alert">{error}</p>}<footer><button type="button" disabled={busy} className="tl-secondary" onClick={onClose} autoFocus>Kanselahin</button><button type="button" disabled={busy} className="tl-delete-confirm" onClick={onDelete}>{busy ? 'Tinatanggal…' : 'Oo, tanggalin ang aralin'}</button></footer></div> : <div className="tl-dialog-body"><p className="tl-dialog-meta">{lesson.subject || 'Walang asignatura'} · {lesson.grade_level ? `Grade ${lesson.grade_level}` : 'Walang baitang'} · {lesson.is_published ? 'Published' : 'Draft'}</p><h3>Deskripsyon</h3><LessonDescription value={lesson.description || 'Walang inilagay na deskripsyon.'} /><h3>PDF file</h3><p>{lesson.file_name || 'Lesson PDF'} · {formatDate(lesson.created_at)}</p>{error && <p className="tl-error" role="alert">{error}</p>}<footer><button type="button" className="tl-primary" disabled={busy} onClick={onPreview}><Eye aria-hidden /> Tingnan ang PDF</button><button type="button" className="tl-secondary" disabled={busy} onClick={onPublish}>{lesson.is_published ? 'Gawing Draft' : 'I-publish'}</button></footer></div>}
+  </dialog>;
+}
 
 export default function Lessons() {
   const { user } = useAuth();
   const queryClient = useQueryClient();
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
-  const [subject, setSubject] = useState('');
-  const [gradeLevel, setGradeLevel] = useState('');
+  const fileInput = useRef<HTMLInputElement>(null);
+  const uploadId = useId();
+  const [draft, setDraft] = useState<Draft>(EMPTY);
+  const [formKey, setFormKey] = useState(0);
   const [file, setFile] = useState<File | null>(null);
-  const [error, setError] = useState<string | null>(null);
-  const [selectedLesson, setSelectedLesson] = useState<Lesson | null>(null);
+  const [fileChecking, setFileChecking] = useState(false);
+  const fileRevision = useRef(0);
+  const [dragging, setDragging] = useState(false);
+  const [formError, setFormError] = useState<string | null>(null);
+  const [actionError, setActionError] = useState<string | null>(null);
+  const [success, setSuccess] = useState('');
+  const [selection, setSelection] = useState<{ id: string; mode: 'view' | 'edit' | 'delete' } | null>(null);
+  const [search, setSearch] = useState('');
+  const [page, setPage] = useState(1);
+  const { data: lessons, isLoading, error: libraryError, refetch } = useQuery({ queryKey: ['teacher-lessons', user?.id], queryFn: async () => {
+    const { data, error } = await supabase.from('lessons').select('*').eq('teacher_id', user!.id).order('created_at', { ascending: false });
+    if (error) throw error;
+    return data as Lesson[];
+  }, enabled: Boolean(user) });
+  function clearForm() { fileRevision.current++; setFormKey((value) => value + 1); setDraft(EMPTY); setFile(null); setFileChecking(false); setFormError(null); if (fileInput.current) fileInput.current.value = ''; }
+  async function chooseFile(next: File | undefined) {
+    const revision = ++fileRevision.current; setFile(null); setFormError(null);
+    if (!next) { setFileChecking(false); return; }
+    setFileChecking(true);
+    try {
+      if (next.size === 0) throw new Error('Walang laman ang napiling file.');
+      if (next.size > 50 * 1024 * 1024) throw new Error('Hanggang 50MB lamang ang PDF.');
+      if (!next.name.toLowerCase().endsWith('.pdf') && next.type !== 'application/pdf') throw new Error('PDF file lamang ang maaaring i-upload.');
+      if (await next.slice(0, 5).text() !== '%PDF-') throw new Error('Hindi wastong PDF ang napiling file.');
+      if (revision === fileRevision.current) setFile(next);
+    } catch (error) { if (revision === fileRevision.current) { setFormError(error instanceof Error ? error.message : 'Hindi mabasa ang file.'); if (fileInput.current) fileInput.current.value = ''; } }
+    finally { if (revision === fileRevision.current) setFileChecking(false); }
+  }
+  const createLesson = useMutation({ mutationFn: async () => {
+    if (!user || !file) throw new Error('Pumili ng PDF file.');
+    if (!draft.title.trim() || !draft.description.trim() || !draft.subject || !draft.gradeLevel) throw new Error('Kumpletuhin ang mga kinakailangang detalye.');
+    const path = `${user.id}/${crypto.randomUUID()}-${file.name.replace(/[^a-zA-Z0-9.\-_]/g, '_')}`;
+    const { error: uploadError } = await supabase.storage.from('lesson-pdfs').upload(path, file, { contentType: 'application/pdf' });
+    if (uploadError) throw uploadError;
+    const { data: publicUrl } = supabase.storage.from('lesson-pdfs').getPublicUrl(path);
+    const { error } = await supabase.from('lessons').insert({ teacher_id: user.id, title: draft.title.trim(), description: draft.description.trim(), subject: draft.subject, grade_level: draft.gradeLevel, pdf_url: publicUrl.publicUrl, legacy_public_url: publicUrl.publicUrl, storage_bucket: 'lesson-pdfs', storage_path: path, file_name: file.name, is_published: true });
+    if (error) throw error;
+  }, onSuccess: () => { clearForm(); setSuccess('Nagawa na ang iyong aralin. Makikita na ito sa Lesson Library.'); setSearch(''); setPage(1); void queryClient.invalidateQueries({ queryKey: ['teacher-lessons'] }); void queryClient.invalidateQueries({ queryKey: ['teacher-materials-count'] }); }, onError: (error: Error) => setFormError(error.message) });
+  const updateLesson = useMutation({ mutationFn: async ({ id, values }: { id: string; values: Partial<Draft> & { is_published?: boolean } }) => {
+    if (values.is_published === undefined && (!values.title?.trim() || !values.description?.trim() || !values.subject || !values.gradeLevel)) throw new Error('Kumpletuhin ang mga kinakailangang detalye.');
+    const payload = values.is_published !== undefined ? { is_published: values.is_published } : { title: values.title?.trim(), description: values.description?.trim(), subject: values.subject, grade_level: values.gradeLevel };
+    const { error } = await supabase.from('lessons').update(payload).eq('id', id).eq('teacher_id', user!.id);
+    if (error) throw error;
+  }, onSuccess: (_, variables) => { setActionError(null); if (variables.values.is_published === undefined) setSelection(null); setSuccess(variables.values.is_published === undefined ? 'Na-save ang mga pagbabago.' : variables.values.is_published ? 'Nai-publish ang aralin.' : 'Nailipat sa draft ang aralin.'); void queryClient.invalidateQueries({ queryKey: ['teacher-lessons'] }); void queryClient.invalidateQueries({ queryKey: ['teacher-materials-count'] }); }, onError: (error: Error) => setActionError(error.message) });
+  const deleteLesson = useMutation({ mutationFn: async (id: string) => {
+    const { error } = await supabase.from('lessons').delete().eq('id', id).eq('teacher_id', user!.id);
+    if (error) throw error;
+  }, onSuccess: () => { setSelection(null); setActionError(null); setSuccess('Natanggal ang aralin.'); void queryClient.invalidateQueries({ queryKey: ['teacher-lessons'] }); void queryClient.invalidateQueries({ queryKey: ['teacher-materials-count'] }); }, onError: (error: Error) => setActionError(error.message) });
+  const busy = createLesson.isPending || updateLesson.isPending || deleteLesson.isPending;
+  const selectedLesson = lessons?.find((lesson) => lesson.id === selection?.id);
+  const filtered = (lessons ?? []).filter((lesson) => `${lesson.title} ${lesson.subject ?? ''}`.toLowerCase().includes(search.trim().toLowerCase()));
+  const pages = Math.max(1, Math.ceil(filtered.length / 5));
+  const currentPage = Math.min(page, pages);
+  function openDialog(lesson: Lesson, mode: 'view' | 'edit' | 'delete') { setActionError(null); setSelection({ id: lesson.id, mode }); }
+  function preview(id: string) { setActionError(null); void openAccessUrl(`/teacher/lessons/${id}/access-url`).catch((error: Error) => setActionError(error.message)); }
 
-  const clearForm = () => {
-    setTitle('');
-    setDescription('');
-    setSubject('');
-    setGradeLevel('');
-    setFile(null);
-    setError(null);
-  };
-
-  const { data: lessons, isLoading } = useQuery({
-    queryKey: ['teacher-lessons', user?.id],
-    queryFn: async () => {
-      const { data, error: queryError } = await supabase
-        .from('lessons')
-        .select('*')
-        .eq('teacher_id', user!.id)
-        .order('created_at', { ascending: false });
-      if (queryError) throw queryError;
-      return data as Lesson[];
-    },
-    enabled: Boolean(user),
-  });
-
-  const createLesson = useMutation({
-    mutationFn: async () => {
-      if (!file) throw new Error('Pumili ng PDF file.');
-      if (!title.trim()) throw new Error('Kailangan ng pamagat ng aralin.');
-
-      const path = `${user!.id}/${Date.now()}-${file.name.replace(/[^a-zA-Z0-9.\-_]/g, '_')}`;
-      const { error: uploadError } = await supabase.storage.from('lesson-pdfs').upload(path, file, { contentType: 'application/pdf' });
-      if (uploadError) throw uploadError;
-
-      const { data: publicUrl } = supabase.storage.from('lesson-pdfs').getPublicUrl(path);
-      const { error: insertError } = await supabase.from('lessons').insert({
-        teacher_id: user!.id,
-        title: title.trim(),
-        description: description.trim() || null,
-        subject: subject.trim() || null,
-        grade_level: gradeLevel.trim() || null,
-        pdf_url: publicUrl.publicUrl,
-        legacy_public_url: publicUrl.publicUrl,
-        storage_bucket: 'lesson-pdfs',
-        storage_path: path,
-        file_name: file.name,
-        is_published: true,
-      });
-      if (insertError) throw insertError;
-    },
-    onSuccess: () => {
-      clearForm();
-      queryClient.invalidateQueries({ queryKey: ['teacher-lessons'] });
-    },
-    onError: (mutationError: Error) => setError(mutationError.message),
-  });
-
-  const deleteLesson = useMutation({
-    mutationFn: async (id: string) => {
-      const { error: deleteError } = await supabase.from('lessons').delete().eq('id', id);
-      if (deleteError) throw deleteError;
-    },
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['teacher-lessons'] }),
-    onError: (mutationError: Error) => setError(mutationError.message),
-  });
-
-  const togglePublish = useMutation({
-    mutationFn: async ({ id, isPublished }: { id: string; isPublished: boolean }) => {
-      const { error: updateError } = await supabase.from('lessons').update({ is_published: !isPublished }).eq('id', id);
-      if (updateError) throw updateError;
-    },
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['teacher-lessons'] }),
-    onError: (mutationError: Error) => setError(mutationError.message),
-  });
-
-  return (
-    <div className="teacher-lesson-workspace">
-      <form
-        className="teacher-lesson-form"
-        onSubmit={(event) => {
-          event.preventDefault();
-          createLesson.mutate();
-        }}
-      >
-        <div className="teacher-lesson-field">
-          <label htmlFor="lesson-title">Pamagat ng Aralin</label>
-          <input id="lesson-title" value={title} onChange={(event) => setTitle(event.target.value)} placeholder="Hal. Pagkilala sa mga Patinig" required />
-        </div>
-
-        <div className="teacher-lesson-field">
-          <label htmlFor="lesson-description">Deskripsyon</label>
-          <textarea id="lesson-description" value={description} onChange={(event) => setDescription(event.target.value)} placeholder="Maglagay ng maikling paglalarawan ng aralin..." />
-        </div>
-
-        <div className="teacher-lesson-fields-row">
-          <div className="teacher-lesson-field">
-            <label htmlFor="lesson-subject">Asignatura / Kasanayan</label>
-            <select id="lesson-subject" value={subject} onChange={(event) => setSubject(event.target.value)}>
-              <option value="">Piliin ang asignatura</option>
-              {SUBJECTS.map((item) => <option key={item} value={item}>{item}</option>)}
-            </select>
-          </div>
-          <div className="teacher-lesson-field">
-            <label htmlFor="lesson-grade">Baitang</label>
-            <select id="lesson-grade" value={gradeLevel} onChange={(event) => setGradeLevel(event.target.value)}>
-              <option value="">Piliin ang baitang</option>
-              {GRADES.map((grade) => <option key={grade} value={String(grade)}>Grade {grade}</option>)}
-            </select>
-          </div>
-        </div>
-
-        <label className="teacher-lesson-upload" htmlFor="lesson-pdf">
-          <span><UploadCloud aria-hidden="true" /></span>
-          <strong>{file ? file.name : 'I-upload ang Lesson PDF'}</strong>
-          <small>{file ? 'Handa nang i-upload ang PDF.' : 'I-drag and drop ang file dito o i-click para pumili. PDF lang. Max 50MB.'}</small>
-          <input id="lesson-pdf" type="file" accept="application/pdf" onChange={(event) => setFile(event.target.files?.[0] ?? null)} />
-        </label>
-
-        {error && <p className="teacher-lesson-error" role="alert">{error}</p>}
-
-        <div className="teacher-lesson-form__actions">
-          <button className="teacher-lesson-create" type="submit" disabled={createLesson.isPending}>
-            <Send aria-hidden="true" /> {createLesson.isPending ? 'Ginagawa ang Aralin...' : 'Gumawa ng Aralin'}
-          </button>
-          <button className="teacher-lesson-clear" type="button" onClick={clearForm}>
-            <RotateCcw aria-hidden="true" /> I-clear
-          </button>
-        </div>
+  return <div className="tl-workspace">
+    <section className="tl-create-panel"><header className="tl-panel-heading"><span className="tl-heading-icon"><BookOpen aria-hidden /></span><div><h2>Gumawa ng Bagong Aralin</h2><p>I-upload ang lesson PDF at ilagay ang mga detalye ng aralin.</p></div></header>
+      <form className="tl-form" onSubmit={(event) => { event.preventDefault(); setFormError(null); setSuccess(''); if (!fileChecking && !createLesson.isPending) createLesson.mutate(); }}>
+        <LessonFields key={formKey} draft={draft} onChange={setDraft} disabled={busy} />
+        <div className={`tl-upload ${dragging ? 'is-dragging' : ''}`} onDragOver={(event) => { event.preventDefault(); if (!busy) setDragging(true); }} onDragLeave={() => setDragging(false)} onDrop={(event) => { event.preventDefault(); setDragging(false); if (!busy) void chooseFile(event.dataTransfer.files[0]); }}><span className="tl-upload-icon"><UploadCloud aria-hidden /></span><div><label htmlFor={uploadId}>{file ? file.name : 'I-upload ang Lesson PDF'} <span aria-hidden="true">*</span></label><p>{fileChecking ? 'Sinusuri ang file…' : file ? `${(file.size / 1024 / 1024).toFixed(2)} MB · Handa nang i-upload.` : 'I-drag and drop ang file dito o i-click para pumili. PDF lang. Max 50MB.'}</p></div><button type="button" className="tl-file-button" disabled={busy || fileChecking} onClick={() => fileInput.current?.click()}><FileText aria-hidden /> Pumili ng File</button><input ref={fileInput} id={uploadId} className="sr-only" type="file" accept=".pdf,application/pdf" disabled={busy || fileChecking} onChange={(event) => void chooseFile(event.target.files?.[0])} /></div>
+        {formError && <p className="tl-error" role="alert">{formError}</p>}
+        <div className="tl-form-actions"><button className="tl-primary" type="submit" disabled={busy || fileChecking}><Send aria-hidden />{createLesson.isPending ? 'Ginagawa ang Aralin…' : 'Gumawa ng Aralin'}</button><button className="tl-secondary" type="button" disabled={busy} onClick={clearForm}><RotateCcw aria-hidden /> I-clear</button></div>
+        {success && <p className="tl-success" role="status"><CheckCircle2 aria-hidden />{success}</p>}
       </form>
-
-      <section className="teacher-lesson-library" aria-labelledby="teacher-lesson-library-title">
-        <header className="teacher-lesson-library__header">
-          <span><FolderOpen aria-hidden="true" /></span>
-          <div>
-            <h2 id="teacher-lesson-library-title">Lesson Library</h2>
-            <p>Tingnan, i-edit, o pamahalaan ang iyong mga aralin.</p>
-          </div>
-          <b>{lessons?.length ?? 0}</b>
-        </header>
-
-        {isLoading && <p className="teacher-lesson-library__message">Naglo-load ng mga aralin...</p>}
-        {!isLoading && !lessons?.length && <p className="teacher-lesson-library__message">Wala pang aralin. Gamitin ang form sa kaliwa upang gumawa ng una mong lesson.</p>}
-        <ul className="teacher-lesson-library__list">
-          {(lessons ?? []).map((lesson, index) => (
-            <li className={`teacher-lesson-row teacher-lesson-row--${index % 5}`} key={lesson.id}>
-              <span className="teacher-lesson-row__file"><FileText aria-hidden="true" /></span>
-              <div className="teacher-lesson-row__content">
-                <h3>{lesson.title}</h3>
-                <p>{lesson.subject || 'Walang asignatura'}{lesson.grade_level ? ` · Grade ${lesson.grade_level}` : ''}</p>
-                <small>{lesson.file_name || 'PDF lesson'} · {formatDate(lesson.created_at)}</small>
-              </div>
-              <span className={`teacher-lesson-row__grade teacher-lesson-row__grade--${index % 5}`}>{lesson.grade_level ? `Baitang ${lesson.grade_level}` : 'Walang baitang'}</span>
-              <div className="teacher-lesson-row__actions" aria-label={`Mga aksyon para sa ${lesson.title}`}>
-                <button type="button" title="Tingnan ang lesson" onClick={() => openAccessUrl(`/teacher/lessons/${lesson.id}/access-url`).catch((actionError: Error) => setError(actionError.message))}><Eye aria-hidden="true" /></button>
-                <button type="button" title={lesson.is_published ? 'Gawing draft' : 'I-publish'} onClick={() => togglePublish.mutate({ id: lesson.id, isPublished: lesson.is_published })}><BookOpen aria-hidden="true" /></button>
-                <button type="button" title="Tanggalin ang lesson" className="is-delete" onClick={() => deleteLesson.mutate(lesson.id)}><Trash2 aria-hidden="true" /></button>
-                <button type="button" title="Higit pang detalye" onClick={() => setSelectedLesson(lesson)}><MoreHorizontal aria-hidden="true" /></button>
-              </div>
-            </li>
-          ))}
-        </ul>
-      </section>
-
-      {selectedLesson && <div className="teacher-lesson-modal" role="dialog" aria-modal="true" aria-label="Detalye ng aralin" onMouseDown={() => setSelectedLesson(null)}>
-        <article onMouseDown={(event) => event.stopPropagation()}>
-          <header><div><p>Lesson details</p><h2>{selectedLesson.title}</h2><span>{selectedLesson.subject || 'Walang asignatura'}{selectedLesson.grade_level ? ` · Grade ${selectedLesson.grade_level}` : ''}</span></div><button type="button" onClick={() => setSelectedLesson(null)} aria-label="Isara"><X /></button></header>
-          <section><h3>Deskripsyon</h3><p>{selectedLesson.description || 'Walang inilagay na deskripsyon para sa araling ito.'}</p></section>
-          <section><h3>PDF file</h3><p>{selectedLesson.file_name || 'PDF lesson'} · Nilikha noong {formatDate(selectedLesson.created_at)}</p></section>
-          <footer><button type="button" onClick={() => openAccessUrl(`/teacher/lessons/${selectedLesson.id}/access-url`).catch((actionError: Error) => setError(actionError.message))}><Eye /> Tingnan ang PDF</button><button type="button" onClick={() => togglePublish.mutate({ id: selectedLesson.id, isPublished: selectedLesson.is_published })}><BookOpen /> {selectedLesson.is_published ? 'Gawing Draft' : 'I-publish'}</button><button type="button" className="is-delete" onClick={() => { deleteLesson.mutate(selectedLesson.id); setSelectedLesson(null); }}><Trash2 /> Tanggalin</button></footer>
-        </article>
-      </div>}
-    </div>
-  );
+    </section>
+    <section className="tl-library-panel" aria-labelledby="tl-library-title"><header className="tl-panel-heading"><span className="tl-heading-icon"><FolderOpen aria-hidden /></span><div><h2 id="tl-library-title">Lesson Library</h2><p>Tingnan, i-edit, o pamahalaan ang iyong mga aralin.</p></div><span className="tl-library-count"><b>{libraryError ? '—' : isLoading ? '…' : lessons?.length ?? 0}</b><small>Kabuuang Aralin</small></span></header>
+      <div className="tl-library-body"><QueryErrorNotice error={libraryError} onRetry={() => void refetch()} message="Hindi ma-load ang Lesson Library. Pakisubukang muli." />{actionError && !selectedLesson && <p className="tl-error" role="alert">{actionError}</p>}
+        {isLoading ? <div className="tl-library-empty"><p role="status">Kinukuha ang mga aralin…</p></div> : libraryError ? null : !lessons?.length ? <div className="tl-library-empty"><img src={readingOwl} alt="" aria-hidden="true" /><h3>Wala pang aralin.</h3><p>Simulan sa paggawa ng iyong unang aralin upang magamit ito sa iyong mga mag-aaral.</p></div> : <><label className="tl-library-search"><Search aria-hidden /><span className="sr-only">Maghanap sa Lesson Library</span><input value={search} onChange={(event) => { setSearch(event.target.value); setPage(1); }} placeholder="Maghanap ng aralin..." /></label><ul className="tl-lesson-list">{filtered.slice((currentPage - 1) * 5, currentPage * 5).map((lesson) => <li key={lesson.id}><span className="tl-lesson-file"><FileText aria-hidden /></span><div><h3>{lesson.title}</h3><p>{lesson.subject || 'Walang asignatura'}{lesson.grade_level ? ` · Grade ${lesson.grade_level}` : ''}</p><small>{formatDate(lesson.created_at)} · {lesson.is_published ? 'Published' : 'Draft'}</small><div className="tl-lesson-actions"><button type="button" disabled={busy} onClick={() => preview(lesson.id)} aria-label={`Tingnan ang PDF ng ${lesson.title}`} title="Tingnan ang PDF"><Eye aria-hidden /></button><button type="button" disabled={busy} onClick={() => openDialog(lesson, 'edit')} aria-label={`I-edit ang ${lesson.title}`} title="I-edit"><Pencil aria-hidden /></button><button type="button" disabled={busy} onClick={() => { setActionError(null); updateLesson.mutate({ id: lesson.id, values: { is_published: !lesson.is_published } }); }} aria-label={`${lesson.is_published ? 'Gawing draft ang' : 'I-publish ang'} ${lesson.title}`} title={lesson.is_published ? 'Gawing draft' : 'I-publish'}><BookOpen aria-hidden /></button><button type="button" disabled={busy} onClick={() => openDialog(lesson, 'delete')} aria-label={`Tanggalin ang ${lesson.title}`} title="Tanggalin"><Trash2 aria-hidden /></button><button type="button" disabled={busy} onClick={() => openDialog(lesson, 'view')} aria-label={`Mga detalye ng ${lesson.title}`} title="Mga detalye"><ArrowRight aria-hidden /></button></div></div></li>)}</ul>{!filtered.length && <p className="tl-no-results">Walang araling tumugma sa iyong hinahanap.</p>}{pages > 1 && <nav className="tl-library-pagination" aria-label="Mga pahina ng Lesson Library"><button type="button" aria-label="Nakaraang pahina ng aralin" disabled={currentPage === 1} onClick={() => setPage(currentPage - 1)}><ChevronLeft aria-hidden /></button><span>{currentPage} / {pages}</span><button type="button" aria-label="Susunod na pahina ng aralin" disabled={currentPage === pages} onClick={() => setPage(currentPage + 1)}><ChevronRight aria-hidden /></button></nav>}</>}
+        <aside className="tl-benefits"><h3><GraduationCap aria-hidden /> Mga Benepisyo ng Digital Lessons</h3><div><span><i><UsersRound aria-hidden /></i>Mas organisadong pagtuturo</span><span><i><Clock3 aria-hidden /></i>Mas madaling pagsubaybay</span><span><i><Star aria-hidden /></i>Mas makabuluhang pagkatuto</span></div></aside>
+        <blockquote className="tl-library-quote"><span aria-hidden="true">“</span><p>“Ang isang maayos na aralin ngayon,<br /> mas maraming batang magtatagumpay bukas.”</p></blockquote>
+      </div>
+    </section>
+    {selectedLesson && selection && <LessonDialog key={`${selection.id}-${selection.mode}`} lesson={selectedLesson} mode={selection.mode} busy={busy} error={actionError} onClose={() => { if (!busy) { setSelection(null); setActionError(null); } }} onSave={(values) => { setActionError(null); updateLesson.mutate({ id: selectedLesson.id, values }); }} onPublish={() => updateLesson.mutate({ id: selectedLesson.id, values: { is_published: !selectedLesson.is_published } })} onDelete={() => deleteLesson.mutate(selectedLesson.id)} onPreview={() => preview(selectedLesson.id)} />}
+  </div>;
 }

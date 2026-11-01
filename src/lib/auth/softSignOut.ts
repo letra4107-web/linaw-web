@@ -1,6 +1,7 @@
 import { supabase } from '../supabaseClient';
-import { saveAuthProfile, type SavedAuthProfile } from './savedProfiles';
+import { removeSavedProfile, saveAuthProfile, type SavedAuthProfile } from './savedProfiles';
 import { recordAuthEvent } from './authEvents';
+import { loadProfileAvatar } from './profileAvatar';
 
 // "Switch profile" logout -- the everyday "Mag-log out" button calls this, not a
 // network-revoking sign-out. It saves the current refresh token into the saved-profile
@@ -21,13 +22,20 @@ import { recordAuthEvent } from './authEvents';
 // dashboard's account menu.
 export async function softSignOut(profile: Omit<SavedAuthProfile, 'savedAt' | 'refreshToken'>) {
   await recordAuthEvent('logout').catch(() => {});
+  const avatarUrl = await loadProfileAvatar(profile.userId, profile.role);
+  // Read the ticket after the optional photo request, in case auth rotated it meanwhile.
   const { data } = await supabase.auth.getSession();
   const refreshToken = data.session?.refresh_token;
-  if (refreshToken) saveAuthProfile({ ...profile, refreshToken });
+  if (refreshToken) {
+    saveAuthProfile({ ...profile, ...(avatarUrl !== undefined ? { avatarUrl } : {}), refreshToken });
+  }
 
   try {
     await (supabase.auth as unknown as { _removeSession: () => Promise<void> })._removeSession();
   } catch {
-    await supabase.auth.signOut({ scope: 'local' }).catch(() => {});
+    const { error } = await supabase.auth.signOut({ scope: 'local' });
+    if (error) throw error;
+    // A revoking fallback must not leave an unusable one-tap ticket behind.
+    removeSavedProfile(profile.userId);
   }
 }

@@ -3,6 +3,8 @@ import { useQuery, useQueryClient, useMutation } from '@tanstack/react-query';
 import { supabase } from './supabaseClient';
 import { useAuth } from './auth/AuthContext';
 import { api } from './api';
+import { showParentInAppNotice, showTeacherInAppNotice, type ParentNoticePreferences } from './notificationPreferences';
+import { useTeacherPreferences } from './teacher/useTeacherPreferences';
 
 export interface NotificationRow {
   id: string;
@@ -16,9 +18,20 @@ export interface NotificationRow {
 }
 
 export function useNotifications() {
-  const { user } = useAuth();
+  const { user, identity } = useAuth();
   const queryClient = useQueryClient();
   const queryKey = ['notifications', user?.id];
+  const parent = identity?.role === 'parent';
+  const { preferences:teacherPreferences } = useTeacherPreferences();
+  const { data: preferences } = useQuery({
+    queryKey: ['parent-notification-preferences', user?.id],
+    enabled: Boolean(user && parent),
+    queryFn: async () => {
+      const { data, error } = await supabase.from('parents_settings').select('notification_preferences').eq('auth_uid', user!.id).maybeSingle();
+      if (error) throw error;
+      return (data?.notification_preferences ?? null) as ParentNoticePreferences | null;
+    },
+  });
 
   // Notifications can target a user via user_id, parent_id, or (for a
   // parent's children) student_id/child auth_uid -- RLS only allows a plain
@@ -31,6 +44,9 @@ export function useNotifications() {
       return res.notifications;
     },
     enabled: Boolean(user),
+    refetchInterval: 5_000,
+    refetchOnWindowFocus: 'always',
+    refetchOnReconnect: 'always',
   });
 
   useEffect(() => {
@@ -69,7 +85,7 @@ export function useNotifications() {
     onSuccess: () => queryClient.invalidateQueries({ queryKey }),
   });
 
-  const notifications = data ?? [];
+  const notifications = parent ? (data ?? []).filter((row) => showParentInAppNotice(row, preferences)) : identity?.role==='teacher' ? (data ?? []).filter(row=>showTeacherInAppNotice(row,teacherPreferences.notices)) : data ?? [];
   const unreadCount = notifications.filter((n) => !n.is_read).length;
 
   return { notifications, unreadCount, isLoading, error, refetch, markAsRead, markAllAsRead };

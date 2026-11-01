@@ -1,0 +1,55 @@
+/* Shared night colors also apply on the login screen after leaving a dashboard. */
+:root[data-theme="dark"] {
+  --color-bg:#142129;
+  --color-surface:#1c2d36;
+  --color-text:#d6e3e7;
+  --color-text-muted:#aebfc7;
+  --color-border:#3b535d;
+  --color-primary:#277f74;
+  --color-primary-hover:#216e65;
+  --color-primary-soft:#28483f;
+  --color-accent-soft:#2b4051;
+  --color-success-soft:#28483f;
+  --color-danger-soft:#49333b;
+  --color-focus:#8abfc4;
+  color-scheme:dark;
+}
+:root[data-theme="dark"] body { background:#142129; color:#d6e3e7; }
+
+/* Teacher message recipients must get the same quiet surfaces as the Parent. */
+:root[data-theme="dark"] body .role-teacher {
+  --color-bg:#142129; --color-surface:#1c2d36; --color-text:#d6e3e7;
+  --color-text-muted:#aebfc7; --color-border:#3b535d;
+  background:#142129; color:#d6e3e7; color-scheme:dark;
+}
+:root[data-theme="dark"] body .role-teacher :is(.teacher-workspace,.teacher-storybook) { background:#142129; }
+:root[data-theme="dark"] body .role-teacher header.sticky { background:#1c2d36; border-color:#3b535d; }
+:root[data-theme="dark"] body .role-teacher header.sticky button { background:#263b45; color:#d6e3e7; border-color:#3b535d; }
+:root[data-theme="dark"] body .role-teacher header.sticky > div > span { color:#d6e3e7; }
+:root[data-theme="dark"] body .role-teacher :is([class*="teacher-"][class*="-card"],.teacher-message-list-panel,.teacher-message-conversation,.teacher-message-composer,.teacher-message-list-panel > header,.teacher-message-conversation > header,[role="menu"],[role="menu"] > div) {
+  background:#1c2d36 !important; border-color:#3b535d !important; color:#d6e3e7;
+}
+:root[data-theme="dark"] body .role-teacher .dashboard-sidebar a[aria-current="page"] { background:#3d3b55 !important; color:#d6e3e7 !important; border-color:#64607b; }
+:root[data-theme="dark"] body .role-teacher :is(h1,h2,h3,h4) { color:#d6e3e7 !important; }
+:root[data-theme="dark"] body .role-teacher :is(input,select,textarea) { background:#263b45 !important; border-color:#3b535d; color:#d6e3e7 !important; }
+:root[data-theme="dark"] body .role-teacher :is(input,textarea)::placeholder { color:#aebfc7; }
+:root[data-theme="dark"] body .role-teacher :is(small,time,.teacher-message-date,.teacher-message-thread-empty,.teacher-message-list-empty,.teacher-settings-card header p,.teacher-notification-toggle small,.teacher-theme-options small) { color:#aebfc7 !important; }
+:root[data-theme="dark"] body .role-teacher :is(.teacher-message-thread,.teacher-message-list-panel nav) { background:#1c2d36; }
+:root[data-theme="dark"] body .role-teacher :is(.teacher-message-list-panel > header p,.teacher-message-conversation > header p) { color:#aebfc7; }
+:root[data-theme="dark"] body .role-teacher :is(.teacher-message-list-panel > header > span,.teacher-message-list-panel nav > button > span,.teacher-message-conversation > header > span) { background:#3d3b55; color:#c8b8ef; }
+:root[data-theme="dark"] body .role-teacher .teacher-message-list-panel nav > button { background:#243944; border-color:#3b535d; color:#d6e3e7; }
+:root[data-theme="dark"] body .role-teacher .teacher-message-list-panel nav > button.is-selected { background:#314843; }
+:root[data-theme="dark"] body .role-teacher .teacher-message-bubble { background:#2b4051; border-color:#3b535d; color:#d6e3e7; }
+:root[data-theme="dark"] body .role-teacher .teacher-message-bubble.teacher { background:#314843; }
+:root[data-theme="dark"] body .role-teacher .teacher-message-bubble small { color:#b9cbd0 !important; opacity:1; }
+:root[data-theme="dark"] body .role-teacher :is(.teacher-message-search,.teacher-message-composer label,.teacher-message-date) { background:#263b45; border-color:#3b535d; }
+:root[data-theme="dark"] body .role-teacher .teacher-message-composer input { background:transparent !important; border:0; box-shadow:none; }
+:root[data-theme="dark"] body .role-teacher .teacher-new-message-modal > article { background:#1c2d36; color:#d6e3e7; }
+:root[data-theme="dark"] body .role-teacher .teacher-new-message-modal__list > button { background:#263b45; color:#d6e3e7; border-color:#3b535d; }
+:root[data-theme="dark"] body .role-teacher :is(.teacher-home-hero,.teacher-students-hero,.teacher-lessons-hero,.teacher-reports-hero,.teacher-messages-hero,.teacher-settings-hero) > img {
+  filter:brightness(.58) saturate(.8);
+}
+:root[data-theme="dark"] body .role-teacher [class$="hero__wash"] { background:linear-gradient(90deg,#192d36f0,#192d36c9 45%,#192d3633) !important; }
+:root[data-theme="dark"] body .role-teacher :is(.teacher-messages-hero,.teacher-settings-hero) > div { background:transparent; }
+:root[data-theme="dark"] body .role-teacher :is(.teacher-messages-hero,.teacher-settings-hero) :is(p,span,small,aside) { color:#d6e3e7 !important; }
+:root[data-theme="dark"] body .role-teacher :is(.teacher-messages-hero,.teacher-settings-hero) aside { background:#34463f; }

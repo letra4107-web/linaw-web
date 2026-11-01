@@ -1,0 +1,74 @@
+import { useRef, useState } from 'react';
+import { Link } from 'react-router-dom';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { BookOpen, BriefcaseBusiness, Camera, Check, CheckCircle2, Copy, Download, Eye, EyeOff, FileText, Heart, LockKeyhole, Mail, Save, Settings2, ShieldCheck, UserRound } from 'lucide-react';
+import { supabase, verifyAccountPassword } from '../../lib/supabaseClient';
+import { useAuth } from '../../lib/auth/AuthContext';
+import { QueryErrorNotice } from '../../components/QueryErrorNotice';
+import { TeacherProfileSecurity } from './TeacherProfileSecurity';
+import { loadTeacherParentReplies } from '../../lib/messages/teacherMessages';
+import classroom from '../../assets/teacher/Teacher Home Hero Banner Background.png';
+import teacher from '../../assets/teacher/Teacher Illustration.png';
+import './profile-reference.css';
+
+interface Profile { grade_levels:number[]; avatar_url:string | null; }
+function PasswordField({ label,value,onChange,autocomplete }: { label:string; value:string; onChange:(value:string)=>void; autocomplete:string }) {
+  const [visible,setVisible] = useState(false);
+  return <label className="tp-password-field"><span>{label} <em>*</em></span><span><LockKeyhole aria-hidden /><input aria-label={label} type={visible ? 'text':'password'} value={value} autoComplete={autocomplete} required onChange={event => onChange(event.target.value)} placeholder={`Ilagay ${autocomplete === 'current-password' ? 'ang kasalukuyang':'ang bagong'} password`} /><button type="button" aria-label={`${visible ? 'Itago':'Ipakita'} ang ${label.toLowerCase()}`} aria-pressed={visible} onClick={() => setVisible(value => !value)}>{visible ? <EyeOff aria-hidden />:<Eye aria-hidden />}</button></span></label>;
+}
+export default function TeacherProfile() {
+  const { user,identity,refreshIdentity } = useAuth(), queryClient = useQueryClient();
+  const [editedName,setEditedName] = useState<string | null>(null), [profileNotice,setProfileNotice] = useState(''), [photoError,setPhotoError] = useState('');
+  const [current,setCurrent] = useState(''), [next,setNext] = useState(''), [confirm,setConfirm] = useState(''), [passwordNotice,setPasswordNotice] = useState('');
+  const [copyNotice,setCopyNotice] = useState(''), [downloadNotice,setDownloadNotice] = useState('');
+  const fileInput = useRef<HTMLInputElement>(null), photoGuard = useRef(false), saveGuard = useRef(false), passwordGuard = useRef(false);
+  const profile = useQuery({ queryKey:['teacher-profile-settings',user?.id],queryFn:async () => { const {data,error} = await supabase.from('teacher_profiles').select('grade_levels, avatar_url').eq('user_id',user!.id).maybeSingle(); if(error)throw error; return data as Profile | null; },enabled:Boolean(user) });
+  const name = editedName ?? identity?.displayName ?? '', grades = profile.data?.grade_levels ?? [], gradeOptions = [...new Set([1,2,3,4,...grades])].sort((a,b)=>a-b);
+  const save = useMutation({ mutationFn:async (submitted:string) => { if (!submitted.trim())throw new Error('Ilagay ang iyong pangalan.'); const {data,error} = await supabase.from('users').update({name:submitted.trim()}).eq('id',user!.id).select('id').single(); if(error || !data)throw new Error('Hindi na-save ang pangalan. Subukan muli.'); },onSuccess:async (_data,submitted) => { setProfileNotice('Na-save ang iyong profile.'); await refreshIdentity(); setEditedName(value => value === submitted ? null:value); },onSettled:()=>{saveGuard.current=false;} });
+  const passwordChecks = [['8+ characters',next.length>=8],['May malaking letra (A–Z)',/[A-Z]/.test(next)],['May maliit na letra (a–z)',/[a-z]/.test(next)],['May numero (0–9)',/[0-9]/.test(next)],['May special character (!@#)',/[^A-Za-z0-9]/.test(next)]] as const;
+  const password = useMutation({ mutationFn:async () => {
+    if (!passwordChecks.every(([,met])=>met))throw new Error('Sundin ang lahat ng password requirements.');
+    if (next !== confirm)throw new Error('Hindi magkatugma ang bagong password.');
+    if (next === current)throw new Error('Gumamit ng bagong password na iba sa kasalukuyan.');
+    await verifyAccountPassword(user!.email!,current,user!.id);
+    const updated = await supabase.auth.updateUser({password:next}); if(updated.error)throw new Error('Hindi na-update ang password. Subukan muli.');
+  },onSuccess:()=>{setCurrent('');setNext('');setConfirm('');setPasswordNotice('Na-update ang password.');},onSettled:()=>{passwordGuard.current=false;} });
+  const upload = useMutation({ mutationFn:async (file:File) => {
+    if (!['image/png','image/jpeg','image/webp'].includes(file.type) || !file.size || file.size>2*1024*1024)throw new Error('Pumili ng PNG, JPG, o WEBP na hanggang 2 MB.');
+    const bitmap = await createImageBitmap(file).catch(()=>null); if(!bitmap)throw new Error('Hindi mabuksan ang larawan. Pumili ng ibang file.'); bitmap.close();
+    const extension = {'image/png':'png','image/jpeg':'jpg','image/webp':'webp'}[file.type];
+    const path = `${user!.id}/avatar-${crypto.randomUUID()}.${extension}`;
+    const result = await supabase.storage.from('teacher-avatars').upload(path,file,{contentType:file.type,upsert:false}); if(result.error)throw new Error('Hindi na-upload ang larawan. Subukan muli.');
+    const {data:url} = supabase.storage.from('teacher-avatars').getPublicUrl(path);
+    const {data,error} = await supabase.from('teacher_profiles').update({avatar_url:url.publicUrl}).eq('user_id',user!.id).select('user_id').single(); if(error || !data)throw new Error('Hindi ma-save ang larawan sa profile. Subukan muli.');
+  },onSuccess:()=>{setPhotoError('');setProfileNotice('Na-update ang profile photo.');void queryClient.invalidateQueries({queryKey:['message-profile-photos']});void queryClient.invalidateQueries({queryKey:['teacher-profile-settings']});},onError:(error:Error)=>setPhotoError(error.message),onSettled:()=>{photoGuard.current=false;} });
+  const download = useMutation({ mutationFn:async () => {
+    if (profile.error)throw new Error('I-load muna ang profile bago mag-download.');
+    const results = await Promise.all([supabase.from('lessons').select('id, title, description').eq('teacher_id',user!.id),supabase.from('teacher_messages').select('id, parent_id, child_id, message, read, created_at').eq('teacher_id',user!.id)]);
+    if(results.some(result=>result.error))throw new Error('Hindi makuha ang iyong data. Subukan muli.');
+    const replies = await loadTeacherParentReplies(supabase,user!.id);
+    const content = JSON.stringify({exported_at:new Date().toISOString(),account:{id:user!.id,name:identity?.displayName,email:user!.email,role:'teacher'},profile:profile.data ?? null,lessons:results[0].data,messages:results[1].data,replies},null,2);
+    const url=URL.createObjectURL(new Blob([content],{type:'application/json'})),anchor=document.createElement('a');anchor.href=url;anchor.download='linawletra-teacher-account.json';document.body.append(anchor);anchor.click();anchor.remove();window.setTimeout(()=>URL.revokeObjectURL(url),1000);
+  },onSuccess:()=>setDownloadNotice('Na-download ang iyong account data.'),onError:()=>setDownloadNotice('Hindi ma-download ang data. Subukan muli.') });
+  async function copyId(){try{await navigator.clipboard.writeText(user!.id);setCopyNotice('Nakopya ang account ID.');}catch{setCopyNotice('Hindi makopya. Piliin ang ID upang kopyahin ito.');}}
+
+  return <div className="teacher-profile-design">
+    <header className="tp-hero"><img className="tp-background" src={classroom} alt="" aria-hidden /><div className="tp-hero-copy"><p>MAGANDANG ARAW,</p><h1>Aking Detalye <span aria-hidden>👋</span></h1><p>Pamahalaan ang iyong account at mga kagustuhan<br className="tp-wide-break" /> sa LinawLetra.</p></div><img className="tp-teacher" src={teacher} alt="" aria-hidden /><blockquote>Patuloy na<br /> magbigay ng mas<br /> maliwanag na<br /> kinabukasan<br /> para sa bawat<br /> bata. <Heart aria-hidden /></blockquote></header>
+    <QueryErrorNotice error={profile.error} onRetry={()=>void profile.refetch()} message="Hindi makuha ang teaching profile. Subukan muli." />
+    <div className="tp-grid"><div className="tp-left">
+      <section className="tp-identity"><div className="tp-avatar-wrap" id="profile-photo"><span className="tp-avatar-image"><img className={profile.data?.avatar_url ? '':'is-default'} src={profile.data?.avatar_url || teacher} alt="Profile photo" /></span><button type="button" onClick={()=>fileInput.current?.click()} disabled={upload.isPending || !profile.data} aria-label="Palitan ang profile photo"><Camera aria-hidden /></button><input ref={fileInput} type="file" accept="image/png,image/jpeg,image/webp" className="sr-only" aria-label="Piliin ang profile photo" onChange={event=>{const file=event.target.files?.[0];event.target.value='';if(file && !photoGuard.current){photoGuard.current=true;setPhotoError('');upload.mutate(file);}}} /></div><div className="tp-identity-copy"><div><h2>{identity?.displayName ?? 'Guro'}</h2><span className="tp-active"><CheckCircle2 aria-hidden /> Aktibong Guro</span></div><div className="tp-identity-tags"><span><BriefcaseBusiness aria-hidden /> Guro</span><span><BookOpen aria-hidden /> {profile.error ? 'Hindi makuha ang baitang':profile.isLoading ? 'Kinukuha ang baitang…':grades.length ? grades.map(value=>value===0?'Kindergarten':`Grade ${value}`).join(', '):'Wala pang assigned grade'}</span><span className="tp-id" title={user?.id}>ID: <b>{user?.id}</b><button type="button" aria-label="Kopyahin ang account ID" onClick={()=>void copyId()}><Copy aria-hidden /></button></span></div>{copyNotice && <p className="tp-small-notice" role="status">{copyNotice}</p>}</div></section>
+      {photoError && <p className="tp-notice error" role="alert">{photoError}</p>}{upload.isPending && <p className="tp-small-notice" role="status">Ina-upload ang larawan…</p>}
+      <section className="tp-card tp-profile-form"><header className="tp-heading"><span className="tp-icon"><UserRound aria-hidden /></span><div><h2>Profile Ko</h2><p>I-edit ang iyong personal na impormasyon.</p></div></header><form onSubmit={event=>{event.preventDefault();if(!saveGuard.current){saveGuard.current=true;setProfileNotice('');save.mutate(name);}}}>
+        <label className="tp-form-row"><span><UserRound aria-hidden />Pangalan <em>*</em></span><input aria-label="Pangalan" required maxLength={120} autoComplete="name" value={name} onChange={event=>setEditedName(event.target.value)} /></label>
+        <label className="tp-form-row"><span><Mail aria-hidden />Email <em>*</em></span><input aria-label="Email" readOnly value={user?.email ?? ''} autoComplete="email" /></label>
+        <label className="tp-form-row"><span><BriefcaseBusiness aria-hidden />Tungkulin <em>*</em></span><select aria-label="Tungkulin" value="teacher" disabled><option value="teacher">Guro</option></select></label>
+        <fieldset className="tp-grade-row"><legend><BookOpen aria-hidden />Mga Grade na Itinuturo</legend><div>{profile.error ? <p>Hindi makuha ang mga baitang.</p>:profile.isLoading ? <p role="status">Kinukuha ang mga baitang…</p>:gradeOptions.map(value=><label className={grades.includes(value)?'assigned':''} key={value}><input type="checkbox" checked={grades.includes(value)} disabled aria-label={value===0?'Kindergarten':`Grade ${value}`} /><span>{value===0?'Kindergarten':`Grade ${value}`}</span></label>)}</div><p>Makipag-ugnayan sa admin para sa pagbabago ng baitang.</p></fieldset>
+        {save.error && <p className="tp-notice error" role="alert">{save.error.message}</p>}{profileNotice && <p className="tp-notice success" role="status">{profileNotice}</p>}<button type="submit" className="tp-primary" disabled={save.isPending}><Save aria-hidden />{save.isPending?'Sine-save…':'I-save ang mga Pagbabago'}</button>
+      </form></section>
+      <section className="tp-card tp-more"><header className="tp-heading"><span className="tp-icon"><FileText aria-hidden /></span><div><h2>Mga Karagdagang Detalye</h2><p>Iba pang impormasyon tungkol sa iyo.</p></div></header><div><label>Pangunahing Wika<select aria-label="Pangunahing Wika" disabled defaultValue="fil"><option value="fil">Filipino (Default)</option></select></label><label>Time Zone<select aria-label="Time Zone" disabled defaultValue="Asia/Manila"><option value="Asia/Manila">(GMT+8) Manila, Philippines</option></select></label></div></section>
+    </div><div className="tp-right">
+      <section className="tp-card tp-password" id="change-password"><header className="tp-heading"><span className="tp-icon"><LockKeyhole aria-hidden /></span><div><h2>Palitan ang Password</h2><p>Panatilihing ligtas ang iyong account.</p></div></header><form onSubmit={event=>{event.preventDefault();if(!passwordGuard.current){passwordGuard.current=true;setPasswordNotice('');password.mutate();}}}><div className="tp-password-layout"><div className="tp-password-fields"><PasswordField label="Kasalukuyang Password" value={current} onChange={setCurrent} autocomplete="current-password" /><PasswordField label="Bagong Password" value={next} onChange={setNext} autocomplete="new-password" /><PasswordField label="Kumpirmahin ang Bagong Password" value={confirm} onChange={setConfirm} autocomplete="new-password" /><button type="submit" className="tp-primary" disabled={password.isPending}><LockKeyhole aria-hidden />{password.isPending?'Ina-update…':'I-update ang Password'}</button></div><aside className="tp-password-checks"><h3><ShieldCheck aria-hidden />Mga Kailangan sa Password:</h3>{passwordChecks.map(([label,met])=><p key={label} className={met?'met':''}><span>{met?<Check aria-hidden />:<span aria-hidden>○</span>}</span>{label}</p>)}</aside></div>{password.error && <p className="tp-notice error" role="alert">{password.error.message}</p>}{passwordNotice && <p className="tp-notice success" role="status">{passwordNotice}</p>}</form></section>
+      <div className="tp-bottom"><TeacherProfileSecurity /><section className="tp-card tp-actions"><header className="tp-heading"><span className="tp-icon"><Settings2 aria-hidden /></span><div><h2>Account Actions</h2><p>Pamahalaan ang iyong account.</p></div></header><button type="button" className="tp-action-row blue" disabled={download.isPending || profile.isLoading} onClick={()=>{setDownloadNotice('');download.mutate();}}><span className="tp-action-icon blue"><Download aria-hidden /></span><span><b>{download.isPending?'Dina-download…':'I-download ang Aking Data'}</b><small>Kumuha ng kopya ng iyong data.</small></span></button><Link to="/teacher/settings" className="tp-action-row pink"><span className="tp-action-icon pink"><Settings2 aria-hidden /></span><span><b>Mga Setting ng Account</b><small>Ayusin ang display at mga abiso.</small></span></Link>{downloadNotice && <p className="tp-small-notice" role="status">{downloadNotice}</p>}</section></div>
+    </div></div>
+  </div>;
+}

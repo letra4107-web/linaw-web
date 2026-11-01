@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '../../lib/supabaseClient';
 import { useAuth } from '../../lib/auth/AuthContext';
@@ -8,6 +8,8 @@ import { PdfReadingAssistant } from '../../components/PdfReadingAssistant';
 import { PdfDrillReview } from '../../components/teacher/PdfDrillReview';
 import { cardStyle, CARD_COLORS } from '../../lib/cardStyle';
 import { openAccessUrl } from '../../lib/openAccessUrl';
+import { QueryErrorNotice } from '../../components/QueryErrorNotice';
+import { validateReadingPdf } from '../../lib/teacher/pdfTools';
 
 interface PdfMaterial {
   id: string;
@@ -66,7 +68,7 @@ function IconBadge({ icon, brandVar }: { icon: string; brandVar: string }) {
 function EditForm({ material, onSaved, onCancel }: { material: PdfMaterial; onSaved: () => void; onCancel: () => void }) {
   const queryClient = useQueryClient();
   const [title, setTitle] = useState(material.title);
-  const [gradeLevel, setGradeLevel] = useState(material.grade_level ? String(material.grade_level) : '');
+  const [gradeLevel, setGradeLevel] = useState(material.grade_level != null ? String(material.grade_level) : '');
   const [level, setLevel] = useState(material.level ?? '');
   const [error, setError] = useState<string | null>(null);
 
@@ -87,6 +89,7 @@ function EditForm({ material, onSaved, onCancel }: { material: PdfMaterial; onSa
   return (
     <div className="flex flex-col gap-3 rounded-xl bg-white/60 p-4">
       <input
+        aria-label="Baguhin ang pamagat ng PDF" maxLength={160} disabled={save.isPending}
         value={title}
         onChange={(e) => setTitle(e.target.value)}
         placeholder="Pamagat"
@@ -94,6 +97,7 @@ function EditForm({ material, onSaved, onCancel }: { material: PdfMaterial; onSa
       />
       <div className="grid grid-cols-2 gap-3">
         <select
+          aria-label="Baguhin ang baitang ng PDF" disabled={save.isPending}
           value={gradeLevel}
           onChange={(e) => setGradeLevel(e.target.value)}
           className="rounded-lg border border-[var(--color-border)] px-4 py-2 text-sm"
@@ -106,6 +110,7 @@ function EditForm({ material, onSaved, onCancel }: { material: PdfMaterial; onSa
           ))}
         </select>
         <select
+          aria-label="Baguhin ang reading level ng PDF" disabled={save.isPending}
           value={level}
           onChange={(e) => setLevel(e.target.value)}
           className="rounded-lg border border-[var(--color-border)] px-4 py-2 text-sm"
@@ -126,7 +131,7 @@ function EditForm({ material, onSaved, onCancel }: { material: PdfMaterial; onSa
         >
           {save.isPending ? 'Sine-save...' : 'I-save'}
         </button>
-        <button type="button" onClick={onCancel} className="rounded-full border border-[var(--color-border)] px-4 py-1.5 text-sm">
+        <button type="button" onClick={onCancel} disabled={save.isPending} className="rounded-full border border-[var(--color-border)] px-4 py-1.5 text-sm">
           Kanselahin
         </button>
       </div>
@@ -137,6 +142,7 @@ function EditForm({ material, onSaved, onCancel }: { material: PdfMaterial; onSa
 export default function PdfReading() {
   const { user } = useAuth();
   const queryClient = useQueryClient();
+  const fileInput = useRef<HTMLInputElement>(null), uploadGuard = useRef(false), assignGuard = useRef(false);
   const [title, setTitle] = useState('');
   const [gradeLevel, setGradeLevel] = useState('');
   const [level, setLevel] = useState('');
@@ -152,7 +158,7 @@ export default function PdfReading() {
   const [uploadMode, setUploadMode] = useState<'plain' | 'drill'>('plain');
   const [view, setView] = useState<'active' | 'archived'>('active');
 
-  const { data: materials, isLoading } = useQuery({
+  const { data: materials, isLoading, error: materialsError, refetch: refetchMaterials } = useQuery({
     queryKey: ['pdf-materials', user?.id],
     queryFn: async () => {
       const { data, error: err } = await supabase
@@ -170,8 +176,8 @@ export default function PdfReading() {
   const archivedMaterials = (materials ?? []).filter((m) => m.archived_at);
   const visibleMaterials = view === 'active' ? activeMaterials : archivedMaterials;
 
-  const { data: monitorAssignments } = useQuery({
-    queryKey: ['pdf-monitor', monitorId],
+  const { data: monitorAssignments, isLoading: monitorLoading, error: monitorError, refetch: refetchMonitor } = useQuery({
+    queryKey: ['pdf-monitor', user?.id, monitorId],
     queryFn: async () => {
       const { data, error: err } = await supabase
         .from('pdf_assignments')
@@ -183,12 +189,12 @@ export default function PdfReading() {
     enabled: Boolean(monitorId),
   });
 
-  const { data: roster } = useQuery({
-    queryKey: ['teacher-roster', user?.id],
+  const { data: roster, isLoading: rosterLoading, error: rosterError, refetch: refetchRoster } = useQuery({
+    queryKey: ['teacher-pdf-roster', user?.id],
     queryFn: async () => {
       const { data, error: err } = await supabase
         .from('teacher_student_links')
-        .select('id, student_id, children(id, name)');
+        .select('id, student_id, children(id, name)').eq('teacher_id', user!.id);
       if (err) throw err;
       return data as unknown as RosterChild[];
     },
@@ -199,6 +205,7 @@ export default function PdfReading() {
     mutationFn: async () => {
       if (!file) throw new Error('Pumili ng PDF file.');
       if (!title.trim()) throw new Error('Kailangan ng title.');
+      await validateReadingPdf(file);
 
       const {
         data: { session },
@@ -216,8 +223,9 @@ export default function PdfReading() {
         headers: { Authorization: `Bearer ${session?.access_token}` },
         body: formData,
       });
-      const payload = await res.json();
+      const payload = await res.json().catch(() => { throw new Error('Hindi makausap ang PDF service. Subukan muli.'); });
       if (!res.ok) throw new Error(payload.error || 'Hindi na-upload ang PDF.');
+      if (!payload?.material?.id) throw new Error('Hindi makumpirma ang upload. I-refresh ang listahan bago subukang muli.');
       return payload as { material: { id: string } };
     },
     onSuccess: (payload) => {
@@ -225,11 +233,14 @@ export default function PdfReading() {
       setGradeLevel('');
       setLevel('');
       setFile(null);
+      if (fileInput.current) fileInput.current.value = '';
       setError(null);
       queryClient.invalidateQueries({ queryKey: ['pdf-materials'] });
+      void queryClient.invalidateQueries({ queryKey: ['teacher-materials-count'] });
       if (uploadMode === 'drill' && payload?.material?.id) setReviewingId(payload.material.id);
     },
     onError: (err: Error) => setError(err.message),
+    onSettled: () => { uploadGuard.current = false; },
   });
 
   const assign = useMutation({
@@ -242,8 +253,9 @@ export default function PdfReading() {
       });
       if (err) throw err;
     },
-    onSuccess: (_, variables) => { setAssigningId(null); setAssignmentDueDate(''); setAssignmentSuccess(`Na-assign na ang PDF kay ${variables.studentName}. Maaari mo nang subaybayan ang progreso nito sa materyal.`); },
+    onSuccess: (_, variables) => { setError(null); setAssigningId(null); setAssignmentDueDate(''); setAssignmentSuccess(`Na-assign na ang PDF kay ${variables.studentName}. Maaari mo nang subaybayan ang progreso nito sa materyal.`); void queryClient.invalidateQueries({ queryKey: ['pdf-monitor'] }); void queryClient.invalidateQueries({ queryKey: ['teacher-pending-assignments'] }); void queryClient.invalidateQueries({ queryKey: ['teacher-student-detail-assignments'] }); },
     onError: () => setError('Hindi na-assign ang PDF. Suriin ang koneksyon at subukan muli.'),
+    onSettled: () => { assignGuard.current = false; },
   });
 
   const archive = useMutation({
@@ -273,7 +285,7 @@ export default function PdfReading() {
       <form
         onSubmit={(e) => {
           e.preventDefault();
-          upload.mutate();
+          if (!uploadGuard.current) { uploadGuard.current = true; setError(null); upload.mutate(); }
         }}
         className="flex min-w-0 flex-col gap-4 rounded-3xl border p-5 shadow-card sm:p-6"
         style={cardStyle('--color-brand-teal', 8, 30)}
@@ -283,6 +295,7 @@ export default function PdfReading() {
         <div className="flex gap-1 rounded-full border border-white/70 bg-white/70 p-1">
           <button
             type="button"
+            disabled={upload.isPending}
             onClick={() => setUploadMode('plain')}
             className={`flex-1 rounded-full px-4 py-2 text-sm font-medium transition-colors ${
               uploadMode === 'plain' ? 'bg-[var(--color-primary)] text-white shadow-sm' : 'hover:bg-white'
@@ -292,6 +305,7 @@ export default function PdfReading() {
           </button>
           <button
             type="button"
+            disabled={upload.isPending}
             onClick={() => setUploadMode('drill')}
             className={`flex-1 rounded-full px-4 py-2 text-sm font-medium transition-colors ${
               uploadMode === 'drill' ? 'bg-[var(--color-primary)] text-white shadow-sm' : 'hover:bg-white'
@@ -307,6 +321,7 @@ export default function PdfReading() {
           </p>
         )}
         <input
+          aria-label="Pamagat ng PDF" maxLength={160} disabled={upload.isPending}
           value={title}
           onChange={(e) => setTitle(e.target.value)}
           placeholder="Pamagat"
@@ -315,6 +330,7 @@ export default function PdfReading() {
         />
         <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
           <select
+            aria-label="Baitang ng PDF" disabled={upload.isPending}
             value={gradeLevel}
             onChange={(e) => setGradeLevel(e.target.value)}
             className="min-h-12 min-w-0 rounded-2xl border border-[var(--color-border)] bg-white/80 px-4"
@@ -327,6 +343,7 @@ export default function PdfReading() {
             ))}
           </select>
           <select
+            aria-label="Reading Level ng PDF" disabled={upload.isPending}
             value={level}
             onChange={(e) => setLevel(e.target.value)}
             className="min-h-12 min-w-0 rounded-2xl border border-[var(--color-border)] bg-white/80 px-4"
@@ -338,12 +355,14 @@ export default function PdfReading() {
           </select>
         </div>
         <input
+          ref={fileInput} aria-label="Pumili ng PDF" disabled={upload.isPending}
           type="file"
           accept="application/pdf"
           onChange={(e) => setFile(e.target.files?.[0] ?? null)}
           className="min-h-12 w-full min-w-0 rounded-2xl border border-[var(--color-border)] bg-white/80 px-4 py-2"
         />
-        {error && <p className="text-sm text-[var(--color-danger)]">{error}</p>}
+        <small>PDF lamang, hanggang 15 MB.</small>
+        {error && <p role="alert" className="text-sm text-[var(--color-danger)]">{error}</p>}
         <button
           type="submit"
           disabled={upload.isPending}
@@ -379,7 +398,8 @@ export default function PdfReading() {
         </div>
 
         {isLoading && <p>Naglo-load...</p>}
-        {!isLoading && visibleMaterials.length === 0 && (
+        <QueryErrorNotice error={materialsError} onRetry={() => void refetchMaterials()} message="Hindi ma-load ang PDF Library. Subukan muli." />
+        {!isLoading && !materialsError && visibleMaterials.length === 0 && (
           <p className="rounded-2xl border border-dashed border-[var(--color-border)] p-8 text-center text-[var(--color-text-muted)]">
             {view === 'active' ? 'Wala ka pang na-upload na PDF.' : 'Walang naka-archive na PDF.'}
           </p>
@@ -490,7 +510,7 @@ export default function PdfReading() {
               </div>
 
               {editingId === m.id && (
-                <EditForm material={m} onSaved={() => setEditingId(null)} onCancel={() => setEditingId(null)} />
+                <EditForm material={m} onSaved={() => setEditingId(value => value === m.id ? null : value)} onCancel={() => setEditingId(null)} />
               )}
               {previewId === m.id && (
                 <div className="rounded-xl bg-white/60 p-4">
@@ -505,6 +525,8 @@ export default function PdfReading() {
               {monitorId === m.id && (
                 <div className="rounded-xl bg-white/60 p-4">
                   <h3 className="mb-2 font-medium">Progreso ng Mag-aaral</h3>
+                  {monitorLoading && <p role="status">Kinukuha ang progreso…</p>}
+                  <QueryErrorNotice error={monitorError} onRetry={() => void refetchMonitor()} message="Hindi makuha ang assignment progress." />
                   <ul className="flex flex-col gap-2">
                     {(monitorAssignments ?? []).map((a) => {
                       const best = a.pdf_reading_attempts.reduce((max, at) => Math.max(max, at.accuracy), 0);
@@ -517,8 +539,8 @@ export default function PdfReading() {
                         </li>
                       );
                     })}
-                    {(monitorAssignments ?? []).length === 0 && (
-                      <p className="text-sm text-[var(--color-text-muted)]">Wala pang naka-assign dito.</p>
+                    {!monitorLoading && !monitorError && (monitorAssignments ?? []).length === 0 && (
+                      <li className="text-sm text-[var(--color-text-muted)]">Wala pang naka-assign dito.</li>
                     )}
                   </ul>
                 </div>
@@ -536,7 +558,7 @@ export default function PdfReading() {
                     <li key={r.id}>
                       <button
                         type="button"
-                        onClick={() => assign.mutate({ materialId: m.id, studentId: r.student_id, dueDate: assignmentDueDate, studentName: r.children?.name ?? 'mag-aaral' })}
+                        onClick={() => { if (!assignGuard.current) { assignGuard.current = true; setError(null); assign.mutate({ materialId: m.id, studentId: r.student_id, dueDate: assignmentDueDate, studentName: r.children?.name ?? 'mag-aaral' }); } }}
                         disabled={assign.isPending}
                         className="rounded-full border border-white/70 bg-white px-3 py-1 text-sm hover:border-[var(--color-primary)]"
                       >
@@ -544,8 +566,10 @@ export default function PdfReading() {
                       </button>
                     </li>
                   ))}
-                  {(roster ?? []).length === 0 && (
-                    <p className="text-sm text-[var(--color-text-muted)]">Walang mag-aaral sa listahan mo. Pumunta sa "Mag-aaral Ko" muna.</p>
+                  {rosterLoading && <li role="status">Kinukuha ang mga mag-aaral…</li>}
+                  {rosterError && <li><QueryErrorNotice error={rosterError} onRetry={() => void refetchRoster()} message="Hindi makuha ang mga mag-aaral." /></li>}
+                  {!rosterLoading && !rosterError && (roster ?? []).length === 0 && (
+                    <li className="text-sm text-[var(--color-text-muted)]">Walang mag-aaral sa listahan mo. Pumunta sa "Mag-aaral Ko" muna.</li>
                   )}
                 </ul>
               )}

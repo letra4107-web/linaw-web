@@ -1,0 +1,169 @@
+/* Parent night palette. Retain illustrations and color cues without white panels. */
+:root[data-theme="dark"] body .role-parent {
+  --night-bg:#142129;
+  --night-panel:#1c2d36;
+  --night-raised:#263b45;
+  --night-line:#3b535d;
+  --night-text:#d6e3e7;
+  --night-muted:#aebfc7;
+  --night-accent:#8bd2bf;
+  --color-bg:var(--night-bg);
+  --color-surface:var(--night-panel);
+  --color-text:var(--night-text);
+  --color-text-muted:var(--night-muted);
+  --color-border:var(--night-line);
+  --color-primary-soft:#28483f;
+  --color-success-soft:#28483f;
+  background:var(--night-bg);
+  color:var(--night-text);
+  color-scheme:dark;
+}
+:root[data-theme="dark"] body .role-parent .parent-content > :is(.parent-home-reference,.progress-ref,.calendar-reference,.children-portal,.parent-messages-reference,.parent-account-reference,.parent-notice-reference,.parent-app-preferences) {
+  --ref-surface:var(--night-panel); --ref-text:var(--night-text); --ref-muted:var(--night-muted); --ref-line:var(--night-line);
+  --progress-surface:var(--night-panel); --progress-text:var(--night-text); --progress-muted:var(--night-muted); --progress-line:var(--night-line);
+  --cal-surface:var(--night-panel); --cal-ink:var(--night-text); --cal-muted:var(--night-muted); --cal-line:var(--night-line);
+  --kid-surface:var(--night-panel); --kid-ink:var(--night-text); --kid-muted:var(--night-muted); --kid-border:var(--night-line); --kid-green:var(--night-accent);
+  --messages-surface:var(--night-panel); --messages-ink:var(--night-text); --messages-muted:var(--night-muted); --messages-border:var(--night-line);
+  --account-surface:var(--night-panel); --account-ink:var(--night-text); --account-muted:var(--night-muted); --account-line:var(--night-line);
+  --notice-surface:var(--night-panel); --notice-ink:var(--night-text); --notice-muted:var(--night-muted); --notice-line:var(--night-line);
+  --ap-surface:var(--night-panel); --ap-ink:var(--night-text); --ap-muted:var(--night-muted); --ap-line:var(--night-line);
+}
+
+/* Shared navigation, inputs, menus and overlays. */
+:root[data-theme="dark"] body .role-parent .parent-sidebar {
+  background:linear-gradient(165deg,#17443f,#19333f) !important;
+  box-shadow:none;
+}
+:root[data-theme="dark"] body .role-parent .parent-sidebar-illustration { filter:brightness(.65) saturate(.8); }
+:root[data-theme="dark"] body .role-parent .parent-sidebar .parent-nav-item[aria-current="page"] {
+  border-color:#52766e !important; background:#284b43 !important; color:var(--night-text) !important; box-shadow:none !important;
+}
+:root[data-theme="dark"] body .role-parent .parent-sidebar .parent-nav-icon {
+  background:#27535d !important; color:#bededb !important;
+}
+:root[data-theme="dark"] body .role-parent :is(.parent-profile-menu,.parent-profile-menu-header,.parent-mobile-header,.parent-empty-state) {
+  border-color:var(--night-line); background:var(--night-panel); color:var(--night-text);
+}
+:root[data-theme="dark"] body .role-parent .parent-mobile-header button { background:var(--night-raised); border-color:var(--night-line); color:var(--night-text); }
+:root[data-theme="dark"] body .role-parent .parent-mobile-header > div:first-child > span { color:var(--night-text); }
+:root[data-theme="dark"] body .role-parent :is(input:not([type="checkbox"]):not([type="radio"]),select,textarea) {
+  background-color:var(--night-raised); background-image:none; border-color:var(--night-line); color:var(--night-text);
+}
+:root[data-theme="dark"] body .role-parent :is(input,textarea)::placeholder { color:var(--night-muted); opacity:1; }
+:root[data-theme="dark"] body .role-parent :is(button,a,input,select,textarea,summary):focus-visible { outline-color:#8abfc4; }
+
+/* Artwork is dimmed separately, leaving headings and controls readable. */
+:root[data-theme="dark"] body .role-parent :is(.parent-ref-hero,.progress-ref-hero,.calendar-reference-hero,.kid-hero,.materials-hero) {
+  background-color:#87959a; background-blend-mode:multiply; border-color:var(--night-line);
+}
+:root[data-theme="dark"] body .role-parent :is(.messages-banner-illustration,.account-hero-art,.notice-hero-art,.ap-hero-art) {
+  filter:brightness(.56) saturate(.8);
+}
+:root[data-theme="dark"] body .role-parent :is(.messages-hero,.account-hero,.notice-hero,.ap-hero) { background:var(--night-panel); }
+:root[data-theme="dark"] body .role-parent :is(.parent-ref-hero,.progress-ref-hero,.calendar-reference-hero,.kid-hero,.messages-hero,.notice-hero,.ap-hero)::before,
+:root[data-theme="dark"] body .role-parent .account-hero::after {
+  background:linear-gradient(90deg,#182c36ed,#182c36c9 32%,#182c3620 70%);
+}
+:root[data-theme="dark"] body .role-parent :is(.parent-ref-hero,.progress-ref-hero,.calendar-reference-hero,.kid-hero,.messages-hero,.account-hero,.notice-hero,.ap-hero,.materials-hero) :is(h1,p,b,strong,span,em) {
+  color:var(--night-text) !important; text-shadow:none;
+}
+:root[data-theme="dark"] body .role-parent :is(.account-hero,.ap-hero,.notice-hero) h1 em,
+:root[data-theme="dark"] body .role-parent .progress-hero-title h1 strong { color:var(--night-accent) !important; }
+:root[data-theme="dark"] body .role-parent .ref-hero-copy h1 { color:#ed9bb9; text-shadow:none; }
+:root[data-theme="dark"] body .role-parent :is(.ref-hero-note,.progress-ref-hero aside,.calendar-hero-note,.kid-hero-note,.messages-hero-note,.account-hero-note,.notice-hero-note,.ap-hero-note,.materials-hero aside) {
+  background:#34463f; border-color:#64715a; color:var(--night-text) !important; box-shadow:0 4px 14px #0002;
+}
+:root[data-theme="dark"] body .role-parent :is(.ap-hero-copy > p,.notice-hero-copy) { background:transparent; }
+:root[data-theme="dark"] body .role-parent .ref-hero-signpost { filter:brightness(.7) saturate(.75); }
+
+/* Summary cards, rows and secondary controls use quiet tinted surfaces. */
+:root[data-theme="dark"] body .role-parent :is(.parent-ref-child,.parent-ref-metric,.ref-child-option,.ref-manage-children,.ref-learning-inner,.progress-ref-picker,.progress-child-option,.progress-ref-metrics > article,.progress-ref-module,.progress-ref-week > a,.progress-ref-recommendation,.kid-roster-item,.kid-metric,.kid-module-row,.account-fields dd,.account-child,.account-contact-email,.account-action,.account-child-metrics > span,.materials-child-picker,.materials-metrics article,.materials-library,.materials-reading-tip) {
+  background:var(--night-panel); border-color:var(--night-line); color:var(--night-text);
+}
+:root[data-theme="dark"] body .role-parent .parent-ref-metric::after,
+:root[data-theme="dark"] body .role-parent .progress-ref-metrics > article::after { opacity:.08; }
+:root[data-theme="dark"] body .role-parent :is(.ref-child-option.selected,.progress-child-option.selected,.kid-roster-item.selected,.kid-module-details-row td) {
+  background:#28463f; border-color:#598575;
+}
+:root[data-theme="dark"] body .role-parent :is(.ref-add-child > span,.progress-add-child > span,.account-outline,.kid-edit-button,.kid-account-shortcut,.kid-module-pagination,.materials-list button,.materials-list a) {
+  background:var(--night-raised); border-color:var(--night-line); color:var(--night-accent) !important;
+}
+:root[data-theme="dark"] body .role-parent :is(.ref-bars span,.ref-activity-list small,.progress-ref-categories b,.progress-ref-donut small,.kid-card-heading p,.kid-level-caption,.account-muted,.account-action p,.materials-list p,.materials-list small,.materials-metrics span,.materials-reading-tip p,.materials-child-picker small) {
+  color:var(--night-muted);
+}
+:root[data-theme="dark"] body .role-parent :is(.ref-card-heading > a,.progress-ref-card-heading button,.kid-card-heading a,.calendar-section-link,.account-child-menu a,.materials-reading-tip a) { color:#96c9e1 !important; }
+:root[data-theme="dark"] body .role-parent :is(.parent-ref-icon,.progress-ref-icon,.account-icon,.ap-icon,.materials-metrics i,.material-document,.notice-icon,.messages-avatar) {
+  background:#2e4655; color:#9cc9e1;
+}
+:root[data-theme="dark"] body .role-parent :is(.parent-ref-icon.green,.progress-ref-icon.green,.account-icon.green,.ap-icon.green,.ap-icon.bars) { background:#294b40; color:#92d0b2; }
+:root[data-theme="dark"] body .role-parent :is(.parent-ref-icon.gold,.progress-ref-icon.gold,.account-icon.gold,.ap-icon.gold,.ap-icon.calendar) { background:#4b4230; color:#e3c482; }
+:root[data-theme="dark"] body .role-parent :is(.parent-ref-icon.rose,.progress-ref-icon.rose,.account-icon.rose,.ap-icon.megaphone) { background:#4b3544; color:#dda8bf; }
+:root[data-theme="dark"] body .role-parent :is(.parent-ref-icon.violet,.progress-ref-icon.violet,.ap-icon.purple) { background:#3d3b55; color:#bdb2e4; }
+:root[data-theme="dark"] body .role-parent :is(.ref-bars i,.ref-learning-track,.progress-ref-categories i,.progress-ref-detail-bar,.kid-progress-track,.account-progress-track) { background:#3a4d57; }
+:root[data-theme="dark"] body .role-parent .ref-donut { border-color:#243640; background:conic-gradient(#68b699 var(--value),#3a4d57 0); }
+:root[data-theme="dark"] body .role-parent .progress-ref-donut { background:conic-gradient(#68b699 var(--p),#3a4d57 0); }
+:root[data-theme="dark"] body .role-parent .ref-current-progress i { background:#3a4d57; }
+:root[data-theme="dark"] body .role-parent .ref-current-progress b { background:var(--night-raised); color:var(--night-muted); }
+:root[data-theme="dark"] body .role-parent .ref-activity-list a { border-color:var(--night-line); }
+:root[data-theme="dark"] body .role-parent .account-avatar { background:#2b4c43; border-color:#42675a; color:var(--night-accent); }
+
+/* Calendar controls, tinted events and the Children table. */
+:root[data-theme="dark"] body .role-parent :is(.calendar-weekdays,.calendar-weekdays b,.calendar-day-grid > button.outside,.calendar-activity-table thead,.kid-module-table thead th) {
+  background:var(--night-raised); color:var(--night-muted);
+}
+:root[data-theme="dark"] body .role-parent :is(.calendar-toolbar button:not(.active),.calendar-view-tabs button:not(.active),.calendar-child-picker label,.calendar-upcoming-list > button,.kid-page-menu select) {
+  background:var(--night-panel); border-color:var(--night-line); color:var(--night-text);
+}
+:root[data-theme="dark"] body .role-parent :is(.calendar-day-grid > button.selected,.calendar-day-grid > button.today) { background:#28463f; color:var(--night-text); }
+:root[data-theme="dark"] body .role-parent :is(.calendar-event,.calendar-event-pill,.calendar-event-chip,.calendar-status,.calendar-legend i,.calendar-upcoming-list time,.kid-module-status,.kid-profile-name > span,.account-verified,.account-identity-name > span,.materials-list em) {
+  background:#304b45; color:#b7d9cb !important;
+}
+:root[data-theme="dark"] body .role-parent :is(.calendar-reminder,.calendar-motivation,.calendar-add-form,.calendar-activity-detail) { background:var(--night-panel) !important; }
+:root[data-theme="dark"] body .role-parent :is(.calendar-add-form h3,.calendar-activity-detail h3,.materials-empty h3) { color:var(--night-text); }
+:root[data-theme="dark"] body .role-parent .calendar-legend > span { color:var(--night-muted); }
+:root[data-theme="dark"] body .role-parent .calendar-upcoming-empty button { color:var(--night-accent); }
+:root[data-theme="dark"] body .role-parent .calendar-motivation strong { color:var(--night-text); }
+:root[data-theme="dark"] body .role-parent .kid-phonetic-preview { color:#a4d0c0 !important; text-shadow:none; }
+
+/* Chat menus, date chips, reactions and notice controls. */
+:root[data-theme="dark"] body .role-parent :is(.messages-filter,.messages-contact-actions > button,.messages-menu > button,.messages-emoji summary,.messages-bubble,.messages-file-link,.messages-thread,.messages-date-divider span,.notice-search,.notice-sort,.notice-filters > button,.ap-theme-card) {
+  background:var(--night-raised); border-color:var(--night-line); color:var(--night-text);
+}
+:root[data-theme="dark"] body .role-parent :is(.messages-thread.is-selected,.messages-bubble.outgoing,.messages-filter button[aria-selected="true"],.notice-filters > button[aria-pressed="true"],.ap-theme-card.selected) {
+  background:#2b4c43; border-color:#638b7a; color:var(--night-text);
+}
+:root[data-theme="dark"] body .role-parent .parent-messages-reference :is(.messages-thread.is-selected,.messages-bubble.outgoing,.messages-filter button[aria-selected="true"]) {
+  background:#2b4c43; color:var(--night-text);
+}
+:root[data-theme="dark"] body .role-parent .messages-thread.is-selected :is(small,time) { color:#bed0d4; }
+:root[data-theme="dark"] body .role-parent .notice-row { background:#243944; border-color:var(--night-line); }
+:root[data-theme="dark"] body .role-parent :is(.messages-emoji > div,.messages-menu > div,.message-reaction-picker > div,.account-child-menu > div) { background:var(--night-panel); border-color:var(--night-line); }
+:root[data-theme="dark"] body .role-parent :is(.messages-emoji button,.message-reactions button,.message-reaction-picker summary) { background:var(--night-raised); color:var(--night-text); border-color:var(--night-line); }
+:root[data-theme="dark"] body .role-parent .message-reactions button[aria-pressed="true"] { background:#2b4c43; border-color:#638b7a; }
+:root[data-theme="dark"] body .role-parent .materials-library nav button { background:var(--night-raised); color:var(--night-text); }
+:root[data-theme="dark"] body .role-parent .materials-library nav button[aria-pressed="true"] { background:#2b4c43; color:var(--night-accent); }
+
+/* Encouragement cards and dialogs remain part of the same night theme. */
+:root[data-theme="dark"] body .role-parent :is(.kid-quote,.account-family-quote,.ap-personalized) { background:#2b3943; border-color:var(--night-line); }
+:root[data-theme="dark"] body .role-parent :is(.kid-quote,.account-family-quote,.ap-personalized) > img { filter:brightness(.62) saturate(.8); }
+:root[data-theme="dark"] body .role-parent :is(.kid-quote blockquote,.account-family-quote blockquote,.ap-personalized h2) { color:var(--night-text) !important; text-shadow:none; }
+:root[data-theme="dark"] body .role-parent .ap-personalized p { color:var(--night-muted); }
+:root[data-theme="dark"] body .role-parent :is(.ap-theme-art.light,.ap-theme-art.system) { filter:brightness(.6) saturate(.8); }
+:root[data-theme="dark"] body .role-parent .ap-switch:not(.is-on) { background:#536875; }
+:root[data-theme="dark"] body .role-parent .ap-switch i { background:#d6e3e7; }
+:root[data-theme="dark"] body .role-parent :is(.kid-enroll-modal,.account-modal-card,.ap-mfa-dialog,.notice-modal-card,.account-password-dialog,.parent-credential-modal > div) {
+  background:var(--night-panel); color:var(--night-text); border-color:var(--night-line);
+}
+:root[data-theme="dark"] body .role-parent .kid-enroll-modal :is(p,small) { color:var(--night-muted); }
+:root[data-theme="dark"] body .role-parent .kid-enroll-content aside strong { color:var(--night-text); }
+:root[data-theme="dark"] body .role-parent .kid-enroll-steps li.active { color:var(--night-accent); }
+:root[data-theme="dark"] body .role-parent .kid-enroll-steps li.active b { background:#276559; color:var(--night-text); }
+:root[data-theme="dark"] body .role-parent :is(.ap-error,.materials-error,.messages-error,.kid-enroll-error) { background:#49333b; color:#e9bdc6; border-color:#79545f; }
+:root[data-theme="dark"] body .role-parent [aria-labelledby="change-password-title"] > form { background:var(--night-panel); color:var(--night-text); }
+:root[data-theme="dark"] body .role-parent [aria-labelledby="change-password-title"] :is(section,footer,aside > div) { background:var(--night-raised); border-color:var(--night-line); }
+:root[data-theme="dark"] body .role-parent [aria-labelledby="change-password-title"] :is(h2,p,label,label > span,li,button) { color:var(--night-text); }
+:root[data-theme="dark"] body .role-parent [aria-labelledby="change-password-title"] button { background:var(--night-raised); border-color:var(--night-line); }
+:root[data-theme="dark"] body .role-parent [aria-labelledby="change-password-title"] footer > button:last-child { background:#216e65; }
+@media (prefers-reduced-motion:no-preference) {
+  .role-parent { transition:background-color .15s; }
+}

@@ -1,0 +1,165 @@
+/* Parent Calendar reference, preserving the existing schedule forms and mutations. */
+.role-parent:has(.calendar-reference) { background:#eaf8fc; }
+.role-parent:has(.calendar-reference) .parent-content { max-width:1660px; padding:0 16px 18px; }
+.role-parent .calendar-reference { --cal-ink:#101d57; --cal-muted:#496b96; --cal-line:#deedf5; gap:12px; font-size:calc(14px * var(--font-scale,1)); }
+.role-parent .calendar-reference-hero { min-height:210px; isolation:isolate; padding:18px 33px 15px 70px; border-radius:20px; background-color:#e1f6fb; background-size:cover; background-position:center 37%; }
+.calendar-reference-hero::before { position:absolute; z-index:-1; inset:0; background:linear-gradient(90deg,#effcffef,#f4fcf9cf 26%,#f4fcf930 46%,transparent 60%); content:''; }
+.role-parent .calendar-reference-hero > div { width:48%; max-width:480px; }
+.role-parent .calendar-reference-hero > div > p { width:fit-content; border-radius:99px; padding:4px 15px; background:#f4ffffb5; color:#006a68; font-size:.85em; }
+.role-parent .calendar-hero-heading { align-items:flex-end; gap:15px; margin:7px 0 8px; }
+.role-parent .calendar-hero-heading h1 { color:#00535e; font-size:clamp(29px,2.6vw,38px); line-height:1.2; }
+.role-parent .calendar-hero-heading > svg { width:46px; height:46px; margin-bottom:3px; border-radius:13px; padding:9px; background:#ffdeeb; color:#f92781; }
+.role-parent .calendar-reference-hero > div > span { max-width:450px; color:#153b68; font-size:.97em; font-weight:600; line-height:1.5; }
+.role-parent .calendar-hero-note { top:43px; right:3%; width:170px; min-height:121px; padding:20px 18px; background:#fffdee; color:#123955; }
+.role-parent .calendar-hero-note span { font-size:1.03em; }
+.role-parent .calendar-hero-note svg { top:-10px; right:4px; color:#fc5387; }
+.role-parent .calendar-reference-grid { grid-template-columns:minmax(0,2.02fr) minmax(0,1fr); gap:14px; }
+.role-parent :is(.calendar-reference-left,.calendar-reference-side) { gap:13px; }
+.role-parent :is(.calendar-board,.calendar-details,.calendar-reference-side > section) { padding:11px 13px; border-radius:18px; }
+.role-parent .calendar-toolbar { gap:15px; }
+.role-parent .calendar-month-navigation { gap:6px; }
+.role-parent .calendar-month-navigation h2 { font-size:1.75em; }
+.role-parent .calendar-toolbar button { height:43px; min-width:43px; border-color:#e0edf7; border-radius:12px; font-size:.82em; }
+.role-parent .calendar-view-toggle { gap:5px; }
+.role-parent .calendar-view-toggle button { padding:8px 12px; }
+.role-parent .calendar-view-toggle button.active { background:linear-gradient(115deg,#008b89,#006f72); border-color:#008b89; }
+.role-parent .calendar-weekdays { gap:2px; margin-top:11px; border:0; border-radius:0; background:transparent; }
+.role-parent .calendar-weekdays b { min-height:35px; border-radius:14px; padding:9px 3px; background:#f0f6fa; color:#47658e; font-size:.86em; }
+.role-parent .calendar-day-grid { border-top:0; border-left:0; }
+.role-parent .calendar-day-grid > button { min-height:72px; gap:6px; padding:8px; border-color:#e1edf5; }
+.role-parent .calendar-day-grid > button strong { font-size:.9em; }
+.role-parent .calendar-day-grid > button.outside { color:#60788f; background:#fdfefe; }
+.role-parent .calendar-day-grid > button.today { background:linear-gradient(120deg,#ecfcf5,#d9f9eb); }
+.role-parent .calendar-day-grid > button.selected { background:linear-gradient(120deg,#edfcf7,#dff9ed); box-shadow:inset 0 0 0 1px #a5e5d0; }
+.role-parent .calendar-day-grid > button.today > strong { width:30px; height:30px; background:linear-gradient(120deg,#00978c,#00696b); }
+.role-parent .calendar-day-grid small { display:flex; align-items:center; gap:5px; min-height:29px; padding:5px 7px; border-radius:10px; font-size:.76em; }
+.role-parent .calendar-day-grid small > svg { flex-shrink:0; }
+.role-parent .calendar-day-grid small > span { min-width:0; overflow:hidden; text-overflow:ellipsis; }
+.role-parent .calendar-day-grid.view-month .calendar-event-count { position:absolute; top:9px; right:5px; max-width:calc(100% - 40px); overflow:hidden; color:var(--cal-muted); font-size:.65em; white-space:nowrap; }
+.role-parent .calendar-reference .green { background:#dcfbed; color:#006e57; }
+.role-parent .calendar-reference .blue { background:#def2ff; color:#0067b5; }
+.role-parent .calendar-reference .gold { background:#fff2ce; color:#8d5700; }
+.role-parent .calendar-reference .violet { background:#f0e4ff; color:#7a29b7; }
+.role-parent .calendar-reference .rose { background:#ffe2ee; color:#ad1d59; }
+.role-parent .calendar-legend { gap:12px; padding:12px 2px 1px; font-size:.75em; font-weight:600; }
+.role-parent .calendar-legend i { width:27px; height:27px; }
+.role-parent .calendar-legend svg { width:18px; height:18px; }
+.role-parent .calendar-details { position:relative; overflow:hidden; min-height:236px; }
+.calendar-details::after { position:absolute; right:0; bottom:0; width:70px; height:55px; background:url('../../assets/admin_design/sidebar-foliage-right.png') right bottom / 70px auto no-repeat; content:''; opacity:.55; pointer-events:none; }
+.role-parent .calendar-details-heading { min-height:35px; }
+.role-parent .calendar-details-heading h2 { font-size:1.2em; }
+.role-parent .calendar-details-heading > span { width:36px; height:36px; background:#ddf3ff; }
+.role-parent .calendar-details-heading > button { min-height:36px; gap:8px; border-radius:12px; padding:8px 13px; font-size:.93em; background:linear-gradient(115deg,#008a85,#006f72); }
+.role-parent .calendar-details-filter { margin:4px 0 13px 48px; font-size:.82em; }
+.role-parent .calendar-activity-table { position:relative; z-index:1; font-size:.82em; }
+.role-parent .calendar-activity-table th { border-radius:11px; padding:8px 7px; font-size:.86em; }
+.role-parent .calendar-activity-table td { padding:7px; }
+.role-parent .calendar-activity-table td strong { font-weight:700; }
+.role-parent .calendar-row-date { display:block; margin-bottom:3px; color:var(--cal-muted); font-size:.9em; }
+.role-parent .calendar-activity-table .calendar-status { max-width:120px; padding:5px 8px; border-radius:99px; background:#fff0c7; color:#895500; }
+.role-parent .calendar-activity-table .status-completed { background:#dbf8e9; color:#006d4b; }
+.role-parent .calendar-activity-table .status-missed { background:#ffe6eb; color:#a83153; }
+.role-parent .calendar-activity-table .calendar-row-details { min-width:30px; height:30px; border:0; border-radius:9px; color:#829dbd; }
+.role-parent .calendar-reference-side .calendar-child-picker { min-height:84px; padding:9px 13px; }
+.role-parent .calendar-child-picker > p { margin-bottom:5px; color:var(--cal-ink); font-size:.8em; }
+.role-parent .calendar-child-picker label { min-height:51px; border-color:#dceaf6; border-radius:14px; padding:6px 9px; }
+.role-parent .calendar-child-picker i { width:40px; height:40px; border:2px solid #90ded7; }
+.role-parent .calendar-child-picker .ref-home-art { width:100%; height:100%; }
+.role-parent .calendar-child-picker strong { font-size:.86em; }
+.role-parent .calendar-child-picker small { color:var(--cal-muted); font-size:.78em; }
+.role-parent .calendar-reference-side header { margin-bottom:8px; }
+.role-parent .calendar-reference-side header h2 { color:#005660; font-size:1.16em; }
+.role-parent .calendar-section-link { color:#006cc4; font-size:.78em; }
+.role-parent .calendar-reference-side .calendar-upcoming { padding:12px 10px 7px; border-color:var(--cal-line); background:var(--cal-surface); }
+.role-parent .calendar-upcoming header { padding:0 3px; }
+.role-parent .calendar-upcoming-list { border-radius:0; }
+.role-parent .calendar-upcoming-list > button { min-height:54px; gap:12px; padding:5px 4px; border-color:#e7eff4; }
+.role-parent .calendar-upcoming-list time { width:43px; height:42px; gap:2px; border-radius:12px; }
+.role-parent .calendar-upcoming-list time b { font-size:.69em; font-weight:700; }
+.role-parent .calendar-upcoming-list time strong { font-size:1.06em; }
+.role-parent .calendar-upcoming-list .calendar-type-icon { width:40px; height:40px; }
+.role-parent .calendar-upcoming-list > button > span b { font-size:.91em; }
+.role-parent .calendar-upcoming-list > button small { margin-top:3px; font-size:.86em; }
+.role-parent .calendar-reference-side .calendar-reminder { min-height:211px; padding:11px 14px; border-color:#eadbff; background:linear-gradient(120deg,#fffbff,#faf5ff) !important; }
+.role-parent .calendar-reminder header { gap:9px; }
+.role-parent .calendar-reminder header h2 { color:var(--cal-ink); }
+.role-parent .calendar-reminder header > span { width:34px; height:34px; }
+.role-parent .calendar-reminder-list > :is(a,button) { gap:13px; padding:7px 4px; }
+.role-parent .calendar-reminder-list i { width:37px; height:37px; }
+.role-parent .calendar-reminder-list b { font-size:.91em; font-weight:700; }
+.role-parent .calendar-reminder-list small { font-size:.82em; }
+.role-parent .calendar-reminder-foliage { opacity:.08; }
+.role-parent .calendar-reference-side .calendar-motivation { min-height:164px; grid-template-columns:minmax(0,1fr) 41%; padding:10px 15px; background:linear-gradient(120deg,#fffdf3,#ffefbd); }
+.role-parent .calendar-motivation > div { padding:10px 0 0 10px; }
+.role-parent .calendar-motivation strong { font-size:1.25em; line-height:1.45; }
+.role-parent .calendar-motivation > img { right:0; bottom:-8px; width:175px; height:177px; max-width:48%; }
+.role-parent .calendar-motivation-heart { top:auto; right:58%; bottom:25px; color:#fb5d9e; fill:#fb5d9e; }
+.role-parent .calendar-saved { color:#007a54; }
+.role-parent .calendar-add-form { position:relative; z-index:2; }
+.role-parent .calendar-reference :is(a,button,input,select,textarea):focus-visible { outline:3px solid #008d88; outline-offset:3px; }
+@media (max-width:1350px) {
+ .role-parent .calendar-reference-hero { padding-left:35px; }
+ .role-parent .calendar-reference-hero > div { width:50%; }
+ .role-parent .calendar-hero-note { right:2%; width:145px; padding:17px 14px; }
+ .role-parent .calendar-reference-grid { grid-template-columns:minmax(0,1.8fr) minmax(0,1fr); }
+ .role-parent .calendar-toolbar { flex-wrap:wrap; gap:9px; }
+ .role-parent .calendar-month-navigation h2 { font-size:1.5em; }
+ .role-parent .calendar-reference-side header h2 { font-size:1.03em; }
+ .role-parent .calendar-section-link { font-size:.7em; }
+ .role-parent .calendar-legend { gap:9px; font-size:.69em; }
+ .role-parent .calendar-motivation strong { font-size:1.1em; }
+}
+@media (max-width:1100px) and (min-width:1024px) {
+ .role-parent .calendar-reference-grid { grid-template-columns:minmax(0,1fr); }
+ .role-parent .calendar-reference-side { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); }
+}
+@media (max-width:800px) {
+ .role-parent .calendar-reference-grid { grid-template-columns:minmax(0,1fr); }
+ .role-parent .calendar-reference-side { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); }
+ .role-parent .calendar-reference-hero > div { width:65%; }
+ .role-parent .calendar-hero-note { width:125px; right:16px; padding:14px; }
+ .role-parent .calendar-hero-note span { font-size:.91em; }
+}
+@media (max-width:560px) {
+ .role-parent:has(.calendar-reference) .parent-content { padding:0 10px 16px; }
+ .role-parent .calendar-reference-hero { min-height:245px; padding:22px; background-position:58% center; }
+ .calendar-reference-hero::before { background:linear-gradient(90deg,#f4fcfff5,#f4fcffcf 50%,#f4fcff25 80%); }
+ .role-parent .calendar-reference-hero > div { width:89%; }
+ .role-parent .calendar-hero-heading h1 { font-size:27px; }
+ .role-parent .calendar-hero-heading > svg { width:36px; height:36px; padding:7px; }
+ .role-parent .calendar-reference-hero > div > span { font-size:.9em; }
+ .role-parent .calendar-reference-side { display:flex; }
+ .role-parent :is(.calendar-board,.calendar-details,.calendar-reference-side > section) { padding:11px; }
+ .role-parent .calendar-toolbar { flex-direction:column; }
+ .role-parent .calendar-view-toggle { width:100%; }
+ .role-parent .calendar-view-toggle button { flex:1; }
+ .role-parent .calendar-weekdays b { min-height:30px; padding:7px 1px; border-radius:9px; font-size:.75em; }
+ .role-parent .calendar-day-grid > button { min-height:62px; padding:5px; }
+ .role-parent .calendar-day-grid:not(.view-day) small { display:block; width:8px; min-height:0; height:8px; border-radius:50%; padding:0; color:transparent; }
+ .role-parent .calendar-day-grid:not(.view-day) small > :is(svg,span) { display:none; }
+ .role-parent .calendar-day-grid.view-month .calendar-event-count { top:auto; right:3px; bottom:3px; max-width:none; }
+ .role-parent .calendar-day-grid.view-day small { align-items:flex-start; white-space:normal; }
+ .role-parent .calendar-day-grid.view-day small > span { overflow:visible; }
+ .role-parent .calendar-legend { gap:8px; font-size:.72em; }
+ .role-parent .calendar-details-heading h2 { font-size:1em; }
+ .role-parent .calendar-details-heading > span { width:30px; height:30px; }
+ .role-parent .calendar-details-heading > button { gap:5px; padding:8px 10px; font-size:.8em; }
+ .role-parent .calendar-details-filter { margin-left:40px; }
+ .role-parent .calendar-activity-table { min-width:570px; }
+ .role-parent .calendar-reference-side header h2 { font-size:1.1em; }
+ .role-parent .calendar-section-link { font-size:.75em; }
+ .role-parent .calendar-motivation strong { font-size:1.2em; }
+}
+body[data-font="dyslexic"] .role-parent .calendar-toolbar { flex-wrap:wrap; }
+@media (max-width:560px) { body[data-font="dyslexic"] .role-parent .calendar-reference-hero > div { width:100%; } body[data-font="dyslexic"] .role-parent .calendar-hero-heading h1 { font-size:24px; } }
+:root[data-theme="dark"] .role-parent:has(.calendar-reference) { background:#122737; }
+:root[data-theme="dark"] .role-parent .calendar-reference { --cal-ink:#eef6ff; --cal-muted:#bcd1e7; --cal-line:#36596b; --cal-surface:#1b3045; }
+:root[data-theme="dark"] .role-parent .calendar-hero-note { background:#fff9e8; color:#142553; }
+:root[data-theme="dark"] .role-parent .calendar-reference-side header h2 { color:var(--cal-ink); }
+:root[data-theme="dark"] .role-parent .calendar-section-link { color:#80ceff; }
+:root[data-theme="dark"] .role-parent .calendar-reference-side .calendar-reminder { background:#20364c !important; }
+:root[data-theme="dark"] .role-parent .calendar-reference :is(.calendar-weekdays b,.calendar-day-grid > button.selected,.calendar-day-grid > button.today) { background:#28495b; color:#eef6ff; }
+:root[data-theme="high-contrast"] .role-parent .calendar-reference { --cal-ink:#000; --cal-muted:#111; --cal-line:#000; --cal-surface:#fff; }
+:root[data-theme="high-contrast"] .role-parent .calendar-reference-side .calendar-reminder { background:#fff !important; }
+:root[data-theme="high-contrast"] .role-parent .calendar-reference .calendar-section-link { color:#003b99; }
+@media (prefers-reduced-motion:reduce) { .role-parent .calendar-reference *, .role-parent .calendar-reference *::after { transition:none !important; } }

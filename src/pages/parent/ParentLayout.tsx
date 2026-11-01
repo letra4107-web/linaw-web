@@ -1,17 +1,21 @@
 import { useEffect, useId, useRef, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import { NavLink, Outlet } from 'react-router-dom';
+import { NavLink, Outlet, useLocation } from 'react-router-dom';
 import { CalendarDays, ChartNoAxesColumnIncreasing, ChevronRight, Home, Mail, Menu, Users, type LucideIcon } from 'lucide-react';
 import { supabase } from '../../lib/supabaseClient';
 import { useAuth } from '../../lib/auth/AuthContext';
+import { softSignOut } from '../../lib/auth/softSignOut';
 import { useNotifications } from '../../lib/useNotifications';
 import { useAccessibility, type ThemeMode } from '../../lib/a11y/AccessibilityContext';
 import { DashboardShell } from '../../components/DashboardShell';
 import logo from '../../assets/Logo.jpg';
+import familySidebarArt from '../../assets/parent/home-sidebar-reading.png';
 import { AppIcon } from '../../components/a11y/AppIcon';
 import { enableParentEnglish } from './parentTranslations';
 import './parent-theme.css';
+import './parent-illustrated-sidebar.css';
 import './calendar-reference.css';
+import './parent-dark-theme.css';
 
 const PRIMARY_TABS = [
   { to: '/parent', end: true, icon: Home, label: 'Simula' },
@@ -72,8 +76,11 @@ function ProfileMenu({ collapsed, mobile = false }: { collapsed: boolean; mobile
     setSigningOut(true);
     setSignOutError('');
     try {
-      const { error } = await supabase.auth.signOut();
-      if (error) throw error;
+      if (user) await softSignOut({ userId: user.id, role: 'parent', displayName, email: user.email ?? '', avatarUrl: parentRow?.avatar_url ?? identity?.avatarUrl ?? undefined });
+      else {
+        const { error } = await supabase.auth.signOut();
+        if (error) throw error;
+      }
       setOpen(false);
     } catch {
       setSignOutError('Hindi makapag-sign out ngayon. Subukan muli.');
@@ -145,6 +152,8 @@ function NavContents({ collapsed, english }: { collapsed: boolean; english: bool
 }
 
 export default function ParentLayout() {
+  const { pathname } = useLocation();
+  const illustratedSidebar = /^\/parent(?:\/(?:progress|schedule|children|messages|settings|notifications|app-settings|materials))?\/?$/.test(pathname);
   const [collapsed, setCollapsed] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const portalRef = useRef<HTMLDivElement>(null);
@@ -165,8 +174,9 @@ export default function ParentLayout() {
 
   return (
     <DashboardShell roleLabel="Magulang" hideHeader roleTheme="parent">
-      <div ref={portalRef} className="parent-shell">
+      <div ref={portalRef} className={`parent-shell${illustratedSidebar ? ' parent-illustrated-shell' : ''}`}>
         <aside className={`dashboard-sidebar parent-sidebar ${collapsed ? 'is-collapsed' : ''}`}>
+          {illustratedSidebar && <img className="parent-sidebar-illustration" src={familySidebarArt} alt="" aria-hidden="true" decoding="sync" />}
           <div className={`parent-sidebar-brand ${collapsed ? 'justify-center' : ''}`}>
             <button type="button" onClick={() => setCollapsed((value) => !value)} title={collapsed ? 'Palawakin ang sidebar' : 'Paliitin ang sidebar'} className="flex min-w-0 items-center gap-2 rounded-xl p-1 text-white transition-colors hover:bg-white/10">
               <img src={logo} alt="LinawLetra" className="h-10 w-10 shrink-0 rounded-xl object-cover shadow-sm" />
