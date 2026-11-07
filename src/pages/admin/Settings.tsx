@@ -1,10 +1,12 @@
-import { useState } from 'react';
+﻿import { useEffect, useState } from 'react';
 import { useMutation } from '@tanstack/react-query';
 import { supabase } from '../../lib/supabaseClient';
 import { useAuth } from '../../lib/auth/AuthContext';
-import { cardStyle } from '../../lib/cardStyle';
-import { IconLabel } from '../../components/a11y/IconLabel';
-import { AppIcon } from '../../components/a11y/AppIcon';
+import { useAccessibility } from '../../lib/a11y/AccessibilityContext';
+import { CalendarDays, Check, CheckCircle2, Eye, EyeOff, KeyRound, LockKeyhole, Mail, Monitor, Moon, Save, Settings as SettingsIcon, ShieldCheck, Sun, UserRound } from 'lucide-react';
+import { AdminHero, AdminStats, PanelHeading } from './AdminPrimitives';
+
+
 
 function initialsFor(name: string) {
   const parts = name.trim().split(/\s+/).filter(Boolean);
@@ -14,6 +16,10 @@ function initialsFor(name: string) {
 
 export default function Settings() {
   const { user, identity, refreshIdentity } = useAuth();
+  const { theme, setTheme, fontScale, setFontScale, readingGuide, setReadingGuide } = useAccessibility();
+  const [showPassword, setShowPassword] = useState(false), [showConfirm, setShowConfirm] = useState(false);
+  const [systemTheme, setSystemTheme] = useState(false);
+  useEffect(() => { if (!systemTheme) return; const media = window.matchMedia('(prefers-color-scheme: dark)'); const apply = () => setTheme(media.matches ? 'dark' : 'default'); apply(); media.addEventListener('change', apply); return () => media.removeEventListener('change', apply); }, [systemTheme, setTheme]);
   const [name, setName] = useState(identity?.displayName ?? '');
   const [newEmail, setNewEmail] = useState('');
   const [newPassword, setNewPassword] = useState('');
@@ -29,7 +35,7 @@ export default function Settings() {
       if (err) throw err;
     },
     onSuccess: async () => {
-      setProfileMsg('Na-save ang pangalan.');
+      setProfileMsg('Name saved.');
       setError(null);
       await refreshIdentity();
     },
@@ -40,13 +46,13 @@ export default function Settings() {
     mutationFn: async () => {
       const trimmed = newEmail.trim();
       if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(trimmed)) {
-        throw new Error('Maglagay ng valid na email address.');
+        throw new Error('Enter a valid email address.');
       }
       const { error: err } = await supabase.auth.updateUser({ email: trimmed });
       if (err) throw err;
     },
     onSuccess: () => {
-      setEmailMsg('Nagpadala kami ng kumpirmasyon sa parehong luma at bagong email — buksan ang link para tapusin ang pagbabago.');
+      setEmailMsg('We sent a confirmation to both email addresses. Open the link to complete the change.');
       setNewEmail('');
       setError(null);
     },
@@ -56,16 +62,16 @@ export default function Settings() {
   const updatePassword = useMutation({
     mutationFn: async () => {
       if (newPassword.length < 8 || !/[A-Z]/.test(newPassword) || !/[0-9]/.test(newPassword)) {
-        throw new Error('Kailangang 8+ characters, may malaking letra at numero.');
+        throw new Error('Use at least 8 characters, an uppercase letter, and a number.');
       }
       if (newPassword !== confirmPassword) {
-        throw new Error('Hindi magkatugma ang dalawang password.');
+        throw new Error('The passwords do not match.');
       }
       const { error: err } = await supabase.auth.updateUser({ password: newPassword });
       if (err) throw err;
     },
     onSuccess: () => {
-      setPasswordMsg('Na-update ang password.');
+      setPasswordMsg('Password updated.');
       setNewPassword('');
       setConfirmPassword('');
       setError(null);
@@ -75,166 +81,17 @@ export default function Settings() {
 
   const passwordChecks = [
     { label: '8+ characters', met: newPassword.length >= 8 },
-    { label: 'May malaking letra (A-Z)', met: /[A-Z]/.test(newPassword) },
-    { label: 'May numero (0-9)', met: /[0-9]/.test(newPassword) },
+    { label: 'Uppercase letter (A–Z)', met: /[A-Z]/.test(newPassword) },
+    { label: 'Number (0–9)', met: /[0-9]/.test(newPassword) },
   ];
 
-  return (
-    <div className="flex min-w-0 flex-col gap-6">
-      <div
-        className="relative flex min-w-0 flex-col items-start gap-4 overflow-hidden rounded-3xl border border-white/30 p-5 text-white shadow-raised sm:flex-row sm:items-center sm:p-7"
-        style={{ backgroundColor: 'var(--color-primary)' }}
-      >
-        <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl border border-white/25 bg-white/20 text-2xl font-extrabold shadow-card backdrop-blur">
-          {initialsFor(identity?.displayName ?? 'Admin')}
-        </div>
-        <div className="min-w-0">
-          <p className="text-xs font-extrabold tracking-[.12em] text-white/65 uppercase">Admin profile</p>
-          <h1 className="truncate text-2xl font-extrabold sm:text-3xl">{identity?.displayName ?? 'Aking Profile'}</h1>
-          <p className="truncate text-sm text-white/80">{user?.email}</p>
-          <span className="mt-2 inline-block rounded-full border border-white/20 bg-white/15 px-3 py-1 text-xs font-bold backdrop-blur">
-            <IconLabel icon="🛡️" label="Admin Account" />
-          </span>
-        </div>
-      </div>
-
-      {error && (
-        <p role="alert" className="rounded-2xl border border-[var(--color-danger)]/35 bg-[var(--color-danger-soft)] px-4 py-3 text-sm font-bold text-[var(--color-danger)]">
-          {error}
-        </p>
-      )}
-
-      <div className="grid min-w-0 grid-cols-1 gap-5 lg:grid-cols-2">
-        <div className="rounded-3xl border p-5 shadow-card sm:p-6" style={cardStyle('--color-brand-sage', 6, 24)}>
-          <h2 className="mb-1 text-xl font-extrabold">
-            <IconLabel icon="✏️" label="Profile Ko" />
-          </h2>
-          <p className="mb-4 text-sm text-[var(--color-text-muted)]">Ito ang pangalang makikita sa iyong admin account.</p><form
-            onSubmit={(e) => {
-              e.preventDefault();
-              updateProfile.mutate();
-            }}
-            className="flex flex-col gap-3"
-          >
-            <label htmlFor="name" className="text-sm font-medium">
-              Pangalan
-            </label>
-            <input
-              id="name"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              className="min-h-11 rounded-xl border border-[var(--color-border)] bg-white/75 px-4 outline-none focus:border-[var(--color-primary)] focus:ring-2 focus:ring-[var(--color-primary)]/15"
-            />
-            {profileMsg && <p className="text-sm font-medium text-[var(--color-success)]">{profileMsg}</p>}
-            <button
-              type="submit"
-              disabled={updateProfile.isPending}
-              className="min-h-11 self-start rounded-xl bg-[var(--color-brand-sage)] px-5 font-extrabold text-white shadow-card hover:opacity-90 disabled:opacity-60"
-            >
-              {updateProfile.isPending ? 'Sine-save...' : 'I-save'}
-            </button>
-          </form>
-        </div>
-
-        <div className="rounded-3xl border p-5 shadow-card sm:p-6" style={cardStyle('--color-brand-teal', 6, 24)}>
-          <h2 className="mb-4 text-xl font-extrabold">
-            <IconLabel icon="📧" label="Palitan ang Email" />
-          </h2>
-          <p className="mb-3 text-sm text-[var(--color-text-muted)]">
-            Kasalukuyang email: <span className="font-medium">{user?.email}</span>. Magpapadala kami ng kumpirmasyon
-            link bago ito magbago.
-          </p>
-          <form
-            onSubmit={(e) => {
-              e.preventDefault();
-              updateEmail.mutate();
-            }}
-            className="flex flex-col gap-3"
-          >
-            <label htmlFor="newEmail" className="text-sm font-medium">
-              Bagong Email
-            </label>
-            <input
-              id="newEmail"
-              type="email"
-              value={newEmail}
-              onChange={(e) => setNewEmail(e.target.value)}
-              placeholder="bagong-email@halimbawa.com"
-              className="min-h-11 rounded-xl border border-[var(--color-border)] bg-white/75 px-4 outline-none focus:border-[var(--color-primary)] focus:ring-2 focus:ring-[var(--color-primary)]/15"
-            />
-            {emailMsg && <p className="text-sm font-medium text-[var(--color-success)]">{emailMsg}</p>}
-            <button
-              type="submit"
-              disabled={updateEmail.isPending || !newEmail.trim()}
-              className="min-h-11 self-start rounded-xl bg-[var(--color-brand-teal)] px-5 font-extrabold text-white shadow-card hover:opacity-90 disabled:opacity-60"
-            >
-              {updateEmail.isPending ? 'Ipinapadala...' : 'I-update ang Email'}
-            </button>
-          </form>
-        </div>
-
-        <div className="rounded-3xl border p-5 shadow-card sm:p-6 lg:col-span-2" style={cardStyle('--color-brand-coral', 6, 24)}>
-          <h2 className="mb-1 text-xl font-extrabold">
-            <IconLabel icon="🔒" label="Palitan ang Password" />
-          </h2>
-          <p className="mb-4 text-sm text-[var(--color-text-muted)]">Gumamit ng matibay at natatanging password para sa admin access.</p><form
-            onSubmit={(e) => {
-              e.preventDefault();
-              updatePassword.mutate();
-            }}
-            className="grid grid-cols-1 gap-4 lg:grid-cols-2"
-          >
-            <div className="flex flex-col gap-3">
-              <label htmlFor="password" className="text-sm font-medium">
-                Bagong Password
-              </label>
-              <input
-                id="password"
-                type="password"
-                value={newPassword}
-                onChange={(e) => setNewPassword(e.target.value)}
-                className="min-h-11 rounded-xl border border-[var(--color-border)] bg-white/75 px-4 outline-none focus:border-[var(--color-primary)] focus:ring-2 focus:ring-[var(--color-primary)]/15"
-              />
-              <label htmlFor="confirmPassword" className="text-sm font-medium">
-                Kumpirmahin ang Bagong Password
-              </label>
-              <input
-                id="confirmPassword"
-                type="password"
-                value={confirmPassword}
-                onChange={(e) => setConfirmPassword(e.target.value)}
-                className="min-h-11 rounded-xl border border-[var(--color-border)] bg-white/75 px-4 outline-none focus:border-[var(--color-primary)] focus:ring-2 focus:ring-[var(--color-primary)]/15"
-              />
-            </div>
-            <div className="flex flex-col justify-center gap-2">
-              <p className="text-sm font-medium text-[var(--color-text-muted)]">Kailangan ng password:</p>
-              {passwordChecks.map((c) => (
-                <p
-                  key={c.label}
-                  className={`flex items-center gap-2 text-sm ${c.met ? 'text-[var(--color-success)]' : 'text-[var(--color-text-muted)]'}`}
-                >
-                  <AppIcon name={c.met ? '✅' : '⬜'} className="h-4 w-4" /> {c.label}
-                </p>
-              ))}
-              {confirmPassword && (
-                <p className={`flex items-center gap-2 text-sm ${newPassword === confirmPassword ? 'text-[var(--color-success)]' : 'text-[var(--color-danger)]'}`}>
-                  <AppIcon name={newPassword === confirmPassword ? '✅' : '⬜'} className="h-4 w-4" /> Magkatugma ang password
-                </p>
-              )}
-            </div>
-            {passwordMsg && (
-              <p className="text-sm font-medium text-[var(--color-success)] lg:col-span-2">{passwordMsg}</p>
-            )}
-            <button
-              type="submit"
-              disabled={updatePassword.isPending || !newPassword || !confirmPassword}
-              className="min-h-11 self-start rounded-xl bg-[var(--color-brand-coral)] px-5 font-extrabold text-white shadow-card hover:opacity-90 disabled:opacity-60 lg:col-span-2"
-            >
-              {updatePassword.isPending ? 'Ina-update...' : 'I-update ang Password'}
-            </button>
-          </form>
-        </div>
-      </div>
-    </div>
-  );
+  const date = (value?: string) => value ? new Date(value).toLocaleString('en-US', { month: 'short', day: 'numeric', year: 'numeric', timeZone: 'Asia/Manila' }) : '—';
+  return <div className="admin-profile-reference"><AdminHero title={identity?.displayName || 'Admin User'} eyebrow="Admin profile" description={user?.email || ''} icon={<span className="admin-profile-hero-avatar">{initialsFor(identity?.displayName || 'Admin User')}</span>}><span className="admin-profile-account-badge"><ShieldCheck />Admin Account</span></AdminHero>
+    <AdminStats items={[{ value: date(user?.created_at), label: 'Joined', icon: <CalendarDays /> }, { value: 'Administrator', label: 'Role', icon: <ShieldCheck /> }, { value: 'Active', label: 'Status', icon: <CheckCircle2 />, color: 'mint' }, { value: date(user?.last_sign_in_at), label: 'Last Login', icon: <LockKeyhole />, color: 'violet' }]} />
+    {error && <p role="alert" className="admin-error">{error}</p>}
+    <div className="admin-profile-grid"><section className="admin-panel"><PanelHeading icon={<UserRound />} title="Personal Information" description="Manage your personal details." /><form className="admin-profile-form" onSubmit={event => { event.preventDefault(); updateProfile.mutate(); }}><label htmlFor="name">Full Name <em>*</em><span><UserRound /><input id="name" required value={name} onChange={event => setName(event.target.value)} /></span></label><label>Email<span><Mail /><input value={user?.email || ''} readOnly /></span></label>{profileMsg && <p role="status" className="admin-success">{profileMsg}</p>}<button type="submit" className="admin-primary-button" disabled={updateProfile.isPending || !name.trim()}><Save />{updateProfile.isPending ? 'Saving…' : 'Save Changes'}</button></form></section>
+    <section className="admin-panel"><PanelHeading icon={<Mail />} title="Change Email" description={`Current email: ${user?.email || ''}. We will send a confirmation link before it is changed.`} /><form className="admin-profile-form" onSubmit={event => { event.preventDefault(); updateEmail.mutate(); }}><label htmlFor="newEmail">New Email<span><Mail /><input id="newEmail" type="email" required value={newEmail} onChange={event => setNewEmail(event.target.value)} placeholder="e.g., newadmin@linawletra.com" /></span></label>{emailMsg && <p role="status" className="admin-success">{emailMsg}</p>}<button type="submit" className="admin-primary-button" disabled={updateEmail.isPending || !newEmail.trim()}>{updateEmail.isPending ? 'Sending…' : 'Update Email'}</button></form></section>
+    <section className="admin-panel admin-password-panel"><PanelHeading icon={<LockKeyhole />} title="Change Password" description="Use a strong, unique password for admin access." /><form className="admin-profile-form" onSubmit={event => { event.preventDefault(); updatePassword.mutate(); }}><div className="admin-password-grid"><div><label htmlFor="password">New Password <em>*</em><span><LockKeyhole /><input id="password" type={showPassword ? 'text' : 'password'} autoComplete="new-password" required value={newPassword} onChange={event => setNewPassword(event.target.value)} placeholder="Enter new password" /><button type="button" aria-label={showPassword ? 'Hide password' : 'Show password'} onClick={() => setShowPassword(!showPassword)}>{showPassword ? <Eye /> : <EyeOff />}</button></span></label><label htmlFor="confirmPassword">Confirm New Password <em>*</em><span><LockKeyhole /><input id="confirmPassword" type={showConfirm ? 'text' : 'password'} autoComplete="new-password" required value={confirmPassword} onChange={event => setConfirmPassword(event.target.value)} placeholder="Re-enter new password" /><button type="button" aria-label={showConfirm ? 'Hide confirmation' : 'Show confirmation'} onClick={() => setShowConfirm(!showConfirm)}>{showConfirm ? <Eye /> : <EyeOff />}</button></span></label></div><aside><b>Password Requirements:</b>{passwordChecks.map(check => <p key={check.label} className={check.met ? 'met' : ''}><span>{check.met && <Check />}</span>{check.label}</p>)}{confirmPassword && <p className={newPassword === confirmPassword ? 'met' : ''}><span>{newPassword === confirmPassword && <Check />}</span>Passwords match</p>}</aside></div>{passwordMsg && <p role="status" className="admin-success">{passwordMsg}</p>}<button type="submit" className="admin-primary-button" disabled={updatePassword.isPending || !newPassword || !confirmPassword}><KeyRound />{updatePassword.isPending ? 'Updating…' : 'Update Password'}</button></form></section>
+    <section className="admin-panel admin-account-preferences"><PanelHeading icon={<SettingsIcon />} title="Account Preferences" description="Customize your admin experience." /><h3>Interface Theme</h3><div className="admin-theme-choices">{[{ label: 'Light', Icon: Sun, value: 'default' }, { label: 'Dark', Icon: Moon, value: 'dark' }, { label: 'System', Icon: Monitor, value: 'system' }].map(({ label, Icon, value }) => <button type="button" key={value} aria-pressed={value === 'system' ? systemTheme : !systemTheme && value === theme} onClick={() => { setSystemTheme(value === 'system'); if (value !== 'system') setTheme(value as 'default' | 'dark'); }}><Icon /><b>{label}</b></button>)}</div><div className="admin-preference-controls"><label>Text Size<select value={fontScale} onChange={event => setFontScale(event.target.value as 'small' | 'medium' | 'large')}><option value="small">Small</option><option value="medium">Medium</option><option value="large">Large</option></select></label><label className="admin-reading-guide-choice"><input type="checkbox" checked={readingGuide} onChange={event => setReadingGuide(event.target.checked)} />Reading Guide</label></div></section></div>
+  </div>;
 }

@@ -2,8 +2,8 @@ import { useEffect, useMemo, useState } from 'react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { BookOpen, Check, GraduationCap, Plus, RotateCcw, Search, UserRound, UsersRound, X } from 'lucide-react';
 import { api } from '../../lib/api';
-import hero from '../../assets/admin_design/admin-hero-background.png';
-import owl from '../../assets/admin_design/owl-admin-mascot.png';
+import { AdminHero, AdminStats } from './AdminPrimitives';
+
 import books from '../../assets/admin_design/books-stack.png';
 
 type Teacher = { id: string; name: string | null; email: string };
@@ -54,13 +54,9 @@ export default function Sections() {
     });
   };
 
-  return <main className="sections-page">
-    <header className="sections-hero">
-      <img className="sections-hero-scene" src={hero} alt="" />
-      <div className="sections-hero-copy"><p>ROSTER MANAGEMENT</p><h1>Sections <i>&amp; Reading Support</i></h1><span>Assign advisers and create focused reading-support groups.</span></div>
-      <img className="sections-owl" src={owl} alt="" />
-      <aside className="sections-note">“Organized sections,<br />brighter learners!”</aside>
-    </header>
+  return <div className="sections-page admin-sections-reference">
+    <AdminHero title="Sections" icon={<BookOpen />} description="Create and manage class sections, assign advisers, and organize learners." />
+    <AdminStats items={[{ value: sections?.length ?? 0, label: 'Total Sections', icon: <UsersRound /> }, { value: new Set(sections?.map(section => section.grade_level)).size, label: 'Active Grades', icon: <GraduationCap /> }, { value: sections?.reduce((total, section) => total + section.studentCount, 0) ?? 0, label: 'Enrolled Students', icon: <UsersRound />, color: 'mint' }, { value: new Set(sections?.map(section => section.adviser_id)).size, label: 'Assigned Advisers', icon: <UserRound />, color: 'violet' }]} />
     <div className="sections-grid">
       <form onSubmit={(event) => { event.preventDefault(); setError(null); create.mutate(); }} className="sections-create">
         <header><b><Plus /></b><div><h2>Create Section</h2><p>Add a new section for your students.</p></div><img src={books} alt="" /></header>
@@ -88,5 +84,5 @@ export default function Sections() {
       </section>
     </div>
     {activeSection && <div className="sections-modal-backdrop" role="presentation" onMouseDown={() => !assignStudents.isPending && setActiveSection(null)}><section className="sections-modal" role="dialog" aria-modal="true" aria-labelledby="section-roster-title" onMouseDown={(event) => event.stopPropagation()}><header><span><UsersRound /></span><div><p>GRADE {activeSection.grade_level} ROSTER</p><h2 id="section-roster-title">Assign Students to {activeSection.name}</h2><small>Select students for this section. Existing members are already assigned.</small></div><button type="button" onClick={() => setActiveSection(null)} aria-label="Close"><X /></button></header>{rosterQuery.isLoading ? <p className="sections-modal-loading">Loading eligible students...</p> : rosterQuery.isError ? <p className="sections-error">Unable to load eligible students. Please try again.</p> : <><div className="sections-roster-summary"><b>{currentSelection.size}/{roster?.section.capacity ?? activeSection.capacity} students selected</b><span>Only Grade {activeSection.grade_level} students are shown.</span></div><div className="sections-student-list">{roster?.students.length ? roster.students.map((student) => { const assigned = assignedIds.has(student.id); const selected = currentSelection.has(student.id); return <button type="button" key={student.id} disabled={assigned} className={selected ? 'selected' : ''} onClick={() => toggleStudent(student.id)}><i>{selected ? <Check /> : null}</i><span><b>{student.name}</b><small>{assigned ? 'Already assigned' : `Grade ${student.grade_level}`}</small></span></button>; }) : <p className="sections-modal-loading">No Grade {activeSection.grade_level} students are available yet.</p>}</div><footer><button type="button" onClick={() => setActiveSection(null)}>Cancel</button><button type="button" disabled={assignStudents.isPending || currentSelection.size === 0} onClick={() => assignStudents.mutate([...currentSelection])}>{assignStudents.isPending ? 'Assigning...' : `Assign ${currentSelection.size} Student${currentSelection.size === 1 ? '' : 's'}`}</button>{assignStudents.isError && <p className="sections-error">{(assignStudents.error as Error).message}</p>}</footer></>}</section></div>}
-  </main>;
+  </div>;
 }

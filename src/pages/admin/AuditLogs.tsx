@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import { Award, BookOpen, CalendarDays, CheckCircle2, FileText, LogIn, Monitor, Pencil, ShieldAlert, Smartphone, UserPlus, UsersRound, XCircle } from 'lucide-react';
+import { Award, BookOpen, CalendarDays, ClipboardCheck, CheckCircle2, FileText, LogIn, Monitor, Pencil, ShieldAlert, Smartphone, UserPlus, UsersRound, XCircle } from 'lucide-react';
 import { api } from '../../lib/api';
-import auditHero from '../../assets/admin_design/admin-hero-background.png';
-import mascot from '../../assets/admin_design/owl-admin-mascot.png';
+import { AdminHero, AdminStats } from './AdminPrimitives';
+
 
 type Log = {
   id: string;
@@ -61,22 +61,8 @@ export default function AuditLogs() {
 
   return (
     <div className="audit-reference mx-auto flex max-w-[1500px] flex-col gap-4 pb-8">
-      <header className="audit-reference-hero relative overflow-hidden rounded-[1.4rem] border px-7 py-5 shadow-card">
-        <img src={auditHero} alt="" aria-hidden="true" />
-        <img src={mascot} alt="" aria-hidden="true" />
-        <div>
-          <p>Monitoring and security</p>
-          <h1>Audit Trail</h1>
-          <span>Track and review important activities in your system. Your records remain clear, secure, and easy to manage.</span>
-        </div>
-      </header>
-
-      <section className="audit-kpi-grid grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
-        <article><span><FileText /></span><div><b>{total.toLocaleString()}</b><p>Total records</p><small>All recorded activities</small></div><i>↗</i></article>
-        <article><span><UsersRound /></span><div><b>{activeUsers}</b><p>Active users</p><small>On this page of records</small></div><i>↗</i></article>
-        <article><span><ShieldAlert /></span><div><b>{failed}</b><p>Needs attention</p><small>Unsuccessful activities</small></div><i>↗</i></article>
-        <article><span><CalendarDays /></span><div><b>{latest ? 'Latest' : '—'}</b><p>{day(latest)}</p><small>Latest activity recorded</small></div><i>↗</i></article>
-      </section>
+      <AdminHero title="Audit Trail" icon={<ClipboardCheck />} eyebrow="Monitoring and security" description="Track and review important activities in your system. Your records remain clear, secure, and easy to manage." />
+      <AdminStats items={[{ value: total.toLocaleString(), label: 'Total Records', detail: 'All recorded activities', icon: <FileText /> }, { value: activeUsers, label: 'Active Users', detail: 'On this page of records', icon: <UsersRound /> }, { value: failed, label: 'Needs Attention', detail: 'Unsuccessful activities', icon: <ShieldAlert />, color: 'mint' }, { value: day(latest), label: 'Latest Activity', detail: 'Most recent record in the system', icon: <CalendarDays />, color: 'violet' }]} />
 
       <section className="audit-filterbar rounded-2xl border p-3 shadow-card">
         <label>

@@ -11,6 +11,66 @@ const { platformFor } = require('../services/audit');
 const router = express.Router();
 router.use(requireAuth, requireRole('admin'));
 
+// One insert delivers an announcement to the selected active accounts. History
+// is reconstructed from the delivery rows so it cannot report an unsent draft.
+router.get('/announcements', async (_req, res) => {
+  try {
+    const deliveries = [];
+    for (let offset = 0; ; offset += 1000) {
+      const { data, error } = await supabaseAdmin.from('notifications')
+        .select('id, user_id, title, body, created_at').eq('type', 'admin_announcement')
+        .order('created_at', { ascending: false }).order('id').range(offset, offset + 999);
+      if (error) throw error;
+      deliveries.push(...(data || []));
+      if (!data || data.length < 1000) break;
+    }
+    const users = [];
+    for (let offset = 0; ; offset += 1000) {
+      const { data, error } = await supabaseAdmin.from('users').select('id, role').order('id').range(offset, offset + 999);
+      if (error) throw error;
+      users.push(...(data || []));
+      if (!data || data.length < 1000) break;
+    }
+    const roles = new Map(users.map(user => [user.id, user.role]));
+    const groups = new Map();
+    for (const delivery of deliveries) {
+      const key = JSON.stringify([delivery.created_at, delivery.title, delivery.body]);
+      if (!groups.has(key)) groups.set(key, { id: delivery.id, title: delivery.title, body: delivery.body, created_at: delivery.created_at, recipients: {}, delivered: 0 });
+      const group = groups.get(key), role = roles.get(delivery.user_id) || 'other';
+      group.delivered += 1;
+      group.recipients[role] = (group.recipients[role] || 0) + 1;
+    }
+    res.json({ announcements: [...groups.values()] });
+  } catch (err) {
+    console.error('[admin/announcements list]', err);
+    res.status(500).json({ error: 'Unable to load announcement history.' });
+  }
+});
+
+router.post('/announcements', async (req, res) => {
+  const { title, message, roles } = req.body || {};
+  if (!isBoundedString(title, 160, { allowEmpty: false }) || !isBoundedString(message, 4000, { allowEmpty: false }) || !Array.isArray(roles) || !roles.length || roles.length > 3 || roles.some(role => !['student', 'parent', 'teacher'].includes(role))) {
+    return res.status(400).json({ error: 'Provide a title, message, and at least one valid recipient group.' });
+  }
+  try {
+    const users = [];
+    for (let offset = 0; ; offset += 1000) {
+      const { data, error } = await supabaseAdmin.from('users').select('id, role').in('role', [...new Set(roles)]).eq('account_status', 'active').eq('is_active', true).order('id').range(offset, offset + 999);
+      if (error) throw error;
+      users.push(...(data || []));
+      if (!data || data.length < 1000) break;
+    }
+    if (!users.length) return res.status(400).json({ error: 'There are no active accounts in the selected recipient groups.' });
+    const created_at = new Date().toISOString();
+    const { error } = await supabaseAdmin.from('notifications').insert(users.map(user => ({ user_id: user.id, title: title.trim(), body: message.trim(), message: message.trim(), type: 'admin_announcement', created_at, is_read: false, read: false })));
+    if (error) throw error;
+    res.status(201).json({ delivered: users.length });
+  } catch (err) {
+    console.error('[admin/announcements send]', err);
+    res.status(500).json({ error: 'Unable to send the announcement.' });
+  }
+});
+
 // Read-only operational visibility for parent/teacher work.  This is separate
 // from the audit trail: it shows the current business records, not merely the
 // request that created or changed them.

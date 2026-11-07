@@ -1,134 +1,25 @@
-import { useEffect, useState } from 'react';
+﻿import { useEffect, useState } from 'react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { Archive, GraduationCap, RotateCcw, UsersRound, UserRound } from 'lucide-react';
 import { api } from '../../lib/api';
-import { IconLabel } from '../../components/a11y/IconLabel';
-import { cardStyle } from '../../lib/cardStyle';
+import { AdminHero, AdminStats, EmptyState, Pagination, initials } from './AdminPrimitives';
 
-interface ArchivedRow {
-  id: string;
-  email: string;
-  name: string | null;
-  role: string;
-  archived_at: string | null;
-  archived_reason: string | null;
-}
-
-const PAGE_SIZE = 10;
-
+type ArchivedRow = { id: string; email: string; name: string | null; role: string; archived_at: string | null; archived_reason: string | null };
 export default function AdminArchived() {
-  const queryClient = useQueryClient();
-  const [page, setPage] = useState(1);
-  const [error, setError] = useState<string | null>(null);
-
-  const { data, isLoading } = useQuery({
-    queryKey: ['admin-users-archived'],
-    queryFn: () => api<{ users: ArchivedRow[] }>('/admin/users/archived', { auth: true }),
-  });
-
-  const invalidate = () => {
-    queryClient.invalidateQueries({ queryKey: ['admin-users-archived'] });
-    queryClient.invalidateQueries({ queryKey: ['admin-users'] });
-  };
-
-  const restore = useMutation({
-    mutationFn: (id: string) => api(`/admin/users/${id}/restore`, { method: 'POST', auth: true }),
-    onSuccess: invalidate,
-    onError: (err: Error) => setError(err.message),
-  });
-
-  const rows = data?.users ?? [];
-  const totalPages = Math.max(1, Math.ceil(rows.length / PAGE_SIZE));
-  const pageRows = rows.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
-
-  useEffect(() => {
-    if (page > totalPages) setPage(totalPages);
-  }, [page, totalPages]);
-
-  return (
-    <div className="flex min-w-0 flex-col gap-5">
-      <header className="flex flex-wrap items-end justify-between gap-4">
-        <div><p className="text-xs font-extrabold tracking-[.12em] text-[var(--color-primary)] uppercase">Account records</p><h1 className="text-2xl font-extrabold sm:text-3xl">Archive</h1><p className="mt-1 text-sm text-[var(--color-text-muted)]">Archived accounts that can still be restored.</p></div>
-        {data && <div className="rounded-2xl border px-4 py-2 text-center shadow-card" style={cardStyle('--color-brand-coral', 6, 22)}><p className="text-2xl font-extrabold">{rows.length}</p><p className="text-xs font-bold text-[var(--color-text-muted)]">Archived</p></div>}
-      </header>
-
-      {error && <p role="alert" className="rounded-2xl bg-[var(--color-danger-soft)] p-3 text-sm font-bold text-[var(--color-danger)]">{error}</p>}
-      {isLoading && <div className="rounded-3xl border bg-white/45 p-10 text-center text-sm text-[var(--color-text-muted)]">Loading archive...</div>}
-
-      {data && rows.length > 0 && <div className="hidden overflow-hidden rounded-3xl border border-[var(--color-border)] bg-white/55 shadow-card md:block">
-        <div className="overflow-x-auto">
-          <table className="w-full min-w-[640px] border-collapse text-left text-sm">
-            <thead>
-              <tr className="bg-[var(--color-brand-navy)] text-white">
-                <th className="px-4 py-3 font-semibold">Name</th>
-                <th className="px-4 py-3 font-semibold">Role</th>
-                <th className="px-4 py-3 font-semibold">Archived</th>
-                <th className="px-4 py-3 font-semibold">Reason</th>
-                <th className="px-4 py-3 font-semibold">Action</th>
-              </tr>
-            </thead>
-            <tbody>
-              {pageRows.map((u) => (
-                <tr key={u.id} className="transition-colors hover:bg-white/70">
-                  <td className="border-t border-[var(--color-border)] px-4 py-3">
-                    <p className="font-medium">{u.name ?? u.email}</p>
-                    <p className="text-xs text-[var(--color-text-muted)]">{u.email}</p>
-                  </td>
-                  <td className="border-t border-[var(--color-border)] px-4 py-3 capitalize">{u.role}</td>
-                  <td className="border-t border-[var(--color-border)] px-4 py-3 text-[var(--color-text-muted)]">
-                    {u.archived_at ? new Date(u.archived_at).toLocaleDateString() : '—'}
-                  </td>
-                  <td className="border-t border-[var(--color-border)] px-4 py-3 text-[var(--color-text-muted)]">
-                    {u.archived_reason ?? '—'}
-                  </td>
-                  <td className="border-t border-[var(--color-border)] px-4 py-3">
-                    <button
-                      type="button"
-                      onClick={() => restore.mutate(u.id)}
-                      disabled={restore.isPending}
-                      className="min-h-9 rounded-full border border-[var(--color-success)]/35 bg-[var(--color-success-soft)] px-3 text-xs font-extrabold text-[var(--color-success)] disabled:opacity-50"
-                    >
-                      <IconLabel icon="↩️" label="I-restore" />
-                    </button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </div>}
-
-      {!isLoading && <div className="grid grid-cols-1 gap-3 md:hidden">{pageRows.map((u) => <article key={u.id} className="rounded-3xl border p-4 shadow-card" style={cardStyle('--color-brand-coral', 4, 18)}><div className="flex min-w-0 items-start gap-3"><span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-white/70">▣</span><div className="min-w-0 flex-1"><h2 className="truncate font-extrabold">{u.name ?? u.email}</h2><p className="truncate text-xs text-[var(--color-text-muted)]">{u.email}</p><span className="mt-2 inline-block rounded-full bg-white/70 px-2.5 py-1 text-xs font-bold capitalize">{u.role}</span></div></div><dl className="my-3 grid grid-cols-2 gap-2 rounded-2xl bg-white/55 p-3 text-xs"><div><dt className="font-bold text-[var(--color-text-muted)]">Archived</dt><dd className="mt-1 font-semibold">{u.archived_at ? new Date(u.archived_at).toLocaleDateString('en-US') : '—'}</dd></div><div><dt className="font-bold text-[var(--color-text-muted)]">Reason</dt><dd className="mt-1 line-clamp-2 font-semibold">{u.archived_reason ?? 'Not provided'}</dd></div></dl><button type="button" onClick={() => restore.mutate(u.id)} disabled={restore.isPending} className="min-h-10 w-full rounded-xl border border-[var(--color-success)]/35 bg-[var(--color-success-soft)] text-sm font-extrabold text-[var(--color-success)] disabled:opacity-50">↩ Restore account</button></article>)}</div>}
-
-      {data && rows.length === 0 && <div className="rounded-3xl border border-dashed border-[var(--color-border)] bg-white/45 p-10 text-center"><p className="text-4xl">▣</p><h2 className="mt-2 text-lg font-extrabold">Walang archived account</h2><p className="mt-1 text-sm text-[var(--color-text-muted)]">Malinis ang iyong archive sa ngayon.</p></div>}
-
-      {rows.length > 0 && (
-        <div className="flex flex-col items-center justify-between gap-3 sm:flex-row">
-          <p className="text-sm text-[var(--color-text-muted)]">
-            Ipinapakita {(page - 1) * PAGE_SIZE + 1}–{Math.min(page * PAGE_SIZE, rows.length)} ng {rows.length}
-          </p>
-          <div className="flex items-center gap-2">
-            <button
-              type="button"
-              onClick={() => setPage((p) => Math.max(1, p - 1))}
-              disabled={page === 1}
-              className="rounded-full border border-[var(--color-border)] px-4 py-2 text-sm font-medium hover:border-[var(--color-primary)] disabled:opacity-40"
-            >
-              ← Nakaraan
-            </button>
-            <span className="text-sm font-medium">
-              Pahina {page} ng {totalPages}
-            </span>
-            <button
-              type="button"
-              onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
-              disabled={page === totalPages}
-              className="rounded-full border border-[var(--color-border)] px-4 py-2 text-sm font-medium hover:border-[var(--color-primary)] disabled:opacity-40"
-            >
-              Susunod →
-            </button>
-          </div>
-        </div>
-      )}
-    </div>
-  );
+  const client = useQueryClient();
+  const [page, setPage] = useState(1), [role, setRole] = useState(''), [date, setDate] = useState('all'), [sort, setSort] = useState('newest');
+  const query = useQuery({ queryKey: ['admin-users-archived'], queryFn: () => api<{ users: ArchivedRow[] }>('/admin/users/archived', { auth: true }) });
+  const restore = useMutation({ mutationFn: (id: string) => api(`/admin/users/${id}/restore`, { method: 'POST', auth: true }), onSuccess: () => { void client.invalidateQueries({ queryKey: ['admin-users-archived'] }); void client.invalidateQueries({ queryKey: ['admin-users'] }); } });
+  const all = query.data?.users || [];
+  const rows = all.filter(user => (!role || user.role === role) && (date === 'all' || Boolean(user.archived_at && new Date(user.archived_at).getTime() >= Date.now() - Number(date) * 86400000))).sort((a, b) => sort === 'name' ? (a.name || a.email).localeCompare(b.name || b.email) : (sort === 'oldest' ? 1 : -1) * (a.archived_at || '').localeCompare(b.archived_at || ''));
+  const pages = Math.max(1, Math.ceil(rows.length / 10));
+  useEffect(() => setPage(1), [role, date, sort]);
+  useEffect(() => setPage(current => Math.min(current, pages)), [pages]);
+  const reset = () => { setRole(''); setDate('all'); setSort('newest'); setPage(1); };
+  return <div className="admin-archive-reference"><AdminHero title="Archive" icon={<Archive />} eyebrow="Account records" description="Archived accounts that can still be restored." />
+    <AdminStats items={[{ value: all.length, label: 'Total Archived', detail: 'All archived accounts', icon: <UsersRound /> }, { value: all.filter(user => user.role === 'student').length, label: 'Archived Students', detail: 'Student accounts', icon: <UserRound /> }, { value: all.filter(user => user.role === 'parent').length, label: 'Archived Parents', detail: 'Parent accounts', icon: <UsersRound />, color: 'mint' }, { value: all.filter(user => user.role === 'teacher').length, label: 'Archived Teachers', detail: 'Teacher accounts', icon: <GraduationCap />, color: 'violet' }]} />
+    <section className="admin-panel admin-filterbar" aria-label="Archive filters"><label>Role<select value={role} onChange={event => setRole(event.target.value)}><option value="">All Roles</option>{['student', 'parent', 'teacher', 'admin'].map(value => <option key={value} value={value}>{value[0].toUpperCase() + value.slice(1)}</option>)}</select></label><label>Archived Date<select value={date} onChange={event => setDate(event.target.value)}><option value="all">All Time</option><option value="7">Last 7 Days</option><option value="30">Last 30 Days</option><option value="90">Last 90 Days</option></select></label><label>Sort By<select value={sort} onChange={event => setSort(event.target.value)}><option value="newest">Newest First</option><option value="oldest">Oldest First</option><option value="name">Name A–Z</option></select></label><button type="button" onClick={reset}><RotateCcw /> Reset</button></section>
+    {(query.error || restore.error) && <p role="alert" className="admin-error">{restore.error?.message || 'Unable to load archived accounts.'}</p>}
+    <section className="admin-panel admin-archive-table"><div className="admin-table-scroll"><table className="admin-reference-table"><thead><tr><th>#</th><th>User</th><th>Role</th><th>Reason</th><th>Archived Date</th><th>Action</th></tr></thead><tbody>{rows.slice((page - 1) * 10, page * 10).map((user, index) => <tr key={user.id}><td><span className="module-number">{(page - 1) * 10 + index + 1}</span></td><td><div className="admin-archive-person"><span className="admin-person-avatar">{initials(user.name || user.email)}</span><div><b>{user.name || 'No name'}</b><small>{user.email}</small></div></div></td><td><span className={`user-role-pill user-role-${user.role}`}>{user.role}</span></td><td>{user.archived_reason || 'Not provided'}</td><td>{user.archived_at ? new Date(user.archived_at).toLocaleString('en-US', { month: 'short', day: 'numeric', year: 'numeric', hour: 'numeric', minute: '2-digit', timeZone: 'Asia/Manila' }) : '—'}</td><td><button type="button" className="admin-restore-button" disabled={restore.isPending} onClick={() => restore.mutate(user.id)}><RotateCcw /> Restore</button></td></tr>)}</tbody></table></div>{!rows.length && <EmptyState>{query.isLoading ? 'Loading archive…' : 'No archived accounts match these filters.'}</EmptyState>}<Pagination page={page} pages={pages} onChange={setPage} label={`Showing ${rows.length ? (page - 1) * 10 + 1 : 0}–${Math.min(page * 10, rows.length)} of ${rows.length} archived accounts`} /></section>
+  </div>;
 }
