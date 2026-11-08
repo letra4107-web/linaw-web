@@ -5,7 +5,7 @@ async function loadWordOfDay(client,studentId){
  const existing=await read();if(existing.error)throw existing.error;if(existing.data)return existing.data;
  const {data:progress,error:levelError}=await client.rpc('get_student_reading_progress',{p_student_id:studentId});
  if(levelError)throw levelError;
- if(!['Beginner','Intermediate','Advanced'].includes(progress?.effective_level))throw new Error('Invalid official reading level.');
+ if(!['Beginner','Intermediate','Advanced'].includes(progress?.effective_level))throw new Error("Hindi wasto ang nakatalang antas ng pagbasa.");
  const {data:words,error}=await client.from('reading_content').select('id,content_text').eq('content_type','word').eq('is_active',true).eq('level',progress.effective_level).order('id').limit(500);
  if(error)throw error;if(!words?.length)return null;
  const index=Math.abs([...`${studentId}-${date}`].reduce((sum,char)=>sum+char.charCodeAt(0),0))%words.length;
@@ -13,6 +13,6 @@ async function loadWordOfDay(client,studentId){
  const result=await client.from('word_of_day_log').upsert({child_id:studentId,word:chosen.content_text,date,attempts:0,content_id:chosen.id},{onConflict:'child_id,date',ignoreDuplicates:true}).select('*').maybeSingle();
  if(result.error)throw result.error;if(result.data)return result.data;
  const concurrent=await read();if(concurrent.error)throw concurrent.error;
- if(!concurrent.data)throw new Error('Daily word could not be initialized.');return concurrent.data;
+ if(!concurrent.data)throw new Error("Hindi maihanda ang salita ngayong araw.");return concurrent.data;
 }
 module.exports={loadWordOfDay};

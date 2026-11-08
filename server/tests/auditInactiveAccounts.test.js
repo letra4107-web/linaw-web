@@ -32,7 +32,7 @@ for (const area of ['notifications', 'authEvents', 'tts']) {
       });
       const active = profile.account_status === 'active';
       assert.equal(result.status, active ? area === 'tts' ? 500 : 200 : 403);
-      if (active && area === 'tts') assert.match(result.body.error, /not configured/);
+      if (active && area === 'tts') assert.match(result.body.error, /Hindi pa handa/);
     });
   }
 }

@@ -6,6 +6,7 @@ import './index.css';
 import './lib/a11y/dark-theme.css';
 import './pages/admin/admin-reference.css';
 import App from './App.tsx';
+import { installTagalogValidation } from './lib/validationMessages';
 import { AuthProvider } from './lib/auth/AuthContext';
 import { AccessibilityProvider } from './lib/a11y/AccessibilityContext';
 import { ReadingGuideOverlay } from './components/a11y/ReadingGuideOverlay';
@@ -23,6 +24,8 @@ const queryClient = new QueryClient({
 });
 
 document.documentElement.dataset.appVersion = import.meta.env.VITE_APP_VERSION || 'development';
+const removeValidationListeners = installTagalogValidation(document);
+if (import.meta.hot) import.meta.hot.dispose(removeValidationListeners);
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>

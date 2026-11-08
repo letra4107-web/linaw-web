@@ -1,3 +1,4 @@
+import { tagalogError } from '../lib/validationMessages';
 import { useMemo, useRef, useState } from 'react';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { api } from '../lib/api';
@@ -81,7 +82,7 @@ export function PdfDrillPractice({ assignmentId }: PdfDrillPracticeProps) {
             queryClient.invalidateQueries({ queryKey: ['student-progress'] });
           }
         } catch (err) {
-          setSpeechError(err instanceof Error ? err.message : 'May problema sa pag-save ng sagot.');
+          setSpeechError(err instanceof Error ? tagalogError(err) : 'May problema sa pag-save ng sagot.');
         }
       },
       (message) => {

@@ -9,11 +9,11 @@ function failure(status, publicMessage) {
   return Object.assign(new Error(publicMessage), { status, publicMessage });
 }
 function rpcFailure(error) {
-  if (['PT409', '40001', '40P01'].includes(error?.code)) return failure(409, 'Saved progress changed. Refresh and retry the same attempt.');
-  if (error?.code === '42501') return failure(403, 'You do not have permission to complete this activity.');
-  if (error?.code === 'P0002') return failure(404, 'Word of the day entry not found for this student.');
+  if (['PT409', '40001', '40P01'].includes(error?.code)) return failure(409, "Nagbago ang nakatalang progreso. Buksan muli ang pahina at ulitin ang parehong pagsubok.");
+  if (error?.code === '42501') return failure(403, "Wala kang pahintulot na tapusin ang gawaing ito.");
+  if (error?.code === 'P0002') return failure(404, "Hindi makita ang salita ngayong araw para sa mag-aaral na ito.");
   // No compatibility fallback: separate HTTP writes cannot emulate a transaction.
-  return failure(503, 'The daily reward service is unavailable. Please retry the same attempt later.');
+  return failure(503, "Hindi magamit ang serbisyo ng pang-araw-araw na gantimpala. Ulitin ang parehong pagsubok mamaya.");
 }
 function validResult(data) {
   return data?.success === true && typeof data.isFinal === 'boolean'
@@ -28,9 +28,9 @@ function validResult(data) {
 }
 
 async function recordWordOfDayAttempt(client, { studentId, logId, attempts, transcript }, { awardBadges = checkAndAwardBadges } = {}) {
-  if (!isUuid(logId)) throw failure(400, 'A valid logId is required.');
-  if (!Number.isInteger(attempts) || attempts < 1 || attempts > MAX_ATTEMPTS) throw failure(400, 'Attempts must be an integer from 1 to 3.');
-  if (!isBoundedString(transcript, 2000, { allowEmpty: false })) throw failure(400, 'A spoken response is required.');
+  if (!isUuid(logId)) throw failure(400, "Kailangan ang wastong ID ng tala ng salita.");
+  if (!Number.isInteger(attempts) || attempts < 1 || attempts > MAX_ATTEMPTS) throw failure(400, "Ang bilang ng pagsubok ay dapat buong bilang mula 1 hanggang 3.");
+  if (!isBoundedString(transcript, 2000, { allowEmpty: false })) throw failure(400, "Kailangan munang bigkasin ang iyong sagot.");
 
   let lookup;
   try {
@@ -38,7 +38,7 @@ async function recordWordOfDayAttempt(client, { studentId, logId, attempts, tran
   } catch { throw rpcFailure(); }
   if (!lookup || lookup.error) throw rpcFailure(lookup?.error);
   const log = lookup.data;
-  if (!log || log.child_id !== studentId) throw failure(404, 'Word of the day entry not found for this student.');
+  if (!log || log.child_id !== studentId) throw failure(404, "Hindi makita ang salita ngayong araw para sa mag-aaral na ito.");
   if (typeof log.word !== 'string' || !log.word.trim()) throw rpcFailure();
   const score = scoreTranscript(log.word, transcript);
 

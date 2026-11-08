@@ -1,4 +1,5 @@
 import { supabase } from './supabaseClient';
+import { tagalogError } from './validationMessages';
 
 const API_URL = import.meta.env.VITE_API_URL;
 const EXPECTED_API_COMPATIBILITY = import.meta.env.VITE_API_COMPATIBILITY_VERSION || '3';
@@ -46,11 +47,11 @@ export async function api<T>(path: string, opts: ApiOptions = {}): Promise<T> {
   if (!res.ok) {
     const message = typeof payload === 'object' && payload && 'error' in payload
       ? String((payload as { error: unknown }).error)
-      : `Request failed (${res.status})`;
+      : 'Hindi makumpleto ang kahilingan. Subukan muli.';
     const detail = typeof payload === 'object' && payload && 'detail' in payload
       ? String((payload as { detail: unknown }).detail)
       : '';
-    throw Object.assign(new Error(detail ? `${message} (${detail})` : message), { status: res.status });
+    throw Object.assign(new Error(tagalogError(message)), { status: res.status, detail });
   }
 
   return payload as T;

@@ -35,7 +35,7 @@ router.get('/message-profile-photos', async (req, res) => {
 router.get('/students/:studentId/modules', validateUuidParam('studentId'), async (req, res) => {
   try {
     const isRostered = await authorization.teacherStudent(req.user.id, req.params.studentId);
-    if (!isRostered) return res.status(404).json({ error: 'Student not found in your roster.' });
+    if (!isRostered) return res.status(404).json({ error: "Wala sa iyong listahan ang mag-aaral." });
     const { data, error } = await supabaseAdmin.rpc('get_student_module_path', { p_student_id: req.params.studentId });
     if (error) throw error;
     const modules = Array.isArray(data?.modules) ? data.modules.map((module) => ({
@@ -49,7 +49,7 @@ router.get('/students/:studentId/modules', validateUuidParam('studentId'), async
     res.json({ modules });
   } catch (err) {
     console.error('[teacher/student modules]', err);
-    res.status(500).json({ error: 'Unable to load student module progress.' });
+    res.status(500).json({ error: "Hindi makuha ang progreso ng mag-aaral sa modyul." });
   }
 });
 
@@ -59,7 +59,7 @@ const upload = multer({
   fileFilter: (req, file, cb) => {
     const extensionIsPdf = /\.pdf$/i.test(file.originalname || '');
     const mimeIsPdf = ['application/pdf', 'application/x-pdf'].includes(String(file.mimetype).toLowerCase());
-    if (!extensionIsPdf || !mimeIsPdf) return cb(new Error('Only PDF files are allowed.'));
+    if (!extensionIsPdf || !mimeIsPdf) return cb(new Error("Mga PDF lamang ang pinapayagan."));
     cb(null, true);
   },
 });
@@ -84,12 +84,12 @@ router.post('/pdf', uploadLimiter, upload.single('file'), async (req, res) => {
   let unreferencedUploadPath = null;
   let cleanupAllowed = false;
   try {
-    if (!req.file) return res.status(400).json({ error: 'No PDF file uploaded.' });
+    if (!req.file) return res.status(400).json({ error: "Walang PDF na naipadala. Pumili muna ng PDF." });
     const validation = validatePdfUpload(req.file);
     if (!validation.valid) return res.status(400).json({ error: validation.error });
     const { title, gradeLevel, level } = req.body || {};
-    if (!isBoundedString(title, 160, { allowEmpty: false })) return res.status(400).json({ error: 'A valid title is required (maximum 160 characters).' });
-    if (gradeLevel && !isGrade(gradeLevel)) return res.status(400).json({ error: 'Grade level must be 1-6.' });
+    if (!isBoundedString(title, 160, { allowEmpty: false })) return res.status(400).json({ error: "Kailangan ang wastong pamagat na hindi lalampas sa 160 karakter." });
+    if (gradeLevel && !isGrade(gradeLevel)) return res.status(400).json({ error: "Ang baitang ay dapat mula 1 hanggang 6." });
 
     const parsed = await pdfParse(req.file.buffer).catch(() => ({ text: '' }));
 
@@ -145,7 +145,7 @@ router.post('/pdf', uploadLimiter, upload.single('file'), async (req, res) => {
   } catch (err) {
     console.error('[teacher/pdf upload]', err);
     if (cleanupAllowed) await discardUnreferencedUpload(unreferencedUploadPath);
-    res.status(500).json({ error: 'Unable to upload this PDF.' });
+    res.status(500).json({ error: "Hindi maipadala ang PDF na ito." });
   }
 });
 
@@ -158,7 +158,7 @@ async function requireOwnedPdfMaterial(req, res) {
     .maybeSingle();
   if (error) throw error;
   if (!material || material.teacher_id !== req.user.id) {
-    res.status(404).json({ error: 'PDF not found.' });
+    res.status(404).json({ error: "Hindi makita ang PDF." });
     return null;
   }
   return material;
@@ -173,7 +173,7 @@ router.get('/pdf/:id/access-url', validateUuidParam('id'), async (req, res) => {
     res.json(await materialAccess.accessUrl(material));
   } catch (err) {
     console.error('[teacher/pdf access-url]', err);
-    res.status(500).json({ error: 'Unable to open this PDF.' });
+    res.status(500).json({ error: "Hindi mabuksan ang PDF na ito." });
   }
 });
 
@@ -185,11 +185,11 @@ router.get('/lessons/:id/access-url', validateUuidParam('id'), async (req, res) 
       .eq('id', req.params.id)
       .maybeSingle();
     if (error) throw error;
-    if (!lesson || lesson.teacher_id !== req.user.id) return res.status(404).json({ error: 'Lesson not found.' });
+    if (!lesson || lesson.teacher_id !== req.user.id) return res.status(404).json({ error: "Hindi makita ang aralin." });
     res.json(await materialAccess.accessUrl(lesson));
   } catch (err) {
     console.error('[teacher/lesson access-url]', err);
-    res.status(500).json({ error: 'Unable to open this lesson.' });
+    res.status(500).json({ error: "Hindi mabuksan ang araling ito." });
   }
 });
 
@@ -201,9 +201,9 @@ router.patch('/pdf/:id', validateUuidParam('id'), async (req, res) => {
     if (!material) return;
 
     const { title, gradeLevel, level } = req.body || {};
-    if (!isBoundedString(title, 160, { allowEmpty: false })) return res.status(400).json({ error: 'A valid title is required (maximum 160 characters).' });
-    if (gradeLevel && !isGrade(gradeLevel)) return res.status(400).json({ error: 'Grade level must be 1-6.' });
-    if (level && !isBoundedString(level, 50)) return res.status(400).json({ error: 'Level is too long.' });
+    if (!isBoundedString(title, 160, { allowEmpty: false })) return res.status(400).json({ error: "Kailangan ang wastong pamagat na hindi lalampas sa 160 karakter." });
+    if (gradeLevel && !isGrade(gradeLevel)) return res.status(400).json({ error: "Ang baitang ay dapat mula 1 hanggang 6." });
+    if (level && !isBoundedString(level, 50)) return res.status(400).json({ error: "Masyadong mahaba ang pangalan ng antas." });
 
     const { data: updated, error: updateErr } = await supabaseAdmin
       .from('pdf_materials')
@@ -220,7 +220,7 @@ router.patch('/pdf/:id', validateUuidParam('id'), async (req, res) => {
     res.json({ success: true, material: updated });
   } catch (err) {
     console.error('[teacher/pdf edit]', err);
-    res.status(500).json({ error: 'Unable to save changes.' });
+    res.status(500).json({ error: "Hindi maitala ang mga pagbabago." });
   }
 });
 
@@ -240,7 +240,7 @@ router.post('/pdf/:id/archive', validateUuidParam('id'), async (req, res) => {
     res.json({ success: true });
   } catch (err) {
     console.error('[teacher/pdf archive]', err);
-    res.status(500).json({ error: 'Unable to archive this PDF.' });
+    res.status(500).json({ error: "Hindi mailipat sa arkibo ang PDF na ito." });
   }
 });
 
@@ -256,7 +256,7 @@ router.post('/pdf/:id/unarchive', validateUuidParam('id'), async (req, res) => {
     res.json({ success: true });
   } catch (err) {
     console.error('[teacher/pdf unarchive]', err);
-    res.status(500).json({ error: 'Unable to unarchive this PDF.' });
+    res.status(500).json({ error: "Hindi maibalik mula sa arkibo ang PDF na ito." });
   }
 });
 
@@ -269,12 +269,12 @@ router.post('/pdf-drill', uploadLimiter, upload.single('file'), async (req, res)
   let unreferencedUploadPath = null;
   let cleanupAllowed = false;
   try {
-    if (!req.file) return res.status(400).json({ error: 'No PDF file uploaded.' });
+    if (!req.file) return res.status(400).json({ error: "Walang PDF na naipadala. Pumili muna ng PDF." });
     const validation = validatePdfUpload(req.file);
     if (!validation.valid) return res.status(400).json({ error: validation.error });
     const { title, gradeLevel, level } = req.body || {};
-    if (!isBoundedString(title, 160, { allowEmpty: false })) return res.status(400).json({ error: 'A valid title is required (maximum 160 characters).' });
-    if (gradeLevel && !isGrade(gradeLevel)) return res.status(400).json({ error: 'Grade level must be 1-6.' });
+    if (!isBoundedString(title, 160, { allowEmpty: false })) return res.status(400).json({ error: "Kailangan ang wastong pamagat na hindi lalampas sa 160 karakter." });
+    if (gradeLevel && !isGrade(gradeLevel)) return res.status(400).json({ error: "Ang baitang ay dapat mula 1 hanggang 6." });
 
     const { items: parsedItems, skipped } = await parseDrillPdf(req.file.buffer).catch((err) => {
       console.error('[teacher/pdf-drill parse]', err);
@@ -324,7 +324,7 @@ router.post('/pdf-drill', uploadLimiter, upload.single('file'), async (req, res)
   } catch (err) {
     console.error('[teacher/pdf-drill upload]', err);
     if (cleanupAllowed) await discardUnreferencedUpload(unreferencedUploadPath);
-    res.status(500).json({ error: 'Unable to upload this PDF.' });
+    res.status(500).json({ error: "Hindi maipadala ang PDF na ito." });
   }
 });
 
@@ -337,7 +337,7 @@ async function requireOwnedDrillMaterial(req, res) {
     .maybeSingle();
   if (error) throw error;
   if (!material || material.teacher_id !== req.user.id) {
-    res.status(404).json({ error: 'PDF not found.' });
+    res.status(404).json({ error: "Hindi makita ang PDF." });
     return null;
   }
   return material;
@@ -359,7 +359,7 @@ router.get('/pdf-drill/:materialId/items', validateUuidParam('materialId'), asyn
     res.json({ material, items: items || [] });
   } catch (err) {
     console.error('[teacher/pdf-drill items]', err);
-    res.status(500).json({ error: 'Unable to load drill items.' });
+    res.status(500).json({ error: "Hindi makuha ang mga tanong sa pagsasanay." });
   }
 });
 
@@ -373,20 +373,20 @@ router.patch('/pdf-drill/:materialId/items', validateUuidParam('materialId'), as
 
     // Replacing item rows cascades their attempt records. A published drill
     // must stay immutable; corrections belong in a new draft material.
-    if (material.drill_status === 'published') return res.status(409).json({ error: 'Published drills cannot be replaced. Upload a new draft to make corrections.' });
-    if (!Array.isArray(req.body?.items)) return res.status(400).json({ error: 'A drill items array is required.' });
+    if (material.drill_status === 'published') return res.status(409).json({ error: "Hindi maaaring palitan ang nailathalang pagsasanay. Magpadala ng bagong burador para sa mga pagbabago." });
+    if (!Array.isArray(req.body?.items)) return res.status(400).json({ error: "Kailangan ang listahan ng mga tanong sa pagsasanay." });
     const items = req.body.items;
-    if (items.length > 250) return res.status(400).json({ error: 'A drill may contain at most 250 items.' });
+    if (items.length > 250) return res.status(400).json({ error: "Hanggang 250 tanong lamang ang maaaring laman ng pagsasanay." });
     for (const item of items) {
       if (!item || !isBoundedString(item.syllable_pattern, 80, { allowEmpty: false }) || !isBoundedString(item.word, 120, { allowEmpty: false })) {
-        return res.status(400).json({ error: 'Every item needs a syllable pattern and a word.' });
+        return res.status(400).json({ error: "Kailangan ng pantig at salita ang bawat tanong." });
       }
-      if (item.image_url && !isBoundedString(item.image_url, 2048)) return res.status(400).json({ error: 'An image URL is too long.' });
+      if (item.image_url && !isBoundedString(item.image_url, 2048)) return res.status(400).json({ error: "Masyadong mahaba ang URL ng larawan." });
       if (item.xp_value != null && (typeof item.xp_value === 'boolean' || !Number.isInteger(Number(item.xp_value)) || Number(item.xp_value) < 1 || Number(item.xp_value) > 100)) {
-        return res.status(400).json({ error: 'Item XP must be an integer from 1 to 100.' });
+        return res.status(400).json({ error: "Ang XP ng bawat tanong ay dapat buong bilang mula 1 hanggang 100." });
       }
       if (['band_index', 'item_order'].some((field) => item[field] != null && (typeof item[field] !== 'number' || !Number.isSafeInteger(item[field]) || item[field] < 0 || item[field] > 2147483647))) {
-        return res.status(400).json({ error: 'Item ordering must use non-negative integers.' });
+        return res.status(400).json({ error: "Ang pagkakasunod ng mga tanong ay dapat buong bilang na 0 o higit pa." });
       }
     }
 
@@ -416,7 +416,7 @@ router.patch('/pdf-drill/:materialId/items', validateUuidParam('materialId'), as
     res.json({ success: true, items: saved });
   } catch (err) {
     console.error('[teacher/pdf-drill save items]', err);
-    res.status(500).json({ error: 'Unable to save drill items.' });
+    res.status(500).json({ error: "Hindi maitala ang mga tanong sa pagsasanay." });
   }
 });
 
@@ -431,7 +431,7 @@ router.post('/pdf-drill/:materialId/publish', validateUuidParam('materialId'), a
       .select('id', { count: 'exact', head: true })
       .eq('pdf_material_id', material.id);
     if (countErr) throw countErr;
-    if (!count) return res.status(400).json({ error: 'Add at least one drill item before publishing.' });
+    if (!count) return res.status(400).json({ error: "Magdagdag ng kahit isang tanong sa pagsasanay bago ilathala." });
 
     const { error: updateErr } = await supabaseAdmin.from('pdf_materials').update({ drill_status: 'published' }).eq('id', material.id);
     if (updateErr) throw updateErr;
@@ -439,7 +439,7 @@ router.post('/pdf-drill/:materialId/publish', validateUuidParam('materialId'), a
     res.json({ success: true });
   } catch (err) {
     console.error('[teacher/pdf-drill publish]', err);
-    res.status(500).json({ error: 'Unable to publish this drill.' });
+    res.status(500).json({ error: "Hindi mailathala ang pagsasanay na ito." });
   }
 });
 

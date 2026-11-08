@@ -1,3 +1,4 @@
+import { tagalogError } from '../../lib/validationMessages';
 import { useEffect, useRef, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
@@ -219,7 +220,7 @@ export default function Practice() {
       setLastResult({transcript:input.transcript,accuracy:result.accuracy,correct:result.correct,message:randomFrom(result.correct?CORRECT_MESSAGES:ENCOURAGE_MESSAGES)+' '+practiceRewardMessage(saved)});
       if(!saved.replayed)setStreak(s=>result.correct?s+1:0);
       trackEvent('reading_attempt_completed',{surface:'practice',mode,correct:result.correct});
-    }catch(caught){const err=caught as Error&{pendingTranscript?:string};setPendingRetry({...input,transcript:err.pendingTranscript||input.transcript});setError(err.message||'Hindi pa nakumpirma ang pag-save. I-save muli ang parehong sagot.');}
+    }catch(caught){const err=caught as Error&{pendingTranscript?:string};setPendingRetry({...input,transcript:err.pendingTranscript||input.transcript});setError(tagalogError(err)||'Hindi pa nakumpirma ang pag-save. I-save muli ang parehong sagot.');}
     finally{saveInFlight.current=false;setSavingAttempt(false);}
   };
   const handleTry = () => {

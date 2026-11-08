@@ -5,6 +5,6 @@ const isGrade = (value) => isNumericInput(value) && Number.isInteger(Number(valu
 const isAccuracy = (value) => isNumericInput(value) && Number.isFinite(Number(value)) && Number(value) >= 0 && Number(value) <= 100;
 const isBoundedString = (value, max, { allowEmpty = true } = {}) => typeof value === 'string' && value.length <= max && (allowEmpty || value.trim().length > 0);
 function validateUuidParam(name) {
-  return (req, res, next) => isUuid(req.params[name]) ? next() : res.status(400).json({ error: `Invalid ${name}.` });
+  return (req, res, next) => isUuid(req.params[name]) ? next() : res.status(400).json({ error: 'Hindi wasto ang ID sa kahilingan.' });
 }
 module.exports = { isUuid, isGrade, isAccuracy, isBoundedString, validateUuidParam };

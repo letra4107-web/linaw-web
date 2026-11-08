@@ -35,7 +35,7 @@ for (const role of ['admin', 'teacher', 'parent', 'student', 'notifications', 'a
     const suffix = { admin: '/analytics', teacher: `/students/11111111-1111-4111-8111-111111111111/modules`, parent: '/children', student: '/learn/path', notifications: '', auth: '/events' }[role];
     const response = await fetch(`${base}/api/${role}${suffix}`, { method: role === 'auth' ? 'POST' : 'GET' });
     assert.equal(response.status, 401);
-    assert.match((await response.json()).error, /bearer/i);
+    assert.match((await response.json()).error, /Mag-login muna/);
     assert.ok(response.headers.get('ratelimit-policy'));
   });
 }
@@ -63,7 +63,7 @@ test('local HTTP handles malformed and oversized JSON with client errors', async
 test('local HTTP returns a JSON 404 for an unknown endpoint', async () => {
   const response = await fetch(`${base}/api/not-implemented`);
   assert.equal(response.status, 404);
-  assert.deepEqual(await response.json(), { error: 'Not found' });
+  assert.deepEqual(await response.json(), { error: "Hindi makita ang hiniling na pahina o impormasyon." });
 });
 
 for (const role of ['admin', 'teacher', 'parent', 'student', 'notifications', 'authEvents']) {

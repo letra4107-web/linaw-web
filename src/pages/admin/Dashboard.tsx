@@ -29,7 +29,7 @@ export default function AdminDashboard() {
   };
   return <div className="admin-home-reference">
     <AdminHero home title="Admin!" description="Monitor, manage, and keep LinawLetra running smoothly." />
-    <QueryErrorNotice error={analytics.error || usersQuery.error || credentials.error} message="Unable to load some dashboard information. Please try again." onRetry={() => { void analytics.refetch(); void usersQuery.refetch(); void credentials.refetch(); }} />
+    <QueryErrorNotice error={analytics.error || usersQuery.error || credentials.error} message="Hindi makuha ang ilang impormasyon sa dashboard. Subukan muli." onRetry={() => { void analytics.refetch(); void usersQuery.refetch(); void credentials.refetch(); }} />
     <AdminStats tall items={[
       { value: data?.totals.users ?? '—', label: 'Total Users', detail: growth(), icon: <UsersRound /> },
       { value: data ? data.totals.studentAccounts : '—', label: 'Students', detail: growth('student'), icon: <GraduationCap /> },

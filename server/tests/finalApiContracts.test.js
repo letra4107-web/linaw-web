@@ -66,7 +66,7 @@ for (const failedTable of ['children', 'users', 'child_progress', 'pronunciation
       assert.equal(response.status, 500);
       const body = await response.json();
       assert.equal(body.totals, undefined);
-      assert.equal(body.error, 'Unable to load analytics.');
+      assert.equal(body.error, "Hindi makuha ang mga ulat ng pagsusuri.");
     } finally { await new Promise((resolve) => server.close(resolve)); }
   });
 }

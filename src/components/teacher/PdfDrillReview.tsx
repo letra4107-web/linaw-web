@@ -1,3 +1,4 @@
+import { tagalogError } from '../../lib/validationMessages';
 import { useRef, useState } from 'react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { api } from '../../lib/api';
@@ -23,7 +24,7 @@ export function PdfDrillReview({materialId,onPublished}:{materialId:string;onPub
     setDraft(rows);setError(null);setSuccess(submission.publish?'Nai-publish ang drill.':'Na-save ang mga pagbabago.');
     queryClient.setQueryData<DrillItemsResponse>(['pdf-drill-items',materialId],previous=>previous?{...previous,items:rows,material:{...previous.material,drill_status:submission.publish?'published':previous.material.drill_status}}:previous);
     void queryClient.invalidateQueries({queryKey:['pdf-materials']});if(submission.publish)onPublished();
-  },onError:(error:Error)=>setError(error.message),onSettled:()=>{guard.current=false;}});
+  },onError:(error:Error)=>setError(tagalogError(error)),onSettled:()=>{guard.current=false;}});
   function run(publish:boolean){if(guard.current||!items||readOnly)return;guard.current=true;setError(null);setSuccess('');action.mutate({publish,rows:items});}
   function change(index:number,patch:Partial<EditableDrillItem>){setDraft((items??[]).map((item,i)=>i===index?{...item,...patch}:item));setSuccess('');}
   return <section className="flex min-w-0 flex-col gap-3" aria-label="Suriin ang PDF drill">

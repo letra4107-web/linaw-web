@@ -80,7 +80,7 @@ export default function AuditLogs() {
         <button type="button" onClick={resetFilters}>Reset</button>
       </section>
 
-      {query.error && <p role="alert" className="rounded-2xl bg-[var(--color-danger-soft)] p-4 text-[var(--color-danger)]">Unable to load the Audit Trail.</p>}
+      {query.error && <p role="alert" className="rounded-2xl bg-[var(--color-danger-soft)] p-4 text-[var(--color-danger)]">Hindi makuha ang mga tala ng pagsusuri.</p>}
 
       <section className="audit-table-card overflow-hidden rounded-[1.25rem] border shadow-card">
         <div className="max-h-[62vh] overflow-auto">

@@ -1,3 +1,4 @@
+import { tagalogError } from '../../lib/validationMessages';
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { supabase } from '../../lib/supabaseClient';
@@ -145,7 +146,7 @@ export default function Login() {
   const validate = (cleanEmail: string): FieldErrors => {
     const errors: FieldErrors = {};
     if (!cleanEmail) errors.email = 'Kailangan ang email.';
-    else if (!isValidEmail(cleanEmail)) errors.email = 'Hindi valid ang email.';
+    else if (!isValidEmail(cleanEmail)) errors.email = "Hindi wasto ang email address.";
     if (!password) errors.password = 'Kailangan ang password.';
     return errors;
   };
@@ -193,7 +194,7 @@ export default function Login() {
         navigate('/verify-email', { state: { email: cleanEmail } });
         return;
       }
-      setError(err instanceof Error ? err.message : 'Hindi matagumpay ang pag-login.');
+      setError(err instanceof Error ? tagalogError(err) : 'Hindi matagumpay ang pag-login.');
     } finally {
       setSubmitting(false);
     }

@@ -29,8 +29,8 @@ test('final verification section assignment sanitizes unexpected persistence dia
   const diagnostic='isolated internal database diagnostic';
   const result=await assign({error:{code:'XX001',message:diagnostic}});
   assert.equal(result.status,500);
-  assert.equal(result.body.error,'Unable to add students to this section.');
+  assert.equal(result.body.error,"Hindi maidagdag ang mga mag-aaral sa seksyong ito.");
   assert.ok(!JSON.stringify(result.body).includes(diagnostic));
   assert.equal(result.calls.length,1);
 });
-test('QA section assignment reports concurrent transaction conflicts as retryable',async()=>{for(const code of ['40001','40P01']){const result=await assign({error:{code,message:'database transaction conflict'}});assert.equal(result.status,409);assert.match(result.body.error,/try again/);assert.equal(result.calls.length,1);}});
+test('QA section assignment reports concurrent transaction conflicts as retryable',async()=>{for(const code of ['40001','40P01']){const result=await assign({error:{code,message:'database transaction conflict'}});assert.equal(result.status,409);assert.match(result.body.error,/subukan muli/);assert.equal(result.calls.length,1);}});

@@ -4,6 +4,7 @@ import { loadTs } from './helpers/load-ts.mjs';
 import {createRequire} from 'node:module';
 const {loadWordOfDay}=createRequire(import.meta.url)('../server/services/wordOfDayInitialization.js');
 import { renderToStaticMarkup } from 'react-dom/server';
+const validationMessages = loadTs('src/lib/validationMessages.ts');
 
 test('final dashboard query error feedback hides internal diagnostics and provides an accessible retry', () => {
   const { QueryErrorNotice } = loadTs('src/components/QueryErrorNotice.tsx');
@@ -16,7 +17,7 @@ test('final dashboard query error feedback hides internal diagnostics and provid
 
 function apiHarness(responses, session = { access_token: 'isolated-client-session' }) {
   const calls = [], warnings = [];
-  const { api } = loadTs('src/lib/api.ts', { './supabaseClient': { supabase: { auth: { getSession: async () => ({ data: { session } }) } } } }, {
+  const { api } = loadTs('src/lib/api.ts', { './validationMessages': validationMessages, './supabaseClient': { supabase: { auth: { getSession: async () => ({ data: { session } }) } } } }, {
     __qaEnv: { VITE_API_URL: 'http://127.0.0.1:9/api', VITE_API_COMPATIBILITY_VERSION: '3' },
     fetch: async (url, options) => { calls.push({ url, options }); return responses.shift(); },
     console: { warn: (...args) => warnings.push(args) },
@@ -35,13 +36,13 @@ test('final frontend API adds the authenticated session and preserves JSON reque
 });
 test('final frontend API handles expired/missing sessions without inventing an auth header', async () => {
   const h = apiHarness([response({ error: 'Authentication required' }, { status: 401 })], null);
-  await assert.rejects(h.api('/parent/children', { auth: true }), /Authentication required/);
+  await assert.rejects(h.api('/parent/children', { auth: true }), /Mag-login muna/);
   assert.equal(h.calls[0].options.headers.Authorization, undefined);
 });
 test('final frontend API distinguishes JSON service failures and non-JSON gateway failures', async () => {
   const h = apiHarness([response({ error: 'Isolated unavailable', detail: 'Retry later' }, { status: 503 }), response('Unavailable', { status: 502, json: false })]);
-  await assert.rejects(h.api('/admin/users'), /Isolated unavailable \(Retry later\)/);
-  await assert.rejects(h.api('/admin/users'), /Request failed \(502\)/);
+  await assert.rejects(h.api('/admin/users'), error => error.status === 503 && error.detail === 'Retry later' && /Hindi makumpleto/.test(error.message) && !error.message.includes('Isolated'));
+  await assert.rejects(h.api('/admin/users'), error => error.status === 502 && /Hindi makumpleto/.test(error.message));
 });
 test('final frontend API warns once for version drift and handles non-JSON success', async () => {
   const h = apiHarness([response('ready', { version: null, json: false }), response({ ok: true }, { version: '2' })]);

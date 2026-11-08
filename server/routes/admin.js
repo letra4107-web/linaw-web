@@ -43,14 +43,14 @@ router.get('/announcements', async (_req, res) => {
     res.json({ announcements: [...groups.values()] });
   } catch (err) {
     console.error('[admin/announcements list]', err);
-    res.status(500).json({ error: 'Unable to load announcement history.' });
+    res.status(500).json({ error: "Hindi makuha ang mga naunang anunsyo." });
   }
 });
 
 router.post('/announcements', async (req, res) => {
   const { title, message, roles } = req.body || {};
   if (!isBoundedString(title, 160, { allowEmpty: false }) || !isBoundedString(message, 4000, { allowEmpty: false }) || !Array.isArray(roles) || !roles.length || roles.length > 3 || roles.some(role => !['student', 'parent', 'teacher'].includes(role))) {
-    return res.status(400).json({ error: 'Provide a title, message, and at least one valid recipient group.' });
+    return res.status(400).json({ error: "Ilagay ang pamagat at mensahe, at pumili ng kahit isang wastong pangkat ng tatanggap." });
   }
   try {
     const users = [];
@@ -60,14 +60,14 @@ router.post('/announcements', async (req, res) => {
       users.push(...(data || []));
       if (!data || data.length < 1000) break;
     }
-    if (!users.length) return res.status(400).json({ error: 'There are no active accounts in the selected recipient groups.' });
+    if (!users.length) return res.status(400).json({ error: "Walang aktibong account sa mga napiling pangkat ng tatanggap." });
     const created_at = new Date().toISOString();
     const { error } = await supabaseAdmin.from('notifications').insert(users.map(user => ({ user_id: user.id, title: title.trim(), body: message.trim(), message: message.trim(), type: 'admin_announcement', created_at, is_read: false, read: false })));
     if (error) throw error;
     res.status(201).json({ delivered: users.length });
   } catch (err) {
     console.error('[admin/announcements send]', err);
-    res.status(500).json({ error: 'Unable to send the announcement.' });
+    res.status(500).json({ error: "Hindi maipadala ang anunsyo. Subukan muli." });
   }
 });
 
@@ -94,7 +94,7 @@ router.get('/operations', async (_req, res) => {
     res.json({ schedules: schedules.data || [], messages: messages.data || [], materials: materials.data || [], assignments: assignments.data || [], rosterLinks: links.data || [], progress: progress.data || [], readingLevels: readingLevels.data || [], studentSettings: studentSettings.data || [], names, children: childRows });
   } catch (err) {
     console.error('[admin/operations]', err);
-    res.status(500).json({ error: 'Unable to load operational records.' });
+    res.status(500).json({ error: "Hindi makuha ang mga tala ng operasyon." });
   }
 });
 
@@ -117,7 +117,7 @@ router.get('/audit-logs', async (req, res) => {
     res.json({ logs: data || [], total: count || 0, page, pageSize });
   } catch (err) {
     console.error('[admin/audit-logs]', err);
-    res.status(500).json({ error: 'Unable to load audit logs.' });
+    res.status(500).json({ error: "Hindi makuha ang mga tala ng pagsusuri." });
   }
 });
 
@@ -126,7 +126,7 @@ router.get('/audit-logs', async (req, res) => {
 router.get('/monitoring/users', async (req, res) => {
   try {
     const role = String(req.query.role || '').toLowerCase();
-    if (!['student', 'parent', 'teacher'].includes(role)) return res.status(400).json({ error: 'Invalid monitoring role.' });
+    if (!['student', 'parent', 'teacher'].includes(role)) return res.status(400).json({ error: "Hindi wasto ang napiling tungkulin na susubaybayan." });
     const [{ data: users, error: usersError }, { data: children, error: childrenError }, { data: teacherProfiles, error: teacherProfilesError }] = await Promise.all([
       supabaseAdmin.from('users').select('id, name, email, role, account_status, created_at, lastLoginAt').eq('role', role).neq('account_status', 'archived').order('name'),
       supabaseAdmin.from('children').select('id, auth_uid, parent_id, name, grade_level'),
@@ -153,7 +153,7 @@ router.get('/monitoring/users', async (req, res) => {
     }) });
   } catch (err) {
     console.error('[admin/monitoring/users]', err);
-    res.status(500).json({ error: 'Unable to load role monitoring.' });
+    res.status(500).json({ error: "Hindi makuha ang pagsubaybay sa mga tungkulin." });
   }
 });
 
@@ -163,7 +163,7 @@ router.get('/monitoring/users/:id', validateUuidParam('id'), async (req, res) =>
   try {
     const { data: user, error: userError } = await supabaseAdmin.from('users').select('id, name, email, role, account_status, lastLoginAt, created_at').eq('id', req.params.id).maybeSingle();
     if (userError) throw userError;
-    if (!user || !['student', 'parent', 'teacher'].includes(user.role)) return res.status(404).json({ error: 'Monitored account not found.' });
+    if (!user || !['student', 'parent', 'teacher'].includes(user.role)) return res.status(404).json({ error: "Hindi makita ang account na sinusubaybayan." });
     const { data: activity, error: activityError } = await supabaseAdmin.from('audit_logs').select('id, action, module, status, metadata, created_at').eq('actor_id', user.id).order('created_at', { ascending: false }).limit(50);
     if (activityError) throw activityError;
     if (user.role === 'student') {
@@ -185,7 +185,7 @@ router.get('/monitoring/users/:id', validateUuidParam('id'), async (req, res) =>
     if (membershipsError) throw membershipsError;
     const studentCounts = (memberships || []).reduce((counts, membership) => ({ ...counts, [membership.section_id]: (counts[membership.section_id] || 0) + 1 }), {});
     return res.json({ user, roster: links || [], materials: materials || [], assignments: assignments || [], sections: (sections || []).map((section) => ({ ...section, studentCount: studentCounts[section.id] || 0 })), activity: activity || [] });
-  } catch (err) { console.error('[admin/monitoring/user detail]', err); res.status(500).json({ error: 'Unable to load monitoring details.' }); }
+  } catch (err) { console.error('[admin/monitoring/user detail]', err); res.status(500).json({ error: "Hindi makuha ang mga detalye ng pagsubaybay." }); }
 });
 
 // Private admin notes for a student account. These are intentionally never
@@ -200,23 +200,23 @@ router.get('/monitoring/users/:id/notes', validateUuidParam('id'), async (req, r
     res.json({ notes: data || [] });
   } catch (err) {
     console.error('[admin/student notes list]', err);
-    res.status(500).json({ error: 'Unable to load student notes.' });
+    res.status(500).json({ error: "Hindi makuha ang mga tala tungkol sa mag-aaral." });
   }
 });
 
 router.post('/monitoring/users/:id/notes', validateUuidParam('id'), async (req, res) => {
   try {
     const content = String(req.body?.content || '').trim();
-    if (!isBoundedString(content, 1000, { allowEmpty: false })) return res.status(400).json({ error: 'Note must be between 1 and 1,000 characters.' });
+    if (!isBoundedString(content, 1000, { allowEmpty: false })) return res.status(400).json({ error: "Ang tala ay dapat may 1 hanggang 1,000 karakter." });
     const { data: student, error: studentError } = await supabaseAdmin.from('users').select('id').eq('id', req.params.id).eq('role', 'student').maybeSingle();
     if (studentError) throw studentError;
-    if (!student) return res.status(404).json({ error: 'Student account not found.' });
+    if (!student) return res.status(404).json({ error: "Hindi makita ang account ng mag-aaral." });
     const { data, error } = await supabaseAdmin.from('admin_student_notes').insert({ student_id: student.id, author_id: req.user.id, content }).select('id, content, created_at, author_id').single();
     if (error) throw error;
     res.status(201).json({ note: data });
   } catch (err) {
     console.error('[admin/student notes create]', err);
-    res.status(500).json({ error: 'Unable to save student note.' });
+    res.status(500).json({ error: "Hindi maitala ang tala tungkol sa mag-aaral." });
   }
 });
 
@@ -224,11 +224,11 @@ router.delete('/monitoring/users/:id/notes/:noteId', validateUuidParam('id'), va
   try {
     const { data, error } = await supabaseAdmin.from('admin_student_notes').delete().eq('id', req.params.noteId).eq('student_id', req.params.id).select('id').maybeSingle();
     if (error) throw error;
-    if (!data) return res.status(404).json({ error: 'Student note not found.' });
+    if (!data) return res.status(404).json({ error: "Hindi makita ang tala tungkol sa mag-aaral." });
     res.json({ success: true });
   } catch (err) {
     console.error('[admin/student notes delete]', err);
-    res.status(500).json({ error: 'Unable to delete student note.' });
+    res.status(500).json({ error: "Hindi matanggal ang tala tungkol sa mag-aaral." });
   }
 });
 
@@ -253,8 +253,8 @@ async function notifyUser(userId, title, body, type) {
 router.get('/users', async (req, res) => {
   try {
     const { role, status } = req.query;
-    if (role && !USER_ROLES.has(String(role))) return res.status(400).json({ error: 'Invalid role filter.' });
-    if (status && !ACCOUNT_STATUSES.has(String(status))) return res.status(400).json({ error: 'Invalid status filter.' });
+    if (role && !USER_ROLES.has(String(role))) return res.status(400).json({ error: "Hindi wasto ang napiling pansala ng tungkulin." });
+    if (status && !ACCOUNT_STATUSES.has(String(status))) return res.status(400).json({ error: "Hindi wasto ang napiling pansala ng katayuan." });
     let query = supabaseAdmin
       .from('users')
       .select('id, email, name, role, account_status, is_active, created_at, lastLoginAt')
@@ -269,7 +269,7 @@ router.get('/users', async (req, res) => {
     res.json({ users: data });
   } catch (err) {
     console.error('[admin/users]', err);
-    res.status(500).json({ error: 'Unable to load users.' });
+    res.status(500).json({ error: "Hindi makuha ang listahan ng mga gumagamit." });
   }
 });
 
@@ -285,7 +285,7 @@ router.get('/users/archived', async (req, res) => {
     res.json({ users: data });
   } catch (err) {
     console.error('[admin/users/archived]', err);
-    res.status(500).json({ error: 'Unable to load archived users.' });
+    res.status(500).json({ error: "Hindi makuha ang mga nakaarkibong account." });
   }
 });
 
@@ -301,7 +301,7 @@ router.get('/credential-security', async (_req, res) => {
     res.json({ credentials: summarizeCredentialSecurity(count || 0, rows || []) });
   } catch (err) {
     console.error('[admin/credential-security]', err);
-    res.status(500).json({ error: 'Unable to load credential security status.' });
+    res.status(500).json({ error: "Hindi makuha ang katayuan ng seguridad ng mga account." });
   }
 });
 
@@ -323,7 +323,7 @@ router.get('/storage-readiness', async (_req, res) => {
     });
   } catch (err) {
     console.error('[admin/storage-readiness]', err);
-    res.status(500).json({ error: 'Unable to load storage readiness.' });
+    res.status(500).json({ error: "Hindi masuri kung handa na ang imbakan ng mga file." });
   }
 });
 
@@ -332,7 +332,7 @@ router.post('/users/:id/disable', validateUuidParam('id'), async (req, res) => {
   try {
     const { id } = req.params;
     const { reason } = req.body || {};
-    if (reason != null && !isBoundedString(reason, 500)) return res.status(400).json({ error: 'Reason is too long.' });
+    if (reason != null && !isBoundedString(reason, 500)) return res.status(400).json({ error: "Masyadong mahaba ang dahilan. Hanggang 500 karakter lamang." });
 
     const { error: authErr } = await supabaseAdmin.auth.admin.updateUserById(id, {
       ban_duration: BAN_FOREVER,
@@ -355,7 +355,7 @@ router.post('/users/:id/disable', validateUuidParam('id'), async (req, res) => {
     res.json({ success: true });
   } catch (err) {
     console.error('[admin/users/:id/disable]', err);
-    res.status(500).json({ error: 'Unable to disable this account.' });
+    res.status(500).json({ error: "Hindi ma-deactivate ang account na ito." });
   }
 });
 
@@ -386,7 +386,7 @@ router.post('/users/:id/restore', validateUuidParam('id'), async (req, res) => {
     res.json({ success: true });
   } catch (err) {
     console.error('[admin/users/:id/restore]', err);
-    res.status(500).json({ error: 'Unable to restore this account.' });
+    res.status(500).json({ error: "Hindi maibalik ang account na ito." });
   }
 });
 
@@ -395,7 +395,7 @@ router.post('/users/:id/archive', validateUuidParam('id'), async (req, res) => {
   try {
     const { id } = req.params;
     const { reason } = req.body || {};
-    if (reason != null && !isBoundedString(reason, 500)) return res.status(400).json({ error: 'Reason is too long.' });
+    if (reason != null && !isBoundedString(reason, 500)) return res.status(400).json({ error: "Masyadong mahaba ang dahilan. Hanggang 500 karakter lamang." });
 
     const { error: authErr } = await supabaseAdmin.auth.admin.updateUserById(id, {
       ban_duration: BAN_FOREVER,
@@ -417,7 +417,7 @@ router.post('/users/:id/archive', validateUuidParam('id'), async (req, res) => {
     res.json({ success: true });
   } catch (err) {
     console.error('[admin/users/:id/archive]', err);
-    res.status(500).json({ error: 'Unable to archive this account.' });
+    res.status(500).json({ error: "Hindi mailipat sa arkibo ang account na ito." });
   }
 });
 
@@ -435,7 +435,7 @@ router.delete('/users/:id', validateUuidParam('id'), async (req, res) => {
 
     if (!profile || profile.account_status !== 'archived') {
       return res.status(400).json({
-        error: 'Only archived accounts can be permanently deleted. Archive it first.',
+        error: "Ang mga nakaarkibong account lamang ang maaaring tuluyang tanggalin. Ilipat muna ito sa arkibo.",
       });
     }
 
@@ -447,7 +447,7 @@ router.delete('/users/:id', validateUuidParam('id'), async (req, res) => {
     res.json({ success: true });
   } catch (err) {
     console.error('[admin/users/:id delete]', err);
-    res.status(500).json({ error: 'Unable to delete this account.' });
+    res.status(500).json({ error: "Hindi matanggal ang account na ito." });
   }
 });
 
@@ -459,10 +459,10 @@ router.post('/teachers', async (req, res) => {
     const cleanName = String(name || '').trim();
     const cleanGradeLevels = Array.isArray(gradeLevels) ? [...new Set(gradeLevels.map(Number))] : [];
     if (!isBoundedString(cleanName, 100, { allowEmpty: false }) || !/^\S+@\S+\.\S+$/.test(cleanEmail) || cleanEmail.length > 254) {
-      return res.status(400).json({ error: 'A valid email and name are required.' });
+      return res.status(400).json({ error: "Kailangan ang wastong email address at pangalan." });
     }
     if (!Array.isArray(gradeLevels) || !cleanGradeLevels.length || gradeLevels.some((grade) => !isGrade(grade))) {
-      return res.status(400).json({ error: 'Choose at least one valid grade from 1 to 6.' });
+      return res.status(400).json({ error: "Pumili ng kahit isang wastong baitang mula 1 hanggang 6." });
     }
 
     const password = temporaryPassword();
@@ -480,7 +480,7 @@ router.post('/teachers', async (req, res) => {
 
     const teacherId = created.user.id;
     const verificationCode = created.properties?.email_otp;
-    if (!verificationCode) throw new Error('Unable to generate the teacher email verification code.');
+    if (!verificationCode) throw new Error("Hindi makagawa ng code sa pagpapatunay ng email ng guro.");
 
     const { error: profileErr } = await supabaseAdmin.from('users').upsert({
       id: teacherId,
@@ -525,7 +525,7 @@ router.post('/teachers', async (req, res) => {
     res.json({ success: true, teacherId });
   } catch (err) {
     console.error('[admin/teachers create]', err);
-    res.status(500).json({ error: 'Unable to create this teacher account.' });
+    res.status(500).json({ error: "Hindi magawa ang account ng guro." });
   }
 });
 
@@ -544,20 +544,20 @@ router.get('/sections', async (_req, res) => {
     if (sectionsError || teachersError || membershipsError) throw sectionsError || teachersError || membershipsError;
     const counts = (memberships || []).reduce((result, row) => ({ ...result, [row.section_id]: (result[row.section_id] || 0) + 1 }), {});
     res.json({ sections: (sections || []).map((section) => ({ ...section, studentCount: counts[section.id] || 0 })), teachers: teachers || [] });
-  } catch (err) { console.error('[admin/sections]', err); res.status(500).json({ error: 'Unable to load sections.' }); }
+  } catch (err) { console.error('[admin/sections]', err); res.status(500).json({ error: "Hindi makuha ang listahan ng mga seksyon." }); }
 });
 
 router.post('/sections', async (req, res) => {
   try {
     const { name, gradeLevel, adviserId, isReadingSupport = false } = req.body || {};
     const cleanName = String(name || '').trim(); const grade = Number(gradeLevel);
-    if (!isBoundedString(cleanName, 80, { allowEmpty: false }) || !isGrade(gradeLevel)) return res.status(400).json({ error: 'A name, grade level, and teacher are required.' });
-    if (typeof adviserId !== 'string' || !/^[0-9a-f-]{36}$/i.test(adviserId)) return res.status(400).json({ error: 'Choose a valid teacher.' });
+    if (!isBoundedString(cleanName, 80, { allowEmpty: false }) || !isGrade(gradeLevel)) return res.status(400).json({ error: "Kailangan ang pangalan, baitang, at guro." });
+    if (typeof adviserId !== 'string' || !/^[0-9a-f-]{36}$/i.test(adviserId)) return res.status(400).json({ error: "Pumili ng wastong guro." });
     const support = Boolean(isReadingSupport);
     const { data, error } = await supabaseAdmin.from('class_sections').insert({ name: cleanName, grade_level: grade, adviser_id: adviserId, is_reading_support: support, capacity: support ? 12 : 30 }).select().single();
     if (error) throw error;
     res.status(201).json({ section: data });
-  } catch (err) { console.error('[admin/sections create]', err); res.status(500).json({ error: 'Unable to create this section.' }); }
+  } catch (err) { console.error('[admin/sections create]', err); res.status(500).json({ error: "Hindi magawa ang seksyong ito." }); }
 });
 
 router.get('/sections/:id/students', validateUuidParam('id'), async (req, res) => {
@@ -568,7 +568,7 @@ router.get('/sections/:id/students', validateUuidParam('id'), async (req, res) =
       .eq('id', req.params.id)
       .maybeSingle();
     if (sectionError) throw sectionError;
-    if (!section) return res.status(404).json({ error: 'Section not found.' });
+    if (!section) return res.status(404).json({ error: "Hindi makita ang seksyon." });
 
     const [{ data: students, error: studentsError }, { data: memberships, error: membershipsError }] = await Promise.all([
       supabaseAdmin.from('children').select('id, name, grade_level').eq('grade_level', section.grade_level).order('name'),
@@ -581,25 +581,25 @@ router.get('/sections/:id/students', validateUuidParam('id'), async (req, res) =
       students: (students || []).map((student) => ({ ...student, assigned: assignedIds.has(student.id) })),
       assignedCount: assignedIds.size,
     });
-  } catch (err) { console.error('[admin/section students]', err); res.status(500).json({ error: 'Unable to load students for this section.' }); }
+  } catch (err) { console.error('[admin/section students]', err); res.status(500).json({ error: "Hindi makuha ang mga mag-aaral sa seksyong ito." }); }
 });
 
 router.post('/sections/:id/students', validateUuidParam('id'), async (req, res) => {
   try {
-    if (!Array.isArray(req.body?.studentIds) || req.body.studentIds.some((id) => !isUuid(id))) return res.status(400).json({ error: 'Select students with valid IDs.' });
+    if (!Array.isArray(req.body?.studentIds) || req.body.studentIds.some((id) => !isUuid(id))) return res.status(400).json({ error: "Pumili ng mga mag-aaral na may wastong ID." });
     const studentIds = [...new Set(req.body.studentIds)];
-    if (!studentIds.length || studentIds.length > 35) return res.status(400).json({ error: 'Select one to 35 students.' });
+    if (!studentIds.length || studentIds.length > 35) return res.status(400).json({ error: "Pumili ng 1 hanggang 35 mag-aaral." });
     const { error } = await supabaseAdmin.rpc('assign_section_students', {
       p_section_id: req.params.id,
       p_student_ids: studentIds,
       p_assigned_by: req.user.id,
     });
-    if (error?.code === 'P0002') return res.status(404).json({ error: 'Section not found.' });
-    if (error?.code === '22023') return res.status(400).json({ error: error.message });
-    if (['40001', '40P01'].includes(error?.code)) return res.status(409).json({ error: 'The section changed during assignment. Reload the section and try again.' });
+    if (error?.code === 'P0002') return res.status(404).json({ error: "Hindi makita ang seksyon." });
+    if (error?.code === '22023') return res.status(400).json({ error: 'Hindi maaaring italaga ang mga napiling mag-aaral. Suriin ang baitang, kasalukuyang seksyon, at natitirang puwesto.' });
+    if (['40001', '40P01'].includes(error?.code)) return res.status(409).json({ error: "Nagbago ang seksyon habang nagtatalaga ng mga mag-aaral. Buksan muli ang seksyon at subukan muli." });
     if (error) throw error;
     res.json({ success: true });
-  } catch (err) { console.error('[admin/sections students]', err); res.status(500).json({ error: 'Unable to add students to this section.' }); }
+  } catch (err) { console.error('[admin/sections students]', err); res.status(500).json({ error: "Hindi maidagdag ang mga mag-aaral sa seksyong ito." }); }
 });
 
 router.get('/analytics/students', async (_req, res) => {
@@ -642,7 +642,7 @@ router.get('/analytics/students', async (_req, res) => {
     res.json({ students });
   } catch (err) {
     console.error('[admin/analytics/students]', err);
-    res.status(500).json({ error: 'Unable to load student account details.' });
+    res.status(500).json({ error: "Hindi makuha ang mga detalye ng account ng mag-aaral." });
   }
 });
 
@@ -712,7 +712,7 @@ router.get('/analytics', async (req, res) => {
     });
   } catch (err) {
     console.error('[admin/analytics]', err);
-    res.status(500).json({ error: 'Unable to load analytics.' });
+    res.status(500).json({ error: "Hindi makuha ang mga ulat ng pagsusuri." });
   }
 });
 
@@ -728,14 +728,14 @@ const SYSTEM_SETTINGS_DEFAULTS = {
 function validatedSystemSettings(value) {
   const settings = { ...SYSTEM_SETTINGS_DEFAULTS, ...(value || {}) };
   for (const [key, defaultValue] of Object.entries(SYSTEM_SETTINGS_DEFAULTS)) {
-    if (typeof defaultValue === 'boolean' && typeof settings[key] !== 'boolean') throw new Error(`${key} must be true or false.`);
+    if (typeof defaultValue === 'boolean' && typeof settings[key] !== 'boolean') throw new Error('Ang mga setting na may pagpipilian ay dapat naka-on o naka-off lamang.');
   }
-  if (typeof settings.systemName !== 'string' || !settings.systemName.trim() || settings.systemName.length > 120) throw new Error('System name is required and must be 120 characters or fewer.');
-  if (typeof settings.organizationName !== 'string' || settings.organizationName.length > 160 || typeof settings.announcement !== 'string' || settings.announcement.length > 1000) throw new Error('One or more text fields are too long.');
-  if (!['fil', 'en'].includes(settings.defaultLanguage) || !['15', '30', '60', '120'].includes(String(settings.sessionTimeout))) throw new Error('Invalid settings selection.');
-  for (const key of ['passingScore', 'completionRequirement']) if (!Number.isFinite(settings[key]) || settings[key] < 0 || settings[key] > 100) throw new Error('Scores must be between 0 and 100.');
-  for (const key of ['xpPerActivity', 'xpPerModule']) if (!Number.isFinite(settings[key]) || settings[key] < 0) throw new Error('XP values cannot be negative.');
-  if (!Number.isInteger(settings.failedLoginLimit) || settings.failedLoginLimit < 1 || settings.failedLoginLimit > 100) throw new Error('Failed login limit must be a positive whole number.');
+  if (typeof settings.systemName !== 'string' || !settings.systemName.trim() || settings.systemName.length > 120) throw new Error("Kailangan ang pangalan ng sistema na hindi lalampas sa 120 karakter.");
+  if (typeof settings.organizationName !== 'string' || settings.organizationName.length > 160 || typeof settings.announcement !== 'string' || settings.announcement.length > 1000) throw new Error("Masyadong mahaba ang isa o higit pang inilagay na teksto.");
+  if (!['fil', 'en'].includes(settings.defaultLanguage) || !['15', '30', '60', '120'].includes(String(settings.sessionTimeout))) throw new Error("Hindi wasto ang napiling mga setting.");
+  for (const key of ['passingScore', 'completionRequirement']) if (!Number.isFinite(settings[key]) || settings[key] < 0 || settings[key] > 100) throw new Error("Ang mga marka ay dapat mula 0 hanggang 100.");
+  for (const key of ['xpPerActivity', 'xpPerModule']) if (!Number.isFinite(settings[key]) || settings[key] < 0) throw new Error("Hindi maaaring mas mababa sa 0 ang XP.");
+  if (!Number.isInteger(settings.failedLoginLimit) || settings.failedLoginLimit < 1 || settings.failedLoginLimit > 100) throw new Error("Ang limitasyon ng maling pag-login ay dapat buong bilang mula 1 hanggang 100.");
   return settings;
 }
 
@@ -746,7 +746,7 @@ router.get('/system-settings', async (_req, res) => {
     res.json({ settings: { ...SYSTEM_SETTINGS_DEFAULTS, ...(data?.settings || {}) } });
   } catch (err) {
     console.error('[admin/system-settings get]', err);
-    res.status(500).json({ error: 'Unable to load system settings.' });
+    res.status(500).json({ error: "Hindi makuha ang mga setting ng sistema." });
   }
 });
 
@@ -764,7 +764,7 @@ router.patch('/system-settings', async (req, res) => {
     res.json({ settings: { ...SYSTEM_SETTINGS_DEFAULTS, ...(data?.settings || {}) } });
   } catch (err) {
     console.error('[admin/system-settings patch]', err);
-    res.status(500).json({ error: 'Unable to update system settings.' });
+    res.status(500).json({ error: "Hindi mabago ang mga setting ng sistema." });
   }
 });
 

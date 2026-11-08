@@ -1,3 +1,4 @@
+import { tagalogError } from '../../lib/validationMessages';
 import { useRef, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { ArrowRight, CheckCircle2, Lightbulb, MailCheck } from 'lucide-react';
@@ -41,7 +42,7 @@ export default function VerifyEmail() {
       return;
     }
     if (code.length !== OTP_LENGTH) {
-      setError('Ilagay ang kumpletong 6-digit verification code.');
+      setError("Ilagay ang kumpletong code sa pagpapatunay na may 6 na numero.");
       inputs.current[digits.findIndex((digit) => !digit) || 0]?.focus();
       return;
     }
@@ -53,7 +54,7 @@ export default function VerifyEmail() {
       await supabase.from('users').update({ email_verified: true }).eq('email', cleanEmail);
       navigate('/login', { replace: true });
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Mali ang code. Subukan ulit.');
+      setError(err instanceof Error ? tagalogError(err) : 'Mali ang code. Subukan ulit.');
     } finally {
       setSubmitting(false);
     }
@@ -75,7 +76,7 @@ export default function VerifyEmail() {
       inputs.current[0]?.focus();
       setResendMessage('Naipadala na muli ang verification code sa iyong email.');
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Hindi naipadala ang bagong code. Subukan ulit.');
+      setError(err instanceof Error ? tagalogError(err) : 'Hindi naipadala ang bagong code. Subukan ulit.');
     } finally {
       setResending(false);
     }

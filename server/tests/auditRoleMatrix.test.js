@@ -71,7 +71,7 @@ for (const endpoint of endpoints) {
     test(`audit parameter matrix ${endpoint.verb.toUpperCase()} /api/${endpoint.area}${endpoint.route} rejects invalid UUID`, async () => {
       const result = await request(endpoint, endpoint.area, true);
       assert.equal(result.status, 400);
-      assert.match(result.body.error, /Invalid/);
+      assert.match(result.body.error, /Hindi wasto ang ID/);
     });
   }
 }

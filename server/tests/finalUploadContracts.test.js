@@ -63,7 +63,7 @@ for (const endpoint of ['/pdf', '/pdf-drill']) {
   test(`final upload ${endpoint}: compensation failure preserves a safe HTTP failure`, async () => {
     const h = await uploadScenario(endpoint, { metadataError: true, removeError: true });
     assert.equal(h.responses[0].status, 500); assert.equal(h.removed.length, 1);
-    assert.equal(h.responses[0].body.error, 'Unable to upload this PDF.');
+    assert.equal(h.responses[0].body.error, "Hindi maipadala ang PDF na ito.");
     assert.equal(h.files.size, 1, 'Failed compensation is not proof that storage was cleaned');
   });
   test(`final upload ${endpoint}: invalid bytes are rejected before storage access`, async () => {

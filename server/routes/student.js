@@ -29,7 +29,7 @@ router.use(requireAuth, requireRole('student'));
 async function resolveStudentId(authUid) {
   const { data, error } = await supabaseAdmin.from('children').select('id').eq('auth_uid', authUid).maybeSingle();
   if (error) throw error;
-  if (!data) throw Object.assign(new Error('No linked student record for this account.'), { status: 404 });
+  if (!data) throw Object.assign(new Error("Walang tala ng mag-aaral na nakakabit sa account na ito."), { status: 404 });
   return data.id;
 }
 
@@ -40,13 +40,13 @@ function handleRpcError(res, err) {
   console.error('[student rpc]', err);
   const status = err.status || (err.code === '42501' ? 403 : err.code === 'P0002' ? 404 : ['PT409','40001','40P01'].includes(err.code) ? 409 : ['PGRST202','42883','42703'].includes(err.code) ? 503 : 500);
   const messages = {
-    400: 'Invalid student request.',
-    403: 'You do not have permission to perform this action.',
-    404: 'The requested student resource was not found.',
-    409:'Saved progress changed. Retry the same attempt or refresh.',
-    503:'Saving rewards is temporarily unavailable. Retry the same attempt later.',
+    400: "Hindi wasto ang kahilingan ng mag-aaral.",
+    403: "Wala kang pahintulot para sa pagkilos na ito.",
+    404: "Hindi makita ang hiniling na impormasyon ng mag-aaral.",
+    409:"Nagbago ang nakatalang progreso. Ulitin ang parehong pagsubok o buksan muli ang pahina.",
+    503:"Pansamantalang hindi maitala ang gantimpala. Ulitin ang parehong pagsubok mamaya.",
   };
-  res.status(status).json({ error: messages[status] || 'Unable to complete the student request.' });
+  res.status(status).json({ error: messages[status] || "Hindi makumpleto ang kahilingan ng mag-aaral." });
 }
 
 // A student can edit only their own display name. Grade, username, rewards and
@@ -59,7 +59,7 @@ router.patch('/profile', async (req, res) => {
       return res.status(400).json({ error: 'Pangalan lamang ang maaaring baguhin dito.' });
     }
     const name = body.name.trim().replace(/\s+/gu, ' ');
-    if (name.length < 2 || name.length > 100) return res.status(400).json({ error: 'Gumamit ng pangalang may 2 hanggang 100 character.' });
+    if (name.length < 2 || name.length > 100) return res.status(400).json({ error: "Gumamit ng pangalang may 2 hanggang 100 karakter." });
     const studentId = await resolveStudentId(req.user.id);
     const { data: child, error } = await supabaseAdmin.from('children').update({ name })
       .eq('id', studentId).eq('auth_uid', req.user.id).select('id, name, grade_level, username').maybeSingle();
@@ -150,12 +150,12 @@ router.get('/learn/module/:moduleId', validateUuidParam('moduleId'), async (req,
 // stored content, rather than supplied by the browser.
 router.post('/progress/events/start',async(req,res)=>{try{const id=await resolveStudentId(req.user.id);res.json(await startProgressEvent(supabaseAdmin,id,req.body,'web'));}catch(error){handleRpcError(res,error);}});
 router.post('/progress/events/:eventId',async(req,res)=>{try{const id=await resolveStudentId(req.user.id);res.json(await recordProgressEvent(supabaseAdmin,id,req.params.eventId,req.body));}catch(error){handleRpcError(res,error);}});
-router.post('/learn/content/:contentId/attempt',validateUuidParam('contentId'),(req,res)=>res.status(400).json({error:'Use a server-issued learning attempt. Client completion claims are not accepted.'}));
+router.post('/learn/content/:contentId/attempt',validateUuidParam('contentId'),(req,res)=>res.status(400).json({error:"Magsimula muna ng wastong pagsubok sa aralin bago magsumite ng sagot."}));
 
 // Staging-only pilot for moving a contained practice flow from client-scored to
 // server-scored. It is deliberately not a replacement for the established
 // route above until score comparisons and rollout evidence are reviewed.
-router.post('/learn/content/:contentId/authoritative-attempt',(req,res)=>res.status(400).json({error:'Use a server-issued learning attempt.'}));
+router.post('/learn/content/:contentId/authoritative-attempt',(req,res)=>res.status(400).json({error:"Magsimula muna ng wastong pagsubok sa aralin."}));
 
 // Shuffles an array in place (Fisher-Yates) using a fresh copy.
 function shuffled(arr) {
@@ -224,7 +224,7 @@ router.post('/learn/assessment/:attemptId/submit', validateUuidParam('attemptId'
     const studentId = await resolveStudentId(req.user.id);
     const { responses } = req.body || {};
     if (!Array.isArray(responses) || responses.length > 100 || responses.some((response) => !isUuid(response?.assessment_item_id) || !isUuid(response?.content_attempt_id))) {
-      return res.status(400).json({ error: 'Invalid assessment responses.' });
+      return res.status(400).json({ error: "Hindi wasto ang mga sagot sa pagsusulit." });
     }
     await requireProgressContract(supabaseAdmin);
     const { data, error } = await supabaseAdmin.rpc('submit_module_assessment', {
@@ -257,7 +257,7 @@ router.get('/learn/module/:moduleId/nonsense-check', validateUuidParam('moduleId
       .eq('id', moduleId)
       .maybeSingle();
     if (moduleErr) throw moduleErr;
-    if (!module) return res.status(404).json({ error: 'Module not found.' });
+    if (!module) return res.status(404).json({ error: "Hindi makita ang modyul." });
 
     const { data: existingCheck, error: existingErr } = await supabaseAdmin
       .from('student_nonsense_checks')
@@ -305,7 +305,7 @@ router.get('/learn/module/:moduleId/nonsense-check', validateUuidParam('moduleId
 // POST /student/learn/module/:moduleId/nonsense-check/submit  { results: [{itemId, transcript}] }
 // One shot per student+module (enforced by the unique constraint) -- refreshing
 // or replaying can't re-farm XP. XP/badges only apply on the first submission.
-router.post('/learn/module/:moduleId/nonsense-check/submit',validateUuidParam('moduleId'),(req,res)=>res.status(503).json({error:'This reading check cannot save rewards yet. Please try again later.'}));
+router.post('/learn/module/:moduleId/nonsense-check/submit',validateUuidParam('moduleId'),(req,res)=>res.status(503).json({error:"Hindi pa maitala ang gantimpala sa pagbasa. Subukan muli mamaya."}));
 
 // GET /student/learn/module/:moduleId/challenge-words
 // Decoding warm-up shown before a story-type (paragraph) module: the 3+
@@ -323,7 +323,7 @@ router.get('/learn/module/:moduleId/challenge-words', validateUuidParam('moduleI
       .eq('id', moduleId)
       .maybeSingle();
     if (moduleErr) throw moduleErr;
-    if (!module) return res.status(404).json({ error: 'Module not found.' });
+    if (!module) return res.status(404).json({ error: "Hindi makita ang modyul." });
 
     if (module.instructional_content_type !== 'paragraph') {
       return res.json({ available: false, words: [] });
@@ -342,7 +342,7 @@ router.post('/learn/module/:moduleId/equip', validateUuidParam('moduleId'), asyn
     const studentId = await resolveStudentId(req.user.id);
     const { slotNumber } = req.body || {};
     if (slotNumber != null && (!Number.isInteger(Number(slotNumber)) || Number(slotNumber) < 1 || Number(slotNumber) > 3)) {
-      return res.status(400).json({ error: 'Slot number must be 1, 2, or 3.' });
+      return res.status(400).json({ error: "Ang bilang ng puwesto ay dapat 1, 2, o 3." });
     }
     const { data, error } = await supabaseAdmin.rpc('equip_student_module', {
       p_student_id: studentId,
@@ -414,7 +414,7 @@ router.get('/reading-profile', async (req, res) => {
 // Free practice still contributes to progress and badge eligibility, so its
 // target, score, student identity, and saved result cannot come from the
 // browser. The content id is only a lookup key for active word content.
-router.post('/practice/attempt',(req,res)=>res.status(400).json({error:'Use a server-issued learning attempt.'}));
+router.post('/practice/attempt',(req,res)=>res.status(400).json({error:"Magsimula muna ng wastong pagsubok sa aralin."}));
 
 // Completion, reward, streak and attempt receipt must commit together in the
 // dedicated service-only RPC. The SQL proposal is review-only; if it has not
@@ -441,7 +441,7 @@ router.get('/pdf-drill/:assignmentId', validateUuidParam('assignmentId'), async 
 
     const assignment = await authorization.studentAssignment(studentId, assignmentId);
     if (!assignment) {
-      return res.status(404).json({ error: 'Assignment not found for this student.' });
+      return res.status(404).json({ error: "Hindi makita ang gawain para sa mag-aaral na ito." });
     }
 
     const { data: material, error: materialErr } = await supabaseAdmin
@@ -451,7 +451,7 @@ router.get('/pdf-drill/:assignmentId', validateUuidParam('assignmentId'), async 
       .maybeSingle();
     if (materialErr) throw materialErr;
     if (!material || material.drill_status !== 'published') {
-      return res.status(404).json({ error: 'This PDF is not a published drill.' });
+      return res.status(404).json({ error: "Hindi pa nailalathala bilang pagsasanay ang PDF na ito." });
     }
 
     const { data: items, error: itemsErr } = await supabaseAdmin
@@ -483,14 +483,14 @@ router.get('/pdf-materials/:assignmentId/access-url', validateUuidParam('assignm
   try {
     const studentId = await resolveStudentId(req.user.id);
     const assignment = await authorization.studentAssignment(studentId, req.params.assignmentId);
-    if (!assignment) return res.status(404).json({ error: 'Assignment not found for this student.' });
+    if (!assignment) return res.status(404).json({ error: "Hindi makita ang gawain para sa mag-aaral na ito." });
     const { data: material, error } = await supabaseAdmin
       .from('pdf_materials')
       .select('id, storage_path, file_url')
       .eq('id', assignment.pdf_material_id)
       .maybeSingle();
     if (error) throw error;
-    if (!material) return res.status(404).json({ error: 'PDF not found.' });
+    if (!material) return res.status(404).json({ error: "Hindi makita ang PDF." });
     res.json(await materialAccess.accessUrl(material));
   } catch (err) {
     handleRpcError(res, err);
@@ -503,7 +503,7 @@ router.get('/pdf-reading/:assignmentId', validateUuidParam('assignmentId'), asyn
   try {
     const studentId = await resolveStudentId(req.user.id);
     const assignment = await authorization.studentAssignment(studentId, req.params.assignmentId);
-    if (!assignment) return res.status(404).json({ error: 'Assignment not found for this student.' });
+    if (!assignment) return res.status(404).json({ error: "Hindi makita ang gawain para sa mag-aaral na ito." });
     const { data: attempts, error } = await supabaseAdmin
       .from('pdf_reading_attempts')
       .select('chunk_index')
@@ -525,12 +525,12 @@ router.post('/pdf-reading/attempt', async (req, res) => {
     const studentId = await resolveStudentId(req.user.id);
     const { assignmentId, chunkIndex, transcript } = req.body || {};
     if (!isUuid(assignmentId) || !Number.isInteger(chunkIndex) || chunkIndex < 0) {
-      return res.status(400).json({ error: 'A valid assignment and chunk are required.' });
+      return res.status(400).json({ error: "Kailangan ang wastong gawain at bahagi ng babasahin." });
     }
-    if (!isBoundedString(transcript, 2000, { allowEmpty: false })) return res.status(400).json({ error: 'A spoken response is required.' });
+    if (!isBoundedString(transcript, 2000, { allowEmpty: false })) return res.status(400).json({ error: "Kailangan munang bigkasin ang iyong sagot." });
     const assignment = await authorization.studentAssignment(studentId, assignmentId);
-    if (!assignment) return res.status(404).json({ error: 'Assignment not found for this student.' });
-    if (['submitted', 'reviewed', 'completed'].includes(assignment.status)) return res.status(409).json({ error: 'This reading activity has already been submitted.' });
+    if (!assignment) return res.status(404).json({ error: "Hindi makita ang gawain para sa mag-aaral na ito." });
+    if (['submitted', 'reviewed', 'completed'].includes(assignment.status)) return res.status(409).json({ error: "Naipasa na ang gawaing ito sa pagbasa." });
 
     const { data: material, error: materialError } = await supabaseAdmin
       .from('pdf_materials')
@@ -539,7 +539,7 @@ router.post('/pdf-reading/attempt', async (req, res) => {
       .maybeSingle();
     if (materialError) throw materialError;
     const targetText = pdfReadingChunks(material?.extracted_text, material?.chunk_size)[chunkIndex];
-    if (!targetText) return res.status(400).json({ error: 'The requested reading section was not found.' });
+    if (!targetText) return res.status(400).json({ error: "Hindi makita ang hiniling na bahagi ng babasahin." });
 
     const score = scoreTranscript(targetText, transcript);
     const { error: insertError } = await supabaseAdmin.from('pdf_reading_attempts').insert({
@@ -568,18 +568,18 @@ router.post('/pdf-reading/:assignmentId/submit', validateUuidParam('assignmentId
   try {
     const studentId = await resolveStudentId(req.user.id);
     const assignment = await authorization.studentAssignment(studentId, req.params.assignmentId);
-    if (!assignment) return res.status(404).json({ error: 'Assignment not found for this student.' });
+    if (!assignment) return res.status(404).json({ error: "Hindi makita ang gawain para sa mag-aaral na ito." });
     if (['submitted', 'reviewed', 'completed'].includes(assignment.status)) return res.json({ success: true, alreadySubmitted: true });
     const { data: material, error: materialError } = await supabaseAdmin
       .from('pdf_materials').select('extracted_text, chunk_size').eq('id', assignment.pdf_material_id).maybeSingle();
     if (materialError) throw materialError;
     const chunks = pdfReadingChunks(material?.extracted_text, material?.chunk_size);
-    if (!chunks.length) return res.status(400).json({ error: 'This PDF has no readable sections to submit.' });
+    if (!chunks.length) return res.status(400).json({ error: "Walang nababasang bahagi sa PDF na maaaring ipasa." });
     const { data: attempts, error: attemptsError } = await supabaseAdmin
       .from('pdf_reading_attempts').select('chunk_index').eq('pdf_assignment_id', assignment.id).eq('student_id', studentId).not('chunk_index', 'is', null);
     if (attemptsError) throw attemptsError;
     const completed = new Set((attempts || []).map((row) => row.chunk_index));
-    if (!chunks.every((_chunk, index) => completed.has(index))) return res.status(409).json({ error: 'Complete every reading section before submitting.' });
+    if (!chunks.every((_chunk, index) => completed.has(index))) return res.status(409).json({ error: "Tapusin ang bawat bahagi ng babasahin bago ipasa." });
     const { error: submitError } = await supabaseAdmin.from('pdf_assignments')
       .update({ status: 'submitted', submitted_at: new Date().toISOString() })
       .eq('id', assignment.id)
@@ -601,7 +601,7 @@ router.get('/lessons/:lessonId/access-url', validateUuidParam('lessonId'), async
       .eq('is_published', true)
       .maybeSingle();
     if (error) throw error;
-    if (!lesson) return res.status(404).json({ error: 'Lesson not found.' });
+    if (!lesson) return res.status(404).json({ error: "Hindi makita ang aralin." });
     res.json(await materialAccess.accessUrl(lesson));
   } catch (err) {
     handleRpcError(res, err);
@@ -611,6 +611,6 @@ router.get('/lessons/:lessonId/access-url', validateUuidParam('lessonId'), async
 // POST /student/pdf-drill/attempt  { assignmentId, drillItemId, transcript }
 // The browser's speech API provides a transcript only. This route derives the
 // score and reward eligibility from the teacher-authored drill item on the server.
-router.post('/pdf-drill/attempt',(req,res)=>res.status(503).json({error:'PDF reading rewards are temporarily unavailable. Your saved progress is safe.'}));
+router.post('/pdf-drill/attempt',(req,res)=>res.status(503).json({error:"Pansamantalang hindi maibigay ang gantimpala sa pagbasa ng PDF. Nakatala pa rin ang iyong progreso."}));
 
 module.exports = router;

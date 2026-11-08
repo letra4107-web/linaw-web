@@ -1,3 +1,4 @@
+import { tagalogError } from '../../lib/validationMessages';
 import { useRef, useState } from 'react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { BellRing, BookOpen, CalendarDays, ChevronDown, ChevronLeft, ChevronRight, ClipboardList, Clock3, Heart, List, Mic, MoreHorizontal, Plus, Users, X } from 'lucide-react';
@@ -220,7 +221,7 @@ export default function Schedule() {
       <div><p>PLANO NG PAMILYA</p><div className="calendar-hero-heading"><h1>Kalendaryo at<br />Iskedyul</h1><CalendarDays aria-hidden="true" /></div><span>Tingnan ang mga aktibidad, takdang-aralin, at mahahalagang petsa ng inyong anak. Sama-sama tayo sa kanyang pagkatuto!</span></div>
       <aside className="calendar-hero-note" aria-label="Paalala"><Heart size={23} fill="currentColor" aria-hidden="true" /><span>Bawat munting hakbang ngayon, malaking pag-unlad bukas!</span></aside>
     </header>
-    {(childrenQuery.error || scheduleQuery.error) && <p className="calendar-error" role="alert">Hindi makuha ang iskedyul ngayon. {(childrenQuery.error ?? scheduleQuery.error)?.message}<button type="button" onClick={() => { void childrenQuery.refetch(); void scheduleQuery.refetch(); }}>Subukan muli</button></p>}
+    {(childrenQuery.error || scheduleQuery.error) && <p className="calendar-error" role="alert">Hindi makuha ang iskedyul ngayon. {tagalogError((childrenQuery.error ?? scheduleQuery.error))}<button type="button" onClick={() => { void childrenQuery.refetch(); void scheduleQuery.refetch(); }}>Subukan muli</button></p>}
     <div className="calendar-reference-grid">
       <div className="calendar-reference-left">
         <section className="calendar-board" aria-label="Kalendaryo ng aktibidad">
@@ -254,12 +255,12 @@ export default function Schedule() {
             <label>Oras ng Simula<input type="time" disabled={mutationPending} value={form.start_time} onChange={(event) => setForm({ ...form, start_time: event.target.value })} /></label>
             <label>Oras ng Pagtatapos<input type="time" disabled={mutationPending} value={form.end_time} onChange={(event) => setForm({ ...form, end_time: event.target.value })} /></label>
             <label className="calendar-description-field">Mga Detalye <small>(opsyonal)</small><textarea maxLength={1000} rows={2} disabled={mutationPending} value={form.description} onChange={(event) => setForm({ ...form, description: event.target.value })} /></label>
-            {save.error && <p className="calendar-error" role="alert">{save.error.message}</p>}
+            {save.error && <p className="calendar-error" role="alert">{tagalogError(save.error)}</p>}
             <div className="calendar-form-actions"><button type="button" disabled={mutationPending} onClick={closeForm}>Kanselahin</button><button type="submit" disabled={mutationPending}>{save.isPending ? 'Sine-save…' : 'I-save ang Aktibidad'}</button></div>
           </form>}
           <div className="calendar-details-filter"><span>{selectedDate ? formatDate(selectedDate, { weekday: 'long', month: 'short', day: 'numeric', year: 'numeric' }) : mode === 'Buwan' ? dateLabel : `Mga aktibidad sa ${mode.toLowerCase()}`}</span>{selectedDate && <button type="button" onClick={() => { setSelectedDate(null); setDetailId(null); }}>Buong {mode.toLowerCase()} <X size={12} /></button>}</div>
           {savedNotice && <p className="calendar-saved" role="status">{savedNotice}</p>}
-          {update.error && <p className="calendar-error" role="alert">Hindi na-update ang status. {update.error.message}</p>}
+          {update.error && <p className="calendar-error" role="alert">Hindi na-update ang status. {tagalogError(update.error)}</p>}
           <div className="calendar-table">
             <table className="calendar-activity-table"><thead><tr><th>{selectedDate ? 'Oras' : 'Petsa / Oras'}</th><th>Uri</th><th>Pamagat</th><th>Kategorya</th><th>Status</th><th>Aksyon</th></tr></thead><tbody>
               {displayedActivities.map((item) => { const type = typeFor(item.activity_type); const TypeIcon = type.icon; return <tr key={item.id}><td>{!selectedDate && <small className="calendar-row-date">{formatDate(item.scheduled_date)}</small>}<time>{item.start_time ? formatTime(item.start_time) : 'Buong araw'}</time></td><td><span className={`calendar-type-icon ${type.color}`} title={type.label}><TypeIcon size={18} aria-hidden="true" /><span className="sr-only">{type.label}</span></span></td><td><strong>{item.title}</strong></td><td>{type.label}</td><td><select className={`calendar-status status-${item.status}`} aria-label={`Status ng ${item.title}`} disabled={mutationPending} value={item.status} onChange={(event) => updateStatus(item, event.target.value)}>{statuses.map((status) => <option key={status.value} value={status.value}>{status.label}</option>)}</select></td><td><button type="button" className="calendar-row-details" aria-expanded={detailId === item.id} aria-label={`Tingnan ang detalye ng ${item.title}`} onClick={() => setDetailId(detailId === item.id ? null : item.id)}><MoreHorizontal size={17} /></button></td></tr>; })}

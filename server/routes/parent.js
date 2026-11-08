@@ -79,7 +79,7 @@ router.get('/children/credential-security', async (req, res) => {
     res.json({ children: childIds.map((childId) => ({ childId, ...safeCredentialStatus(byChild.get(childId)) })) });
   } catch (err) {
     console.error('[parent credential-security]', err);
-    res.status(500).json({ error: 'Unable to load password security status.' });
+    res.status(500).json({ error: "Hindi makuha ang katayuan ng seguridad ng password." });
   }
 });
 
@@ -135,7 +135,7 @@ router.post('/children', async (req, res) => {
     const finalGradeLevel = Number(gradeLevel);
 
     if (!parentEmail || typeof childName !== 'string' || cleanName.length < 2 || cleanName.length > 100 || !isGrade(gradeLevel)) {
-      return res.status(400).json({ error: 'Kailangan ng pangalan at grade level (1-6).' });
+      return res.status(400).json({ error: "Kailangan ang pangalan at baitang mula 1 hanggang 6." });
     }
 
     const { data: existingEnrollment, error: existingErr } = await supabaseAdmin
@@ -266,11 +266,11 @@ router.post('/children/:id/reading-level', validateUuidParam('id'), async (req, 
   try {
     const { id } = req.params;
     const child = await authorization.parentChild(req.user.id, id);
-    if (!child) return res.status(403).json({ error: 'Not your child account.' });
+    if (!child) return res.status(403).json({ error: "Hindi sa iyong anak ang account na ito." });
     return res.status(403).json({ error: 'Awtomatikong naa-unlock ang susunod na level matapos makumpleto ang kasalukuyang modyul at passing score.' });
   } catch (err) {
     console.error('[parent/children/:id/reading-level]', err);
-    res.status(500).json({ error: 'Unable to update reading level.' });
+    res.status(500).json({ error: "Hindi mabago ang antas ng pagbasa." });
   }
 });
 
@@ -283,7 +283,7 @@ router.get('/children/:id/reading-profile', validateUuidParam('id'), async (req,
     const { id } = req.params;
     const child = await authorization.parentChild(req.user.id, id);
     if (!child) {
-      return res.status(404).json({ error: 'Child not found for this parent.' });
+      return res.status(404).json({ error: "Hindi makita ang anak sa account ng magulang na ito." });
     }
 
     const [sessionsResult, confusionsResult, completions] = await Promise.all([
@@ -312,7 +312,7 @@ router.get('/children/:id/reading-profile', validateUuidParam('id'), async (req,
     res.json({ student: { id: child.id, name: child.name }, profile });
   } catch (err) {
     console.error('[parent/children/:id/reading-profile]', err);
-    res.status(500).json({ error: 'Unable to build the reading profile.' });
+    res.status(500).json({ error: "Hindi magawa ang buod ng kakayahan sa pagbasa." });
   }
 });
 
@@ -322,20 +322,20 @@ router.get('/children/:id/reading-profile', validateUuidParam('id'), async (req,
 router.get('/children/:id/learning-path', validateUuidParam('id'), async (req, res) => {
   try {
     const child = await authorization.parentChild(req.user.id, req.params.id);
-    if (!child) return res.status(404).json({ error: 'Child not found for this parent.' });
+    if (!child) return res.status(404).json({ error: "Hindi makita ang anak sa account ng magulang na ito." });
     const { data, error } = await supabaseAdmin.rpc('get_student_module_path', { p_student_id: child.id });
     if (error) throw error;
     res.json(data);
   } catch (err) {
     console.error('[parent/children/:id/learning-path]', err);
-    res.status(500).json({ error: 'Unable to load the learning path.' });
+    res.status(500).json({ error: "Hindi makuha ang mga susunod na aralin." });
   }
 });
 
 router.get('/children/:id/materials', validateUuidParam('id'), async (req, res) => {
   try {
     const child = await authorization.parentChild(req.user.id, req.params.id);
-    if (!child) return res.status(404).json({ error: 'Child not found for this parent.' });
+    if (!child) return res.status(404).json({ error: "Hindi makita ang anak sa account ng magulang na ito." });
     const { data, error } = await supabaseAdmin.from('pdf_assignments')
       .select('id,status,due_date,assigned_at,pdf_materials(id,title,grade_level,level,archived_at)')
       .eq('student_id', child.id).order('assigned_at', { ascending: false });
@@ -343,26 +343,26 @@ router.get('/children/:id/materials', validateUuidParam('id'), async (req, res) 
     res.json({ assignments: (data || []).filter((assignment) => assignment.pdf_materials && !assignment.pdf_materials.archived_at) });
   } catch (err) {
     console.error('[parent/children/:id/materials]', err);
-    res.status(500).json({ error: 'Unable to load assigned learning materials.' });
+    res.status(500).json({ error: "Hindi makuha ang mga nakatalagang materyal sa pag-aaral." });
   }
 });
 
 router.get('/children/:id/materials/:assignmentId/access-url', validateUuidParam('id'), validateUuidParam('assignmentId'), async (req, res) => {
   try {
     const child = await authorization.parentChild(req.user.id, req.params.id);
-    if (!child) return res.status(404).json({ error: 'Child not found for this parent.' });
+    if (!child) return res.status(404).json({ error: "Hindi makita ang anak sa account ng magulang na ito." });
     const { data: assignment, error: assignmentError } = await supabaseAdmin.from('pdf_assignments')
       .select('pdf_material_id').eq('id', req.params.assignmentId).eq('student_id', child.id).maybeSingle();
     if (assignmentError) throw assignmentError;
-    if (!assignment) return res.status(404).json({ error: 'Material not assigned to this child.' });
+    if (!assignment) return res.status(404).json({ error: "Hindi nakatalaga sa batang ito ang materyal." });
     const { data: material, error } = await supabaseAdmin.from('pdf_materials')
       .select('id,storage_path,storage_bucket,file_url,legacy_public_url').eq('id', assignment.pdf_material_id).is('archived_at', null).maybeSingle();
     if (error) throw error;
-    if (!material) return res.status(404).json({ error: 'Material not found.' });
+    if (!material) return res.status(404).json({ error: "Hindi makita ang materyal." });
     res.json(await materialAccess.accessUrl(material));
   } catch (err) {
     console.error('[parent/material access-url]', err);
-    res.status(500).json({ error: 'Unable to open this learning material.' });
+    res.status(500).json({ error: "Hindi mabuksan ang materyal sa pag-aaral na ito." });
   }
 });
 
@@ -383,7 +383,7 @@ const loadOwnedChild = (childId, parentId) => authorization.parentChild(parentId
 router.get('/children/:id/settings', validateUuidParam('id'), async (req, res) => {
   try {
     const child = await loadOwnedChild(req.params.id, req.user.id);
-    if (!child) return res.status(404).json({ error: 'Child not found for this parent.' });
+    if (!child) return res.status(404).json({ error: "Hindi makita ang anak sa account ng magulang na ito." });
     if (!child.auth_uid) return res.status(409).json({ error: 'Ang batang ito ay wala pang student login.' });
 
     const { data, error } = await supabaseAdmin
@@ -403,7 +403,7 @@ router.get('/children/:id/settings', validateUuidParam('id'), async (req, res) =
     res.json({ settings: inserted });
   } catch (err) {
     console.error('[parent/children/:id/settings get]', err);
-    res.status(500).json({ error: 'Unable to load accessibility settings.' });
+    res.status(500).json({ error: "Hindi makuha ang mga setting sa madaling paggamit." });
   }
 });
 
@@ -411,19 +411,19 @@ router.get('/children/:id/settings', validateUuidParam('id'), async (req, res) =
 router.patch('/children/:id/settings', validateUuidParam('id'), async (req, res) => {
   try {
     const child = await loadOwnedChild(req.params.id, req.user.id);
-    if (!child) return res.status(404).json({ error: 'Child not found for this parent.' });
+    if (!child) return res.status(404).json({ error: "Hindi makita ang anak sa account ng magulang na ito." });
     if (!child.auth_uid) return res.status(409).json({ error: 'Ang batang ito ay wala pang student login.' });
 
     const patch = {};
     for (const key of Object.keys(STUDENT_ACCESSIBILITY_DEFAULTS)) {
       if (req.body?.[key] !== undefined) patch[key] = req.body[key];
     }
-    if (!Object.keys(patch).length) return res.status(400).json({ error: 'No recognized settings were provided.' });
+    if (!Object.keys(patch).length) return res.status(400).json({ error: "Walang wastong setting na ibinigay." });
     if (patch.font_size !== undefined && !['small', 'medium', 'large'].includes(patch.font_size)) {
-      return res.status(400).json({ error: 'Invalid font size.' });
+      return res.status(400).json({ error: "Hindi wasto ang laki ng mga letra." });
     }
     for (const key of ['dyslexia_font', 'high_contrast', 'reading_guide', 'tts_enabled']) {
-      if (patch[key] !== undefined && typeof patch[key] !== 'boolean') return res.status(400).json({ error: `Invalid ${key} setting.` });
+      if (patch[key] !== undefined && typeof patch[key] !== 'boolean') return res.status(400).json({ error: 'Ang setting ay dapat naka-on o naka-off lamang.' });
     }
 
     const { data, error } = await supabaseAdmin
@@ -435,7 +435,7 @@ router.patch('/children/:id/settings', validateUuidParam('id'), async (req, res)
     res.json({ settings: data });
   } catch (err) {
     console.error('[parent/children/:id/settings patch]', err);
-    res.status(500).json({ error: 'Unable to update accessibility settings.' });
+    res.status(500).json({ error: "Hindi mabago ang mga setting sa madaling paggamit." });
   }
 });
 
@@ -443,7 +443,7 @@ router.patch('/children/:id/settings', validateUuidParam('id'), async (req, res)
 router.post('/children/:id/reset-password', validateUuidParam('id'), credentialLimiter, async (req, res) => {
   try {
     const child = await loadOwnedChild(req.params.id, req.user.id);
-    if (!child?.auth_uid) return res.status(404).json({ error: 'Child account not found.' });
+    if (!child?.auth_uid) return res.status(404).json({ error: "Hindi makita ang account ng bata." });
     const password = makeStudentPassword();
     const { error: authError } = await supabaseAdmin.auth.admin.updateUserById(child.auth_uid, { password });
     if (authError) throw authError;

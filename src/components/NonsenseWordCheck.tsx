@@ -1,3 +1,4 @@
+import { tagalogError } from '../lib/validationMessages';
 import { useState } from 'react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { api } from '../lib/api';
@@ -59,7 +60,7 @@ export function NonsenseWordCheck({ moduleId }: NonsenseWordCheckProps) {
       if (res.newlyUnlockedBadges?.length) setNewlyUnlockedBadges(res.newlyUnlockedBadges);
       queryClient.invalidateQueries({ queryKey: ['nonsense-check', moduleId] });
     },
-    onError: (err: Error) => setError(err.message),
+    onError: (err: Error) => setError(tagalogError(err)),
   });
 
   const attempt = (item: NonsenseWord) => {

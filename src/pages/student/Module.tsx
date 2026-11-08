@@ -1,3 +1,4 @@
+import { tagalogError } from '../../lib/validationMessages';
 import { useEffect, useRef, useState } from 'react';
 import { Link, useParams, useNavigate } from 'react-router-dom';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
@@ -94,7 +95,7 @@ export default function Module() {
       trackEvent('reading_attempt_completed', { surface: 'lesson' });
       if (res.levelAdvancedTo) navigate('/student/learn');
     },
-    onError: (err: Error & {pendingTranscript?:string},variables) => { if(activeModuleId.current!==variables.moduleId)return;setPendingRetry({...variables,transcript:err.pendingTranscript||variables.transcript});setError(err.message); trackEvent('reading_attempt_failed', { surface: 'lesson' }); },
+    onError: (err: Error & {pendingTranscript?:string},variables) => { if(activeModuleId.current!==variables.moduleId)return;setPendingRetry({...variables,transcript:err.pendingTranscript||variables.transcript});setError(tagalogError(err)); trackEvent('reading_attempt_failed', { surface: 'lesson' }); },
   });
 
   const practice = (item: ModuleItem) => {

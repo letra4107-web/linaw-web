@@ -1,3 +1,4 @@
+import { tagalogError } from '../../lib/validationMessages';
 import { Fragment, useEffect, useRef, useState, type ReactNode } from 'react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { Link, useSearchParams } from 'react-router-dom';
@@ -135,7 +136,7 @@ export default function MyChildren() {
       queryClient.invalidateQueries({ queryKey: ['parent-overview-children'] });
       queryClient.invalidateQueries({ queryKey: ['parent-profile-children'] });
     },
-    onError: (err: Error) => setError(err.message),
+    onError: (err: Error) => setError(tagalogError(err)),
     onSettled: () => { enrollRequestPending.current = false; },
   });
   const submitEnrollment = () => {
@@ -152,7 +153,7 @@ export default function MyChildren() {
   const updateAccess = useMutation({
     mutationFn: ({ childId: targetChildId, patch }: { childId: string; patch: Partial<StudentAccessibility> }) => api(`/parent/children/${targetChildId}/settings`, { method: 'PATCH', auth: true, body: patch }),
     onSuccess: (_result, { childId: targetChildId }) => queryClient.invalidateQueries({ queryKey: ['child-accessibility', targetChildId] }),
-    onError: (err: Error) => setError(err.message),
+    onError: (err: Error) => setError(tagalogError(err)),
     onSettled: () => { accessRequestPending.current = false; },
   });
   const submitAccessPatch = (targetChildId: string, patch: Partial<StudentAccessibility>) => {
@@ -164,7 +165,7 @@ export default function MyChildren() {
   const resetPassword = useMutation({
     mutationFn: (childId: string) => api<{ username: string; temporaryPassword: string }>(`/parent/children/${childId}/reset-password`, { method: 'POST', auth: true }),
     onSuccess: (result) => { setTemporaryCredential({ username: result.username, password: result.temporaryPassword }); setError(null); queryClient.invalidateQueries({ queryKey: ['parent-credential-security'] }); },
-    onError: (err: Error) => setError(err.message),
+    onError: (err: Error) => setError(tagalogError(err)),
   });
   const selectedChild = children?.find((child) => child.id === params.get('child')) ?? children?.[0];
   const childId = selectedChild?.id;
@@ -215,7 +216,7 @@ export default function MyChildren() {
     </header>
 
     {error && <div className="kid-feedback kid-feedback-error" role="alert">{error}<button type="button" onClick={() => setError(null)} aria-label="Isara ang mensahe"><X size={17} /></button></div>}
-    {childrenError && <div className="kid-feedback kid-feedback-error" role="alert">Hindi makuha ang mga account. {childrenError.message}<button type="button" disabled={childrenFetching} style={{ width: 'auto', height: 'auto', padding: '7px 10px', flexShrink: 0, whiteSpace: 'nowrap' }} onClick={() => void refetchChildren()}>{childrenFetching ? 'Kinukuha...' : 'Subukan muli'}</button></div>}
+    {childrenError && <div className="kid-feedback kid-feedback-error" role="alert">Hindi makuha ang mga account. {tagalogError(childrenError)}<button type="button" disabled={childrenFetching} style={{ width: 'auto', height: 'auto', padding: '7px 10px', flexShrink: 0, whiteSpace: 'nowrap' }} onClick={() => void refetchChildren()}>{childrenFetching ? 'Kinukuha...' : 'Subukan muli'}</button></div>}
     {successMsg && <div className="kid-feedback kid-feedback-success" role="status"><CheckCircle2 size={19} />{successMsg}<button type="button" onClick={() => setSuccessMsg(null)} aria-label="Isara ang mensahe"><X size={17} /></button></div>}
     {temporaryCredential && <section className="kid-temporary-credential" role="status"><KeyRound size={23} /><div><h2>Isulat ang temporary credential ngayon.</h2><p>Username: <strong>{temporaryCredential.username}</strong> · Password: <strong>{temporaryCredential.password}</strong></p><small>Hindi na ito maipapakita muli. Naipadala rin ito sa iyong email kung available.</small></div><button type="button" onClick={() => setTemporaryCredential(null)}>Naitala ko na</button></section>}
 
@@ -250,7 +251,7 @@ export default function MyChildren() {
           <div className="kid-account-actions"><button type="button" onClick={() => setAccessOpenId(accessOpenId === childId ? null : childId!)} aria-expanded={accessOpenId === childId}><BookOpen size={17} />Reading Support</button><button type="button" disabled={resetPassword.isPending} onClick={() => { if (window.confirm(`Gumawa ng bagong password para kay ${selectedChild.name}? Hindi na gagana ang lumang password.`)) resetPassword.mutate(selectedChild.id); }}><KeyRound size={17} />{resetPassword.isPending ? 'Gumagawa...' : 'Bagong Password'}</button></div>
         </section>}
 
-        {accessOpenId === childId && <section className="kid-accessibility-panel kid-panel"><CardHeading icon={<BookOpen size={21} />} title={`Reading Support ni ${selectedChild.name}`} /><p>Awtomatikong lalabas sa student dashboard ang mga pagbabago.</p>{accessLoading ? <p>Kinukuha ang settings...</p> : accessError ? <div role="alert"><p>Hindi makuha ang reading support settings. {accessError.message}</p><button type="button" className="kid-module-retry" disabled={accessFetching} onClick={() => void refetchAccess()}>{accessFetching ? 'Kinukuha...' : 'Subukan muli'}</button></div> : accessSettings && <fieldset className="kid-accessibility-grid" disabled={updateAccess.isPending} aria-busy={updateAccess.isPending} aria-label={`Reading support settings ni ${selectedChild.name}`} style={{ margin: 0, marginTop: 15, padding: 0, border: 0, minWidth: 0 }}>{ACCESSIBILITY_OPTIONS.map((setting) => <div key={setting.key}><span><strong>{setting.label}</strong><small>{setting.description}</small></span><Toggle on={accessSettings.settings[setting.key]} onClick={() => submitAccessPatch(selectedChild.id, { [setting.key]: !accessSettings.settings[setting.key] })} label={setting.label} /></div>)}<div className="kid-font-setting"><strong>Laki ng Teksto</strong><span>{FONT_SIZE_OPTIONS.map((option) => <button key={option.value} type="button" disabled={updateAccess.isPending} aria-pressed={accessSettings.settings.font_size === option.value} className={accessSettings.settings.font_size === option.value ? 'selected' : ''} onClick={() => submitAccessPatch(selectedChild.id, { font_size: option.value })}>{option.label}</button>)}</span></div></fieldset>}</section>}
+        {accessOpenId === childId && <section className="kid-accessibility-panel kid-panel"><CardHeading icon={<BookOpen size={21} />} title={`Reading Support ni ${selectedChild.name}`} /><p>Awtomatikong lalabas sa student dashboard ang mga pagbabago.</p>{accessLoading ? <p>Kinukuha ang settings...</p> : accessError ? <div role="alert"><p>Hindi makuha ang reading support settings. {tagalogError(accessError)}</p><button type="button" className="kid-module-retry" disabled={accessFetching} onClick={() => void refetchAccess()}>{accessFetching ? 'Kinukuha...' : 'Subukan muli'}</button></div> : accessSettings && <fieldset className="kid-accessibility-grid" disabled={updateAccess.isPending} aria-busy={updateAccess.isPending} aria-label={`Reading support settings ni ${selectedChild.name}`} style={{ margin: 0, marginTop: 15, padding: 0, border: 0, minWidth: 0 }}>{ACCESSIBILITY_OPTIONS.map((setting) => <div key={setting.key}><span><strong>{setting.label}</strong><small>{setting.description}</small></span><Toggle on={accessSettings.settings[setting.key]} onClick={() => submitAccessPatch(selectedChild.id, { [setting.key]: !accessSettings.settings[setting.key] })} label={setting.label} /></div>)}<div className="kid-font-setting"><strong>Laki ng Teksto</strong><span>{FONT_SIZE_OPTIONS.map((option) => <button key={option.value} type="button" disabled={updateAccess.isPending} aria-pressed={accessSettings.settings.font_size === option.value} className={accessSettings.settings.font_size === option.value ? 'selected' : ''} onClick={() => submitAccessPatch(selectedChild.id, { font_size: option.value })}>{option.label}</button>)}</span></div></fieldset>}</section>}
 
         <div className="kid-detail-grid">
           <section className="kid-modules kid-panel"><CardHeading icon={<BookOpen size={24} />} title="Progreso sa Bawat Modyul" href={progressLink} /><p className="kid-panel-description">Tingnan ang kumpletong listahan ng modyul at progreso ni {selectedChild.name}.</p>

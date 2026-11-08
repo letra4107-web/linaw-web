@@ -1,3 +1,4 @@
+import { tagalogError } from '../../lib/validationMessages';
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { supabase } from '../../lib/supabaseClient';
@@ -42,9 +43,9 @@ export default function SignUp() {
     if (firstName.trim().length < 2) errors.firstName = 'Ilagay ang iyong pangalan.';
     if (lastName.trim().length < 2) errors.lastName = 'Ilagay ang iyong apelyido.';
     if (!cleanEmail) errors.email = 'Kailangan ang email.';
-    else if (!isValidEmail(cleanEmail)) errors.email = 'Hindi valid ang email.';
+    else if (!isValidEmail(cleanEmail)) errors.email = "Hindi wasto ang email address.";
     if (!password) errors.password = 'Kailangan ang password.';
-    else if (password.length < 8) errors.password = 'Kailangang 8 characters pataas ang password.';
+    else if (password.length < 8) errors.password = "Kailangang may hindi bababa sa 8 karakter ang password.";
     else if (!/[A-Z]/.test(password) || !/[0-9]/.test(password)) {
       errors.password = 'Kailangan ng malaking letra at numero ang password.';
     }
@@ -98,7 +99,7 @@ export default function SignUp() {
 
       navigate('/verify-email', { state: { email: cleanEmail } });
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Hindi matagumpay ang pag-sign up.');
+      setError(err instanceof Error ? tagalogError(err) : 'Hindi matagumpay ang pag-sign up.');
     } finally {
       setSubmitting(false);
     }
@@ -209,9 +210,9 @@ export default function SignUp() {
               autoComplete="new-password"
               invalid={!!fieldErrors.password}
             />
-            <p className="auth-password-helper">Gumamit ng hindi bababa sa 8 character na may malaking titik (A–Z) at numero (0–9).</p>
+            <p className="auth-password-helper">Gumamit ng hindi bababa sa 8 karakter na may malaking titik (A–Z) at numero (0–9).</p>
             <ul className="auth-password-checklist" aria-label="Mga kailangan sa password">
-              <li className={password.length >= 8 ? 'complete' : ''}>{password.length >= 8 ? '✓' : '○'} Hindi bababa sa 8 character</li>
+              <li className={password.length >= 8 ? 'complete' : ''}>{password.length >= 8 ? '✓' : '○'} Hindi bababa sa 8 karakter</li>
               <li className={/[A-Z]/.test(password) ? 'complete' : ''}>{/[A-Z]/.test(password) ? '✓' : '○'} May malaking titik (A–Z)</li>
               <li className={/[0-9]/.test(password) ? 'complete' : ''}>{/[0-9]/.test(password) ? '✓' : '○'} May numero (0–9)</li>
             </ul>

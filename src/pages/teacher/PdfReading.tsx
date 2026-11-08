@@ -1,3 +1,4 @@
+import { tagalogError } from '../../lib/validationMessages';
 import { useRef, useState } from 'react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '../../lib/supabaseClient';
@@ -83,7 +84,7 @@ function EditForm({ material, onSaved, onCancel }: { material: PdfMaterial; onSa
       queryClient.invalidateQueries({ queryKey: ['pdf-materials'] });
       onSaved();
     },
-    onError: (err: Error) => setError(err.message),
+    onError: (err: Error) => setError(tagalogError(err)),
   });
 
   return (
@@ -204,7 +205,7 @@ export default function PdfReading() {
   const upload = useMutation({
     mutationFn: async () => {
       if (!file) throw new Error('Pumili ng PDF file.');
-      if (!title.trim()) throw new Error('Kailangan ng title.');
+      if (!title.trim()) throw new Error("Kailangan ang pamagat.");
       await validateReadingPdf(file);
 
       const {
@@ -239,7 +240,7 @@ export default function PdfReading() {
       void queryClient.invalidateQueries({ queryKey: ['teacher-materials-count'] });
       if (uploadMode === 'drill' && payload?.material?.id) setReviewingId(payload.material.id);
     },
-    onError: (err: Error) => setError(err.message),
+    onError: (err: Error) => setError(tagalogError(err)),
     onSettled: () => { uploadGuard.current = false; },
   });
 
@@ -261,13 +262,13 @@ export default function PdfReading() {
   const archive = useMutation({
     mutationFn: (materialId: string) => api(`/teacher/pdf/${materialId}/archive`, { method: 'POST', auth: true }),
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ['pdf-materials'] }),
-    onError: (err: Error) => setError(err.message),
+    onError: (err: Error) => setError(tagalogError(err)),
   });
 
   const unarchive = useMutation({
     mutationFn: (materialId: string) => api(`/teacher/pdf/${materialId}/unarchive`, { method: 'POST', auth: true }),
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ['pdf-materials'] }),
-    onError: (err: Error) => setError(err.message),
+    onError: (err: Error) => setError(tagalogError(err)),
   });
 
   return (
@@ -443,7 +444,7 @@ export default function PdfReading() {
               <div className="flex flex-wrap gap-2">
                 <button
                   type="button"
-                  onClick={() => openAccessUrl(`/teacher/pdf/${m.id}/access-url`).catch((err: Error) => setError(err.message))}
+                  onClick={() => openAccessUrl(`/teacher/pdf/${m.id}/access-url`).catch((err: Error) => setError(tagalogError(err)))}
                   className="rounded-full border border-white/70 bg-white/60 px-3 py-1 text-sm hover:border-[var(--color-primary)]"
                 >
                   <IconLabel icon="📄" label="Raw PDF" />

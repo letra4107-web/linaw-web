@@ -1,3 +1,4 @@
+import { tagalogError } from '../../lib/validationMessages';
 import { useRef, useState, type FormEvent } from 'react';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { Link } from 'react-router-dom';
@@ -116,7 +117,7 @@ export default function Profile() {
       editDialog.current?.close();
       setSaveMessage('Na-save na ang iyong pangalan.');
     } catch (error) {
-      setEditError(error instanceof Error ? error.message : 'Hindi pa ma-save ang profile. Subukan muli.');
+      setEditError(error instanceof Error ? tagalogError(error) : 'Hindi pa ma-save ang profile. Subukan muli.');
     } finally { setSaving(false); }
   };
 

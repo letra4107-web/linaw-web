@@ -1,3 +1,4 @@
+import { tagalogError } from '../../lib/validationMessages';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useEffect, useRef, useState } from 'react';
 import { ArrowRight, BarChart3, Bell, CalendarDays, Check, ChevronDown, Cloud, Database, Download, Globe2, Heart, Lightbulb, LockKeyhole, Megaphone, MessageSquare, Monitor, Moon, Palette, Settings, ShieldCheck, Smartphone, Sparkles, Star, Sun, X } from 'lucide-react';
@@ -69,7 +70,7 @@ export default function ParentAppSettings() {
       if (enrollError) throw enrollError;
       setMfaSetup({ factorId: data.id, qr: data.totp.qr_code }); setMfaCode('');
     } catch (mfaError) {
-      setMfaStatus(mfaError instanceof Error ? mfaError.message : 'Hindi ma-set up ang two-factor authentication.');
+      setMfaStatus(mfaError instanceof Error ? tagalogError(mfaError) : 'Hindi ma-set up ang two-factor authentication.');
     } finally {
       mfaBusy.current = false; setMfaPending(false); void factorsQuery.refetch();
     }
@@ -87,7 +88,7 @@ export default function ParentAppSettings() {
       await update.mutateAsync({ two_factor_preference: true });
       setMfaStatus('Naka-enable na ang two-factor authentication.');
     } catch (mfaError) {
-      setMfaStatus(mfaError instanceof Error ? mfaError.message : 'Hindi ma-verify ang code.');
+      setMfaStatus(mfaError instanceof Error ? tagalogError(mfaError) : 'Hindi ma-verify ang code.');
     } finally { mfaBusy.current = false; setMfaPending(false); }
   };
   const cancelMfa = async () => {
@@ -98,7 +99,7 @@ export default function ParentAppSettings() {
       if (error) throw error;
       setMfaSetup(null); setMfaCode(''); await factorsQuery.refetch();
     } catch (mfaError) {
-      setMfaStatus(mfaError instanceof Error ? mfaError.message : 'Hindi maisara ang setup. Subukan muli.');
+      setMfaStatus(mfaError instanceof Error ? tagalogError(mfaError) : 'Hindi maisara ang setup. Subukan muli.');
     } finally { mfaBusy.current = false; setMfaPending(false); }
   };
   cancelMfaRef.current = cancelMfa;
@@ -141,7 +142,7 @@ export default function ParentAppSettings() {
       requestAnimationFrame(() => URL.revokeObjectURL(url));
       setDownloadStatus('Na-download na ang iyong data.');
     } catch (downloadError) {
-      setDownloadStatus(downloadError instanceof Error ? downloadError.message : 'Hindi ma-download ang data ngayon.');
+      setDownloadStatus(downloadError instanceof Error ? tagalogError(downloadError) : 'Hindi ma-download ang data ngayon.');
     } finally { downloadBusy.current = false; setDownloadPending(false); }
   };
   const preference = settings?.notification_preferences ?? DEFAULT_PREFERENCES; const english = language === 'en'; const controlsDisabled = !settings || settingsQuery.isLoading || update.isPending;

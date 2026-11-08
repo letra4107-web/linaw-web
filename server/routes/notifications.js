@@ -58,14 +58,14 @@ router.get('/', async (req, res) => {
     res.json({ notifications });
   } catch (err) {
     console.error('[notifications list]', err);
-    res.status(500).json({ error: 'Unable to load notifications.' });
+    res.status(500).json({ error: "Hindi makuha ang mga abiso." });
   }
 });
 
 router.post('/:id/read', validateUuidParam('id'), async (req, res) => {
   try {
     if (!await canAccessNotification(req.user.id, req.params.id)) {
-      return res.status(404).json({ error: 'Notification not found.' });
+      return res.status(404).json({ error: "Hindi makita ang abiso." });
     }
     const { error } = await supabaseAdmin
       .from('notifications')
@@ -75,7 +75,7 @@ router.post('/:id/read', validateUuidParam('id'), async (req, res) => {
     res.json({ success: true });
   } catch (err) {
     console.error('[notifications mark-read]', err);
-    res.status(500).json({ error: 'Unable to update the notification.' });
+    res.status(500).json({ error: "Hindi mabago ang abiso." });
   }
 });
 
@@ -92,7 +92,7 @@ router.post('/read-all', async (req, res) => {
     res.json({ success: true });
   } catch (err) {
     console.error('[notifications mark-all-read]', err);
-    res.status(500).json({ error: 'Unable to update notifications.' });
+    res.status(500).json({ error: "Hindi mabago ang mga abiso." });
   }
 });
 

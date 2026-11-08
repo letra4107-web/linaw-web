@@ -35,16 +35,16 @@ function createTtsRouter({
     const { text } = req.body || {};
     const requestedRate = Number(req.body?.rate);
     if (!text || typeof text !== 'string' || !text.trim()) {
-      return res.status(400).json({ error: 'Text is required.' });
+      return res.status(400).json({ error: "Kailangan ang tekstong babasahin." });
     }
     if (text.length > MAX_TEXT_LENGTH) {
-      return res.status(400).json({ error: `Text is too long (max ${MAX_TEXT_LENGTH} characters).` });
+      return res.status(400).json({ error: `Masyadong mahaba ang teksto. Hanggang ${MAX_TEXT_LENGTH} karakter lamang.` });
     }
     if ([...text].some((character) => {
       const code = character.charCodeAt(0);
       return code < 32 && ![9, 10, 13].includes(code);
     })) {
-      return res.status(400).json({ error: 'Text contains unsupported characters.' });
+      return res.status(400).json({ error: "May hindi pinapayagang karakter sa teksto." });
     }
     // A/E/I/O/U drills must always be heard at natural speed. They are brief
     // sounds, so applying a reading-speed preference makes them unclear.
@@ -59,7 +59,7 @@ function createTtsRouter({
     }
     if (cached) cache.delete(cacheKey);
     if (!apiKey || !voiceId) {
-      return res.status(500).json({ error: 'TTS is not configured on the server.' });
+      return res.status(500).json({ error: "Hindi pa handa ang serbisyong bumabasa ng teksto. Subukan muli mamaya." });
     }
 
     const providerUrl = `${ELEVENLABS_TTS_URL}/${encodeURIComponent(voiceId)}?output_format=mp3_44100_128`;
@@ -104,7 +104,7 @@ function createTtsRouter({
     if (!response.ok) {
       await response.text();
       console.error('[tts] provider request failed', { status: response.status, requestId: req.requestId });
-      return res.status(502).json({ error: 'Unable to synthesize speech right now.' });
+      return res.status(502).json({ error: "Hindi mabigkas ang teksto ngayon. Subukan muli." });
     }
 
     const audioContent = Buffer.from(await response.arrayBuffer()).toString('base64');
@@ -118,7 +118,7 @@ function createTtsRouter({
     res.json({ audioContent, speakingRate, languageCode: 'fil-PH' });
   } catch (err) {
     console.error('[tts]', err);
-    res.status(500).json({ error: 'Unable to synthesize speech right now.' });
+    res.status(500).json({ error: "Hindi mabigkas ang teksto ngayon. Subukan muli." });
   }
   });
   return router;

@@ -2,7 +2,8 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { loadTs } from './helpers/load-ts.mjs';
 
-const authShell = () => loadTs('src/components/auth/AuthShell.tsx', { '../a11y/AppIcon': {}, '../../lib/cardStyle': {} });
+const validationMessages = loadTs('src/lib/validationMessages.ts');
+const authShell = () => loadTs('src/components/auth/AuthShell.tsx', { '../a11y/AppIcon': {}, '../../lib/cardStyle': {}, '../../lib/validationMessages': validationMessages });
 test('QA email validation accepts single addresses and rejects embedded or whitespace addresses', () => {
   const { isValidEmail } = authShell();
   for (const email of ['parent@example.test', 'ana+school@example.com.ph']) assert.equal(isValidEmail(email), true, email);
@@ -83,6 +84,7 @@ function signupHarness(session) {
   const jsx = (type, props) => ({ type, props });
   const client = { auth: { signUp: async () => ({ data: { user: { id: 'test-user' }, session }, error: null }) }, from() { writes++; return { upsert: async () => ({ error: session ? null : new Error('RLS denied') }) }; } };
   const { default: SignUp } = loadTs('src/pages/auth/SignUp.tsx', {
+    '../../lib/validationMessages': validationMessages,
     react: { useState(initial) { const index = cursor++; return [index < state.length ? state[index] : initial, (next) => { state[index] = next; }]; } },
     'react/jsx-runtime': { jsx, jsxs: jsx },
     'react-router-dom': { Link: 'Link', useNavigate: () => (path) => { destination = path; } },

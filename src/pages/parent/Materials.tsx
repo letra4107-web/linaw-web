@@ -1,3 +1,4 @@
+import { tagalogError } from '../../lib/validationMessages';
 import { useEffect, useRef, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { BookOpen, CheckCircle2, ChevronDown, Download, FileText, Heart, Lightbulb, LoaderCircle } from 'lucide-react';
@@ -60,7 +61,7 @@ export default function Materials() {
       if (!result.url || !/^https?:\/\//.test(result.url)) throw new Error('Wala pang available na file para sa materyal na ito.');
       if (request === accessRequest.current && selectedChildRef.current === requestedChild) setMaterialLink({ id: assignment.id, url: result.url });
     } catch (error) {
-      if (request === accessRequest.current && selectedChildRef.current === requestedChild) setOpenError(error instanceof Error ? error.message : 'Hindi mabuksan ang materyal ngayon.');
+      if (request === accessRequest.current && selectedChildRef.current === requestedChild) setOpenError(error instanceof Error ? tagalogError(error) : 'Hindi mabuksan ang materyal ngayon.');
     } finally {
       if (request === accessRequest.current) setOpeningId(null);
     }

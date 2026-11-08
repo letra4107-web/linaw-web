@@ -5,12 +5,12 @@ const failure = (status, code, message) => Object.assign(new Error(message), { s
 const onlyKeys = (body, keys) => body && !Array.isArray(body) && typeof body === 'object'
   && Object.keys(body).every(key => keys.includes(key));
 function rpcFailure(error) {
-  if (['PT409', '40001', '40P01', '23505'].includes(error?.code)) return failure(409, 'PROGRESS_CONFLICT', 'Saved progress changed. Retry the same attempt or refresh.');
-  if (error?.code === '42501') return failure(403, 'PROGRESS_FORBIDDEN', 'This learning activity is not available to your account.');
-  if (error?.code === 'P0002') return failure(404, 'PROGRESS_NOT_FOUND', 'The learning activity was not found.');
-  if (error?.code === '22023') return failure(400, 'INVALID_PROGRESS_EVENT', 'The learning answer is invalid.');
-  if (error?.code === 'PT410') return failure(410, 'PROGRESS_EVENT_EXPIRED', 'This attempt expired without being saved. Start a new attempt.');
-  return failure(503, 'PROGRESS_DEPENDENCY_UNAVAILABLE', 'Saving rewards is temporarily unavailable. Your saved progress is safe. Retry the same attempt later.');
+  if (['PT409', '40001', '40P01', '23505'].includes(error?.code)) return failure(409, 'PROGRESS_CONFLICT', "Nagbago ang nakatalang progreso. Ulitin ang parehong pagsubok o buksan muli ang pahina.");
+  if (error?.code === '42501') return failure(403, 'PROGRESS_FORBIDDEN', "Hindi maaaring gamitin ng iyong account ang gawaing ito.");
+  if (error?.code === 'P0002') return failure(404, 'PROGRESS_NOT_FOUND', "Hindi makita ang gawain sa pag-aaral.");
+  if (error?.code === '22023') return failure(400, 'INVALID_PROGRESS_EVENT', "Hindi wasto ang sagot sa aralin.");
+  if (error?.code === 'PT410') return failure(410, 'PROGRESS_EVENT_EXPIRED', "Paso na ang pagsubok at hindi naitala. Magsimula ng bagong pagsubok.");
+  return failure(503, 'PROGRESS_DEPENDENCY_UNAVAILABLE', "Pansamantalang hindi maitala ang gantimpala. Nakatala pa rin ang iyong progreso. Ulitin ang parehong pagsubok mamaya.");
 }
 async function rpc(client, name, params) {
   let result;
@@ -28,7 +28,7 @@ async function startProgressEvent(client, studentId, body, channel = 'mobile') {
     || !['practice', 'assessment'].includes(body.source)
     || (body.source === 'assessment' && (!UUID.test(body.assessmentAttemptId || '') || !UUID.test(body.assessmentItemId || '')))
     || (body.source === 'practice' && (body.assessmentAttemptId != null || body.assessmentItemId != null))) {
-    throw failure(400, 'INVALID_PROGRESS_EVENT', 'A valid learning activity and assessment context are required.');
+    throw failure(400, 'INVALID_PROGRESS_EVENT', "Kailangan ang wastong gawain at mga detalye ng pagsusulit.");
   }
   await requireProgressContract(client);
   const data = await rpc(client, 'start_student_progress_event', { p_student_id: studentId, p_content_id: body.contentId, p_source: body.source,
@@ -50,7 +50,7 @@ async function recordProgressEvent(client, studentId, eventId, body) {
   if (!UUID.test(eventId || '') || !onlyKeys(body, ['transcript', 'durationSeconds']) || typeof body.transcript !== 'string'
     || body.transcript.trim().length < 1 || body.transcript.length > 2000
     || (body.durationSeconds != null && (!Number.isInteger(body.durationSeconds) || body.durationSeconds < 0 || body.durationSeconds > 3600))) {
-    throw failure(400, 'INVALID_PROGRESS_EVENT', 'A valid attempt, answer and duration are required.');
+    throw failure(400, 'INVALID_PROGRESS_EVENT', "Kailangan ang wastong pagsubok, sagot, at tagal.");
   }
   await requireProgressContract(client);
   let lookup;
@@ -58,7 +58,7 @@ async function recordProgressEvent(client, studentId, eventId, body) {
   catch { throw rpcFailure(); }
   if (!lookup || lookup.error) throw rpcFailure(lookup?.error);
   const event = lookup.data;
-  if (!event || event.student_id !== studentId) throw failure(404, 'PROGRESS_NOT_FOUND', 'The learning attempt was not found.');
+  if (!event || event.student_id !== studentId) throw failure(404, 'PROGRESS_NOT_FOUND', "Hindi makita ang pagsubok sa aralin.");
   if (typeof event.expected_text !== 'string' || !event.expected_text.trim()) throw rpcFailure();
   if (!['mobile','web'].includes(event.channel) || !['practice','assessment'].includes(event.source)) throw rpcFailure();
   const score = event.channel === 'mobile'

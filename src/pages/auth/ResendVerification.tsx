@@ -1,3 +1,4 @@
+import { tagalogError } from '../../lib/validationMessages';
 import { useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { ArrowRight, CheckCircle2, Lightbulb, Mail, MailCheck } from 'lucide-react';
@@ -20,7 +21,7 @@ export default function ResendVerification() {
     setError(null);
     const cleanEmail = email.trim().toLowerCase();
     if (!isValidEmail(cleanEmail)) {
-      setError('Ilagay ang valid na email address.');
+      setError("Ilagay ang wastong email address.");
       return;
     }
 
@@ -30,7 +31,7 @@ export default function ResendVerification() {
       if (resendError) throw resendError;
       setSent(true);
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Hindi maipadala ang code.');
+      setError(err instanceof Error ? tagalogError(err) : 'Hindi maipadala ang code.');
     } finally {
       setSubmitting(false);
     }

@@ -1,3 +1,4 @@
+import { tagalogError } from '../../lib/validationMessages';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { Bell, CheckCheck, ChevronRight, EllipsisVertical, FileText, Heart, Paperclip, Plus, Search, Send, Smile, X } from 'lucide-react';
@@ -30,7 +31,7 @@ function AttachmentLink({ path, name }: { path: string; name: string }) {
   const access = useMutation({
     mutationFn: async () => {
       const { data, error } = await supabase.storage.from('parent-message-files').createSignedUrl(path, 60);
-      if (error || !data?.signedUrl) throw new Error(error?.message ?? 'Hindi mabuksan ang attachment.');
+      if (error || !data?.signedUrl) throw new Error(tagalogError(error) ?? 'Hindi mabuksan ang attachment.');
       return data.signedUrl;
     },
     onSuccess: setUrl,
@@ -43,7 +44,7 @@ function AttachmentLink({ path, name }: { path: string; name: string }) {
   const content = <><span><FileText size={25} /></span><b>{name}</b><Paperclip size={17} /></>;
   return <>
     {url ? <a className="messages-file-link" href={url} target="_blank" rel="noopener noreferrer" aria-label={`Buksan ang attachment: ${name}`}>{content}</a> : <button type="button" className="messages-file-link" disabled={access.isPending} onClick={() => access.mutate()} aria-label={`Ihanda ang attachment: ${name}`}>{content}</button>}
-    <small role="status">{access.isPending ? 'Inihahanda ang file...' : url ? 'Handa na. Pindutin ang file upang buksan.' : access.error ? access.error.message : ''}</small>
+    <small role="status">{access.isPending ? 'Inihahanda ang file...' : url ? 'Handa na. Pindutin ang file upang buksan.' : access.error ? tagalogError(access.error) : ''}</small>
   </>;
 }
 
@@ -142,7 +143,7 @@ export default function ParentMessages() {
       } catch (replyError) { if (attachmentPath) await supabase.storage.from('parent-message-files').remove([attachmentPath]); throw replyError; }
     },
     onSuccess: (_data, submission) => { setDrafts((values) => ({ ...values, [submission.thread.teacher_id]: '' })); setAttachments((values) => ({ ...values, [submission.thread.teacher_id]: null })); if (selectedTeacherId === submission.thread.teacher_id) { if (attachmentRef.current) attachmentRef.current.value = ''; setNotice('Naipadala ang reply mo sa guro.'); } void queryClient.invalidateQueries({ queryKey: ['parent-message-replies'] }); },
-    onError: (replyError: Error) => setNotice(replyError.message),
+    onError: (replyError: Error) => setNotice(tagalogError(replyError)),
     onSettled: () => { submittingRef.current = false; },
   });
   const teacherCount = conversations.filter(conversation => conversation.hasTeacherMessages).length;

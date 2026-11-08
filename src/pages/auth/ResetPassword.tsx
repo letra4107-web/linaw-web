@@ -1,3 +1,4 @@
+import { tagalogError } from '../../lib/validationMessages';
 import { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { supabase } from '../../lib/supabaseClient';
@@ -30,11 +31,11 @@ export default function ResetPassword() {
       return;
     }
     if (code.length < 6) {
-      setError('Ilagay ang verification code mula sa email.');
+      setError("Ilagay ang code sa pagpapatunay mula sa email.");
       return;
     }
     if (password.length < 8 || !/[A-Z]/.test(password) || !/[0-9]/.test(password)) {
-      setError('Kailangang 8+ characters, may malaking letra at numero ang password.');
+      setError("Kailangang may hindi bababa sa 8 karakter, malaking letra, at numero ang password.");
       return;
     }
     if (password !== confirmPassword) {
@@ -54,7 +55,7 @@ export default function ResetPassword() {
       if (updateError) throw updateError;
       navigate('/login', { replace: true });
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Hindi na-reset ang password. Humiling ulit ng code.');
+      setError(err instanceof Error ? tagalogError(err) : 'Hindi na-reset ang password. Humiling ulit ng code.');
     } finally {
       setSubmitting(false);
     }

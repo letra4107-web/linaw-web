@@ -1,3 +1,4 @@
+import { tagalogError } from '../../lib/validationMessages';
 import { useEffect, useRef, useState, type CSSProperties } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
@@ -45,7 +46,7 @@ function messageFor(error: Error & { status?: number }, starting = false) {
   if (error.status === 503) return starting
     ? 'Hindi pa makapagsimula ang pagsusulit. Maaari kang bumalik muna sa mga modyul o subukan muli.'
     : 'Hindi pa makumpirma ang pag-save ng sagot. Subukan muli ang parehong sagot.';
-  return error.message;
+  return tagalogError(error);
 }
 
 // A new assessment route gets a fresh session. Old audio, speech callbacks and
@@ -163,7 +164,7 @@ function AssessmentSession({ assessmentId }: { assessmentId?: string }) {
     onError: (err: Error & { status?: number }) => {
       if (!live.current) return;
       interactionLocked.current = false;
-      setError(err.status === 503 ? 'Hindi pa makumpirma ang pagsusumite. Pindutin muli ang Isumite ang Pagsusulit.' : err.message);
+      setError(err.status === 503 ? 'Hindi pa makumpirma ang pagsusumite. Pindutin muli ang Isumite ang Pagsusulit.' : tagalogError(err));
     },
   });
 
@@ -184,7 +185,7 @@ function AssessmentSession({ assessmentId }: { assessmentId?: string }) {
       // hidden target or answer key is rendered next to an MC question.
       await playTtsSequence([{ text: item.content_text, rate: item.content_type === 'phonetic' ? 1 : slow ? 0.5 : undefined }], 'fil-PH', { signal: controller.signal, reportErrors: true });
     } catch (err) {
-      if (live.current && !controller.signal.aborted) setError(err instanceof Error ? err.message : 'Hindi ma-play ang tunog. Subukan muli.');
+      if (live.current && !controller.signal.aborted) setError(err instanceof Error ? tagalogError(err) : 'Hindi ma-play ang tunog. Subukan muli.');
     } finally {
       if (live.current && playback.current === controller) {
         setReading(false);

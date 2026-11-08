@@ -6,7 +6,7 @@ const { requireAuth, requireRole } = require('../middleware/auth');
 const router = express.Router();
 router.post('/events', requireAuth, requireRole('admin', 'teacher', 'parent', 'student'), (req, res) => {
   const type = String(req.body?.type || '');
-  if (!['login', 'logout', 'password_reset'].includes(type)) return res.status(400).json({ error: 'Invalid authentication event.' });
+  if (!['login', 'logout', 'password_reset'].includes(type)) return res.status(400).json({ error: "Hindi wasto ang uri ng pagpapatunay ng account." });
   res.json({ success: true, type });
 });
 module.exports = router;

@@ -1,3 +1,4 @@
+import { tagalogError } from '../lib/validationMessages';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '../lib/supabaseClient';
@@ -181,7 +182,7 @@ export function WordOfDayCard({ streak = 0, onStatusChange }: WordOfDayCardProps
           queryClient.invalidateQueries({ queryKey: ['student-progress'] });
           queryClient.invalidateQueries({ queryKey: ['student-profile-progress'] });
         } catch (err) {
-          setError(err instanceof Error ? err.message : 'May problema sa pag-save ng sagot.');
+          setError(err instanceof Error ? tagalogError(err) : 'May problema sa pag-save ng sagot.');
         } finally {
           setSaving(false);
         }

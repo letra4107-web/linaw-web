@@ -1,3 +1,4 @@
+import { tagalogError } from '../../lib/validationMessages';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { ArrowLeft, Check, CheckCheck, ChevronRight, Download, FileText, Heart, Mail, MoreHorizontal, Paperclip, Plus, Search, Send, SlidersHorizontal, Smile, X } from 'lucide-react';
@@ -35,7 +36,7 @@ function ReplyAttachment({ path, name, author }: { path: string; name: string; a
   }, onSuccess: setUrl });
   useEffect(() => { if (!url) return; const timer = window.setTimeout(() => setUrl(''), 55_000); return () => window.clearTimeout(timer); }, [url]);
   const content = <><span><FileText aria-hidden /></span><b>{name}<small>Attachment mula sa {author === 'teacher' ? 'guro' : 'magulang'}</small></b><Download aria-hidden /></>;
-  return <div className="tm-file">{url ? <a href={url} target="_blank" rel="noopener noreferrer" aria-label={`Buksan ang attachment: ${name}`}>{content}</a> : <button type="button" disabled={access.isPending} onClick={() => access.mutate()} aria-label={`Ihanda ang attachment: ${name}`}>{content}</button>}<small role="status">{access.isPending ? 'Inihahanda ang file…' : access.error ? access.error.message : url ? 'Handa na. Pindutin ang file upang buksan.' : ''}</small></div>;
+  return <div className="tm-file">{url ? <a href={url} target="_blank" rel="noopener noreferrer" aria-label={`Buksan ang attachment: ${name}`}>{content}</a> : <button type="button" disabled={access.isPending} onClick={() => access.mutate()} aria-label={`Ihanda ang attachment: ${name}`}>{content}</button>}<small role="status">{access.isPending ? 'Inihahanda ang file…' : access.error ? tagalogError(access.error) : url ? 'Handa na. Pindutin ang file upang buksan.' : ''}</small></div>;
 }
 
 function NewMessageDialog({ parents, loading, onClose, onSelect }: { parents: ParentOption[]; loading: boolean; onClose: () => void; onSelect: (id: string) => void }) {
@@ -135,7 +136,7 @@ export default function TeacherMessages() {
     if (!file || send.isPending) return;
     const parentId = selectedId;
     try { await validateMessageAttachment(file); setAttachments(values => ({ ...values,[parentId]:file })); setSendError(null); }
-    catch (error) { setSendError({parentId,text:error instanceof Error ? error.message : 'Hindi mabasa ang file.'}); if (attachmentInput.current) attachmentInput.current.value = ''; }
+    catch (error) { setSendError({parentId,text:error instanceof Error ? tagalogError(error) : 'Hindi mabasa ang file.'}); if (attachmentInput.current) attachmentInput.current.value = ''; }
   }
   function addEmoji(emoji:string) {
     const field = composer.current, start = field?.selectionStart ?? draft.length, end = field?.selectionEnd ?? start, next = draft.slice(0,start)+emoji+draft.slice(end);

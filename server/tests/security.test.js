@@ -71,14 +71,14 @@ test('security-critical routes retain authorization and ownership checks', () =>
   assert.match(student, /router\.post\('\/pdf-reading\/attempt'/);
   assert.match(student, /pdfReadingChunks\(material\?\.extracted_text, material\?\.chunk_size\)\[chunkIndex\]/);
   assert.match(student, /authorization\.studentAssignment\(studentId, assignmentId\)/);
-  assert.match(student, /Use a server-issued learning attempt/);
+  assert.match(student, /Magsimula muna ng wastong pagsubok sa aralin/);
   assert.match(events,/p_accuracy: score\.accuracy/);
   assert.match(student, /student_id: studentId/);
   assert.match(events,/record_student_progress_event/);
   assert.doesNotMatch(student, /const \{ accuracy, transcript, durationSeconds, isFullSubmission, source \} = req\.body/);
   assert.match(student, /correct_answer_index: _answerKey/);
   assert.match(student, /from\('student_nonsense_check_sets'\)/);
-  assert.match(student,/This reading check cannot save rewards yet/);
+  assert.match(student,/Hindi pa maitala ang gantimpala sa pagbasa/);
   assert.doesNotMatch(student,/update\(\{ xp: newXp \}\)/);
   assert.doesNotMatch(student, /results\.filter\(\(r\) => r\.correct\)/);
   assert.doesNotMatch(student, /const \{ logId, attempts, correct, accuracy \} = req\.body/);

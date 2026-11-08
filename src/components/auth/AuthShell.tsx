@@ -5,6 +5,7 @@ import leftImage from '../../assets/left.png';
 import { cardStyle } from '../../lib/cardStyle';
 import { AppIcon } from '../a11y/AppIcon';
 import logo from '../../assets/Logo.jpg';
+import { tagalogError } from '../../lib/validationMessages';
 
 export function isValidEmail(value: string): boolean {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
@@ -88,7 +89,7 @@ export function FieldError({ message }: { message?: string }) {
       className="flex items-start gap-2 rounded-lg border border-[var(--color-danger)]/30 bg-[var(--color-danger-soft)] px-4 py-3 text-base text-[var(--color-danger)]"
     >
       <AppIcon name="⚠️" className="mt-0.5 h-5 w-5 shrink-0" />
-      <span>{message}</span>
+      <span>{tagalogError(message)}</span>
     </p>
   );
 }

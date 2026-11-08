@@ -1,3 +1,4 @@
+import { tagalogError } from '../../lib/validationMessages';
 import { useEffect, useId, useRef, useState } from 'react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { ArrowRight, BookOpen, CheckCircle2, ChevronLeft, ChevronRight, Clock3, Eye, FileText, FolderOpen, GraduationCap, Pencil, RotateCcw, Search, Send, Star, Trash2, UploadCloud, UsersRound, X } from 'lucide-react';
@@ -67,7 +68,7 @@ export default function Lessons() {
       if (!next.name.toLowerCase().endsWith('.pdf') && next.type !== 'application/pdf') throw new Error('PDF file lamang ang maaaring i-upload.');
       if (await next.slice(0, 5).text() !== '%PDF-') throw new Error('Hindi wastong PDF ang napiling file.');
       if (revision === fileRevision.current) setFile(next);
-    } catch (error) { if (revision === fileRevision.current) { setFormError(error instanceof Error ? error.message : 'Hindi mabasa ang file.'); if (fileInput.current) fileInput.current.value = ''; } }
+    } catch (error) { if (revision === fileRevision.current) { setFormError(error instanceof Error ? tagalogError(error) : 'Hindi mabasa ang file.'); if (fileInput.current) fileInput.current.value = ''; } }
     finally { if (revision === fileRevision.current) setFileChecking(false); }
   }
   const createLesson = useMutation({ mutationFn: async () => {
@@ -79,24 +80,24 @@ export default function Lessons() {
     const { data: publicUrl } = supabase.storage.from('lesson-pdfs').getPublicUrl(path);
     const { error } = await supabase.from('lessons').insert({ teacher_id: user.id, title: draft.title.trim(), description: draft.description.trim(), subject: draft.subject, grade_level: draft.gradeLevel, pdf_url: publicUrl.publicUrl, legacy_public_url: publicUrl.publicUrl, storage_bucket: 'lesson-pdfs', storage_path: path, file_name: file.name, is_published: true });
     if (error) throw error;
-  }, onSuccess: () => { clearForm(); setSuccess('Nagawa na ang iyong aralin. Makikita na ito sa Lesson Library.'); setSearch(''); setPage(1); void queryClient.invalidateQueries({ queryKey: ['teacher-lessons'] }); void queryClient.invalidateQueries({ queryKey: ['teacher-materials-count'] }); }, onError: (error: Error) => setFormError(error.message) });
+  }, onSuccess: () => { clearForm(); setSuccess('Nagawa na ang iyong aralin. Makikita na ito sa Lesson Library.'); setSearch(''); setPage(1); void queryClient.invalidateQueries({ queryKey: ['teacher-lessons'] }); void queryClient.invalidateQueries({ queryKey: ['teacher-materials-count'] }); }, onError: (error: Error) => setFormError(tagalogError(error)) });
   const updateLesson = useMutation({ mutationFn: async ({ id, values }: { id: string; values: Partial<Draft> & { is_published?: boolean } }) => {
     if (values.is_published === undefined && (!values.title?.trim() || !values.description?.trim() || !values.subject || !values.gradeLevel)) throw new Error('Kumpletuhin ang mga kinakailangang detalye.');
     const payload = values.is_published !== undefined ? { is_published: values.is_published } : { title: values.title?.trim(), description: values.description?.trim(), subject: values.subject, grade_level: values.gradeLevel };
     const { error } = await supabase.from('lessons').update(payload).eq('id', id).eq('teacher_id', user!.id);
     if (error) throw error;
-  }, onSuccess: (_, variables) => { setActionError(null); if (variables.values.is_published === undefined) setSelection(null); setSuccess(variables.values.is_published === undefined ? 'Na-save ang mga pagbabago.' : variables.values.is_published ? 'Nai-publish ang aralin.' : 'Nailipat sa draft ang aralin.'); void queryClient.invalidateQueries({ queryKey: ['teacher-lessons'] }); void queryClient.invalidateQueries({ queryKey: ['teacher-materials-count'] }); }, onError: (error: Error) => setActionError(error.message) });
+  }, onSuccess: (_, variables) => { setActionError(null); if (variables.values.is_published === undefined) setSelection(null); setSuccess(variables.values.is_published === undefined ? 'Na-save ang mga pagbabago.' : variables.values.is_published ? 'Nai-publish ang aralin.' : 'Nailipat sa draft ang aralin.'); void queryClient.invalidateQueries({ queryKey: ['teacher-lessons'] }); void queryClient.invalidateQueries({ queryKey: ['teacher-materials-count'] }); }, onError: (error: Error) => setActionError(tagalogError(error)) });
   const deleteLesson = useMutation({ mutationFn: async (id: string) => {
     const { error } = await supabase.from('lessons').delete().eq('id', id).eq('teacher_id', user!.id);
     if (error) throw error;
-  }, onSuccess: () => { setSelection(null); setActionError(null); setSuccess('Natanggal ang aralin.'); void queryClient.invalidateQueries({ queryKey: ['teacher-lessons'] }); void queryClient.invalidateQueries({ queryKey: ['teacher-materials-count'] }); }, onError: (error: Error) => setActionError(error.message) });
+  }, onSuccess: () => { setSelection(null); setActionError(null); setSuccess('Natanggal ang aralin.'); void queryClient.invalidateQueries({ queryKey: ['teacher-lessons'] }); void queryClient.invalidateQueries({ queryKey: ['teacher-materials-count'] }); }, onError: (error: Error) => setActionError(tagalogError(error)) });
   const busy = createLesson.isPending || updateLesson.isPending || deleteLesson.isPending;
   const selectedLesson = lessons?.find((lesson) => lesson.id === selection?.id);
   const filtered = (lessons ?? []).filter((lesson) => `${lesson.title} ${lesson.subject ?? ''}`.toLowerCase().includes(search.trim().toLowerCase()));
   const pages = Math.max(1, Math.ceil(filtered.length / 5));
   const currentPage = Math.min(page, pages);
   function openDialog(lesson: Lesson, mode: 'view' | 'edit' | 'delete') { setActionError(null); setSelection({ id: lesson.id, mode }); }
-  function preview(id: string) { setActionError(null); void openAccessUrl(`/teacher/lessons/${id}/access-url`).catch((error: Error) => setActionError(error.message)); }
+  function preview(id: string) { setActionError(null); void openAccessUrl(`/teacher/lessons/${id}/access-url`).catch((error: Error) => setActionError(tagalogError(error))); }
 
   return <div className="tl-workspace">
     <section className="tl-create-panel"><header className="tl-panel-heading"><span className="tl-heading-icon"><BookOpen aria-hidden /></span><div><h2>Gumawa ng Bagong Aralin</h2><p>I-upload ang lesson PDF at ilagay ang mga detalye ng aralin.</p></div></header>

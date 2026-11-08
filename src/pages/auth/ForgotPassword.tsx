@@ -18,7 +18,7 @@ export default function ForgotPassword() {
     const cleanEmail = email.trim().toLowerCase();
 
     if (!isValidEmail(cleanEmail)) {
-      setError('Ilagay ang valid na email.');
+      setError("Ilagay ang wastong email address.");
       return;
     }
 

@@ -1,10 +1,10 @@
 export interface EditableDrillItem { id?:string; band_index:number; item_order:number; syllable_pattern:string; word:string; image_url:string|null; xp_value:number; }
 export function prepareDrillItems(items:EditableDrillItem[]) {
-  if(items.length>250)throw new Error('Hanggang 250 row lamang ang maaaring i-save.');
+  if(items.length>250)throw new Error("Hanggang 250 hanay lamang ang maaaring itala.");
   return items.map((item,index)=>{
-    if(!item.word.trim() || !item.syllable_pattern.trim())throw new Error(`Kumpletuhin ang pantig at salita sa row ${index+1}.`);
-    if(item.word.trim().length>120 || item.syllable_pattern.trim().length>80)throw new Error(`Masyadong mahaba ang teksto sa row ${index+1}.`);
-    if(!Number.isInteger(item.xp_value)||item.xp_value<1||item.xp_value>100)throw new Error(`Ang XP sa row ${index+1} ay dapat 1 hanggang 100.`);
+    if(!item.word.trim() || !item.syllable_pattern.trim())throw new Error(`Kumpletuhin ang pantig at salita sa hanay ${index+1}.`);
+    if(item.word.trim().length>120 || item.syllable_pattern.trim().length>80)throw new Error(`Masyadong mahaba ang teksto sa hanay ${index+1}.`);
+    if(!Number.isInteger(item.xp_value)||item.xp_value<1||item.xp_value>100)throw new Error(`Ang XP sa hanay ${index+1} ay dapat 1 hanggang 100.`);
     return {...item,item_order:index,word:item.word.trim(),syllable_pattern:item.syllable_pattern.trim()};
   });
 }

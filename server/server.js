@@ -71,7 +71,7 @@ app.use('/api', rateLimit({
   standardHeaders: 'draft-7',
   legacyHeaders: false,
   skip: (req) => req.path === '/health',
-  message: { error: 'Too many requests. Please wait and try again.' },
+  message: { error: "Masyadong maraming kahilingan. Maghintay sandali at subukan muli." },
 }));
 
 app.get('/api/health', (_req, res) => res.json({
@@ -92,15 +92,15 @@ app.use('/api/tts', ttsRoutes);
 app.use('/api/public/tts', createTtsRouter({ authMiddleware: (_req, _res, next) => next(), limiter: publicTtsLimiter, cache: publicAudioCache }));
 app.use('/api/notifications', notificationsRoutes);
 app.use('/api/auth', authEventsRoutes);
-app.use((req, res) => res.status(404).json({ error: 'Not found' }));
+app.use((req, res) => res.status(404).json({ error: "Hindi makita ang hiniling na pahina o impormasyon." }));
 app.use((err, req, res, _next) => {
-  if (err?.type === 'entity.parse.failed') return res.status(400).json({ error: 'Malformed JSON request.' });
-  if (err?.type === 'entity.too.large') return res.status(413).json({ error: 'Request body is too large.' });
-  if (err?.code === 'LIMIT_FILE_SIZE') return res.status(413).json({ error: 'PDF is too large (maximum 15 MB).' });
-  if (err?.message === 'Only PDF files are allowed.') return res.status(400).json({ error: err.message });
-  if (err?.message === 'Origin not allowed by CORS.') return res.status(403).json({ error: 'Origin not allowed.' });
+  if (err?.type === 'entity.parse.failed') return res.status(400).json({ error: "Hindi wasto ang anyo ng ipinadalang kahilingan." });
+  if (err?.type === 'entity.too.large') return res.status(413).json({ error: "Masyadong malaki ang ipinadalang kahilingan." });
+  if (err?.code === 'LIMIT_FILE_SIZE') return res.status(413).json({ error: "Masyadong malaki ang PDF. Hanggang 15 MB lamang." });
+  if (err?.message === "Mga PDF lamang ang pinapayagan.") return res.status(400).json({ error: err.message });
+  if (err?.message === 'Origin not allowed by CORS.') return res.status(403).json({ error: "Hindi pinapayagan ang pinagmulan ng kahilingan." });
   console.error('[unhandled]', { requestId: req.requestId, code: err?.code, name: err?.name });
-  return res.status(500).json({ error: 'Internal server error' });
+  return res.status(500).json({ error: "May problema sa server. Subukan muli mamaya." });
 });
 
 const PORT = process.env.PORT || 4000;
