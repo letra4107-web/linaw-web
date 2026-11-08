@@ -53,9 +53,9 @@ export default function Landing() {
 
   return <div className="landing-page min-h-screen bg-[var(--color-bg)] text-[var(--color-text)]">
     <header className="landing-nav sticky top-0 z-30 border-b border-[var(--color-border)]/70 bg-[#fffdf7]/90 backdrop-blur">
-      <div className="mx-auto grid max-w-7xl grid-cols-[1fr_auto] items-center gap-3 px-4 py-3 sm:px-6 lg:grid-cols-[1fr_auto_1fr]">
-        <Link to="/" className="justify-self-start" aria-label="LinawLetra, bahay"><img src={logo} alt="LinawLetra" className="h-11 w-auto rounded-xl sm:h-14" /></Link>
-        <nav className="hidden justify-self-center lg:block" aria-label="Pangunahing navigation"><ul className="flex items-center gap-6 text-sm font-semibold xl:gap-8">{NAV_LINKS.map((item) => <li key={item.label}><PageLink href={item.href} className="landing-nav-link">{item.label}</PageLink></li>)}</ul></nav>
+      <div className="mx-auto grid max-w-7xl grid-cols-[1fr_auto] items-center gap-3 px-4 py-3 sm:px-6 lg:grid-cols-[auto_minmax(0,1fr)_auto]">
+        <Link to="/" className="justify-self-start" aria-label="LinawLetra, bahay"><img src={logo} alt="LinawLetra" className="h-11 w-11 rounded-xl sm:h-14 sm:w-14" /></Link>
+        <nav className="hidden min-w-0 max-w-full justify-self-center lg:block" aria-label="Pangunahing navigation"><ul className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-sm font-semibold xl:gap-x-8">{NAV_LINKS.map((item) => <li key={item.label}><PageLink href={item.href} className="landing-nav-link whitespace-nowrap">{item.label}</PageLink></li>)}</ul></nav>
         <div className="flex items-center gap-2 justify-self-end sm:gap-3">
           <label className="hidden items-center gap-2 rounded-full border border-[var(--color-border)] bg-white px-3 py-2 text-xs font-semibold md:flex"><span aria-hidden="true">Aa</span><span className="sr-only">Piliin ang font</span><select value={selectedFont} onChange={(event) => setFont(event.target.value as 'dyslexic' | 'comic')} aria-label="Piliin ang font" className="bg-transparent outline-none"><option value="dyslexic">OpenDyslexic</option><option value="comic">Comic Sans</option></select></label>
           <Link to="/login" className="landing-login hidden sm:inline-flex">Mag-login</Link><Link to="/signup" className="landing-primary-button hidden sm:inline-flex">Magsimula</Link>
