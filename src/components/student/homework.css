@@ -34,16 +34,14 @@
 .hw-date-group,.hw-assignment-list { display:grid; gap:13px; min-width:0; }
 .hw-date-group { margin-top:8px; }
 .hw-date-heading { margin:0 0 2px; font-size:15px; font-weight:700; text-transform:capitalize; }
-.hw-assignment-card { position:relative; display:grid; grid-template-columns:48px minmax(0,1fr) auto 20px; gap:16px; align-items:center; padding:20px; border:1px solid #e1d6f0; border-radius:17px; background:var(--color-surface,#fff); transition:border-color .15s,box-shadow .15s; }
-.hw-assignment-card:hover { border-color:#9d7cd5; box-shadow:0 4px 16px #6741b510; }
+.hw-assignment-card { min-width:0; }
+.hw-card-open { display:grid; grid-template-columns:48px minmax(0,1fr) auto 20px; gap:16px; align-items:center; width:100%; min-width:0; padding:20px; border:1px solid #e1d6f0; border-radius:17px; background:var(--color-surface,#fff); text-align:left; color:inherit; font:inherit; cursor:pointer; overflow-wrap:anywhere; transition:border-color .15s,box-shadow .15s; }
+.hw-card-open:hover { border-color:#9d7cd5; box-shadow:0 4px 16px #6741b510; }
 .hw-assignment-icon { display:flex; align-items:center; justify-content:center; width:48px; height:48px; border-radius:13px; background:#eee6fb; color:#6741b5; }
 .hw-assignment-copy { min-width:0; }
-.hw-assignment-copy h3 { margin:0; font-size:16px; font-weight:700; line-height:1.6; }
-.hw-card-open { background:transparent; border:0; padding:0; text-align:left; color:inherit; font:inherit; cursor:pointer; overflow-wrap:anywhere; }
-.hw-card-open::after { content:''; position:absolute; inset:0; border-radius:17px; }
-.hw-card-open:focus-visible { outline:0; }
-.hw-card-open:focus-visible::after { outline:3px solid #6741b5; outline-offset:3px; }
-.hw-assignment-copy p { font-size:12px; margin-top:5px; line-height:1.8; }
+.hw-assignment-copy .hw-assignment-title { margin:0; font-size:16px; font-weight:700; line-height:1.6; }
+.hw-card-open:focus-visible { outline:3px solid #6741b5; outline-offset:3px; }
+.hw-assignment-copy>span { display:block; font-size:12px; margin-top:5px; line-height:1.8; }
 .hw-assignment-copy .hw-card-deadline { font-size:13px; font-weight:700; }
 .hw-assignment-status { max-width:170px; padding:6px 11px; border-radius:16px; background:#eee6fb; color:#513083; font-size:11px; font-weight:700; line-height:1.6; }
 .hw-card-chevron { color:#6741b5; }
@@ -62,13 +60,13 @@
 .hw-my-work>header { margin-bottom:3px; }
 .hw-my-work .hw-attach-label { display:flex; flex-wrap:wrap; align-items:center; gap:8px; color:#6741b5; }
 .hw-my-work .hw-attach-label input { flex-basis:100%; }
-@media(max-width:700px) { .hw-assignment-card { grid-template-columns:40px minmax(0,1fr) 18px; gap:12px; padding:16px; }.hw-assignment-icon { width:40px; height:44px; align-self:start; }.hw-assignment-status { grid-column:2; justify-self:start; }.hw-card-chevron { grid-column:3; grid-row:1 / span 2; }.hw-assignment-copy h3 { font-size:14px; }.hw-detail-toolbar .hw-primary { margin-left:auto; }.hw-category-tabs { gap:8px; }.hw-category-tabs button { padding:9px 12px; font-size:12px; } }
-:root[data-theme=dark] :is(.hw-assignment-card,.hw-instruction-panel,.hw-category-tabs button) { background:#29313f; border-color:#66517e; color:#eee5fa; }
+@media(max-width:700px) { .hw-card-open { grid-template-columns:40px minmax(0,1fr) 18px; gap:12px; padding:16px; }.hw-assignment-icon { width:40px; height:44px; align-self:start; }.hw-assignment-status { grid-column:2; justify-self:start; }.hw-card-chevron { grid-column:3; grid-row:1 / span 2; }.hw-assignment-copy .hw-assignment-title { font-size:14px; }.hw-detail-toolbar .hw-primary { margin-left:auto; }.hw-category-tabs { gap:8px; }.hw-category-tabs button { padding:9px 12px; font-size:12px; } }
+:root[data-theme=dark] :is(.hw-card-open,.hw-instruction-panel,.hw-category-tabs button) { background:#29313f; border-color:#66517e; color:#eee5fa; }
 :root[data-theme=dark] .hw-category-tabs button[aria-pressed=true] { background:#6741b5; border-color:#b293ed; }
 :root[data-theme=dark] :is(.hw-assignment-status,.hw-turnin-status) { background:#4b3a65; color:#eee0ff; }
 :root[data-theme=dark] :is(.hw-student-assignments,.hw-assignment-detail) .hw-secondary { color:#cdb0ff; }
 :root[data-theme=dark] :is(.hw-detail-eyebrow,.hw-card-chevron,.hw-my-work .hw-attach-label) { color:#cdb0ff; }
 :root[data-theme=dark] :is(.hw-assignment-detail .is-late,.hw-student-assignments .is-late) { color:#ffba9d; }
-:root[data-theme=high-contrast] :is(.hw-assignment-card,.hw-instruction-panel,.hw-category-tabs button,.hw-assignment-status,.hw-turnin-status) { background:#000; color:#fff; border:1px solid #fff; }
+:root[data-theme=high-contrast] :is(.hw-card-open,.hw-instruction-panel,.hw-category-tabs button,.hw-assignment-status,.hw-turnin-status) { background:#000; color:#fff; border:1px solid #fff; }
 :root[data-theme=high-contrast] .hw-category-tabs button[aria-pressed=true] { background:#fff; color:#000; }
 :root[data-theme=high-contrast] :is(.hw-detail-eyebrow,.hw-card-chevron,.hw-my-work .hw-attach-label,.hw-assignment-detail .is-late,.hw-student-assignments .is-late) { color:#ff0; }

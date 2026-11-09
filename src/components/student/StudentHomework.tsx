@@ -71,10 +71,10 @@ export function StudentHomework() {
     })}</div>
     {isPending && <p role="status">Kinukuha ang mga takdang-aralin...</p>}{error && <p role="alert" className="hw-error">{homeworkError(error)}</p>}
     {data && !groups.length && <p className="hw-empty">Walang takdang-aralin sa “{HOMEWORK_FILTERS.find(category => category.key === filter)?.label}”.</p>}
-    {groups.map(group => <section className="hw-date-group" key={group.key} aria-label={group.label}><h3 className="hw-date-heading">{group.label}</h3><div className="hw-assignment-list">{group.items.map(({ assignment, answer }) => <article className="hw-assignment-card" key={assignment.id} aria-labelledby={`homework-${assignment.id}`}>
+    {groups.map(group => <section className="hw-date-group" key={group.key} aria-label={group.label}><h3 className="hw-date-heading">{group.label}</h3><div className="hw-assignment-list">{group.items.map(({ assignment, answer }) => <article className="hw-assignment-card" key={assignment.id} aria-label={assignment.title}><button type="button" className="hw-card-open" aria-label={`Buksan ang Takdang-Aralin: ${assignment.title}`} onClick={() => setSelected(assignment)}>
       <span className="hw-assignment-icon" aria-hidden><ClipboardList size={25} /></span>
-      <div className="hw-assignment-copy"><h3 id={`homework-${assignment.id}`}><button type="button" className="hw-card-open" aria-label={`Buksan ang Takdang-Aralin: ${assignment.title}`} onClick={() => setSelected(assignment)}>{assignment.title}</button></h3><p>Grade {assignment.grade_level}{assignment.file_name ? ' · May kalakip na gawain' : ''}</p><p className={filter === 'late' ? 'hw-card-deadline is-late' : 'hw-card-deadline'}>{assignment.due_at ? `Ipasa bago: ${homeworkDeadline(assignment.due_at)}` : 'Walang takdang araw'}</p></div>
+      <span className="hw-assignment-copy"><span className="hw-assignment-title">{assignment.title}</span><span>Grade {assignment.grade_level}{assignment.file_name ? ' · May kalakip na gawain' : ''}</span><span className={filter === 'late' ? 'hw-card-deadline is-late' : 'hw-card-deadline'}>{assignment.due_at ? `Ipasa bago: ${homeworkDeadline(assignment.due_at)}` : 'Walang takdang araw'}</span></span>
       <span className="hw-assignment-status">{assignment.status === 'closed' ? 'Sarado na' : answer ? HOMEWORK_STATUS[answer.status] : 'Hindi pa naipapasa'}</span><ChevronRight className="hw-card-chevron" size={20} aria-hidden />
-    </article>)}</div></section>)}
+    </button></article>)}</div></section>)}
   </section>;
 }
