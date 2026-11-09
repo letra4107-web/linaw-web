@@ -121,14 +121,15 @@ export function stopTtsPlayback(): void {
 }
 
 /** Speaks each item in order, waiting for one to finish before starting the next. */
-export async function playTtsSequence(items: (string | TtsQueueItem)[], lang = 'fil-PH', options: PlaybackOptions = {}): Promise<void> {
+export async function playTtsSequence(items: (string | TtsQueueItem)[], lang = 'fil-PH', options: PlaybackOptions = {}): Promise<boolean> {
   const sequenceId = ++activeSequenceId;
   cancelActivePlayback?.();
   for (const item of items) {
-    if (options.signal?.aborted || sequenceId !== activeSequenceId) return;
+    if (options.signal?.aborted || sequenceId !== activeSequenceId) return false;
     const { text, rate = getTtsRate() } = typeof item === 'string' ? { text: item } : item;
     const effectiveRate = isIsolatedFilipinoVowel(text) ? 1 : rate;
     void lang;
     await speakItem(text, effectiveRate, sequenceId, options);
   }
+  return !options.signal?.aborted && sequenceId === activeSequenceId;
 }

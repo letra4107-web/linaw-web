@@ -66,3 +66,10 @@ test('Starting the microphone invalidates pending feedback before it can play',a
   h.stopTtsPlayback();h.release();await playing;
   assert.equal(h.players.length,0);
 });
+
+
+test('Feedback completion distinguishes the last spoken item from interrupted audio',async()=>{
+  const h=harness({holdPlayback:true});let finished=false;const playing=h.playTtsSequence(['Ang resulta','Tamang bigkas'],'fil-PH',{reportErrors:true});playing.then(()=>{finished=true;});
+  await new Promise(resolve=>setImmediate(resolve));assert.equal(finished,false);h.players[0].onended();await new Promise(resolve=>setImmediate(resolve));assert.equal(h.players.length,2);assert.equal(finished,false);h.players[1].onended();assert.equal(await playing,true);
+  const canceled=h.playTtsSequence(['Ibang resulta']);await new Promise(resolve=>setImmediate(resolve));h.stopTtsPlayback();assert.equal(await canceled,false);
+});

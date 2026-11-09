@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from 'react';
 import { Link, useParams, useNavigate } from 'react-router-dom';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { ArrowRight, ClipboardCheck, LockKeyhole } from 'lucide-react';
+import { practiceRewardMessage } from '../../lib/progressReward';
 import {recordVerifiedAnswer} from '../../lib/progressEvents';
 import { api } from '../../lib/api';
 import { stopTtsPlayback } from '../../lib/ttsPlayer';
@@ -41,7 +42,7 @@ export default function Module() {
   const queryClient = useQueryClient();
   const [listeningFor, setListeningFor] = useState<string | null>(null);
   const [lastResult, setLastResult] = useState<
-    { attemptId: string; contentId: string; transcript: string; accuracy: number; correct: boolean; message: string } | null
+    { attemptId: string; contentId: string; transcript: string; accuracy: number; correct: boolean; message: string; rewardMessage: string } | null
   >(null);
   const [error, setError] = useState<string | null>(null);
   const [pendingRetry,setPendingRetry]=useState<{item:ModuleItem;transcript:string;moduleId:string}|null>(null);
@@ -78,7 +79,7 @@ export default function Module() {
   const submitAttempt = useMutation({
     mutationFn: async ({ item, transcript, moduleId: attemptModuleId }: { item: ModuleItem; transcript: string; moduleId:string }) => {
       const saved=await recordVerifiedAnswer({contentId:item.content_id,transcript,source:'practice'});
-      const res={...saved.result,newlyUnlockedBadges:saved.newlyPersistedAchievementIds,levelAdvancedTo:null};
+      const res={...saved.result,rewardMessage:practiceRewardMessage(saved),newlyUnlockedBadges:saved.newlyPersistedAchievementIds,levelAdvancedTo:null};
       return { item, transcript, res, attemptModuleId };
     },
     onSuccess: ({ item, transcript, res, attemptModuleId }) => {
@@ -92,6 +93,7 @@ export default function Module() {
         contentId: item.content_id,
         transcript,
         accuracy: res.accuracy,
+        rewardMessage: res.rewardMessage,
         correct: res.correct,
         message: randomFrom(res.correct ? CORRECT_MESSAGES : ENCOURAGE_MESSAGES),
       });
@@ -226,9 +228,11 @@ export default function Module() {
                         className="mt-4"
                         correct={lastResult.correct}
                         message={lastResult.message}
-                        detail={`Narinig: "${lastResult.transcript}"`}
+                        accuracy={lastResult.accuracy}
+                        transcript={lastResult.transcript}
+                        rewardMessage={lastResult.rewardMessage}
                         hint={!lastResult.correct ? 'Ulitin natin, pakinggan mo ang tamang bigkas! 🔊' : undefined}
-                        word={!lastResult.correct ? item.content_text : undefined}
+                        word={item.content_text}
                       />
                     )}
                   </>
@@ -246,9 +250,11 @@ export default function Module() {
           attemptId={lastResult.attemptId}
           correct={lastResult.correct}
           message={lastResult.message}
-          detail={`Narinig: "${lastResult.transcript}"`}
+          accuracy={lastResult.accuracy}
+          transcript={lastResult.transcript}
+          rewardMessage={lastResult.rewardMessage}
           hint={!lastResult.correct ? 'Ulitin natin, pakinggan mo ang tamang bigkas! 🔊' : undefined}
-          word={!lastResult.correct ? data.items.find((item) => item.content_id === lastResult.contentId)?.content_text : undefined}
+          word={data.items.find((item) => item.content_id === lastResult.contentId)?.content_text}
         />
       )}
 

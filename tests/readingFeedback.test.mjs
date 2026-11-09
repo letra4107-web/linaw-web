@@ -22,7 +22,7 @@ function feedbackHarness() {
   const { PronunciationFeedback } = loadTs('src/components/PronunciationFeedback.tsx', {
     react: { useEffect: (run, deps) => effects.push({ run, deps }), useState: initial => [initial, () => {}], useCallback: callback => callback, useRef: () => ({ current: null }) },
     'react-dom': { createPortal: content => content },
-    '../lib/ttsPlayer': { playTtsSequence: async (...args) => { spoken.push(args); } },
+    '../lib/ttsPlayer': { playTtsSequence: async (...args) => { spoken.push(args); return true; } },
     './a11y/TTSButton': { TTSButton: props => createElement('button', { 'aria-label': props.ariaLabel }, props.text) },
     './a11y/SlowTTSButton': { SlowTTSButton: () => null },
     './ConfettiOverlay': { ConfettiOverlay: props => { confetti.push(props.trigger); return null; } },
@@ -48,7 +48,8 @@ test('correct and incorrect attempts both speak their positive feedback and offe
 test('historical feedback stays inline without launching another celebration', () => {
   const h = feedbackHarness();
   const html = h.render({ correct: true, message: 'Natapos na!', autoPlay: false });
-  assert.ok(!html.includes('reading-feedback-toast'));
+  assert.ok(!html.includes('class="reading-feedback-toast"'));
+  assert.match(html, /reading-feedback-inline/);
   assert.equal(h.confetti.length, 0);
   h.effects[0].run(); assert.equal(h.spoken.length, 0);
 });

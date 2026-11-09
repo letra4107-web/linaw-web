@@ -1,51 +1,76 @@
 .reading-feedback-toast {
   position: fixed;
   z-index: 1001;
-  top: max(20px, env(safe-area-inset-top));
-  right: max(16px, env(safe-area-inset-right));
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   box-sizing: border-box;
-  width: min(340px, calc(100% - 24px));
+  width: min(640px, calc(100% - 32px));
   max-height: calc(100dvh - 40px);
   overflow: auto;
-  border: 1px solid #d8cdf6;
-  border-radius: 18px;
-  padding: 12px;
+  overscroll-behavior: contain;
+  border: 2px solid #d8cdf6;
+  border-radius: 26px;
+  padding: clamp(20px, 3vw, 30px);
   background: #fffdf7;
   color: #47347e;
-  box-shadow: 0 6px 24px #45327224;
-  font-size: 14px;
-  line-height: 1.5;
+  box-shadow: 0 18px 70px #45327240;
+  font-size: 17px;
+  line-height: 1.65;
   letter-spacing: normal;
   pointer-events: auto;
 }
-
-.reading-feedback-toast-main { display: flex; align-items: flex-start; gap: 9px; }
-.reading-feedback-toast-star { display: grid; flex: 0 0 32px; width: 32px; height: 32px; place-items: center; border-radius: 11px; background: #fff0c3; color: #a76b08; }
-.reading-feedback-toast-star svg { width: 22px; height: 22px; fill: #f6cb59; stroke-width: 1.75; }
+.reading-feedback-toast-main { display: flex; align-items: flex-start; gap: 14px; }
+.reading-feedback-toast-star { display: grid; flex: 0 0 44px; width: 44px; height: 44px; place-items: center; border-radius: 14px; background: #fff0c3; color: #a76b08; }
+.reading-feedback-toast-star svg { fill: #f6cb59; stroke-width: 1.75; }
 .reading-feedback-toast-copy { min-width: 0; flex: 1; }
-
-/* Reading paragraphs retain their generous dyslexia spacing. These short UI
-   labels must override body[data-font="dyslexic"] p's 2em bottom margin. */
-.reading-feedback-toast .reading-feedback-toast-message { margin: 0; font-size: 15px; font-weight: 800; line-height: 1.5; }
-.reading-feedback-toast .reading-feedback-toast-detail { overflow: hidden; margin: 3px 0 0; color: #6c6084; font-size: 11px; line-height: 1.5; text-overflow: ellipsis; white-space: nowrap; }
-.reading-feedback-toast .reading-feedback-toast-error { margin: 6px 0 0; color: #6c6084; font-size: 11px; }
-.reading-feedback-toast-close { display: grid; flex: 0 0 30px; width: 30px; height: 30px; place-items: center; border: 0; border-radius: 50%; background: transparent; color: #7c708f; cursor: pointer; }
-.reading-feedback-toast-close:hover { background: #f0eaf9; }
-
-.reading-feedback-toast-actions { display: flex; flex-wrap: wrap; align-items: center; justify-content: flex-end; gap: 6px; margin-top: 9px; }
-.reading-feedback-toast-actions button { display: inline-flex; min-height: 44px; align-items: center; justify-content: center; gap: 5px; border: 1px solid #e0d7ef; border-radius: 11px; padding: 7px 9px; font-family: inherit; font-size: 12px; font-weight: 700; line-height: 1.4; letter-spacing: normal; cursor: pointer; }
+.reading-feedback-toast .reading-feedback-eyebrow { margin: 0 0 5px; color: #75658d; font-size: 13px; font-weight: 700; line-height: 1.5; }
+/* Override the reading theme's paragraph margins without truncating results. */
+.reading-feedback-toast .reading-feedback-toast-message,
+.reading-feedback-inline .reading-feedback-toast-message { margin: 0; font-size: clamp(19px, 2.3vw, 23px); font-weight: 800; line-height: 1.55; overflow-wrap: anywhere; }
+.reading-feedback-score { display: flex; flex-direction: column; align-items: center; gap: 3px; margin: 22px 0; padding: 18px; border: 1px solid #ded2f1; border-radius: 20px; background: #f1eafb; text-align: center; }
+.reading-feedback-score > strong { font-size: clamp(48px, 7vw, 68px); font-weight: 800; line-height: 1.15; letter-spacing: normal; }
+.reading-feedback-score > strong > span { font-size: .55em; }
+.reading-feedback-score > span { font-size: 15px; font-weight: 700; }
+.reading-feedback-details { display: grid; gap: 12px; margin: 18px 0 0; }
+.reading-feedback-details > div { min-width: 0; border-radius: 14px; padding: 13px 16px; background: #f8f4fd; }
+.reading-feedback-details dt { color: #74618e; font-size: 13px; font-weight: 700; }
+.reading-feedback-details dd { margin: 4px 0 0; color: #433456; font-size: 18px; line-height: 1.7; white-space: normal; overflow-wrap: anywhere; }
+.reading-feedback-toast .reading-feedback-toast-hint,
+.reading-feedback-inline .reading-feedback-toast-hint { margin: 16px 0 0; color: #655276; font-size: 16px; line-height: 1.7; overflow-wrap: anywhere; }
+.reading-feedback-toast .reading-feedback-reward,
+.reading-feedback-inline .reading-feedback-reward { margin: 14px 0 0; color: #395c48; font-size: 15px; line-height: 1.7; overflow-wrap: anywhere; }
+.reading-feedback-toast .reading-feedback-toast-error { margin: 14px 0 0; padding: 12px; border-radius: 12px; background: #fff0e8; color: #86452c; font-size: 15px; line-height: 1.6; }
+.reading-feedback-toast .reading-feedback-playback { margin: 16px 0 0; color: #74618e; font-size: 13px; line-height: 1.6; }
+.reading-feedback-toast-close { display: grid; flex: 0 0 44px; width: 44px; height: 44px; place-items: center; border: 0; border-radius: 50%; background: #f2edf7; color: #67527e; cursor: pointer; }
+.reading-feedback-toast-close:hover { background: #e9dff5; }
+.reading-feedback-toast-actions { display: flex; flex-wrap: wrap; align-items: center; justify-content: flex-end; gap: 10px; margin-top: 18px; }
+.reading-feedback-toast-actions button { display: inline-flex; min-height: 48px; align-items: center; justify-content: center; gap: 8px; border: 1px solid #d7c9ed; border-radius: 13px; padding: 10px 16px; font-family: inherit; font-size: 16px; font-weight: 700; line-height: 1.5; letter-spacing: normal; cursor: pointer; }
 .reading-feedback-toast-listen { margin-right: auto; background: #f3edf9; color: #604292; }
 .reading-feedback-toast-retry { background: #fffdf7; color: #604292; }
-.reading-feedback-toast-retry svg, .reading-feedback-toast-next svg { display: none; }
 .reading-feedback-toast-actions .reading-feedback-toast-next { border-color: #7656be; background: #7656be; color: #fff; }
-.reading-feedback-toast button:focus-visible { outline: 3px solid #b29ae4; outline-offset: 3px; }
-
-@media (max-width: 767px) {
-  .reading-feedback-toast { top: max(84px, calc(env(safe-area-inset-top) + 84px)); right: 12px; max-height: calc(100dvh - 100px); }
+.reading-feedback-toast button:focus-visible { outline: 3px solid #ad91dd; outline-offset: 3px; }
+.reading-feedback-inline { border-radius: 18px; padding: 18px; background: var(--color-success-soft); color: var(--color-text); text-align: center; }
+.reading-feedback-inline .reading-feedback-score { margin: 14px 0; padding: 12px; }
+.reading-feedback-inline .reading-feedback-score > strong { font-size: 40px; }
+@media (max-width: 480px) {
+  .reading-feedback-toast { width: calc(100% - 24px); max-height: calc(100dvh - 24px); border-radius: 20px; padding: 18px; }
+  .reading-feedback-toast-main { gap: 10px; }
+  .reading-feedback-toast-star { display: none; }
+  .reading-feedback-score { margin: 16px 0; }
+  .reading-feedback-details dd { font-size: 17px; }
+  .reading-feedback-toast-actions button { flex: 1 1 auto; }
 }
-
-[data-theme="dark"] .reading-feedback-toast { border-color: #68518c; background: #251e34; color: #f1eafa; }
-[data-theme="dark"] .reading-feedback-toast .reading-feedback-toast-detail,
-[data-theme="dark"] .reading-feedback-toast .reading-feedback-toast-error { color: #c9bedb; }
+[data-theme="dark"] .reading-feedback-toast { border-color: #80659f; background: #251e34; color: #f1eafa; }
+[data-theme="dark"] .reading-feedback-score,
+[data-theme="dark"] .reading-feedback-details > div,
+[data-theme="dark"] .reading-feedback-toast-close { border-color: #66527f; background: #382b4e; color: #f1eafa; }
+[data-theme="dark"] .reading-feedback-details dd { color: #f1eafa; }
+[data-theme="dark"] .reading-feedback-toast .reading-feedback-eyebrow,
+[data-theme="dark"] .reading-feedback-details dt,
+[data-theme="dark"] .reading-feedback-toast .reading-feedback-toast-hint,
+[data-theme="dark"] .reading-feedback-toast .reading-feedback-playback { color: #d1c3e3; }
+[data-theme="dark"] .reading-feedback-toast .reading-feedback-reward { color: #b8e6c8; }
+[data-theme="dark"] .reading-feedback-toast .reading-feedback-toast-error { background: #4a2d29; color: #ffdbc9; }
 [data-theme="dark"] .reading-feedback-toast-listen,
 [data-theme="dark"] .reading-feedback-toast-retry { border-color: #66527f; background: #382b4e; color: #eee5fa; }

@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '../../lib/supabaseClient';
+import { practiceRewardMessage } from '../../lib/progressReward';
 import {recordVerifiedAnswer} from '../../lib/progressEvents';
 import { api } from '../../lib/api';
 import { assessSpeech, isSpeechRecognitionSupported, listenOnce, type RecognitionHandle } from '../../lib/speech';
@@ -62,7 +63,7 @@ export default function Practice() {
   const [current, setCurrent] = useState<WordRow | null>(null);
   const [listening, setListening] = useState(false);
   const [savingAttempt, setSavingAttempt] = useState(false);
-  const [lastResult, setLastResult] = useState<{ attemptId: string; transcript: string; accuracy: number; correct: boolean; message: string } | null>(
+  const [lastResult, setLastResult] = useState<{ attemptId: string; transcript: string; accuracy: number; correct: boolean; message: string; rewardMessage: string } | null>(
     null,
   );
   const [error, setError] = useState<string | null>(null);
@@ -238,7 +239,7 @@ export default function Practice() {
     saveInFlight.current=true;setSavingAttempt(true);
     try{const saved=await recordVerifiedAnswer({...input,source:'practice'});const result=saved.result;
       setPendingRetry(null);setError(null);
-      setLastResult({attemptId:crypto.randomUUID(),transcript:input.transcript,accuracy:result.accuracy,correct:result.correct,message:randomFrom(result.correct?CORRECT_MESSAGES:ENCOURAGE_MESSAGES)});
+      setLastResult({attemptId:crypto.randomUUID(),transcript:input.transcript,accuracy:result.accuracy,correct:result.correct,message:randomFrom(result.correct?CORRECT_MESSAGES:ENCOURAGE_MESSAGES),rewardMessage:practiceRewardMessage(saved)});
       if(!saved.replayed)setStreak(s=>result.correct?s+1:0);
       trackEvent('reading_attempt_completed',{surface:'practice',mode,correct:result.correct});
     }catch(caught){const err=caught as Error&{pendingTranscript?:string};setPendingRetry({...input,transcript:err.pendingTranscript||input.transcript});setError(tagalogError(err)||'Hindi pa nakumpirma ang pag-save. I-save muli ang parehong sagot.');}
@@ -425,9 +426,11 @@ export default function Practice() {
                 className="w-full"
                 correct={lastResult.correct}
                 message={lastResult.message}
-                detail={`Narinig: "${lastResult.transcript}"`}
+                accuracy={lastResult.accuracy}
+                transcript={lastResult.transcript}
+                rewardMessage={lastResult.rewardMessage}
                 hint={!lastResult.correct ? 'Ulitin natin, pakinggan mo ang tamang bigkas! 🔊' : undefined}
-                word={!lastResult.correct ? current?.word : undefined}
+                word={current?.word}
                 onNext={nextWord}
                 onRetry={handleTry}
               />
