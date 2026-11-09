@@ -57,3 +57,4 @@
 .tl-dialog button:disabled,.tl-lesson-actions button:disabled { opacity:.5; cursor:not-allowed; }
 :root[data-theme="dark"] .tl-pdf-editor { border-color:#665477; background:#303346; }
 :root[data-theme="high-contrast"] .tl-pdf-editor { border-color:#fff; background:#000; color:#fff; }
+.tl-upload-help { margin:0; color:var(--tl-muted); font-size:12px; line-height:1.7; overflow-wrap:anywhere; }
