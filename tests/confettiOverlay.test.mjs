@@ -32,6 +32,7 @@ test('confetti launches from both sides outside the feedback card without blocki
   assert.equal(h.canvases[0].attributes['aria-hidden'], 'true');
   assert.deepEqual(h.shots.map(shot => shot.origin.x), [0, 1]);
   assert.equal(h.instances[0].options.disableForReducedMotion, true);
+  assert.equal(h.instances[0].options.useWorker, false, 'live CSP must not require blob workers');
   for (const timer of h.timers.values()) if (timer.delay < 1000) timer.callback();
   assert.equal(h.shots.length, 6);
   cleanup();

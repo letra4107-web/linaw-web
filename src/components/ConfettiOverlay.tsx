@@ -22,10 +22,12 @@ export function ConfettiOverlay({ trigger, palette = DEFAULT_PALETTE }: Confetti
     canvas.setAttribute('data-reading-confetti', 'true');
     Object.assign(canvas.style, {
       position: 'fixed', inset: '0', width: '100%', height: '100%',
-      pointerEvents: 'none', zIndex: '60',
+      pointerEvents: 'none', zIndex: '1000',
     });
     document.body.appendChild(canvas);
-    const fire = confetti.create(canvas, { resize: true, useWorker: true, disableForReducedMotion: true });
+    // The live site's script-src policy disallows blob workers. Render this
+    // short burst on the main thread so the canvas also works under that CSP.
+    const fire = confetti.create(canvas, { resize: true, useWorker: false, disableForReducedMotion: true });
     const burst = (particleCount: number) => {
       const options = {
         particleCount, spread: 55, startVelocity: 45, gravity: 1,

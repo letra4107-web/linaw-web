@@ -421,6 +421,8 @@ export default function Practice() {
                 detail={`Narinig: "${lastResult.transcript}"`}
                 hint={!lastResult.correct ? 'Ulitin natin, pakinggan mo ang tamang bigkas! 🔊' : undefined}
                 word={!lastResult.correct ? current?.word : undefined}
+                onNext={nextWord}
+                onRetry={handleTry}
               />
             )}
             {pendingRetry && <button disabled={savingAttempt} className="rounded-xl bg-purple-100 p-3" onClick={()=>void saveAnswer(pendingRetry)}>I-save muli ang parehong sagot</button>}

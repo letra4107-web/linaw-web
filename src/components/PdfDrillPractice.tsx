@@ -157,6 +157,7 @@ export function PdfDrillPractice({ assignmentId }: PdfDrillPracticeProps) {
             speakText={result.message}
             word={!result.correct ? current.word : undefined}
             hint={result.correct ? undefined : `Narinig ko: "${lastHeard}"`}
+            onNext={next}
           />
           <button
             type="button"
