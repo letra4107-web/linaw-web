@@ -1,11 +1,12 @@
 import { uploadPublishedLesson, validateLessonFile, LESSON_FILE_ACCEPT, type LessonDraft } from '../../lib/lessons/upload';
 import { updateOwnedLesson, deleteOwnedLesson } from '../../lib/lessons/manage';
 import { saveOwnedLessonEdit, type LessonPdfChange } from '../../lib/lessons/edit';
+import { LessonLibraryTable } from './LessonLibraryTable';
 import { LessonPdfEditor } from './LessonPdfEditor';
 import { tagalogError } from '../../lib/validationMessages';
 import { useEffect, useId, useRef, useState } from 'react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { ArrowRight, BookOpen, CheckCircle2, ChevronLeft, ChevronRight, Clock3, Eye, FileText, FolderOpen, GraduationCap, Pencil, RotateCcw, Search, Send, Star, Trash2, UploadCloud, UsersRound, X } from 'lucide-react';
+import { BookOpen, CheckCircle2, Clock3, Eye, FileText, FolderOpen, GraduationCap, RotateCcw, Send, Star, UploadCloud, UsersRound, X } from 'lucide-react';
 import { supabase } from '../../lib/supabaseClient';
 import { useAuth } from '../../lib/auth/AuthContext';
 import { openAccessUrl } from '../../lib/openAccessUrl';
@@ -57,8 +58,7 @@ export default function Lessons() {
   const [success, setSuccess] = useState('');
   const [saveWarning, setSaveWarning] = useState('');
   const [selection, setSelection] = useState<{ id: string; mode: 'view' | 'edit' | 'delete' } | null>(null);
-  const [search, setSearch] = useState('');
-  const [page, setPage] = useState(1);
+  const [libraryRevision, setLibraryRevision] = useState(0);
   const { data: lessons, isLoading, error: libraryError, refetch } = useQuery({ queryKey: ['teacher-lessons', user?.id], queryFn: async () => {
     const { data, error } = await supabase.from('lessons').select('*').eq('teacher_id', user!.id).order('created_at', { ascending: false });
     if (error) throw error;
@@ -78,7 +78,7 @@ export default function Lessons() {
   const createLesson = useMutation({ mutationFn: async () => {
     if (!user || !file) throw new Error('Pumili ng file para sa aralin.');
     return uploadPublishedLesson(supabase, user.id, draft, file);
-  }, onSuccess: () => { clearForm(); setSuccess('Na-upload at na-publish ang aralin. Makikita ito sa web, iOS at Android sa Aralin → Galing sa Guro para sa napiling baitang.'); setSearch(''); setPage(1); void queryClient.invalidateQueries({ queryKey: ['teacher-lessons'] }); void queryClient.invalidateQueries({ queryKey: ['teacher-materials-count'] }); void queryClient.invalidateQueries({ queryKey: ['student-teacher-lessons'] }); }, onError: (error: Error) => setFormError(tagalogError(error)) });
+  }, onSuccess: () => { clearForm(); setSuccess('Na-upload at na-publish ang aralin. Makikita ito sa web, iOS at Android sa Aralin → Galing sa Guro para sa napiling baitang.'); setLibraryRevision(value => value + 1); void queryClient.invalidateQueries({ queryKey: ['teacher-lessons'] }); void queryClient.invalidateQueries({ queryKey: ['teacher-materials-count'] }); void queryClient.invalidateQueries({ queryKey: ['student-teacher-lessons'] }); }, onError: (error: Error) => setFormError(tagalogError(error)) });
   const updateLesson = useMutation({ mutationFn: async ({ id, values, pdfChange }: { id: string; values: Partial<Draft> & { is_published?: boolean }; pdfChange?: LessonPdfChange }) => {
     setSaveWarning('');
     const lesson = lessons?.find(item => item.id === id);
@@ -97,9 +97,6 @@ export default function Lessons() {
   }, onSuccess: () => { setSelection(null); setActionError(null); setSuccess('Natanggal ang aralin.'); void queryClient.invalidateQueries({ queryKey: ['teacher-lessons'] }); void queryClient.invalidateQueries({ queryKey: ['teacher-materials-count'] }); }, onError: (error: Error) => setActionError(tagalogError(error)) });
   const busy = createLesson.isPending || updateLesson.isPending || deleteLesson.isPending;
   const selectedLesson = lessons?.find((lesson) => lesson.id === selection?.id);
-  const filtered = (lessons ?? []).filter((lesson) => lesson.title.toLowerCase().includes(search.trim().toLowerCase()));
-  const pages = Math.max(1, Math.ceil(filtered.length / 5));
-  const currentPage = Math.min(page, pages);
   function openDialog(lesson: Lesson, mode: 'view' | 'edit' | 'delete') { setActionError(null); setSelection({ id: lesson.id, mode }); }
   function preview(id: string) { setActionError(null); void openAccessUrl(`/teacher/lessons/${id}/access-url`).catch((error: Error) => setActionError(tagalogError(error))); }
 
@@ -116,7 +113,7 @@ export default function Lessons() {
     </section>
     <section className="tl-library-panel" aria-labelledby="tl-library-title"><header className="tl-panel-heading"><span className="tl-heading-icon"><FolderOpen aria-hidden /></span><div><h2 id="tl-library-title">Lesson Library</h2><p>Tingnan, i-edit, o pamahalaan ang iyong mga aralin.</p></div><span className="tl-library-count"><b>{libraryError ? '—' : isLoading ? '…' : lessons?.length ?? 0}</b><small>Kabuuang Aralin</small></span></header>
       <div className="tl-library-body"><QueryErrorNotice error={libraryError} onRetry={() => void refetch()} message="Hindi ma-load ang Lesson Library. Pakisubukang muli." />{actionError && !selectedLesson && <p className="tl-error" role="alert">{actionError}</p>}
-        {isLoading ? <div className="tl-library-empty"><p role="status">Kinukuha ang mga aralin…</p></div> : libraryError ? null : !lessons?.length ? <div className="tl-library-empty"><img src={readingOwl} alt="" aria-hidden="true" /><h3>Wala pang aralin.</h3><p>Simulan sa paggawa ng iyong unang aralin upang magamit ito sa iyong mga mag-aaral.</p></div> : <><label className="tl-library-search"><Search aria-hidden /><span className="sr-only">Maghanap sa Lesson Library</span><input value={search} onChange={(event) => { setSearch(event.target.value); setPage(1); }} placeholder="Maghanap ng aralin..." /></label><ul className="tl-lesson-list">{filtered.slice((currentPage - 1) * 5, currentPage * 5).map((lesson) => <li key={lesson.id}><span className="tl-lesson-file"><FileText aria-hidden /></span><div><h3>{lesson.title}</h3><p>{lesson.grade_level ? `Grade ${lesson.grade_level}` : 'Walang baitang'}</p><small>{formatDate(lesson.created_at)} · {lesson.is_published ? 'Published' : 'Draft'}</small><div className="tl-lesson-actions"><button type="button" disabled={busy || !lesson.pdf_url} onClick={() => preview(lesson.id)} aria-label={`Tingnan ang PDF ng ${lesson.title}`} title="Tingnan ang PDF"><Eye aria-hidden /></button><button type="button" disabled={busy} onClick={() => openDialog(lesson, 'edit')} aria-label={`I-edit ang ${lesson.title}`} title="I-edit"><Pencil aria-hidden /></button><button type="button" disabled={busy || (!lesson.is_published && !lesson.pdf_url)} onClick={() => { setActionError(null); updateLesson.mutate({ id: lesson.id, values: { is_published: !lesson.is_published } }); }} aria-label={`${lesson.is_published ? 'Gawing draft ang' : 'I-publish ang'} ${lesson.title}`} title={lesson.is_published ? 'Gawing draft' : 'I-publish'}><BookOpen aria-hidden /></button><button type="button" disabled={busy} onClick={() => openDialog(lesson, 'delete')} aria-label={`Tanggalin ang ${lesson.title}`} title="Tanggalin"><Trash2 aria-hidden /></button><button type="button" disabled={busy} onClick={() => openDialog(lesson, 'view')} aria-label={`Mga detalye ng ${lesson.title}`} title="Mga detalye"><ArrowRight aria-hidden /></button></div></div></li>)}</ul>{!filtered.length && <p className="tl-no-results">Walang araling tumugma sa iyong hinahanap.</p>}{pages > 1 && <nav className="tl-library-pagination" aria-label="Mga pahina ng Lesson Library"><button type="button" aria-label="Nakaraang pahina ng aralin" disabled={currentPage === 1} onClick={() => setPage(currentPage - 1)}><ChevronLeft aria-hidden /></button><span>{currentPage} / {pages}</span><button type="button" aria-label="Susunod na pahina ng aralin" disabled={currentPage === pages} onClick={() => setPage(currentPage + 1)}><ChevronRight aria-hidden /></button></nav>}</>}
+        {isLoading ? <div className="tl-library-empty"><p role="status">Kinukuha ang mga aralin…</p></div> : libraryError ? null : !lessons?.length ? <div className="tl-library-empty"><img src={readingOwl} alt="" aria-hidden="true" /><h3>Wala pang aralin.</h3><p>Simulan sa paggawa ng iyong unang aralin upang magamit ito sa iyong mga mag-aaral.</p></div> : <LessonLibraryTable key={libraryRevision} lessons={lessons} busy={busy} onPreview={preview} onEdit={id => { const lesson = lessons.find(item => item.id === id); if (lesson) openDialog(lesson, 'edit'); }} onPublish={id => { const lesson = lessons.find(item => item.id === id); if (lesson) { setActionError(null); updateLesson.mutate({ id, values: { is_published: !lesson.is_published } }); } }} onDelete={id => { const lesson = lessons.find(item => item.id === id); if (lesson) openDialog(lesson, 'delete'); }} onDetails={id => { const lesson = lessons.find(item => item.id === id); if (lesson) openDialog(lesson, 'view'); }} />}
         <aside className="tl-benefits"><h3><GraduationCap aria-hidden /> Mga Benepisyo ng Digital Lessons</h3><div><span><i><UsersRound aria-hidden /></i>Mas organisadong pagtuturo</span><span><i><Clock3 aria-hidden /></i>Mas madaling pagsubaybay</span><span><i><Star aria-hidden /></i>Mas makabuluhang pagkatuto</span></div></aside>
         <blockquote className="tl-library-quote"><span aria-hidden="true">“</span><p>“Ang isang maayos na aralin ngayon,<br /> mas maraming batang magtatagumpay bukas.”</p></blockquote>
       </div>
