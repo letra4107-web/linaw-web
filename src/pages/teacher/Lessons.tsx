@@ -1,4 +1,4 @@
-import { uploadPublishedLesson, type LessonDraft } from '../../lib/lessons/upload';
+import { uploadPublishedLesson, validateLessonFile, LESSON_FILE_ACCEPT, type LessonDraft } from '../../lib/lessons/upload';
 import { updateOwnedLesson, deleteOwnedLesson } from '../../lib/lessons/manage';
 import { saveOwnedLessonEdit, type LessonPdfChange } from '../../lib/lessons/edit';
 import { LessonPdfEditor } from './LessonPdfEditor';
@@ -70,18 +70,15 @@ export default function Lessons() {
     if (!next) { setFileChecking(false); return; }
     setFileChecking(true);
     try {
-      if (next.size === 0) throw new Error('Walang laman ang napiling file.');
-      if (next.size > 50 * 1024 * 1024) throw new Error('Hanggang 50MB lamang ang PDF.');
-      if (!next.name.toLowerCase().endsWith('.pdf') && next.type !== 'application/pdf') throw new Error('PDF file lamang ang maaaring i-upload.');
-      if (await next.slice(0, 5).text() !== '%PDF-') throw new Error('Hindi wastong PDF ang napiling file.');
+      await validateLessonFile(next);
       if (revision === fileRevision.current) setFile(next);
     } catch (error) { if (revision === fileRevision.current) { setFormError(error instanceof Error ? tagalogError(error) : 'Hindi mabasa ang file.'); if (fileInput.current) fileInput.current.value = ''; } }
     finally { if (revision === fileRevision.current) setFileChecking(false); }
   }
   const createLesson = useMutation({ mutationFn: async () => {
-    if (!user || !file) throw new Error('Pumili ng PDF file.');
+    if (!user || !file) throw new Error('Pumili ng file para sa aralin.');
     return uploadPublishedLesson(supabase, user.id, draft, file);
-  }, onSuccess: () => { clearForm(); setSuccess('Na-upload at na-publish ang aralin. Makikita ito sa web at iOS sa Aralin → Galing sa Guro para sa napiling baitang.'); setSearch(''); setPage(1); void queryClient.invalidateQueries({ queryKey: ['teacher-lessons'] }); void queryClient.invalidateQueries({ queryKey: ['teacher-materials-count'] }); void queryClient.invalidateQueries({ queryKey: ['student-teacher-lessons'] }); }, onError: (error: Error) => setFormError(tagalogError(error)) });
+  }, onSuccess: () => { clearForm(); setSuccess('Na-upload at na-publish ang aralin. Makikita ito sa web, iOS at Android sa Aralin → Galing sa Guro para sa napiling baitang.'); setSearch(''); setPage(1); void queryClient.invalidateQueries({ queryKey: ['teacher-lessons'] }); void queryClient.invalidateQueries({ queryKey: ['teacher-materials-count'] }); void queryClient.invalidateQueries({ queryKey: ['student-teacher-lessons'] }); }, onError: (error: Error) => setFormError(tagalogError(error)) });
   const updateLesson = useMutation({ mutationFn: async ({ id, values, pdfChange }: { id: string; values: Partial<Draft> & { is_published?: boolean }; pdfChange?: LessonPdfChange }) => {
     setSaveWarning('');
     const lesson = lessons?.find(item => item.id === id);
@@ -107,10 +104,11 @@ export default function Lessons() {
   function preview(id: string) { setActionError(null); void openAccessUrl(`/teacher/lessons/${id}/access-url`).catch((error: Error) => setActionError(tagalogError(error))); }
 
   return <div className="tl-workspace">
-    <section className="tl-create-panel"><header className="tl-panel-heading"><span className="tl-heading-icon"><BookOpen aria-hidden /></span><div><h2>Gumawa ng Bagong Aralin</h2><p>I-upload ang lesson PDF at ilagay ang mga detalye ng aralin.</p></div></header>
+    <section className="tl-create-panel"><header className="tl-panel-heading"><span className="tl-heading-icon"><BookOpen aria-hidden /></span><div><h2>Gumawa ng Bagong Aralin</h2><p>I-upload ang lesson file at ilagay ang mga detalye ng aralin.</p></div></header>
       <form className="tl-form" onSubmit={(event) => { event.preventDefault(); setFormError(null); setSuccess(''); if (!fileChecking && !createLesson.isPending) createLesson.mutate(); }}>
         <LessonFields key={formKey} draft={draft} onChange={setDraft} disabled={busy} />
-        <div className={`tl-upload ${dragging ? 'is-dragging' : ''}`} onDragOver={(event) => { event.preventDefault(); if (!busy) setDragging(true); }} onDragLeave={() => setDragging(false)} onDrop={(event) => { event.preventDefault(); setDragging(false); if (!busy) void chooseFile(event.dataTransfer.files[0]); }}><span className="tl-upload-icon"><UploadCloud aria-hidden /></span><div><label htmlFor={uploadId}>{file ? file.name : 'I-upload ang Lesson PDF'} <span aria-hidden="true">*</span></label><p>{fileChecking ? 'Sinusuri ang file…' : file ? `${(file.size / 1024 / 1024).toFixed(2)} MB · Handa nang i-upload.` : 'I-drag and drop ang file dito o i-click para pumili. PDF lang. Max 50MB.'}</p></div><button type="button" className="tl-file-button" disabled={busy || fileChecking} onClick={() => fileInput.current?.click()}><FileText aria-hidden /> Pumili ng File</button><input ref={fileInput} id={uploadId} className="sr-only" type="file" accept=".pdf,application/pdf" disabled={busy || fileChecking} onChange={(event) => void chooseFile(event.target.files?.[0])} /></div>
+        <div className={`tl-upload ${dragging ? 'is-dragging' : ''}`} onDragOver={(event) => { event.preventDefault(); if (!busy) setDragging(true); }} onDragLeave={() => setDragging(false)} onDrop={(event) => { event.preventDefault(); setDragging(false); if (!busy) void chooseFile(event.dataTransfer.files[0]); }}><span className="tl-upload-icon"><UploadCloud aria-hidden /></span><div><label htmlFor={uploadId}>{file ? file.name : 'I-upload ang Lesson File'} <span aria-hidden="true">*</span></label><p>{fileChecking ? 'Sinusuri ang file…' : file ? `${(file.size / 1024 / 1024).toFixed(2)} MB · Handa nang i-upload.` : 'I-drag and drop ang file dito o i-click para pumili. PDF, Word, PowerPoint, Excel, JPG o PNG. Max 50 MB.'}</p></div><button type="button" className="tl-file-button" disabled={busy || fileChecking} onClick={() => fileInput.current?.click()}><FileText aria-hidden /> Pumili ng File</button><input ref={fileInput} id={uploadId} className="sr-only" type="file" accept={LESSON_FILE_ACCEPT} disabled={busy || fileChecking} onChange={(event) => void chooseFile(event.target.files?.[0])} /></div>
+        <p className="tl-upload-help">PDF version ang ise-save at mabubuksan ng mga mag-aaral. Hindi ise-save ang orihinal na Office o image file.</p>
         {formError && <p className="tl-error" role="alert">{formError}</p>}
         <div className="tl-form-actions"><button className="tl-primary" type="submit" disabled={busy || fileChecking}><Send aria-hidden />{createLesson.isPending ? 'Ginagawa ang Aralin…' : 'Gumawa ng Aralin'}</button><button className="tl-secondary" type="button" disabled={busy} onClick={clearForm}><RotateCcw aria-hidden /> I-clear</button></div>
         {success && <p className="tl-success" role="status"><CheckCircle2 aria-hidden />{success}</p>}{saveWarning && <p className="tl-error" role="alert">{saveWarning}</p>}
