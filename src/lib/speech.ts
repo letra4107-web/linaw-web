@@ -81,6 +81,7 @@ export function isSpeechRecognitionSupported(): boolean {
 }
 
 function getRecognitionCtor(): (new () => SpeechRecognition) | undefined {
+  if (typeof window === 'undefined') return undefined;
   const w = window as unknown as {
     SpeechRecognition?: new () => SpeechRecognition;
     webkitSpeechRecognition?: new () => SpeechRecognition;
@@ -103,30 +104,116 @@ function friendlyRecognitionError(code: string): string {
   return RECOGNITION_ERROR_MESSAGES[code] ?? 'Hindi nagsimula ang pakikinig. Subukan muli.';
 }
 
-export function listenOnce(lang: string, onResult: RecognitionEndedCallback, onError: (message: string) => void) {
+export interface RecognitionOptions { continuous?: boolean; maxDurationMs?: number }
+export type RecognitionHandle = (() => void) & { cancel: () => void };
+
+/** Longer Filipino phrases and paragraphs need several final result segments. */
+export function recognitionOptionsForText(text: string): RecognitionOptions {
+  const words = text.trim().split(/\s+/).filter(Boolean).length;
+  return { continuous: words >= 3, maxDurationMs: words >= 3 ? Math.min(180000, Math.max(30000, words * 2500 + 15000)) : 20000 };
+}
+
+let interruptActiveRecognition: (() => void) | null = null;
+
+export function listenOnce(lang: string, onResult: RecognitionEndedCallback, onError: (message: string) => void, options: RecognitionOptions = {}): RecognitionHandle {
+  const noop = Object.assign(() => {}, { cancel: () => {} });
   const Ctor = getRecognitionCtor();
   if (!Ctor) {
     onError('Hindi suportado ng browser na ito ang speech recognition.');
-    return () => {};
+    return noop;
   }
-  const recognition = new Ctor();
+  let recognition: SpeechRecognition;
+  try { recognition = new Ctor(); }
+  catch { onError('Hindi nagsimula ang microphone. Subukan muli.'); return noop; }
+  interruptActiveRecognition?.();
+  const continuous = options.continuous ?? false;
+  let settled = false;
+  let stopping = false;
+  let finalSegments: RecognitionResult[] = [];
+  let hasInterim = false;
+  let initialTimer: ReturnType<typeof setTimeout> | undefined;
+  let durationTimer: ReturnType<typeof setTimeout> | undefined;
+  let silenceTimer: ReturnType<typeof setTimeout> | undefined;
+  let stopTimer: ReturnType<typeof setTimeout> | undefined;
+
+  function cleanup() {
+    clearTimeout(initialTimer); clearTimeout(durationTimer); clearTimeout(silenceTimer); clearTimeout(stopTimer);
+    recognition.onresult = null; recognition.onerror = null; recognition.onend = null; recognition.onspeechend = null;
+    if (interruptActiveRecognition === interrupt) interruptActiveRecognition = null;
+    try { recognition.abort(); } catch { /* Browser may already have ended. */ }
+  }
+  function fail(message: string) {
+    if (settled) return;
+    settled = true; cleanup(); onError(message);
+  }
+  function finish() {
+    if (settled) return;
+    if (hasInterim) {
+      fail('Hindi nakumpleto ang pagkilala sa iyong pagbasa. Subukan muli sa tahimik na lugar.');
+      return;
+    }
+    const transcript = finalSegments.map(segment => segment.transcript.trim()).filter(Boolean).join(' ');
+    if (!transcript) { fail(friendlyRecognitionError('no-speech')); return; }
+    const confidence = finalSegments.reduce((sum, segment) => sum + segment.confidence, 0) / finalSegments.length;
+    settled = true; cleanup(); onResult({ transcript, confidence });
+  }
+  function requestStop() {
+    if (settled || stopping) return;
+    stopping = true;
+    clearTimeout(initialTimer); clearTimeout(durationTimer); clearTimeout(silenceTimer);
+    // stop() may produce its final result asynchronously. Keep collecting it
+    // until end, but recover even when the browser never emits that event.
+    stopTimer = setTimeout(finish, 1500);
+    try { recognition.stop(); } catch { finish(); }
+  }
+  function interrupt() { fail('Naantala ang pakikinig. Pindutin muli ang mic kapag handa ka na.'); }
+  const control = Object.assign(requestStop, { cancel: () => {
+    if (settled) return;
+    settled = true; cleanup();
+  } });
+
   recognition.lang = lang;
-  recognition.interimResults = false;
+  recognition.continuous = continuous;
+  recognition.interimResults = true;
   // A short alternative list helps the browser recover from mild background
   // noise; the server remains the source of truth for scoring.
   recognition.maxAlternatives = 3;
 
   recognition.onresult = (event) => {
-    const alternatives = Array.from(event.results[0] as unknown as ArrayLike<SpeechRecognitionResultLike>);
-    const result = alternatives.sort((left, right) => (right.confidence ?? 0) - (left.confidence ?? 0))[0];
-    if (!result?.transcript?.trim()) return onError('Walang malinaw na narinig. Lumapit sa mic at subukan muli sa tahimik na lugar.');
-    onResult({ transcript: result.transcript, confidence: result.confidence ?? 0 });
+    if (settled) return;
+    const finals: RecognitionResult[] = [];
+    let heardSpeech = false;
+    hasInterim = false;
+    // results contains the whole session, including prior final segments.
+    // Rebuild instead of appending so repeated events never duplicate words.
+    for (let i = 0; i < event.results.length; i++) {
+      const segment = event.results[i];
+      const alternatives = Array.from(segment as unknown as ArrayLike<SpeechRecognitionResultLike>);
+      const best = alternatives.sort((left, right) => (right.confidence ?? 0) - (left.confidence ?? 0))[0];
+      if (!best?.transcript?.trim()) continue;
+      heardSpeech = true;
+      if (segment.isFinal) finals.push({ transcript: best.transcript, confidence: best.confidence ?? 0 });
+      else hasInterim = true;
+    }
+    finalSegments = finals;
+    if (heardSpeech) {
+      clearTimeout(initialTimer); clearTimeout(silenceTimer);
+      if (!stopping) silenceTimer = setTimeout(requestStop, continuous ? 6000 : 2500);
+    }
+    if (!continuous && finals.length && !hasInterim) finish();
   };
   recognition.onerror = (event) => {
+    if (settled) return;
     const code = (event as unknown as { error?: string }).error || '';
-    onError(friendlyRecognitionError(code));
+    if (code === 'no-speech' && finalSegments.length && !hasInterim) finish();
+    else fail(friendlyRecognitionError(code));
   };
-
-  recognition.start();
-  return () => recognition.stop();
+  recognition.onend = finish;
+  recognition.onspeechend = () => { if (!continuous) requestStop(); };
+  interruptActiveRecognition = interrupt;
+  initialTimer = setTimeout(() => fail(friendlyRecognitionError('no-speech')), 15000);
+  durationTimer = setTimeout(requestStop, options.maxDurationMs ?? (continuous ? 120000 : 20000));
+  try { recognition.start(); }
+  catch { fail('Hindi nagsimula ang microphone. Suriin ang pahintulot at subukan muli.'); }
+  return control;
 }

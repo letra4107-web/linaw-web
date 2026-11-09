@@ -5,7 +5,7 @@ import { useQuery } from '@tanstack/react-query';
 import { supabase } from '../../lib/supabaseClient';
 import {recordVerifiedAnswer} from '../../lib/progressEvents';
 import { api } from '../../lib/api';
-import { assessSpeech, isSpeechRecognitionSupported, listenOnce } from '../../lib/speech';
+import { assessSpeech, isSpeechRecognitionSupported, listenOnce, type RecognitionHandle } from '../../lib/speech';
 import { syllabifyWord } from '../../lib/syllabify';
 import { CORRECT_MESSAGES, ENCOURAGE_MESSAGES, randomFrom } from '../../lib/feedbackMessages';
 import { SlowTTSButton } from '../../components/a11y/SlowTTSButton';
@@ -73,7 +73,7 @@ export default function Practice() {
   const playbackRequestRef = useRef(0);
   const speechUrlRef = useRef<string | null>(null);
   const karaokeFrameRef = useRef<number | null>(null);
-  const stopRecognitionRef = useRef<() => void>(() => {});
+  const stopRecognitionRef = useRef<RecognitionHandle | null>(null);
 
   const { data: path } = useQuery({
     queryKey: ['student-learn-path'],
@@ -111,7 +111,7 @@ export default function Practice() {
   useEffect(() => {
     return () => {
       playbackRequestRef.current += 1;
-      stopRecognitionRef.current();
+      stopRecognitionRef.current?.cancel();
       speechAudioRef.current?.pause();
       if (speechUrlRef.current) URL.revokeObjectURL(speechUrlRef.current);
       if (karaokeFrameRef.current !== null) cancelAnimationFrame(karaokeFrameRef.current);
@@ -160,6 +160,9 @@ export default function Practice() {
 
   const nextWord = () => {
     if (!words) return;
+    stopRecognitionRef.current?.cancel();
+    stopRecognitionRef.current = null;
+    setListening(false);
     stopSpeech();
     const next = pickRandom(words, current?.id) ?? null;
     setCurrent(next);
@@ -169,6 +172,9 @@ export default function Practice() {
   };
 
   const switchMode = (next: Mode) => {
+    stopRecognitionRef.current?.cancel();
+    stopRecognitionRef.current = null;
+    setListening(false);
     stopSpeech();
     setSearchParams({ mode: next });
     setLastResult(null);
@@ -239,7 +245,7 @@ export default function Practice() {
     finally{saveInFlight.current=false;setSavingAttempt(false);}
   };
   const handleTry = () => {
-    if (!current) return;
+    if (!current || listening || savingAttempt || pendingRetry) return;
     stopSpeech();
     setLastResult(null);
     setError(null);
@@ -248,12 +254,14 @@ export default function Practice() {
     stopRecognitionRef.current = listenOnce(
       'fil-PH',
       async ({ transcript, confidence }) => {
+        stopRecognitionRef.current = null;
         setListening(false);
         const assessment = assessSpeech(current.word, transcript, confidence);
         if (assessment.outcome === 'retry') { setError(assessment.message); return; }
         await saveAnswer({contentId:current.id,transcript});
       },
       (message) => {
+        stopRecognitionRef.current = null;
         setListening(false);
         setError(message);
         trackEvent('reading_attempt_failed', { surface: 'practice', mode });
@@ -262,8 +270,7 @@ export default function Practice() {
   };
 
   const stopRecording = () => {
-    stopRecognitionRef.current();
-    setListening(false);
+    stopRecognitionRef.current?.();
   };
 
   return (
@@ -328,12 +335,12 @@ export default function Practice() {
           <div className="practice-reference-content flex flex-col items-center gap-4 text-center">
             <div className="practice-reference-progress flex w-full flex-wrap items-center justify-between gap-3 text-xs font-bold tracking-[.08em] sm:text-sm">
               <span className="rounded-full px-4 py-2">{mode === 'listen' ? '🎧 Listen Mode' : '📖 Salitang babasahin'}</span>
-              {mode === 'say' && <span className="rounded-full px-4 py-2">● Antas: Madali</span>}
+              {mode === 'say' && <span className="rounded-full px-4 py-2">● Antas: {path?.effective_level === 'Advanced' ? 'Mahirap' : path?.effective_level === 'Intermediate' ? 'Katamtaman' : 'Madali'}</span>}
               <span className="practice-reference-count">1 / 200 <i><b /></i></span>
               {mode === 'listen' && <span className="practice-listen-navigation"><button type="button" onClick={nextWord} aria-label="Nakaraang salita">←</button><button type="button" onClick={nextWord} aria-label="Susunod na salita">→</button></span>}
             </div>
             <ReadingTarget compact label={mode === 'say' ? 'Salitang babasahin' : 'Pakinggan at sundan'} tone={theme.brand} className="practice-reference-word w-full">
-              <div className={`${mode === 'listen' ? 'practice-listen-content ' : ''}flex flex-col items-center justify-center gap-3`}>
+              <div data-long-word={current.word.length > 14 || undefined} className={`practice-word-content ${mode === 'listen' ? 'practice-listen-content ' : ''}flex flex-col items-center justify-center gap-3`}>
                 {mode === 'listen' && <img src={listenIllustration} alt="Batang nakikinig gamit ang headphones" className="practice-listen-illustration" />}
                 {mode === 'listen' ? (
                   <SyllableKaraokeText

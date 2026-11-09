@@ -24,8 +24,9 @@
 .practice-reference-word { min-height: 14rem !important; border: 2px solid rgba(233,202,132,.38) !important; border-radius: 1.3rem !important; background: linear-gradient(135deg, #fffdf6, #fff9eb) !important; box-shadow: inset 0 0 0 .55rem rgba(255,255,255,.55), 0 8px 20px rgba(82,67,115,.08) !important; }
 .practice-reference-word::after { content: ''; position: absolute; inset: .6rem; border: 1px dashed rgba(223,171,70,.40); border-radius: 1rem; pointer-events: none; }
 .practice-reference-word > span { z-index: 1; background: #eeeafb !important; color: #6657bb !important; }
-.practice-reference-word p { position: relative; z-index: 1; color: #5345a8 !important; font-size: clamp(2.2rem, 4.5vw, 3.5rem) !important; letter-spacing: .06em; }
-.practice-reference-word > div { position: relative; z-index: 1; }
+.practice-reference-word p { position: relative; z-index: 1; max-width: 100%; min-width: 0; margin: 0 !important; color: #5345a8 !important; font-size: clamp(2.2rem, 4.5vw, 3.5rem) !important; line-height: 1.4; letter-spacing: .06em; overflow-wrap: anywhere; white-space: normal; }
+.practice-reference-word > div { position: relative; z-index: 1; width: 100%; min-width: 0; }
+.practice-word-content { width: 100%; min-width: 0; }
 .practice-reference-word button { position: relative; z-index: 2; }
 .practice-reference-meaning { border-color: #dcdcf4 !important; background: rgba(255,255,255,.72) !important; box-shadow: 0 5px 15px rgba(82,67,115,.05); }
 .practice-reference-meaning > p:first-child { color: #6859c1 !important; }
@@ -80,9 +81,8 @@
   .practice-reference-listen .practice-reference-content > button:not(.practice-listen-navigation button) { min-width: min(100%, 18rem); }
 }
 
-/* Desktop practice is intentionally a single-screen activity.  These rules
-   retain the larger, easy-to-read controls while preventing a student from
-   having to scroll between hearing a word and moving to the next one. */
+/* Keep short-word practice compact. Word panels grow with wrapped text so
+   longer words and reading-font settings never clip the item being read. */
 @media (min-width: 641px) {
   .role-student:has(.practice-reference) .student-main-content { padding-top: .65rem; padding-bottom: .65rem; }
   .practice-reference { gap: .5rem !important; }
@@ -100,11 +100,11 @@
   .practice-reference-count i { width: 5rem; height: .4rem; }
   .practice-listen-navigation { gap: .45rem; }
   .practice-listen-navigation button { width: 2.1rem; height: 2.1rem; font-size: 1.2rem; }
-  .practice-reference-listen .practice-reference-word { height: 8.8rem; min-height: 8.8rem !important; padding: .25rem .5rem !important; }
-  .practice-reference-listen .practice-reference-word > div { min-height: 0 !important; height: 100% !important; padding-top: 0 !important; }
+  .practice-reference-listen .practice-reference-word { min-height: 8.8rem !important; padding: .25rem .5rem !important; }
+  .practice-reference-listen .practice-reference-word > div { min-height: 0 !important; height: auto !important; padding-top: 1.8rem !important; }
   .practice-reference-listen .practice-reference-word::before { top: .55rem; font-size: 1.1rem; }
   .practice-reference-listen .practice-reference-word > span { top: .35rem !important; left: .45rem !important; padding: .15rem .45rem !important; font-size: .58rem !important; }
-  .practice-reference-listen .practice-listen-content { min-height: 4.6rem; height: 100%; padding: .3rem .65rem !important; }
+  .practice-reference-listen .practice-listen-content { min-height: 4.6rem; padding: .3rem .65rem !important; }
   .practice-reference-listen .practice-listen-illustration { bottom: -.45rem; max-height: 6.6rem; }
   .practice-reference-listen .practice-listen-content > p { font-size: clamp(3.1rem, 5.3vw, 4.55rem) !important; font-weight: 900 !important; }
   .practice-reference-listen .practice-listen-content > div { margin-top: .1rem; }
@@ -123,13 +123,16 @@
   .practice-reference-content > p { margin: 0 !important; font-size: .72rem !important; }
   .practice-reference-content > button { min-height: 2rem !important; padding: .25rem .8rem !important; font-size: .75rem !important; }
 
-  /* Say mode uses the same one-screen rhythm as Listen mode: a bounded word
-     panel followed by vertically ordered actions, so changing modes never
-     makes the student hunt or scroll for the microphone. */
-  .practice-reference:not(.practice-reference-listen) .practice-reference-word { height: 8.8rem; min-height: 8.8rem !important; padding: .35rem .65rem !important; }
-  .practice-reference:not(.practice-reference-listen) .practice-reference-word > div { min-height: 0 !important; height: 100% !important; padding-top: 0 !important; }
-  .practice-reference:not(.practice-reference-listen) .practice-reference-word > div > div { position: absolute; inset: 2rem .7rem .35rem; height: auto; min-height: 0; gap: .45rem !important; }
-  .practice-reference:not(.practice-reference-listen) .practice-reference-word p { position: absolute !important; top: 50%; left: 0; width: 100%; margin: 0; transform: translateY(-50%); font-size: clamp(3.45rem, 6.2vw, 5.1rem) !important; font-weight: 900 !important; line-height: 1.1; text-shadow: 0 1px 0 rgba(255,255,255,.72); }
+  .practice-reference:not(.practice-reference-listen) .practice-reference-word { min-height: 8.8rem !important; padding: .35rem .65rem .75rem !important; }
+  .practice-reference:not(.practice-reference-listen) .practice-reference-word > div { min-height: 0 !important; height: auto !important; padding-top: 2.2rem !important; }
+  .practice-reference:not(.practice-reference-listen) .practice-word-content { position: relative; min-height: 5rem; gap: .45rem !important; }
+  .practice-reference:not(.practice-reference-listen) .practice-reference-word p { width: 100%; font-size: clamp(2.5rem, 4.8vw, 4.25rem) !important; font-weight: 900 !important; line-height: 1.4; text-shadow: 0 1px 0 rgba(255,255,255,.72); }
   .practice-reference:not(.practice-reference-listen) .practice-reference-word > div > div > div { flex-direction: column !important; gap: .3rem !important; }
   .practice-reference:not(.practice-reference-listen) .practice-reference-word button { min-height: 1.85rem !important; padding: .2rem .6rem !important; font-size: .72rem !important; }
 }
+
+/* Give long words the full reading width in both modes. The source spelling,
+   including authored hyphens, remains unchanged when it wraps. */
+.practice-reference .practice-word-content[data-long-word] > p { font-size: clamp(2rem, 4vw, 3.25rem) !important; }
+.practice-reference-listen .practice-listen-content[data-long-word] { width: 100%; min-height: 0; }
+.practice-reference-listen .practice-listen-content[data-long-word] .practice-listen-illustration { position: static; width: 5rem; max-width: 100%; max-height: 5rem; justify-self: center; }

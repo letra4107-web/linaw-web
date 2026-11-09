@@ -6,6 +6,7 @@ interface SpeechRecognitionAlternative {
 interface SpeechRecognitionResult {
   [index: number]: SpeechRecognitionAlternative;
   length: number;
+  isFinal: boolean;
 }
 
 interface SpeechRecognitionResultList {
@@ -19,11 +20,14 @@ interface SpeechRecognitionEvent extends Event {
 
 interface SpeechRecognition extends EventTarget {
   lang: string;
+  continuous: boolean;
   interimResults: boolean;
   maxAlternatives: number;
   onresult: ((event: SpeechRecognitionEvent) => void) | null;
   onerror: ((event: Event) => void) | null;
   onend: (() => void) | null;
+  onspeechend: (() => void) | null;
   start(): void;
   stop(): void;
+  abort(): void;
 }

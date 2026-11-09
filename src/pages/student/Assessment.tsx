@@ -5,7 +5,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { AlertCircle, ArrowLeft, ArrowRight, BookOpen, Check, CircleCheck, LoaderCircle, Mic, RotateCcw, Trophy, Volume2 } from 'lucide-react';
 import { recordVerifiedAnswer } from '../../lib/progressEvents';
 import { api } from '../../lib/api';
-import { assessSpeech, isSpeechRecognitionSupported, listenOnce } from '../../lib/speech';
+import { assessSpeech, isSpeechRecognitionSupported, listenOnce, recognitionOptionsForText, type RecognitionHandle } from '../../lib/speech';
 import { playTtsSequence } from '../../lib/ttsPlayer';
 import { BadgeUnlockToast } from '../../components/BadgeUnlockToast';
 import { WordMeaning } from '../../components/student/WordMeaning';
@@ -60,7 +60,7 @@ function AssessmentSession({ assessmentId }: { assessmentId?: string }) {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const live = useRef(true);
-  const stopRecognition = useRef<(() => void) | null>(null);
+  const stopRecognition = useRef<RecognitionHandle | null>(null);
   const playback = useRef<AbortController | null>(null);
   const interactionLocked = useRef(false);
   const promptRef = useRef<HTMLHeadingElement>(null);
@@ -82,7 +82,7 @@ function AssessmentSession({ assessmentId }: { assessmentId?: string }) {
     return () => {
       live.current = false;
       playback.current?.abort();
-      stopRecognition.current?.();
+      stopRecognition.current?.cancel();
       stopRecognition.current = null;
     };
   }, []);
@@ -203,6 +203,7 @@ function AssessmentSession({ assessmentId }: { assessmentId?: string }) {
   };
 
   const practiceSpeech = () => {
+    if (listening) { stopRecognition.current?.(); return; }
     if (!started || !item || isAnswered || interactionLocked.current || busy) return;
     if (!isSpeechRecognitionSupported()) { setError('Hindi suportado ng browser mo ang speech recognition. Subukan sa Chrome.'); return; }
     interactionLocked.current = true;
@@ -225,7 +226,7 @@ function AssessmentSession({ assessmentId }: { assessmentId?: string }) {
         interactionLocked.current = false;
         setListening(false);
         setError(message);
-      });
+      }, recognitionOptionsForText(item.content_text));
     } catch {
       interactionLocked.current = false;
       setListening(false);
@@ -295,7 +296,7 @@ function AssessmentSession({ assessmentId }: { assessmentId?: string }) {
           })}
         </div> : <div className="assessment-speaking-card">
           <p className={`assessment-reading-target ${item.content_text.length > 45 ? 'is-long' : ''}`}>{item.content_text}</p>
-          <div><button type="button" className="assessment-primary" disabled={isAnswered || busy} onClick={practiceSpeech}>{listening ? <LoaderCircle className="assessment-spinner" aria-hidden="true" size={22} /> : isAnswered ? <CircleCheck aria-hidden="true" size={22} /> : <Mic aria-hidden="true" size={22} />}{isAnswered ? 'Nasagot na' : listening ? 'Nakikinig...' : 'Bigkasin'}</button>
+          <div><button type="button" className="assessment-primary" disabled={isAnswered || (busy && !listening)} onClick={practiceSpeech}>{listening ? <Mic aria-hidden="true" size={22} /> : isAnswered ? <CircleCheck aria-hidden="true" size={22} /> : <Mic aria-hidden="true" size={22} />}{isAnswered ? 'Nasagot na' : listening ? 'Tapusin ang pagbasa' : 'Bigkasin'}</button>
             {item.content_type !== 'phonetic' && <button type="button" className="assessment-secondary" disabled={busy} onClick={() => void readPrompt(true)}><Volume2 aria-hidden="true" size={19} />{reading && slowReading ? 'Pinatutugtog...' : 'Dahan-dahang Basahin'}</button>}</div>
           {isAnswered && item.content_type === 'word' && <WordMeaning word={item.content_text} />}
         </div>}

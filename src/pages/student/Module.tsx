@@ -6,7 +6,7 @@ import { ArrowRight, ClipboardCheck, LockKeyhole } from 'lucide-react';
 import {recordVerifiedAnswer} from '../../lib/progressEvents';
 import { api } from '../../lib/api';
 import { stopTtsPlayback } from '../../lib/ttsPlayer';
-import { assessSpeech, isSpeechRecognitionSupported, listenOnce } from '../../lib/speech';
+import { assessSpeech, isSpeechRecognitionSupported, listenOnce, recognitionOptionsForText, type RecognitionHandle } from '../../lib/speech';
 import { CORRECT_MESSAGES, ENCOURAGE_MESSAGES, randomFrom } from '../../lib/feedbackMessages';
 import { TTSButton } from '../../components/a11y/TTSButton';
 import { SlowTTSButton } from '../../components/a11y/SlowTTSButton';
@@ -47,7 +47,8 @@ export default function Module() {
   const [pendingRetry,setPendingRetry]=useState<{item:ModuleItem;transcript:string;moduleId:string}|null>(null);
   const [newlyUnlockedBadges, setNewlyUnlockedBadges] = useState<string[]>([]);
   const activeModuleId = useRef(moduleId);
-  const stopRecognition = useRef<(() => void) | null>(null);
+  const stopRecognition = useRef<RecognitionHandle | null>(null);
+  const recognitionBusy = useRef(false);
 
   useEffect(() => {
     activeModuleId.current = moduleId;
@@ -58,7 +59,8 @@ export default function Module() {
     setNewlyUnlockedBadges([]);
     return () => {
       activeModuleId.current = undefined;
-      stopRecognition.current?.();
+      recognitionBusy.current = false;
+      stopRecognition.current?.cancel();
       stopRecognition.current = null;
     };
   }, [moduleId]);
@@ -100,7 +102,8 @@ export default function Module() {
   });
 
   const practice = (item: ModuleItem) => {
-    if (!moduleId || listeningFor || submitAttempt.isPending || pendingRetry) return;
+    if (listeningFor === item.content_id) { stopRecognition.current?.(); return; }
+    if (!moduleId || recognitionBusy.current || listeningFor || submitAttempt.isPending || pendingRetry) return;
     if (!isSpeechRecognitionSupported()) {
       setError('Hindi suportado ng browser mo ang speech recognition. Subukan sa Chrome.');
       return;
@@ -108,6 +111,7 @@ export default function Module() {
     setError(null);
     stopTtsPlayback();
     setLastResult(null);
+    recognitionBusy.current = true;
     setListeningFor(item.content_id);
     trackEvent('reading_attempt_started', { surface: 'lesson' });
     stopRecognition.current = listenOnce(
@@ -115,6 +119,7 @@ export default function Module() {
       ({ transcript, confidence }) => {
         if (activeModuleId.current !== moduleId) return;
         stopRecognition.current = null;
+        recognitionBusy.current = false;
         setListeningFor(null);
         const assessment = assessSpeech(item.content_text, transcript, confidence);
         if (assessment.outcome === 'retry') {
@@ -126,9 +131,11 @@ export default function Module() {
       (message) => {
         if (activeModuleId.current !== moduleId) return;
         stopRecognition.current = null;
+        recognitionBusy.current = false;
         setListeningFor(null);
         setError(message);
       },
+      recognitionOptionsForText(item.content_text),
     );
   };
 
@@ -154,6 +161,7 @@ export default function Module() {
 
       {pendingRetry && <button className="rounded-xl bg-purple-100 p-3" disabled={submitAttempt.isPending} onClick={()=>submitAttempt.mutate(pendingRetry)}>I-save muli ang parehong sagot</button>}
       {error && <p role="alert" className="rounded-xl bg-[var(--color-danger-soft)] px-4 py-3 text-[var(--color-danger)]">{error}</p>}
+      {listeningFor && <p role="status" aria-live="polite" className="rounded-xl bg-[var(--color-primary-soft)] px-4 py-3">Nakikinig sa iyong pagbasa. Pindutin ang “Tapusin ang pagbasa” kapag tapos ka na.</p>}
       {data.items.length === 0 && <p className="module-empty-notice" role="status">Wala pang babasahin sa modyul na ito. Bumalik sa listahan ng mga modyul.</p>}
 
       {data.module.instructional_content_type === 'paragraph' && <ChallengeWordsPractice moduleId={data.module.id} />}
@@ -203,12 +211,12 @@ export default function Module() {
                       <button
                         type="button"
                         onClick={() => practice(item)}
-                        disabled={Boolean(listeningFor)||submitAttempt.isPending||Boolean(pendingRetry)}
+                        disabled={(Boolean(listeningFor) && listeningFor !== item.content_id)||submitAttempt.isPending||Boolean(pendingRetry)}
                         className="rounded-full bg-[var(--color-primary)] px-4 py-2 text-sm text-white disabled:opacity-60"
                       >
                         <IconLabel
                           icon="🎤"
-                          label={listeningFor === item.content_id ? 'Nakikinig...' : item.completed ? 'Ulitin' : 'Nabasa ko na'}
+                          label={listeningFor === item.content_id ? 'Tapusin ang pagbasa' : submitAttempt.isPending && submitAttempt.variables?.item.content_id === item.content_id ? 'Sine-save...' : item.completed ? 'Ulitin' : 'Nabasa ko na'}
                         />
                       </button>
                     </div>
