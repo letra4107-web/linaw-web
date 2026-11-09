@@ -16,10 +16,13 @@ Each repeated attempt has a distinct playback trigger. Starting another attempt
 or navigating away stops pending feedback; old word-audio responses cannot play
 after the learner moves on.
 
-Fresh results appear in a compact card fixed to the bottom of the viewport,
+Fresh results appear in a compact card fixed to the upper-right of the viewport,
 outside the reading page's layout. Practice includes replay, retry, next-word,
 and dismiss controls in that card. Results add no document height and require
-no scrolling. Historical daily-word results remain inline.
+no scrolling. On mobile the card sits below the navigation header. Its short
+labels override the dyslexia font's reading-paragraph margins so the card stays
+compact without changing paragraph spacing in lessons. Historical daily-word
+results remain inline.
 
 Every new correct or incorrect attempt also launches pastel canvas confetti from
 both sides, based on [Magic UI Side Cannons](https://magicui.design/docs/components/confetti).
@@ -56,6 +59,13 @@ Validation:
   and transcripts. The harness supplies the built stylesheet directly because
   local browser resource delivery was unreliable. Real microphone capture and
   human listening on the student's device remain manual checks.
+
+`node scripts/qa-reading-feedback-layout.mjs` repeats the layout checks using
+the isolated browser tools in `scripts/qa-tools`. It covers both student fonts,
+large text, meaning cards, and five desktop/mobile configurations, including
+1918 by 934 pixels. It asserts zero bottom margins on feedback labels, bounded
+card height, no overlap with the microphone, no added document scroll, and
+visible confetti under a strict CSP. No live student account is used.
 
 The backend and frontend must both run the updated code. Restart a backend that
 does not watch source changes, and refresh the web app after the frontend deploy.
