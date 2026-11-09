@@ -7,6 +7,7 @@ import { useAuth } from '../../lib/auth/AuthContext';
 import { api } from '../../lib/api';
 import { PdfReadingAssistant } from '../../components/PdfReadingAssistant';
 import { PdfDrillPractice } from '../../components/PdfDrillPractice';
+import { StudentHomework } from '../../components/student/StudentHomework';
 import { TeacherLessons } from '../../components/student/TeacherLessons';
 import { QueryErrorNotice } from '../../components/QueryErrorNotice';
 import { IconLabel } from '../../components/a11y/IconLabel';
@@ -27,7 +28,7 @@ interface PdfAssignment {
 const PDF_STATUS_LABEL: Record<string, { icon: string; label: string }> = {
   assigned: { icon: '✨', label: 'Bago' }, in_progress: { icon: '⏳', label: 'Ginagawa' }, completed: { icon: '✓', label: 'Tapos na' },
 };
-type Tab = 'modules' | 'pdf';
+type Tab = 'modules' | 'pdf' | 'homework';
 
 function ModulePicture({ module, alphabet }: { module: LearnModule; alphabet: boolean }) {
   const art = learnModuleArt(module);
@@ -203,14 +204,16 @@ export default function Learn() {
   const onTabKeyDown = (event: KeyboardEvent<HTMLButtonElement>) => {
     if (!['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(event.key)) return;
     event.preventDefault();
-    selectTab(event.key === 'Home' ? 'modules' : event.key === 'End' ? 'pdf' : tab === 'modules' ? 'pdf' : 'modules');
+    const order: Tab[] = ['modules', 'pdf', 'homework'];
+    selectTab(event.key === 'Home' ? 'modules' : event.key === 'End' ? 'homework' : order[(order.indexOf(tab) + (event.key === 'ArrowRight' ? 1 : -1) + order.length) % order.length]);
   };
   return <div className="student-learn-reference student-learn-course-list">
     <header className="learn-ref-hero"><div className="learn-ref-hero-illustration" aria-hidden="true" /><div className="learn-ref-hero-copy"><p>Ipagpatuloy ang pagkatuto</p><h1>Aralin</h1><p>Piliin ang modyul at simulan<br />ang iyong paglalakbay sa pagbasa!</p></div><blockquote className="learn-ref-quote">Bawat aralin,<br />isang hakbang<br />patungo sa mas<br />malaking<br />tagumpay!<Heart size={18} fill="currentColor" aria-hidden="true" /></blockquote></header>
     <div ref={tabsRef} className="learn-ref-tabs" role="tablist" aria-label="Uri ng aralin">
-      {([{ value: 'modules' as const, icon: BookOpen, label: 'Mga Modyul' }, { value: 'pdf' as const, icon: FileText, label: 'Galing sa Guro' }]).map(({ value, icon: Icon, label }) => <button key={value} id={`learn-tab-${value}`} data-tab={value} type="button" role="tab" aria-controls={`learn-panel-${value}`} aria-selected={tab === value} tabIndex={tab === value ? 0 : -1} onClick={() => setTab(value)} onKeyDown={onTabKeyDown}><Icon size={20} aria-hidden="true" />{label}</button>)}
+      {([{ value: 'modules' as const, icon: BookOpen, label: 'Mga Modyul' }, { value: 'pdf' as const, icon: FileText, label: 'Mga Aralin' }, { value: 'homework' as const, icon: FileText, label: 'Takdang-Aralin' }]).map(({ value, icon: Icon, label }) => <button key={value} id={`learn-tab-${value}`} data-tab={value} type="button" role="tab" aria-controls={`learn-panel-${value}`} aria-selected={tab === value} tabIndex={tab === value ? 0 : -1} onClick={() => setTab(value)} onKeyDown={onTabKeyDown}><Icon size={20} aria-hidden="true" />{label}</button>)}
     </div>
     <div id="learn-panel-modules" role="tabpanel" aria-labelledby="learn-tab-modules" tabIndex={0} hidden={tab !== 'modules'}>{tab === 'modules' && <ModulesTab />}</div>
     <div id="learn-panel-pdf" role="tabpanel" aria-labelledby="learn-tab-pdf" tabIndex={0} hidden={tab !== 'pdf'} className="learn-ref-teacher">{tab === 'pdf' && <PdfTab />}</div>
+    <div id="learn-panel-homework" role="tabpanel" aria-labelledby="learn-tab-homework" tabIndex={0} hidden={tab !== 'homework'}>{tab === 'homework' && <StudentHomework />}</div>
   </div>;
 }

@@ -330,3 +330,6 @@ body[data-font="dyslexic"] .learn-ref-quote { font-size:calc(14px * var(--font-s
   body[data-font="dyslexic"] .learn-ref-hero-copy h1 { font-size:calc(38px * var(--font-scale,1)); }
   body[data-font="dyslexic"] .learn-ref-hero-copy > p:first-child { font-size:calc(9px * var(--font-scale,1)); }
 }
+
+.learn-ref-tabs { grid-template-columns:repeat(3,minmax(0,1fr)); }
+@media(max-width:600px) { .learn-ref-tabs button { flex-direction:column; gap:5px; padding:8px 4px; font-size:12px; letter-spacing:0; } }

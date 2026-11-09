@@ -78,7 +78,7 @@ export default function Lessons() {
   const createLesson = useMutation({ mutationFn: async () => {
     if (!user || !file) throw new Error('Pumili ng file para sa aralin.');
     return uploadPublishedLesson(supabase, user.id, draft, file);
-  }, onSuccess: () => { clearForm(); setSuccess('Na-upload at na-publish ang aralin. Makikita ito sa web, iOS at Android sa Aralin → Galing sa Guro para sa napiling baitang.'); setLibraryRevision(value => value + 1); void queryClient.invalidateQueries({ queryKey: ['teacher-lessons'] }); void queryClient.invalidateQueries({ queryKey: ['teacher-materials-count'] }); void queryClient.invalidateQueries({ queryKey: ['student-teacher-lessons'] }); }, onError: (error: Error) => setFormError(tagalogError(error)) });
+  }, onSuccess: () => { clearForm(); setSuccess('Na-upload at na-publish ang aralin. Makikita ito sa web, iOS at Android sa Aralin → Mga Aralin para sa napiling baitang.'); setLibraryRevision(value => value + 1); void queryClient.invalidateQueries({ queryKey: ['teacher-lessons'] }); void queryClient.invalidateQueries({ queryKey: ['teacher-materials-count'] }); void queryClient.invalidateQueries({ queryKey: ['student-teacher-lessons'] }); }, onError: (error: Error) => setFormError(tagalogError(error)) });
   const updateLesson = useMutation({ mutationFn: async ({ id, values, pdfChange }: { id: string; values: Partial<Draft> & { is_published?: boolean }; pdfChange?: LessonPdfChange }) => {
     setSaveWarning('');
     const lesson = lessons?.find(item => item.id === id);
