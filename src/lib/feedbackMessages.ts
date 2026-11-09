@@ -12,12 +12,12 @@ export const CORRECT_MESSAGES = [
 ];
 
 export const ENCOURAGE_MESSAGES = [
-  'Magaling sinubukan!',
-  "Ayos lang 'yan.",
-  'Bawi na lang.',
-  'Malapit na iyan!',
-  'Kaya mo pa yan!',
-  'Huwag susuko!',
+  'Salamat sa pagsubok! Kaya mong matutuhan ito.',
+  'Mahusay ang iyong pagsisikap! Subukan natin muli.',
+  'Ang sipag mong magbasa! Patuloy lang tayo.',
+  'Magaling ang iyong pagsubok! Magsanay pa tayo.',
+  'Kaya mo iyan! Tutulungan kitang magsanay.',
+  'Bawat pagsubok ay mahalaga. Ipagpatuloy mo!',
 ];
 
 export function randomFrom(list: string[]): string {

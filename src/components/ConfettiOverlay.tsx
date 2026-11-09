@@ -1,48 +1,45 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
+import confetti from 'canvas-confetti';
 
-const DEFAULT_PALETTE = ['#176b68', '#43865c', '#d9a441', '#477a9b'];
-const PARTICLE_COUNT = 24;
-const DURATION_MS = 2400;
-
-interface Particle {
-  id: number;
-  color: string;
-  left: number;
-  fallDuration: number;
-  delay: number;
-  rotate: number;
-}
+// Pastel side cannons inspired by Magic UI's confetti example.
+const DEFAULT_PALETTE = ['#a786ff', '#fd8bbc', '#eca184', '#f8deb1', '#64cbb4'];
 
 interface ConfettiOverlayProps {
-  /** Any value that changes fires a new decorative burst. */
+  /** A new attempt fires a fresh burst, even when the feedback text repeats. */
   trigger: string | number | null | undefined;
   palette?: string[];
 }
 
-function makeParticlesFrom(palette: string[]): Particle[] {
-  return Array.from({ length: PARTICLE_COUNT }, (_, id) => ({
-    id,
-    color: palette[Math.floor(Math.random() * palette.length)],
-    left: Math.random() * 100,
-    fallDuration: 1600 + Math.random() * 1200,
-    delay: Math.random() * 500,
-    rotate: Math.random() * 360,
-  }));
-}
-
-/** Geometric, non-text confetti that renders consistently on every platform. */
+/** Celebrate every reading attempt without covering or intercepting controls. */
 export function ConfettiOverlay({ trigger, palette = DEFAULT_PALETTE }: ConfettiOverlayProps) {
-  const [particles, setParticles] = useState<Particle[] | null>(null);
-
   useEffect(() => {
-    if (!trigger) return;
-    setParticles(makeParticlesFrom(palette));
-    const timer = setTimeout(() => setParticles(null), DURATION_MS);
-    return () => clearTimeout(timer);
+    if (trigger == null || window.matchMedia?.('(prefers-reduced-motion: reduce)').matches) return;
+
+    // A body-level canvas keeps the burst outside clipped feedback cards and
+    // transformed lesson containers. Each effect owns and removes its canvas.
+    const canvas = document.createElement('canvas');
+    canvas.setAttribute('aria-hidden', 'true');
+    canvas.setAttribute('data-reading-confetti', 'true');
+    Object.assign(canvas.style, {
+      position: 'fixed', inset: '0', width: '100%', height: '100%',
+      pointerEvents: 'none', zIndex: '60',
+    });
+    document.body.appendChild(canvas);
+    const fire = confetti.create(canvas, { resize: true, useWorker: true, disableForReducedMotion: true });
+    const burst = (particleCount: number) => {
+      const options = {
+        particleCount, spread: 55, startVelocity: 45, gravity: 1,
+        ticks: 160, scalar: 0.95, colors: palette, disableForReducedMotion: true,
+      };
+      void fire({ ...options, angle: 60, origin: { x: 0, y: 0.65 } });
+      void fire({ ...options, angle: 120, origin: { x: 1, y: 0.65 } });
+    };
+    burst(40);
+    const timers = [setTimeout(() => burst(20), 150), setTimeout(() => burst(20), 300)];
+    const stop = () => { fire.reset(); canvas.remove(); };
+    timers.push(setTimeout(stop, 3200));
+    return () => { timers.forEach(clearTimeout); stop(); };
   }, [trigger, palette]);
 
-  if (!particles) return null;
-  return <div className="pointer-events-none fixed inset-0 z-50 overflow-hidden" aria-hidden="true">
-    {particles.map((particle) => <span key={particle.id} className="confetti-piece absolute top-[-40px] h-3 w-2 rounded-sm shadow-sm" style={{ left: `${particle.left}%`, animationDuration: `${particle.fallDuration}ms`, animationDelay: `${particle.delay}ms`, transform: `rotate(${particle.rotate}deg)`, backgroundColor: particle.color }} />)}
-  </div>;
+  return null;
 }

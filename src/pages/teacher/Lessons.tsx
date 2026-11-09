@@ -74,7 +74,7 @@ export default function Lessons() {
   const createLesson = useMutation({ mutationFn: async () => {
     if (!user || !file) throw new Error('Pumili ng PDF file.');
     return uploadPublishedLesson(supabase, user.id, draft, file);
-  }, onSuccess: () => { clearForm(); setSuccess('Na-upload at na-publish ang aralin. Makikita ito sa iOS sa Aralin → Galing sa Guro para sa napiling baitang.'); setSearch(''); setPage(1); void queryClient.invalidateQueries({ queryKey: ['teacher-lessons'] }); void queryClient.invalidateQueries({ queryKey: ['teacher-materials-count'] }); }, onError: (error: Error) => setFormError(tagalogError(error)) });
+  }, onSuccess: () => { clearForm(); setSuccess('Na-upload at na-publish ang aralin. Makikita ito sa web at iOS sa Aralin → Galing sa Guro para sa napiling baitang.'); setSearch(''); setPage(1); void queryClient.invalidateQueries({ queryKey: ['teacher-lessons'] }); void queryClient.invalidateQueries({ queryKey: ['teacher-materials-count'] }); void queryClient.invalidateQueries({ queryKey: ['student-teacher-lessons'] }); }, onError: (error: Error) => setFormError(tagalogError(error)) });
   const updateLesson = useMutation({ mutationFn: async ({ id, values }: { id: string; values: Partial<Draft> & { is_published?: boolean } }) => {
     if (values.is_published === undefined && (!values.title?.trim() || !values.description?.trim() || !values.gradeLevel)) throw new Error('Kumpletuhin ang mga kinakailangang detalye.');
     const payload = values.is_published !== undefined ? { is_published: values.is_published } : { title: values.title?.trim(), description: values.description?.trim(), grade_level: values.gradeLevel };

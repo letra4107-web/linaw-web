@@ -248,7 +248,8 @@ test('TTS uses ElevenLabs multilingual speech with a bounded voice speed', async
   });
 
   assert.equal(providerPayload.text, 'ngipin');
-  assert.equal(providerPayload.model_id, 'eleven_multilingual_v2');
+  assert.equal(providerPayload.model_id, 'eleven_v3');
+  assert.equal(providerPayload.language_code, 'fil');
   assert.deepEqual(providerPayload.voice_settings, { speed: 0.7 });
 });
 
@@ -277,6 +278,7 @@ test('TTS uses the configured IPA pronunciation dictionary for letter drills', a
 
   assert.equal(providerPayload.text, 'I');
   assert.equal(providerPayload.model_id, 'eleven_v3');
+  assert.equal(providerPayload.language_code, 'fil');
   assert.deepEqual(providerPayload.pronunciation_dictionary_locators, [{ pronunciation_dictionary_id: 'dictionary-test', version_id: 'version-test' }]);
 });
 
@@ -304,7 +306,8 @@ test('U drill uses its Filipino sound spelling instead of a voice-specific IPA r
   });
 
   assert.equal(providerPayload.text, 'oo');
-  assert.equal(providerPayload.model_id, 'eleven_multilingual_v2');
+  assert.equal(providerPayload.model_id, 'eleven_v3');
+  assert.equal(providerPayload.language_code, 'fil');
   assert.equal(providerPayload.pronunciation_dictionary_locators, undefined);
 });
 
@@ -333,7 +336,8 @@ test('TTS falls back to multilingual speech when a pronunciation dictionary requ
   });
 
   assert.equal(payloads.length, 2);
-  assert.equal(payloads[1].model_id, 'eleven_multilingual_v2');
+  assert.equal(payloads[1].model_id, 'eleven_v3');
+  assert.equal(payloads[1].language_code, 'fil');
   assert.equal(payloads[1].text, 'sah');
   assert.equal(payloads[1].pronunciation_dictionary_locators, undefined);
 });

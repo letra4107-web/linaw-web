@@ -6,8 +6,7 @@ const { logAudit } = require('../services/audit');
 
 const MAX_TEXT_LENGTH = 500;
 const ELEVENLABS_TTS_URL = 'https://api.elevenlabs.io/v1/text-to-speech';
-const ELEVENLABS_MODEL_ID = 'eleven_multilingual_v2';
-const ELEVENLABS_PHONETIC_MODEL_ID = 'eleven_v3';
+const ELEVENLABS_MODEL_ID = 'eleven_v3';
 const PUBLIC_AUDIO_CACHE_TTL_MS = 60 * 60 * 1000;
 const publicAudioCache = new Map();
 
@@ -18,9 +17,9 @@ function createTtsRouter({
   fetchImpl = global.fetch,
   apiKey = process.env.ELEVENLABS_API_KEY,
   voiceId = process.env.ELEVENLABS_VOICE_ID,
-  // Kept for backward-compatible configuration, but dictionaries require the
-  // phonetic model below. A generic model setting must never silently bypass
-  // IPA vowel rules.
+  // Retain the configuration argument for existing callers. The learning
+  // voice uses v3 so both pronunciation dictionaries and enforced Filipino
+  // work; multilingual_v2 ignores language_code.
   modelId = process.env.ELEVENLABS_MODEL_ID,
   pronunciationDictionaryId = process.env.ELEVENLABS_PRONUNCIATION_DICTIONARY_ID,
   pronunciationDictionaryVersionId = process.env.ELEVENLABS_PRONUNCIATION_DICTIONARY_VERSION_ID,
@@ -76,6 +75,7 @@ function createTtsRouter({
     const fallbackPayload = {
       text: elevenLabsText(text),
       model_id: ELEVENLABS_MODEL_ID,
+      language_code: 'fil',
       voice_settings: { speed: speakingRate },
     };
     let response = await synthesize(usePronunciationDictionary ? {
@@ -85,7 +85,8 @@ function createTtsRouter({
       // Existing deployments often set ELEVENLABS_MODEL_ID to
       // eleven_multilingual_v2, which rejects the dictionary and makes a
       // vowel fall back to an English-style letter name.
-      model_id: ELEVENLABS_PHONETIC_MODEL_ID,
+      model_id: ELEVENLABS_MODEL_ID,
+      language_code: 'fil',
       voice_settings: { speed: speakingRate },
       pronunciation_dictionary_locators: [{
         pronunciation_dictionary_id: pronunciationDictionaryId,
@@ -93,8 +94,8 @@ function createTtsRouter({
       }],
     } : fallbackPayload);
 
-    // An unavailable model, dictionary, or account capability must never make
-    // the learning control silent. Retry with the standard multilingual voice.
+    // Retry without a rejected dictionary while retaining Filipino language
+    // enforcement and the explicit vowel sound spellings.
     if (!response.ok && usePronunciationDictionary) {
       await response.text();
       console.warn('[tts] pronunciation dictionary unavailable; using fallback', { status: response.status, requestId: req.requestId });

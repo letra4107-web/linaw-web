@@ -4,8 +4,8 @@ import { Link, useParams, useNavigate } from 'react-router-dom';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { ArrowRight, ClipboardCheck, LockKeyhole } from 'lucide-react';
 import {recordVerifiedAnswer} from '../../lib/progressEvents';
-import {practiceRewardMessage} from '../../lib/progressReward';
 import { api } from '../../lib/api';
+import { stopTtsPlayback } from '../../lib/ttsPlayer';
 import { assessSpeech, isSpeechRecognitionSupported, listenOnce } from '../../lib/speech';
 import { CORRECT_MESSAGES, ENCOURAGE_MESSAGES, randomFrom } from '../../lib/feedbackMessages';
 import { TTSButton } from '../../components/a11y/TTSButton';
@@ -41,7 +41,7 @@ export default function Module() {
   const queryClient = useQueryClient();
   const [listeningFor, setListeningFor] = useState<string | null>(null);
   const [lastResult, setLastResult] = useState<
-    { contentId: string; transcript: string; accuracy: number; correct: boolean; message: string } | null
+    { attemptId: string; contentId: string; transcript: string; accuracy: number; correct: boolean; message: string } | null
   >(null);
   const [error, setError] = useState<string | null>(null);
   const [pendingRetry,setPendingRetry]=useState<{item:ModuleItem;transcript:string;moduleId:string}|null>(null);
@@ -76,7 +76,7 @@ export default function Module() {
   const submitAttempt = useMutation({
     mutationFn: async ({ item, transcript, moduleId: attemptModuleId }: { item: ModuleItem; transcript: string; moduleId:string }) => {
       const saved=await recordVerifiedAnswer({contentId:item.content_id,transcript,source:'practice'});
-      const res={...saved.result,rewardMessage:practiceRewardMessage(saved),newlyUnlockedBadges:saved.newlyPersistedAchievementIds,levelAdvancedTo:null};
+      const res={...saved.result,newlyUnlockedBadges:saved.newlyPersistedAchievementIds,levelAdvancedTo:null};
       return { item, transcript, res, attemptModuleId };
     },
     onSuccess: ({ item, transcript, res, attemptModuleId }) => {
@@ -86,11 +86,12 @@ export default function Module() {
       setPendingRetry(null);setError(null);
       if (res.newlyUnlockedBadges?.length) setNewlyUnlockedBadges(res.newlyUnlockedBadges);
       setLastResult({
+        attemptId: crypto.randomUUID(),
         contentId: item.content_id,
         transcript,
         accuracy: res.accuracy,
         correct: res.correct,
-        message: randomFrom(res.correct ? CORRECT_MESSAGES : ENCOURAGE_MESSAGES)+' '+res.rewardMessage,
+        message: randomFrom(res.correct ? CORRECT_MESSAGES : ENCOURAGE_MESSAGES),
       });
       trackEvent('reading_attempt_completed', { surface: 'lesson' });
       if (res.levelAdvancedTo) navigate('/student/learn');
@@ -105,6 +106,8 @@ export default function Module() {
       return;
     }
     setError(null);
+    stopTtsPlayback();
+    setLastResult(null);
     setListeningFor(item.content_id);
     trackEvent('reading_attempt_started', { surface: 'lesson' });
     stopRecognition.current = listenOnce(
@@ -211,6 +214,7 @@ export default function Module() {
                     </div>
                     {lastResult?.contentId === item.content_id && (
                       <PronunciationFeedback
+                        attemptId={lastResult.attemptId}
                         className="mt-4"
                         correct={lastResult.correct}
                         message={lastResult.message}
@@ -231,6 +235,7 @@ export default function Module() {
 
       {lastResult && data.module.instructional_content_type !== 'paragraph' && data.items.some((item) => item.content_id === lastResult.contentId) && (
         <PronunciationFeedback
+          attemptId={lastResult.attemptId}
           correct={lastResult.correct}
           message={lastResult.message}
           detail={`Narinig: "${lastResult.transcript}"`}

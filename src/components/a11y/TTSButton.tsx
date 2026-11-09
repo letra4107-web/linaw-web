@@ -3,6 +3,8 @@ import { api } from '../../lib/api';
 import { getTtsPlaybackRate, getTtsRate, isIsolatedFilipinoVowel } from '../../lib/ttsSettings';
 import { IconLabel } from './IconLabel';
 import { trackEvent } from '../../lib/analytics';
+import { createFilipinoUtterance } from '../../lib/filipinoVoice';
+import { stopTtsPlayback } from '../../lib/ttsPlayer';
 
 interface TTSButtonProps {
   text: string;
@@ -19,7 +21,7 @@ interface TTSButtonProps {
 // Cache decoded audio per spoken text+rate so repeat plays (e.g. re-reading the same word)
 // don't re-hit the TTS API -- keyed by rate too since the same text sounds different at each speed.
 const audioCache = new Map<string, string>();
-const TTS_AUDIO_CACHE_VERSION = 'elevenlabs-v8';
+const TTS_AUDIO_CACHE_VERSION = 'filipino-v9';
 
 function base64ToObjectUrl(base64: string): string {
   const bytes = atob(base64);
@@ -58,10 +60,8 @@ export function TTSButton({ text, lang = 'fil-PH', rate: requestedRate, classNam
     setStatus('idle');
   };
 
-  // The marketing landing page is intentionally available before sign-in,
-  // while the higher-quality API voice requires an authenticated session.
-  // Keep the read-aloud button useful for public visitors with the browser's
-  // built-in speech engine when the API is unavailable.
+  // If cloud audio is unavailable, only an installed Filipino/Tagalog voice
+  // may read the text. A device's default English voice misreads short words.
   const speakWithBrowser = (rate: number, id: number) => {
     const fail = () => {
       if (id !== playbackId.current) return;
@@ -74,9 +74,8 @@ export function TTSButton({ text, lang = 'fil-PH', rate: requestedRate, classNam
       return;
     }
     try {
-      const utterance = new SpeechSynthesisUtterance(text);
-      utterance.lang = lang;
-      utterance.rate = getTtsPlaybackRate(rate);
+      const utterance = createFilipinoUtterance(text, rate);
+      if (!utterance) { fail(); return; }
       utterance.onend = () => {
         if (id !== playbackId.current) return;
         browserSpeaking.current = false;
@@ -101,6 +100,7 @@ export function TTSButton({ text, lang = 'fil-PH', rate: requestedRate, classNam
       return;
     }
     if (status === 'loading') return;
+    stopTtsPlayback();
     const id = ++playbackId.current;
     setError('');
 

@@ -10,6 +10,7 @@ const { isAccuracy, isBoundedString, validateUuidParam, isUuid } = require('../l
 const { assessmentLimiter } = require('../lib/rateLimiters');
 const { createSupabaseAuthorizationService } = require('../services/authorization');
 const { createMaterialAccessService } = require('../services/materialAccess');
+const { createStudentLessonsService } = require('../services/studentLessons');
 const { scoreTranscript } = require('../lib/speechScoring');
 const { evaluateLevelPromotion } = require('../services/learningProgression');
 const { randomUUID } = require('crypto');
@@ -19,6 +20,7 @@ const {startProgressEvent,recordProgressEvent,requireProgressContract}=require('
 const router = express.Router();
 const authorization = createSupabaseAuthorizationService(supabaseAdmin);
 const materialAccess = createMaterialAccessService(supabaseAdmin);
+const studentLessons = createStudentLessonsService(supabaseAdmin);
 
 const TRANSCRIPT_SCORABLE_CONTENT_TYPES = new Set(['phonetic', 'syllable', 'word', 'phrase', 'paragraph']);
 router.use(requireAuth, requireRole('student'));
@@ -591,16 +593,17 @@ router.post('/pdf-reading/:assignmentId/submit', validateUuidParam('assignmentId
   }
 });
 
+router.get('/lessons', async (req, res) => {
+  try {
+    res.json({ lessons: await studentLessons.list(req.user.id) });
+  } catch (err) {
+    handleRpcError(res, err);
+  }
+});
+
 router.get('/lessons/:lessonId/access-url', validateUuidParam('lessonId'), async (req, res) => {
   try {
-    await resolveStudentId(req.user.id);
-    const { data: lesson, error } = await supabaseAdmin
-      .from('lessons')
-      .select('id, pdf_url, storage_bucket, storage_path, legacy_public_url, is_published')
-      .eq('id', req.params.lessonId)
-      .eq('is_published', true)
-      .maybeSingle();
-    if (error) throw error;
+    const lesson = await studentLessons.find(req.user.id, req.params.lessonId);
     if (!lesson) return res.status(404).json({ error: "Hindi makita ang aralin." });
     res.json(await materialAccess.accessUrl(lesson));
   } catch (err) {

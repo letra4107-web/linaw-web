@@ -4,7 +4,6 @@ import { useSearchParams } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '../../lib/supabaseClient';
 import {recordVerifiedAnswer} from '../../lib/progressEvents';
-import {practiceRewardMessage} from '../../lib/progressReward';
 import { api } from '../../lib/api';
 import { assessSpeech, isSpeechRecognitionSupported, listenOnce } from '../../lib/speech';
 import { syllabifyWord } from '../../lib/syllabify';
@@ -17,7 +16,8 @@ import { ReadingTarget } from '../../components/student/ReadingTarget';
 import { WordMeaning } from '../../components/student/WordMeaning';
 import { cardStyle } from '../../lib/cardStyle';
 import { trackEvent } from '../../lib/analytics';
-import { getTtsPlaybackRate, getTtsRate } from '../../lib/ttsSettings';
+import { getTtsPlaybackRate, getTtsRate, isIsolatedFilipinoVowel } from '../../lib/ttsSettings';
+import { stopTtsPlayback } from '../../lib/ttsPlayer';
 import listenIllustration from '../../assets/listen.png';
 import './practice-reference.css';
 
@@ -62,7 +62,7 @@ export default function Practice() {
   const [current, setCurrent] = useState<WordRow | null>(null);
   const [listening, setListening] = useState(false);
   const [savingAttempt, setSavingAttempt] = useState(false);
-  const [lastResult, setLastResult] = useState<{ transcript: string; accuracy: number; correct: boolean; message: string } | null>(
+  const [lastResult, setLastResult] = useState<{ attemptId: string; transcript: string; accuracy: number; correct: boolean; message: string } | null>(
     null,
   );
   const [error, setError] = useState<string | null>(null);
@@ -70,6 +70,8 @@ export default function Practice() {
   const [speechStatus, setSpeechStatus] = useState<'idle' | 'loading' | 'speaking'>('idle');
   const [activeSyllable, setActiveSyllable] = useState<number | null>(null);
   const speechAudioRef = useRef<HTMLAudioElement | null>(null);
+  const playbackRequestRef = useRef(0);
+  const speechUrlRef = useRef<string | null>(null);
   const karaokeFrameRef = useRef<number | null>(null);
   const stopRecognitionRef = useRef<() => void>(() => {});
 
@@ -108,7 +110,10 @@ export default function Practice() {
 
   useEffect(() => {
     return () => {
+      playbackRequestRef.current += 1;
+      stopRecognitionRef.current();
       speechAudioRef.current?.pause();
+      if (speechUrlRef.current) URL.revokeObjectURL(speechUrlRef.current);
       if (karaokeFrameRef.current !== null) cancelAnimationFrame(karaokeFrameRef.current);
     };
   }, []);
@@ -143,8 +148,12 @@ export default function Practice() {
   };
 
   const stopSpeech = () => {
+    playbackRequestRef.current += 1;
     speechAudioRef.current?.pause();
     speechAudioRef.current = null;
+    if (speechUrlRef.current) URL.revokeObjectURL(speechUrlRef.current);
+    speechUrlRef.current = null;
+    stopTtsPlayback();
     stopKaraoke();
     setSpeechStatus('idle');
   };
@@ -179,13 +188,17 @@ export default function Practice() {
     }
     setSpeechStatus('loading');
     setError(null);
+    stopTtsPlayback();
+    const playbackRequest = ++playbackRequestRef.current;
     try {
-      const rate = getTtsRate();
+      const rate = isIsolatedFilipinoVowel(current.word) ? 1 : getTtsRate();
       const res = await api<{ audioContent: string }>('/tts', { method: 'POST', auth: true, body: { text: current.word, rate } });
+      if (playbackRequest !== playbackRequestRef.current) return;
       const bytes = atob(res.audioContent);
       const buffer = new Uint8Array(bytes.length);
       for (let i = 0; i < bytes.length; i += 1) buffer[i] = bytes.charCodeAt(i);
       const url = URL.createObjectURL(new Blob([buffer], { type: 'audio/mpeg' }));
+      speechUrlRef.current = url;
       const audio = new Audio(url);
       audio.playbackRate = getTtsPlaybackRate(rate);
       const syllables = syllabifyWord(current.word);
@@ -195,17 +208,19 @@ export default function Practice() {
         setSpeechStatus('idle');
         speechAudioRef.current = null;
         URL.revokeObjectURL(url);
+        speechUrlRef.current = null;
       };
       audio.onerror = () => {
-        stopKaraoke();
-        setSpeechStatus('idle');
+        stopSpeech();
+        setError('Hindi ma-play ang audio ngayon. Subukan muli.');
       };
       setSpeechStatus('speaking');
       await audio.play();
       startKaraoke(audio, syllables);
     } catch {
+      if (playbackRequest !== playbackRequestRef.current) return;
       trackEvent('speech_request_failed', { surface: 'practice' });
-      setSpeechStatus('idle');
+      stopSpeech();
       setError('Hindi ma-play ang audio ngayon.');
     }
   };
@@ -217,7 +232,7 @@ export default function Practice() {
     saveInFlight.current=true;setSavingAttempt(true);
     try{const saved=await recordVerifiedAnswer({...input,source:'practice'});const result=saved.result;
       setPendingRetry(null);setError(null);
-      setLastResult({transcript:input.transcript,accuracy:result.accuracy,correct:result.correct,message:randomFrom(result.correct?CORRECT_MESSAGES:ENCOURAGE_MESSAGES)+' '+practiceRewardMessage(saved)});
+      setLastResult({attemptId:crypto.randomUUID(),transcript:input.transcript,accuracy:result.accuracy,correct:result.correct,message:randomFrom(result.correct?CORRECT_MESSAGES:ENCOURAGE_MESSAGES)});
       if(!saved.replayed)setStreak(s=>result.correct?s+1:0);
       trackEvent('reading_attempt_completed',{surface:'practice',mode,correct:result.correct});
     }catch(caught){const err=caught as Error&{pendingTranscript?:string};setPendingRetry({...input,transcript:err.pendingTranscript||input.transcript});setError(tagalogError(err)||'Hindi pa nakumpirma ang pag-save. I-save muli ang parehong sagot.');}
@@ -225,6 +240,8 @@ export default function Practice() {
   };
   const handleTry = () => {
     if (!current) return;
+    stopSpeech();
+    setLastResult(null);
     setError(null);
     setListening(true);
     trackEvent('reading_attempt_started', { surface: 'practice', mode });
@@ -397,6 +414,7 @@ export default function Practice() {
 
             {lastResult && (
               <PronunciationFeedback
+                attemptId={lastResult.attemptId}
                 className="w-full"
                 correct={lastResult.correct}
                 message={lastResult.message}

@@ -1,11 +1,8 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { playTtsSequence } from '../lib/ttsPlayer';
 import { TTSButton } from './a11y/TTSButton';
 import { SlowTTSButton } from './a11y/SlowTTSButton';
 import { ConfettiOverlay } from './ConfettiOverlay';
-
-const CELEBRATE_PALETTE = ['#176b68', '#43865c', '#d9a441', '#477a9b'];
-const ENCOURAGE_PALETTE = ['#176b68', '#477a9b', '#d9a441'];
 
 interface PronunciationFeedbackProps {
   correct: boolean;
@@ -16,26 +13,33 @@ interface PronunciationFeedbackProps {
   word?: string;
   className?: string;
   autoPlay?: boolean;
+  attemptId?: string | number;
 }
 
-export function PronunciationFeedback({ correct, message, speakText, detail, hint, word, className = '', autoPlay = true }: PronunciationFeedbackProps) {
-  const attemptToken = `${message}|${detail ?? ''}`;
+export function PronunciationFeedback({ correct, message, speakText, detail, hint, word, className = '', autoPlay = true, attemptId }: PronunciationFeedbackProps) {
+  const [audioError, setAudioError] = useState('');
+  const attemptToken = `${attemptId ?? ''}|${message}|${detail ?? ''}`;
+  const praise = speakText ?? message;
 
   useEffect(() => {
     if (!autoPlay) return;
-    const praise = speakText ?? message;
+    const controller = new AbortController();
+    setAudioError('');
     const sequence = !correct && word
       ? [{ text: praise, rate: 0.85 }, { text: 'Ulitin natin. Pakinggan mabuti.', rate: 0.8 }, { text: word, rate: 0.4 }]
       : [{ text: praise, rate: 1 }];
-    playTtsSequence(sequence);
-    // The attempt token intentionally gates replay behavior rather than unrelated re-renders.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [attemptToken, autoPlay]);
+    void playTtsSequence(sequence, 'fil-PH', { signal: controller.signal, reportErrors: true }).catch(() => {
+      if (!controller.signal.aborted) setAudioError('Pindutin ang audio button para marinig ang mensahe.');
+    });
+    return () => controller.abort();
+  }, [attemptToken, autoPlay, correct, praise, word]);
 
-  return <div role="status" aria-live="polite" aria-atomic="true" className={`relative overflow-hidden rounded-xl px-5 py-4 text-center font-semibold ${correct ? 'bg-[var(--color-success-soft)] text-[var(--color-success)]' : 'bg-[var(--color-accent-soft)] text-[var(--color-brand-sun)]'} ${className}`}>
-    <ConfettiOverlay trigger={autoPlay ? attemptToken : null} palette={correct ? CELEBRATE_PALETTE : ENCOURAGE_PALETTE} />
+  return <div role="status" aria-live="polite" aria-atomic="true" className={`relative overflow-hidden rounded-xl px-5 py-4 text-center font-semibold ${correct ? 'bg-[var(--color-success-soft)] text-[var(--color-success)]' : 'bg-[var(--color-accent-soft)] text-[var(--color-primary)]'} ${className}`}>
+    <ConfettiOverlay trigger={autoPlay ? attemptToken : null} />
     <div className="relative">
       <p className="text-base">{message}</p>
+      <div className="mt-2 flex justify-center"><TTSButton text={praise} rate={0.9} ariaLabel="Pakinggan ang positibong mensahe" /></div>
+      {audioError && <p className="mt-1 text-sm font-normal">{audioError}</p>}
       {detail && <p className="mt-1 text-sm font-normal">{detail}</p>}
       {hint && <p className="mt-1 text-sm font-normal">{hint}</p>}
       {word && <div className="mt-2 flex flex-wrap justify-center gap-2"><TTSButton text={word} /><SlowTTSButton text={word} /></div>}

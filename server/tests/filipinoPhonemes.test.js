@@ -5,7 +5,7 @@ const { elevenLabsText, filipinoSsml, isMultiSyllableWord, syllableCount } = req
 test('ElevenLabs receives explicit Filipino sounds for isolated letter drills', () => {
   assert.equal(elevenLabsText('A'), 'ah');
   assert.equal(elevenLabsText('E'), 'eh');
-  assert.equal(elevenLabsText('I'), 'ih');
+  assert.equal(elevenLabsText('I'), 'ee');
   assert.equal(elevenLabsText('O'), 'oh');
   assert.equal(elevenLabsText('U'), 'oo');
   assert.equal(elevenLabsText('M'), 'mah');

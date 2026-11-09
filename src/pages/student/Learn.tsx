@@ -7,6 +7,7 @@ import { useAuth } from '../../lib/auth/AuthContext';
 import { api } from '../../lib/api';
 import { PdfReadingAssistant } from '../../components/PdfReadingAssistant';
 import { PdfDrillPractice } from '../../components/PdfDrillPractice';
+import { TeacherLessons } from '../../components/student/TeacherLessons';
 import { QueryErrorNotice } from '../../components/QueryErrorNotice';
 import { IconLabel } from '../../components/a11y/IconLabel';
 import { cardStyle, CARD_COLORS } from '../../lib/cardStyle';
@@ -153,6 +154,7 @@ function PdfTab() {
 
   return (
     <div className="flex flex-col gap-5">
+      {!openAssignmentId && <TeacherLessons />}
       <QueryErrorNotice error={error} onRetry={() => { void refetch(); }} message="Hindi ma-load ang mga materyales mula sa guro. Pakisubukang muli." />
       {!openAssignmentId && <p className="text-[var(--color-text-muted)]">Basahin nang malakas ang mga materyal na ibinigay ng iyong guro.</p>}
       {isLoading && <p className="rounded-2xl bg-white/60 p-5 text-[var(--color-text-muted)]">Inihahanda ang iyong mga PDF...</p>}
@@ -173,7 +175,6 @@ function PdfTab() {
               </li>
             );
           })}
-          {assignments && assignments.length === 0 && <li className="col-span-full rounded-3xl border border-dashed border-[var(--color-border)] bg-white/45 p-8 text-center text-[var(--color-text-muted)]">Wala ka pang naka-assign na PDF.</li>}
         </ul>
       )}
 

@@ -45,7 +45,7 @@ const ISOLATED_LETTER_NAMES = Object.freeze({
 // apply its natural word-level pronunciation.
 // "uh" is read as the English /ʌ/ (often heard as "ah") by some voices.
 // "oo" reliably carries the Filipino /u/ sound used at the start of "ulan".
-const ELEVENLABS_VOWEL_SOUNDS = Object.freeze({ a: 'ah', e: 'eh', i: 'ih', o: 'oh', u: 'oo' });
+const ELEVENLABS_VOWEL_SOUNDS = Object.freeze({ a: 'ah', e: 'eh', i: 'ee', o: 'oh', u: 'oo' });
 
 function elevenLabsSoundSpelling(value) {
   const letterSound = String(value);
