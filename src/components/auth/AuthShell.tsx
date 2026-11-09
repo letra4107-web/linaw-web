@@ -81,14 +81,15 @@ export function AuthShell({
   );
 }
 
-export function FieldError({ message }: { message?: string }) {
+export function FieldError({ message, id }: { message?: string; id?: string }) {
   if (!message) return null;
   return (
     <p
+      id={id}
       role="alert"
-      className="flex items-start gap-2 rounded-lg border border-[var(--color-danger)]/30 bg-[var(--color-danger-soft)] px-4 py-3 text-base text-[var(--color-danger)]"
+      className="m-0 flex items-start gap-1.5 text-sm leading-snug text-[var(--color-danger)]"
     >
-      <AppIcon name="⚠️" className="mt-0.5 h-5 w-5 shrink-0" />
+      <AppIcon name="⚠️" className="mt-0.5 h-4 w-4 shrink-0" />
       <span>{tagalogError(message)}</span>
     </p>
   );
@@ -156,9 +157,10 @@ interface PasswordInputProps {
   icon?: string;
   invalid?: boolean;
   className?: string;
+  'aria-describedby'?: string;
 }
 
-export function PasswordInput({ id, value, onChange, autoComplete, placeholder, icon = '🔒', invalid, className }: PasswordInputProps) {
+export function PasswordInput({ id, value, onChange, autoComplete, placeholder, icon = '🔒', invalid, className, 'aria-describedby': describedBy }: PasswordInputProps) {
   const [visible, setVisible] = useState(false);
   return (
     <div className="relative">
@@ -175,6 +177,7 @@ export function PasswordInput({ id, value, onChange, autoComplete, placeholder, 
         value={value}
         onChange={(e) => onChange(e.target.value)}
         aria-invalid={invalid || undefined}
+        aria-describedby={describedBy}
         className={`${inputClass} pl-13 pr-14 ${invalid ? invalidBorderClass : ''} ${className ?? ''}`}
         autoComplete={autoComplete}
         placeholder={placeholder}

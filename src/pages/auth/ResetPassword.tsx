@@ -70,18 +70,18 @@ export default function ResetPassword() {
       <form onSubmit={onSubmit} className="flex flex-col gap-4" noValidate>
         <div>
           <label htmlFor="email" className="mb-2 block text-base font-medium">Email</label>
-          <IconInput id="email" icon="âœ‰ï¸" type="email" required value={email} onChange={(event) => setEmail(event.target.value)} autoComplete="email" />
+          <IconInput id="email" icon="âœ‰ï¸" type="email" required value={email} onChange={(event) => { setEmail(event.target.value); setError(null); }} autoComplete="email" />
         </div>
         <div>
           <label htmlFor="code" className="mb-2 block text-base font-medium">Verification code</label>
-          <input id="code" inputMode="numeric" autoComplete="one-time-code" required value={code} onChange={(event) => setCode(event.target.value.replace(/\D/g, '').slice(0, 8))} className="w-full rounded-lg border border-[var(--color-border)] bg-[var(--color-bg)] px-5 py-4 text-center text-xl font-bold tracking-[0.35em] text-[var(--color-text)] focus-visible:border-[var(--color-primary)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-primary)]/25" />
+          <input id="code" inputMode="numeric" autoComplete="one-time-code" required value={code} onChange={(event) => { setCode(event.target.value.replace(/\D/g, '').slice(0, 8)); setError(null); }} className="w-full rounded-lg border border-[var(--color-border)] bg-[var(--color-bg)] px-5 py-4 text-center text-xl font-bold tracking-[0.35em] text-[var(--color-text)] focus-visible:border-[var(--color-primary)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-primary)]/25" />
         </div>
         <div>
           <label htmlFor="password" className="mb-2 block text-base font-medium">
             Bagong Password
           </label>
           <div className="flex flex-col gap-2">
-            <PasswordInput id="password" value={password} onChange={setPassword} autoComplete="new-password" />
+            <PasswordInput id="password" value={password} onChange={(value) => { setPassword(value); setError(null); }} autoComplete="new-password" />
             <PasswordStrengthMeter password={password} />
           </div>
         </div>
@@ -92,7 +92,7 @@ export default function ResetPassword() {
           <PasswordInput
             id="confirmPassword"
             value={confirmPassword}
-            onChange={setConfirmPassword}
+            onChange={(value) => { setConfirmPassword(value); setError(null); }}
             autoComplete="new-password"
           />
         </div>

@@ -143,6 +143,11 @@ export default function Login() {
   const [showForm, setShowForm] = useState(() => getSavedProfiles().length === 0);
   const [reloginBusyId, setReloginBusyId] = useState<string | null>(null);
 
+  const clearFieldError = (field: keyof FieldErrors) => {
+    setFieldErrors((previous) => ({ ...previous, [field]: undefined }));
+    setError(null);
+  };
+
   const validate = (cleanEmail: string): FieldErrors => {
     const errors: FieldErrors = {};
     if (!cleanEmail) errors.email = 'Kailangan ang email.';
@@ -291,14 +296,15 @@ export default function Login() {
             type="email"
             required
             value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            onChange={(e) => { setEmail(e.target.value); clearFieldError('email'); }}
             autoComplete="email"
             invalid={!!fieldErrors.email}
+            aria-describedby={fieldErrors.email ? 'email-error' : undefined}
             className="min-h-15 rounded-[14px] border-[var(--color-brand-lavender)]/25 bg-[#FAF8F3] text-base focus-visible:bg-[#F4F0FF]"
           />
           {fieldErrors.email && (
             <div className="mt-2">
-              <FieldError message={fieldErrors.email} />
+              <FieldError id="email-error" message={fieldErrors.email} />
             </div>
           )}
         </div>
@@ -314,14 +320,15 @@ export default function Login() {
           <PasswordInput
             id="password"
             value={password}
-            onChange={setPassword}
+            onChange={(value) => { setPassword(value); clearFieldError('password'); }}
             autoComplete="current-password"
             invalid={!!fieldErrors.password}
+            aria-describedby={fieldErrors.password ? 'password-error' : undefined}
             className="min-h-15 rounded-[14px] border-[var(--color-brand-lavender)]/25 bg-[#FAF8F3] text-base focus-visible:bg-[#F4F0FF]"
           />
           {fieldErrors.password && (
             <div className="mt-2">
-              <FieldError message={fieldErrors.password} />
+              <FieldError id="password-error" message={fieldErrors.password} />
             </div>
           )}
         </div>

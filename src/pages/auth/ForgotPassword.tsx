@@ -70,7 +70,7 @@ export default function ForgotPassword() {
                   type="email"
                   required
                   value={email}
-                  onChange={(event) => setEmail(event.target.value)}
+                  onChange={(event) => { setEmail(event.target.value); setError(null); }}
                   autoComplete="email"
                   placeholder="Ilagay ang iyong nakarehistrong email"
                   className="auth-forgot-input min-h-14 w-full py-3 pr-4 pl-12 text-[var(--color-text)] placeholder:text-sm"

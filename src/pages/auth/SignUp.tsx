@@ -38,6 +38,11 @@ export default function SignUp() {
   const [error, setError] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
 
+  const clearFieldError = (field: keyof FieldErrors) => {
+    setFieldErrors((previous) => ({ ...previous, [field]: undefined }));
+    setError(null);
+  };
+
   const validate = (cleanEmail: string): FieldErrors => {
     const errors: FieldErrors = {};
     if (firstName.trim().length < 2) errors.firstName = 'Ilagay ang iyong pangalan.';
@@ -133,14 +138,15 @@ export default function SignUp() {
               id="firstName"
               required
               value={firstName}
-              onChange={(e) => setFirstName(e.target.value)}
+              onChange={(e) => { setFirstName(e.target.value); clearFieldError('firstName'); }}
               autoComplete="given-name"
               aria-invalid={!!fieldErrors.firstName || undefined}
+              aria-describedby={fieldErrors.firstName ? 'firstName-error' : undefined}
               className={`${inputClass} ${fieldErrors.firstName ? 'border-[var(--color-danger)] focus-visible:border-[var(--color-danger)] focus-visible:ring-[var(--color-danger)]/25' : ''}`}
             />
             {fieldErrors.firstName && (
               <div className="mt-2">
-                <FieldError message={fieldErrors.firstName} />
+                <FieldError id="firstName-error" message={fieldErrors.firstName} />
               </div>
             )}
           </div>
@@ -151,7 +157,7 @@ export default function SignUp() {
             <input
               id="middleInitial"
               value={middleInitial}
-              onChange={(e) => setMiddleInitial(e.target.value)}
+              onChange={(e) => { setMiddleInitial(e.target.value); setError(null); }}
               maxLength={2}
               autoComplete="additional-name"
               className={inputClass}
@@ -165,14 +171,15 @@ export default function SignUp() {
               id="lastName"
               required
               value={lastName}
-              onChange={(e) => setLastName(e.target.value)}
+              onChange={(e) => { setLastName(e.target.value); clearFieldError('lastName'); }}
               autoComplete="family-name"
               aria-invalid={!!fieldErrors.lastName || undefined}
+              aria-describedby={fieldErrors.lastName ? 'lastName-error' : undefined}
               className={`${inputClass} ${fieldErrors.lastName ? 'border-[var(--color-danger)] focus-visible:border-[var(--color-danger)] focus-visible:ring-[var(--color-danger)]/25' : ''}`}
             />
             {fieldErrors.lastName && (
               <div className="mt-2">
-                <FieldError message={fieldErrors.lastName} />
+                <FieldError id="lastName-error" message={fieldErrors.lastName} />
               </div>
             )}
           </div>
@@ -187,14 +194,15 @@ export default function SignUp() {
             type="email"
             required
             value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            onChange={(e) => { setEmail(e.target.value); clearFieldError('email'); }}
             autoComplete="email"
             invalid={!!fieldErrors.email}
+            aria-describedby={fieldErrors.email ? 'email-error' : undefined}
             placeholder="halimbawa@email.com"
           />
           {fieldErrors.email && (
             <div className="mt-2">
-              <FieldError message={fieldErrors.email} />
+              <FieldError id="email-error" message={fieldErrors.email} />
             </div>
           )}
         </div>
@@ -206,9 +214,10 @@ export default function SignUp() {
             <PasswordInput
               id="password"
               value={password}
-              onChange={setPassword}
+              onChange={(value) => { setPassword(value); clearFieldError('password'); clearFieldError('confirmPassword'); }}
               autoComplete="new-password"
               invalid={!!fieldErrors.password}
+              aria-describedby={fieldErrors.password ? 'password-error' : undefined}
             />
             <p className="auth-password-helper">Gumamit ng hindi bababa sa 8 karakter na may malaking titik (A–Z) at numero (0–9).</p>
             <ul className="auth-password-checklist" aria-label="Mga kailangan sa password">
@@ -216,7 +225,7 @@ export default function SignUp() {
               <li className={/[A-Z]/.test(password) ? 'complete' : ''}>{/[A-Z]/.test(password) ? '✓' : '○'} May malaking titik (A–Z)</li>
               <li className={/[0-9]/.test(password) ? 'complete' : ''}>{/[0-9]/.test(password) ? '✓' : '○'} May numero (0–9)</li>
             </ul>
-            {fieldErrors.password && <FieldError message={fieldErrors.password} />}
+            {fieldErrors.password && <FieldError id="password-error" message={fieldErrors.password} />}
           </div>
         </div>
         <div>
@@ -226,13 +235,14 @@ export default function SignUp() {
           <PasswordInput
             id="confirmPassword"
             value={confirmPassword}
-            onChange={setConfirmPassword}
+            onChange={(value) => { setConfirmPassword(value); clearFieldError('confirmPassword'); }}
             autoComplete="new-password"
             invalid={!!fieldErrors.confirmPassword}
+            aria-describedby={fieldErrors.confirmPassword ? 'confirmPassword-error' : undefined}
           />
           {fieldErrors.confirmPassword && (
             <div className="mt-2">
-              <FieldError message={fieldErrors.confirmPassword} />
+              <FieldError id="confirmPassword-error" message={fieldErrors.confirmPassword} />
             </div>
           )}
           {confirmPassword && password === confirmPassword && !fieldErrors.confirmPassword && <p className="auth-password-match" role="status">✓ Magkatugma ang password</p>}
@@ -244,7 +254,9 @@ export default function SignUp() {
               type="checkbox"
               required
               checked={agreedToTerms}
-              onChange={(e) => setAgreedToTerms(e.target.checked)}
+              aria-invalid={!!fieldErrors.agreedToTerms || undefined}
+              aria-describedby={fieldErrors.agreedToTerms ? 'agreedToTerms-error' : undefined}
+              onChange={(e) => { setAgreedToTerms(e.target.checked); clearFieldError('agreedToTerms'); }}
               className="mt-1 h-5 w-5 shrink-0 rounded border-[var(--color-border)] text-[var(--color-primary)] focus-visible:ring-2 focus-visible:ring-[var(--color-primary)]/25"
             />
             <span className="text-[var(--color-text-muted)]">
@@ -254,7 +266,7 @@ export default function SignUp() {
           </label>
           {fieldErrors.agreedToTerms && (
             <div className="mt-2">
-              <FieldError message={fieldErrors.agreedToTerms} />
+              <FieldError id="agreedToTerms-error" message={fieldErrors.agreedToTerms} />
             </div>
           )}
         </div>
