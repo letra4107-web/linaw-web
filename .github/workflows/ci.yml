@@ -30,6 +30,9 @@ jobs:
     name: Deploy web to Hostinger
     needs: verify
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    concurrency:
+      group: hostinger-production
+      cancel-in-progress: false
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -49,6 +52,8 @@ jobs:
           VITE_APP_VERSION: 0.1.0
           VITE_API_COMPATIBILITY_VERSION: 3
       - name: Upload frontend to Hostinger
+        id: upload
+        continue-on-error: true
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
           server: ${{ secrets.HOSTINGER_FTP_HOST }}
@@ -57,5 +62,15 @@ jobs:
           local-dir: ./dist/
           # This FTP account starts above the domain document root. Deploy the
           # complete built site directly into the live Hostinger web folder.
+          server-dir: ./public_html/
+          dangerous-clean-slate: false
+      - name: Retry interrupted Hostinger upload
+        if: steps.upload.outcome == 'failure'
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.HOSTINGER_FTP_HOST }}
+          username: ${{ secrets.HOSTINGER_FTP_USERNAME }}
+          password: ${{ secrets.HOSTINGER_FTP_PASSWORD }}
+          local-dir: ./dist/
           server-dir: ./public_html/
           dangerous-clean-slate: false

@@ -69,3 +69,6 @@ visible confetti under a strict CSP. No live student account is used.
 
 The backend and frontend must both run the updated code. Restart a backend that
 does not watch source changes, and refresh the web app after the frontend deploy.
+
+The Hostinger deployment serializes production uploads and retries one failed
+FTP upload using the same build. If both attempts fail, the job still fails.
