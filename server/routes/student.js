@@ -419,8 +419,8 @@ router.get('/reading-profile', async (req, res) => {
 router.post('/practice/attempt',(req,res)=>res.status(400).json({error:"Magsimula muna ng wastong pagsubok sa aralin."}));
 
 // Completion, reward, streak and attempt receipt must commit together in the
-// dedicated service-only RPC. The SQL proposal is review-only; if it has not
-// been approved/installed, return a safe retryable error without partial writes.
+// dedicated service-only RPC installed by migration 051. Missing deployments
+// return a safe retryable error without partial writes.
 router.get('/word-of-day',async(req,res)=>{try{const id=await resolveStudentId(req.user.id);res.json({success:true,log:await require('../services/wordOfDayInitialization').loadWordOfDay(supabaseAdmin,id)});}catch(error){handleRpcError(res,error);}});
 router.post('/word-of-day/attempt', async (req, res) => {
   try {

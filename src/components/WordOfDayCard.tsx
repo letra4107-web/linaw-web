@@ -4,7 +4,7 @@ import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '../lib/supabaseClient';
 import { useAuth } from '../lib/auth/AuthContext';
 import { api } from '../lib/api';
-import { getOrCreateWordOfDay, MAX_ATTEMPTS } from '../lib/wordOfDay';
+import { getOrCreateWordOfDay, MAX_ATTEMPTS, type WordOfDayLog } from '../lib/wordOfDay';
 import { assessSpeech, isSpeechRecognitionSupported, listenOnce } from '../lib/speech';
 import { syllabifyWord } from '../lib/syllabify';
 import { CORRECT_MESSAGES, ENCOURAGE_MESSAGES, randomFrom } from '../lib/feedbackMessages';
@@ -25,6 +25,8 @@ export interface DailyWordStatus {
   read: boolean;
   completed: boolean;
 }
+
+interface PendingAttempt { logId: string; attempts: number; transcript: string }
 
 export function WordOfDayCard({ streak = 0, onStatusChange }: WordOfDayCardProps) {
   const { user } = useAuth();
@@ -48,6 +50,8 @@ export function WordOfDayCard({ streak = 0, onStatusChange }: WordOfDayCardProps
   const wordBoardRef = useRef<HTMLDivElement>(null);
   const [steps, setSteps] = useState({ id: '', listened: false, read: false });
   const [saving, setSaving] = useState(false);
+  const [pendingAttempt, setPendingAttempt] = useState<PendingAttempt | null>(null);
+  const submittingRef = useRef(false);
 
   useEffect(() => {
     return () => {
@@ -146,8 +150,52 @@ export function WordOfDayCard({ streak = 0, onStatusChange }: WordOfDayCardProps
     }
   };
 
+  const submitAttempt = async (attempt: PendingAttempt) => {
+    if (submittingRef.current) return;
+    submittingRef.current = true;
+    setSaving(true);
+    setPendingAttempt(attempt);
+    setError(null);
+    try {
+      const res = await api<{
+        xpAwarded: number;
+        originalXpAwarded?: number;
+        accuracy: number;
+        isFinal: boolean;
+        correct: boolean | null;
+        newlyUnlockedBadges?: string[];
+      }>('/student/word-of-day/attempt', { method: 'POST', auth: true, body: attempt });
+      // Advance the cached attempt before allowing another recording, even when
+      // a background refresh is slow or fails after the committed response.
+      queryClient.setQueryData<WordOfDayLog | null>(['word-of-day', child?.id, path?.effective_level], current =>
+        current?.id === attempt.logId ? { ...current, attempts: attempt.attempts,
+          accuracy: res.accuracy, correct: res.correct,
+          xp_awarded: res.isFinal ? res.originalXpAwarded ?? res.xpAwarded : current.xp_awarded,
+          completed_at: res.isFinal ? new Date().toISOString() : null } : current);
+      setPendingAttempt(null);
+      if (res.isFinal && res.correct) setJustAwardedXp(res.xpAwarded);
+      if (res.newlyUnlockedBadges?.length) setNewlyUnlockedBadges(res.newlyUnlockedBadges);
+      setFeedbackMessage(res.isFinal && res.correct ? randomFrom(CORRECT_MESSAGES) : randomFrom(ENCOURAGE_MESSAGES));
+      setJustAnswered(true);
+      setWasWrongAttempt(!res.isFinal);
+      void queryClient.invalidateQueries({ queryKey: ['word-of-day'] });
+      void queryClient.invalidateQueries({ queryKey: ['student-progress'] });
+      void queryClient.invalidateQueries({ queryKey: ['student-profile-progress'] });
+    } catch (err) {
+      const status = (err as { status?: number })?.status;
+      if (status === 400 || status === 404 || status === 409) {
+        setPendingAttempt(null);
+        void queryClient.invalidateQueries({ queryKey: ['word-of-day'] });
+      }
+      setError(err instanceof Error ? tagalogError(err) : 'May problema sa pag-save ng sagot.');
+    } finally {
+      submittingRef.current = false;
+      setSaving(false);
+    }
+  };
+
   const handleTry = () => {
-    if (!wordOfDay || listening || saving) return;
+    if (!canTry || !wordOfDay || listening || submittingRef.current || pendingAttempt) return;
     stopSpeech();
     setError(null);
     setWasWrongAttempt(false);
@@ -159,33 +207,7 @@ export function WordOfDayCard({ streak = 0, onStatusChange }: WordOfDayCardProps
         setLastHeard(transcript);
         const assessment = assessSpeech(wordOfDay.word, transcript, confidence);
         if (assessment.outcome === 'retry') { setError(assessment.message); return; }
-        const nextAttempts = attemptsUsed + 1;
-
-        try {
-          setSaving(true);
-          const res = await api<{
-            xpAwarded: number;
-            isFinal: boolean;
-            correct: boolean | null;
-            newlyUnlockedBadges?: string[];
-          }>('/student/word-of-day/attempt', {
-            method: 'POST',
-            auth: true,
-            body: { logId: wordOfDay.id, attempts: nextAttempts, transcript },
-          });
-          if (res.isFinal && res.correct) setJustAwardedXp(res.xpAwarded);
-          if (res.newlyUnlockedBadges?.length) setNewlyUnlockedBadges(res.newlyUnlockedBadges);
-          setFeedbackMessage(res.isFinal && res.correct ? randomFrom(CORRECT_MESSAGES) : randomFrom(ENCOURAGE_MESSAGES));
-          setJustAnswered(true);
-          if (!res.isFinal) setWasWrongAttempt(true);
-          queryClient.invalidateQueries({ queryKey: ['word-of-day'] });
-          queryClient.invalidateQueries({ queryKey: ['student-progress'] });
-          queryClient.invalidateQueries({ queryKey: ['student-profile-progress'] });
-        } catch (err) {
-          setError(err instanceof Error ? tagalogError(err) : 'May problema sa pag-save ng sagot.');
-        } finally {
-          setSaving(false);
-        }
+        await submitAttempt({ logId: wordOfDay.id, attempts: attemptsUsed + 1, transcript });
       },
       (message) => {
         setListening(false);
@@ -212,7 +234,7 @@ export function WordOfDayCard({ streak = 0, onStatusChange }: WordOfDayCardProps
       <div className="home-word-signposts" aria-label="Mga hakbang sa salita">
         <button type="button" data-word-action="listen" onClick={playWord} disabled={speechStatus === 'loading'} aria-pressed={speechStatus === 'speaking'}><Volume2 size={24} aria-hidden="true" />{speechStatus === 'loading' ? 'Sandali…' : speechStatus === 'speaking' ? 'Ihinto' : 'Makinig'}</button>
         <button type="button" data-word-action="read" onClick={startReading} aria-pressed={read}><BookOpen size={24} aria-hidden="true" />Basahin</button>
-        <button type="button" data-word-action="speak" onClick={handleTry} disabled={!canTry || listening || saving} aria-describedby="word-of-day-microphone-help"><Mic size={24} aria-hidden="true" />{listening ? 'Nakikinig…' : saving ? 'Sine-save…' : isDone ? 'Tapos na!' : 'Bigkasin'}</button>
+        <button type="button" data-word-action="speak" onClick={handleTry} disabled={!canTry || listening || saving || Boolean(pendingAttempt)} aria-describedby="word-of-day-microphone-help"><Mic size={24} aria-hidden="true" />{listening ? 'Nakikinig…' : saving ? 'Sine-save…' : isDone ? 'Tapos na!' : 'Bigkasin'}</button>
       </div>
       <div ref={wordBoardRef} tabIndex={-1} role="group" className="home-word-board" data-reading={read} aria-label={`Salita: ${wordOfDay.word}`}>
         <p className="home-word-syllables"><span className="sr-only">{wordOfDay.word}</span>{syllables.map((syllable, index) => <span key={index} className="home-syllable-group" aria-hidden="true">{index > 0 && <span className="home-syllable-divider">-</span>}<span className={index % 2 ? 'home-syllable-pink' : 'home-syllable-blue'}>{syllable}</span></span>)}</p>
@@ -222,9 +244,10 @@ export function WordOfDayCard({ streak = 0, onStatusChange }: WordOfDayCardProps
     </div>
     <div className="home-word-feedback">
       {error && <p role="alert" className="home-word-error">{error}</p>}
-      {isDone ? <PronunciationFeedback correct={Boolean(wordOfDay.correct)} message={wordOfDay.correct ? `${feedbackMessage || fallbackDoneMessage} +${wordOfDay.xp_awarded} XP` : feedbackMessage || fallbackDoneMessage} speakText={feedbackMessage || fallbackDoneMessage} hint="Natapos mo na ito. Bumalik bukas para sa susunod na salita." word={!wordOfDay.correct ? wordOfDay.word : undefined} autoPlay={justAnswered} /> :
+      {pendingAttempt && !saving && <button type="button" className="home-purple-button" onClick={() => void submitAttempt(pendingAttempt)}>I-save muli ang sagot</button>}
+      {isDone ? <PronunciationFeedback attemptId={`${wordOfDay.id}:${attemptsUsed}`} correct={Boolean(wordOfDay.correct)} message={wordOfDay.correct ? `${feedbackMessage || fallbackDoneMessage} +${wordOfDay.xp_awarded} XP` : feedbackMessage || fallbackDoneMessage} speakText={feedbackMessage || fallbackDoneMessage} hint="Natapos mo na ito. Bumalik bukas para sa susunod na salita." word={!wordOfDay.correct ? wordOfDay.word : undefined} autoPlay={justAnswered} /> :
         <div className="home-word-help"><p id="word-of-day-microphone-help" aria-live="polite">{!isSpeechRecognitionSupported() ? 'Hindi suportado ng browser na ito ang pagkilala ng boses. Maaari ka pa ring makinig at magbasa.' : listening ? 'Magsalita nang malinaw.' : saving ? 'Sine-save ang iyong sagot…' : read ? 'Pindutin ang Bigkasin kapag handa ka na.' : 'Makinig muna, saka basahin ang mga pantig.'}</p><span role="img" aria-label={`${attemptsUsed} sa ${MAX_ATTEMPTS} pagsubok ang nagamit`}>{Array.from({ length: MAX_ATTEMPTS }, (_, index) => <i key={index} data-used={index < attemptsUsed} />)}</span></div>}
-      {lastHeard && wasWrongAttempt && !isDone && <PronunciationFeedback correct={false} message={feedbackMessage} detail={`Narinig ko: "${lastHeard}"`} hint="Ulitin natin. Pakinggan ang tamang bigkas!" word={wordOfDay.word} />}
+      {lastHeard && wasWrongAttempt && !isDone && <PronunciationFeedback attemptId={`${wordOfDay.id}:${attemptsUsed}`} correct={false} message={feedbackMessage} detail={`Narinig ko: "${lastHeard}"`} hint="Ulitin natin. Pakinggan ang tamang bigkas!" word={wordOfDay.word} />}
       {lastHeard && !wasWrongAttempt && !isDone && <p>Narinig: “{lastHeard}”</p>}
     </div>
     <details className="home-word-meaning"><summary>Kahulugan at halimbawa <span aria-hidden="true">＋</span></summary><WordMeaning word={wordOfDay.word} compactControls emptyMessage="Wala pang kahulugan para sa salitang ito. Maaari mo pa rin itong pakinggan at basahin." /></details>
