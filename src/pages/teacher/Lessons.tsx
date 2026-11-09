@@ -1,4 +1,5 @@
 import { uploadPublishedLesson, type LessonDraft } from '../../lib/lessons/upload';
+import { updateOwnedLesson, deleteOwnedLesson } from '../../lib/lessons/manage';
 import { tagalogError } from '../../lib/validationMessages';
 import { useEffect, useId, useRef, useState } from 'react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
@@ -78,12 +79,10 @@ export default function Lessons() {
   const updateLesson = useMutation({ mutationFn: async ({ id, values }: { id: string; values: Partial<Draft> & { is_published?: boolean } }) => {
     if (values.is_published === undefined && (!values.title?.trim() || !values.description?.trim() || !values.gradeLevel)) throw new Error('Kumpletuhin ang mga kinakailangang detalye.');
     const payload = values.is_published !== undefined ? { is_published: values.is_published } : { title: values.title?.trim(), description: values.description?.trim(), grade_level: values.gradeLevel };
-    const { error } = await supabase.from('lessons').update(payload).eq('id', id).eq('teacher_id', user!.id);
-    if (error) throw error;
+    await updateOwnedLesson(supabase, user?.id, id, payload);
   }, onSuccess: (_, variables) => { setActionError(null); if (variables.values.is_published === undefined) setSelection(null); setSuccess(variables.values.is_published === undefined ? 'Na-save ang mga pagbabago.' : variables.values.is_published ? 'Nai-publish ang aralin.' : 'Nailipat sa draft ang aralin.'); void queryClient.invalidateQueries({ queryKey: ['teacher-lessons'] }); void queryClient.invalidateQueries({ queryKey: ['teacher-materials-count'] }); }, onError: (error: Error) => setActionError(tagalogError(error)) });
   const deleteLesson = useMutation({ mutationFn: async (id: string) => {
-    const { error } = await supabase.from('lessons').delete().eq('id', id).eq('teacher_id', user!.id);
-    if (error) throw error;
+    await deleteOwnedLesson(supabase, user?.id, id);
   }, onSuccess: () => { setSelection(null); setActionError(null); setSuccess('Natanggal ang aralin.'); void queryClient.invalidateQueries({ queryKey: ['teacher-lessons'] }); void queryClient.invalidateQueries({ queryKey: ['teacher-materials-count'] }); }, onError: (error: Error) => setActionError(tagalogError(error)) });
   const busy = createLesson.isPending || updateLesson.isPending || deleteLesson.isPending;
   const selectedLesson = lessons?.find((lesson) => lesson.id === selection?.id);
