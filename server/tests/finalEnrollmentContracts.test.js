@@ -6,7 +6,7 @@ const vm = require('node:vm');
 const { createRequire } = require('node:module');
 
 // Real route handler; account, database, hashing and email boundaries are mocks.
-async function enrollment({ cleanup = '', duplicate = false, invalid = false, mailFailure = false, success = false } = {}) {
+async function enrollment({ cleanup = '', duplicate = false, invalid = false, mailFailure = false, mailReceiptFailure = false, success = false } = {}) {
   const calls = [], uid = '00000000-0000-4000-8000-000000000004';
   const client = {
     auth: { admin: {
@@ -23,12 +23,13 @@ async function enrollment({ cleanup = '', duplicate = false, invalid = false, ma
         }
         if (method === 'select') return { data: table === 'teacher_profiles' ? [] : duplicate ? { id: 'existing' } : null, error: null };
         calls.push(`${table}:${method}`);
+        if(table === 'child_credentials' && method === 'update' && mailReceiptFailure) throw new Error('synthetic receipt outage');
         return { data: table === 'children' ? { id: 'synthetic-child' } : null, error: table === 'users' && !success ? { message: 'synthetic private profile diagnostic' } : null };
       };
       query = new Proxy({}, { get(_target, key) {
         if (key === 'then') return (resolve, reject) => execute().then(resolve, reject);
         if (key === 'single' || key === 'maybeSingle') return execute;
-        return () => { if (['insert', 'upsert', 'delete'].includes(key)) method = key; return query; };
+        return () => { if (['insert', 'upsert', 'update', 'delete'].includes(key)) method = key; return query; };
       } }); return query;
     },
   };
@@ -42,7 +43,7 @@ async function enrollment({ cleanup = '', duplicate = false, invalid = false, ma
     return actualRequire(name);
   } }, { filename });
   const handler = module.exports.stack.find((layer) => layer.route?.path === '/children' && layer.route.methods.post).route.stack[0].handle;
-  const response = { code: 200, status(code) { this.code = code; return this; }, json(body) { this.body = body; return this; } };
+  const response = { headers: {}, setHeader(key, value) { this.headers[key] = value; }, code: 200, status(code) { this.code = code; return this; }, json(body) { this.body = body; return this; } };
   await handler({ user: { id: 'synthetic-parent', email: 'qa-parent@example.invalid' }, body: { childName: invalid ? '' : 'Synthetic Learner', gradeLevel: 1 } }, response);
   return { calls, response };
 }
@@ -59,5 +60,7 @@ test('final enrollment: duplicate child does not create an account', async () =>
 });
 for (const mailFailure of [false, true]) test(`final enrollment: successful account survives email failure=${mailFailure}`, async () => {
   const { calls, response } = await enrollment({ success: true, mailFailure });
-  assert.equal(response.code, 200); assert.equal(response.body.success, true); assert.ok(calls.includes('mail')); assert.ok(!calls.some((call) => call.endsWith(':delete')));
+  assert.equal(response.code, 200); assert.equal(response.body.success, true); assert.ok(calls.includes('mail')); assert.ok(!calls.some((call) => call.endsWith(':delete'))); assert.equal(response.body.credentialsEmailSent, !mailFailure); assert.equal(response.headers['Cache-Control'], 'private, no-store'); assert.equal(calls.includes('child_credentials:update'), !mailFailure);
 });
+
+test('enrollment survives a mail receipt outage after provider acceptance',async()=>{const {calls,response}=await enrollment({success:true,mailReceiptFailure:true});assert.equal(response.code,200);assert.equal(response.body.credentialsEmailSent,true);assert.equal(calls.includes('auth:delete'),false);});

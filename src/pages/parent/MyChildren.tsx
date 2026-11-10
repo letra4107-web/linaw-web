@@ -1,3 +1,4 @@
+import { rememberChildCredential, credentialEmailNotice, type TemporaryChildCredential } from '../../lib/parentCredentials';
 import {ChildDetailsForm} from './ChildDetailsForm';
 import { tagalogError } from '../../lib/validationMessages';
 import { Fragment, useEffect, useRef, useState, type ReactNode } from 'react';
@@ -98,7 +99,7 @@ export default function MyChildren() {
   const [successMsg, setSuccessMsg] = useState<string | null>(null);
   const [editingId, setEditingId] = useState<string | null>(null);
   const [accessOpenId, setAccessOpenId] = useState<string | null>(null);
-  const [temporaryCredential, setTemporaryCredential] = useState<{ username: string; password: string } | null>(null);
+  const [temporaryCredentials, setTemporaryCredentials] = useState<TemporaryChildCredential[]>([]);
   const [showEnrollModal, setShowEnrollModal] = useState(false);
   const [modulePage, setModulePage] = useState(1);
   const [modulesPerPage, setModulesPerPage] = useState(5);
@@ -127,10 +128,10 @@ export default function MyChildren() {
     enabled: Boolean(user),
   });
   const enrollChild = useMutation({ meta: { saveFeedback: 'Na-save ang mga pagbabago.' },
-    mutationFn: (details: { childName: string; gradeLevel: number }) => api<{ success: boolean; username: string; temporaryPassword: string; level: string }>('/parent/children', { method: 'POST', auth: true, body: details }),
+    mutationFn: (details: { childName: string; gradeLevel: number }) => api<{ success: boolean; username: string; temporaryPassword: string; level: string; credentialsEmailSent?: boolean }>('/parent/children', { method: 'POST', auth: true, body: details }),
     onSuccess: (result, details) => {
       setSuccessMsg(`Nai-enroll si ${details.childName} bilang ${result.username} (${result.level} level).`);
-      setTemporaryCredential({ username: result.username, password: result.temporaryPassword });
+      setTemporaryCredentials(current => rememberChildCredential(current, { username: result.username, password: result.temporaryPassword, childName: details.childName, emailSent: result.credentialsEmailSent }));
       setChildName(''); setGradeLevel('1'); setShowEnrollModal(false); setError(null);
       queryClient.invalidateQueries({ queryKey: ['parent-children'] });
       queryClient.invalidateQueries({ queryKey: ['parent-credential-security'] });
@@ -164,8 +165,8 @@ export default function MyChildren() {
     updateAccess.mutate({ childId: targetChildId, patch });
   };
   const resetPassword = useMutation({ meta: { saveFeedback: 'Na-save ang mga pagbabago.' },
-    mutationFn: (childId: string) => api<{ username: string; temporaryPassword: string }>(`/parent/children/${childId}/reset-password`, { method: 'POST', auth: true }),
-    onSuccess: (result) => { setTemporaryCredential({ username: result.username, password: result.temporaryPassword }); setError(null); queryClient.invalidateQueries({ queryKey: ['parent-credential-security'] }); },
+    mutationFn: (childId: string) => api<{ username: string; temporaryPassword: string; credentialsEmailSent?: boolean }>(`/parent/children/${childId}/reset-password`, { method: 'POST', auth: true }),
+    onSuccess: (result, targetId) => { setTemporaryCredentials(current => rememberChildCredential(current, { username: result.username, password: result.temporaryPassword, childName: children?.find(child => child.id === targetId)?.name || 'Mag-aaral', emailSent: result.credentialsEmailSent })); setError(null); queryClient.invalidateQueries({ queryKey: ['parent-credential-security'] }); },
     onError: (err: Error) => setError(tagalogError(err)),
   });
   const selectedChild = children?.find((child) => child.id === params.get('child')) ?? children?.[0];
@@ -219,7 +220,7 @@ export default function MyChildren() {
     {error && <div className="kid-feedback kid-feedback-error" role="alert">{error}<button type="button" onClick={() => setError(null)} aria-label="Isara ang mensahe"><X size={17} /></button></div>}
     {childrenError && <div className="kid-feedback kid-feedback-error" role="alert">Hindi makuha ang mga account. {tagalogError(childrenError)}<button type="button" disabled={childrenFetching} style={{ width: 'auto', height: 'auto', padding: '7px 10px', flexShrink: 0, whiteSpace: 'nowrap' }} onClick={() => void refetchChildren()}>{childrenFetching ? 'Kinukuha...' : 'Subukan muli'}</button></div>}
     {successMsg && <div className="kid-feedback kid-feedback-success" role="status"><CheckCircle2 size={19} />{successMsg}<button type="button" onClick={() => setSuccessMsg(null)} aria-label="Isara ang mensahe"><X size={17} /></button></div>}
-    {temporaryCredential && <section className="kid-temporary-credential" role="status"><KeyRound size={23} /><div><h2>Isulat ang temporary credential ngayon.</h2><p>Username: <strong>{temporaryCredential.username}</strong> · Password: <strong>{temporaryCredential.password}</strong></p><small>Hindi na ito maipapakita muli. Naipadala rin ito sa iyong email kung available.</small></div><button type="button" onClick={() => setTemporaryCredential(null)}>Naitala ko na</button></section>}
+    {temporaryCredentials.map(credential => <section key={credential.username} className="kid-temporary-credential" role="status"><KeyRound size={23} /><div><h2>Login ni {credential.childName}</h2><p>Username: <strong>{credential.username}</strong> · Password: <strong>{credential.password}</strong></p><small>{credentialEmailNotice(credential.emailSent)} Itabi ngayon; hindi ito mase-save sa browser.</small></div><button type="button" aria-label={`Naitala ko na ang login ni ${credential.childName}`} onClick={() => setTemporaryCredentials(current => current.filter(item => item.username !== credential.username))}>Naitala ko na</button></section>)}
 
     <div className="kid-page-grid">
       <aside className="kid-roster-column">

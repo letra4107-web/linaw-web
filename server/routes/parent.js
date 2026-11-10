@@ -221,7 +221,7 @@ router.post('/children', async (req, res) => {
       plain_password: null,
       password_rotated_at: new Date().toISOString(),
       plaintext_retired_at: new Date().toISOString(),
-      sent_at: new Date().toISOString(),
+      sent_at: null,
     });
     if (credentialsErr) throw credentialsErr;
 
@@ -241,13 +241,21 @@ router.post('/children', async (req, res) => {
 
     // A sent email is useful, but the on-screen one-time credential is enough
     // to complete enrollment. Do not discard a valid account if SMTP fails.
+    let credentialsEmailSent = false;
     await sendMail({
       to: parentEmail,
-      subject: 'LinawLetra — Naka-enroll na ang Inyong Anak',
+      subject: `LinawLetra — Login ni ${cleanName}`,
       text: `Magandang araw!\n\nNaka-enroll na si ${cleanName} sa LinawLetra (Grade ${finalGradeLevel}, ${level} na reading level).\n\nUsername: ${authEmail}\nPassword: ${password}\n\nItago ang detalyeng ito.`,
-    }).catch((mailError) => console.error('[parent child enrollment email]', mailError));
+    }).then(() => { credentialsEmailSent = true; }).catch((mailError) => console.error('[parent child enrollment email]', { code: mailError?.code }));
+    if (credentialsEmailSent) {
+      try {
+        const receipt = await supabaseAdmin.from('child_credentials').update({ sent_at: new Date().toISOString() }).eq('child_id', childRow.id);
+        if (receipt.error) console.error('[parent credential mail receipt]', { code: receipt.error.code });
+      } catch { console.error('[parent credential mail receipt]', { code: 'RECEIPT_UNAVAILABLE' }); }
+    }
 
-    res.json({ success: true, child: childRow, level, username: authEmail, temporaryPassword: password });
+    res.setHeader('Cache-Control', 'private, no-store');
+    res.json({ success: true, child: childRow, level, username: authEmail, temporaryPassword: password, credentialsEmailSent });
   } catch (err) {
     console.error('[parent/children create]', err);
     if (createdAuthUid) {
@@ -469,18 +477,26 @@ router.post('/children/:id/reset-password', validateUuidParam('id'), credentialL
       plain_password: null,
       password_rotated_at: now,
       plaintext_retired_at: now,
-      sent_at: now,
+      sent_at: null,
     }, { onConflict: 'child_id' });
     if (credentialError) console.error('[parent child credential metadata]', credentialError);
 
+    let credentialsEmailSent = false;
     if (req.user.email && isBoundedString(req.user.email, 254, { allowEmpty: false })) {
       await sendMail({
         to: req.user.email,
-        subject: 'LinawLetra — Bagong Student Password',
+        subject: `LinawLetra — Bagong password ni ${child.name}`,
         text: `Na-reset ang password ni ${child.name}.\n\nUsername: ${child.username}\nTemporary password: ${password}\n\nMag-login at palitan ito. Hindi mai-retrieve ng LinawLetra ang lumang password.`,
-      }).catch((mailError) => console.error('[parent child reset email]', mailError));
+      }).then(() => { credentialsEmailSent = true; }).catch((mailError) => console.error('[parent child reset email]', { code: mailError?.code }));
+      if (credentialsEmailSent) {
+        try {
+          const receipt = await supabaseAdmin.from('child_credentials').update({ sent_at: new Date().toISOString() }).eq('child_id', child.id);
+          if (receipt.error) console.error('[parent reset mail receipt]', { code: receipt.error.code });
+        } catch { console.error('[parent reset mail receipt]', { code: 'RECEIPT_UNAVAILABLE' }); }
+      }
     }
-    res.json({ success: true, username: child.username, temporaryPassword: password });
+    res.setHeader('Cache-Control', 'private, no-store');
+    res.json({ success: true, username: child.username, temporaryPassword: password, credentialsEmailSent });
   } catch (err) {
     console.error('[parent child reset password]', err);
     res.status(500).json({ error: 'Hindi ma-reset ang student password ngayon.' });
