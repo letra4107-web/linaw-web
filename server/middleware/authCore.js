@@ -27,12 +27,13 @@ function createAuthMiddleware(client) {
   function requireRole(...roles) {
     return async (req, res, next) => {
       try {
-        const { data: profile, error } = await client.from('users').select('role, account_status, is_active').eq('id', req.user.id).maybeSingle();
+        const { data: profile, error } = await client.from('users').select('role, account_status, is_active, email_verified').eq('id', req.user.id).maybeSingle();
         if (error) return res.status(503).json({ error: "Pansamantalang hindi masuri ang pahintulot ng account. Subukan muli." });
         const role = String(profile?.role || '').trim().toLowerCase();
         if (!roles.includes(role) || profile?.is_active === false || ['disabled', 'archived'].includes(profile?.account_status)) {
           return res.status(403).json({ error: "Walang pahintulot ang tungkulin o katayuan ng account na ito." });
         }
+        if (role !== 'student' && (!req.user.email_confirmed_at || profile?.email_verified !== true)) return res.status(403).json({code:'EMAIL_VERIFICATION_REQUIRED',error:'Kumpirmahin muna ang iyong email. Please verify your email first.'});
         req.userRole = role;
         return next();
       } catch {

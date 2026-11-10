@@ -8,7 +8,7 @@ import { createFilipinoUtterance } from './filipinoVoice';
 // voice/fallback shape. Everything here resolves only once actual playback has *finished*
 // (not just started), so callers can chain several utterances in order (playTtsSequence).
 const audioCache = new Map<string, string>();
-const TTS_AUDIO_CACHE_VERSION = 'filipino-v9';
+const TTS_AUDIO_CACHE_VERSION = 'filipino-v10';
 let activeSequenceId = 0;
 let activeSequenceAudio: HTMLAudioElement | null = null;
 let cancelActivePlayback: (() => void) | null = null;

@@ -33,7 +33,7 @@ test('QA missing SMTP never logs credential email contents or reports delivery s
   const module = { exports: {} };
   const logs = [];
   vm.runInNewContext(fs.readFileSync(filename, 'utf8'), { module, exports: module.exports, require: () => ({}), process: { env: {} }, console: { warn: (...args) => logs.push(args) } }, { filename });
-  await assert.rejects(module.exports.sendMail({ to: 'private@example.test', subject: 'Credentials', text: 'sensitive-test-password' }), /not configured/);
+  await assert.rejects(module.exports.sendMail({ to: 'private@example.test', subject: 'Credentials', text: 'sensitive-test-password' }), /Hindi pa handa|not configured/);
   assert.equal(logs.length, 0);
 });
 test('QA staging guard validates each host and refuses query/path/username tricks', () => {

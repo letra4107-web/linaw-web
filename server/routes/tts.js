@@ -66,7 +66,7 @@ function createTtsRouter({
     // letter rules in the dictionary, but send U through its tested Filipino
     // sound spelling ("oo") instead.
     const isUDrill = text.trim().toLocaleLowerCase('fil-PH') === 'u';
-    const usePronunciationDictionary = Boolean(pronunciationDictionaryId && pronunciationDictionaryVersionId) && !isUDrill;
+    const usePronunciationDictionary = Boolean(pronunciationDictionaryId && pronunciationDictionaryVersionId) && !isUDrill && text.trim().toLocaleLowerCase('fil-PH') !== 'ilog';
     const synthesize = (payload) => fetchImpl(providerUrl, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'xi-api-key': apiKey },

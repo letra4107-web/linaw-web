@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { ArrowRight, RotateCcw, Star, Volume2, X } from 'lucide-react';
+import { getReadingAssistantSettings } from '../lib/readingAssistantSettings';
 import { playTtsSequence } from '../lib/ttsPlayer';
 import { TTSButton } from './a11y/TTSButton';
 import { SlowTTSButton } from './a11y/SlowTTSButton';
@@ -62,7 +63,7 @@ export function PronunciationFeedback({ correct, message, accuracy, transcript, 
   }, [attemptToken, correct, praise, score, word]);
 
   useEffect(() => {
-    if (autoPlay && !dismissed) speakFeedback();
+    if (autoPlay && !dismissed && getReadingAssistantSettings().feedbackAutoPlay) speakFeedback();
     return () => playback.current?.abort();
   }, [attemptToken, autoPlay, dismissed, speakFeedback]);
 

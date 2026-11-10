@@ -10,9 +10,9 @@ for (const area of ['notifications', 'authEvents', 'tts']) {
   for (const profile of [{ role: 'parent', account_status: 'disabled' }, { role: 'teacher', account_status: 'archived' }, { role: 'student', is_active: false }, { role: 'parent', account_status: 'active', is_active: true }]) {
     test(`audit account status ${JSON.stringify(profile)} enforced by ${area}`, async () => {
       const client = {
-        auth: { getUser: async () => ({ data: { user: { id: 'synthetic-inactive' } }, error: null }) },
+        auth: { getUser: async () => ({ data: { user: { id: 'synthetic-inactive', email_confirmed_at:'2026-01-01' } }, error: null }) },
         from(table) {
-          const result = { data: table === 'users' ? profile : [], error: null };
+          const result = { data: table === 'users' ? {...profile,email_verified:true} : [], error: null };
           const chain = { select() { return chain; }, eq() { return chain; }, or() { return chain; }, order() { return chain; }, limit() { return chain; }, maybeSingle: async () => result, then(resolve, reject) { return Promise.resolve(result).then(resolve, reject); } };
           return chain;
         },

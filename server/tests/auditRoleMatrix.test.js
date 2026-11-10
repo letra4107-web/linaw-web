@@ -18,10 +18,10 @@ const endpoints = [];
 for (const area of ['admin', 'teacher', 'parent', 'student']) {
   let currentRole;
   const client = {
-    auth: { getUser: async token => { currentRole = token; return { data: { user: { id: token } }, error: null }; } },
+    auth: { getUser: async token => { currentRole = token; return { data: { user: { id: token, email_confirmed_at:'2026-01-01' } }, error: null }; } },
     from(table) {
       assert.equal(table, 'users', 'Preflight request must never query application data');
-      const chain = { select() { return chain; }, eq() { return chain; }, maybeSingle: async () => ({ data: { role: currentRole, account_status: 'active', is_active: true }, error: null }) };
+      const chain = { select() { return chain; }, eq() { return chain; }, maybeSingle: async () => ({ data: { email_verified:true, role: currentRole, account_status: 'active', is_active: true }, error: null }) };
       return chain;
     },
   };

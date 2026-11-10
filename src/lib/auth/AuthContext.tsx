@@ -4,6 +4,7 @@ import type { Session, User } from '@supabase/supabase-js';
 import { useQueryClient } from '@tanstack/react-query';
 import { supabase } from '../supabaseClient';
 import { resolveRole, type ResolvedIdentity } from './resolveRole';
+import { setReadingAssistantSettings } from '../readingAssistantSettings';
 import { api } from '../api';
 
 interface AuthState {
@@ -36,6 +37,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     const nextUserId = nextSession?.user.id ?? null;
     if (activeUserId.current !== nextUserId) {
       queryClient.clear();
+      setReadingAssistantSettings({});
       identityVersion.current += 1;
       setIdentity(null);
     }
@@ -54,6 +56,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     // identity after a profile switch or logout.
     if (version !== identityVersion.current || activeUserId.current !== user.id) return null;
     setIdentity(resolved);
+    if (resolved && (resolved.role === 'student' || resolved.emailVerified)) void api<{settings: Parameters<typeof setReadingAssistantSettings>[0]}>('/reading-assistant-settings', {auth:true}).then(data => { if(version === identityVersion.current && activeUserId.current === user.id) setReadingAssistantSettings(data.settings); }).catch(() => {});
     return resolved;
   };
 

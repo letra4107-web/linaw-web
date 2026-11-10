@@ -55,3 +55,5 @@ test('multi-syllable Filipino words receive the slow-reading classification', ()
   assert.equal(isMultiSyllableWord('ngipin'), true);
   assert.equal(isMultiSyllableWord('araw-araw'), false);
 });
+
+test('isolated ilog has a clear word boundary while grading text and sentences remain unchanged',()=>{assert.equal(elevenLabsText('ilog'),'Ilog.');assert.equal(elevenLabsText('ILOG'),'Ilog.');assert.equal(elevenLabsText('ilok'),'ilok');assert.equal(elevenLabsText('Ang ilog ay malinis.'),'Ang ilog ay malinis.');});

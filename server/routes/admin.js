@@ -71,6 +71,29 @@ router.post('/announcements', async (req, res) => {
   }
 });
 
+
+async function announcementGroup(id) {
+ const {data,error}=await supabaseAdmin.from('notifications').select('id,title,body,created_at').eq('id',id).eq('type','admin_announcement').maybeSingle();
+ if(error)throw error;return data;
+}
+router.patch('/announcements/:id',validateUuidParam('id'),async(req,res)=>{
+ const {title,message}=req.body || {};
+ if(!isBoundedString(title,160,{allowEmpty:false}) || !isBoundedString(message,4000,{allowEmpty:false}))return res.status(400).json({error:'Ilagay ang wastong pamagat at mensahe.'});
+ try{
+  const group=await announcementGroup(req.params.id);if(!group)return res.status(404).json({error:'Hindi na makita ang anunsyo. I-refresh ang pahina.'});
+  const {data,error}=await supabaseAdmin.from('notifications').update({title:title.trim(),body:message.trim(),message:message.trim()}).eq('type','admin_announcement').eq('created_at',group.created_at).eq('title',group.title).eq('body',group.body).select('id');
+  if(error)throw error;if(!data?.length)return res.status(409).json({error:'Nagbago na ang anunsyo. I-refresh at subukan muli.'});
+  return res.json({success:true,updated:data.length});
+ }catch{res.status(500).json({error:'Hindi mabago ang anunsyo. Subukan muli.'});}
+});
+router.delete('/announcements/:id',validateUuidParam('id'),async(req,res)=>{
+ try{
+  const group=await announcementGroup(req.params.id);if(!group)return res.status(404).json({error:'Hindi na makita ang anunsyo. I-refresh ang pahina.'});
+  const {data,error}=await supabaseAdmin.from('notifications').delete().eq('type','admin_announcement').eq('created_at',group.created_at).eq('title',group.title).eq('body',group.body).select('id');
+  if(error)throw error;return res.json({success:true,deleted:data?.length || 0});
+ }catch{res.status(500).json({error:'Hindi maalis ang anunsyo. Subukan muli.'});}
+});
+
 // Read-only operational visibility for parent/teacher work.  This is separate
 // from the audit trail: it shows the current business records, not merely the
 // request that created or changed them.
@@ -104,13 +127,15 @@ router.get('/audit-logs', async (req, res) => {
     const page = Math.max(1, Math.min(100000, Number(req.query.page) || 1));
     const pageSize = Math.max(10, Math.min(100, Number(req.query.pageSize) || 25));
     const ascending = req.query.order === 'asc';
+    const dateValue = value => typeof value === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(value) && Number.isFinite(Date.parse(value)) && new Date(value).toISOString().slice(0,10) === value;
+    if ((req.query.from && !dateValue(req.query.from)) || (req.query.to && !dateValue(req.query.to)) || (req.query.from && req.query.to && req.query.from > req.query.to)) return res.status(400).json({error:'Ilagay ang wastong saklaw ng petsa.'});
     let query = supabaseAdmin.from('audit_logs').select('id, actor_id, actor_role, actor_name, action, module, record_id, status, metadata, created_at', { count: 'exact' }).order('created_at', { ascending });
     // `role` is the public filter name; retain actor_role for older callers.
     const role = String(req.query.role || req.query.actor_role || '').trim().toLowerCase();
     if (['admin', 'parent', 'teacher', 'student', 'system'].includes(role)) query = query.eq('actor_role', role);
     for (const field of ['action', 'module', 'status']) if (req.query[field]) query = query.eq(field, String(req.query[field]).slice(0, 160));
-    if (req.query.from) query = query.gte('created_at', String(req.query.from));
-    if (req.query.to) query = query.lte('created_at', `${String(req.query.to)}T23:59:59.999Z`);
+    if (req.query.from) query = query.gte('created_at', String(req.query.from) + 'T00:00:00+08:00');
+    if (req.query.to) query = query.lt('created_at', new Date(Date.parse(String(req.query.to) + 'T00:00:00+08:00') + 86400000).toISOString());
     if (req.query.search) query = query.or(`actor_name.ilike.%${String(req.query.search).replace(/[%_,()]/g, '')}%,action.ilike.%${String(req.query.search).replace(/[%_,()]/g, '')}%`);
     const { data, error, count } = await query.range((page - 1) * pageSize, page * pageSize - 1);
     if (error) throw error;
@@ -169,7 +194,7 @@ router.get('/monitoring/users/:id', validateUuidParam('id'), async (req, res) =>
     if (user.role === 'student') {
       const { data: child, error: childError } = await supabaseAdmin.from('children').select('id, name, grade_level, parent_id').eq('auth_uid', user.id).maybeSingle();
       if (childError) throw childError;
-      const [{ data: summary, error: summaryError }, { data: sessions, error: sessionsError }, modulesResult] = await Promise.all([child ? supabaseAdmin.from('child_progress').select('level, xp, streak, accuracy_sum, total_attempts, activities_completed, updated_at').eq('child_id', child.id).maybeSingle() : Promise.resolve({ data: null, error: null }), child ? supabaseAdmin.from('pronunciation_practice_sessions').select('word, accuracy_percentage, is_correct, created_at').eq('student_id', child.id).order('created_at', { ascending: false }).limit(20) : Promise.resolve({ data: [], error: null }), child ? supabaseAdmin.rpc('get_student_module_path', { p_student_id: child.id }) : Promise.resolve({ data: null, error: null })]);
+      const [{ data: summary, error: summaryError }, { data: sessions, error: sessionsError }, modulesResult] = await Promise.all([child ? supabaseAdmin.from('child_progress').select('level, xp, streak, accuracy_sum, total_attempts, activities_completed, achievements, updated_at').eq('child_id', child.id).maybeSingle() : Promise.resolve({ data: null, error: null }), child ? supabaseAdmin.from('pronunciation_practice_sessions').select('word, accuracy_percentage, is_correct, created_at').eq('student_id', child.id).order('created_at', { ascending: false }).limit(20) : Promise.resolve({ data: [], error: null }), child ? supabaseAdmin.rpc('get_student_module_path', { p_student_id: child.id }) : Promise.resolve({ data: null, error: null })]);
       if (summaryError || sessionsError || modulesResult.error) throw summaryError || sessionsError || modulesResult.error;
       return res.json({ user, child, progress: summary, modules: modulesResult.data?.modules || [], sessions: sessions || [], activity: activity || [] });
     }
@@ -453,6 +478,7 @@ router.delete('/users/:id', validateUuidParam('id'), async (req, res) => {
 
 // POST /admin/teachers  { email, name, gradeLevels: number[] }
 router.post('/teachers', async (req, res) => {
+  let createdTeacherId = null;
   try {
     const { email, name, gradeLevels } = req.body || {};
     const cleanEmail = String(email || '').trim().toLowerCase();
@@ -476,7 +502,8 @@ router.post('/teachers', async (req, res) => {
       password,
       options: { data: { role: 'teacher', full_name: cleanName } },
     });
-    if (createErr) throw createErr;
+    if (createErr) { if (['email_exists','user_already_exists'].includes(createErr.code) || /already.*registered|already.*exists/i.test(createErr.message)) return res.status(409).json({error:'May account nang gumagamit ng email na ito. Gumamit ng ibang email.'}); throw createErr; }
+    createdTeacherId = created.user.id;
 
     const teacherId = created.user.id;
     const verificationCode = created.properties?.email_otp;
@@ -524,8 +551,9 @@ router.post('/teachers', async (req, res) => {
 
     res.json({ success: true, teacherId });
   } catch (err) {
-    console.error('[admin/teachers create]', err);
-    res.status(500).json({ error: "Hindi magawa ang account ng guro." });
+    if (createdTeacherId) try { const rollback=await supabaseAdmin.auth.admin.deleteUser(createdTeacherId); if(rollback.error) console.error('[admin/teachers rollback]', {code:rollback.error.code}); } catch { console.error('[admin/teachers rollback]', {code:'ROLLBACK_UNAVAILABLE'}); }
+    console.error('[admin/teachers create]', {code:err.code});
+    res.status(err.code === 'MAIL_UNAVAILABLE' ? 503 : 500).json({ error: err.code === 'MAIL_UNAVAILABLE' ? 'Hindi maipadala ang email ng guro ngayon. Walang account na na-activate. Subukan muli mamaya.' : 'Hindi magawa ang account ng guro. Subukan muli.' });
   }
 });
 
@@ -717,6 +745,7 @@ router.get('/analytics', async (req, res) => {
 });
 
 const SYSTEM_SETTINGS_DEFAULTS = {
+  defaultReadingRate: 0.5, slowReadingRate: 0.4, feedbackAutoPlay: true,
   systemName: 'LinawLetra', organizationName: '', defaultLanguage: 'fil', timezone: 'Asia/Manila',
   sequentialModules: true, passingScore: 75, completionRequirement: 80, allowActivityRetry: true, autoSaveProgress: true,
   xpPerActivity: 10, xpPerModule: 50, enableBadges: true, enableDailyStreak: true, enableAchievementRewards: true,
@@ -736,6 +765,7 @@ function validatedSystemSettings(value) {
   for (const key of ['passingScore', 'completionRequirement']) if (!Number.isFinite(settings[key]) || settings[key] < 0 || settings[key] > 100) throw new Error("Ang mga marka ay dapat mula 0 hanggang 100.");
   for (const key of ['xpPerActivity', 'xpPerModule']) if (!Number.isFinite(settings[key]) || settings[key] < 0) throw new Error("Hindi maaaring mas mababa sa 0 ang XP.");
   if (!Number.isInteger(settings.failedLoginLimit) || settings.failedLoginLimit < 1 || settings.failedLoginLimit > 100) throw new Error("Ang limitasyon ng maling pag-login ay dapat buong bilang mula 1 hanggang 100.");
+  if (![0.4,0.5,0.8,1].includes(settings.defaultReadingRate) || ![0.4,0.5].includes(settings.slowReadingRate)) throw new Error('Hindi wasto ang bilis ng reading assistant.');
   return settings;
 }
 

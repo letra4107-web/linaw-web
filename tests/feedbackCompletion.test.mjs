@@ -15,7 +15,7 @@ function harness(){
   };
   const {PronunciationFeedback}=loadTs('src/components/PronunciationFeedback.tsx',{
     react,'react-dom':{createPortal:children=>children},
-    '../lib/ttsPlayer':{playTtsSequence:(items,lang,options)=>new Promise((resolve,reject)=>calls.push({items,lang,...options,resolve,reject}))},
+    '../lib/readingAssistantSettings':{getReadingAssistantSettings:()=>({feedbackAutoPlay:true,slowReadingRate:0.4,defaultReadingRate:0.5})},'../lib/ttsPlayer':{playTtsSequence:(items,lang,options)=>new Promise((resolve,reject)=>calls.push({items,lang,...options,resolve,reject}))},
     './a11y/TTSButton':{TTSButton:()=>null},'./a11y/SlowTTSButton':{SlowTTSButton:()=>null},'./ConfettiOverlay':{ConfettiOverlay:()=>null},
   },{AbortController,document:{body:{}}});
   function find(node,label){if(!node||typeof node!=='object')return null;if(node.type==='button'&&node.props['aria-label']===label)return node;for(const child of [node.props?.children].flat(Infinity)){const found=find(child,label);if(found)return found;}return null;}

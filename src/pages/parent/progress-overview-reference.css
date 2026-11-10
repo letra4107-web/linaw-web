@@ -222,3 +222,5 @@ body[data-font="dyslexic"] .progress-ref .progress-ref-categories { min-width:24
 :root[data-theme="high-contrast"] .progress-ref .progress-ref-card-heading button { color:#003a99; }
 :root[data-theme="high-contrast"] .progress-ref .progress-overview-garden { display:none; }
 @media (prefers-reduced-motion:reduce) { .progress-ref *, .progress-ref *::before, .progress-ref *::after { transition:none !important; } }
+
+.progress-ref-badge-catalog .locked img{filter:grayscale(1);opacity:.5}

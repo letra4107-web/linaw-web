@@ -1,4 +1,5 @@
 import { useEffect, useRef, type CSSProperties, type KeyboardEvent, type ReactNode } from 'react';
+import { createPortal } from 'react-dom';
 import { ArrowLeft, ArrowRight, BookOpen, Check, ChevronRight, UsersRound, X } from 'lucide-react';
 import scene from '../../assets/admin_design/linawletra-school-banner.png';
 import mascot from '../../assets/admin_design/admin-graduate-owl.png';
@@ -25,7 +26,7 @@ export function ProgressRing({ value, label = 'Overall Progress' }: { value: num
 }
 export function ProgressBar({ value }: { value: number }) { return <span className="admin-progress-bar"><i style={{ width: `${Math.min(100, Math.max(0, value))}%` }} /></span>; }
 export function Pagination({ page, pages, onChange, label }: { page: number; pages: number; onChange: (page: number) => void; label?: string }) {
-  return <footer className="admin-pagination">{label && <span>{label}</span>}<nav aria-label="Pagination"><button type="button" disabled={page <= 1} onClick={() => onChange(page - 1)}><ArrowLeft />Previous</button><b>{page} / {pages}</b><button type="button" disabled={page >= pages} onClick={() => onChange(page + 1)}>Next<ArrowRight /></button></nav></footer>;
+  return <footer className="admin-pagination">{label && <span>{label}</span>}<nav aria-label="Pagination"><button type="button" disabled={page <= 1} onClick={() => onChange(page - 1)}><ArrowLeft />Previous</button><label className="admin-page-jump"><span className="sr-only">Go to page</span><select aria-label="Go to page" value={page} onChange={event => onChange(Number(event.target.value))}>{Array.from({ length: pages }, (_, index) => <option key={index + 1} value={index + 1}>Page {index + 1} / {pages}</option>)}</select></label><button type="button" disabled={page >= pages} onClick={() => onChange(page + 1)}>Next<ArrowRight /></button></nav></footer>;
 }
 export function EmptyState({ children }: { children: ReactNode }) { return <div className="admin-empty"><BookOpen /><p>{children}</p></div>; }
 export function StatusBadge({ state }: { state?: string }) { const label = state === 'completed' ? 'Completed' : state === 'in_progress' ? 'In Progress' : state === 'locked' ? 'Locked' : state === 'active' ? 'Active' : state === 'disabled' ? 'Disabled' : 'Not Started'; return <span className={`admin-status state-${state || 'not_started'}`}>{state === 'completed' && <Check />}{label}</span>; }
@@ -49,7 +50,7 @@ export function AdminModal({ title, onClose, children }: { title: string; onClos
     document.addEventListener('keydown', keydown);
     return () => { document.removeEventListener('keydown', keydown); document.body.style.overflow = overflow; if (previous instanceof HTMLElement && previous.isConnected) previous.focus(); };
   }, []);
-  return <div className="admin-modal-backdrop" onMouseDown={onClose}><section ref={dialog} tabIndex={-1} role="dialog" aria-modal="true" aria-label={title} className="admin-reference-modal" onMouseDown={event => event.stopPropagation()}><header><h2>{title}</h2><button type="button" onClick={onClose} aria-label="Close dialog"><X /></button></header>{children}</section></div>;
+  return createPortal(<div className="admin-modal-backdrop" onMouseDown={onClose}><section ref={dialog} tabIndex={-1} role="dialog" aria-modal="true" aria-label={title} className="admin-reference-modal" onMouseDown={event => event.stopPropagation()}><header><h2>{title}</h2><button type="button" onClick={onClose} aria-label="Close dialog"><X /></button></header>{children}</section></div>, document.body);
 }
 export function navigateAdminTabs(event: KeyboardEvent<HTMLElement>) {
   if (!['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(event.key)) return;

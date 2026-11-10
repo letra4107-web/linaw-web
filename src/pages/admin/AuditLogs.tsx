@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { Award, BookOpen, CalendarDays, ClipboardCheck, CheckCircle2, FileText, LogIn, Monitor, Pencil, ShieldAlert, Smartphone, UserPlus, UsersRound, XCircle } from 'lucide-react';
 import { api } from '../../lib/api';
-import { AdminHero, AdminStats } from './AdminPrimitives';
+import { AdminHero, AdminStats, Pagination } from './AdminPrimitives';
 
 
 type Log = {
@@ -37,12 +37,17 @@ const actionIcon = (action: string) => {
 };
 
 export default function AuditLogs() {
+  const [search, setSearch] = useState('');
+  const [from, setFrom] = useState(''), [to, setTo] = useState('');
   const [role, setRole] = useState('');
   const [status, setStatus] = useState('');
   const [page, setPage] = useState(1);
   const [selected, setSelected] = useState<Log | null>(null);
 
   const params = new URLSearchParams({ page: String(page), pageSize: '25' });
+  if (search.trim()) params.set('search', search.trim());
+  if (from) params.set('from', from);
+  if (to) params.set('to', to);
   if (role) params.set('role', role);
   if (status) params.set('status', status);
 
@@ -57,14 +62,14 @@ export default function AuditLogs() {
   const failed = logs.filter((log) => log.status === 'failed').length;
   const latest = logs[0]?.created_at;
 
-  const resetFilters = () => { setRole(''); setStatus(''); setPage(1); };
+  const resetFilters = () => { setSearch(''); setFrom(''); setTo(''); setRole(''); setStatus(''); setPage(1); };
 
   return (
     <div className="audit-reference mx-auto flex max-w-[1500px] flex-col gap-4 pb-8">
       <AdminHero title="Audit Trail" icon={<ClipboardCheck />} eyebrow="Monitoring and security" description="Track and review important activities in your system. Your records remain clear, secure, and easy to manage." />
       <AdminStats items={[{ value: total.toLocaleString(), label: 'Total Records', detail: 'All recorded activities', icon: <FileText /> }, { value: activeUsers, label: 'Active Users', detail: 'On this page of records', icon: <UsersRound /> }, { value: failed, label: 'Needs Attention', detail: 'Unsuccessful activities', icon: <ShieldAlert />, color: 'mint' }, { value: day(latest), label: 'Latest Activity', detail: 'Most recent record in the system', icon: <CalendarDays />, color: 'violet' }]} />
 
-      <section className="audit-filterbar rounded-2xl border p-3 shadow-card">
+      <section className="audit-filterbar rounded-2xl border p-3 shadow-card"><label><span>Search user or action</span><input type="search" value={search} maxLength={160} placeholder="Name or action…" onChange={event => { setSearch(event.target.value); setPage(1); }} /></label><label><span>From date</span><input type="date" aria-label="From date" value={from} max={to || undefined} onChange={event => { setFrom(event.target.value); setPage(1); }} /></label><label><span>To date</span><input type="date" aria-label="To date" value={to} min={from || undefined} onChange={event => { setTo(event.target.value); setPage(1); }} /></label>
         <label>
           <span>Role</span>
           <select value={role} onChange={(event) => { setRole(event.target.value); setPage(1); }}>
@@ -102,10 +107,7 @@ export default function AuditLogs() {
             </tbody>
           </table>
         </div>
-        <footer>
-          <span>Showing {(total ? ((page - 1) * (query.data?.pageSize ?? 25)) + 1 : 0)}–{Math.min(page * (query.data?.pageSize ?? 25), total)} of {total.toLocaleString()} records</span>
-          <div><button type="button" disabled={page === 1} onClick={() => setPage(page - 1)}>← Previous</button><b>{page}</b><button type="button" disabled={page >= pages} onClick={() => setPage(page + 1)}>Next →</button></div>
-        </footer>
+        <Pagination page={page} pages={pages} onChange={setPage} label={`Showing ${total ? ((page - 1) * (query.data?.pageSize ?? 25)) + 1 : 0}–${Math.min(page * (query.data?.pageSize ?? 25), total)} of ${total.toLocaleString()} records`} />
       </section>
 
       {selected && <div role="dialog" aria-modal="true" className="audit-modal" onMouseDown={() => setSelected(null)}>

@@ -86,11 +86,13 @@ app.use('/api/admin', adminRoutes);
 app.use('/api/teacher', teacherRoutes);
 app.use('/api/parent', parentRoutes);
 app.use('/api/student', studentRoutes);
+app.get('/api/reading-assistant-settings', require('./middleware/auth').requireAuth, require('./middleware/auth').requireRole('admin','teacher','parent','student'), async(_req,res)=>{try{const {data,error}=await require('./config/supabase').supabaseAdmin.from('system_settings').select('settings').eq('key','global').maybeSingle();if(error)throw error;const value=data?.settings || {};return res.json({settings:{defaultReadingRate:value.defaultReadingRate ?? 0.5,slowReadingRate:value.slowReadingRate ?? 0.4,feedbackAutoPlay:value.feedbackAutoPlay ?? true}});}catch{return res.status(503).json({error:'Hindi makuha ang mga setting ng reading assistant.'});}});
 app.use('/api/tts', ttsRoutes);
 // The landing-page read-aloud control uses the same server-side ElevenLabs
 // implementation, with an IP-based cap because visitors are not signed in.
 app.use('/api/public/tts', createTtsRouter({ authMiddleware: (_req, _res, next) => next(), limiter: publicTtsLimiter, cache: publicAudioCache }));
 app.use('/api/notifications', notificationsRoutes);
+app.use('/api/auth/email-verification', require('./routes/emailVerification'));
 app.use('/api/auth', authEventsRoutes);
 app.use((req, res) => res.status(404).json({ error: "Hindi makita ang hiniling na pahina o impormasyon." }));
 app.use((err, req, res, _next) => {

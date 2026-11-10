@@ -10,7 +10,7 @@ const { createMessageProfilePhotoService } = require('../services/messageProfile
 
 function fixture() {
   const tables = {
-    users: [{id:'p1',role:'parent'},{id:'p2',role:'parent'},{id:'t1',role:'teacher'},{id:'t2',role:'teacher'},{id:'s1',role:'student'}],
+    users: [{id:'p1',role:'parent',email_verified:true},{id:'p2',role:'parent',email_verified:true},{id:'t1',role:'teacher',email_verified:true},{id:'t2',role:'teacher',email_verified:true},{id:'s1',role:'student',email_verified:true}],
     teacher_messages: [{id:'m1',teacher_id:'t1',parent_id:'p1'},{id:'m2',teacher_id:'t1',parent_id:'p1'},{id:'m3',teacher_id:'t2',parent_id:'p2'}],
     teacher_student_links: [{id:'l1',teacher_id:'t1',children:{parent_id:'p1'}},{id:'l2',teacher_id:'t1',children:{parent_id:'p1'}},{id:'l3',teacher_id:'t2',children:{parent_id:'p2'}}],
     parents: [{auth_uid:'p1',avatar_url:'https://files.example.test/p1.png',email:'private@example.test'},{auth_uid:'p2',avatar_url:'https://files.example.test/p2.png'}],
@@ -18,7 +18,7 @@ function fixture() {
   };
   const calls=[];let failure;
   const client = {
-    auth:{getUser:async token=>({data:{user:tables.users.some(row=>row.id===token)?{id:token}:null},error:null})},
+    auth:{getUser:async token=>({data:{user:tables.users.some(row=>row.id===token)?{id:token,email_confirmed_at:'2026-01-01'}:null},error:null})},
     from(table) {
       const query={table,filters:[],offset:0,end:Infinity};calls.push(query);
       const run=single=>{if(table===failure)return {data:null,error:{code:'XX000',message:'Private database diagnostic'}};let rows=(tables[table]||[]).filter(row=>query.filters.every(([key,value,op])=>op==='in'?value.includes(row[key]):row[key]===value));if(query.sort)rows.sort((a,b)=>String(a[query.sort]).localeCompare(String(b[query.sort])));rows=rows.slice(query.offset,query.end===Infinity?undefined:query.end+1);return {data:single?rows[0]||null:rows,error:null};};

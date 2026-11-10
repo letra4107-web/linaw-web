@@ -13,7 +13,7 @@ import './students-reference.css';
 
 interface ChildRow { id: string; name: string; grade_level: number; username: string; }
 interface RosterRow { id: string; student_id: string; assigned_at: string; children: ChildRow | null; }
-interface StudentProgress { child_id: string; level: string; accuracy_sum: number; total_attempts: number; activities_completed: number; streak: number; }
+interface StudentProgress { achievements?: unknown; child_id: string; level: string; accuracy_sum: number; total_attempts: number; activities_completed: number; streak: number; }
 export interface TeacherStudentRow extends RosterRow { item?: StudentProgress; accuracy: number; needsAttention: boolean; lastActivity?: string; }
 const PAGE_SIZE = 5;
 const dateLabel = (value?: string) => value ? new Intl.DateTimeFormat('fil-PH', { month: 'short', day: 'numeric', timeZone: 'Asia/Manila' }).format(new Date(value)) : 'Walang aktibidad';
@@ -53,7 +53,7 @@ export default function MyStudents() {
   }, enabled: Boolean(user) });
   const rosterIds = (rosterQuery.data ?? []).map((row) => row.student_id);
   const progressQuery = useQuery({ queryKey: ['teacher-students-progress', user?.id, rosterIds], queryFn: async () => {
-    const { data, error } = await supabase.from('child_progress').select('child_id, level, accuracy_sum, total_attempts, activities_completed, streak').in('child_id', rosterIds);
+    const { data, error } = await supabase.from('child_progress').select('child_id, level, accuracy_sum, total_attempts, activities_completed, streak, achievements').in('child_id', rosterIds);
     if (error) throw error;
     return data as StudentProgress[];
   }, enabled: rosterIds.length > 0 });

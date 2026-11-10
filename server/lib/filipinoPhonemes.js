@@ -177,6 +177,8 @@ function filipinoSsml(value) {
 function elevenLabsText(value) {
   const text = String(value ?? '').trim();
   if (!text) return '';
+  // A sentence boundary stabilizes the final /g/ of the isolated model word.
+  if (normalize(text) === 'ilog') return 'Ilog.';
   return ELEVENLABS_ISOLATED_SOUNDS[normalize(text)] || text;
 }
 

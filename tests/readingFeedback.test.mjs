@@ -22,7 +22,7 @@ function feedbackHarness() {
   const { PronunciationFeedback } = loadTs('src/components/PronunciationFeedback.tsx', {
     react: { useEffect: (run, deps) => effects.push({ run, deps }), useState: initial => [initial, () => {}], useCallback: callback => callback, useRef: () => ({ current: null }) },
     'react-dom': { createPortal: content => content },
-    '../lib/ttsPlayer': { playTtsSequence: async (...args) => { spoken.push(args); return true; } },
+    '../lib/readingAssistantSettings':{getReadingAssistantSettings:()=>({feedbackAutoPlay:true,slowReadingRate:0.4,defaultReadingRate:0.5})},'../lib/ttsPlayer': { playTtsSequence: async (...args) => { spoken.push(args); return true; } },
     './a11y/TTSButton': { TTSButton: props => createElement('button', { 'aria-label': props.ariaLabel }, props.text) },
     './a11y/SlowTTSButton': { SlowTTSButton: () => null },
     './ConfettiOverlay': { ConfettiOverlay: props => { confetti.push(props.trigger); return null; } },

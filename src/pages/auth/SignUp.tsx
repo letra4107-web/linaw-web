@@ -1,3 +1,4 @@
+import { api } from '../../lib/api';
 import { tagalogError } from '../../lib/validationMessages';
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
@@ -100,9 +101,11 @@ export default function SignUp() {
         if (profileError) throw profileError;
       }
 
+      let deliveryPending = false;
+      if (data.session) try { await api('/auth/email-verification/request', {method:'POST',body:{email:cleanEmail,userId:data.user.id}}); } catch { deliveryPending = true; }
       trackEvent('signup_completed', { role: ROLE });
 
-      navigate('/verify-email', { state: { email: cleanEmail } });
+      navigate('/verify-email', { state: { email: cleanEmail, userId: data.user.id, deliveryPending } });
     } catch (err) {
       setError(err instanceof Error ? tagalogError(err) : 'Hindi matagumpay ang pag-sign up.');
     } finally {

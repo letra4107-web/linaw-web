@@ -123,7 +123,7 @@ test('bearer and role middleware rejects missing, invalid, and unauthorized sess
       requestedToken = token;
       return token === 'valid' ? { data: { user: { id: 'user-a' } }, error: null } : { data: {}, error: new Error('invalid') };
     } },
-    from: () => ({ select: () => ({ eq: (_field, id) => ({ maybeSingle: async () => ({ data: { role: id === 'admin-a' ? 'admin' : id === 'teacher-a' ? 'teacher' : 'parent' }, error: null }) }) }) }),
+    from: () => ({ select: () => ({ eq: (_field, id) => ({ maybeSingle: async () => ({ data: {email_verified:true, role: id === 'admin-a' ? 'admin' : id === 'teacher-a' ? 'teacher' : 'parent' }, error: null }) }) }) }),
   };
   const { requireAuth, requireRole } = createAuthMiddleware(client);
   const response = () => ({ statusCode: 200, body: null, status(code) { this.statusCode = code; return this; }, json(body) { this.body = body; return this; } });
@@ -147,13 +147,13 @@ test('bearer and role middleware rejects missing, invalid, and unauthorized sess
   await requireRole('admin')({ user: { id: 'user-a' } }, res, () => assert.fail('parent must not enter admin route'));
   assert.equal(res.statusCode, 403);
   continued = false;
-  await requireRole('admin')({ user: { id: 'admin-a' } }, response(), () => { continued = true; });
+  await requireRole('admin')({ user: { id: 'admin-a',email_confirmed_at:'2026-01-01' } }, response(), () => { continued = true; });
   assert.equal(continued, true);
   res = response();
   await requireRole('teacher', 'admin')({ user: { id: 'user-a' } }, res, () => assert.fail('parent must not upload PDFs'));
   assert.equal(res.statusCode, 403);
   continued = false;
-  await requireRole('teacher', 'admin')({ user: { id: 'teacher-a' } }, response(), () => { continued = true; });
+  await requireRole('teacher', 'admin')({ user: { id: 'teacher-a',email_confirmed_at:'2026-01-01' } }, response(), () => { continued = true; });
   assert.equal(continued, true);
 });
 

@@ -3,6 +3,7 @@
 // caller doesn't explicitly pass its own (e.g. WordOfDayCard's dedicated
 // "Pantig-pantig" slow button still always uses 0.5 regardless of this).
 // New key resets the former default, which proved too quick for early readers.
+import { getReadingAssistantSettings } from './readingAssistantSettings';
 const STORAGE_KEY = 'linaw-tts-rate-v3';
 const RATE_CHANGE_EVENT = 'linaw-tts-rate-change';
 export const DEFAULT_TTS_RATE = 0.5;
@@ -23,9 +24,9 @@ export function getTtsPlaybackRate(rate: number): number {
 }
 
 export function getTtsRate(): number {
-  if (typeof window === 'undefined') return DEFAULT_TTS_RATE;
+  if (typeof window === 'undefined') return getReadingAssistantSettings().defaultReadingRate;
   const stored = Number(window.localStorage.getItem(STORAGE_KEY));
-  if (!Number.isFinite(stored) || stored < MIN_TTS_RATE || stored > MAX_TTS_RATE) return DEFAULT_TTS_RATE;
+  if (!Number.isFinite(stored) || stored < MIN_TTS_RATE || stored > MAX_TTS_RATE) return getReadingAssistantSettings().defaultReadingRate;
   return stored;
 }
 

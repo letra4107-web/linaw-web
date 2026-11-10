@@ -21,7 +21,7 @@ interface TTSButtonProps {
 // Cache decoded audio per spoken text+rate so repeat plays (e.g. re-reading the same word)
 // don't re-hit the TTS API -- keyed by rate too since the same text sounds different at each speed.
 const audioCache = new Map<string, string>();
-const TTS_AUDIO_CACHE_VERSION = 'filipino-v9';
+const TTS_AUDIO_CACHE_VERSION = 'filipino-v10';
 
 function base64ToObjectUrl(base64: string): string {
   const bytes = atob(base64);

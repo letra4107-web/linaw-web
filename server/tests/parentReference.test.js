@@ -23,7 +23,7 @@ function createHarness({ signed = true, failTable = null } = {}) {
   const calls = { queries: [], rpc: [], signedUrls: [] };
   const learningPath = { configured: true, effective_level: 'Beginner', modules: [{ id: 'module-1', title: 'Unang mga Titik', module_number: 1, state: 'unlocked', content_item_count: 13, completed_content_item_count: 3 }] };
   const tables = {
-    users: [{ id: 'parent-a', role: 'parent' }, { id: 'parent-b', role: 'parent' }, { id: 'teacher-a', role: 'teacher' }],
+    users: [{ id: 'parent-a', role: 'parent',email_verified:true }, { id: 'parent-b', role: 'parent',email_verified:true }, { id: 'teacher-a', role: 'teacher',email_verified:true }],
     children: [{ id: CHILD, parent_id: 'parent-a', name: 'Ana', auth_uid: 'student-a' }, { id: OTHER_CHILD, parent_id: 'parent-b', name: 'Ben', auth_uid: 'student-b' }],
     pdf_materials: [
       { id: MATERIAL, title: 'Reading Practice', grade_level: 2, level: 'Beginner', archived_at: null, storage_bucket: 'migrated-reading-materials', storage_path: 'teacher/practice.pdf', file_url: '', legacy_public_url: 'https://legacy.example/practice.pdf', extracted_text: 'Private teaching content' },
@@ -46,7 +46,7 @@ function createHarness({ signed = true, failTable = null } = {}) {
     return result;
   }
   const client = {
-    auth: { getUser: async (token) => ({ data: { user: tables.users.some((item) => item.id === token) ? { id: token } : null }, error: null }) },
+    auth: { getUser: async (token) => ({ data: { user: tables.users.some((item) => item.id === token) ? { id: token, email_confirmed_at:'2026-01-01' } : null }, error: null }) },
     from(table) {
       const query = { table, selection: '*', filters: [], sort: null };
       calls.queries.push(query);

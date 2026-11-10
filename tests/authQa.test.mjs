@@ -38,17 +38,13 @@ test('QA role resolution preserves authoritative teacher and child roles', async
   assert.equal((await harness.resolveRole(confirmed)).role, 'student');
   assert.equal(harness.writes.length, 0);
 });
-test('QA parent profile repair reports persistence failure', async () => {
-  const harness = identityHarness({ profile: null, repairError: new Error('write denied') });
-  await assert.rejects(harness.resolveRole(confirmed));
+test('QA missing profiles require email proof and preserve the signup name without client repair', async () => {
+ const h=identityHarness({profile:null});const identity=await h.resolveRole(confirmed);assert.equal(identity.role,'parent');assert.equal(identity.displayName,'Test Parent');assert.equal(identity.emailVerified,false);assert.equal(h.writes.length,0);
+ const pending=await identityHarness({profile:null}).resolveRole({...confirmed,email_confirmed_at:null});assert.equal(pending.emailVerified,false);
 });
-test('QA confirmed parent repair preserves signup name; unconfirmed accounts are not repaired', async () => {
-  const harness = identityHarness({ profile: null });
-  assert.equal((await harness.resolveRole(confirmed)).role, 'parent');
-  assert.equal(harness.writes[0].name, 'Test Parent');
-  const pending = identityHarness({ profile: null });
-  assert.equal(await pending.resolveRole({ ...confirmed, email_confirmed_at: null }), null);
-  assert.equal(pending.writes.length, 0);
+test('QA an Auth-confirmed password account cannot bypass a pending app verification',async()=>{
+ const pending=await identityHarness({profile:{role:'parent',email_verified:false}}).resolveRole(confirmed);assert.equal(pending.emailVerified,false);
+ const verified=await identityHarness({profile:{role:'parent',email_verified:true}}).resolveRole(confirmed);assert.equal(verified.emailVerified,true);
 });
 
 function profileHarness(raw, writable = true) {
@@ -84,6 +80,7 @@ function signupHarness(session) {
   const jsx = (type, props) => ({ type, props });
   const client = { auth: { signUp: async () => ({ data: { user: { id: 'test-user' }, session }, error: null }) }, from() { writes++; return { upsert: async () => ({ error: session ? null : new Error('RLS denied') }) }; } };
   const { default: SignUp } = loadTs('src/pages/auth/SignUp.tsx', {
+    '../../lib/api':{api:async()=>({success:true})},
     '../../lib/validationMessages': validationMessages,
     react: { useState(initial) { const index = cursor++; return [index < state.length ? state[index] : initial, (next) => { state[index] = next; }]; } },
     'react/jsx-runtime': { jsx, jsxs: jsx },
@@ -135,6 +132,7 @@ test('QA account switching cannot publish an older asynchronous identity', async
     } } },
     './resolveRole': { resolveRole: (user) => new Promise((resolve) => outstanding.set(user.id, resolve)) },
     '../api': { api: async () => ({}) },
+    '../readingAssistantSettings': {setReadingAssistantSettings(){}},
   });
   const render = () => { cursor = 0; refCursor = 0; return AuthProvider({ children: null }).props.value; };
   render();

@@ -2,7 +2,7 @@ import { tagalogError } from '../../lib/validationMessages';
 import { useRef, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { ArrowRight, CheckCircle2, Lightbulb, MailCheck } from 'lucide-react';
-import { supabase } from '../../lib/supabaseClient';
+import { api } from '../../lib/api';
 import { isValidEmail } from '../../components/auth/AuthShell';
 import leftImage from '../../assets/left.png';
 import emailIllustration from '../../assets/email.png';
@@ -16,7 +16,7 @@ export default function VerifyEmail() {
   const initialEmail = (location.state as { email?: string } | null)?.email ?? '';
   const [email, setEmail] = useState(initialEmail);
   const [digits, setDigits] = useState<string[]>(Array(OTP_LENGTH).fill(''));
-  const [error, setError] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>((location.state as {deliveryPending?:boolean}|null)?.deliveryPending ? 'Nagawa na ang account pero hindi naipadala ang code. Pindutin ang Ipadala muli.' : null);
   const [submitting, setSubmitting] = useState(false);
   const [resending, setResending] = useState(false);
   const [resendMessage, setResendMessage] = useState<string | null>(null);
@@ -49,9 +49,7 @@ export default function VerifyEmail() {
 
     setSubmitting(true);
     try {
-      const { error: verifyError } = await supabase.auth.verifyOtp({ email: cleanEmail, token: code, type: 'signup' });
-      if (verifyError) throw verifyError;
-      await supabase.from('users').update({ email_verified: true }).eq('email', cleanEmail);
+      await api('/auth/email-verification/verify', {method:'POST', body:{email:cleanEmail,code}});
       navigate('/login', { replace: true });
     } catch (err) {
       setError(err instanceof Error ? tagalogError(err) : 'Mali ang code. Subukan ulit.');
@@ -70,8 +68,7 @@ export default function VerifyEmail() {
     setResendMessage(null);
     setResending(true);
     try {
-      const { error: resendError } = await supabase.auth.resend({ type: 'signup', email: cleanEmail });
-      if (resendError) throw resendError;
+      await api('/auth/email-verification/request', {method:'POST',body:{email:cleanEmail,userId:(location.state as {userId?:string}|null)?.userId}});
       setDigits(Array(OTP_LENGTH).fill(''));
       inputs.current[0]?.focus();
       setResendMessage('Naipadala na muli ang verification code sa iyong email.');
@@ -83,7 +80,7 @@ export default function VerifyEmail() {
   };
 
   return (
-    <main className="verify-email-page">
+    <main className="verify-email-page"><p className="sr-only" role="status">Please verify your email first. Kumpirmahin muna ang iyong email bago makapasok.</p>
       <aside className="verify-email-scene" aria-label="LinawLetra reading journey">
         <img src={leftImage} alt="" className="verify-email-scene-image" />
         <Link to="/" className="verify-email-logo"><img src={logo} alt="LinawLetra" /></Link>
@@ -96,7 +93,7 @@ export default function VerifyEmail() {
           <img src={emailIllustration} alt="" aria-hidden="true" className="verify-email-hero-art" />
           <header className="verify-email-heading">
             <h1>I-verify ang iyong email</h1>
-            <p>Ilagay ang code na natanggap mo sa email.</p>
+            <p>Please verify your email first. Ilagay ang code na natanggap mo sa email bago makapasok.</p>
           </header>
 
           <form onSubmit={onSubmit} noValidate className="verify-email-form">

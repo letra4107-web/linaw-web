@@ -84,3 +84,5 @@ html:is([data-theme="dark"],[data-theme="high-contrast"]) .achievements-filters 
 html:is([data-theme="dark"],[data-theme="high-contrast"]) .achievement-progress { color:#eeebf7; }
 html:is([data-theme="dark"],[data-theme="high-contrast"]) .student-achievements-reference button:focus-visible { outline-color:#ffdd36; }
 @media(prefers-reduced-motion:reduce) { .student-achievements-reference * { transition:none!important; animation:none!important; } }
+
+.achievement-card.is-locked .achievement-art{filter:grayscale(1);opacity:.5}.achievement-card.is-locked{background:#f0f1f3;color:#59616e}.achievement-card.is-locked .achievement-xp{background:#e1e4e9;color:#59616e}

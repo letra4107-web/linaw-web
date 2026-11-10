@@ -51,29 +51,20 @@ export async function resolveRole(user: User): Promise<ResolvedIdentity | null> 
     displayName = childRow.name ?? displayName;
   }
 
-  const emailVerified = Boolean(user.email_confirmed_at) || Boolean(profile?.email_verified);
+  const emailVerified = Boolean(user.email_confirmed_at) && profile?.email_verified === true;
 
   if (!role) {
     if (profile) throw new Error('Hindi matukoy ang role ng account na ito.');
-    if (!emailVerified) return null;
-    // Self-heal: real auth account, no users row, no children row -> treat as parent.
-    const { error: repairError } = await supabase.from('users').upsert({
-      id: user.id,
-      email: user.email,
-      name: displayName,
-      role: 'parent',
-      email_verified: true,
-    }, { onConflict: 'id', ignoreDuplicates: true });
-    if (repairError) throw repairError;
+    // Missing profiles are created by the server after a fresh email code.
     role = 'parent';
   }
 
-  await supabase
+  if (role === 'student' || emailVerified) await supabase
     .from('users')
     .update({ lastLoginAt: new Date().toISOString() })
     .eq('id', user.id);
   // Server-authenticated, best-effort login audit. No credentials or tokens are sent.
-  void recordAuthEvent('login').catch(() => {});
+  if (role === 'student' || emailVerified) void recordAuthEvent('login').catch(() => {});
 
   return {
     role,

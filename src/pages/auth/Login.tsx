@@ -178,8 +178,8 @@ export default function Login() {
       // Student accounts are created and managed by a parent. They do not need
       // an email verification code before they can begin reading practice.
       // Parents, teachers, and admins still require email verification.
-      if (!data.user.email_confirmed_at && identity?.role !== 'student') {
-        navigate('/verify-email', { state: { email: cleanEmail } });
+      if (identity?.role !== 'student' && !identity?.emailVerified) {
+        navigate('/verify-email', { state: { email: cleanEmail, userId: data.user.id } });
         return;
       }
 
@@ -221,7 +221,8 @@ export default function Login() {
       // authenticated device session. Use the saved role as a safe fallback
       // if the profile lookup is temporarily unavailable, rather than sending
       // a one-tap user to the email-code screen.
-      const role = identity?.role ?? profile.role;
+      if (!identity || (identity.role !== 'student' && !identity.emailVerified)) { navigate('/verify-email', {state:{email:data.user.email,userId:data.user.id}}); return; }
+      const role = identity.role;
       trackEvent('login_success', { role, saved_profile: true });
       navigate(dashboardPathForRole(role), { replace: true });
     } catch {
