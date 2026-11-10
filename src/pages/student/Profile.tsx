@@ -106,7 +106,7 @@ export default function Profile() {
   };
   const saveProfile = async (event: FormEvent) => {
     event.preventDefault();
-    if (saving || !user) return;
+    if (saving || !user || !child || draftName.trim().length < 2 || draftName.trim() === child.name.trim()) return;
     setSaving(true);
     setEditError(null);
     try {
@@ -198,7 +198,7 @@ export default function Profile() {
           <dl><div><dt>Username</dt><dd>{child?.username || '—'}</dd></div><div><dt>Baitang</dt><dd>{child?.grade_level ? `Grade ${child.grade_level}` : '—'}</dd></div></dl>
           <p className="profile-edit-help">Ang baitang at username ay pinamamahalaan ng iyong magulang o guro.</p>
           {editError && <p role="alert" className="profile-edit-error">{editError}</p>}
-          <footer><button type="button" onClick={() => editDialog.current?.close()} disabled={saving}>Kanselahin</button><button type="submit" disabled={saving || draftName.trim().length < 2}>{saving ? 'Sine-save...' : 'I-save ang Profile'}</button></footer>
+          <footer><button type="button" onClick={() => editDialog.current?.close()} disabled={saving}>Kanselahin</button><button type="submit" disabled={saving || draftName.trim().length < 2 || draftName.trim() === (child?.name ?? '').trim()}>{saving ? 'Sine-save...' : 'I-save ang Profile'}</button></footer>
         </form>
       </dialog>
     </div>
