@@ -5,6 +5,7 @@ import { supabase } from '../../lib/supabaseClient';
 import { dashboardPathForRole, resolveRole } from '../../lib/auth/resolveRole';
 import {
   getSavedProfiles,
+  clearSavedProfiles,
   removeSavedProfile,
   saveAuthProfile,
   updateSavedProfileToken,
@@ -189,6 +190,9 @@ export default function Login() {
       if (identity && identity.role !== 'admin' && data.session?.refresh_token) {
         saveAuthProfile({ userId: data.user.id, role: identity.role, displayName: identity.displayName, email: data.user.email ?? cleanEmail, avatarUrl: identity.avatarUrl ?? undefined, refreshToken: data.session.refresh_token });
         setSavedProfiles(getSavedProfiles());
+      } else if (identity) {
+        clearSavedProfiles();
+        setSavedProfiles([]);
       }
       if (identity) trackEvent('login_success', { role: identity.role });
       if (identity) showFormFeedback('Matagumpay kang naka-login.');

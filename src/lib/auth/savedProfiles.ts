@@ -1,6 +1,5 @@
-// One-tap re-login ("remember me" profile picker, like Facebook/Netflix's account
-// switcher) -- web port of the mobile app's src/services/authProfileStore.ts. Stores a
-// small list of saved-profile tickets in localStorage (never the password, only a
+// One-tap re-login stores only the most recently used saved-profile ticket in
+// localStorage (never the password, only a
 // Supabase refresh token), in a key deliberately separate from Supabase's own session
 // token storage, so a soft "Mag-log out" (see softSignOut.ts) doesn't touch this list.
 // Profiles expire after a TTL of disuse regardless of whether the refresh token itself
@@ -18,7 +17,6 @@ export type SavedAuthProfile = {
 };
 
 const STORE_KEY = 'linawletra.savedProfiles.v1';
-const MAX_PROFILES = 5;
 const STUDENT_TTL_DAYS = 7;
 const DEFAULT_TTL_DAYS = 30;
 const ttlDaysFor = (role: SavedAuthProfile['role']) => (role === 'student' ? STUDENT_TTL_DAYS : DEFAULT_TTL_DAYS);
@@ -60,25 +58,28 @@ function writeAll(profiles: SavedAuthProfile[]) {
 export function getSavedProfiles(): SavedAuthProfile[] {
   const all = readAll();
   const now = Date.now();
-  const fresh = all.filter((p) => now - new Date(p.savedAt).getTime() < ttlDaysFor(p.role) * 86400000);
+  const fresh = all
+    .filter((p) => now - new Date(p.savedAt).getTime() < ttlDaysFor(p.role) * 86400000)
+    .sort((a, b) => Date.parse(b.savedAt) - Date.parse(a.savedAt))
+    .slice(0, 1);
   if (fresh.length !== all.length) writeAll(fresh);
   return fresh;
 }
 
-/** Upserts by userId (moves it to the front) and evicts the oldest past MAX_PROFILES. */
+/** Replaces the saved ticket so one-tap login always belongs to the last account used. */
 export function saveAuthProfile(profile: Omit<SavedAuthProfile, 'savedAt'>) {
-  // A shared browser must never become a directory of children. Keep only the
-  // last successfully authenticated student, while retaining adult profiles.
   const existing = readAll();
   const previous = existing.find(item => item.userId === profile.userId);
   const avatarUrl = profile.avatarUrl === undefined ? previous?.avatarUrl ?? null : savedAvatarUrl(profile.avatarUrl);
-  const filtered = existing.filter((p) => p.userId !== profile.userId && (profile.role !== 'student' || p.role !== 'student'));
-  const next = [{ ...profile, avatarUrl, savedAt: new Date().toISOString() }, ...filtered].slice(0, MAX_PROFILES);
-  writeAll(next);
+  writeAll([{ ...profile, avatarUrl, savedAt: new Date().toISOString() }]);
 }
 
 export function removeSavedProfile(userId: string) {
   writeAll(readAll().filter((p) => p.userId !== userId));
+}
+
+export function clearSavedProfiles() {
+  writeAll([]);
 }
 
 /** Called after a saved profile is successfully used to relogin -- Supabase rotates
