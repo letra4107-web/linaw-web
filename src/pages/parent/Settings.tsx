@@ -107,10 +107,10 @@ export default function Settings() {
           <form className="account-fields" onSubmit={event=>{event.preventDefault();if(!contact.isPending)contact.mutate();}}>
             <label>Buong Pangalan<input aria-label="Buong Pangalan" required minLength={2} maxLength={100} value={draftName ?? displayName} onChange={event=>{setDraftName(event.target.value);if(!contact.isPending)contact.reset();}} disabled={contact.isPending}/></label>
             <label>Mobile Number<input aria-label="Mobile Number" type="tel" maxLength={25} value={draftPhone ?? profile?.phone_number ?? ''} onChange={event=>{setDraftPhone(event.target.value);if(!contact.isPending)contact.reset();}} disabled={contact.isPending}/></label>
-            <p><Mail aria-hidden="true"/>{user?.email}</p><EmailChangeForm/>
+            <p><Mail aria-hidden="true"/>{user?.email}</p>
             <p>Magulang</p><button className="account-primary" disabled={contact.isPending || !profile} type="submit">{contact.isPending?'Sine-save...':'I-save ang Profile'}</button>
             {contact.error && <p role="alert">{tagalogError(contact.error)}</p>}
-          </form>
+          </form><EmailChangeForm/>
         </div>
       </section>
       <aside className="account-family-quote"><img src={accountQuoteArt} alt="" aria-hidden="true" decoding="sync" /><blockquote>“Ang inyong suporta ngayon, mas maliwanag na paglalakbay sa pagbasa bukas.” <Heart fill="currentColor" aria-hidden="true" /></blockquote></aside>

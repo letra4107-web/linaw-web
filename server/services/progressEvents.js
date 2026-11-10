@@ -76,6 +76,12 @@ async function recordProgressEvent(client, studentId, eventId, body) {
     || !validBaseReward(data.baseReward,event.content_id,data.xpAwarded,data.replayed)
     || (data.xpAwarded>0 && (event.channel!=='mobile' || event.source!=='practice' || score.accuracy<PRACTICE_PASSING_SCORE))
     || (data.replayed && data.xpAwarded !== 0)) throw rpcFailure();
+  // A verified-day trigger runs at commit. Refresh its fields rather than
+  // returning the v2 function's snapshot taken before that trigger.
+  let current;
+  try{current=await client.from('child_progress').select('streak,longest_streak,last_practice_date').eq('child_id',studentId).maybeSingle();}catch{throw rpcFailure();}
+  if(current.error || !current.data)throw rpcFailure(current.error);
+  data.progress={...data.progress,...current.data};
   return data;
 }
 module.exports = { UUID, onlyKeys, failure, rpcFailure, requireProgressContract, startProgressEvent, recordProgressEvent, validProgress, validBaseReward };
