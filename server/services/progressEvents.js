@@ -74,7 +74,7 @@ async function recordProgressEvent(client, studentId, eventId, body) {
     || !UUID.test(data.result?.attempt_id || '') || !Number.isInteger(data.result?.accuracy)
     || data.result.accuracy < 0 || data.result.accuracy > 100 || !Array.isArray(data.newlyPersistedAchievementIds)
     || !validBaseReward(data.baseReward,event.content_id,data.xpAwarded,data.replayed)
-    || (data.xpAwarded>0 && (event.channel!=='mobile' || event.source!=='practice' || score.accuracy<PRACTICE_PASSING_SCORE))
+    || (data.xpAwarded>0 && (!['mobile','web'].includes(event.channel) || event.source!=='practice' || score.accuracy<PRACTICE_PASSING_SCORE))
     || (data.replayed && data.xpAwarded !== 0)) throw rpcFailure();
   // A verified-day trigger runs at commit. Refresh its fields rather than
   // returning the v2 function's snapshot taken before that trigger.
