@@ -23,6 +23,7 @@ import {
 import { cardStyle, CARD_COLORS } from '../../lib/cardStyle';
 import { IconLabel } from '../../components/a11y/IconLabel';
 import { trackEvent } from '../../lib/analytics';
+import { showFormFeedback } from '../../lib/formFeedback';
 
 interface FieldErrors {
   email?: string;
@@ -190,6 +191,7 @@ export default function Login() {
         setSavedProfiles(getSavedProfiles());
       }
       if (identity) trackEvent('login_success', { role: identity.role });
+      if (identity) showFormFeedback('Matagumpay kang naka-login.');
       navigate(identity ? dashboardPathForRole(identity.role) : '/verify-email', { replace: true });
     } catch (err) {
       // Supabase rejects password sign-in for an unconfirmed email before it
@@ -224,6 +226,7 @@ export default function Login() {
       if (!identity || (identity.role !== 'student' && !identity.emailVerified)) { navigate('/verify-email', {state:{email:data.user.email,userId:data.user.id}}); return; }
       const role = identity.role;
       trackEvent('login_success', { role, saved_profile: true });
+      showFormFeedback('Matagumpay kang naka-login.');
       navigate(dashboardPathForRole(role), { replace: true });
     } catch {
       // A dead/expired refresh token can't be used again -- drop it from the

@@ -1,16 +1,56 @@
-/** Acknowledged save feedback; rendered in the top layer, including over forms. */
+let activeToast: HTMLElement | null = null;
+let dismissTimer: number | undefined;
+
+/** Show a centered, non-blocking message for an action that just completed. */
 export function showFormFeedback(message: string, success = true) {
- const dialog = document.createElement('dialog');
- dialog.className = 'form-feedback-dialog';
- dialog.setAttribute('role', 'alertdialog'); dialog.setAttribute('aria-label', success ? 'Matagumpay' : 'May problema');
- Object.assign(dialog.style, { position:'fixed', inset:'0', margin:'auto', maxWidth:'min(440px, calc(100vw - 32px))', width:'100%', maxHeight:'calc(100dvh - 32px)', padding:'0', border:'1px solid #dce7ee', borderRadius:'24px', boxShadow:'0 28px 90px #102b4655', color:'#16334b', background:'#fff', overflowY:'auto', overflowX:'hidden' });
- const card=document.createElement('div');card.style.cssText='padding:28px 30px 26px;text-align:center;background:radial-gradient(ellipse at 50% -35%, #d9f6ed 0, #fff 67%)';
- const badge=document.createElement('div');badge.setAttribute('aria-hidden','true');badge.textContent=success?'✓':'!';badge.style.cssText=`display:grid;place-items:center;width:56px;height:56px;margin:0 auto 15px;border-radius:18px;background:${success?'#d9f5e9':'#fff0e7'};color:${success?'#078067':'#b6532e'};font-size:30px;font-weight:800;box-shadow:0 5px 14px #16334b14`;
- const title=document.createElement('h2'); title.textContent=success ? 'Matagumpay!' : 'Hindi na-save';
- title.style.cssText='font-size:22px;line-height:1.25;font-weight:800;margin:0 0 10px;color:#173b55';
- const text=document.createElement('p');text.textContent=message;text.style.cssText='line-height:1.65;margin:0 auto 23px;color:#526b7d;max-width:340px;overflow-wrap:anywhere';
- const button=document.createElement('button');button.type='button';button.textContent='Sige';button.style.cssText='min-width:124px;padding:11px 25px;border:0;border-radius:12px;background:linear-gradient(135deg,#08796f,#079581);color:white;font-weight:700;font-size:15px;box-shadow:0 5px 12px #08796f30;cursor:pointer';
- card.append(badge,title,text,button);
- button.onclick=()=>dialog.close();dialog.append(card);document.body.append(dialog);
- dialog.addEventListener('close',()=>dialog.remove(),{once:true});dialog.showModal();button.focus();
+  if (typeof document === 'undefined') return;
+
+  if (dismissTimer !== undefined) window.clearTimeout(dismissTimer);
+  activeToast?.remove();
+
+  const duration = success ? 4200 : 6500;
+  const toast = document.createElement('section');
+  toast.className = `form-feedback-toast ${success ? 'is-success' : 'is-error'}`;
+  toast.setAttribute('role', success ? 'status' : 'alert');
+  toast.setAttribute('aria-live', success ? 'polite' : 'assertive');
+  toast.setAttribute('aria-atomic', 'true');
+  toast.style.setProperty('--toast-duration', `${duration}ms`);
+
+  const icon = document.createElement('span');
+  icon.className = 'form-feedback-icon';
+  icon.setAttribute('aria-hidden', 'true');
+  icon.textContent = success ? '✓' : '!';
+
+  const content = document.createElement('div');
+  content.className = 'form-feedback-content';
+  const title = document.createElement('strong');
+  title.textContent = success ? 'Matagumpay!' : 'May problema';
+  const body = document.createElement('span');
+  body.textContent = message;
+  content.append(title, body);
+
+  const close = document.createElement('button');
+  close.className = 'form-feedback-close';
+  close.type = 'button';
+  close.setAttribute('aria-label', 'Isara ang mensahe');
+  close.textContent = '×';
+
+  const timer = document.createElement('span');
+  timer.className = 'form-feedback-timer';
+  timer.setAttribute('aria-hidden', 'true');
+  toast.append(icon, content, close, timer);
+
+  const dismiss = () => {
+    if (dismissTimer !== undefined) window.clearTimeout(dismissTimer);
+    toast.classList.add('is-dismissing');
+    window.setTimeout(() => {
+      toast.remove();
+      if (activeToast === toast) activeToast = null;
+    }, 180);
+  };
+
+  close.addEventListener('click', dismiss);
+  document.body.append(toast);
+  activeToast = toast;
+  dismissTimer = window.setTimeout(dismiss, duration);
 }
