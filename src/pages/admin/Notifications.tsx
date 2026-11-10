@@ -18,10 +18,10 @@ export default function AdminNotifications() {
   const inbox = useNotifications();
   const query = useQuery({ queryKey: ['admin-announcements'], queryFn: () => api<{ announcements: Announcement[] }>('/admin/announcements', { auth: true }) });
   const reset = () => { setTitle(''); setMessage(''); setRoles([]); setValidation(''); setSuccess(''); };
-  const send = useMutation({ mutationFn: () => api<{ delivered: number }>('/admin/announcements', { method: 'POST', auth: true, body: { title, message, roles } }), onSuccess: data => { reset(); setSuccess(`Notification sent to ${data.delivered} account${data.delivered === 1 ? '' : 's'}.`); void client.invalidateQueries({ queryKey: ['admin-announcements'] }); } });
+  const send = useMutation({ meta: { saveFeedback: 'Na-save ang mga pagbabago.' }, mutationFn: () => api<{ delivered: number }>('/admin/announcements', { method: 'POST', auth: true, body: { title, message, roles } }), onSuccess: data => { reset(); setSuccess(`Notification sent to ${data.delivered} account${data.delivered === 1 ? '' : 's'}.`); void client.invalidateQueries({ queryKey: ['admin-announcements'] }); } });
   const changed = () => { setEditing(null); setRemoving(null); setPage(1); void client.invalidateQueries({queryKey:['admin-announcements']}); void client.invalidateQueries({queryKey:['notifications']}); };
-  const update = useMutation({mutationFn: () => api('/admin/announcements/' + editing!.id, {method:'PATCH',auth:true,body:{title:editTitle,message:editBody}}),onSuccess:changed});
-  const remove = useMutation({mutationFn: () => api('/admin/announcements/' + removing!.id, {method:'DELETE',auth:true}),onSuccess:changed});
+  const update = useMutation({ meta: { saveFeedback: 'Na-save ang mga pagbabago.' },mutationFn: () => api('/admin/announcements/' + editing!.id, {method:'PATCH',auth:true,body:{title:editTitle,message:editBody}}),onSuccess:changed});
+  const remove = useMutation({ meta: { saveFeedback: 'Na-save ang mga pagbabago.' },mutationFn: () => api('/admin/announcements/' + removing!.id, {method:'DELETE',auth:true}),onSuccess:changed});
   const all = query.data?.announcements || [];
   const rows = all.filter(item => filter === 'all' || item.recipients[filter]);
   const pages = Math.max(1, Math.ceil(rows.length / 5));

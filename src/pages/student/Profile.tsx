@@ -1,3 +1,4 @@
+import { showFormFeedback } from '../../lib/formFeedback';
 import { tagalogError } from '../../lib/validationMessages';
 import { useRef, useState, type FormEvent } from 'react';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
@@ -115,6 +116,7 @@ export default function Profile() {
       void queryClient.invalidateQueries({ queryKey: ['student-self'] });
       await refreshIdentity().catch(() => {});
       editDialog.current?.close();
+      showFormFeedback('Profile updated successfully');
       setSaveMessage('Na-save na ang iyong pangalan.');
     } catch (error) {
       setEditError(error instanceof Error ? tagalogError(error) : 'Hindi pa ma-save ang profile. Subukan muli.');

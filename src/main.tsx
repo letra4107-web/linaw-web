@@ -1,7 +1,7 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { MutationCache, QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import './index.css';
 import './lib/a11y/dark-theme.css';
 import './pages/admin/admin-reference.css';
@@ -14,7 +14,13 @@ import { SoftGlowCursor } from './components/a11y/SoftGlowCursor';
 import '@fontsource/opendyslexic/400.css';
 import '@fontsource/opendyslexic/700.css';
 
+import { showFormFeedback } from './lib/formFeedback';
+import { tagalogError } from './lib/validationMessages';
 const queryClient = new QueryClient({
+  mutationCache: new MutationCache({
+    onSuccess: (_data, _variables, _context, mutation) => { if (typeof mutation.meta?.saveFeedback === 'string') showFormFeedback(mutation.meta.saveFeedback); },
+    onError: (error, _variables, _context, mutation) => { if (mutation.meta?.saveFeedback) showFormFeedback(tagalogError(error), false); },
+  }),
   defaultOptions: {
     queries: {
       staleTime: 30_000,

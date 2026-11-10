@@ -9,10 +9,17 @@ async function sendMail({to,subject,html,text}) {
   if (brevoKey) {
    const match=from.match(/^(.*?)<([^>]+)>$/);
    const response=await fetch('https://api.brevo.com/v3/smtp/email',{method:'POST',headers:{'api-key':brevoKey,'Content-Type':'application/json',Accept:'application/json'},body:JSON.stringify({sender:match?{name:match[1].trim(),email:match[2].trim()}:{name:'LinawLetra',email:from},to:(Array.isArray(to)?to:[to]).map(email=>({email})),subject,...(html?{htmlContent:html}:{}),...(text?{textContent:text}:{})}),signal:AbortSignal.timeout(12000)});
-   if(!response.ok){await response.text();throw new Error('Mail provider rejected delivery');}
+   if(!response.ok){const failure=await response.json().catch(()=>({}));console.error('[mailer] provider rejected',{status:response.status,code:failure.code,message:failure.message});throw new Error('Mail provider rejected delivery');}
    await response.text();
   } else await transporter.sendMail({from,to,subject,html,text});
  }catch{throw Object.assign(new Error('Hindi maipadala ang email ngayon. Subukan muli mamaya.'),{code:'MAIL_UNAVAILABLE'});}
  return {queued:true,devFallback:false};
 }
-module.exports={sendMail,smtpConfigured};
+async function checkMailProvider(){
+ if(!brevoKey)return;
+ try{const response=await fetch('https://api.brevo.com/v3/account',{headers:{'api-key':brevoKey},signal:AbortSignal.timeout(12000)});
+ if(response.ok)console.log('[mailer readiness]',{status:response.status,result:'connected'});
+ else{const failure=await response.json().catch(()=>({}));console.error('[mailer readiness]',{status:response.status,code:failure.code,message:failure.message});}
+ }catch(error){console.error('[mailer readiness]',{code:error.code||error.name});}
+}
+module.exports={sendMail,smtpConfigured,checkMailProvider};

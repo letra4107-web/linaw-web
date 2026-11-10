@@ -30,7 +30,7 @@ export default function Settings() {
   const [passwordMsg, setPasswordMsg] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
 
-  const updateProfile = useMutation({
+  const updateProfile = useMutation({ meta: { saveFeedback: 'Na-save ang mga pagbabago.' },
     mutationFn: async () => {
       const { error: err } = await supabase.from('users').update({ name: name.trim() }).eq('id', user!.id);
       if (err) throw err;
@@ -43,7 +43,7 @@ export default function Settings() {
     onError: (err: Error) => setError(tagalogError(err)),
   });
 
-  const updateEmail = useMutation({
+  const updateEmail = useMutation({ meta: { saveFeedback: 'Na-save ang mga pagbabago.' },
     mutationFn: async () => {
       const trimmed = newEmail.trim();
       if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(trimmed)) {
@@ -60,7 +60,7 @@ export default function Settings() {
     onError: (err: Error) => setError(tagalogError(err)),
   });
 
-  const updatePassword = useMutation({
+  const updatePassword = useMutation({ meta: { saveFeedback: 'Na-save ang mga pagbabago.' },
     mutationFn: async () => {
       if (newPassword.length < 8 || !/[A-Z]/.test(newPassword) || !/[0-9]/.test(newPassword)) {
         throw new Error("Gumamit ng hindi bababa sa 8 karakter, malaking letra, at numero.");

@@ -15,7 +15,7 @@ import './calendar-reference.css';
 import './calendar-overview-reference.css';
 
 interface Child { id: string; name: string; grade_level: number; level: string; }
-interface Activity {
+interface Activity { created_by?: string; read_only?: boolean;
   id: string;
   child_id: string;
   activity_type: string;
@@ -42,7 +42,7 @@ const statuses = [
   { value: 'missed', label: 'Nalampasan' },
 ];
 const emptyForm = { activity_type: 'reading_lesson', title: '', scheduled_date: '', start_time: '', end_time: '', description: '' };
-interface SaveSubmission { childId: string; authUid: string; form: Readonly<typeof emptyForm>; }
+interface SaveSubmission { childId: string; authUid: string; form: Readonly<typeof emptyForm>; editingId?: string | null; }
 interface StatusSubmission { id: string; status: string; childId: string; }
 const toKey = (date: Date) => `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
 const parseDate = (key: string) => new Date(`${key.slice(0, 10)}T00:00:00`);
@@ -81,6 +81,7 @@ export default function Schedule() {
   const [showAllUpcoming, setShowAllUpcoming] = useState(false);
   const [detailId, setDetailId] = useState<string | null>(null);
   const [form, setForm] = useState(emptyForm);
+  const [editingId,setEditingId]=useState<string|null>(null);
   const [savedNotice, setSavedNotice] = useState('');
   const savePendingRef = useRef(false);
   const updatePendingRef = useRef(false);
@@ -93,21 +94,28 @@ export default function Schedule() {
   const activeChild = children.find((child) => child.id === selectedChild) ?? children[0];
   const activeChildId = activeChild?.id ?? '';
   const scheduleQuery = useQuery({
-    queryKey: ['parent-schedule', user?.id],
+    queryKey: ['parent-schedule', user?.id, children.map(child=>child.id)], refetchInterval: 30000,
     queryFn: async () => {
       const { data, error } = await supabase.from('scheduled_activities')
-        .select('id,child_id,activity_type,title,description,scheduled_date,start_time,end_time,status')
+        .select('id,child_id,activity_type,title,description,scheduled_date,start_time,end_time,status,created_by')
         .order('scheduled_date').order('start_time');
       if (error) throw error;
-      return data as Activity[];
+      const deadlines = await Promise.all(children.map(async child=>{
+        const {data,error}=await supabase.rpc('get_parent_calendar_deadlines',{p_child:child.id});if(error)throw error;
+        return (data ?? []).map((item: {id:string;student_id:string;title:string;description:string|null;deadline:string;status:string})=>{
+          const local=new Date(new Date(item.deadline).getTime()+8*3600000).toISOString();
+          return {id:item.id,child_id:item.student_id,title:item.title,description:item.description,scheduled_date:local.slice(0,10),start_time:local.slice(11,16),end_time:null,activity_type:'reminder',status:item.status==='completed'?'completed':'scheduled',read_only:true,created_by:'teacher'} as Activity;
+        });
+      }));
+      return [...(data as Activity[]),...deadlines.flat()].sort((a,b)=>(a.scheduled_date+(a.start_time??'')).localeCompare(b.scheduled_date+(b.start_time??'')));
     },
-    enabled: Boolean(user),
+    enabled: Boolean(user) && childrenQuery.isSuccess,
   });
-  const save = useMutation({
-    mutationFn: async ({ childId, authUid, form: submittedForm }: SaveSubmission) => {
+  const save = useMutation({ meta: { saveFeedback: 'Na-save ang mga pagbabago.' },
+    mutationFn: async ({ childId, authUid, form: submittedForm, editingId }: SaveSubmission) => {
       if (!childId || !authUid || !submittedForm.title.trim() || !isDateKey(submittedForm.scheduled_date)) throw new Error('Kumpletuhin ang anak, pamagat, at petsa.');
       if (submittedForm.end_time && (!submittedForm.start_time || submittedForm.end_time <= submittedForm.start_time)) throw new Error('Ang oras ng pagtatapos ay dapat mas huli sa simula.');
-      const { error } = await supabase.from('scheduled_activities').insert({
+      const payload = {
         ...submittedForm,
         child_id: childId,
         created_by: 'parent',
@@ -117,7 +125,8 @@ export default function Schedule() {
         start_time: submittedForm.start_time || null,
         end_time: submittedForm.end_time || null,
         status: 'scheduled',
-      });
+      };
+      const {error}=editingId ? await supabase.from('scheduled_activities').update(payload).eq('id',editingId).eq('child_id',childId).eq('created_by','parent').eq('created_by_auth_uid',authUid).select('id').single() : await supabase.from('scheduled_activities').insert(payload);
       if (error) throw error;
     },
     onSuccess: (_data, submission) => {
@@ -130,10 +139,10 @@ export default function Schedule() {
     },
     onSettled: () => { savePendingRef.current = false; },
   });
-  const update = useMutation({
+  const update = useMutation({ meta: { saveFeedback: 'Na-save ang mga pagbabago.' },
     mutationFn: async ({ id, status, childId }: StatusSubmission) => {
       const { error } = await supabase.from('scheduled_activities').update({ status })
-        .eq('id', id).eq('child_id', childId).select('id').single();
+        .eq('id', id).eq('child_id', childId).eq('created_by','parent').eq('created_by_auth_uid',user!.id).select('id').single();
       if (error) throw error;
     },
     onSuccess: () => {
@@ -194,6 +203,7 @@ export default function Schedule() {
   }
   function openForm() {
     if (savePendingRef.current || updatePendingRef.current || !activeChildId) return;
+    setEditingId(null);
     save.reset();
     setSavedNotice('');
     setForm({ ...emptyForm, scheduled_date: selectedDate ?? toKey(anchor) });
@@ -207,10 +217,10 @@ export default function Schedule() {
     if (savePendingRef.current || updatePendingRef.current) return;
     savePendingRef.current = true;
     setSavedNotice('');
-    save.mutate({ childId: activeChildId, authUid: user?.id ?? '', form: Object.freeze({ ...form }) });
+    save.mutate({ childId: activeChildId, authUid: user?.id ?? '', form: Object.freeze({ ...form }), editingId });
   }
   function updateStatus(item: Activity, status: string) {
-    if (savePendingRef.current || updatePendingRef.current || item.status === status) return;
+    if (item.read_only || item.created_by !== 'parent' || savePendingRef.current || updatePendingRef.current || item.status === status) return;
     updatePendingRef.current = true;
     setSavedNotice('');
     update.mutate({ id: item.id, status, childId: item.child_id });
@@ -263,11 +273,11 @@ export default function Schedule() {
           {update.error && <p className="calendar-error" role="alert">Hindi na-update ang status. {tagalogError(update.error)}</p>}
           <div className="calendar-table">
             <table className="calendar-activity-table"><thead><tr><th>{selectedDate ? 'Oras' : 'Petsa / Oras'}</th><th>Uri</th><th>Pamagat</th><th>Kategorya</th><th>Status</th><th>Aksyon</th></tr></thead><tbody>
-              {displayedActivities.map((item) => { const type = typeFor(item.activity_type); const TypeIcon = type.icon; return <tr key={item.id}><td>{!selectedDate && <small className="calendar-row-date">{formatDate(item.scheduled_date)}</small>}<time>{item.start_time ? formatTime(item.start_time) : 'Buong araw'}</time></td><td><span className={`calendar-type-icon ${type.color}`} title={type.label}><TypeIcon size={18} aria-hidden="true" /><span className="sr-only">{type.label}</span></span></td><td><strong>{item.title}</strong></td><td>{type.label}</td><td><select className={`calendar-status status-${item.status}`} aria-label={`Status ng ${item.title}`} disabled={mutationPending} value={item.status} onChange={(event) => updateStatus(item, event.target.value)}>{statuses.map((status) => <option key={status.value} value={status.value}>{status.label}</option>)}</select></td><td><button type="button" className="calendar-row-details" aria-expanded={detailId === item.id} aria-label={`Tingnan ang detalye ng ${item.title}`} onClick={() => setDetailId(detailId === item.id ? null : item.id)}><MoreHorizontal size={17} /></button></td></tr>; })}
+              {displayedActivities.map((item) => { const type = typeFor(item.activity_type); const TypeIcon = type.icon; return <tr key={item.id}><td>{!selectedDate && <small className="calendar-row-date">{formatDate(item.scheduled_date)}</small>}<time>{item.start_time ? formatTime(item.start_time) : 'Buong araw'}</time></td><td><span className={`calendar-type-icon ${type.color}`} title={type.label}><TypeIcon size={18} aria-hidden="true" /><span className="sr-only">{type.label}</span></span></td><td><strong>{item.title}</strong></td><td>{type.label}</td><td><select className={`calendar-status status-${item.status}`} aria-label={`Status ng ${item.title}`} disabled={mutationPending || item.read_only || item.created_by !== 'parent'} value={item.status} onChange={(event) => updateStatus(item, event.target.value)}>{statuses.map((status) => <option key={status.value} value={status.value}>{status.label}</option>)}</select></td><td><button type="button" className="calendar-row-details" aria-expanded={detailId === item.id} aria-label={`Tingnan ang detalye ng ${item.title}`} onClick={() => setDetailId(detailId === item.id ? null : item.id)}><MoreHorizontal size={17} /></button></td></tr>; })}
               {!displayedActivities.length && <tr><td colSpan={6}><div className="calendar-no-data"><img src={noActivitiesArt} alt="" /><div><strong>{scheduleQuery.isLoading || childrenQuery.isLoading ? 'Kinukuha ang iyong iskedyul…' : activeChildId ? 'May puwang para sa bagong pagkatuto.' : 'Simulan ang reading journey.'}</strong><p>{activeChildId ? 'Wala pang aktibidad sa panahong ito. Magdagdag ng maikling oras para sa pagbasa o practice.' : 'Mag-enroll muna ng anak upang gumawa ng kanyang iskedyul.'}</p>{activeChildId ? <button type="button" disabled={mutationPending} onClick={openForm}>Magplano ng aktibidad <Plus size={14} /></button> : <Link to="/parent/children?enroll=1">Magdagdag ng Anak <ChevronRight size={14} /></Link>}</div></div></td></tr>}
             </tbody></table>
           </div>
-          {detail && <div className="calendar-activity-detail"><button type="button" aria-label="Isara ang detalye" onClick={() => setDetailId(null)}><X size={17} /></button><h3>{detail.title}</h3><p><CalendarDays size={15} />{formatDate(detail.scheduled_date)}<Clock3 size={15} />{activityTime(detail)}</p>{detail.description && <p>{detail.description}</p>}</div>}
+          {detail && <div className="calendar-activity-detail"><button type="button" aria-label="Isara ang detalye" onClick={() => setDetailId(null)}><X size={17} /></button><h3>{detail.title}</h3>{detail.created_by==='parent'&&!detail.read_only&&<button type="button" onClick={()=>{setEditingId(detail.id);setForm({activity_type:detail.activity_type,title:detail.title,description:detail.description??'',scheduled_date:detail.scheduled_date,start_time:detail.start_time??'',end_time:detail.end_time??''});setShowForm(true);}}>I-edit ang Aktibidad</button>}{detail.read_only&&<p>Deadline mula sa guro · Oras sa Pilipinas</p>}<p><CalendarDays size={15} />{formatDate(detail.scheduled_date)}<Clock3 size={15} />{activityTime(detail)}</p>{detail.description && <p>{detail.description}</p>}</div>}
         </section>
       </div>
       <aside className="calendar-reference-side">

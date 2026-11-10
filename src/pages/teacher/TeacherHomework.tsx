@@ -1,3 +1,4 @@
+import {showFormFeedback} from '../../lib/formFeedback';
 import { useRef, useState } from 'react';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '../../lib/supabaseClient';
@@ -14,8 +15,8 @@ function Review({ assignment, onBack }: { assignment: Homework; onBack: () => vo
   async function review(row: HomeworkWork, returned: boolean) {
     if (!row.submission || inFlight.current) return;
     inFlight.current = true; setBusy(true); setError('');
-    try { const result = await supabase.rpc('review_homework_answer', { p_submission_id: row.submission.id, p_revision: row.submission.revision, p_feedback: feedback[row.student_id] ?? row.submission.feedback, p_return: returned }); if (result.error) throw result.error; await refetch(); }
-    catch (error) { setError(homeworkError(error)); } finally { inFlight.current = false; setBusy(false); }
+    try { const result = await supabase.rpc('review_homework_answer', { p_submission_id: row.submission.id, p_revision: row.submission.revision, p_feedback: feedback[row.student_id] ?? row.submission.feedback, p_return: returned }); if (result.error) throw result.error; showFormFeedback('Na-save ang pagbabago.'); await refetch(); }
+    catch (error) { setError(homeworkError(error));showFormFeedback(homeworkError(error),false); } finally { inFlight.current = false; setBusy(false); }
   }
   async function open(path: string) {
     const popup = window.open('about:blank', '_blank');
@@ -58,7 +59,7 @@ export function TeacherHomework() {
       const result = await supabase.rpc('create_homework_assignment', { p_id: key, p_title: title.trim(), p_instructions: instructions.trim(), p_grade: Number(grade), p_student_ids: recipients, p_due_at: due ? new Date(due).toISOString() : null, p_file_path: attachment?.file_path || null, p_file_name: attachment?.file_name || null });
       if (result.error) throw result.error;
       setTitle(''); setInstructions(''); setGrade(''); setDue(''); setRecipients([]); setFile(null); setUploaded(null); setKey(crypto.randomUUID()); if (input.current) input.current.value = '';
-      setNotice('Naibigay na ang takdang-aralin sa mga napiling mag-aaral.'); await cache.invalidateQueries({ queryKey: ['teacher-homework'] });
+      setNotice('Naibigay na ang takdang-aralin sa mga napiling mag-aaral.');showFormFeedback('Naibigay na ang takdang-aralin sa mga napiling mag-aaral.'); await cache.invalidateQueries({ queryKey: ['teacher-homework'] });
     } catch (error) { setError(homeworkError(error)); } finally { inFlight.current = false; setBusy(false); }
   }
   async function toggle(assignment: Homework) {

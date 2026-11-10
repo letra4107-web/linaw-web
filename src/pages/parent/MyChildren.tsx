@@ -1,3 +1,4 @@
+import {ChildDetailsForm} from './ChildDetailsForm';
 import { tagalogError } from '../../lib/validationMessages';
 import { Fragment, useEffect, useRef, useState, type ReactNode } from 'react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
@@ -20,7 +21,7 @@ import './children-overview-reference.css';
 
 type FontSize = 'small' | 'medium' | 'large';
 interface StudentAccessibility { dyslexia_font: boolean; font_size: FontSize; high_contrast: boolean; reading_guide: boolean; tts_enabled: boolean; }
-interface Child { id: string; name: string; grade_level: number; username: string; level: string; xp: number; streak: number; activities_completed: number; accuracy_sum: number; total_attempts: number; progress_updated_at: string | null; }
+interface Child { date_of_birth?:string|null;profile_revision?:number; id: string; name: string; grade_level: number; username: string; level: string; xp: number; streak: number; activities_completed: number; accuracy_sum: number; total_attempts: number; progress_updated_at: string | null; }
 interface CredentialSecurity { childId: string; status: 'legacy' | 'rotated_pending' | 'secure' | 'fully_retired' | 'missing'; requiresRotation: boolean; }
 interface ModuleSummary { id: string; module_number: number; title: string; state: 'locked' | 'unlocked' | 'completed'; content_item_count: number; completed_content_item_count: number; }
 interface PathResponse { configured: boolean; effective_level: string; modules: ModuleSummary[]; }
@@ -125,7 +126,7 @@ export default function MyChildren() {
     queryFn: () => api<{ children: CredentialSecurity[] }>('/parent/children/credential-security', { auth: true }),
     enabled: Boolean(user),
   });
-  const enrollChild = useMutation({
+  const enrollChild = useMutation({ meta: { saveFeedback: 'Na-save ang mga pagbabago.' },
     mutationFn: (details: { childName: string; gradeLevel: number }) => api<{ success: boolean; username: string; temporaryPassword: string; level: string }>('/parent/children', { method: 'POST', auth: true, body: details }),
     onSuccess: (result, details) => {
       setSuccessMsg(`Nai-enroll si ${details.childName} bilang ${result.username} (${result.level} level).`);
@@ -150,7 +151,7 @@ export default function MyChildren() {
     queryFn: () => api<{ settings: StudentAccessibility }>(`/parent/children/${accessOpenId}/settings`, { auth: true }),
     enabled: Boolean(accessOpenId),
   });
-  const updateAccess = useMutation({
+  const updateAccess = useMutation({ meta: { saveFeedback: 'Na-save ang mga pagbabago.' },
     mutationFn: ({ childId: targetChildId, patch }: { childId: string; patch: Partial<StudentAccessibility> }) => api(`/parent/children/${targetChildId}/settings`, { method: 'PATCH', auth: true, body: patch }),
     onSuccess: (_result, { childId: targetChildId }) => queryClient.invalidateQueries({ queryKey: ['child-accessibility', targetChildId] }),
     onError: (err: Error) => setError(tagalogError(err)),
@@ -162,7 +163,7 @@ export default function MyChildren() {
     setError(null);
     updateAccess.mutate({ childId: targetChildId, patch });
   };
-  const resetPassword = useMutation({
+  const resetPassword = useMutation({ meta: { saveFeedback: 'Na-save ang mga pagbabago.' },
     mutationFn: (childId: string) => api<{ username: string; temporaryPassword: string }>(`/parent/children/${childId}/reset-password`, { method: 'POST', auth: true }),
     onSuccess: (result) => { setTemporaryCredential({ username: result.username, password: result.temporaryPassword }); setError(null); queryClient.invalidateQueries({ queryKey: ['parent-credential-security'] }); },
     onError: (err: Error) => setError(tagalogError(err)),
@@ -251,6 +252,7 @@ export default function MyChildren() {
           <div className="kid-account-actions"><button type="button" onClick={() => setAccessOpenId(accessOpenId === childId ? null : childId!)} aria-expanded={accessOpenId === childId}><BookOpen size={17} />Reading Support</button><button type="button" disabled={resetPassword.isPending} onClick={() => { if (window.confirm(`Gumawa ng bagong password para kay ${selectedChild.name}? Hindi na gagana ang lumang password.`)) resetPassword.mutate(selectedChild.id); }}><KeyRound size={17} />{resetPassword.isPending ? 'Gumagawa...' : 'Bagong Password'}</button></div>
         </section>}
 
+        {editingId===childId && selectedChild && <ChildDetailsForm key={selectedChild.id} child={selectedChild}/>}
         {accessOpenId === childId && <section className="kid-accessibility-panel kid-panel"><CardHeading icon={<BookOpen size={21} />} title={`Reading Support ni ${selectedChild.name}`} /><p>Awtomatikong lalabas sa student dashboard ang mga pagbabago.</p>{accessLoading ? <p>Kinukuha ang settings...</p> : accessError ? <div role="alert"><p>Hindi makuha ang reading support settings. {tagalogError(accessError)}</p><button type="button" className="kid-module-retry" disabled={accessFetching} onClick={() => void refetchAccess()}>{accessFetching ? 'Kinukuha...' : 'Subukan muli'}</button></div> : accessSettings && <fieldset className="kid-accessibility-grid" disabled={updateAccess.isPending} aria-busy={updateAccess.isPending} aria-label={`Reading support settings ni ${selectedChild.name}`} style={{ margin: 0, marginTop: 15, padding: 0, border: 0, minWidth: 0 }}>{ACCESSIBILITY_OPTIONS.map((setting) => <div key={setting.key}><span><strong>{setting.label}</strong><small>{setting.description}</small></span><Toggle on={accessSettings.settings[setting.key]} onClick={() => submitAccessPatch(selectedChild.id, { [setting.key]: !accessSettings.settings[setting.key] })} label={setting.label} /></div>)}<div className="kid-font-setting"><strong>Laki ng Teksto</strong><span>{FONT_SIZE_OPTIONS.map((option) => <button key={option.value} type="button" disabled={updateAccess.isPending} aria-pressed={accessSettings.settings.font_size === option.value} className={accessSettings.settings.font_size === option.value ? 'selected' : ''} onClick={() => submitAccessPatch(selectedChild.id, { font_size: option.value })}>{option.label}</button>)}</span></div></fieldset>}</section>}
 
         <div className="kid-detail-grid">

@@ -34,7 +34,7 @@ export default function Settings() {
     setNotice(persisted?'Na-save ang tema para sa account na ito sa browser na ito.':'Nagamit ang tema para sa session na ito. Hindi available ang browser storage.');
   }
   function toggleNotice(category:TeacherNoticeCategory) {const persisted=update({notices:{[category]:preferences.notices?.[category]===false}});setNotice(persisted?'Na-save ang preference sa pag-display ng mga abiso.':'Nagamit ang preference para sa session na ito.');}
-  const download=useMutation({mutationFn:async()=>{
+  const download=useMutation({ meta: { saveFeedback: 'Na-save ang mga pagbabago.' },mutationFn:async()=>{
     if(profile.error)throw new Error('Hindi makuha ang profile.');
     const results=await Promise.all([supabase.from('lessons').select('id, title, description').eq('teacher_id',user!.id),supabase.from('teacher_messages').select('id, parent_id, child_id, message, read, created_at').eq('teacher_id',user!.id)]);
     if(results.some(result=>result.error))throw new Error('Hindi makuha ang data.');
@@ -42,7 +42,7 @@ export default function Settings() {
     const content=JSON.stringify({exported_at:new Date().toISOString(),account:{id:user!.id,name:identity?.displayName,email:user!.email,role:'teacher'},profile:profile.data??null,preferences,lessons:results[0].data,messages:results[1].data,replies},null,2);
     const url=URL.createObjectURL(new Blob([content],{type:'application/json'})),anchor=document.createElement('a');anchor.href=url;anchor.download='linawletra-teacher-account.json';document.body.append(anchor);anchor.click();anchor.remove();window.setTimeout(()=>URL.revokeObjectURL(url),1000);
   },onSuccess:()=>setDownloadNotice('Na-download ang iyong account data.'),onError:()=>setDownloadNotice('Hindi ma-download ang data. Subukan muli.')});
-  const logout=useMutation({mutationFn:()=>softSignOut({userId:user!.id,role:'teacher',displayName:identity?.displayName??'Guro',email:user?.email??''})});
+  const logout=useMutation({ meta: { saveFeedback: 'Na-save ang mga pagbabago.' },mutationFn:()=>softSignOut({userId:user!.id,role:'teacher',displayName:identity?.displayName??'Guro',email:user?.email??''})});
 
   return <div className="teacher-settings-design">
     <header className="tsg-hero"><img className="tsg-background" src={classroom} alt="" aria-hidden/><div className="tsg-hero-copy"><p>MGA SETTING</p><h1>Mga Setting <GearIcon aria-hidden/></h1><p>Pamahalaan ang iyong account at mga kagustuhan<br className="tsg-wide-break"/> sa LinawLetra.</p></div><img className="tsg-teacher" src={teacher} alt="" aria-hidden/><blockquote>I-customize ang iyong<br/> karanasan para mas<br/> maging produktibo at<br/> komportable sa<br/> pagtuturo. <Heart aria-hidden/></blockquote></header>

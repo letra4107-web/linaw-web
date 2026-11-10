@@ -1268,3 +1268,5 @@ body .children-dashboard-rebuild:has(.children-roster-title button:focus)::befor
 @media(min-width:1051px){body .teacher-dashboard__aside{display:contents}body .teacher-dashboard__information{grid-column:2;grid-row:1}body .teacher-dashboard__activity{grid-column:2;grid-row:2}body .teacher-dashboard__classes{grid-column:1;grid-row:2;align-self:start}}
 
 .verify-email-otp{grid-template-columns:repeat(8,minmax(0,1fr))}.verify-email-otp input{min-width:0}@media(max-width:400px){.verify-email-otp{gap:4px}.verify-email-otp input{font-size:1.2rem;border-radius:.5rem}}
+
+.account-fields label{display:grid;gap:8px;margin-bottom:14px;font-weight:700}.account-fields input{width:100%;min-height:46px;border:1px solid #b8cddd;border-radius:10px;padding:10px;color:#173b4c;background:white}.account-fields button{min-height:42px;margin:8px 8px 8px 0}

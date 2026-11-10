@@ -75,11 +75,11 @@ export default function Lessons() {
     } catch (error) { if (revision === fileRevision.current) { setFormError(error instanceof Error ? tagalogError(error) : 'Hindi mabasa ang file.'); if (fileInput.current) fileInput.current.value = ''; } }
     finally { if (revision === fileRevision.current) setFileChecking(false); }
   }
-  const createLesson = useMutation({ mutationFn: async () => {
+  const createLesson = useMutation({ meta: { saveFeedback: 'Na-save ang mga pagbabago.' }, mutationFn: async () => {
     if (!user || !file) throw new Error('Pumili ng file para sa aralin.');
     return uploadPublishedLesson(supabase, user.id, draft, file);
   }, onSuccess: () => { clearForm(); setSuccess('Na-upload at na-publish ang aralin. Makikita ito sa web, iOS at Android sa Aralin → Mga Aralin para sa napiling baitang.'); setLibraryRevision(value => value + 1); void queryClient.invalidateQueries({ queryKey: ['teacher-lessons'] }); void queryClient.invalidateQueries({ queryKey: ['teacher-materials-count'] }); void queryClient.invalidateQueries({ queryKey: ['student-teacher-lessons'] }); }, onError: (error: Error) => setFormError(tagalogError(error)) });
-  const updateLesson = useMutation({ mutationFn: async ({ id, values, pdfChange }: { id: string; values: Partial<Draft> & { is_published?: boolean }; pdfChange?: LessonPdfChange }) => {
+  const updateLesson = useMutation({ meta: { saveFeedback: 'Na-save ang mga pagbabago.' }, mutationFn: async ({ id, values, pdfChange }: { id: string; values: Partial<Draft> & { is_published?: boolean }; pdfChange?: LessonPdfChange }) => {
     setSaveWarning('');
     const lesson = lessons?.find(item => item.id === id);
     if (!lesson) throw new Error('Hindi makita ang aralin. I-refresh ang Lesson Library.');
@@ -92,7 +92,7 @@ export default function Lessons() {
     }
     return saveOwnedLessonEdit(supabase, user?.id, id, payload, lesson, pdfChange || { kind: 'keep' });
   }, onSuccess: (result, variables) => { setActionError(null); setSaveWarning(result.warning); void queryClient.invalidateQueries({ queryKey: ['student-teacher-lessons'] }); if (variables.values.is_published === undefined) setSelection(null); setSuccess(variables.values.is_published === undefined ? 'Na-save ang mga pagbabago.' : variables.values.is_published ? 'Nai-publish ang aralin.' : 'Nailipat sa draft ang aralin.'); void queryClient.invalidateQueries({ queryKey: ['teacher-lessons'] }); void queryClient.invalidateQueries({ queryKey: ['teacher-materials-count'] }); }, onError: (error: Error) => setActionError(tagalogError(error)) });
-  const deleteLesson = useMutation({ mutationFn: async (id: string) => {
+  const deleteLesson = useMutation({ meta: { saveFeedback: 'Na-save ang mga pagbabago.' }, mutationFn: async (id: string) => {
     await deleteOwnedLesson(supabase, user?.id, id);
   }, onSuccess: () => { setSelection(null); setActionError(null); setSuccess('Natanggal ang aralin.'); void queryClient.invalidateQueries({ queryKey: ['teacher-lessons'] }); void queryClient.invalidateQueries({ queryKey: ['teacher-materials-count'] }); }, onError: (error: Error) => setActionError(tagalogError(error)) });
   const busy = createLesson.isPending || updateLesson.isPending || deleteLesson.isPending;

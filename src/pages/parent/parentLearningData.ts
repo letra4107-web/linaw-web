@@ -73,7 +73,7 @@ export function useParentLearningData(childId: string | null) {
     enabled: Boolean(childId),
   });
   const achievements = useQuery({
-    queryKey: ['parent-overview-achievements', childId],
+    queryKey: ['parent-overview-achievements', childId], refetchInterval: 10000, staleTime: 0,
     queryFn: async () => {
       const { data, error } = await supabase.from('child_progress')
         .select('achievements,badges,streak').eq('child_id', childId!).maybeSingle();

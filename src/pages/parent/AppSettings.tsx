@@ -37,7 +37,7 @@ export default function ParentAppSettings() {
     enabled: Boolean(user),
   });
   const verifiedFactor = factorsQuery.data?.totp.find((factor) => factor.status === 'verified');
-  const update = useMutation({
+  const update = useMutation({ meta: { saveFeedback: 'Na-save ang mga pagbabago.' },
     mutationFn: async (patch: Partial<ParentSettings>) => {
       if (!user || !settings) throw new Error('Hintaying ma-load muna ang iyong settings.');
       const { error } = await supabase.from('parents_settings').update(patch).eq('auth_uid', user.id).select('auth_uid').single();

@@ -1,5 +1,5 @@
 export interface ReportRoster { id: string; student_id: string; assigned_at: string; children: { id: string; name: string; grade_level: number; username: string } | null; }
-export interface ReportProgress { child_id: string; xp: number; streak: number; level: string | null; accuracy_sum: number; total_attempts: number; activities_completed: number; }
+export interface ReportProgress { achievements?: unknown; badges?: unknown; child_id: string; xp: number; streak: number; level: string | null; accuracy_sum: number; total_attempts: number; activities_completed: number; }
 export interface ReportSession { student_id: string; created_at: string; }
 export interface ReportRow extends ReportRoster { item?: ReportProgress & { level: string }; accuracy: number; level: string; lastActivity?: string; needsAttention: boolean; }
 

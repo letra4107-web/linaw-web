@@ -1,3 +1,4 @@
+if(process.env.NODE_ENV==='production')void require('./config/mailer').checkMailProvider();
 // In local development, use this repository's server/.env even if a terminal
 // has stale Supabase variables from another project. Production continues to
 // use its platform-provided environment configuration.

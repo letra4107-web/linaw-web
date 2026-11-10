@@ -86,10 +86,11 @@ function createHarness({ signed = true, failTable = null } = {}) {
 
 async function withRouter(harness, run) {
   const app = express();
+  app.use(express.json());
   app.use('/api/parent', harness.router);
   const server = await new Promise((resolve) => { const listening = app.listen(0, '127.0.0.1', () => resolve(listening)); });
-  const request = async (route, token = 'parent-a') => {
-    const response = await fetch(`http://127.0.0.1:${server.address().port}/api/parent${route}`, { headers: token ? { Authorization: `Bearer ${token}` } : {} });
+  const request = async (route, token = 'parent-a', body) => {
+    const response = await fetch(`http://127.0.0.1:${server.address().port}/api/parent${route}`, { method:body?'PATCH':'GET',headers: {...(token ? { Authorization: `Bearer ${token}` } : {}),'Content-Type':'application/json'},...(body?{body:JSON.stringify(body)}:{}) });
     return { status: response.status, body: await response.json() };
   };
   try { await run(request); } finally { await new Promise((resolve, reject) => server.close((error) => error ? reject(error) : resolve())); }
@@ -192,4 +193,17 @@ test('parent material failures return a safe error without a partial result', as
     }
   });
   assert.equal(harness.calls.signedUrls.length, 0);
+});
+
+test('child profile editing checks parent ownership before invoking the revision RPC',async()=>{
+ const h=createHarness();const body={name:'Ana Edited',gradeLevel:2,dateOfBirth:'2019-05-20',revision:0};
+ await withRouter(h,async request=>{
+   assert.equal((await request('/children/'+OTHER_CHILD,'parent-a',body)).status,404);
+   assert.equal(h.calls.rpc.length,0);
+   assert.equal((await request('/children/'+CHILD,'parent-a',{...body,dateOfBirth:'2026-02-30'})).status,400);
+   assert.equal((await request('/children/'+CHILD,'teacher-a',body)).status,403);
+   assert.equal((await request('/children/'+CHILD,'parent-a',body)).status,200);
+ });
+ assert.equal(h.calls.rpc.length,1);assert.equal(h.calls.rpc[0].name,'update_parent_child_profile');
+ assert.equal(h.calls.rpc[0].params.p_parent_id,'parent-a');assert.equal(h.calls.rpc[0].params.p_student_id,undefined);
 });

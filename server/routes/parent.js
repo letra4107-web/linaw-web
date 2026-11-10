@@ -89,7 +89,7 @@ router.get('/children', async (req, res) => {
   try {
     const { data: children, error: childrenError } = await supabaseAdmin
       .from('children')
-      .select('id, name, grade_level, username')
+      .select('id, name, grade_level, username, date_of_birth, profile_revision')
       .eq('parent_id', req.user.id)
       .order('grade_level');
     if (childrenError) throw childrenError;
@@ -122,6 +122,18 @@ router.get('/children', async (req, res) => {
     console.error('[parent children list]', err);
     res.status(500).json({ error: 'Hindi ma-load ang mga account ng anak ngayon.' });
   }
+});
+
+router.patch('/children/:id',validateUuidParam('id'),async(req,res)=>{
+  try{
+    const child=await authorization.parentChild(req.user.id,req.params.id);
+    if(!child)return res.status(404).json({error:'Hindi makita ang anak sa account na ito.'});
+    const {name,gradeLevel,dateOfBirth,revision}=req.body||{};
+    if(typeof name!=='string'||name.trim().length<2||name.trim().length>100||!Number.isInteger(gradeLevel)||gradeLevel<1||gradeLevel>6||!Number.isInteger(revision)||revision<0||typeof dateOfBirth!=='string'||!/^\d{4}-\d{2}-\d{2}$/.test(dateOfBirth)||!Number.isFinite(Date.parse(dateOfBirth))||new Date(dateOfBirth).toISOString().slice(0,10)!==dateOfBirth||dateOfBirth<'1900-01-01'||dateOfBirth>new Date(Date.now()+8*3600000).toISOString().slice(0,10))return res.status(400).json({error:'Ilagay ang buong pangalan, baitang at wastong petsa ng kapanganakan.'});
+    const {data,error}=await supabaseAdmin.rpc('update_parent_child_profile',{p_parent_id:req.user.id,p_child_id:child.id,p_name:name.trim(),p_grade:gradeLevel,p_birth_date:dateOfBirth,p_revision:revision});
+    if(error){if(error.code==='PT409')return res.status(409).json({error:'Nagbago na ang detalye. I-refresh bago mag-save.'});throw error;}
+    return res.json({success:true,child:data});
+  }catch(error){console.error('[parent child profile]',{code:error?.code});return res.status(503).json({error:'Hindi na-save ang detalye. Subukan muli.'});}
 });
 
 // POST /parent/children  { childName, gradeLevel }

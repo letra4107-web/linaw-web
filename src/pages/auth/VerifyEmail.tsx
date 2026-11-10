@@ -1,5 +1,5 @@
 import { tagalogError } from '../../lib/validationMessages';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { ArrowRight, CheckCircle2, Lightbulb, MailCheck } from 'lucide-react';
 import { api } from '../../lib/api';
@@ -9,6 +9,7 @@ import emailIllustration from '../../assets/email.png';
 import logo from '../../assets/Logo.jpg';
 
 const OTP_LENGTH = 8;
+const initialRequests=new Map<string,Promise<unknown>>();
 
 export default function VerifyEmail() {
   const navigate = useNavigate();
@@ -22,6 +23,14 @@ export default function VerifyEmail() {
   const [resendMessage, setResendMessage] = useState<string | null>(null);
   const inputs = useRef<Array<HTMLInputElement | null>>([]);
   const code = digits.join('');
+  useEffect(()=>{
+    if(!isValidEmail(initialEmail) || (location.state as {otpSent?:boolean}|null)?.otpSent)return;
+    const key=initialEmail.trim().toLowerCase();let request=initialRequests.get(key);
+    if(!request){request=api('/auth/email-verification/request',{method:'POST',body:{email:key}});initialRequests.set(key,request);}
+    let active=true;setResending(true);
+    void request.then(()=>{if(active)setResendMessage('Naipadala sa email service ang verification code. Tingnan din ang Spam folder.');},err=>{if(active)setError(tagalogError(err));}).finally(()=>{if(active)setResending(false);});
+    return()=>{active=false;};
+  },[initialEmail,location.state]);
 
   const setOtpFrom = (start: number, value: string) => {
     const nextDigits = [...digits];
@@ -59,6 +68,7 @@ export default function VerifyEmail() {
   };
 
   const resendCode = async () => {
+    if(resending || submitting)return;
     const cleanEmail = email.trim().toLowerCase();
     if (!isValidEmail(cleanEmail)) {
       setError('Ilagay muna ang email address para maipadala muli ang code.');
@@ -97,7 +107,7 @@ export default function VerifyEmail() {
           </header>
 
           <form onSubmit={onSubmit} noValidate className="verify-email-form">
-            {!initialEmail && <label className="verify-email-address">Email address<input id="email" type="email" value={email} onChange={(event) => setEmail(event.target.value)} autoComplete="email" placeholder="halimbawa@email.com" /></label>}
+            {<label className="verify-email-address">Email address<input id="email" type="email" value={email} disabled={resending || submitting} onChange={(event) => {setEmail(event.target.value);setDigits(Array(OTP_LENGTH).fill(''));setError(null);setResendMessage(null);}} autoComplete="email" placeholder="halimbawa@email.com" /></label>}
             <fieldset className="verify-email-otp" aria-label="Email verification code">
               {digits.map((digit, index) => <input
                 key={index}

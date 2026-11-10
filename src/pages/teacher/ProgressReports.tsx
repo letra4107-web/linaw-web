@@ -41,7 +41,7 @@ export default function ProgressReports() {
   }, enabled: Boolean(user) });
   const studentIds = (roster.data ?? []).map((row) => row.student_id);
   const progress = useQuery({ queryKey: ['teacher-progress-reports', user?.id, studentIds], queryFn: async () => {
-    const { data, error } = await supabase.from('child_progress').select('child_id, xp, streak, level, accuracy_sum, total_attempts, activities_completed').in('child_id', studentIds);
+    const { data, error } = await supabase.from('child_progress').select('child_id, xp, streak, level, accuracy_sum, total_attempts, activities_completed, achievements, badges').in('child_id', studentIds);
     if (error) throw error;
     return data as ReportProgress[];
   }, enabled: studentIds.length > 0 });

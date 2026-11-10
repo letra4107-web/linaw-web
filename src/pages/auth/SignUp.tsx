@@ -105,7 +105,7 @@ export default function SignUp() {
       if (data.session) try { await api('/auth/email-verification/request', {method:'POST',body:{email:cleanEmail,userId:data.user.id}}); } catch { deliveryPending = true; }
       trackEvent('signup_completed', { role: ROLE });
 
-      navigate('/verify-email', { state: { email: cleanEmail, userId: data.user.id, deliveryPending } });
+      navigate('/verify-email', { state: { email: cleanEmail, userId: data.user.id, deliveryPending, otpSent: !deliveryPending } });
     } catch (err) {
       setError(err instanceof Error ? tagalogError(err) : 'Hindi matagumpay ang pag-sign up.');
     } finally {

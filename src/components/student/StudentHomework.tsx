@@ -1,3 +1,4 @@
+import {showFormFeedback} from '../../lib/formFeedback';
 import { useEffect, useId, useRef, useState } from 'react';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { ArrowLeft, ChevronRight, ClipboardList, Clock3, Paperclip, RefreshCw } from 'lucide-react';
@@ -27,8 +28,9 @@ function Answer({ assignment, initial, onBack, onSaved, now }: { assignment: Hom
       let file = attachment;
       if (picked) { file = await uploadHomeworkFile(supabase, picked.name, picked.size, picked); setAttachment(file); setPicked(null); }
       const result = await saveHomeworkAnswer(supabase, assignment.id, text, file, submit);
+      showFormFeedback(submit?'Naipasa na ang iyong sagot sa guro.':'Na-save ang draft. Hindi pa ito naipapasa.');
       setSaved(result); setNotice(submit ? 'Naipasa na ang iyong sagot sa guro.' : 'Nai-save ang sagot. Hindi pa ito naipapasa.'); onSaved(result);
-    } catch (error) { setError(homeworkError(error)); }
+    } catch (error) { setError(homeworkError(error));showFormFeedback(homeworkError(error),false); }
     finally { inFlight.current = false; setBusy(false); }
   }
   async function open(path: string) {
