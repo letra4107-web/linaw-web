@@ -8,7 +8,7 @@ import {recordVerifiedAnswer} from '../../lib/progressEvents';
 import { api } from '../../lib/api';
 import { assessSpeech, isSpeechRecognitionSupported, listenOnce, type RecognitionHandle } from '../../lib/speech';
 import { syllabifyWord } from '../../lib/syllabify';
-import { CORRECT_MESSAGES, ENCOURAGE_MESSAGES, randomFrom } from '../../lib/feedbackMessages';
+import { readingFeedbackMessage } from '../../lib/feedbackMessages';
 import { SlowTTSButton } from '../../components/a11y/SlowTTSButton';
 import { SyllableKaraokeText } from '../../components/SyllableKaraokeText';
 import { PronunciationFeedback } from '../../components/PronunciationFeedback';
@@ -239,7 +239,7 @@ export default function Practice() {
     saveInFlight.current=true;setSavingAttempt(true);
     try{const saved=await recordVerifiedAnswer({...input,source:'practice'});const result=saved.result;
       setPendingRetry(null);setError(null);
-      setLastResult({attemptId:crypto.randomUUID(),transcript:input.transcript,accuracy:result.accuracy,correct:result.correct,message:randomFrom(result.correct?CORRECT_MESSAGES:ENCOURAGE_MESSAGES),rewardMessage:practiceRewardMessage(saved)});
+      setLastResult({attemptId:crypto.randomUUID(),transcript:input.transcript,accuracy:result.accuracy,correct:result.correct,message:readingFeedbackMessage(result.accuracy),rewardMessage:practiceRewardMessage(saved)});
       if(!saved.replayed)setStreak(s=>result.correct?s+1:0);
       trackEvent('reading_attempt_completed',{surface:'practice',mode,correct:result.correct});
     }catch(caught){const err=caught as Error&{pendingTranscript?:string};setPendingRetry({...input,transcript:err.pendingTranscript||input.transcript});setError(tagalogError(err)||'Hindi pa nakumpirma ang pag-save. I-save muli ang parehong sagot.');}

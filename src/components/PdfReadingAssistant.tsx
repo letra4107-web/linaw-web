@@ -1,3 +1,4 @@
+import { readingFeedbackMessage } from '../lib/feedbackMessages';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { api } from '../lib/api';
 import { assessSpeech, isSpeechRecognitionSupported, listenOnce, normalizeForCompare, recognitionOptionsForText, type RecognitionHandle } from '../lib/speech';
@@ -27,12 +28,7 @@ function studentStoryText(raw: string) {
   return raw.replace(/^[\s\S]*?Ako Naman[.”"]*\s*/i, '');
 }
 
-function readingFeedback(score: number) {
-  if (score >= 90) return 'Napakahusay! Malinaw ang pagbasa mo.';
-  if (score >= 75) return 'Mahusay! Ituloy mo ang galing mo.';
-  if (score >= 50) return 'Ang galing ng pagsubok mo! Pakinggan muli at dahan-dahang basahin.';
-  return 'Salamat sa pagsubok! Kaya mo ito—pakinggan at subukan muli.';
-}
+const readingFeedback = readingFeedbackMessage;
 
 export function PdfReadingAssistant({ material, assignmentId, mode, onAttemptRecorded }: Props) {
   const [fontSizeIndex, setFontSizeIndex] = useState(1);
@@ -106,7 +102,7 @@ export function PdfReadingAssistant({ material, assignmentId, mode, onAttemptRec
     <div className="rounded-3xl border-2 border-[var(--color-primary)]/20 bg-[var(--color-surface)] p-7 shadow-raised sm:p-9"><div className="mb-5 flex items-center justify-between gap-3"><span className="rounded-full bg-[var(--color-primary-soft)] px-3 py-1 text-xs font-bold text-[var(--color-primary)]">Bahagi {chunkIndex + 1}</span><p className="text-sm font-bold text-[var(--color-primary)]">Basahin nang dahan-dahan</p></div><p className={`${FONT_SIZES[fontSizeIndex]} ${wideSpacing ? 'tracking-wide' : ''} font-medium`} style={{ lineHeight: wideSpacing ? 2.2 : 1.9, wordSpacing: wideSpacing ? '0.25em' : undefined }}>{current.split(/(\s+)/).map((part, index) => <span key={`${part}-${index}`} className={matched.has(normalizeForCompare(part)) ? 'rounded-lg bg-[var(--color-success-soft)] px-0.5 font-semibold text-[var(--color-success)]' : ''}>{part}</span>)}</p></div>
     <div className="flex flex-wrap justify-center gap-3"><TTSButton text={current} className="rounded-full border bg-white px-5 py-3 text-sm font-bold" /><SlowTTSButton text={current} />{mode === 'student' && <button type="button" onClick={listening ? () => stopRef.current?.() : read} disabled={submitted} className="rounded-full bg-[var(--color-primary)] px-6 py-3 text-sm font-bold text-white disabled:opacity-60"><IconLabel icon="🎙️" label={listening ? 'Itigil' : 'Ako Naman'} /></button>}</div>
     <p className="text-center text-sm text-[var(--color-text-muted)]">Pakinggan muna, saka basahin ang bahaging ito. Okay lang ang mag-retry.</p>
-    {accuracy !== null && <PronunciationFeedback key={feedbackAttempt} correct={accuracy >= 75} message={readingFeedback(accuracy)} autoPlay={mode === 'student'} />}
+    {accuracy !== null && <PronunciationFeedback key={feedbackAttempt} correct={accuracy >= 75} message={readingFeedback(accuracy)} accuracy={accuracy} transcript={transcript} word={current} attemptId={feedbackAttempt} autoPlay={mode === 'student'} />}
     {error && <p role="alert" className="rounded-xl bg-[var(--color-danger-soft)] px-4 py-3 text-center text-sm text-[var(--color-danger)]">{error}</p>}
     <div className="flex items-center justify-between gap-3"><button type="button" onClick={() => move(Math.max(0, chunkIndex - 1))} disabled={chunkIndex === 0} className="rounded-full border px-4 py-2 disabled:opacity-40">← Bumalik</button>{chunkIndex < chunks.length - 1 ? <button type="button" onClick={() => move(chunkIndex + 1)} disabled={mode === 'student' && !completed.has(chunkIndex)} className="rounded-full bg-[var(--color-primary)] px-5 py-2 font-bold text-white disabled:opacity-40">Susunod →</button> : mode === 'preview' ? <span role="status" className="text-sm font-bold text-[var(--color-primary)]">Tapos na ang preview</span> : submitted ? <span className="font-bold text-[var(--color-success)]">Naipasa na sa guro ✓</span> : <button type="button" onClick={submit} disabled={mode === 'student' && completed.size < chunks.length} className="rounded-full bg-[var(--color-success)] px-5 py-2 font-bold text-white disabled:opacity-40">Ipasa sa Guro</button>}</div>
   </section>;

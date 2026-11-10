@@ -1,0 +1,5 @@
+import test from 'node:test';import assert from 'node:assert/strict';import {loadTs} from './helpers/load-ts.mjs';
+const f=loadTs('src/lib/feedbackMessages.ts');
+test('the supplied feedback has 20 distinct messages in each of three pools',()=>{for(const pool of [f.CORRECT_MESSAGES,f.MINOR_MISTAKE_MESSAGES,f.MANY_MISTAKE_MESSAGES]){assert.equal(pool.length,20);assert.equal(new Set(pool).size,20);assert(pool.every(message=>!message.includes('%')));}});
+test('feedback bands use the requested boundaries',()=>{for(const [score,band]of [[0,'Encouragement'],[24,'Encouragement'],[25,'Keep Practicing'],[49,'Keep Practicing'],[50,'Good Effort'],[74,'Good Effort'],[75,'Very Good'],[89,'Very Good'],[90,'Excellent'],[100,'Excellent']])assert.equal(f.readingFeedbackBand(score),band);});
+test('each score uses the corresponding supplied message pool',()=>{for(const [score,pool]of [[100,f.CORRECT_MESSAGES],[90,f.CORRECT_MESSAGES],[89,f.MINOR_MISTAKE_MESSAGES],[75,f.MINOR_MISTAKE_MESSAGES],[74,f.MANY_MISTAKE_MESSAGES],[0,f.MANY_MISTAKE_MESSAGES]])assert(pool.includes(f.readingFeedbackMessage(score)));});

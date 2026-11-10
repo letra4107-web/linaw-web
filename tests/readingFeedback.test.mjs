@@ -21,6 +21,7 @@ function feedbackHarness() {
   const effects = [], spoken = [], confetti = [];
   const { PronunciationFeedback } = loadTs('src/components/PronunciationFeedback.tsx', {
     react: { useEffect: (run, deps) => effects.push({ run, deps }), useState: initial => [initial, () => {}], useCallback: callback => callback, useRef: () => ({ current: null }) },
+    '../lib/feedbackMessages': loadTs('src/lib/feedbackMessages.ts'),
     'react-dom': { createPortal: content => content },
     '../lib/readingAssistantSettings':{getReadingAssistantSettings:()=>({feedbackAutoPlay:true,slowReadingRate:0.4,defaultReadingRate:0.5})},'../lib/ttsPlayer': { playTtsSequence: async (...args) => { spoken.push(args); return true; } },
     './a11y/TTSButton': { TTSButton: props => createElement('button', { 'aria-label': props.ariaLabel }, props.text) },

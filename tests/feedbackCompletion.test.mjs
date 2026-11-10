@@ -5,7 +5,7 @@ import {loadTs} from './helpers/load-ts.mjs';
 
 const tick=()=>new Promise(resolve=>setImmediate(resolve));
 function harness(){
-  const hooks=[],pendingEffects=[],calls=[];let cursor=0,props,tree;
+  const hooks=[],pendingEffects=[],calls=[],timers=new Map();let clock=0,timerId=0;let cursor=0,props,tree;
   const same=(a,b)=>a&&b&&a.length===b.length&&a.every((v,i)=>Object.is(v,b[i]));
   const react={
     useState(initial){const i=cursor++;if(!hooks[i])hooks[i]={value:initial};return [hooks[i].value,value=>{hooks[i].value=typeof value==='function'?value(hooks[i].value):value;}];},
@@ -14,13 +14,13 @@ function harness(){
     useEffect(run,deps){const i=cursor++;if(!same(hooks[i]?.deps,deps)){const old=hooks[i];hooks[i]={deps};pendingEffects.push(()=>{old?.cleanup?.();hooks[i].cleanup=run();});}},
   };
   const {PronunciationFeedback}=loadTs('src/components/PronunciationFeedback.tsx',{
-    react,'react-dom':{createPortal:children=>children},
+    '../lib/feedbackMessages':loadTs('src/lib/feedbackMessages.ts'),react,'react-dom':{createPortal:children=>children},
     '../lib/readingAssistantSettings':{getReadingAssistantSettings:()=>({feedbackAutoPlay:true,slowReadingRate:0.4,defaultReadingRate:0.5})},'../lib/ttsPlayer':{playTtsSequence:(items,lang,options)=>new Promise((resolve,reject)=>calls.push({items,lang,...options,resolve,reject}))},
     './a11y/TTSButton':{TTSButton:()=>null},'./a11y/SlowTTSButton':{SlowTTSButton:()=>null},'./ConfettiOverlay':{ConfettiOverlay:()=>null},
-  },{AbortController,document:{body:{}}});
+  },{AbortController,document:{body:{}},setTimeout:(fn,ms)=>{const id=++timerId;timers.set(id,{fn,at:clock+ms});return id;},clearTimeout:id=>timers.delete(id)});
   function find(node,label){if(!node||typeof node!=='object')return null;if(node.type==='button'&&node.props['aria-label']===label)return node;for(const child of [node.props?.children].flat(Infinity)){const found=find(child,label);if(found)return found;}return null;}
   return {
-    calls,render(next){if(next)props=next;cursor=0;tree=PronunciationFeedback(props);return renderToStaticMarkup(tree);},
+    calls,advance(ms){clock+=ms;for(const [id,timer]of timers)if(timer.at<=clock){timers.delete(id);timer.fn();}},render(next){if(next)props=next;cursor=0;tree=PronunciationFeedback(props);return renderToStaticMarkup(tree);},
     flush(){pendingEffects.splice(0).forEach(run=>run());},button:label=>find(tree,label),cleanup(){hooks.forEach(slot=>slot?.cleanup?.());},
   };
 }
@@ -32,19 +32,21 @@ test('reading results show the actual total percentage, full target, transcript 
   assert.doesNotMatch(h.render({...props(),accuracy:undefined}),/Kabuuang kawastuhan:/);
 });
 test('feedback stays visible during speech and closes after the entire model sequence completes',async()=>{
-  const h=harness();h.render(props());h.flush();assert.equal(h.calls.length,1);assert.equal(h.calls[0].items.length,3);assert.match(h.calls[0].items[0].text,/47 porsiyento/);assert.match(h.render(),/reading-feedback-toast/);
-  h.calls[0].resolve(true);await tick();assert.equal(h.render(),'');h.flush();
+  const h=harness();h.render(props());h.flush();assert.equal(h.calls.length,1);assert.equal(h.calls[0].items.length,3);assert.doesNotMatch(h.calls[0].items.map(item=>item.text).join(' '),/porsiyento|%|47/);assert.match(h.render(),/reading-feedback-toast/);
+  h.calls[0].resolve(true);await tick();assert.match(h.render(),/reading-feedback-toast/);h.advance(2999);assert.match(h.render(),/reading-feedback-toast/);h.advance(1);assert.equal(h.render(),'');h.flush();
 });
 test('audio failure preserves the full result and replay can finish and close it',async()=>{
   const h=harness();h.render(props());h.flush();h.calls[0].reject(Error('offline'));await tick();assert.match(h.render(),/Hindi natapos ang audio/);
-  h.button('Pakinggan ang positibong mensahe').props.onClick();assert.equal(h.calls.length,2);assert.equal(h.calls[0].signal.aborted,true);h.calls[1].resolve(true);await tick();assert.equal(h.render(),'');
+  h.button('Pakinggan ang positibong mensahe').props.onClick();assert.equal(h.calls.length,2);assert.equal(h.calls[0].signal.aborted,true);h.calls[1].resolve(true);await tick();h.advance(3000);assert.equal(h.render(),'');
 });
 test('a replay or a newer attempt cannot be closed by an older playback callback',async()=>{
   const h=harness();h.render(props());h.flush();h.button('Pakinggan ang positibong mensahe').props.onClick();h.calls[0].resolve(true);await tick();assert.match(h.render(),/reading-feedback-toast/);
   h.render({...props(),attemptId:'attempt-b',accuracy:88});h.flush();assert.equal(h.calls.length,3);assert.equal(h.calls[1].signal.aborted,true);h.calls[1].resolve(true);await tick();assert.match(h.render(),/Kabuuang kawastuhan: 88%/);
-  h.calls[2].resolve(true);await tick();assert.equal(h.render(),'');
+  h.calls[2].resolve(true);await tick();h.advance(3000);assert.equal(h.render(),'');
 });
 test('manual dismissal aborts speech and an interrupted sequence does not auto-dismiss',async()=>{
   const h=harness();h.render(props());h.flush();h.calls[0].resolve(false);await tick();assert.match(h.render(),/reading-feedback-toast/);
   h.button('Pakinggan ang positibong mensahe').props.onClick();h.button('Isara ang mensahe').props.onClick();assert.equal(h.calls[1].signal.aborted,true);assert.equal(h.render(),'');h.cleanup();
 });
+
+test('replaying during the three-second grace period cancels the previous dismiss timer',async()=>{const h=harness();h.render(props());h.flush();h.calls[0].resolve(true);await tick();h.render();h.advance(2000);h.button('Pakinggan ang positibong mensahe').props.onClick();h.advance(3000);assert.match(h.render(),/reading-feedback-toast/);h.calls[1].resolve(true);await tick();h.advance(3000);assert.equal(h.render(),'');h.cleanup();});

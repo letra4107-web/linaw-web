@@ -11,7 +11,7 @@ const { assessmentLimiter } = require('../lib/rateLimiters');
 const { createSupabaseAuthorizationService } = require('../services/authorization');
 const { createMaterialAccessService } = require('../services/materialAccess');
 const { createStudentLessonsService } = require('../services/studentLessons');
-const { scoreTranscript } = require('../lib/speechScoring');
+const { compareReading } = require('../lib/readingAccuracy');
 const { evaluateLevelPromotion } = require('../services/learningProgression');
 const { randomUUID } = require('crypto');
 const { recordWordOfDayAttempt } = require('../services/wordOfDayAttempt');
@@ -543,7 +543,7 @@ router.post('/pdf-reading/attempt', async (req, res) => {
     const targetText = pdfReadingChunks(material?.extracted_text, material?.chunk_size)[chunkIndex];
     if (!targetText) return res.status(400).json({ error: "Hindi makita ang hiniling na bahagi ng babasahin." });
 
-    const score = scoreTranscript(targetText, transcript);
+    const score = compareReading(targetText, transcript);
     const { error: insertError } = await supabaseAdmin.from('pdf_reading_attempts').insert({
       pdf_assignment_id: assignment.id,
       student_id: studentId,

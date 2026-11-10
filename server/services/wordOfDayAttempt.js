@@ -1,4 +1,4 @@
-const { scoreTranscript } = require('../lib/speechScoring');
+const { compareReading } = require('../lib/readingAccuracy');
 const { isUuid, isBoundedString } = require('../lib/validation');
 const { checkAndAwardBadges } = require('../lib/badgeEngine');
 
@@ -40,7 +40,7 @@ async function recordWordOfDayAttempt(client, { studentId, logId, attempts, tran
   const log = lookup.data;
   if (!log || log.child_id !== studentId) throw failure(404, "Hindi makita ang salita ngayong araw para sa mag-aaral na ito.");
   if (typeof log.word !== 'string' || !log.word.trim()) throw rpcFailure();
-  const score = scoreTranscript(log.word, transcript);
+  const score = compareReading(log.word, transcript);
 
   let result;
   try {

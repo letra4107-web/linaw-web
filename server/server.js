@@ -84,6 +84,7 @@ app.get('/api/health', (_req, res) => res.json({
   apiCompatibilityVersion,
 }));
 app.use('/api/admin', adminRoutes);
+app.use('/api/learning-history', require('./routes/learningHistory'));
 app.use('/api/teacher', teacherRoutes);
 app.use('/api/parent', parentRoutes);
 app.use('/api/student', studentRoutes);

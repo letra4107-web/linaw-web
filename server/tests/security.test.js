@@ -66,7 +66,7 @@ test('security-critical routes retain authorization and ownership checks', () =>
   const dailyAttempt = fs.readFileSync(path.join(root, 'services', 'wordOfDayAttempt.js'), 'utf8');
   assert.match(dailyAttempt, /client\.rpc\('record_web_word_of_day_attempt'/);
   const events=fs.readFileSync(path.join(root,'services','progressEvents.js'),'utf8');
-  assert.match(events,/scoreTranscript\(event\.expected_text, body\.transcript\)/);
+  assert.match(events,/compareReading\(event\.expected_text, body\.transcript\)/);
   assert.match(events,/eq\('student_id', studentId\)/);
   assert.match(student, /router\.post\('\/pdf-reading\/attempt'/);
   assert.match(student, /pdfReadingChunks\(material\?\.extracted_text, material\?\.chunk_size\)\[chunkIndex\]/);

@@ -1,4 +1,4 @@
-const { scoreTranscript } = require('../lib/speechScoring');
+const { compareReading } = require('../lib/readingAccuracy');
 const { scorePronunciation, PRACTICE_PASSING_SCORE } = require('./mobileSpeechScoring');
 const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 const failure = (status, code, message) => Object.assign(new Error(message), { status, code });
@@ -65,7 +65,7 @@ async function recordProgressEvent(client, studentId, eventId, body) {
     ? event.source === 'assessment'
       ? { accuracy: body.transcript === event.expected_text ? 100 : 0, correct: body.transcript === event.expected_text }
       : { accuracy: scorePronunciation(event.expected_text,body.transcript) }
-    : scoreTranscript(event.expected_text, body.transcript);
+    : compareReading(event.expected_text, body.transcript);
   const correct = typeof score.correct === 'boolean' ? score.correct : score.accuracy >= PRACTICE_PASSING_SCORE;
   const data = await rpc(client, 'record_student_progress_event', { p_student_id: studentId, p_event_id: eventId,
     p_expected_text: event.expected_text, p_transcript: body.transcript, p_accuracy: score.accuracy, p_duration_seconds: body.durationSeconds ?? null, p_is_correct: correct });

@@ -3,7 +3,7 @@ import { useMemo, useRef, useState } from 'react';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { api } from '../lib/api';
 import { assessSpeech, isSpeechRecognitionSupported, listenOnce } from '../lib/speech';
-import { CORRECT_MESSAGES, ENCOURAGE_MESSAGES, randomFrom } from '../lib/feedbackMessages';
+import { readingFeedbackMessage } from '../lib/feedbackMessages';
 import { TTSButton } from './a11y/TTSButton';
 import { SlowTTSButton } from './a11y/SlowTTSButton';
 import { SyllableKaraokeText } from './SyllableKaraokeText';
@@ -74,7 +74,7 @@ export function PdfDrillPractice({ assignmentId }: PdfDrillPracticeProps) {
           });
           setResult({
             correct: res.correct,
-            message: res.correct ? randomFrom(CORRECT_MESSAGES) : randomFrom(ENCOURAGE_MESSAGES),
+            message: readingFeedbackMessage(res.correct ? 100 : 0),
             xpAwarded: res.xpAwarded,
           });
           if (res.correct) {

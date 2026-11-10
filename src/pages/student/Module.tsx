@@ -8,7 +8,7 @@ import {recordVerifiedAnswer} from '../../lib/progressEvents';
 import { api } from '../../lib/api';
 import { stopTtsPlayback } from '../../lib/ttsPlayer';
 import { assessSpeech, isSpeechRecognitionSupported, listenOnce, recognitionOptionsForText, type RecognitionHandle } from '../../lib/speech';
-import { CORRECT_MESSAGES, ENCOURAGE_MESSAGES, randomFrom } from '../../lib/feedbackMessages';
+import { readingFeedbackMessage } from '../../lib/feedbackMessages';
 import { TTSButton } from '../../components/a11y/TTSButton';
 import { SlowTTSButton } from '../../components/a11y/SlowTTSButton';
 import { PronunciationFeedback } from '../../components/PronunciationFeedback';
@@ -95,7 +95,7 @@ export default function Module() {
         accuracy: res.accuracy,
         rewardMessage: res.rewardMessage,
         correct: res.correct,
-        message: randomFrom(res.correct ? CORRECT_MESSAGES : ENCOURAGE_MESSAGES),
+        message: readingFeedbackMessage(res.accuracy),
       });
       trackEvent('reading_attempt_completed', { surface: 'lesson' });
       if (res.levelAdvancedTo) navigate('/student/learn');

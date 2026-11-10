@@ -1,14 +1,10 @@
 .reading-feedback-toast {
-  position: fixed;
+  position: relative;
   z-index: 1001;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
   box-sizing: border-box;
-  width: min(640px, calc(100% - 32px));
-  max-height: calc(100dvh - 40px);
-  overflow: auto;
-  overscroll-behavior: contain;
+  width: min(1120px, 100%);
+  max-height: none;
+  overflow: visible;
   border: 2px solid #d8cdf6;
   border-radius: 26px;
   padding: clamp(20px, 3vw, 30px);
@@ -54,7 +50,7 @@
 .reading-feedback-inline .reading-feedback-score { margin: 14px 0; padding: 12px; }
 .reading-feedback-inline .reading-feedback-score > strong { font-size: 40px; }
 @media (max-width: 480px) {
-  .reading-feedback-toast { width: calc(100% - 24px); max-height: calc(100dvh - 24px); border-radius: 20px; padding: 18px; }
+  .reading-feedback-toast { width: 100%; max-height: none; border-radius: 20px; padding: 18px; }
   .reading-feedback-toast-main { gap: 10px; }
   .reading-feedback-toast-star { display: none; }
   .reading-feedback-score { margin: 16px 0; }
@@ -74,3 +70,15 @@
 [data-theme="dark"] .reading-feedback-toast .reading-feedback-toast-error { background: #4a2d29; color: #ffdbc9; }
 [data-theme="dark"] .reading-feedback-toast-listen,
 [data-theme="dark"] .reading-feedback-toast-retry { border-color: #66527f; background: #382b4e; color: #eee5fa; }
+
+.reading-feedback-layer{position:fixed;inset:0;z-index:1001;display:flex;align-items:safe center;justify-content:center;padding:24px;overflow-y:auto;pointer-events:none;box-sizing:border-box}
+.reading-feedback-toast{margin:auto;flex:none}
+.reading-feedback-result{display:grid;grid-template-columns:auto minmax(0,1fr);gap:20px;align-items:stretch;margin-top:18px}
+.reading-feedback-result .reading-feedback-score{min-width:150px;margin:0;padding:14px;justify-content:center}
+.reading-feedback-score small{font-size:13px;color:inherit}
+.reading-feedback-result .reading-feedback-details{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:0}
+.reading-feedback-details dd{font-size:clamp(16px,1.6vw,20px)}
+.reading-feedback-footer{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-top:18px}
+.reading-feedback-footer .reading-feedback-playback,.reading-feedback-footer .reading-feedback-toast-actions{margin:0}
+.reading-feedback-inline .reading-feedback-result{display:flex;flex-wrap:wrap}.reading-feedback-inline .reading-feedback-details{flex:1;min-width:180px}
+@media(max-width:640px){.reading-feedback-layer{padding:12px}.reading-feedback-result{grid-template-columns:1fr;gap:12px}.reading-feedback-result .reading-feedback-score{flex-direction:row;flex-wrap:wrap;gap:8px;min-width:0}.reading-feedback-score>strong{font-size:40px}.reading-feedback-result .reading-feedback-details{grid-template-columns:1fr}.reading-feedback-toast .reading-feedback-toast-message{font-size:18px}.reading-feedback-footer{align-items:stretch}.reading-feedback-footer .reading-feedback-toast-actions{width:100%}}

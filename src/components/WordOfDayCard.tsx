@@ -7,7 +7,7 @@ import { api } from '../lib/api';
 import { getOrCreateWordOfDay, MAX_ATTEMPTS, type WordOfDayLog } from '../lib/wordOfDay';
 import { assessSpeech, isSpeechRecognitionSupported, listenOnce } from '../lib/speech';
 import { syllabifyWord } from '../lib/syllabify';
-import { CORRECT_MESSAGES, ENCOURAGE_MESSAGES, randomFrom } from '../lib/feedbackMessages';
+import { readingFeedbackMessage } from '../lib/feedbackMessages';
 import { PronunciationFeedback } from './PronunciationFeedback';
 import { BadgeUnlockToast } from './BadgeUnlockToast';
 import { BookOpen, Flame, Mic, Volume2 } from 'lucide-react';
@@ -94,8 +94,8 @@ export function WordOfDayCard({ streak = 0, onStatusChange }: WordOfDayCardProps
   // Stable fallback for a page load that lands on an already-completed word (no local
   // attempt just happened to pick a message) -- memoized so it doesn't re-roll on re-render.
   const fallbackDoneMessage = useMemo(
-    () => (wordOfDay?.correct ? randomFrom(CORRECT_MESSAGES) : randomFrom(ENCOURAGE_MESSAGES)),
-    [wordOfDay?.correct],
+    () => (readingFeedbackMessage(wordOfDay?.accuracy ?? (wordOfDay?.correct ? 100 : 0))),
+    [wordOfDay?.correct, wordOfDay?.accuracy],
   );
   const canTry = wordOfDay && !isDone && attemptsUsed < MAX_ATTEMPTS && isSpeechRecognitionSupported();
 
@@ -175,7 +175,7 @@ export function WordOfDayCard({ streak = 0, onStatusChange }: WordOfDayCardProps
       setPendingAttempt(null);
       if (res.isFinal && res.correct) setJustAwardedXp(res.xpAwarded);
       if (res.newlyUnlockedBadges?.length) setNewlyUnlockedBadges(res.newlyUnlockedBadges);
-      setFeedbackMessage(res.isFinal && res.correct ? randomFrom(CORRECT_MESSAGES) : randomFrom(ENCOURAGE_MESSAGES));
+      setFeedbackMessage(readingFeedbackMessage(res.accuracy));
       setJustAnswered(true);
       setWasWrongAttempt(!res.isFinal);
       void queryClient.invalidateQueries({ queryKey: ['word-of-day'] });
