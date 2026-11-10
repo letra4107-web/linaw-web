@@ -26,12 +26,14 @@ body[data-font="default"] .student-home-reference, body[data-font="default"] .st
 .home-quote-board { position: absolute; right: 1%; bottom: .65rem; display: flex; width: 21.5%; min-height: 10rem; flex-direction: column; align-items: center; justify-content: center; border: 8px solid #efb570; border-radius: 1.25rem; padding: .75rem .4rem; background: #fff9e9; color: #302447; font-size: 1.18em; font-weight: 700; line-height: 1.4; text-align: center; transform: rotate(-5deg); box-shadow: inset 0 0 0 2px #f5d9a4, 3px 4px 0 #b6773a65; }
 .home-quote-board::before { content: ''; position: absolute; inset: -4px; border: 1px dashed #bd7c37; border-radius: 1rem; pointer-events: none; }
 .home-quote-board > svg { margin-top: .4rem; color: #f34590; }
-.home-number-grid { display: grid; grid-template-columns: repeat(5,minmax(0,1fr)); gap: .65rem; }
+.home-number-grid { display: grid; grid-template-columns: repeat(6,minmax(0,1fr)); gap: .65rem; }
 .home-number-card { display: flex; min-width: 0; min-height: 10.3rem; align-items: center; flex-direction: column; justify-content: flex-start; border: 1px solid var(--home-stat-border); border-radius: 1rem; padding: .75rem .45rem .85rem; background: var(--home-stat-bg); text-align: center; box-shadow: 0 3px 6px #6e4f1d04; }
 .home-number-icon { display: grid; width: 3.45rem; height: 3.45rem; flex-shrink: 0; place-items: center; border-radius: 50%; background: var(--home-stat-circle); color: var(--home-stat-color); }
 .home-number-icon > svg { filter: drop-shadow(0 2px 1px #ffffffd9); }
 .home-number-card h2 { display: flex; min-height: 2.75rem; align-items: center; justify-content: center; max-width: 8rem; margin-top: .35rem !important; color: #534d60; font-size: .96em; font-weight: 400; line-height: 1.4; }
 .home-number-card strong { color: var(--home-stat-color); font-size: 2em; line-height: 1.3; font-weight: 700; }
+.home-number-card small { margin-top: .2rem; color: #665c73; font-size: .72em; line-height: 1.35; }
+.home-xp-tier-card strong { font-size: 1.45em; }
 .home-tone-lilac { --home-stat-bg:#f7f0ff; --home-stat-border:#e8dbff; --home-stat-circle:#e9d8ff; --home-stat-color:#5521ba; }
 .home-tone-gold { --home-stat-bg:#fff9ec; --home-stat-border:#fceac6; --home-stat-circle:#fff0bc; --home-stat-color:#2f2054; }
 .home-tone-gold .home-number-icon { color:#f9b112; }

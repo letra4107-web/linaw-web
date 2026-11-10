@@ -1,9 +1,9 @@
-import {validBaseReward,type BaseReward} from './progressReward';
+import {validBaseReward,type AttemptReward,type BaseReward} from './progressReward';
 import {api} from './api';
 import {supabase} from './supabaseClient';
 type Input={contentId:string;transcript:string;source:'practice'|'assessment';assessmentAttemptId?:string;assessmentItemId?:string};
 type Pending={eventId:string;body:{transcript:string;durationSeconds:null}};
-type Response={baseReward:BaseReward;success:boolean;result:{attempt_id:string;accuracy:number;correct:boolean};progress:{xp:number;total_attempts:number};xpAwarded:number;replayed:boolean;newlyPersistedAchievementIds:string[]};
+type Response={baseReward:BaseReward;attemptReward?:AttemptReward;success:boolean;result:{attempt_id:string;accuracy:number;correct:boolean};progress:{xp:number;total_attempts:number};xpAwarded:number;replayed:boolean;newlyPersistedAchievementIds:string[]};
 const active=new Map<string,{answer:string;promise:Promise<Response>}>();
 
 // Keep the exact pending request through reloads and ambiguous network failures.
@@ -27,7 +27,7 @@ export async function recordVerifiedAnswer(input:Input){
   }
   try{
    const result=await api<Response>(`/student/progress/events/${pending.eventId}`,{auth:true,method:'POST',body:pending.body});
-   if(result.success!==true||!Number.isSafeInteger(result.progress?.xp)||!Number.isSafeInteger(result.progress?.total_attempts)||!result.result?.attempt_id||typeof result.replayed!=='boolean'||!Array.isArray(result.newlyPersistedAchievementIds)||!validBaseReward(result.baseReward,input.contentId,result.xpAwarded,result.replayed))throw new Error('Hindi pa nakumpirma ang pag-save. I-save muli ang parehong sagot.');
+   if(result.success!==true||!Number.isSafeInteger(result.progress?.xp)||!Number.isSafeInteger(result.progress?.total_attempts)||!result.result?.attempt_id||typeof result.replayed!=='boolean'||!Array.isArray(result.newlyPersistedAchievementIds)||!validBaseReward(result.baseReward,input.contentId,result.xpAwarded,result.replayed,result.attemptReward?.xpAwarded))throw new Error('Hindi pa nakumpirma ang pag-save. I-save muli ang parehong sagot.');
    localStorage.removeItem(key);sessionStorage.removeItem(key);return result;
   }catch(caught){if((caught as Error&{status?:number}).status===410){localStorage.removeItem(key);sessionStorage.removeItem(key);}throw caught;}
  })();

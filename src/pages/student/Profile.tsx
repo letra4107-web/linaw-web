@@ -13,6 +13,7 @@ import { StudentProfileInsights } from '../../components/student/StudentProfileI
 import { QueryErrorNotice } from '../../components/QueryErrorNotice';
 import { findBadge } from '../../lib/badges';
 import { earnedStudentBadges, studentBadgeDate, studentJourneyLabel, studentLevelLabel } from '../../lib/studentProfile';
+import { xpTier } from '../../lib/xpTiers';
 import wavingStudent from '../../assets/students/profile/waving-student.png';
 import listeningStudent from '../../assets/students/profile/listening-student.png';
 import owlMascot from '../../assets/students/mascot/owl-mascot.png';
@@ -89,9 +90,11 @@ export default function Profile() {
   const completedModules = modules.filter((module) => module.state === 'completed').length;
   const journeyStage = modules.length ? Math.min(4, Math.floor(completedModules / modules.length * 4)) : 0;
   const journeyLabel = studentJourneyLabel(profile?.readingJourney);
+  const tier = xpTier(progress?.xp ?? 0);
   const stats = [
     { icon: BookOpen, tone: 'lavender', label: 'Antas', value: childPending || childError || !child ? '—' : `Grade ${child.grade_level}` },
     { icon: Star, tone: 'gold', label: 'Kabuuang XP', value: progressPending || progressError ? '—' : progress?.xp ?? 0 },
+    { icon: Trophy, tone: 'sky', label: 'XP Tier', value: progressPending || progressError ? '—' : tier.name },
     { icon: Flame, tone: 'coral', label: 'Kasalukuyang Streak', value: progressPending || progressError ? '—' : `${progress?.streak ?? 0} araw` },
     { icon: Trophy, tone: 'sky', label: 'Pinakamahabang Streak', value: progressPending || progressError ? '—' : `${progress?.longest_streak ?? 0} araw` },
     { icon: Target, tone: 'mint', label: 'Mga Aralin Natatapos', value: pathPending || pathError ? '—' : completedModules },
@@ -145,8 +148,8 @@ export default function Profile() {
           <div className="profile-owl-cheer" aria-hidden="true"><p>Magaling!<br />Patuloy lang ang pagsasanay!</p><img src={owlMascot} alt="" /></div>
         </header>
         <div className="profile-number-grid">{stats.map((stat) => (
-          <div key={stat.label} className={`profile-number-card tone-${stat.tone}`}>
-            <span className="profile-number-icon"><stat.icon aria-hidden="true" /></span><p>{stat.label}</p><strong>{stat.value}</strong>
+          <div key={stat.label} className={`profile-number-card tone-${stat.tone}${stat.label === 'XP Tier' ? ' profile-xp-tier-card' : ''}`}>
+            <span className="profile-number-icon"><stat.icon aria-hidden="true" /></span><p>{stat.label}</p><strong>{stat.value}</strong>{stat.label === 'XP Tier' && !progressPending && !progressError && <small>{tier.next ? `${tier.xpToNext} XP pa sa ${tier.next.name}` : 'Pinakamataas na tier!'}</small>}
           </div>
         ))}</div>
       </section>

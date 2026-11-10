@@ -6,6 +6,7 @@ import { useAuth } from '../../lib/auth/AuthContext';
 import { api } from '../../lib/api';
 import { QueryErrorNotice } from '../../components/QueryErrorNotice';
 import { WordOfDayCard } from '../../components/WordOfDayCard';
+import { xpTier } from '../../lib/xpTiers';
 import './home-reference.css';
 
 interface LearningModule {
@@ -50,9 +51,11 @@ export default function Dashboard() {
   const completedModules = modules.filter(module => module.state === 'completed').length;
   const firstName = child?.name?.trim().split(/\s+/)[0] || identity?.displayName?.trim().split(/\s+/)[0] || 'Mag-aaral';
   const number = (value: number | undefined) => progressError ? '—' : progressPending ? '…' : String(value ?? 0);
+  const tier = xpTier(progress?.xp ?? 0);
   const stats = [
     { label: 'Antas', value: childError ? '—' : child ? `Grade ${child.grade_level}` : '…', icon: BookOpen, tone: 'lilac' },
     { label: 'Kabuuang XP', value: number(progress?.xp), icon: Star, tone: 'gold' },
+    { label: 'XP Tier', value: progressError ? '—' : progressPending ? '…' : tier.name, icon: Trophy, tone: 'sky' },
     { label: 'Kasalukuyang Streak', value: `${number(progress?.streak)}${progressError || progressPending ? '' : ' araw'}`, icon: Flame, tone: 'coral' },
     { label: 'Pinakamahabang Streak', value: `${number(progress?.longest_streak)}${progressError || progressPending ? '' : ' araw'}`, icon: Trophy, tone: 'sky' },
     { label: 'Mga Aralin Natatapos', value: pathError ? '—' : pathPending ? '…' : String(completedModules), icon: Target, tone: 'mint' },
@@ -70,7 +73,7 @@ export default function Dashboard() {
       <blockquote className="home-quote-board">“Bawat maliit<br />na hakbang<br />ay malaking<br />tagumpay!”<Heart aria-hidden="true" size={21} fill="currentColor" /></blockquote>
     </section>
     <section className="home-number-grid" aria-label="Aking mga numero">
-      {stats.map(({ label, value, icon: Icon, tone }) => <article key={label} className={`home-number-card home-tone-${tone}`}><span className="home-number-icon"><Icon size={32} strokeWidth={2.3} aria-hidden="true" /></span><h2>{label}</h2><strong>{value}</strong></article>)}
+      {stats.map(({ label, value, icon: Icon, tone }) => <article key={label} className={`home-number-card home-tone-${tone}${label === 'XP Tier' ? ' home-xp-tier-card' : ''}`}><span className="home-number-icon"><Icon size={32} strokeWidth={2.3} aria-hidden="true" /></span><h2>{label}</h2><strong>{value}</strong>{label === 'XP Tier' && !progressPending && !progressError && <small>{tier.next ? `${tier.xpToNext} XP pa sa ${tier.next.name}` : 'Pinakamataas na tier!'}</small>}</article>)}
     </section>
     <WordOfDayCard streak={progress?.streak ?? 0} />
     <aside className="home-reminder-card home-panel" aria-labelledby="home-reminder-title"><div className="home-bottom-heading"><Lightbulb className="home-lightbulb" size={30} aria-hidden="true" /><h2 id="home-reminder-title">Maliit na Paalala</h2></div><ul>{['Magpahinga kung napapagod.', 'Gawin ang mga gawain nang maayos.', 'Huwag matakot magkamali.', 'Mas magiging magaling ka pa!'].map(reminder => <li key={reminder}><span><Check size={12} strokeWidth={4} aria-hidden="true" /></span>{reminder}</li>)}</ul><Heart className="home-reminder-heart" size={26} fill="currentColor" aria-hidden="true" /></aside>

@@ -69,6 +69,8 @@ body[data-font="default"] .student-profile-reference { font-family: "Comic Sans 
 .profile-number-icon svg { width: 1.7rem; height: 1.7rem; stroke-width: 2.8; filter: drop-shadow(0 2px 1px rgba(255,255,255,.7)); }
 .profile-number-card p { display: grid; min-height: 2.55rem; align-content: center; max-width: 10rem; margin-top: .35rem !important; color: var(--stat-ink); font-size: 1em; line-height: 1.65; }
 .profile-number-card strong { display: block; color: var(--stat-ink); font-size: 1.9em; font-weight: 700; line-height: 1.3; white-space: nowrap; }
+.profile-number-card small { margin-top: .2rem; color: var(--stat-ink); font-size: .72em; line-height: 1.35; }
+.profile-xp-tier-card strong { font-size: 1.4em; white-space: normal; }
 .profile-number-card.tone-gold { --stat-color:#f3aa09; --stat-ink:#643c20; --stat-circle:#ffe8a4; border-color:#f8e9bf; background:#fffbf1; }
 .profile-number-card.tone-coral { --stat-color:#ef4c2d; --stat-ink:#8e2c29; --stat-circle:#ffd5d4; border-color:#f6dddd; background:#fff3f1; }
 .profile-number-card.tone-sky { --stat-color:#2499f6; --stat-ink:#51419c; --stat-circle:#d9edff; border-color:#d6eaf8; background:#eefaff; }

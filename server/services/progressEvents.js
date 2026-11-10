@@ -40,11 +40,12 @@ function validProgress(progress) {
   return progress && typeof progress.child_id === 'string' && Number.isSafeInteger(progress.xp) && progress.xp >= 0
     && Number.isSafeInteger(progress.total_attempts) && progress.total_attempts >= 0 && Array.isArray(progress.achievements);
 }
-function validBaseReward(reward, contentId, xpAwarded, replayed) {
+function validBaseReward(reward, contentId, xpAwarded, replayed, attemptXp = 0) {
   return reward && reward.rewardType === 'content_practice' && reward.contentId === contentId
     && ['awarded','already_rewarded','not_eligible','not_applicable','legacy_review_required'].includes(reward.status)
-    && reward.xpAwarded === xpAwarded && [0,50].includes(xpAwarded)
-    && (reward.status === 'awarded' ? xpAwarded === 50 && !replayed : xpAwarded === 0);
+    && reward.xpAwarded + attemptXp === xpAwarded && [0,50].includes(reward.xpAwarded) && [0,10].includes(attemptXp)
+    && (reward.status === 'awarded' ? reward.xpAwarded === 50 && attemptXp === 0 && !replayed : reward.xpAwarded === 0)
+    && (attemptXp === 0 || (!replayed && ['not_eligible','already_rewarded','legacy_review_required'].includes(reward.status)));
 }
 async function recordProgressEvent(client, studentId, eventId, body) {
   if (!UUID.test(eventId || '') || !onlyKeys(body, ['transcript', 'durationSeconds']) || typeof body.transcript !== 'string'
@@ -69,13 +70,17 @@ async function recordProgressEvent(client, studentId, eventId, body) {
   const correct = typeof score.correct === 'boolean' ? score.correct : score.accuracy >= PRACTICE_PASSING_SCORE;
   const data = await rpc(client, 'record_student_progress_event', { p_student_id: studentId, p_event_id: eventId,
     p_expected_text: event.expected_text, p_transcript: body.transcript, p_accuracy: score.accuracy, p_duration_seconds: body.durationSeconds ?? null, p_is_correct: correct });
+  const attemptXp = data.attemptReward?.xpAwarded ?? 0;
   if (data.success !== true || !validProgress(data.progress) || data.progress.child_id !== studentId
-    || typeof data.replayed !== 'boolean' || ![0,50].includes(data.xpAwarded)
+    || typeof data.replayed !== 'boolean' || ![0,10,50].includes(data.xpAwarded)
     || !UUID.test(data.result?.attempt_id || '') || !Number.isInteger(data.result?.accuracy)
     || data.result.accuracy < 0 || data.result.accuracy > 100 || !Array.isArray(data.newlyPersistedAchievementIds)
-    || !validBaseReward(data.baseReward,event.content_id,data.xpAwarded,data.replayed)
-    || (data.xpAwarded>0 && (!['mobile','web'].includes(event.channel) || event.source!=='practice' || score.accuracy<PRACTICE_PASSING_SCORE))
+    || !Number.isInteger(attemptXp) || ![0,10].includes(attemptXp)
+    || !validBaseReward(data.baseReward,event.content_id,data.xpAwarded,data.replayed,attemptXp)
+    || (attemptXp>0 && (!['mobile','web'].includes(event.channel) || event.source!=='practice' || score.accuracy>=PRACTICE_PASSING_SCORE))
+    || (data.baseReward.xpAwarded>0 && (!['mobile','web'].includes(event.channel) || event.source!=='practice' || score.accuracy<PRACTICE_PASSING_SCORE))
     || (data.replayed && data.xpAwarded !== 0)) throw rpcFailure();
+  data.attemptReward = { xpAwarded: attemptXp };
   // A verified-day trigger runs at commit. Refresh its fields rather than
   // returning the v2 function's snapshot taken before that trigger.
   let current;

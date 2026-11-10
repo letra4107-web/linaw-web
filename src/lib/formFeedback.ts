@@ -1,8 +1,9 @@
 /** Acknowledged save feedback; rendered in the top layer, including over forms. */
 export function showFormFeedback(message: string, success = true) {
  const dialog = document.createElement('dialog');
+ dialog.className = 'form-feedback-dialog';
  dialog.setAttribute('role', 'alertdialog'); dialog.setAttribute('aria-label', success ? 'Matagumpay' : 'May problema');
- Object.assign(dialog.style, { maxWidth:'min(440px, calc(100vw - 32px))', width:'100%', padding:'0', border:'1px solid #dce7ee', borderRadius:'24px', boxShadow:'0 28px 90px #102b4655', color:'#16334b', background:'#fff', overflow:'hidden' });
+ Object.assign(dialog.style, { position:'fixed', inset:'0', margin:'auto', maxWidth:'min(440px, calc(100vw - 32px))', width:'100%', maxHeight:'calc(100dvh - 32px)', padding:'0', border:'1px solid #dce7ee', borderRadius:'24px', boxShadow:'0 28px 90px #102b4655', color:'#16334b', background:'#fff', overflowY:'auto', overflowX:'hidden' });
  const card=document.createElement('div');card.style.cssText='padding:28px 30px 26px;text-align:center;background:radial-gradient(ellipse at 50% -35%, #d9f6ed 0, #fff 67%)';
  const badge=document.createElement('div');badge.setAttribute('aria-hidden','true');badge.textContent=success?'✓':'!';badge.style.cssText=`display:grid;place-items:center;width:56px;height:56px;margin:0 auto 15px;border-radius:18px;background:${success?'#d9f5e9':'#fff0e7'};color:${success?'#078067':'#b6532e'};font-size:30px;font-weight:800;box-shadow:0 5px 14px #16334b14`;
  const title=document.createElement('h2'); title.textContent=success ? 'Matagumpay!' : 'Hindi na-save';

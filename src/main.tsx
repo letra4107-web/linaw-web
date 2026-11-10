@@ -15,6 +15,7 @@ import '@fontsource/opendyslexic/400.css';
 import '@fontsource/opendyslexic/700.css';
 
 import { showFormFeedback } from './lib/formFeedback';
+import './lib/formFeedback.css';
 import { tagalogError } from './lib/validationMessages';
 const queryClient = new QueryClient({
   mutationCache: new MutationCache({
