@@ -1,7 +1,7 @@
 .form-feedback-toast {
   position: fixed;
   z-index: 10000;
-  top: 50%;
+  top: max(20px, env(safe-area-inset-top));
   left: 50%;
   display: grid;
   grid-template-columns: 46px minmax(0, 1fr) 34px;
@@ -16,7 +16,7 @@
   border-radius: 20px;
   box-shadow: 0 22px 70px #102b4640;
   opacity: 1;
-  transform: translate(-50%, -50%);
+  transform: translateX(-50%);
   transition: opacity .18s ease, scale .18s ease;
 }
 
