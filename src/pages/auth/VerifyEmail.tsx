@@ -8,7 +8,7 @@ import leftImage from '../../assets/left.png';
 import emailIllustration from '../../assets/email.png';
 import logo from '../../assets/Logo.jpg';
 
-const OTP_LENGTH = 6;
+const OTP_LENGTH = 8;
 
 export default function VerifyEmail() {
   const navigate = useNavigate();
@@ -41,8 +41,8 @@ export default function VerifyEmail() {
       setError('Ilagay ang email address na ginamit sa paggawa ng account.');
       return;
     }
-    if (code.length !== OTP_LENGTH) {
-      setError("Ilagay ang kumpletong code sa pagpapatunay na may 6 na numero.");
+    if (![6, 8].includes(code.length) || digits.slice(0, code.length).some(digit => !digit)) {
+      setError("Ilagay ang kumpletong code sa pagpapatunay na may 6 o 8 na numero.");
       inputs.current[digits.findIndex((digit) => !digit) || 0]?.focus();
       return;
     }
@@ -98,7 +98,7 @@ export default function VerifyEmail() {
 
           <form onSubmit={onSubmit} noValidate className="verify-email-form">
             {!initialEmail && <label className="verify-email-address">Email address<input id="email" type="email" value={email} onChange={(event) => setEmail(event.target.value)} autoComplete="email" placeholder="halimbawa@email.com" /></label>}
-            <fieldset className="verify-email-otp" aria-label="6-digit verification code">
+            <fieldset className="verify-email-otp" aria-label="Email verification code">
               {digits.map((digit, index) => <input
                 key={index}
                 ref={(element) => { inputs.current[index] = element; }}

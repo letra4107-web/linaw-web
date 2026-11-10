@@ -1266,3 +1266,5 @@ body .children-dashboard-rebuild:has(.children-roster-title button:focus)::befor
 /* Desktop placement mirrors the reference: the lower card sits below the directory. */
 @media(min-width:1051px){.teacher-dashboard__directory{grid-column:1;grid-row:1}.teacher-dashboard__aside{grid-column:2;grid-row:1 / span 2}.teacher-dashboard__classes{grid-column:1;grid-row:2;align-self:start}}
 @media(min-width:1051px){body .teacher-dashboard__aside{display:contents}body .teacher-dashboard__information{grid-column:2;grid-row:1}body .teacher-dashboard__activity{grid-column:2;grid-row:2}body .teacher-dashboard__classes{grid-column:1;grid-row:2;align-self:start}}
+
+.verify-email-otp{grid-template-columns:repeat(8,minmax(0,1fr))}.verify-email-otp input{min-width:0}@media(max-width:400px){.verify-email-otp{gap:4px}.verify-email-otp input{font-size:1.2rem;border-radius:.5rem}}

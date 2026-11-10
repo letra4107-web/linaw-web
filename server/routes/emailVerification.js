@@ -22,7 +22,7 @@ router.post('/request',async(req,res)=>{
  }catch{return res.status(503).json({error:'Hindi maipadala ang verification code ngayon. Subukan muli mamaya.'});}
 });
 router.post('/verify',async(req,res)=>{
- const email=String(req.body?.email || '').trim().toLowerCase(),code=String(req.body?.code || '');if(!validEmail(email)||!/^\d{6}$/.test(code))return res.status(400).json({error:'Ilagay ang wastong email at 6 na numerong code.'});
+ const email=String(req.body?.email || '').trim().toLowerCase(),code=String(req.body?.code || '');if(!validEmail(email)||!/^(?:\d{6}|\d{8})$/.test(code))return res.status(400).json({error:'Ilagay ang wastong email at 6 o 8 numerong code.'});
  try{
   const verifier=createClient(process.env.SUPABASE_URL,process.env.SUPABASE_ANON_KEY || process.env.SUPABASE_SERVICE_ROLE_KEY,{auth:{persistSession:false,autoRefreshToken:false}});
   const {data,error}=await verifier.auth.verifyOtp({email,token:code,type:'email'});
