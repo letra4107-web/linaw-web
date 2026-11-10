@@ -1,4 +1,6 @@
 const express = require('express');
+const fs = require('node:fs');
+const path = require('node:path');
 const { requireAuth, requireRole } = require('../middleware/auth');
 const { ttsLimiter } = require('../lib/rateLimiters');
 const { elevenLabsText, isIsolatedFilipinoVowel } = require('../lib/filipinoPhonemes');
@@ -51,6 +53,8 @@ function createTtsRouter({
     const speakingRate = isIsolatedFilipinoVowel(text)
       ? 1
       : Number.isFinite(requestedRate) ? Math.min(1.2, Math.max(0.7, requestedRate)) : 0.7;
+    // A checked sample avoids stochastic final-consonant changes in this word.
+    if (text.trim().toLocaleLowerCase('fil-PH') === 'ilog') return res.json({audioContent:fs.readFileSync(path.join(__dirname,'../assets/pronunciation/ilog.mp3')).toString('base64'),speakingRate:0.7,languageCode:'fil-PH',cached:true});
     const cacheKey = `${text.trim()}::${speakingRate}`;
     const cached = cache?.get(cacheKey);
     if (cached && cached.expiresAt > Date.now()) {

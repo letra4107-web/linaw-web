@@ -6,7 +6,7 @@ function isUuid(value) {
 }
 
 function canonicalPath(req) {
-  return req.path.split('/').filter(Boolean).map((part) => isUuid(part) ? ':id' : part).join('/');
+  return String(req.originalUrl || req.path || '/').split('?')[0].split('/').filter(Boolean).map((part) => isUuid(part) ? ':id' : part).join('/');
 }
 
 /** Canonical, privacy-safe action names for every state-changing API route. */

@@ -1,0 +1,2 @@
+const test=require('node:test'),assert=require('node:assert/strict');const {auditActionForRequest}=require('../services/audit');const id='11111111-1111-4111-8111-111111111111';
+for(const [method,verb] of [['PATCH','UPDATE'],['DELETE','DELETE']])test('announcement audit preserves its canonical route after Express mounts: '+method,()=>{assert.equal(auditActionForRequest({method,path:'/announcements/'+id,originalUrl:'/api/admin/announcements/'+id+'?private=excluded',body:{}}),'ANNOUNCEMENT.'+verb);});

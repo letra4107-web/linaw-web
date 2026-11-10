@@ -18,8 +18,8 @@ export function isIsolatedFilipinoVowel(text: string): boolean {
 // ElevenLabs cannot generate below 0.7x. Generate at its minimum, then apply
 // the remaining slowdown in the audio element so the learner still receives
 // the requested 0.4x or 0.5x pace.
-export function getTtsPlaybackRate(rate: number): number {
-  const generatedRate = Math.max(ELEVENLABS_MIN_GENERATION_RATE, Math.min(MAX_TTS_RATE, rate));
+export function getTtsPlaybackRate(rate: number, recordedRate?: number): number {
+  const generatedRate = recordedRate !== undefined && Number.isFinite(recordedRate) && recordedRate >= 0.4 && recordedRate <= 1.2 ? recordedRate : Math.max(ELEVENLABS_MIN_GENERATION_RATE, Math.min(MAX_TTS_RATE, rate));
   return rate / generatedRate;
 }
 

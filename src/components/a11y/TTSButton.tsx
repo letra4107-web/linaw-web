@@ -21,7 +21,8 @@ interface TTSButtonProps {
 // Cache decoded audio per spoken text+rate so repeat plays (e.g. re-reading the same word)
 // don't re-hit the TTS API -- keyed by rate too since the same text sounds different at each speed.
 const audioCache = new Map<string, string>();
-const TTS_AUDIO_CACHE_VERSION = 'filipino-v10';
+const audioGenerationRates = new Map<string, number>();
+const TTS_AUDIO_CACHE_VERSION = 'filipino-v11';
 
 function base64ToObjectUrl(base64: string): string {
   const bytes = atob(base64);
@@ -112,15 +113,16 @@ export function TTSButton({ text, lang = 'fil-PH', rate: requestedRate, classNam
     try {
       let url = audioCache.get(cacheKey);
       if (!url) {
-        const res = await api<{ audioContent: string }>(publicAccess ? '/public/tts' : '/tts', { method: 'POST', auth: !publicAccess, body: { text, rate } });
+        const res = await api<{ audioContent: string; speakingRate?: number }>(publicAccess ? '/public/tts' : '/tts', { method: 'POST', auth: !publicAccess, body: { text, rate } });
         if (id !== playbackId.current) return;
         url = base64ToObjectUrl(res.audioContent);
         audioCache.set(cacheKey, url);
+        if (res.speakingRate !== undefined) audioGenerationRates.set(url, res.speakingRate);
       }
       if (id !== playbackId.current) return;
       setStatus('speaking');
       const audio = new Audio(url);
-      audio.playbackRate = getTtsPlaybackRate(rate);
+      audio.playbackRate = getTtsPlaybackRate(rate, audioGenerationRates.get(url));
       audioRef.current = audio;
       audio.onended = () => { if (id === playbackId.current) setStatus('idle'); };
       audio.onerror = () => {

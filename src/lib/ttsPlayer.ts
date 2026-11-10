@@ -8,7 +8,8 @@ import { createFilipinoUtterance } from './filipinoVoice';
 // voice/fallback shape. Everything here resolves only once actual playback has *finished*
 // (not just started), so callers can chain several utterances in order (playTtsSequence).
 const audioCache = new Map<string, string>();
-const TTS_AUDIO_CACHE_VERSION = 'filipino-v10';
+const audioGenerationRates = new Map<string, number>();
+const TTS_AUDIO_CACHE_VERSION = 'filipino-v11';
 let activeSequenceId = 0;
 let activeSequenceAudio: HTMLAudioElement | null = null;
 let cancelActivePlayback: (() => void) | null = null;
@@ -29,7 +30,7 @@ function playAudioAndWait(url: string, rate: number, sequenceId?: number, option
       return;
     }
     const audio = new Audio(url);
-    audio.playbackRate = getTtsPlaybackRate(rate);
+    audio.playbackRate = getTtsPlaybackRate(rate, audioGenerationRates.get(url));
     if (sequenceId !== undefined) {
       activeSequenceAudio?.pause();
       activeSequenceAudio = audio;
@@ -92,9 +93,10 @@ async function resolveAudioUrl(text: string, rate: number): Promise<string | nul
   const cached = audioCache.get(cacheKey);
   if (cached) return cached;
   try {
-    const res = await api<{ audioContent: string }>('/tts', { method: 'POST', auth: true, body: { text, rate } });
+    const res = await api<{ audioContent: string; speakingRate?: number }>('/tts', { method: 'POST', auth: true, body: { text, rate } });
     const url = base64ToObjectUrl(res.audioContent);
     audioCache.set(cacheKey, url);
+        if (res.speakingRate !== undefined) audioGenerationRates.set(url, res.speakingRate);
     return url;
   } catch {
     return null;
