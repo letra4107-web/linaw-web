@@ -1,3 +1,4 @@
+import './email-verification.css';
 import { tagalogError } from '../../lib/validationMessages';
 import { useEffect, useRef, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
@@ -33,13 +34,17 @@ export default function VerifyEmail() {
   },[initialEmail,location.state]);
 
   const setOtpFrom = (start: number, value: string) => {
-    const nextDigits = [...digits];
-    const incoming = value.replace(/\D/g, '').slice(0, OTP_LENGTH - start);
+    const numeric = value.replace(/\D/g, '').slice(0, OTP_LENGTH);
+    // Autofill or a pasted complete code replaces the entire previous code.
+    const replaceAll = numeric.length === 6 || numeric.length === OTP_LENGTH;
+    const offset = replaceAll ? 0 : start;
+    const nextDigits = replaceAll ? Array<string>(OTP_LENGTH).fill('') : [...digits];
+    const incoming = numeric.slice(0, OTP_LENGTH - offset);
     if (!incoming) nextDigits[start] = '';
-    else incoming.split('').forEach((digit, offset) => { nextDigits[start + offset] = digit; });
+    else incoming.split('').forEach((digit, index) => { nextDigits[offset + index] = digit; });
     setDigits(nextDigits);
     setError(null);
-    if (incoming) inputs.current[Math.min(start + incoming.length, OTP_LENGTH - 1)]?.focus();
+    if (incoming) inputs.current[Math.min(offset + incoming.length, OTP_LENGTH - 1)]?.focus();
   };
 
   const onSubmit = async (event: React.FormEvent) => {
@@ -52,7 +57,7 @@ export default function VerifyEmail() {
     }
     if (![6, 8].includes(code.length) || digits.slice(0, code.length).some(digit => !digit)) {
       setError("Ilagay ang kumpletong code sa pagpapatunay na may 6 o 8 na numero.");
-      inputs.current[digits.findIndex((digit) => !digit) || 0]?.focus();
+      inputs.current[Math.max(0, digits.findIndex((digit) => !digit))]?.focus();
       return;
     }
 
@@ -108,23 +113,35 @@ export default function VerifyEmail() {
 
           <form onSubmit={onSubmit} noValidate className="verify-email-form">
             {<label className="verify-email-address">Email address<input id="email" type="email" value={email} disabled={resending || submitting} onChange={(event) => {setEmail(event.target.value);setDigits(Array(OTP_LENGTH).fill(''));setError(null);setResendMessage(null);}} autoComplete="email" placeholder="halimbawa@email.com" /></label>}
-            <fieldset className="verify-email-otp" aria-label="Email verification code">
+            <fieldset className="verify-email-otp" aria-label="Email verification code" aria-describedby="verify-email-code-hint" disabled={submitting}>
               {digits.map((digit, index) => <input
                 key={index}
                 ref={(element) => { inputs.current[index] = element; }}
                 aria-label={`Digit ${index + 1} of ${OTP_LENGTH}`}
+                type="text"
                 inputMode="numeric"
+                aria-invalid={error ? true : undefined}
                 autoComplete={index === 0 ? 'one-time-code' : 'off'}
                 maxLength={OTP_LENGTH}
                 value={digit}
+                onFocus={(event) => event.currentTarget.select()}
+                onPaste={(event) => {
+                  event.preventDefault();
+                  setOtpFrom(index, event.clipboardData.getData('text'));
+                }}
                 onChange={(event) => setOtpFrom(index, event.target.value)}
                 onKeyDown={(event) => {
-                  if (event.key === 'Backspace' && !digits[index] && index > 0) inputs.current[index - 1]?.focus();
-                  if (event.key === 'ArrowLeft' && index > 0) inputs.current[index - 1]?.focus();
-                  if (event.key === 'ArrowRight' && index < OTP_LENGTH - 1) inputs.current[index + 1]?.focus();
+                  if (event.key === 'Backspace' && !digits[index] && index > 0) {
+                    event.preventDefault();
+                    setOtpFrom(index - 1, '');
+                    inputs.current[index - 1]?.focus();
+                  }
+                  if (event.key === 'ArrowLeft' && index > 0) { event.preventDefault(); inputs.current[index - 1]?.focus(); }
+                  if (event.key === 'ArrowRight' && index < OTP_LENGTH - 1) { event.preventDefault(); inputs.current[index + 1]?.focus(); }
                 }}
               />)}
             </fieldset>
+            <p id="verify-email-code-hint" className="verify-email-code-hint">Ilagay ang 6 o 8 na numerong nasa email. Maaari mong i-paste ang buong code.</p>
             {error && <p role="alert" className="verify-email-error">{error}</p>}
             <button type="submit" disabled={submitting} className="verify-email-submit">
               {submitting ? 'Nagve-verify...' : 'I-verify'} <ArrowRight aria-hidden="true" />

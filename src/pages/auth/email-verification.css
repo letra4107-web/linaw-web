@@ -1,0 +1,69 @@
+/* These illustrated auth pages have a light palette even when a dashboard's
+   saved theme is dark. Keep their controls in the same palette, without
+   resetting the user's dashboard preference. */
+.verify-email-page {
+  color-scheme: light;
+  --color-bg: #fffaf3;
+  --color-surface: #ffffff;
+  --color-text: #2b176e;
+  --color-text-muted: #625a78;
+  --color-border: #b5a3d4;
+  --color-primary: #7857df;
+}
+
+.verify-email-page :is(.verify-email-address, .verify-email-otp, .resend-verification-input-wrap) input {
+  background: #ffffff;
+  color: #2b176e;
+  -webkit-text-fill-color: #2b176e;
+  caret-color: #654bc7;
+  border-color: #b5a3d4;
+  opacity: 1;
+}
+
+.verify-email-page :is(.verify-email-address, .verify-email-otp, .resend-verification-input-wrap) input:focus {
+  border-color: #7857df;
+  box-shadow: 0 0 0 3px rgb(120 87 223 / 20%);
+}
+
+.verify-email-page input::placeholder {
+  color: #625a78;
+  opacity: 1;
+}
+
+.verify-email-page input:autofill {
+  -webkit-text-fill-color: #2b176e;
+  box-shadow: 0 0 0 100px #ffffff inset;
+}
+
+.verify-email-page input:autofill:focus {
+  box-shadow: 0 0 0 100px #ffffff inset, 0 0 0 3px rgb(120 87 223 / 20%);
+}
+
+.verify-email-page input:disabled {
+  cursor: wait;
+}
+
+.verify-email-page .verify-email-otp {
+  grid-template-columns: repeat(8, minmax(0, 1fr));
+  min-width: 0;
+}
+
+.verify-email-page .verify-email-otp input {
+  min-width: 0;
+  padding: 0;
+}
+
+.verify-email-code-hint {
+  margin: -.35rem 0 0;
+  color: #625a78;
+  font-size: .78rem;
+  line-height: 1.65;
+  text-align: left;
+}
+
+/* Short desktop windows must scroll rather than clip the form or help text. */
+@media (min-width: 1024px) {
+  .verify-email-page .verify-email-workspace { overflow-y: auto; align-items: safe center; }
+  .verify-email-page .verify-email-content,
+  .verify-email-page .resend-verification-content { margin-block: auto; }
+}

@@ -1,3 +1,4 @@
+import './email-verification.css';
 import { tagalogError } from '../../lib/validationMessages';
 import { useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
