@@ -79,13 +79,13 @@ export function EnrollModal({ open, onClose, name, setName, grade, setGrade, onS
       <button className="kid-modal-close" type="button" onClick={onClose} aria-label="Isara" disabled={pending}><X size={21} /></button>
       <header><span><UsersRound size={27} /></span><div><h2 id="kid-enroll-title">I-enroll ang Anak</h2><p>Simulan ang kanyang paglalakbay sa pagbasa.</p></div></header>
       <ol className="kid-enroll-steps">{['Impormasyon', 'Baitang', 'Kumpirmasyon'].map((label, index) => <li className={step === index + 1 ? 'active' : step > index + 1 ? 'done' : ''} key={label}><b>{step > index + 1 ? <CheckCircle2 size={17} /> : index + 1}</b>{label}</li>)}</ol>
-      <form onSubmit={(event) => { event.preventDefault(); if (pending || validationPending || !name.trim() || (step===3&&duplicate)) return; if (step < 3) setStep(step + 1); else onSubmit(); }}>
+      <form onSubmit={(event) => { event.preventDefault(); if (pending || validationPending || !name.trim() || duplicate) return; if (step < 3) setStep(step + 1); else onSubmit(); }}>
         <div className="kid-enroll-content"><div>
           {step === 1 ? <label>Buong Pangalan ng Anak<input autoFocus value={name} maxLength={100} minLength={2} onChange={(event) => setName(event.target.value)} placeholder="Hal. Juan Dela Cruz" required /></label> : step === 2 ? <label>Baitang<select autoFocus value={grade} onChange={(event) => setGrade(event.target.value)}>{[1, 2, 3, 4, 5, 6].map((item) => <option key={item} value={item}>Grade {item}</option>)}</select><small>Magsisimula siya sa Beginner reading level.</small></label> : <div className="kid-enroll-confirm"><ShieldCheck size={30} /><h3>{name}</h3><p>Grade {grade} · Beginner</p><p>Gagawa ng student account at temporary password para sa iyong anak.</p></div>}
         </div><aside><img src={noEnrolledChildArt} alt="" /><strong>Sama-sama sa bawat hakbang.</strong><p>May sariling reading activities, progreso, at reading support ang iyong anak.</p></aside></div>
         {(duplicate||error) && <p className="kid-enroll-error" role="alert">{duplicate?`Student already exists. Naka-enroll na ang anak na ito sa Grade ${grade}.`:error}</p>}
         {validationPending&&<p className="kid-enroll-error" role="status">Kinukuha muna ang kasalukuyang enrollment records.</p>}
-        <footer><button type="button" onClick={() => step > 1 ? setStep(step - 1) : onClose()} disabled={pending}>{step > 1 ? 'Bumalik' : 'Kanselahin'}</button><button type="submit" className="kid-primary-button" disabled={pending || validationPending || !name.trim() || (step===3&&duplicate)}>{pending ? 'Ini-enroll...' : step < 3 ? 'Susunod' : 'I-enroll ang Anak'}<ArrowRight size={16} /></button></footer>
+        <footer><button type="button" onClick={() => step > 1 ? setStep(step - 1) : onClose()} disabled={pending}>{step > 1 ? 'Bumalik' : 'Kanselahin'}</button><button type="submit" className="kid-primary-button" disabled={pending || validationPending || !name.trim() || duplicate}>{pending ? 'Ini-enroll...' : step < 3 ? 'Susunod' : 'I-enroll ang Anak'}<ArrowRight size={16} /></button></footer>
       </form>
     </section>
   </div>;

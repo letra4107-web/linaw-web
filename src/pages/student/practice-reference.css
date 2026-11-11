@@ -51,7 +51,6 @@
 .practice-reference-listen .practice-listen-content > div::before { content: '▂ ▅ ▇'; right: calc(50% + 3.25rem); }
 .practice-reference-listen .practice-listen-content > div::after { content: '▇ ▅ ▂'; left: calc(50% + 3.25rem); }
 .practice-reference-listen .practice-listen-content > div > button:first-child span { font-size: 0; }
-.practice-reference-listen .practice-listen-content > div > button:first-child::after { content: '🔊'; font-size: 1.65rem; }
 .practice-reference-listen .practice-listen-content > div > button:nth-child(2) { display: none; }
 .practice-listen-actions { display: grid; grid-template-columns: 1fr; width: 100%; gap: .6rem; }
 .practice-listen-actions > button, .practice-listen-actions > .inline-flex { display: inline-flex; min-height: 3.35rem; align-items: center; justify-content: center; gap: .55rem; border: 1px solid #ebddbd; border-radius: 999px; background: #fff9e8; color: #3f4160; font-size: .82rem; font-weight: 700; letter-spacing: .08em; }
@@ -109,7 +108,6 @@
   .practice-reference-listen .practice-listen-content > p { font-size: clamp(3.1rem, 5.3vw, 4.55rem) !important; font-weight: 900 !important; }
   .practice-reference-listen .practice-listen-content > div { margin-top: .1rem; }
   .practice-reference-listen .practice-listen-content > div > button:first-child { width: 2.95rem; height: 2.95rem; min-height: 2.95rem !important; }
-  .practice-reference-listen .practice-listen-content > div > button:first-child::after { font-size: 1.15rem; }
   .practice-reference-listen .practice-listen-content > div::before, .practice-reference-listen .practice-listen-content > div::after { font-size: 1rem; }
   .practice-reference-listen .practice-listen-content > div::before { right: calc(50% + 2.25rem); }
   .practice-reference-listen .practice-listen-content > div::after { left: calc(50% + 2.25rem); }
@@ -162,3 +160,14 @@
 }
 :root[data-theme='dark'] .practice-reference-listen .practice-listen-content { background:#292d3b!important; border-color:#756580; }
 :root[data-theme='dark'] .syllable-karaoke__divider { color:#dbd0e8; }
+
+.role-student .practice-reference.practice-reference-listen .practice-listen-content > div > button.practice-listen-play {
+ display:grid!important; place-items:center; align-content:center; width:3.5rem!important; height:3.5rem!important; min-height:3.5rem!important;
+ padding:0!important; margin-inline:auto; border:1px solid #ffffff50; border-radius:50%; line-height:1; color:#fff;
+ background:linear-gradient(145deg,#8b70d5,#5b3fa3)!important; box-shadow:0 7px 16px #6843ac30,inset 0 1px 0 #ffffff55;
+}
+.practice-reference-listen .practice-listen-content .practice-listen-play::before,
+.practice-reference-listen .practice-listen-content .practice-listen-play::after { content:none!important; display:none!important; }
+.practice-listen-play > svg { display:block; width:1.5rem; height:1.5rem; margin:0; flex-shrink:0; }
+.practice-listen-play:focus-visible { outline:3px solid #ae91e4; outline-offset:4px; }
+.practice-listen-play:disabled { cursor:wait; opacity:.65; }

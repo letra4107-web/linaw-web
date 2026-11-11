@@ -13,6 +13,7 @@ import { SlowTTSButton } from '../../components/a11y/SlowTTSButton';
 import { SyllableKaraokeText } from '../../components/SyllableKaraokeText';
 import { PronunciationFeedback } from '../../components/PronunciationFeedback';
 import { IconLabel } from '../../components/a11y/IconLabel';
+import {ReadingListenButton} from '../../components/student/ReadingListenButton';
 import { ReadingTarget } from '../../components/student/ReadingTarget';
 import { WordMeaning } from '../../components/student/WordMeaning';
 import { cardStyle } from '../../lib/cardStyle';
@@ -356,17 +357,7 @@ export default function Practice() {
                   </p>
                 )}
                 {mode === 'listen' && <div className="flex flex-wrap items-center justify-center gap-2">
-                  <button
-                    type="button"
-                    onClick={playWord}
-                    disabled={speechStatus === 'loading'}
-                  className="inline-flex min-h-10 items-center gap-2 rounded-full border border-[var(--color-border)] bg-[var(--color-surface)] px-3 py-1.5 text-sm text-[var(--color-text)] hover:border-[var(--color-primary)] disabled:opacity-60"
-                  >
-                    <IconLabel
-                      icon={speechStatus === 'loading' ? '⏳' : speechStatus === 'speaking' ? '⏹️' : '🔊'}
-                      label={speechStatus === 'loading' ? 'Naglo-load...' : speechStatus === 'speaking' ? 'Ihinto' : 'Basahin nang Malakas'}
-                    />
-                  </button>
+                  <ReadingListenButton status={speechStatus} onClick={playWord}/>
                 <SlowTTSButton text={current.word} />
                 </div>}
               </div>

@@ -34,7 +34,9 @@ test('confetti launches from both sides outside the feedback card without blocki
   assert.equal(h.instances[0].options.disableForReducedMotion, true);
   assert.equal(h.instances[0].options.useWorker, false, 'live CSP must not require blob workers');
   for (const timer of h.timers.values()) if (timer.delay < 1000) timer.callback();
-  assert.equal(h.shots.length, 6);
+  assert.equal(h.shots.length, 9);
+  assert.ok(h.shots.some(shot=>shot.shapes.includes('star')));
+  assert.ok(h.shots.some(shot=>shot.origin.y<0),'finishing ribbon shower starts above the viewport');
   cleanup();
   assert.equal(h.timers.size, 0); assert.equal(h.canvases[0].removed, true); assert.equal(h.canvases[0].resetCount, 1);
 });
