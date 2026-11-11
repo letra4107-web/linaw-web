@@ -5,6 +5,7 @@ const {supabaseAdmin}=require('../config/supabase');
 const {sendMail,smtpConfigured}=require('../config/mailer');
 const {requireAuth,requireRole}=require('../middleware/auth');
 const {syncConfirmedStudentEmail}=require('../services/confirmedEmailAlias');
+const {otpEmailTemplate}=require('../services/otpEmailTemplate');
 const validEmail=value=>typeof value==='string'&&value.length<=254&&/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
 const escapeHtml=value=>String(value).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const freshClient=()=>createClient(process.env.SUPABASE_URL,process.env.SUPABASE_ANON_KEY||process.env.SUPABASE_SERVICE_ROLE_KEY,{auth:{persistSession:false,autoRefreshToken:false}});
@@ -33,7 +34,7 @@ function createAccountRecoveryRouter({client=supabaseAdmin,mail=sendMail,verifie
     const generated=await client.auth.admin.generateLink({type:'recovery',email});if(generated.error)throw generated.error;
     if(generated.data?.user?.id!==target.id||!/^(?:\d{6}|\d{8})$/.test(generated.data.properties?.email_otp||''))throw Error('Invalid recovery identity');
     const code=generated.data.properties.email_otp;
-    await mail({to:target.email,subject:'LinawLetra — Code para sa pag-reset ng password',text:`Ang reset code ay ${code}. Ilagay ito sa LinawLetra para sa account na humiling ng reset. Huwag ibahagi ang code. Kung hindi mo ito hiniling, huwag itong gamitin.`,html:`<h2>I-reset ang password</h2><p>Ang iyong code:</p><p style="font-size:30px;font-weight:bold;letter-spacing:6px">${escapeHtml(code)}</p><p>Ilagay ito sa LinawLetra. Huwag ibahagi ang code. Kung hindi mo ito hiniling, huwag itong gamitin.</p>`});
+    await mail({to:target.email,...otpEmailTemplate({code,purpose:'password-reset'})});
    }
    return res.json({success:true,message:generic});
   }catch(error){return failure(res,error);}

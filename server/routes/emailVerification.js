@@ -3,6 +3,7 @@ const rateLimit=require('express-rate-limit');
 const {createClient}=require('@supabase/supabase-js');
 const {supabaseAdmin}=require('../config/supabase');
 const {sendMail}=require('../config/mailer');
+const {otpEmailTemplate}=require('../services/otpEmailTemplate');
 const router=express.Router();
 const limiter=rateLimit({windowMs:60000,limit:5,standardHeaders:'draft-7',legacyHeaders:false,message:{error:'Maghintay ng isang minuto bago subukan muli.'}});
 router.use(limiter);
@@ -16,7 +17,7 @@ router.post('/request',async(req,res)=>{
   if(id){
    const {data,error:linkError}=await supabaseAdmin.auth.admin.generateLink({type:'magiclink',email});if(linkError)throw linkError;
    if(data.user?.id!==id || !data.properties?.email_otp)throw Error('Invalid verification identity');
-   await sendMail({to:email,subject:'LinawLetra — Kumpirmahin ang iyong email',text:'Ang iyong verification code ay '+data.properties.email_otp+'. Ilagay ito sa LinawLetra. Huwag ibahagi ang code.'});
+   await sendMail({to:email,...otpEmailTemplate({code:data.properties.email_otp})});
   }
   return res.json({success:true,message:'Kung may account sa email na ito, naipadala na ang verification code.'});
  }catch{return res.status(503).json({error:'Hindi maipadala ang verification code ngayon. Subukan muli mamaya.'});}
