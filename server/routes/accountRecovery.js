@@ -4,6 +4,7 @@ const {createClient}=require('@supabase/supabase-js');
 const {supabaseAdmin}=require('../config/supabase');
 const {sendMail,smtpConfigured}=require('../config/mailer');
 const {requireAuth,requireRole}=require('../middleware/auth');
+const {syncConfirmedStudentEmail}=require('../services/confirmedEmailAlias');
 const validEmail=value=>typeof value==='string'&&value.length<=254&&/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
 const escapeHtml=value=>String(value).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const freshClient=()=>createClient(process.env.SUPABASE_URL,process.env.SUPABASE_ANON_KEY||process.env.SUPABASE_SERVICE_ROLE_KEY,{auth:{persistSession:false,autoRefreshToken:false}});
@@ -79,6 +80,7 @@ function createAccountRecoveryRouter({client=supabaseAdmin,mail=sendMail,verifie
   try{
    const result=await auth.auth.verifyOtp({token_hash:hash,type:'email_change'});
    if(result.error)return res.status(400).json({error:'Nagamit na, mali, o paso na ang link. Tingnan ang isa pang confirmation email, o humiling ng panibago sa Settings.'});
+   await syncConfirmedStudentEmail(client,result.data?.user);
    return res.json({success:true});
   }catch(error){console.error('[email confirmation]',{code:error?.code||error?.name});return res.status(503).json({error:'Hindi makumpirma ang email ngayon. Subukan muli.'});}
   finally{await auth.auth.signOut({scope:'local'}).catch(()=>{});}
