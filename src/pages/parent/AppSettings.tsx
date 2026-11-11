@@ -1,3 +1,4 @@
+import {Toggle as SwitchControl} from '../../components/a11y/Toggle';
 import { tagalogError } from '../../lib/validationMessages';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useEffect, useRef, useState } from 'react';
@@ -24,7 +25,7 @@ const rows: { key: PreferenceKey; icon: 'bars' | 'message' | 'calendar' | 'megap
 ];
 const normalise = (value?: Partial<Preferences>): Preferences => ({ progress: { ...DEFAULT_PREFERENCES.progress, ...value?.progress }, teacher: { ...DEFAULT_PREFERENCES.teacher, ...value?.teacher }, schedule: { ...DEFAULT_PREFERENCES.schedule, ...value?.schedule }, announcements: { ...DEFAULT_PREFERENCES.announcements, ...value?.announcements } });
 
-function Switch({ checked, label, onClick, disabled = false }: { checked: boolean; label: string; onClick: () => void; disabled?: boolean }) { return <button type="button" disabled={disabled} role="switch" aria-checked={checked} aria-label={label} onClick={onClick} className={`ap-switch ${checked ? 'is-on' : ''}`}><i /></button>; }
+function Switch({checked,label,onClick,disabled=false}:{checked:boolean;label:string;onClick:()=>void;disabled?:boolean}){return <SwitchControl on={checked} label={label} onClick={onClick} disabled={disabled}/>;}
 function NotificationIcon({ name }: { name: (typeof rows)[number]['icon'] }) { const Icon = name === 'bars' ? BarChart3 : name === 'message' ? MessageSquare : name === 'calendar' ? CalendarDays : Megaphone; return <Icon size={22} aria-hidden="true" />; }
 
 export default function ParentAppSettings() {

@@ -1,3 +1,4 @@
+import {Toggle as SwitchControl} from '../../components/a11y/Toggle';
 import { tagalogError } from '../../lib/validationMessages';
 import { useState } from 'react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
@@ -14,7 +15,7 @@ const tabs: Array<{ id: Tab; label: string }> = [{ id: 'general', label: 'Genera
 const inputClass = 'mt-1.5 min-h-11 w-full rounded-xl border border-[var(--color-border)] bg-white px-3 text-sm outline-none focus:border-[var(--color-primary)] focus:ring-2 focus:ring-[var(--color-primary)]/15';
 
 function Toggle({ checked, onChange, label, description }: { checked: boolean; onChange: (value: boolean) => void; label: string; description?: string }) {
-  return <div className="flex min-h-14 items-center justify-between gap-4 rounded-2xl border border-[var(--color-border)] bg-white/55 px-4 py-3"><span><span className="block text-sm font-extrabold">{label}</span>{description && <span className="mt-0.5 block text-xs text-[var(--color-text-muted)]">{description}</span>}</span><button type="button" role="switch" aria-checked={checked} aria-label={label} onClick={() => onChange(!checked)} className={`relative h-7 w-12 shrink-0 rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] focus:ring-offset-2 ${checked ? 'bg-[var(--color-primary)]' : 'bg-slate-300'}`}><span className={`absolute top-1 h-5 w-5 rounded-full bg-white shadow transition-transform ${checked ? 'translate-x-6' : 'translate-x-1'}`} /></button></div>;
+  return <div className="flex min-h-14 items-center justify-between gap-4 rounded-2xl border border-[var(--color-border)] bg-white/55 px-4 py-3"><span><span className="block text-sm font-extrabold">{label}</span>{description && <span className="mt-0.5 block text-xs text-[var(--color-text-muted)]">{description}</span>}</span><SwitchControl on={checked} label={label} onClick={()=>onChange(!checked)}/></div>;
 }
 
 export default function SystemSettings() {

@@ -40,6 +40,8 @@ export function AdminModal({ title, onClose, children }: { title: string; onClos
     document.body.style.overflow = 'hidden';
     dialog.current?.focus();
     const keydown = (event: globalThis.KeyboardEvent) => {
+      const topDialog=document.querySelector('dialog[open]');
+      if(topDialog&&!dialog.current?.contains(topDialog))return;
       if (event.key === 'Escape') { event.preventDefault(); close.current(); }
       if (event.key !== 'Tab') return;
       const controls = Array.from(dialog.current?.querySelectorAll<HTMLElement>('button:not(:disabled),input:not(:disabled),textarea:not(:disabled),select:not(:disabled),a[href]') || []).filter(element => element.getClientRects().length);

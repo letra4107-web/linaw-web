@@ -1,3 +1,4 @@
+import {Toggle as SwitchControl} from '../../components/a11y/Toggle';
 import { useEffect, useRef, useState } from 'react';
 import type { ReactNode } from 'react';
 import { useQuery } from '@tanstack/react-query';
@@ -52,7 +53,7 @@ export function TeacherProfileSecurity({ title='Account Security', description='
   }
   return <section className="tp-card tp-security"><header className="tp-heading"><span className="tp-icon"><ShieldCheck aria-hidden /></span><div><h2>{title}</h2><p>{description}</p></div></header>
     {passwordAction}
-    <div className="tp-security-row"><span className="tp-action-icon green"><Smartphone aria-hidden /></span><div><b>Two-Factor Authentication (Optional)</b><small>Magdagdag ng karagdagang seguridad.</small></div><button type="button" className="tp-switch" role="switch" aria-label="Two-factor authentication" aria-checked={Boolean(verified)} disabled={factors.isLoading || Boolean(factors.error) || busy} onClick={() => void begin()}><i /></button></div>
+    <div className="tp-security-row"><span className="tp-action-icon green"><Smartphone aria-hidden /></span><div><b>Two-Factor Authentication (Optional)</b><small>Magdagdag ng karagdagang seguridad.</small></div><SwitchControl label="Two-factor authentication" on={Boolean(verified)} disabled={factors.isLoading||Boolean(factors.error)||busy} onClick={()=>void begin()}/></div>
     {factors.error && <p className="tp-notice error" role="alert">Hindi makuha ang MFA status. <button type="button" onClick={() => void factors.refetch()}>Subukan muli</button></p>}
     {!setup && notice && <p className="tp-notice" role="status">{notice}</p>}
     <button type="button" className="tp-security-row tp-session-button" onClick={() => setSessionsOpen(true)}><span className="tp-action-icon blue"><Monitor aria-hidden /></span><span><b>Mga Active na Session</b><small>Tingnan ang session sa browser na ito.</small></span><ChevronRight aria-hidden /></button>

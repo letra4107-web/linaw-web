@@ -7,6 +7,7 @@ const { validateUuidParam, isUuid, isGrade, isBoundedString } = require('../lib/
 const { summarizeCredentialSecurity } = require('../services/credentialSecurity');
 const { storageReadiness } = require('../services/storageMigration');
 const { platformFor } = require('../services/audit');
+const {monitoringLearning}=require('../services/monitoringLearning');
 
 const router = express.Router();
 router.use(requireAuth, requireRole('admin'));
@@ -179,6 +180,16 @@ router.get('/monitoring/users', async (req, res) => {
   } catch (err) {
     console.error('[admin/monitoring/users]', err);
     res.status(500).json({ error: "Hindi makuha ang pagsubaybay sa mga tungkulin." });
+  }
+});
+
+router.get('/monitoring/users/:id/learning',validateUuidParam('id'),async(req,res)=>{
+  try{
+    const result=await monitoringLearning(supabaseAdmin,req.params.id,{kind:req.query.kind??'assessments',page:Number(req.query.page??1),childId:req.query.childId});
+    res.setHeader('Cache-Control','private, no-store');res.json(result);
+  }catch(error){
+    if(error.status===400||error.status===404)return res.status(error.status).json({error:error.message});
+    console.error('[admin monitoring learning]',{code:error?.code});res.status(500).json({error:'Hindi makuha ang learning records ngayon. Subukan muli.'});
   }
 });
 
