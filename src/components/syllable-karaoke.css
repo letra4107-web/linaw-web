@@ -1,0 +1,8 @@
+.syllable-karaoke { display:flex; flex-wrap:wrap; justify-content:center; align-items:center; gap:.12em; width:100%; min-width:0; margin:0; font-weight:800; line-height:1.35; letter-spacing:.015em; }
+.syllable-karaoke__group { display:inline-flex; flex:0 0 auto; align-items:center; max-width:100%; white-space:nowrap; }
+.syllable-karaoke__chip { display:inline-block; padding:.08em .16em; border-radius:.22em; transition:background-color 150ms,color 150ms; overflow-wrap:normal; word-break:normal; }
+.syllable-karaoke__divider { padding-inline:.04em; color:#786a90; font-size:.65em; }
+.practice-reference-word .syllable-karaoke { font-size:clamp(1.5rem,calc(50cqw / var(--reading-units)),4rem)!important; line-height:1.35; letter-spacing:.015em; overflow-wrap:normal; }
+.practice-reference-listen .practice-listen-content { container-type:inline-size; }
+.practice-reference-listen .practice-listen-content .syllable-karaoke { font-size:clamp(1.4rem,calc(125cqw / var(--reading-units)),4rem)!important; }
+@media(prefers-reduced-motion:reduce) { .syllable-karaoke__chip { transition:none; } }

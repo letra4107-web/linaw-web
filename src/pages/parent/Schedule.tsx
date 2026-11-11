@@ -152,6 +152,8 @@ export default function Schedule() {
     onSettled: () => { updatePendingRef.current = false; },
   });
   const mutationPending = save.isPending || update.isPending;
+  const editingActivity=scheduleQuery.data?.find(item=>item.id===editingId);
+  const formChanged=!editingId?!!form.title.trim():!!editingActivity&&(form.title.trim()!==editingActivity.title.trim()||form.description.trim()!==(editingActivity.description||'').trim()||form.activity_type!==editingActivity.activity_type||form.scheduled_date!==editingActivity.scheduled_date||form.start_time!==(editingActivity.start_time||'').slice(0,5)||form.end_time!==(editingActivity.end_time||'').slice(0,5));
 
   const today = toKey(new Date());
   const days = dateRange(anchor, mode);
@@ -214,7 +216,7 @@ export default function Schedule() {
     setShowForm(false);
   }
   function submitForm() {
-    if (savePendingRef.current || updatePendingRef.current) return;
+    if (!formChanged||!form.title.trim()||savePendingRef.current || updatePendingRef.current) return;
     savePendingRef.current = true;
     setSavedNotice('');
     save.mutate({ childId: activeChildId, authUid: user?.id ?? '', form: Object.freeze({ ...form }), editingId });
@@ -266,7 +268,7 @@ export default function Schedule() {
             <label>Oras ng Pagtatapos<input type="time" disabled={mutationPending} value={form.end_time} onChange={(event) => setForm({ ...form, end_time: event.target.value })} /></label>
             <label className="calendar-description-field">Mga Detalye <small>(opsyonal)</small><textarea maxLength={1000} rows={2} disabled={mutationPending} value={form.description} onChange={(event) => setForm({ ...form, description: event.target.value })} /></label>
             {save.error && <p className="calendar-error" role="alert">{tagalogError(save.error)}</p>}
-            <div className="calendar-form-actions"><button type="button" disabled={mutationPending} onClick={closeForm}>Kanselahin</button><button type="submit" disabled={mutationPending}>{save.isPending ? 'Sine-save…' : 'I-save ang Aktibidad'}</button></div>
+            <div className="calendar-form-actions"><button type="button" disabled={mutationPending} onClick={closeForm}>Kanselahin</button><button type="submit" disabled={mutationPending||!formChanged||!form.title.trim()}>{save.isPending ? 'Sine-save…' : 'I-save ang Aktibidad'}</button></div>
           </form>}
           <div className="calendar-details-filter"><span>{selectedDate ? formatDate(selectedDate, { weekday: 'long', month: 'short', day: 'numeric', year: 'numeric' }) : mode === 'Buwan' ? dateLabel : `Mga aktibidad sa ${mode.toLowerCase()}`}</span>{selectedDate && <button type="button" onClick={() => { setSelectedDate(null); setDetailId(null); }}>Buong {mode.toLowerCase()} <X size={12} /></button>}</div>
           {savedNotice && <p className="calendar-saved" role="status">{savedNotice}</p>}

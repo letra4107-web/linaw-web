@@ -136,3 +136,29 @@
 .practice-reference .practice-word-content[data-long-word] > p { font-size: clamp(2rem, 4vw, 3.25rem) !important; }
 .practice-reference-listen .practice-listen-content[data-long-word] { width: 100%; min-height: 0; }
 .practice-reference-listen .practice-listen-content[data-long-word] .practice-listen-illustration { position: static; width: 5rem; max-width: 100%; max-height: 5rem; justify-self: center; }
+
+/* Keep the learner illustration beside the whole word, with room for syllables. */
+.practice-reference-listen .practice-listen-content,
+.practice-reference-listen .practice-listen-content[data-long-word] {
+  width:100%; min-height:12rem; margin:0; padding:1.25rem!important;
+  grid-template-columns:minmax(7rem,.7fr) minmax(0,1.7fr);
+  grid-template-areas:'art word' 'art controls'; column-gap:1.25rem; row-gap:.9rem;
+  align-items:center; border-style:solid; border-color:#e3d6b7;
+}
+.practice-reference-listen .practice-listen-content .practice-listen-illustration,
+.practice-reference-listen .practice-listen-content[data-long-word] .practice-listen-illustration {
+  grid-area:art; position:static; width:100%; max-width:11rem; height:auto; max-height:12rem; justify-self:center;
+}
+.practice-reference-listen .practice-listen-content > .syllable-karaoke { grid-area:word; align-self:end; padding-block:.2em; }
+.practice-reference-listen .practice-listen-content > div { grid-area:controls; align-self:start; margin:0; }
+.practice-reference-listen .practice-listen-content > div::before,
+.practice-reference-listen .practice-listen-content > div::after { display:none; }
+.practice-reference-listen .practice-reference-word::before { display:none; }
+.practice-reference-listen .practice-reference-progress { color:#42356c; }
+.practice-reference-listen .practice-reference-word > span { color:#493574!important; font-size:.85rem!important; line-height:1.5; letter-spacing:.025em; }
+@media(max-width:480px) {
+ .practice-reference-listen .practice-listen-content { grid-template-columns:minmax(0,1fr); grid-template-areas:'art' 'word' 'controls'; gap:.65rem; padding:1rem .5rem!important; }
+ .practice-reference-listen .practice-listen-content .practice-listen-illustration { width:6rem; max-height:6rem; }
+}
+:root[data-theme='dark'] .practice-reference-listen .practice-listen-content { background:#292d3b!important; border-color:#756580; }
+:root[data-theme='dark'] .syllable-karaoke__divider { color:#dbd0e8; }

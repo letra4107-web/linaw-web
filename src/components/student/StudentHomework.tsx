@@ -20,9 +20,10 @@ function Answer({ assignment, initial, onBack, onSaved, now }: { assignment: Hom
   useEffect(() => { detailHeading.current?.focus(); }, []);
   const [error, setError] = useState(''); const [notice, setNotice] = useState('');
   const locked = assignment.status === 'closed' || saved?.status === 'submitted' || saved?.status === 'reviewed';
+  const draftChanged=Boolean(picked)||text!==(saved?.answer_text||'')||attachment.file_path!==(saved?.file_path||null);
   const late = homeworkCategory(assignment, saved, now) === 'late';
   async function save(submit: boolean) {
-    if (inFlight.current || locked) return;
+    if (inFlight.current || locked || (!submit&&!draftChanged)) return;
     inFlight.current = true; setBusy(true); setError(''); setNotice('');
     try {
       let file = attachment;
@@ -51,7 +52,7 @@ function Answer({ assignment, initial, onBack, onSaved, now }: { assignment: Hom
       <p className="hw-help">PDF, Word, PowerPoint, Excel, JPG o PNG. Hanggang 20 MB.</p>
       {(picked || attachment.file_name) && <div className="hw-file"><Paperclip size={17} aria-hidden /><span>{picked?.name || attachment.file_name}</span>{attachment.file_path && !picked && <button type="button" onClick={() => void open(attachment.file_path!)}>Buksan</button>}{!locked && <button type="button" disabled={busy} onClick={() => { setPicked(null); setAttachment({ file_path: null, file_name: null }); }}>Alisin</button>}</div>}
       {error && <p role="alert" className="hw-error">{error}</p>}{notice && <p role="status" className="hw-notice">{notice}</p>}
-      {!locked && <button type="button" className="hw-secondary" disabled={busy} onClick={() => void save(false)}>I-save muna</button>}
+      {!locked && <button type="button" className="hw-secondary" disabled={busy||!draftChanged} onClick={() => void save(false)}>I-save muna</button>}
     </form>
   </section>;
 }

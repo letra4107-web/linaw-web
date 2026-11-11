@@ -72,6 +72,7 @@ function EditForm({ material, onSaved, onCancel }: { material: PdfMaterial; onSa
   const [gradeLevel, setGradeLevel] = useState(material.grade_level != null ? String(material.grade_level) : '');
   const [level, setLevel] = useState(material.level ?? '');
   const [error, setError] = useState<string | null>(null);
+  const changed=title.trim()!==material.title.trim()||gradeLevel!==(material.grade_level!=null?String(material.grade_level):'')||level!==(material.level??'');
 
   const save = useMutation({
     mutationFn: () =>
@@ -126,8 +127,8 @@ function EditForm({ material, onSaved, onCancel }: { material: PdfMaterial; onSa
       <div className="flex gap-2">
         <button
           type="button"
-          onClick={() => save.mutate()}
-          disabled={save.isPending || !title.trim()}
+          onClick={() => {if(changed&&!save.isPending)save.mutate();}}
+          disabled={save.isPending || !title.trim() || !changed}
           className="rounded-full bg-[var(--color-primary)] px-4 py-1.5 text-sm text-white disabled:opacity-60"
         >
           {save.isPending ? 'Sine-save...' : 'I-save'}
