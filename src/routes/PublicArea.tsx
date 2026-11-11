@@ -8,9 +8,11 @@ import VerifyEmail from '../pages/auth/VerifyEmail';
 import ResendVerification from '../pages/auth/ResendVerification';
 import PublicInfo from '../pages/PublicInfo';
 import NotFound from '../pages/NotFound';
+import ConfirmEmailChange from '../pages/auth/ConfirmEmailChange';
 
 export default function PublicArea() {
   return <Routes>
+    <Route path="/confirm-email-change" element={<ConfirmEmailChange />} />
     <Route path="/" element={<Home />} /><Route path="/login" element={<Login />} /><Route path="/signup" element={<SignUp />} />
     <Route path="/forgot-password" element={<ForgotPassword />} /><Route path="/reset-password" element={<ResetPassword />} />
     <Route path="/verify-email" element={<VerifyEmail />} /><Route path="/resend-verification" element={<ResendVerification />} />

@@ -95,6 +95,7 @@ app.use('/api/tts', ttsRoutes);
 app.use('/api/public/tts', createTtsRouter({ authMiddleware: (_req, _res, next) => next(), limiter: publicTtsLimiter, cache: publicAudioCache }));
 app.use('/api/notifications', notificationsRoutes);
 app.use('/api/auth/email-verification', require('./routes/emailVerification'));
+app.use('/api/auth', require('./routes/accountRecovery'));
 app.use('/api/auth', authEventsRoutes);
 app.use((req, res) => res.status(404).json({ error: "Hindi makita ang hiniling na pahina o impormasyon." }));
 app.use((err, req, res, _next) => {

@@ -19,6 +19,7 @@ import './teacher-profile-menu.css';
 import { useTeacherThemeSync } from '../../lib/teacher/useTeacherPreferences';
 
 const PRIMARY_TABS = [
+  { to: '/teacher/schedule', icon: '▦', label: 'Kalendaryo' },
   { to: '/teacher', end: true, icon: '⌂', label: 'Simula' },
   { to: '/teacher/students', icon: '♟', label: 'Mga Mag-aaral' },
   { to: '/teacher/lessons', icon: '▤', label: 'Mga Aralin' },

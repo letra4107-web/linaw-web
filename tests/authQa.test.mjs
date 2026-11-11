@@ -59,13 +59,13 @@ test('QA saved-profile picker ignores malformed entries without crashing', () =>
   const profiles = profileHarness(JSON.stringify([null, {}, 2, profile('valid'), { ...profile('bad'), role: 'owner' }]));
   assert.deepEqual(Array.from(profiles.getSavedProfiles(), (item) => item.userId), ['valid']);
 });
-test('QA saved profiles enforce expiration, student replacement, and profile limit', () => {
+test('QA saved profiles enforce expiration and retain only the latest account', () => {
   const expired = { ...profile('old'), savedAt: '2000-01-01T00:00:00Z' };
   const profiles = profileHarness(JSON.stringify([expired, profile('student-a'), profile('adult', 'parent')]));
   profiles.saveAuthProfile(profile('student-b'));
-  assert.deepEqual(Array.from(profiles.getSavedProfiles(), (item) => item.userId), ['student-b', 'adult']);
+  assert.deepEqual(Array.from(profiles.getSavedProfiles(), (item) => item.userId), ['student-b']);
   for (let index = 0; index < 7; index++) profiles.saveAuthProfile(profile(`adult-${index}`, 'parent'));
-  assert.equal(profiles.getSavedProfiles().length, 5);
+  assert.equal(profiles.getSavedProfiles().length, 1);
 });
 test('QA unavailable optional profile storage does not break login/logout', () => {
   const profiles = profileHarness('[]', false);

@@ -147,3 +147,5 @@ body[data-font="dyslexic"] .parent-notice-reference .notice-row-copy b { white-s
 :root[data-theme="high-contrast"] .parent-notice-reference .notice-row { border:1px solid #000; background:#fff; }
 :root[data-theme="high-contrast"] .parent-notice-reference .notice-category { border:1px solid #000; background:#fff; color:#000; }
 @media (prefers-reduced-motion:reduce) { .parent-notice-reference * { transition:none !important; animation:none !important; scroll-behavior:auto !important; } }
+
+.notice-read-toolbar{justify-content:flex-start;margin:16px 0}.notice-calendar-link{display:inline-flex;align-items:center;min-height:44px;padding:10px 16px;border:2px solid #00796e;border-radius:12px;color:#00796e;font-weight:700}

@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { ArrowDownUp, BarChart3, Bell, BookOpen, CalendarDays, CheckCheck, ChevronDown, ChevronRight, GraduationCap, Heart, Mail, MessageSquare, Play, Search, Settings, ShieldPlus, Star, Trophy, X } from 'lucide-react';
 import { useNotifications, type NotificationRow } from '../../lib/useNotifications';
@@ -34,7 +35,7 @@ function NotificationModal({ row, onClose, updateError }: { row: NotificationRow
     <article className="notice-modal-card">
       <header><span className={`notice-icon notice-tone-${meta.tone}`}><Icon size={27} aria-hidden="true" /></span><div><p>{meta.label}</p><h2 id="notification-modal-title">{row.title}</h2></div><button type="button" onClick={onClose} aria-label="Isara ang abiso"><X size={21} /></button></header>
       <div className="notice-modal-content"><time dateTime={row.created_at}>{dateLabel(row.created_at)} · {timeLabel(row.created_at)}</time><p>{row.body ?? row.message ?? 'Walang karagdagang detalye para sa abisong ito.'}</p></div>
-      <footer>{updateError && <p role="alert">Hindi namarkahang nabasa ang abiso. Isara at subukan muli.</p>}<button type="button" onClick={onClose}>Isara</button></footer>
+      <footer>{['scheduled_activity','schedule','reminder','appointment','pdf_assignment','homework_assigned'].includes(row.type) && <Link className="notice-calendar-link" to="/parent/schedule">Tingnan sa Kalendaryo</Link>}{updateError && <p role="alert">Hindi namarkahang nabasa ang abiso. Isara at subukan muli.</p>}<button type="button" onClick={onClose}>Isara</button></footer>
     </article>
   </div>;
 }
@@ -55,6 +56,14 @@ export default function ParentNotifications() {
     { value: 'messages', label: 'Mga Mensahe', count: count('messages'), Icon: MessageSquare, tone: 'violet' },
     { value: 'system', label: 'System', count: count('system'), Icon: Settings, tone: 'blue' },
   ] as const;
+  const [readNotice, setReadNotice] = useState('');
+  const readAllBusy = useRef(false);
+  const markEverythingRead = async () => {
+    if (readAllBusy.current || isLoading || error) return;
+    if (!unreadCount) { setReadNotice('Lahat ay nabasa na.'); return; }
+    readAllBusy.current = true;
+    try { await markAllAsRead.mutateAsync(); setReadNotice('Lahat ay nabasa na.'); } finally { readAllBusy.current = false; }
+  };
   const busy = markAsRead.isPending || markAllAsRead.isPending;
   return <div className="parent-notice-reference">
     <header className="notice-hero">
@@ -62,6 +71,7 @@ export default function ParentNotifications() {
       <div className="notice-hero-copy"><p>NOTIFICATIONS</p><h1>Mga <em>Abiso</em> <Bell aria-hidden="true" /></h1><span>Manatiling updated sa mahahalagang impormasyon tungkol sa iyong mga anak.</span></div>
       <aside className="notice-hero-note">Sama-sama sa bawat pag-unlad! <Heart fill="currentColor" aria-hidden="true" /></aside>
     </header>
+    <div className="notice-footer notice-read-toolbar"><button type="button" onClick={() => void markEverythingRead().catch(() => {})} disabled={isLoading || Boolean(error) || busy}><CheckCheck size={19} aria-hidden="true" />{markAllAsRead.isPending ? 'Ina-update...' : 'Markahan lahat bilang nabasa'}</button><span role="status">{!isLoading && !error && !unreadCount ? 'Lahat ay nabasa na.' : readNotice}</span></div>
     <nav className="notice-filters" aria-label="Salain ang mga abiso">{tabs.map(({ value, label, count: total, Icon, tone }) => <button type="button" key={value} aria-pressed={filter === value} onClick={() => setFilter(value)} className={`notice-filter-${tone}`}><Icon aria-hidden="true" /><span>{label} ({total})</span></button>)}</nav>
     <div className="notice-tools"><label className="notice-search"><Search size={21} aria-hidden="true" /><input value={search} onChange={(event) => setSearch(event.target.value)} placeholder="Maghanap ng abiso..." aria-label="Maghanap ng abiso" /></label><label className="notice-sort"><ArrowDownUp size={22} aria-hidden="true" /><select value={newestFirst ? 'newest' : 'oldest'} onChange={(event) => setNewestFirst(event.target.value === 'newest')} aria-label="Ayos ng mga abiso"><option value="newest">Pinakabagong Una</option><option value="oldest">Pinakaluma Una</option></select><ChevronDown size={18} aria-hidden="true" /></label></div>
     {isLoading && <p className="notice-state" role="status">Kinukuha ang mga abiso...</p>}
@@ -74,7 +84,7 @@ export default function ParentNotifications() {
         <span className="notice-row-copy"><b>{row.title}</b><small>{row.body ?? row.message ?? meta.label}</small></span><span className="notice-category">{meta.label}</span><time dateTime={row.created_at}><span>{dateLabel(row.created_at)}</span><span>{timeLabel(row.created_at)}</span></time><ChevronRight className="notice-row-chevron" size={21} aria-hidden="true" />
       </button>;
     })}</section>)}
-    <footer className="notice-footer"><button type="button" onClick={() => markAllAsRead.mutate()} disabled={isLoading || Boolean(error) || !unreadCount || busy}><CheckCheck size={19} aria-hidden="true" />{markAllAsRead.isPending ? 'Ina-update...' : 'Markahan lahat bilang nabasa'}</button>{markAllAsRead.isSuccess && <span role="status">Namarkahan na bilang nabasa ang mga abiso.</span>}</footer>
+
     {selected && <NotificationModal row={selected} updateError={Boolean(markAsRead.error)} onClose={() => setSelected(null)} />}
   </div>;
 }

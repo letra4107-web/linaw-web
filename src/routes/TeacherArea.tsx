@@ -10,12 +10,13 @@ import TeacherProfile from '../pages/teacher/TeacherProfile';
 import Messages from '../pages/teacher/Messages';
 import Notifications from '../pages/teacher/Notifications';
 import NotFound from '../pages/NotFound';
+import TeacherCalendar from '../pages/teacher/Calendar';
 
 const ProgressReports = lazy(() => import('../pages/teacher/ProgressReports'));
 
 export default function TeacherArea() {
   return <Routes><Route element={<ProtectedRoute role="teacher"><TeacherLayout /></ProtectedRoute>}>
-    <Route index element={<Dashboard />} /><Route path="students" element={<MyStudents />} /><Route path="lessons" element={<LessonsHub />} />
+    <Route index element={<Dashboard />} /><Route path="schedule" element={<TeacherCalendar />} /><Route path="students" element={<MyStudents />} /><Route path="lessons" element={<LessonsHub />} />
     <Route path="progress-reports" element={<Suspense fallback={<p className="p-6">Loading reports…</p>}><ProgressReports /></Suspense>} /><Route path="messages" element={<Messages />} />
     <Route path="profile" element={<TeacherProfile />} /><Route path="settings" element={<Settings />} /><Route path="notifications" element={<Notifications />} />
     <Route path="*" element={<NotFound />} />

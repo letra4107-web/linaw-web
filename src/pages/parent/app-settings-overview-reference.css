@@ -202,3 +202,5 @@ body[data-font="dyslexic"] .parent-app-preferences .ap-outline { white-space:nor
 :root[data-theme="high-contrast"] .parent-app-preferences .ap-theme-card { border-color:#000; color:#000; }
 :root[data-theme="high-contrast"] .parent-app-preferences .ap-switch { outline:1px solid #000; }
 @media (prefers-reduced-motion:reduce) { .parent-app-preferences *, .parent-app-preferences *::before { transition:none !important; animation:none !important; scroll-behavior:auto !important; } }
+
+.ap-theme-card:disabled{cursor:default}.ap-theme-card.selected:disabled{opacity:1}.ap-theme-card:disabled:not(.selected){opacity:.6}

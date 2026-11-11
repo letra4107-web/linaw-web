@@ -85,8 +85,10 @@ export default function Settings() {
   };
   const [draftName,setDraftName]=useState<string|null>(null),[draftPhone,setDraftPhone]=useState<string|null>(null);
   const contact=useMutation({meta:{saveFeedback:'Profile updated successfully'},mutationFn:async()=>{
+    if (!contactChanged) throw new Error('Wala pang pagbabago sa profile.');
     const {error}=await supabase.rpc('save_parent_contact',{p_name:(draftName ?? profile?.full_name ?? identity?.displayName ?? '').trim(),p_phone:(draftPhone ?? profile?.phone_number ?? '').trim()});if(error)throw error;
   },onSuccess:async()=>{await client.invalidateQueries({queryKey:['parent-profile']});await refreshIdentity();setDraftName(null);setDraftPhone(null);}});
+  const contactChanged = Boolean(profile) && ((draftName ?? profile?.full_name ?? '').trim() !== (profile?.full_name ?? '').trim() || (draftPhone ?? profile?.phone_number ?? '').trim() !== (profile?.phone_number ?? '').trim());
   const displayName = profile?.full_name || identity?.displayName || 'Magulang';
   const initials = displayName.trim().split(/\s+/).map((part) => part[0]).join('').slice(0, 2).toUpperCase();
   const verified = Boolean(user?.email_confirmed_at);
@@ -104,11 +106,11 @@ export default function Settings() {
         <div className="account-personal-grid">
           <div className="account-identity"><div className="account-photo-wrap"><button type="button" aria-label="Mag-upload ng profile photo" onClick={() => input.current?.click()} disabled={upload.isPending} className="account-avatar">{profile?.avatar_url ? <img src={profile.avatar_url} alt="Profile photo" /> : initials}</button><span className="account-camera" aria-hidden="true"><Camera size={18} /></span></div><div className="account-identity-name"><h3>{displayName}</h3><span>Parent</span></div><p>Magulang na laging suporta sa paglalakbay sa pagbasa ng anak.</p></div>
           <input ref={input} type="file" accept="image/png,image/jpeg,image/webp" aria-label="Larawan ng profile" className="sr-only" onChange={(event) => { const file = event.target.files?.[0]; if (file) upload.mutate(file); event.target.value = ''; }} />
-          <form className="account-fields" onSubmit={event=>{event.preventDefault();if(!contact.isPending)contact.mutate();}}>
+          <form className="account-fields" onSubmit={event=>{event.preventDefault();if(!contact.isPending && contactChanged)contact.mutate();}}>
             <label>Buong Pangalan<input aria-label="Buong Pangalan" required minLength={2} maxLength={100} value={draftName ?? displayName} onChange={event=>{setDraftName(event.target.value);if(!contact.isPending)contact.reset();}} disabled={contact.isPending}/></label>
             <label>Mobile Number<input aria-label="Mobile Number" type="tel" maxLength={25} value={draftPhone ?? profile?.phone_number ?? ''} onChange={event=>{setDraftPhone(event.target.value);if(!contact.isPending)contact.reset();}} disabled={contact.isPending}/></label>
             <p><Mail aria-hidden="true"/>{user?.email}</p>
-            <p>Magulang</p><button className="account-primary" disabled={contact.isPending || !profile} type="submit">{contact.isPending?'Sine-save...':'I-save ang Profile'}</button>
+            <p>Magulang</p><button className="account-primary" disabled={contact.isPending || !profile || !contactChanged} type="submit">{contact.isPending?'Sine-save...':'I-save ang Profile'}</button>
             {contact.error && <p role="alert">{tagalogError(contact.error)}</p>}
           </form><EmailChangeForm/>
         </div>

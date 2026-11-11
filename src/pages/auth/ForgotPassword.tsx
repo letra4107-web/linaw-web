@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { LockKeyhole, Mail, ShieldCheck } from 'lucide-react';
-import { supabase } from '../../lib/supabaseClient';
+import { api } from '../../lib/api';
+import { tagalogError } from '../../lib/validationMessages';
 import logo from '../../assets/Logo.jpg';
 import leftImage from '../../assets/left.png';
 import { ButtonSpinner, FieldError, isValidEmail } from '../../components/auth/AuthShell';
@@ -24,12 +25,10 @@ export default function ForgotPassword() {
 
     setSubmitting(true);
     try {
-      const { error: resetError } = await supabase.auth.resetPasswordForEmail(cleanEmail);
-      if (resetError) throw resetError;
+      await api('/auth/request-password-reset', {method:'POST',body:{email:cleanEmail}});
       navigate('/reset-password', { state: { email: cleanEmail } });
-    } catch {
-      // Continue to the same OTP screen to avoid revealing account existence.
-      navigate('/reset-password', { state: { email: cleanEmail } });
+    } catch (error) {
+      setError(tagalogError(error));
     } finally {
       setSubmitting(false);
     }
@@ -56,13 +55,13 @@ export default function ForgotPassword() {
         </div>
         <h1 className="auth-forgot-title mt-4">Nakalimutan ang Password?</h1>
         <p className="auth-forgot-description mx-auto mt-3 max-w-sm">
-          Huwag mag-alala. Ilagay ang email na ginamit mo sa LinawLetra at padadalhan ka namin ng 6-digit na code upang makagawa ng bagong password.
+          Huwag mag-alala. Ilagay ang email na ginamit mo sa LinawLetra at padadalhan ka namin ng 6 o 8-digit na code upang makagawa ng bagong password.
         </p>
 
         <section className="auth-forgot-card mt-6 text-left">
           <form onSubmit={onSubmit} className="flex flex-col gap-4" noValidate>
             <div>
-              <label htmlFor="email" className="mb-2 block text-xs font-bold tracking-[0.08em] uppercase">Email</label>
+              <label htmlFor="email" className="mb-2 block text-xs font-bold tracking-[0.08em] uppercase">Email o Student Username</label>
               <div className="relative">
                 <Mail className="pointer-events-none absolute top-1/2 left-4 h-5 w-5 -translate-y-1/2 text-[var(--color-primary-hover)]" aria-hidden="true" />
                 <input
@@ -83,7 +82,7 @@ export default function ForgotPassword() {
               {submitting ? 'Ipinapadala...' : 'Ipadala ang Code'}
             </button>
             <p className="auth-forgot-helper text-center">
-              Kung may account na nakarehistro sa email na ito, makakatanggap ka ng 6-digit na reset code. Tingnan din ang iyong spam folder.
+              Kung may account na nakarehistro sa email na ito, makakatanggap ka ng 6 o 8-digit na reset code. Para sa student username, sa email ng naka-link na magulang ito ipapadala. Tingnan din ang spam folder.
             </p>
           </form>
         </section>
