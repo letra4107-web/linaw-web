@@ -13,6 +13,8 @@ const { credentialLimiter } = require('../lib/rateLimiters');
 const { safeCredentialStatus } = require('../services/credentialSecurity');
 const { createMaterialAccessService } = require('../services/materialAccess');
 const { createMessageProfilePhotoService } = require('../services/messageProfilePhotos');
+const {normalizeChildName,enrollmentNameKey,childEnrollmentExists,isDuplicateChildEnrollment,duplicateChildMessage}=require('../services/childEnrollment');
+const pendingEnrollments=new Set();
 
 const router = express.Router();
 router.use(requireAuth, requireRole('parent'));
@@ -36,8 +38,6 @@ const difficultyFromGrade = (gradeLevel) => {
   if (gradeLevel <= 4) return 'Intermediate';
   return 'Advanced';
 };
-
-const escapeIlikePattern = (value) => String(value || '').replace(/[\\%_]/g, (match) => `\\${match}`);
 
 const makeStudentUsernameBase = (name) => {
   const parts = String(name || '')
@@ -140,28 +140,23 @@ router.patch('/children/:id',validateUuidParam('id'),async(req,res)=>{
 // POST /parent/children  { childName, gradeLevel }
 router.post('/children', async (req, res) => {
   let createdAuthUid = null;
+  let enrollmentKey=null;
   try {
     const parentId = req.user.id;
     const parentEmail = req.user.email;
     const { childName, gradeLevel } = req.body || {};
-    const cleanName = String(childName || '').trim();
+    const cleanName = normalizeChildName(childName);
     const finalGradeLevel = Number(gradeLevel);
 
     if (!parentEmail || typeof childName !== 'string' || cleanName.length < 2 || cleanName.length > 100 || !isGrade(gradeLevel)) {
       return res.status(400).json({ error: "Kailangan ang pangalan at baitang mula 1 hanggang 6." });
     }
 
-    const { data: existingEnrollment, error: existingErr } = await supabaseAdmin
-      .from('children')
-      .select('id')
-      .eq('parent_id', parentId)
-      .eq('grade_level', finalGradeLevel)
-      .ilike('name', escapeIlikePattern(cleanName))
-      .limit(1)
-      .maybeSingle();
-    if (existingErr) throw existingErr;
-    if (existingEnrollment) {
-      return res.status(409).json({ error: 'Naka-enroll na ang mag-aaral na ito sa grade level na ito.' });
+    const key=JSON.stringify([parentId,finalGradeLevel,enrollmentNameKey(cleanName)]);
+    if(pendingEnrollments.has(key))return res.status(409).json({success:false,code:'ENROLLMENT_IN_PROGRESS',error:'Ini-enroll na ang anak na ito. Hintaying matapos ang kasalukuyang kahilingan.'});
+    pendingEnrollments.add(key);enrollmentKey=key;
+    if (await childEnrollmentExists(supabaseAdmin,parentId,cleanName,finalGradeLevel)) {
+      return res.status(409).json({success:false,code:'STUDENT_ALREADY_EXISTS',message:duplicateChildMessage,error:duplicateChildMessage});
     }
 
     // Every learner begins with the foundation path. Higher difficulties are
@@ -276,7 +271,10 @@ router.post('/children', async (req, res) => {
         }
       }
     }
+    if(isDuplicateChildEnrollment(err))return res.status(409).json({success:false,code:'STUDENT_ALREADY_EXISTS',message:duplicateChildMessage,error:duplicateChildMessage});
     res.status(500).json({ error: 'Hindi na-enroll ang bata.' });
+  } finally {
+    if(enrollmentKey)pendingEnrollments.delete(enrollmentKey);
   }
 });
 
