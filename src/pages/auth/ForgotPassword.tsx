@@ -1,7 +1,7 @@
 import {showFormFeedback} from '../../lib/formFeedback';
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { LockKeyhole, Mail, ShieldCheck } from 'lucide-react';
+import { ArrowLeft, LockKeyhole, Mail, ShieldCheck } from 'lucide-react';
 import { api } from '../../lib/api';
 import { tagalogError } from '../../lib/validationMessages';
 import logo from '../../assets/Logo.jpg';
@@ -49,6 +49,10 @@ export default function ForgotPassword() {
       </aside>
 
       <div className="auth-shell-content auth-forgot-content relative flex min-h-screen flex-col justify-center overflow-hidden px-5 py-8 sm:px-8">
+        <Link to="/login" className="absolute top-5 left-5 z-20 inline-flex min-h-11 items-center justify-center gap-2 rounded-full border-2 border-[#6f58c9] bg-[#fffdf9] px-4 py-2 text-sm font-bold text-[#4f3ba8] shadow-sm transition-colors hover:bg-[#eee8ff] focus-visible:outline-3 focus-visible:outline-offset-3 focus-visible:outline-[#6f58c9] sm:left-8">
+          <ArrowLeft className="h-5 w-5" aria-hidden="true" />
+          Bumalik sa Login
+        </Link>
         <div className="auth-forgot-mobile-scene -mx-5 mb-7 sm:-mx-8 lg:hidden"><img src={leftImage} alt="" aria-hidden="true" /></div>
       <div className="auth-forgot-panel relative z-10 mx-auto w-full max-w-md text-center">
         <p className="auth-forgot-badge">KAYA NATIN ITO!</p>
@@ -89,7 +93,6 @@ export default function ForgotPassword() {
           </form>
         </section>
 
-        <Link to="/login" className="auth-forgot-back mt-6 inline-flex items-center gap-1 text-sm font-bold">← Bumalik sa Login</Link>
         <p className="auth-forgot-privacy mt-5 flex items-center justify-center gap-2"><ShieldCheck className="h-4 w-4" aria-hidden="true" />Ligtas at pribado ang iyong impormasyon.</p>
       </div>
       </div>
