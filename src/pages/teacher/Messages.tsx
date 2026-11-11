@@ -29,7 +29,7 @@ function ParentAvatar({ small = false, url, name }: { small?: boolean; url?: str
 
 function ReplyAttachment({ path, name, author }: { path: string; name: string; author: 'parent' | 'teacher' }) {
   const [url, setUrl] = useState('');
-  const access = useMutation({ mutationFn: async () => {
+  const access = useMutation({meta:{silentFeedback:true}, mutationFn: async () => {
     const { data, error } = await supabase.storage.from('parent-message-files').createSignedUrl(path, 60);
     if (error || !data?.signedUrl) throw new Error('Hindi mabuksan ang file. Subukan muli.');
     return data.signedUrl;
@@ -98,11 +98,11 @@ export default function TeacherMessages() {
   const draft = drafts[selectedId] ?? '', childId = childChoices[selectedId] || selectedParent?.children[0]?.id || '';
   const attachment = attachments[selectedId] ?? null;
   useEffect(() => { if (attachmentInput.current) attachmentInput.current.value = ''; }, [selectedId]);
-  const markRead = useMutation({ mutationFn: async (parentId:string) => {
+  const markRead = useMutation({meta:{silentFeedback:true}, mutationFn: async (parentId:string) => {
     const { error } = await supabase.from('parent_teacher_replies').update({ read:true }).eq('teacher_id', user!.id).eq('parent_id',parentId).eq('read',false);
     if (error) throw error;
   }, onSuccess: () => queryClient.invalidateQueries({ queryKey:['teacher-parent-message-replies'] }) });
-  const send = useMutation({ mutationFn: async ({ parentId,childId,text,file }: { parentId:string; childId:string; text:string; raw:string; file:File|null }) => {
+  const send = useMutation({meta:{saveFeedback:"Naipadala ang mensahe."}, mutationFn: async ({ parentId,childId,text,file }: { parentId:string; childId:string; text:string; raw:string; file:File|null }) => {
     if (!parents.some(parent => parent.parentId === parentId && parent.children.some(child => child.id === childId))) throw new Error('Pumili muna ng magulang at mag-aaral.');
     if (!text && !file) throw new Error('Sumulat muna ng mensahe o pumili ng file.');
     let attachmentPath: string | null = null;

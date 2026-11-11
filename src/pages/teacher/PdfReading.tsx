@@ -74,7 +74,7 @@ function EditForm({ material, onSaved, onCancel }: { material: PdfMaterial; onSa
   const [error, setError] = useState<string | null>(null);
   const changed=title.trim()!==material.title.trim()||gradeLevel!==(material.grade_level!=null?String(material.grade_level):'')||level!==(material.level??'');
 
-  const save = useMutation({
+  const save = useMutation({meta:{saveFeedback:"Na-save ang materyal."},
     mutationFn: () =>
       api(`/teacher/pdf/${material.id}`, {
         method: 'PATCH',
@@ -203,7 +203,7 @@ export default function PdfReading() {
     enabled: Boolean(user),
   });
 
-  const upload = useMutation({
+  const upload = useMutation({meta:{saveFeedback:"Na-upload ang materyal."},
     mutationFn: async () => {
       if (!file) throw new Error('Pumili ng PDF file.');
       if (!title.trim()) throw new Error("Kailangan ang pamagat.");
@@ -245,7 +245,7 @@ export default function PdfReading() {
     onSettled: () => { uploadGuard.current = false; },
   });
 
-  const assign = useMutation({
+  const assign = useMutation({meta:{saveFeedback:"Na-assign ang materyal sa mag-aaral."},
     mutationFn: async ({ materialId, studentId, dueDate }: { materialId: string; studentId: string; dueDate: string; studentName: string }) => {
       const { error: err } = await supabase.from('pdf_assignments').insert({
         pdf_material_id: materialId,
@@ -260,13 +260,13 @@ export default function PdfReading() {
     onSettled: () => { assignGuard.current = false; },
   });
 
-  const archive = useMutation({
+  const archive = useMutation({meta:{saveFeedback:"Na-archive ang materyal."},
     mutationFn: (materialId: string) => api(`/teacher/pdf/${materialId}/archive`, { method: 'POST', auth: true }),
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ['pdf-materials'] }),
     onError: (err: Error) => setError(tagalogError(err)),
   });
 
-  const unarchive = useMutation({
+  const unarchive = useMutation({meta:{saveFeedback:"Na-restore ang materyal."},
     mutationFn: (materialId: string) => api(`/teacher/pdf/${materialId}/unarchive`, { method: 'POST', auth: true }),
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ['pdf-materials'] }),
     onError: (err: Error) => setError(tagalogError(err)),

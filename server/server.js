@@ -83,6 +83,7 @@ app.get('/api/health', (_req, res) => res.json({
   commit,
   apiCompatibilityVersion,
 }));
+app.use('/api/auth',require('./routes/accountEmail'));
 app.use('/api/admin', adminRoutes);
 app.use('/api/learning-history', require('./routes/learningHistory'));
 app.use('/api/teacher', teacherRoutes);

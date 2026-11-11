@@ -2,6 +2,8 @@ const express = require('express');
 const { temporaryPassword } = require('../lib/temporaryPassword');
 const { supabaseAdmin } = require('../config/supabase');
 const { sendMail } = require('../config/mailer');
+const {teacherAccountEmail}=require('../lib/emailTemplates');
+const {accountEmailInUse,duplicateEmailMessage}=require('../services/accountEmail');
 const { requireAuth, requireRole } = require('../middleware/auth');
 const { validateUuidParam, isUuid, isGrade, isBoundedString } = require('../lib/validation');
 const { summarizeCredentialSecurity } = require('../services/credentialSecurity');
@@ -502,7 +504,13 @@ router.post('/teachers', async (req, res) => {
       return res.status(400).json({ error: "Pumili ng kahit isang wastong baitang mula 1 hanggang 6." });
     }
 
+    if(await accountEmailInUse(supabaseAdmin,cleanEmail))return res.status(409).json({error:duplicateEmailMessage});
     const password = temporaryPassword();
+    // Own a newly created identity before issuing any signup link. A link can
+    // otherwise return an existing unverified identity and overwrite its role.
+    const account=await supabaseAdmin.auth.admin.createUser({email:cleanEmail,password,email_confirm:false,user_metadata:{role:'teacher',full_name:cleanName}});
+    if(account.error){if(['email_exists','user_already_exists','23505'].includes(account.error.code)||/already.*(?:registered|exists|in use)/i.test(account.error.message))return res.status(409).json({error:duplicateEmailMessage});throw account.error;}
+    createdTeacherId=account.data.user.id;
 
     // `createUser` deliberately does not send a confirmation message. Generate
     // a signup OTP instead so a new teacher must prove control of their email
@@ -513,8 +521,8 @@ router.post('/teachers', async (req, res) => {
       password,
       options: { data: { role: 'teacher', full_name: cleanName } },
     });
-    if (createErr) { if (['email_exists','user_already_exists'].includes(createErr.code) || /already.*registered|already.*exists/i.test(createErr.message)) return res.status(409).json({error:'May account nang gumagamit ng email na ito. Gumamit ng ibang email.'}); throw createErr; }
-    createdTeacherId = created.user.id;
+    if(createErr)throw createErr;
+    if(created.user?.id!==createdTeacherId)throw Error('Teacher verification identity mismatch');
 
     const teacherId = created.user.id;
     const verificationCode = created.properties?.email_otp;
@@ -557,6 +565,7 @@ router.post('/teachers', async (req, res) => {
     await sendMail({
       to: cleanEmail,
       subject: 'LinawLetra — I-verify ang Inyong Teacher Account',
+      html:teacherAccountEmail({name:cleanName,email:cleanEmail,password,verificationCode}),
       text: `Magandang araw, ${cleanName}!\n\nNakagawa na ang inyong teacher account sa LinawLetra.\n\nEmail: ${cleanEmail}\nTemporary password: ${password}\nVerification code: ${verificationCode}\n\nMag-login gamit ang email at temporary password, pagkatapos ay ilagay ang verification code para ma-activate ang account. Mangyaring palitan agad ang password para sa seguridad. Itago ang detalyeng ito nang lihim.`,
     });
 

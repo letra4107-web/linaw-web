@@ -28,7 +28,7 @@ const dateShort = (value: string) => new Intl.DateTimeFormat('fil-PH', { month: 
 
 function AttachmentLink({ path, name }: { path: string; name: string }) {
   const [url, setUrl] = useState<string | null>(null);
-  const access = useMutation({
+  const access = useMutation({meta:{silentFeedback:true},
     mutationFn: async () => {
       const { data, error } = await supabase.storage.from('parent-message-files').createSignedUrl(path, 60);
       if (error || !data?.signedUrl) throw new Error(tagalogError(error) ?? 'Hindi mabuksan ang attachment.');
@@ -91,7 +91,7 @@ export default function ParentMessages() {
       return Object.fromEntries((data ?? []).map((teacher) => [teacher.id, teacher.name ?? 'Guro']));
     }, enabled: teacherIds.length > 0,
   });
-  const markRead = useMutation({ mutationFn: async (ids: string[]) => { if (!ids.length) return; const { error: updateError } = await supabase.from('teacher_messages').update({ read: true }).in('id', ids).eq('parent_id', user!.id); if (updateError) throw updateError; }, onSuccess: () => queryClient.invalidateQueries({ queryKey: ['parent-messages'] }) });
+  const markRead = useMutation({ meta:{silentFeedback:true}, mutationFn: async (ids: string[]) => { if (!ids.length) return; const { error: updateError } = await supabase.from('teacher_messages').update({ read: true }).in('id', ids).eq('parent_id', user!.id); if (updateError) throw updateError; }, onSuccess: () => queryClient.invalidateQueries({ queryKey: ['parent-messages'] }) });
   const visibleMessages = useMemo(() => {
     const needle = search.trim().toLocaleLowerCase();
     return conversations.filter((conversation) => {
@@ -127,7 +127,7 @@ export default function ParentMessages() {
   const replies = replyResult?.rows;
   const attachmentsAvailable = replyResult?.attachmentsAvailable === true;
   const reactions = useMessageReactions(selected ? [...conversationMessages.map((message) => ({ kind: 'teacher' as const, id: message.id })), ...(replies ?? []).map((reply) => ({ kind: 'reply' as const, id: reply.id }))] : []);
-  const sendReply = useMutation({
+  const sendReply = useMutation({meta:{saveFeedback:"Naipadala ang mensahe."},
     mutationFn: async ({ thread, text, attachment: file, parentId }: ReplySubmission) => {
       let attachmentPath: string | null = null;
       try {

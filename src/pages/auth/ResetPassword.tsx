@@ -1,3 +1,4 @@
+import {showFormFeedback} from '../../lib/formFeedback';
 import { tagalogError } from '../../lib/validationMessages';
 import { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -47,6 +48,7 @@ export default function ResetPassword() {
     setSubmitting(true);
     try {
       await api('/auth/complete-password-reset',{method:'POST',body:{email:cleanEmail,code,password}});
+      showFormFeedback('Matagumpay na napalitan ang iyong password. Mag-login gamit ang bagong password.');
       navigate('/login', { replace: true });
     } catch (err) {
       setError(err instanceof Error ? tagalogError(err) : 'Hindi na-reset ang password. Humiling ulit ng code.');

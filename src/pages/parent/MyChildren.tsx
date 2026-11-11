@@ -129,7 +129,7 @@ export default function MyChildren() {
     queryFn: () => api<{ children: CredentialSecurity[] }>('/parent/children/credential-security', { auth: true }),
     enabled: Boolean(user),
   });
-  const enrollChild = useMutation({ meta: { saveFeedback: 'Na-save ang mga pagbabago.' },
+  const enrollChild = useMutation({ meta: { saveFeedback: 'Matagumpay na nai-enroll ang iyong anak.' },
     mutationFn: (details: { childName: string; gradeLevel: number }) => api<{ success: boolean; username: string; temporaryPassword: string; level: string; credentialsEmailSent?: boolean }>('/parent/children', { method: 'POST', auth: true, body: details }),
     onSuccess: (result, details) => {
       setSuccessMsg(`Nai-enroll si ${details.childName} bilang ${result.username} (${result.level} level).`);
@@ -156,7 +156,7 @@ export default function MyChildren() {
     queryFn: () => api<{ settings: StudentAccessibility }>(`/parent/children/${accessOpenId}/settings`, { auth: true }),
     enabled: Boolean(accessOpenId),
   });
-  const updateAccess = useMutation({ meta: { saveFeedback: 'Na-save ang mga pagbabago.' },
+  const updateAccess = useMutation({ meta:{saveFeedback:"Na-save ang reading support."},
     mutationFn: ({ childId: targetChildId, patch }: { childId: string; patch: Partial<StudentAccessibility> }) => api(`/parent/children/${targetChildId}/settings`, { method: 'PATCH', auth: true, body: patch }),
     onSuccess: (_result, { childId: targetChildId }) => queryClient.invalidateQueries({ queryKey: ['child-accessibility', targetChildId] }),
     onError: (err: Error) => setError(tagalogError(err)),
@@ -168,7 +168,7 @@ export default function MyChildren() {
     setError(null);
     updateAccess.mutate({ childId: targetChildId, patch });
   };
-  const resetPassword = useMutation({ meta: { saveFeedback: 'Na-save ang mga pagbabago.' },
+  const resetPassword = useMutation({ meta:{saveFeedback:"Nagawa na ang bagong pansamantalang password."},
     mutationFn: (childId: string) => api<{ username: string; temporaryPassword: string; credentialsEmailSent?: boolean }>(`/parent/children/${childId}/reset-password`, { method: 'POST', auth: true }),
     onSuccess: (result, targetId) => { setTemporaryCredentials(current => rememberChildCredential(current, { username: result.username, password: result.temporaryPassword, childName: children?.find(child => child.id === targetId)?.name || 'Mag-aaral', emailSent: result.credentialsEmailSent })); setError(null); queryClient.invalidateQueries({ queryKey: ['parent-credential-security'] }); },
     onError: (err: Error) => setError(tagalogError(err)),

@@ -72,15 +72,17 @@ test('QA unavailable optional profile storage does not break login/logout', () =
   assert.doesNotThrow(() => profiles.saveAuthProfile(profile('student')));
 });
 
-function signupHarness(session) {
+function signupHarness(session,{available=true,identities=[{id:'fixture'}],lookupError=false}={}) {
   const state = ['Test', '', 'Parent', 'test@example.test', 'Password123', 'Password123', true];
   let cursor = 0;
   let destination;
   let writes = 0;
+  let signupCalls=0;
   const jsx = (type, props) => ({ type, props });
-  const client = { auth: { signUp: async () => ({ data: { user: { id: 'test-user' }, session }, error: null }) }, from() { writes++; return { upsert: async () => ({ error: session ? null : new Error('RLS denied') }) }; } };
+  const client = { auth: { signUp: async () => {signupCalls++;return { data: { user: { id: 'test-user',identities }, session }, error: null };} }, from() { writes++; return { upsert: async () => ({ error: session ? null : new Error('RLS denied') }) }; } };
   const { default: SignUp } = loadTs('src/pages/auth/SignUp.tsx', {
-    '../../lib/api':{api:async()=>({success:true})},
+    '../../lib/api':{api:async(path)=>{if(lookupError)throw Error('Hindi masuri ang email ngayon.');return path.endsWith('email-availability')?{available}:{success:true};}},
+    '../../lib/formFeedback':{showFormFeedback(){}},
     '../../lib/validationMessages': validationMessages,
     react: { useState(initial) { const index = cursor++; return [index < state.length ? state[index] : initial, (next) => { state[index] = next; }]; } },
     'react/jsx-runtime': { jsx, jsxs: jsx },
@@ -94,8 +96,13 @@ function signupHarness(session) {
     if (node.type === tag) return node;
     return [node.props?.children].flat(Infinity).map((child) => find(child, tag)).find(Boolean);
   }
-  return { submit: () => { cursor = 0; return find(SignUp(), 'form').props.onSubmit({ preventDefault() {} }); }, destination: () => destination, writes: () => writes, error: () => state[8] };
+  return { submit: () => { cursor = 0; return find(SignUp(), 'form').props.onSubmit({ preventDefault() {} }); }, destination: () => destination, writes: () => writes, error: () => state[8],signupCalls:()=>signupCalls };
 }
+
+test('signup blocks reused inboxes and lookup outages before Auth or profile writes',async()=>{
+ for(const options of [{available:false},{lookupError:true}]){const h=signupHarness(null,options);await h.submit();assert.equal(h.signupCalls(),0);assert.equal(h.writes(),0);assert.equal(h.destination(),undefined);assert.ok(h.error());}
+});
+test('signup rejects an obscured existing Auth identity without touching its profile or claiming success',async()=>{const h=signupHarness(null,{identities:[]});await h.submit();assert.equal(h.writes(),0);assert.equal(h.destination(),undefined);assert.match(h.error(),/May account nang/);});
 test('QA signup without a session reaches verification without an unauthenticated profile write', async () => {
   const harness = signupHarness(null);
   await harness.submit();

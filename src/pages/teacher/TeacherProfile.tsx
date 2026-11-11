@@ -26,16 +26,16 @@ export default function TeacherProfile() {
   const fileInput = useRef<HTMLInputElement>(null), photoGuard = useRef(false), saveGuard = useRef(false), passwordGuard = useRef(false);
   const profile = useQuery({ queryKey:['teacher-profile-settings',user?.id],queryFn:async () => { const {data,error} = await supabase.from('teacher_profiles').select('grade_levels, avatar_url').eq('user_id',user!.id).maybeSingle(); if(error)throw error; return data as Profile | null; },enabled:Boolean(user) });
   const name = editedName ?? identity?.displayName ?? '', grades = profile.data?.grade_levels ?? [], gradeOptions = [...new Set([1,2,3,4,...grades])].sort((a,b)=>a-b);
-  const save = useMutation({ meta: { saveFeedback: 'Na-save ang mga pagbabago.' }, mutationFn:async (submitted:string) => { if (!submitted.trim())throw new Error('Ilagay ang iyong pangalan.'); if (submitted.trim() === (identity?.displayName ?? '').trim()) throw new Error('Walang binagong pangalan na ise-save.'); const {data,error} = await supabase.from('users').update({name:submitted.trim()}).eq('id',user!.id).select('id').single(); if(error || !data)throw new Error('Hindi na-save ang pangalan. Subukan muli.'); },onSuccess:async (_data,submitted) => { setProfileNotice('Na-save ang iyong profile.'); await refreshIdentity(); setEditedName(value => value === submitted ? null:value); },onSettled:()=>{saveGuard.current=false;} });
+  const save = useMutation({ meta:{saveFeedback:"Profile updated successfully"}, mutationFn:async (submitted:string) => { if (!submitted.trim())throw new Error('Ilagay ang iyong pangalan.'); if (submitted.trim() === (identity?.displayName ?? '').trim()) throw new Error('Walang binagong pangalan na ise-save.'); const {data,error} = await supabase.from('users').update({name:submitted.trim()}).eq('id',user!.id).select('id').single(); if(error || !data)throw new Error('Hindi na-save ang pangalan. Subukan muli.'); },onSuccess:async (_data,submitted) => { setProfileNotice('Na-save ang iyong profile.'); await refreshIdentity(); setEditedName(value => value === submitted ? null:value); },onSettled:()=>{saveGuard.current=false;} });
   const passwordChecks = [['Hindi bababa sa 8 karakter',next.length>=8],['May malaking letra (A–Z)',/[A-Z]/.test(next)],['May maliit na letra (a–z)',/[a-z]/.test(next)],['May numero (0–9)',/[0-9]/.test(next)],['May natatanging simbolo (!@#)',/[^A-Za-z0-9]/.test(next)]] as const;
-  const password = useMutation({ meta: { saveFeedback: 'Na-save ang mga pagbabago.' }, mutationFn:async () => {
+  const password = useMutation({ meta:{saveFeedback:"Na-update ang iyong password."}, mutationFn:async () => {
     if (!passwordChecks.every(([,met])=>met))throw new Error("Sundin ang lahat ng kinakailangan sa password.");
     if (next !== confirm)throw new Error('Hindi magkatugma ang bagong password.');
     if (next === current)throw new Error('Gumamit ng bagong password na iba sa kasalukuyan.');
     await verifyAccountPassword(user!.email!,current,user!.id);
     const updated = await supabase.auth.updateUser({password:next}); if(updated.error)throw new Error('Hindi na-update ang password. Subukan muli.');
   },onSuccess:()=>{setCurrent('');setNext('');setConfirm('');setPasswordNotice('Na-update ang password.');},onSettled:()=>{passwordGuard.current=false;} });
-  const upload = useMutation({ meta: { saveFeedback: 'Na-save ang mga pagbabago.' }, mutationFn:async (file:File) => {
+  const upload = useMutation({ meta:{saveFeedback:"Na-update ang profile photo."}, mutationFn:async (file:File) => {
     if (!['image/png','image/jpeg','image/webp'].includes(file.type) || !file.size || file.size>2*1024*1024)throw new Error('Pumili ng PNG, JPG, o WEBP na hanggang 2 MB.');
     const bitmap = await createImageBitmap(file).catch(()=>null); if(!bitmap)throw new Error('Hindi mabuksan ang larawan. Pumili ng ibang file.'); bitmap.close();
     const extension = {'image/png':'png','image/jpeg':'jpg','image/webp':'webp'}[file.type];
@@ -44,7 +44,7 @@ export default function TeacherProfile() {
     const {data:url} = supabase.storage.from('teacher-avatars').getPublicUrl(path);
     const {data,error} = await supabase.from('teacher_profiles').update({avatar_url:url.publicUrl}).eq('user_id',user!.id).select('user_id').single(); if(error || !data)throw new Error('Hindi ma-save ang larawan sa profile. Subukan muli.');
   },onSuccess:()=>{setPhotoError('');setProfileNotice('Na-update ang profile photo.');void queryClient.invalidateQueries({queryKey:['message-profile-photos']});void queryClient.invalidateQueries({queryKey:['teacher-profile-settings']});},onError:(error:Error)=>setPhotoError(tagalogError(error)),onSettled:()=>{photoGuard.current=false;} });
-  const download = useMutation({ meta: { saveFeedback: 'Na-save ang mga pagbabago.' }, mutationFn:async () => {
+  const download = useMutation({ meta:{saveFeedback:"Na-download ang iyong account data."}, mutationFn:async () => {
     if (profile.error)throw new Error('I-load muna ang profile bago mag-download.');
     const results = await Promise.all([supabase.from('lessons').select('id, title, description').eq('teacher_id',user!.id),supabase.from('teacher_messages').select('id, parent_id, child_id, message, read, created_at').eq('teacher_id',user!.id)]);
     if(results.some(result=>result.error))throw new Error('Hindi makuha ang iyong data. Subukan muli.');

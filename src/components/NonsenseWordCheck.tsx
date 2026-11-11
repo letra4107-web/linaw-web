@@ -48,7 +48,7 @@ export function NonsenseWordCheck({ moduleId }: NonsenseWordCheckProps) {
     queryFn: () => api<NonsenseCheckResponse>(`/student/learn/module/${moduleId}/nonsense-check`, { auth: true }),
   });
 
-  const submitMutation = useMutation({
+  const submitMutation = useMutation({meta:{silentFeedback:true},
     mutationFn: () =>
       api<SubmitResponse>(`/student/learn/module/${moduleId}/nonsense-check/submit`, {
         method: 'POST',

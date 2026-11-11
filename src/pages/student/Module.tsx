@@ -76,7 +76,7 @@ export default function Module() {
     enabled: Boolean(moduleId),
   });
 
-  const submitAttempt = useMutation({
+  const submitAttempt = useMutation({meta:{silentFeedback:true},
     mutationFn: async ({ item, transcript, moduleId: attemptModuleId }: { item: ModuleItem; transcript: string; moduleId:string }) => {
       const saved=await recordVerifiedAnswer({contentId:item.content_id,transcript,source:'practice'});
       const res={...saved.result,rewardMessage:practiceRewardMessage(saved),newlyUnlockedBadges:saved.newlyPersistedAchievementIds,levelAdvancedTo:null};

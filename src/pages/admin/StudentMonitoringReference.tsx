@@ -17,8 +17,8 @@ export default function StudentMonitoringReference({ users, selected, selectedId
   const client = useQueryClient();
   const notes = useQuery({ queryKey: ['admin-student-notes', selectedId], queryFn: () => api<{ notes: StudentNote[] }>(`/admin/monitoring/users/${selectedId}/notes`, { auth: true }), enabled: Boolean(selected) });
   const refreshNotes = () => client.invalidateQueries({ queryKey: ['admin-student-notes', selectedId] });
-  const addNote = useMutation({ mutationFn: () => api(`/admin/monitoring/users/${selectedId}/notes`, { method: 'POST', auth: true, body: { content: noteDraft } }), onSuccess: () => { setNoteDraft(''); void refreshNotes(); } });
-  const deleteNote = useMutation({ mutationFn: (id: string) => api(`/admin/monitoring/users/${selectedId}/notes/${id}`, { method: 'DELETE', auth: true }), onSuccess: refreshNotes });
+  const addNote = useMutation({ meta: {saveFeedback:"Na-save ang tala."}, mutationFn: () => api(`/admin/monitoring/users/${selectedId}/notes`, { method: 'POST', auth: true, body: { content: noteDraft } }), onSuccess: () => { setNoteDraft(''); void refreshNotes(); } });
+  const deleteNote = useMutation({ meta: {saveFeedback:"Natanggal ang tala."}, mutationFn: (id: string) => api(`/admin/monitoring/users/${selectedId}/notes/${id}`, { method: 'DELETE', auth: true }), onSuccess: refreshNotes });
   useEffect(() => { setPage(1); setTab('modules'); setFilter('all'); setNoteDraft(''); }, [selectedId]);
   const visible = modules.filter(module => filter === 'all' || moduleState(module) === filter);
   const pages = Math.max(1, Math.ceil(visible.length / 5));

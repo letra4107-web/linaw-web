@@ -2,6 +2,7 @@ import test from 'node:test';import assert from 'node:assert/strict';import {loa
 function harness(code=''){
  const slots=[],calls=[],refs=[];let cursor=0,refCursor=0,destination;
  const {default:Verify}=loadTs('src/pages/auth/VerifyEmail.tsx',{
+ '../../lib/formFeedback':{showFormFeedback(){}},
  react:{useEffect(){},useState(initial){const i=cursor++;if(!(i in slots))slots[i]=i===1?[...code,...Array(8-code.length).fill('')]:initial;return[slots[i],value=>{slots[i]=value;}];},useRef(initial){const i=refCursor++;refs[i]??={current:initial};return refs[i];}},
  'react-router-dom':{Link:'a',useLocation:()=>({state:{email:'qa@example.test'}}),useNavigate:()=>path=>{destination=path;}},
  '../../lib/api':{api:async(path,options)=>{calls.push({path,...options});return{success:true};}},'../../lib/validationMessages':{tagalogError:e=>e.message},'../../components/auth/AuthShell':{isValidEmail:e=>e.includes('@')}

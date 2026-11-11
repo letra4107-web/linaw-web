@@ -29,9 +29,9 @@ export default function AdminUsers() {
   const { data, isLoading } = usersQuery;
   useEffect(() => setPage(1), [role, status]);
   const invalidate = () => queryClient.invalidateQueries({ queryKey: ['admin-users'] });
-  const disable = useMutation({ mutationFn: (payload: { id: string; reason: string }) => api(`/admin/users/${payload.id}/disable`, { method: 'POST', auth: true, body: { reason: payload.reason } }), onSuccess: () => { invalidate(); setReasonFor(null); setReason(''); }, onError: () => setError('Hindi na-disable ang account. Suriin ang pahintulot o subukan muli.') });
-  const restore = useMutation({ mutationFn: (id: string) => api(`/admin/users/${id}/restore`, { method: 'POST', auth: true }), onSuccess: invalidate, onError: () => setError('Hindi na-restore ang account. Subukan muli.') });
-  const archive = useMutation({ mutationFn: (payload: { id: string; reason: string }) => api(`/admin/users/${payload.id}/archive`, { method: 'POST', auth: true, body: { reason: payload.reason } }), onSuccess: () => { invalidate(); setReasonFor(null); setReason(''); }, onError: () => setError('Hindi na-archive ang account. Subukan muli.') });
+  const disable = useMutation({ meta: {saveFeedback:"Na-disable ang account."}, mutationFn: (payload: { id: string; reason: string }) => api(`/admin/users/${payload.id}/disable`, { method: 'POST', auth: true, body: { reason: payload.reason } }), onSuccess: () => { invalidate(); setReasonFor(null); setReason(''); }, onError: () => setError('Hindi na-disable ang account. Suriin ang pahintulot o subukan muli.') });
+  const restore = useMutation({ meta: {saveFeedback:"Na-restore ang account."}, mutationFn: (id: string) => api(`/admin/users/${id}/restore`, { method: 'POST', auth: true }), onSuccess: invalidate, onError: () => setError('Hindi na-restore ang account. Subukan muli.') });
+  const archive = useMutation({ meta: {saveFeedback:"Na-archive ang account."}, mutationFn: (payload: { id: string; reason: string }) => api(`/admin/users/${payload.id}/archive`, { method: 'POST', auth: true, body: { reason: payload.reason } }), onSuccess: () => { invalidate(); setReasonFor(null); setReason(''); }, onError: () => setError('Hindi na-archive ang account. Subukan muli.') });
   const allUsersQuery = useQuery({ queryKey: ['admin-users', '', ''], queryFn: () => api<{ users: UserRow[] }>('/admin/users?', { auth: true }), enabled: Boolean(role || status) });
   const allUsers = role || status ? allUsersQuery.data?.users ?? [] : data?.users ?? [];
   const users = data?.users ?? [];

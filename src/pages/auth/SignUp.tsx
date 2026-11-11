@@ -1,3 +1,4 @@
+import {showFormFeedback} from '../../lib/formFeedback';
 import { api } from '../../lib/api';
 import { tagalogError } from '../../lib/validationMessages';
 import { useState } from 'react';
@@ -79,6 +80,8 @@ export default function SignUp() {
       .join(' ');
     setSubmitting(true);
     try {
+      const availability=await api<{available:boolean}>('/auth/email-availability',{method:'POST',body:{email:cleanEmail}});
+      if(!availability.available)throw new Error('May account nang gumagamit ng email na ito. Gumamit ng ibang email o mag-login.');
       const { data, error: signUpError } = await supabase.auth.signUp({
         email: cleanEmail,
         password,
@@ -86,6 +89,7 @@ export default function SignUp() {
       });
       if (signUpError) throw signUpError;
       if (!data.user) throw new Error('Hindi nagawa ang account.');
+      if(data.user.identities?.length===0)throw new Error('May account nang gumagamit ng email na ito. Gumamit ng ibang email o mag-login.');
 
       // Email confirmation normally returns a user without a session. Profile
       // writes then fail RLS even though the Auth account was created. The
@@ -103,6 +107,7 @@ export default function SignUp() {
 
       let deliveryPending = false;
       if (data.session) try { await api('/auth/email-verification/request', {method:'POST',body:{email:cleanEmail,userId:data.user.id}}); } catch { deliveryPending = true; }
+      showFormFeedback('Nagawa na ang account. I-verify muna ang iyong email bago mag-login.');
       trackEvent('signup_completed', { role: ROLE });
 
       navigate('/verify-email', { state: { email: cleanEmail, userId: data.user.id, deliveryPending, otpSent: !deliveryPending } });

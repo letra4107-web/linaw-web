@@ -1,9 +1,10 @@
+import {showFormFeedback} from '../../lib/formFeedback';
 import './email-verification.css';
 import { tagalogError } from '../../lib/validationMessages';
 import { useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { ArrowRight, CheckCircle2, Lightbulb, Mail, MailCheck } from 'lucide-react';
-import { supabase } from '../../lib/supabaseClient';
+import { api } from '../../lib/api';
 import { isValidEmail } from '../../components/auth/AuthShell';
 import leftImage from '../../assets/left.png';
 import emailIllustration from '../../assets/email.png';
@@ -28,8 +29,8 @@ export default function ResendVerification() {
 
     setSubmitting(true);
     try {
-      const { error: resendError } = await supabase.auth.resend({ type: 'signup', email: cleanEmail });
-      if (resendError) throw resendError;
+      await api('/auth/email-verification/request',{method:'POST',body:{email:cleanEmail}});
+      showFormFeedback('Kung may account sa email na ito, naipadala na ang verification code.');
       setSent(true);
     } catch (err) {
       setError(err instanceof Error ? tagalogError(err) : 'Hindi maipadala ang code.');

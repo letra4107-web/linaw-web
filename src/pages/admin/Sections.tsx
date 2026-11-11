@@ -25,12 +25,12 @@ export default function Sections() {
   const [selectedStudentIds, setSelectedStudentIds] = useState<Set<string> | null>(null);
   const { data, isLoading } = useQuery({ queryKey: ['admin-sections'], queryFn: () => api<{ sections: Section[]; teachers: Teacher[] }>('/admin/sections', { auth: true }) });
   const rosterQuery = useQuery({ queryKey: ['admin-section-students', activeSection?.id], queryFn: () => api<SectionRoster>(`/admin/sections/${activeSection?.id}/students`, { auth: true }), enabled: Boolean(activeSection) });
-  const create = useMutation({
+  const create = useMutation({ meta: {saveFeedback:"Nagawa na ang seksyon."},
     mutationFn: () => api('/admin/sections', { method: 'POST', auth: true, body: { name, gradeLevel: Number(grade), adviserId: teacher } }),
     onSuccess: () => { setName(''); setTeacher(''); queryClient.invalidateQueries({ queryKey: ['admin-sections'] }); },
     onError: (reason: Error) => setError(tagalogError(reason)),
   });
-  const assignStudents = useMutation({
+  const assignStudents = useMutation({meta:{saveFeedback:"Na-update ang mga mag-aaral sa seksyon."},
     mutationFn: (studentIds: string[]) => api(`/admin/sections/${activeSection?.id}/students`, { method: 'POST', auth: true, body: { studentIds } }),
     onSuccess: () => { queryClient.invalidateQueries({ queryKey: ['admin-sections'] }); queryClient.invalidateQueries({ queryKey: ['admin-section-students', activeSection?.id] }); setActiveSection(null); setSelectedStudentIds(null); },
   });

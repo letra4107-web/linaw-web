@@ -14,7 +14,7 @@ export function PdfDrillReview({materialId,onPublished}:{materialId:string;onPub
   const query=useQuery({queryKey:['pdf-drill-items',materialId],queryFn:()=>api<DrillItemsResponse>(`/teacher/pdf-drill/${materialId}/items`,{auth:true}),refetchOnWindowFocus:false});
   const items=draft??query.data?.items,readOnly=query.data?.material.drill_status==='published';
   const changed=JSON.stringify(items)!==JSON.stringify(query.data?.items);
-  const action=useMutation({mutationFn:async({publish,rows}:{publish:boolean;rows:EditableDrillItem[]})=>{
+  const action=useMutation({meta:{saveFeedback:"Na-update ang reading drill."},mutationFn:async({publish,rows}:{publish:boolean;rows:EditableDrillItem[]})=>{
     if(readOnly)throw new Error('Nai-publish na ang drill. Gumawa ng bagong draft para sa mga pagbabago.');
     const values=prepareDrillItems(rows);
     if(publish&&!values.length)throw new Error('Magdagdag muna ng isang salita bago i-publish.');

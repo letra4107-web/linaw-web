@@ -6,6 +6,7 @@ const {sendMail,smtpConfigured}=require('../config/mailer');
 const {requireAuth,requireRole}=require('../middleware/auth');
 const {syncConfirmedStudentEmail}=require('../services/confirmedEmailAlias');
 const {otpEmailTemplate}=require('../services/otpEmailTemplate');
+const {accountEmailInUse,canonicalAccountEmail,duplicateEmailMessage}=require('../services/accountEmail');
 const validEmail=value=>typeof value==='string'&&value.length<=254&&/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
 const escapeHtml=value=>String(value).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const freshClient=()=>createClient(process.env.SUPABASE_URL,process.env.SUPABASE_ANON_KEY||process.env.SUPABASE_SERVICE_ROLE_KEY,{auth:{persistSession:false,autoRefreshToken:false}});
@@ -58,6 +59,7 @@ function createAccountRecoveryRouter({client=supabaseAdmin,mail=sendMail,verifie
   try{
    const checked=await auth.auth.signInWithPassword({email:current,password});
    if(checked.error||checked.data?.user?.id!==req.user.id)return res.status(400).json({error:'Hindi tama ang kasalukuyang password.'});
+   if(canonicalAccountEmail(email)===canonicalAccountEmail(current)||await accountEmailInUse(client,email,req.user.id))return res.status(409).json({error:duplicateEmailMessage});
    // Reauthenticate the current account, then prove control of the new inbox.
    // Use the actual action-link token: Auth's hashed_token field can differ.
    const options={redirectTo:'https://linawletra.com/login'};

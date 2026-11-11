@@ -19,7 +19,7 @@ import './lib/formFeedback.css';
 import { tagalogError } from './lib/validationMessages';
 const queryClient = new QueryClient({
   mutationCache: new MutationCache({
-    onSuccess: (_data, _variables, _context, mutation) => { if (typeof mutation.meta?.saveFeedback === 'string') showFormFeedback(mutation.meta.saveFeedback); },
+    onSuccess: (_data, _variables, _context, mutation) => { if(mutation.meta?.silentFeedback!==true)showFormFeedback(typeof mutation.meta?.saveFeedback==='string'?mutation.meta.saveFeedback:'Matagumpay na nakumpleto ang pagkilos.'); },
     onError: (error, _variables, _context, mutation) => { if (mutation.meta?.saveFeedback) showFormFeedback(tagalogError(error), false); },
   }),
   defaultOptions: {

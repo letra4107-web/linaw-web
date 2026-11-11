@@ -1,3 +1,4 @@
+import {showFormFeedback} from '../../lib/formFeedback';
 import './email-verification.css';
 import { tagalogError } from '../../lib/validationMessages';
 import { useEffect, useRef, useState } from 'react';
@@ -64,6 +65,7 @@ export default function VerifyEmail() {
     setSubmitting(true);
     try {
       await api('/auth/email-verification/verify', {method:'POST', body:{email:cleanEmail,code}});
+      showFormFeedback('Na-verify na ang iyong email. Maaari ka nang mag-login.');
       navigate('/login', { replace: true });
     } catch (err) {
       setError(err instanceof Error ? tagalogError(err) : 'Mali ang code. Subukan ulit.');
@@ -84,6 +86,7 @@ export default function VerifyEmail() {
     setResending(true);
     try {
       await api('/auth/email-verification/request', {method:'POST',body:{email:cleanEmail,userId:(location.state as {userId?:string}|null)?.userId}});
+      showFormFeedback('Kung may account sa email na ito, naipadala na muli ang verification code.');
       setDigits(Array(OTP_LENGTH).fill(''));
       inputs.current[0]?.focus();
       setResendMessage('Naipadala na muli ang verification code sa iyong email.');

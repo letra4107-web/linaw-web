@@ -71,14 +71,14 @@ export function useNotifications() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user?.id]);
 
-  const markAsRead = useMutation({
+  const markAsRead = useMutation({meta:{silentFeedback:true},
     mutationFn: async (id: string) => {
       await api(`/notifications/${id}/read`, { method: 'POST', auth: true });
     },
     onSuccess: () => queryClient.invalidateQueries({ queryKey }),
   });
 
-  const markAllAsRead = useMutation({
+  const markAllAsRead = useMutation({meta:{saveFeedback:"Namarkahan na bilang nabasa ang lahat ng abiso."},
     mutationFn: async () => {
       await api('/notifications/read-all', { method: 'POST', auth: true });
     },

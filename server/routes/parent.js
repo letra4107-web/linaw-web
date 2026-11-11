@@ -4,6 +4,7 @@ const bcrypt = require('bcryptjs');
 const { temporaryPassword } = require('../lib/temporaryPassword');
 const { supabaseAdmin } = require('../config/supabase');
 const { sendMail } = require('../config/mailer');
+const {childEnrollmentEmail,passwordResetEmail}=require('../lib/emailTemplates');
 const { requireAuth, requireRole } = require('../middleware/auth');
 const { buildReadingProfile } = require('../services/readingInsights');
 const { loadCompletedContentIds } = require('../services/readingProfileData');
@@ -241,6 +242,7 @@ router.post('/children', async (req, res) => {
     await sendMail({
       to: parentEmail,
       subject: `LinawLetra — Login ni ${cleanName}`,
+      html:childEnrollmentEmail({childName:cleanName,gradeLevel:finalGradeLevel,readingLevel:level,username:authEmail,password}),
       text: `Magandang araw!\n\nNaka-enroll na si ${cleanName} sa LinawLetra (Grade ${finalGradeLevel}, ${level} na reading level).\n\nUsername: ${authEmail}\nPassword: ${password}\n\nItago ang detalyeng ito.`,
     }).then(() => { credentialsEmailSent = true; }).catch((mailError) => console.error('[parent child enrollment email]', { code: mailError?.code }));
     if (credentialsEmailSent) {
@@ -485,6 +487,7 @@ router.post('/children/:id/reset-password', validateUuidParam('id'), credentialL
       await sendMail({
         to: req.user.email,
         subject: `LinawLetra — Bagong password ni ${child.name}`,
+      html:passwordResetEmail({childName:child.name,username:child.username,password}),
         text: `Na-reset ang password ni ${child.name}.\n\nUsername: ${child.username}\nTemporary password: ${password}\n\nMag-login at palitan ito. Hindi mai-retrieve ng LinawLetra ang lumang password.`,
       }).then(() => { credentialsEmailSent = true; }).catch((mailError) => console.error('[parent child reset email]', { code: mailError?.code }));
       if (credentialsEmailSent) {

@@ -87,7 +87,7 @@ function AssessmentSession({ assessmentId }: { assessmentId?: string }) {
     };
   }, []);
 
-  const startMutation = useMutation({
+  const startMutation = useMutation({meta:{silentFeedback:true},
     mutationFn: () => api<StartResponse>(`/student/learn/assessment/${assessmentId}/start`, { method: 'POST', auth: true }),
     onMutate: () => setError(null),
     onSuccess: (data) => { if (live.current) { setError(null); setStarted(data); } },
@@ -110,7 +110,7 @@ function AssessmentSession({ assessmentId }: { assessmentId?: string }) {
     promptRef.current?.focus({ preventScroll: true });
   }, [questionIndex]);
 
-  const recordAnswer = useMutation({
+  const recordAnswer = useMutation({meta:{silentFeedback:true},
     mutationFn: async (input: AnswerInput) => {
       const saved = await recordVerifiedAnswer({
         contentId: input.item.content_id, transcript: input.transcript, source: 'assessment',
@@ -146,7 +146,7 @@ function AssessmentSession({ assessmentId }: { assessmentId?: string }) {
     },
   });
 
-  const submitMutation = useMutation({
+  const submitMutation = useMutation({meta:{silentFeedback:true},
     mutationFn: () => api<SubmitResult & { newlyUnlockedBadges?: string[] }>(`/student/learn/assessment/${started!.attempt_id}/submit`, {
       method: 'POST', auth: true, body: { responses: Object.values(answers) },
     }),

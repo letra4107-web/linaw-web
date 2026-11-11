@@ -1,3 +1,4 @@
+import {showFormFeedback} from '../../lib/formFeedback';
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { LockKeyhole, Mail, ShieldCheck } from 'lucide-react';
@@ -26,6 +27,7 @@ export default function ForgotPassword() {
     setSubmitting(true);
     try {
       await api('/auth/request-password-reset', {method:'POST',body:{email:cleanEmail}});
+      showFormFeedback('Kung may account na nakarehistro, naipadala ang reset code. Tingnan din ang email ng naka-link na magulang para sa student username.');
       navigate('/reset-password', { state: { email: cleanEmail } });
     } catch (error) {
       setError(tagalogError(error));
