@@ -7,6 +7,7 @@ const {requireAuth,requireRole}=require('../middleware/auth');
 const {syncConfirmedStudentEmail}=require('../services/confirmedEmailAlias');
 const {otpEmailTemplate}=require('../services/otpEmailTemplate');
 const {accountEmailInUse,canonicalAccountEmail,duplicateEmailMessage}=require('../services/accountEmail');
+const {findExistingAuthEmail}=require('../services/existingAuthEmail');
 const validEmail=value=>typeof value==='string'&&value.length<=254&&/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
 const escapeHtml=value=>String(value).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const freshClient=()=>createClient(process.env.SUPABASE_URL,process.env.SUPABASE_ANON_KEY||process.env.SUPABASE_SERVICE_ROLE_KEY,{auth:{persistSession:false,autoRefreshToken:false}});
@@ -17,14 +18,19 @@ function createAccountRecoveryRouter({client=supabaseAdmin,mail=sendMail,verifie
  const failure=(res,error)=>{console.error('[account email]',{code:error?.code||error?.name});return res.status(503).json({error:'Hindi maipadala ang verification email ngayon. Subukan muli mamaya.'});};
  async function destination(email){
   const profile=await client.from('users').select('id,role').eq('email',email).maybeSingle();if(profile.error)throw profile.error;
-  if(!profile.data)return null;
-  const auth=await client.auth.admin.getUserById(profile.data.id);if(auth.error)throw auth.error;
-  if(auth.data?.user?.email?.toLowerCase()!==email)return null;
-  if(profile.data.role!=='student')return {email,id:profile.data.id};
-  const child=await client.from('children').select('parent_id').eq('auth_uid',profile.data.id).maybeSingle();if(child.error)throw child.error;
-  if(!child.data?.parent_id)return null;
+  let user;
+  if(profile.data){const auth=await client.auth.admin.getUserById(profile.data.id);if(auth.error)throw auth.error;user=auth.data?.user;}
+  else user=await findExistingAuthEmail(client,email);
+  if(!user?.id||user.email?.toLowerCase()!==email)return null;
+  if(profile.data&&profile.data.role!=='student')return {email,id:user.id};
+  // A missing profile is not permission to bypass a student's parent inbox.
+  const child=await client.from('children').select('parent_id').eq('auth_uid',user.id).maybeSingle();if(child.error)throw child.error;
+  if(!child.data?.parent_id){
+   const student=profile.data?.role==='student'||user.user_metadata?.role==='student'||email.endsWith('@linawletra.edu.ph');
+   return student?null:{email,id:user.id};
+  }
   const parent=await client.auth.admin.getUserById(child.data.parent_id);if(parent.error)throw parent.error;
-  return validEmail(parent.data?.user?.email)?{email:parent.data.user.email,id:profile.data.id}:null;
+  return validEmail(parent.data?.user?.email)?{email:parent.data.user.email,id:user.id}:null;
  }
  router.post('/request-password-reset',async(req,res)=>{
   const email=String(req.body?.email||'').trim().toLowerCase();if(!validEmail(email))return res.status(400).json({error:'Ilagay ang wastong email o buong student username.'});
