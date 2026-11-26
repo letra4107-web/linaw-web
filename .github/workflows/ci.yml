@@ -60,9 +60,9 @@ jobs:
           username: ${{ secrets.HOSTINGER_FTP_USERNAME }}
           password: ${{ secrets.HOSTINGER_FTP_PASSWORD }}
           local-dir: ./dist/
-          # This FTP account starts above the domain document root. Deploy the
-          # complete built site directly into the live Hostinger web folder.
-          server-dir: ./public_html/
+          # This FTP account is already rooted in the live public_html directory.
+          # Appending public_html creates a nested folder outside the live site.
+          server-dir: ./
           dangerous-clean-slate: false
       - name: Retry interrupted Hostinger upload
         if: steps.upload.outcome == 'failure'
@@ -72,5 +72,38 @@ jobs:
           username: ${{ secrets.HOSTINGER_FTP_USERNAME }}
           password: ${{ secrets.HOSTINGER_FTP_PASSWORD }}
           local-dir: ./dist/
-          server-dir: ./public_html/
+          server-dir: ./
           dangerous-clean-slate: false
+      - name: Verify live frontend
+        env:
+          SITE_URL: https://linawletra.com/
+        run: |
+          node --input-type=module <<'NODE'
+          import { readFileSync } from 'node:fs';
+          const site = process.env.SITE_URL;
+          const assets = [...readFileSync('dist/index.html', 'utf8').matchAll(/(?:src|href)="([^"\s]*\/assets\/[^"\s]+\.(?:js|css))"/g)].map(match => match[1]);
+          if (assets.length < 2) throw new Error('Built frontend entry assets were not found.');
+          let failure;
+          for (let attempt = 1; attempt <= 10; attempt++) {
+            try {
+              const url = new URL(site);
+              url.searchParams.set('deploycheck', `${process.env.GITHUB_SHA}-${Date.now()}`);
+              const response = await fetch(url, { headers: { 'Cache-Control': 'no-cache' }, signal: AbortSignal.timeout(15000) });
+              const html = await response.text();
+              if (!response.ok || assets.some(asset => !html.includes(asset))) throw new Error('The live site is still serving another frontend build.');
+              for (const asset of assets) {
+                const resource = await fetch(new URL(asset, site), { signal: AbortSignal.timeout(15000) });
+                const type = resource.headers.get('content-type') || '';
+                if (!resource.ok || !(asset.endsWith('.css') ? type.includes('text/css') : /javascript/.test(type))) throw new Error(`Live asset is unavailable: ${asset}`);
+                await resource.arrayBuffer();
+              }
+              console.log('Verified: the live site serves this build and its entry assets.');
+              process.exit(0);
+            } catch (error) {
+              failure = error;
+              console.log(`Live verification attempt ${attempt}/10: ${error.message}`);
+              if (attempt < 10) await new Promise(resolve => setTimeout(resolve, 10000));
+            }
+          }
+          throw failure;
+          NODE
