@@ -19,7 +19,7 @@ Open the repository on GitHub, then select **Settings → Secrets and variables 
 | `VITE_SUPABASE_ANON_KEY` | Production Supabase anon/public key. |
 | `VITE_API_URL` | `https://linawletra-production-409e.up.railway.app/api` |
 
-Use a dedicated FTP account limited to the website directory when Hostinger allows it. This project's FTP account is already rooted in the live `public_html` directory, so the workflow uses `server-dir: ./`. Adding `public_html/` creates a nested directory and leaves the live website unchanged. Do not add `public_html` to the secret host value. Do not use the Hostinger account password.
+Use a dedicated FTP account limited to the website directory when Hostinger allows it. The upload script tests the FTP login directory and its existing `public_html` child with a uniquely named temporary public probe. It uploads only to the directory whose probe is visible at `https://linawletra.com/`, then removes its probes. This handles both account root configurations without creating nested website directories. Do not add `public_html` to the secret host value. Do not use the Hostinger account password.
 
 ## Railway setup
 
@@ -33,7 +33,7 @@ In Railway, confirm the service is linked to `letra4107-web/linaw-web`, branch `
 4. Confirm `verify` succeeds, then confirm `Deploy web to Hostinger` succeeds, including its `Verify live frontend` step. This checks that the public site references the new build's entry assets and that those files are available with the correct content types.
 5. Verify the new frontend asset hash on `https://linawletra.com/` and the backend health endpoint.
 
-The deployment intentionally does not use `dangerous-clean-slate`; this avoids deleting Hostinger-owned files such as `.well-known`. Old hashed frontend assets can remain safely because `index.html` points only to the new hashes.
+The deployment uses `lftp` with reconnect and transfer retries. It uploads assets first and publishes `index.html` last. It does not delete old assets or Hostinger-owned files such as `.well-known`. Old hashed frontend assets can remain safely because `index.html` points only to the new hashes.
 
 ## Rollback
 
