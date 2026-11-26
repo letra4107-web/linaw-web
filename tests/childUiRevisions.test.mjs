@@ -6,7 +6,8 @@ function notificationsHarness() {
   let rows = [{id:'one',is_read:false,read:false},{id:'two',is_read:true,read:true}];
   const mutations=[],calls=[];
   const cache={cancelQueries:async()=>calls.push('cancel'),getQueryData:()=>rows,setQueryData:(_key,next)=>{rows=typeof next==='function'?next(rows):next;},invalidateQueries:async()=>calls.push('invalidate')};
-  const { useNotifications }=loadTs('src/lib/useNotifications.ts',{
+  // Hooks are replaced by synchronous test doubles in this isolated module.
+  const { useNotifications: evaluateNotifications }=loadTs('src/lib/useNotifications.ts',{
     react:{useEffect(){}},
     '@tanstack/react-query':{useQueryClient:()=>cache,useQuery:()=>({data:rows,isLoading:false}),useMutation:options=>{mutations.push(options);return options;}},
     './supabaseClient':{supabase:{}},'./auth/AuthContext':{useAuth:()=>({user:{id:'teacher'},identity:{role:'teacher'}})},
@@ -14,7 +15,7 @@ function notificationsHarness() {
     './notificationPreferences':{showParentInAppNotice:()=>true,showTeacherInAppNotice:()=>true},
     './teacher/useTeacherPreferences':{useTeacherPreferences:()=>({preferences:{notices:{}}})},
   });
-  useNotifications();return {mutation:mutations[1],rows:()=>rows,calls};
+  evaluateNotifications();return {mutation:mutations[1],rows:()=>rows,calls};
 }
 test('mark all read updates immediately and restores unread flags when persistence fails',async()=>{
  const h=notificationsHarness(),previous=h.rows();const context=await h.mutation.onMutate();

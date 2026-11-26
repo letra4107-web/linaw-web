@@ -1,6 +1,6 @@
 import { tagalogError } from '../../lib/validationMessages';
 import {canonicalAccountEmail} from '../../lib/accountEmail';
-﻿import { useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { Link } from 'react-router-dom';
 import { BookOpen, Check, ChevronRight, GraduationCap, Plus, UserPlus, UsersRound } from 'lucide-react';

@@ -31,6 +31,6 @@ try{
 }finally{await browser.close();}
 fs.writeFileSync('.qa/owl-world-sprite-regions.json',JSON.stringify(regions,null,2));
 const imports=sheets.map((sheet,index)=>"import sheet"+index+" from '../assets/illustrations/"+sheet.directory+"/"+sheet.file+"';").join('\n');
-const entries=Object.entries(regions).map(([name,value],index)=>' [sheet'+index+']: '+JSON.stringify(value)).join(',\n');
+const entries=Object.values(regions).map((value,index)=>' [sheet'+index+']: '+JSON.stringify(value)).join(',\n');
 fs.writeFileSync('src/lib/illustrationSprites.ts',imports+'\n\n/** Bounds measured from opaque artwork; transparent neighboring cells are excluded. */\nexport const ILLUSTRATION_SPRITES: Record<string, { width: number; height: number; cells: number[][] }> = {\n'+entries+'\n};\n');
 console.log('Measured complete artwork bounds for',Object.values(regions).reduce((n,s)=>n+s.cells.length,0),'illustrations');

@@ -154,7 +154,7 @@ try{
     console.log(JSON.stringify({role:'teacher',route:route||'home',width,height,headersAligned:true,sidebarFits:true,noHorizontalOverflow:true}));
    }
    await goto('/teacher/schedule');await page.locator('.teacher-calendar-list article').first().waitFor();
-   const month=page.getByRole('textbox',{name:'Buwan ng iskedyul'});const original=await page.locator('input[type=month]').inputValue();
+   const original=await page.locator('input[type=month]').inputValue();
    await page.getByRole('button',{name:'Susunod na buwan',exact:true}).click();assert.notEqual(await page.locator('input[type=month]').inputValue(),original);
    await page.getByRole('button',{name:'Naunang buwan',exact:true}).click();assert.equal(await page.locator('input[type=month]').inputValue(),original);
    await page.getByRole('button',{name:'Ngayon',exact:true}).click();
