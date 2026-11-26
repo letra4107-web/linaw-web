@@ -1,3 +1,4 @@
+import { SpriteArtwork } from '../../components/illustrations/SpriteArtwork';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { Link, useNavigate, useSearchParams } from 'react-router-dom';
@@ -6,9 +7,8 @@ import { supabase } from '../../lib/supabaseClient';
 import { useAuth } from '../../lib/auth/AuthContext';
 import { QueryErrorNotice } from '../../components/QueryErrorNotice';
 import { TeacherStudentDetails } from './TeacherStudentDetails';
-import studentPortraits from '../../assets/parent/home-decorations.png';
-import studentsBanner from '../../assets/teacher/students-classroom-banner.png';
-import teacherIllustration from '../../assets/teacher/Teacher Illustration.png';
+import studentPortraits from '../../assets/illustrations/role-themes/family-icons.png';
+import studentHeaderArtwork from '../../assets/illustrations/role-themes/educator-icons.png';
 import './students-reference.css';
 
 interface ChildRow { id: string; name: string; grade_level: number; username: string; }
@@ -26,7 +26,7 @@ function SelectionBox({ label, checked, mixed = false, disabled = false, onChang
 
 /** Storybook placeholders, never represented as a learner's uploaded photograph. */
 function StudentPortrait({ index }: { index: number }) {
-  return <span className={`ts-avatar ts-avatar-${index % 3}`} aria-hidden="true"><svg viewBox={index % 2 ? '660 55 567 548' : '25 30 575 580'} focusable="false"><image href={studentPortraits} width="1254" height="1254" /></svg></span>;
+  return <span className={`ts-avatar ts-avatar-${index % 3}`} aria-hidden="true"><SpriteArtwork source={studentPortraits} columns={2} rows={2} index={index % 2} /></span>;
 }
 
 export default function MyStudents() {
@@ -98,7 +98,14 @@ export default function MyStudents() {
   ];
 
   return <div className="teacher-students-design">
-    <header className="ts-hero"><img src={studentsBanner} className="ts-hero-art" alt="" aria-hidden="true" /><img className="ts-hero-teacher" src={teacherIllustration} alt="" aria-hidden="true" /><svg className="ts-hero-children" viewBox="1325 225 847 499" preserveAspectRatio="xMidYMin slice" aria-hidden="true" focusable="false"><image href={studentsBanner} width="2172" height="724" /></svg><div className="ts-hero-copy"><p>AKING MGA MAG-AARAL</p><h1>Our <span>students</span> <UsersRound aria-hidden /></h1><p>Manage, monitor, and support the learning progress<br className="ts-wide-break" /> of every student.</p></div><blockquote>“Bawat mag-aaral ay may natatanging kakayahan.<br /> Sama-sama tayong gumawa ng mas maliwanag na bukas!”<span aria-hidden>♥</span></blockquote></header>
+    <header className="ts-hero" aria-labelledby="ts-page-title">
+      <div className="ts-hero-copy">
+        <p><UsersRound aria-hidden="true" /> AKING KLASE</p>
+        <h1 id="ts-page-title">Mga Mag-aaral</h1>
+        <p>Subaybayan ang pag-unlad at gabayan ang bawat mag-aaral sa kanilang pagkatuto.</p>
+      </div>
+      <div className="ts-hero-visual" aria-hidden="true"><span className="ts-hero-books"><SpriteArtwork source={studentHeaderArtwork} columns={4} rows={2} index={1} /></span><span className="ts-hero-readers"><SpriteArtwork source={studentHeaderArtwork} columns={4} rows={2} index={0} /></span></div>
+    </header>
     <QueryErrorNotice error={dataError || recentQuery.error} onRetry={() => { void rosterQuery.refetch(); if (rosterIds.length) { void progressQuery.refetch(); void recentQuery.refetch(); } }} />
     <section className="ts-metrics" aria-label="Buod ng mga mag-aaral">{metrics.map(({ Icon, value, title, detail, tone, action, decoration: Decoration }) => <button type="button" className={`ts-metric ${tone}`} key={title} onClick={() => { action(); setPage(1); document.getElementById('ts-student-list')?.scrollIntoView({ block: 'nearest', behavior: 'auto' }); }} disabled={pending || Boolean(dataError) || !studentRows.length}><span className="ts-metric-icon"><Icon aria-hidden /></span><span className="ts-metric-copy"><b>{value}</b><strong>{title}</strong><small>{detail}</small></span><ChevronRight className="ts-metric-chevron" aria-hidden /><Decoration className="ts-metric-decoration" aria-hidden /></button>)}</section>
     <section className="ts-filters" aria-label="Hanapin at i-filter ang mga mag-aaral">
@@ -106,10 +113,10 @@ export default function MyStudents() {
       <label><GraduationCap aria-hidden /><span className="sr-only">Baitang</span><select aria-label="Baitang" value={gradeFilter} onChange={(event) => { setGradeFilter(event.target.value); setPage(1); }}><option value="all">Lahat ng Baitang</option>{gradeLevels.map((grade) => <option key={grade} value={grade}>{grade === 0 ? 'Kindergarten' : `Grade ${grade}`}</option>)}</select></label>
       <label><BookOpen aria-hidden /><span className="sr-only">Reading Level</span><select aria-label="Reading Level" value={levelFilter} onChange={(event) => { setLevelFilter(event.target.value); setPage(1); }}><option value="all">Lahat ng Reading Level</option>{levels.map((level) => <option key={level} value={level.toLowerCase()}>{level}</option>)}</select></label>
       <label><Filter aria-hidden /><span className="sr-only">Status</span><select aria-label="Status" value={statusFilter} disabled={Boolean(progressQuery.error)} onChange={(event) => { setStatusFilter(event.target.value); setPage(1); }}><option value="all">Lahat ng Status</option><option value="active">Active</option><option value="attention">Needs attention</option></select></label>
-      <Link className="ts-add" to="/teacher/lessons"><Plus aria-hidden /> Gumawa ng Aralin</Link>
     </section>
     {validSelected.length > 0 && <div className="ts-selection" role="status"><span>{validSelected.length} mag-aaral ang napili</span><button type="button" onClick={() => { setOnlySelected((value) => !value); setPage(1); }} aria-pressed={onlySelected}>{onlySelected ? 'Ipakita ang lahat' : 'Tingnan ang napili'}</button><button type="button" onClick={() => { setSelectedIds([]); setOnlySelected(false); }}>Alisin ang pagpili <X aria-hidden /></button></div>}
     <section id="ts-student-list" className="ts-table-card" aria-label="Listahan ng mga mag-aaral">
+      <div className="ts-table-heading"><div><h2>Listahan ng mga Mag-aaral</h2><p>Tingnan ang progreso o piliin ang mag-aaral para sa detalye.</p></div><div className="ts-table-actions"><span>{count(filtered.length)} mag-aaral</span><Link className="ts-add" to="/teacher/lessons"><Plus aria-hidden="true" /> Gumawa ng Aralin</Link></div></div>
       <div className="ts-table-scroll" tabIndex={0} role="region" aria-label="Student roster table"><table><thead><tr><th scope="col"><SelectionBox label="Piliin ang lahat sa pahinang ito" checked={allChecked} mixed={mixed} disabled={!visible.length || rosterQuery.isLoading} onChange={() => setSelectedIds((ids) => allChecked ? ids.filter((id) => !visible.some((row) => row.student_id === id)) : [...new Set([...ids, ...visible.map((row) => row.student_id)])])} /></th><th scope="col">Mag-aaral</th><th scope="col">Baitang</th><th scope="col">Reading Level</th><th scope="col" title="Accuracy mula sa reading practice">Progreso</th><th scope="col">Status</th><th scope="col">Huling Aktibidad</th><th scope="col">Aksyon</th></tr></thead><tbody>
         {rosterQuery.isLoading ? <tr><td colSpan={8} className="ts-state" role="status">Kinukuha ang mga mag-aaral…</td></tr> : rosterQuery.error ? <tr><td colSpan={8} className="ts-state">Hindi makuha ang roster. Subukan muli sa itaas.</td></tr> : visible.map((row) => { const student = row.children, level = row.item?.level ?? 'Beginner'; const rowIndex = studentRows.findIndex((item) => item.student_id === row.student_id); return <tr key={row.id} className={validSelected.includes(row.student_id) ? 'is-selected' : ''}><td><SelectionBox label={`Piliin si ${student?.name ?? 'mag-aaral'}`} checked={validSelected.includes(row.student_id)} onChange={() => setSelectedIds((ids) => ids.includes(row.student_id) ? ids.filter((id) => id !== row.student_id) : [...ids, row.student_id])} /></td><td><button type="button" className="ts-student" onClick={() => setSelectedStudentId(row.student_id)}><StudentPortrait index={rowIndex} /><span><b>{student?.name ?? 'Mag-aaral'}</b><small title={student?.username}>{student?.username ?? 'Walang username'}</small></span></button></td><td>{student ? student.grade_level === 0 ? 'Kindergarten' : `Grade ${student.grade_level}` : '—'}</td><td><span className={`ts-level ${level.toLowerCase().replace(/[^a-z]/g, '')}`}><BookOpen aria-hidden />{progressQuery.error ? '—' : level}</span></td><td><div className="ts-progress" aria-label={progressQuery.error ? 'Hindi makuha ang accuracy' : `${row.accuracy}% reading accuracy`}><span><i style={{ width: `${progressQuery.error ? 0 : Math.max(0, Math.min(100, row.accuracy))}%` }} /></span><b>{progressQuery.error ? '—' : `${row.accuracy}%`}</b></div></td><td>{progressQuery.error ? '—' : <span className={`ts-status ${row.needsAttention ? 'attention' : ''}`}>{row.needsAttention ? <AlertTriangle aria-hidden /> : <CheckCircle2 aria-hidden />}{row.needsAttention ? 'Needs attention' : 'Active'}</span>}</td><td><span className="ts-last-activity"><CalendarDays aria-hidden />{recentQuery.error ? 'Hindi makuha' : <time dateTime={row.lastActivity}>{dateLabel(row.lastActivity)}</time>}</span></td><td><button type="button" className="ts-more" onClick={() => setSelectedStudentId(row.student_id)} aria-label={`Tingnan ang detalye ni ${student?.name ?? 'mag-aaral'}`}><MoreHorizontal aria-hidden /></button></td></tr>; })}
         {!rosterQuery.isLoading && !rosterQuery.error && !visible.length && <tr><td colSpan={8} className="ts-state"><UsersRound aria-hidden /><strong>{studentRows.length ? 'Walang tugmang mag-aaral' : 'Wala pang mag-aaral sa iyong roster'}</strong><p>{studentRows.length ? 'Subukang baguhin ang search o mga filter.' : 'Makikita rito ang mga mag-aaral na naka-assign sa iyong klase.'}</p>{studentRows.length > 0 && <button type="button" onClick={() => { setQuery(''); setGradeFilter('all'); setLevelFilter('all'); setStatusFilter('all'); setOnlySelected(false); setPage(1); }}>I-reset ang mga filter</button>}</td></tr>}

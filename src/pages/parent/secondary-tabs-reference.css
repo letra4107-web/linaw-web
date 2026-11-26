@@ -25,7 +25,7 @@
   overflow: hidden;
   border: 1px solid #e0efec !important;
   border-radius: 19px !important;
-  background: linear-gradient(90deg, #f0faf6 0%, #f0faf6ee 28%, #f0faf677 45%, transparent 60%), url("../../assets/parent/parent-bg.png") center 43% / cover !important;
+  background: linear-gradient(90deg, #f0faf6 0%, #f0faf6ee 28%, #f0faf677 45%, transparent 60%), url("../../assets/illustrations/owl-world/garden.png") center 43% / cover !important;
   padding: 26px 31px !important;
   box-shadow: 0 6px 20px #27827409 !important;
 }

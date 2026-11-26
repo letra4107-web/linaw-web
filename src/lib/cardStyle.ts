@@ -1,7 +1,7 @@
 export function cardStyle(brandVar: string, tintPct = 10, borderPct = 30) {
   return {
-    backgroundColor: `color-mix(in srgb, var(${brandVar}) ${tintPct}%, white)`,
-    borderColor: `color-mix(in srgb, var(${brandVar}) ${borderPct}%, white)`,
+    backgroundColor: `color-mix(in srgb, var(${brandVar}) ${tintPct}%, var(--card-tint-base, white))`,
+    borderColor: `color-mix(in srgb, var(${brandVar}) ${borderPct}%, var(--card-border-base, white))`,
   };
 }
 

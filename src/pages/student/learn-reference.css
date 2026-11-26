@@ -14,7 +14,7 @@ body[data-font="default"] .student-learn-reference :is(h1,h2,h3,.learn-ref-stage
 .student-learn-reference svg { flex-shrink:0; }
 .student-learn-reference :is(a,button,summary,[role="tabpanel"]):focus-visible { outline:3px solid #5330ba; outline-offset:4px; }
 .role-student .student-learn-reference p:hover { background:transparent; box-shadow:none; }
-.learn-ref-hero { position:relative; display:flex; min-height:12rem; align-items:center; overflow:hidden; border:1px solid #dbebbf; border-radius:1rem; background:url('../../assets/students/learn-reference/learn-schoolyard.png') center 32% / cover; }
+.learn-ref-hero { position:relative; display:flex; min-height:12rem; align-items:center; overflow:hidden; border:1px solid #dbebbf; border-radius:1rem; background:url('../../assets/illustrations/owl-world/student-banner.png') center 32% / cover; }
 .learn-ref-hero-copy { position:relative; z-index:1; width:46%; margin-left:31.5%; padding:.9rem 0; }
 .learn-ref-hero-copy > p:first-child { color:#3a26b8; font-size:.72em; font-weight:700; letter-spacing:.24em; text-transform:uppercase; }
 .learn-ref-hero-copy h1 { color:#5836cc; font-size:5.5em; line-height:.98; font-weight:900; letter-spacing:-.025em; text-shadow:-2px -2px #fff,2px -2px #fff,-2px 2px #fff,2px 2px #fff,0 4px #3e2e8833; }
@@ -46,11 +46,11 @@ body[data-font="default"] .student-learn-reference :is(h1,h2,h3,.learn-ref-stage
 .learn-ref-empty p { max-width:30rem; color:var(--learn-muted); }
 .learn-ref-timeline { position:relative; display:flex; min-width:0; flex-direction:column; gap:.65rem; margin-left:1.15rem; }
 .learn-ref-timeline::before { content:''; position:absolute; left:-.3rem; top:1rem; bottom:.65rem; width:2px; border-radius:99px; background:#8b5bff; }
-.learn-ref-stage { position:relative; min-width:0; border:1px solid #e6ead7; border-radius:1rem; padding:0 .35rem .35rem; background:url('../../assets/students/profile/journey-landscape.png') center 58% / cover; }
-.learn-ref-stage-introduction { min-height:12.05rem; background-image:url('../../assets/students/learn-reference/introduction-garden.png'); background-position:center 25%; }
+.learn-ref-stage { position:relative; min-width:0; border:1px solid #e6ead7; border-radius:1rem; padding:0 .35rem .35rem; background:url('../../assets/illustrations/owl-world/garden.png') center 58% / cover; }
+.learn-ref-stage-introduction { min-height:12.05rem; background-image:url('../../assets/illustrations/owl-world/garden.png'); background-position:center 25%; }
 .learn-ref-stage-reading { background-position:center 63%; }
-.learn-ref-stage-growth { background-image:linear-gradient(110deg,#ffd5f5ab,#ffe2b766 55%,transparent),url('../../assets/students/profile/journey-landscape.png'); }
-.learn-ref-stage-words { min-height:11.6rem; background-image:url('../../assets/students/learn-reference/trophy-garden.png'); background-size:200% auto; background-position:left center; }
+.learn-ref-stage-growth { background-image:linear-gradient(110deg,#ffd5f5ab,#ffe2b766 55%,transparent),url('../../assets/illustrations/owl-world/garden.png'); }
+.learn-ref-stage-words { min-height:11.6rem; background-image:url('../../assets/illustrations/owl-world/student-banner.png'); background-size:200% auto; background-position:left center; }
 .learn-ref-trophy-student { position:absolute; right:.2rem; bottom:0; width:34%; height:100%; object-fit:contain; object-position:bottom right; pointer-events:none; }
 .learn-ref-stage-number { position:absolute; z-index:3; top:-.2rem; left:-1.6rem; display:grid; width:2.7rem; height:2.7rem; place-items:center; border:1px solid #b28aff; border-radius:50%; background:linear-gradient(135deg,#bf88fc,#7540df); color:#fff; font-size:2em; font-weight:700; line-height:1; box-shadow:0 2px 4px #8950db2b; }
 .learn-ref-stage-heading { position:relative; z-index:1; display:flex; min-height:3rem; align-items:center; gap:.6rem; border-radius:1rem 1rem 0 0; padding:.25rem .45rem .2rem 1.2rem; background:linear-gradient(90deg,#fff9ebd9,#f1faff8c 52%,transparent); }
@@ -168,14 +168,14 @@ body[data-font="dyslexic"] .student-learn-reference {
 }
 .learn-ref-hero {
   min-height:240px;
-  background-image:url('../../assets/students/profile/school-landscape.png');
+  background-image:url('../../assets/illustrations/owl-world/school-banner.png');
   background-position:center;
 }
 .learn-ref-hero-illustration {
   position:absolute;
   inset:0 auto 0 0;
   width:38%;
-  background:url('../../assets/students/learn-reference/learn-schoolyard.png') left bottom / auto 100% no-repeat;
+  background:url('../../assets/illustrations/owl-world/student-banner.png') left bottom / auto 100% no-repeat;
   mask-image:linear-gradient(90deg,#000 85%,transparent);
   pointer-events:none;
 }
@@ -220,13 +220,13 @@ body[data-font="dyslexic"] .student-learn-reference {
 .learn-ref-locked-note > span { width:29px; height:32px; }
 .learn-ref-module-progress { font-size:calc(12px * var(--font-scale,1)); }
 .learn-ref-start { min-height:34px; padding:4px 7px; font-size:calc(12px * var(--font-scale,1)); }
-.learn-ref-stage-introduction { min-height:218px; background-image:url('../../assets/students/profile/journey-landscape.png'); }
+.learn-ref-stage-introduction { min-height:218px; background-image:url('../../assets/illustrations/owl-world/garden.png'); }
 .learn-ref-introduction-art {
   position:absolute;
   inset:0 0 0 auto;
   width:48%;
   border-radius:0 16px 16px 0;
-  background:url('../../assets/students/learn-reference/introduction-garden.png') right bottom / auto 100% no-repeat;
+  background:url('../../assets/illustrations/owl-world/garden.png') right bottom / auto 100% no-repeat;
   mask-image:linear-gradient(90deg,transparent,#000 18%);
   pointer-events:none;
 }

@@ -39,6 +39,7 @@
 .form-feedback-content { display: grid; gap: 4px; min-width: 0; }
 .form-feedback-content strong { color: #173b55; font-size: 17px; line-height: 1.25; }
 .form-feedback-content span { color: #526b7d; font-size: 14px; line-height: 1.5; overflow-wrap: anywhere; }
+.form-feedback-countdown { color:#526b7d;font-size:12px;line-height:1.5; }
 
 .form-feedback-close {
   display: grid;
@@ -79,6 +80,7 @@
 :root[data-theme="dark"] .form-feedback-toast { color: #f3ecff; background: #272336; border-color: #52456a; }
 :root[data-theme="dark"] .form-feedback-content strong { color: #f3ecff; }
 :root[data-theme="dark"] .form-feedback-content span { color: #d0c4e2; }
+:root[data-theme="dark"] .form-feedback-countdown { color:#d0c4e2; }
 :root[data-theme="dark"] .form-feedback-close { color: #d0c4e2; background: #3b354b; }
 :root[data-theme="dark"] .form-feedback-timer { background: #403a50; }
 

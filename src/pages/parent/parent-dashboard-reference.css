@@ -97,7 +97,7 @@
 .parent-home-reference .ref-bars em { display:block; height:100%; border-radius:inherit; background:linear-gradient(90deg,#00bf89,#04d49a); }
 .parent-home-reference .ref-bars .blue em { background:linear-gradient(90deg,#039df8,#30c3ef); }
 .parent-home-reference .ref-bars .gold em { background:#ffc443; }
-.parent-home-reference .ref-progress-plants { position:absolute; z-index:0; bottom:0; left:0; width:110px; height:78px; background:url('../../assets/admin_design/sidebar-foliage-left.png') left bottom / 110px auto no-repeat; pointer-events:none; }
+.parent-home-reference .ref-progress-plants { position:absolute; z-index:0; bottom:0; left:0; width:110px; height:78px; background:url('../../assets/illustrations/owl-world/foliage.png') left bottom / 110px auto no-repeat; pointer-events:none; }
 .parent-home-reference .ref-activity-list { margin:2px 0 0 7px; }
 .parent-home-reference .ref-activity-list a { display:grid; min-height:53px; grid-template-columns:43px minmax(0,1fr) 14px; align-items:center; gap:12px; padding:4px 9px 4px 0; border-top:1px solid #edf2f6; }
 .parent-home-reference .ref-activity-list .parent-ref-icon { width:43px; height:43px; }
@@ -107,8 +107,8 @@
 .parent-home-reference .ref-learning-inner { position:relative; display:flex; min-height:128px; align-items:center; gap:13px; isolation:isolate; overflow:hidden; margin-top:4px; border:1px solid #ffedcc; border-radius:15px; background:radial-gradient(ellipse at 80% 120%,#cbd96a 0%,#cbd96a 23%,transparent 23%),linear-gradient(100deg,#ffedc9,#fff5df 60%,#ffe8ad); }
 .parent-home-reference .ref-learning-inner::after { position:absolute; z-index:-1; right:-20px; bottom:-24px; width:180px; height:75px; border-radius:50%; background:#b1cd68; box-shadow:-110px -2px 0 #e3e5a2; content:''; }
 .parent-home-reference .ref-lesson-art { position:relative; width:185px; height:137px; flex-shrink:0; margin:-5px 0; }
-.parent-home-reference .ref-lesson-art img { width:100%; height:100%; object-fit:cover; object-position:45% 40%; mask-image:linear-gradient(90deg,#000 85%,transparent); }
-.parent-home-reference .ref-lesson-art > span { position:absolute; top:16px; left:8px; display:grid; width:68px; height:78px; place-items:center; transform:rotate(-12deg); border:5px solid #ffc96b; border-radius:8px; background:#fffbec; color:#cf124c; font-size:2.35em; font-weight:700; box-shadow:0 2px 0 #d69c3d; }
+.parent-home-reference .ref-lesson-art img { width:100%; height:100%; padding-left:48px; object-fit:contain; object-position:right center; }
+.parent-home-reference .ref-lesson-art > span { position:absolute; bottom:6px; left:8px; display:grid; width:68px; height:78px; place-items:center; transform:rotate(-12deg); border:5px solid #ffc96b; border-radius:8px; background:#fffbec; color:#cf124c; font-size:2.35em; font-weight:700; box-shadow:0 2px 0 #d69c3d; }
 .parent-home-reference .ref-learning-inner > div:not(.ref-lesson-art) { min-width:0; flex:1; padding:8px 11px 8px 0; }
 .parent-home-reference .ref-learning-inner h3 { font-size:1.35em; font-weight:700; }
 .parent-home-reference .ref-learning-inner p { margin-top:4px; color:var(--ref-muted); font-size:.96em; }
@@ -227,7 +227,8 @@
   .parent-home-reference .ref-bars span, .parent-home-reference .ref-bars b { font-size:.85em; }
   .parent-home-reference .ref-learning-inner { gap:5px; }
   .parent-home-reference .ref-lesson-art { width:98px; height:150px; }
-  .parent-home-reference .ref-lesson-art > span { width:43px; height:55px; top:60px; left:5px; font-size:1.5em; border-width:3px; }
+  .parent-home-reference .ref-lesson-art img { padding-left:0; }
+  .parent-home-reference .ref-lesson-art > span { width:43px; height:55px; bottom:6px; left:5px; font-size:1.5em; border-width:3px; }
   .parent-home-reference .ref-learning-inner > div:not(.ref-lesson-art) { padding-right:8px; }
   .parent-home-reference .ref-learning-inner h3 { font-size:1.08em; }
   .parent-home-reference .ref-learning-inner p { font-size:.8em; }

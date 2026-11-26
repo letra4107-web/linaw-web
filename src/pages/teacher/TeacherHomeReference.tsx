@@ -7,8 +7,8 @@ import { supabase } from '../../lib/supabaseClient';
 import { useAuth } from '../../lib/auth/AuthContext';
 import { useNotifications } from '../../lib/useNotifications';
 import { QueryErrorNotice } from '../../components/QueryErrorNotice';
-import teacherBanner from '../../assets/teacher/home-classroom-banner.png';
-import teacherIllustration from '../../assets/teacher/Teacher Illustration.png';
+import teacherBanner from '../../assets/illustrations/owl-world/classroom-banner.png';
+import teacherIllustration from '../../assets/illustrations/role-themes/teacher-guide.png';
 import { TeacherHomeArt } from './TeacherHomeArt';
 import './home-reference.css';
 

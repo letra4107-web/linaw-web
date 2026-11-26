@@ -41,7 +41,7 @@ body[data-font="default"] .student-profile-reference { font-family: "Comic Sans 
   border: 1px solid #d9eed4;
   border-radius: 1.55rem;
   padding: 1.5rem 10.5rem 1.5rem 36.5%;
-  background: url('../../assets/students/profile/school-landscape.png') center 57% / cover;
+  background: url('../../assets/illustrations/owl-world/school-banner.png') center 57% / cover;
   box-shadow: 0 5px 12px rgba(92,120,99,.08);
 }
 .profile-waving-student { position: absolute; bottom: 0; left: 3.2%; width: 28%; height: 14.5rem; max-width: 18rem; object-fit: contain; object-position: bottom; pointer-events: none; }
@@ -127,7 +127,7 @@ body[data-font="default"] .student-profile-reference { font-family: "Comic Sans 
 .profile-journey-card > .profile-panel-heading { min-height: 4.2rem; padding: .9rem 1.1rem .3rem; }
 .profile-journey-card h2 { font-size: 1.5em; }
 .profile-flag-icon { width: 1.9rem; height: 1.9rem; color: #7740d1; fill: #bd84f1; }
-.profile-journey-map { position: relative; display: block; min-height: 10.2rem; flex: 1; background: linear-gradient(#ffffff2b,#ffffff18), url('../../assets/students/profile/journey-landscape.png') center bottom / cover; text-decoration: none; }
+.profile-journey-map { position: relative; display: block; min-height: 10.2rem; flex: 1; background: linear-gradient(#ffffff2b,#ffffff18), url('../../assets/illustrations/owl-world/garden.png') center bottom / cover; text-decoration: none; }
 .profile-journey-trail { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
 .profile-journey-trail path { fill: none; stroke: rgba(255,255,255,.88); stroke-width: 8; stroke-linecap: round; }
 .profile-journey-stop { position: absolute; display: grid; width: 2rem; height: 2rem; place-items: center; transform: translate(-50%,-50%); border: 3px solid #fff; border-radius: 50%; background: #c6c5d5; color: #fff; box-shadow: 0 2px 4px rgba(77,70,105,.18); }

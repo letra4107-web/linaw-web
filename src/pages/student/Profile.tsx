@@ -1,3 +1,4 @@
+import { AchievementArtwork } from '../../components/student/AchievementArtwork';
 import { showFormFeedback } from '../../lib/formFeedback';
 import { tagalogError } from '../../lib/validationMessages';
 import { useRef, useState, type FormEvent } from 'react';
@@ -14,9 +15,9 @@ import { QueryErrorNotice } from '../../components/QueryErrorNotice';
 import { findBadge } from '../../lib/badges';
 import { earnedStudentBadges, studentBadgeDate, studentJourneyLabel, studentLevelLabel } from '../../lib/studentProfile';
 import { xpTier } from '../../lib/xpTiers';
-import wavingStudent from '../../assets/students/profile/waving-student.png';
-import listeningStudent from '../../assets/students/profile/listening-student.png';
-import owlMascot from '../../assets/students/mascot/owl-mascot.png';
+import wavingStudent from '../../assets/illustrations/owl-world/owl-mascot.png';
+import listeningStudent from '../../assets/illustrations/owl-world/owl-listening.png';
+import owlMascot from '../../assets/illustrations/owl-world/owl-mascot.png';
 import './profile-reference.css';
 
 interface ChildRow {
@@ -186,7 +187,7 @@ export default function Profile() {
             const badge = findBadge(earned.id);
             const date = studentBadgeDate(earned.unlockedAt);
             return <article className={`profile-earned-badge badge-tone-${index}`} key={earned.id}>
-              <span className="profile-badge-emblem">{badge ? <img src={badge.image} alt="" /> : <Medal className="profile-badge-fallback" aria-hidden="true" />}</span>
+              <span className="profile-badge-emblem">{badge ? <AchievementArtwork badge={badge} /> : <Medal className="profile-badge-fallback" aria-hidden="true" />}</span>
               <h3>{badge?.title || badgeLabel(earned.id)}</h3><p>{badge?.criteria || 'Parangal sa iyong pagkatuto.'}</p>{date && <time dateTime={earned.unlockedAt}>{date}</time>}
             </article>;
           })}</div>

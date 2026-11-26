@@ -1,6 +1,6 @@
 import { tagalogError } from '../../lib/validationMessages';
-import { useEffect, useRef, useState } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { useEffect, useRef, useState, type CSSProperties } from 'react';
+import { Link, useSearchParams } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '../../lib/supabaseClient';
 import { practiceRewardMessage } from '../../lib/progressReward';
@@ -13,13 +13,14 @@ import { SlowTTSButton } from '../../components/a11y/SlowTTSButton';
 import { SyllableKaraokeText } from '../../components/SyllableKaraokeText';
 import { PronunciationFeedback } from '../../components/PronunciationFeedback';
 import { IconLabel } from '../../components/a11y/IconLabel';
+import {ReadingListenButton} from '../../components/student/ReadingListenButton';
 import { ReadingTarget } from '../../components/student/ReadingTarget';
 import { WordMeaning } from '../../components/student/WordMeaning';
 import { cardStyle } from '../../lib/cardStyle';
 import { trackEvent } from '../../lib/analytics';
 import { getTtsPlaybackRate, getTtsRate, isIsolatedFilipinoVowel } from '../../lib/ttsSettings';
 import { stopTtsPlayback } from '../../lib/ttsPlayer';
-import listenIllustration from '../../assets/listen.png';
+import listenIllustration from '../../assets/illustrations/owl-world/owl-listening.png';
 import './practice-reference.css';
 
 type Mode = 'say' | 'listen';
@@ -61,6 +62,7 @@ export default function Practice() {
   const theme = MODE_THEME[mode];
 
   const [current, setCurrent] = useState<WordRow | null>(null);
+  const [wordHistory, setWordHistory] = useState<WordRow[]>([]);
   const [listening, setListening] = useState(false);
   const [savingAttempt, setSavingAttempt] = useState(false);
   const [lastResult, setLastResult] = useState<{ attemptId: string; transcript: string; accuracy: number; correct: boolean; message: string; rewardMessage: string } | null>(
@@ -166,8 +168,23 @@ export default function Practice() {
     setListening(false);
     stopSpeech();
     const next = pickRandom(words, current?.id) ?? null;
+    if (current && next?.id !== current.id) setWordHistory(history => [...history, current]);
     setCurrent(next);
     saveCurrentWord(next);
+    setLastResult(null);
+    setError(null);
+  };
+
+  const previousWord = () => {
+    const previous = wordHistory.at(-1);
+    if (!previous || savingAttempt) return;
+    stopRecognitionRef.current?.cancel();
+    stopRecognitionRef.current = null;
+    setListening(false);
+    stopSpeech();
+    setCurrent(previous);
+    saveCurrentWord(previous);
+    setWordHistory(history => history.slice(0, -1));
     setLastResult(null);
     setError(null);
   };
@@ -276,6 +293,7 @@ export default function Practice() {
 
   return (
     <div className={`practice-reference ${mode === 'listen' ? 'practice-reference-listen' : ''} mx-auto flex w-full max-w-5xl flex-col gap-4 pb-4 sm:gap-5`}>
+      <Link to="/student" className="student-back-button"><span aria-hidden="true">←</span> Bumalik sa Simula</Link>
       <div
         className="practice-reference-hero overflow-hidden rounded-3xl px-5 py-2 text-white shadow-card sm:px-8 sm:py-2"
         style={{ backgroundColor: `var(${theme.brand})` }}
@@ -338,11 +356,11 @@ export default function Practice() {
               <span className="rounded-full px-4 py-2">{mode === 'listen' ? '🎧 Listen Mode' : '📖 Salitang babasahin'}</span>
               {mode === 'say' && <span className="rounded-full px-4 py-2">● Antas: {path?.effective_level === 'Advanced' ? 'Mahirap' : path?.effective_level === 'Intermediate' ? 'Katamtaman' : 'Madali'}</span>}
               <span className="practice-reference-count">1 / 200 <i><b /></i></span>
-              {mode === 'listen' && <span className="practice-listen-navigation"><button type="button" onClick={nextWord} aria-label="Nakaraang salita">←</button><button type="button" onClick={nextWord} aria-label="Susunod na salita">→</button></span>}
+              {mode === 'listen' && <span className="practice-listen-navigation"><button type="button" onClick={previousWord} disabled={!wordHistory.length || savingAttempt} aria-label="Nakaraang salita">←</button><button type="button" onClick={nextWord} disabled={savingAttempt} aria-label="Susunod na salita">→</button></span>}
             </div>
             <ReadingTarget compact label={mode === 'say' ? 'Salitang babasahin' : 'Pakinggan at sundan'} tone={theme.brand} className="practice-reference-word w-full">
-              <div data-long-word={current.word.length > 14 || undefined} className={`practice-word-content ${mode === 'listen' ? 'practice-listen-content ' : ''}flex flex-col items-center justify-center gap-3`}>
-                {mode === 'listen' && <img src={listenIllustration} alt="Batang nakikinig gamit ang headphones" className="practice-listen-illustration" />}
+              <div style={{'--word-units': Math.max(8, current.word.length * 1.15)} as CSSProperties} data-long-word={current.word.length > 14 || undefined} className={`practice-word-content ${mode === 'listen' ? 'practice-listen-content ' : ''}flex flex-col items-center justify-center gap-3`}>
+                {mode === 'listen' && <img src={listenIllustration} alt="Kuwagong nakikinig gamit ang headphones" className="practice-listen-illustration" />}
                 {mode === 'listen' ? (
                   <SyllableKaraokeText
                     syllables={syllabifyWord(current.word)}
@@ -352,21 +370,20 @@ export default function Practice() {
                   />
                 ) : (
                   <p className="text-4xl font-extrabold tracking-wide sm:text-5xl" style={{ color: `var(${theme.brand})` }}>
-                    {current.word}
+                    {current.word.split(/(\s+|-)/).map((part, partIndex) => {
+                      if (/^(\s+|-)$/.test(part)) return part;
+                      let offset = 0;
+                      const units = syllabifyWord(part);
+                      return units.map((unit, unitIndex) => {
+                        const original = part.slice(offset, offset + unit.length);
+                        offset += unit.length;
+                        return <span key={`${partIndex}-${unitIndex}`}>{original}{unitIndex < units.length - 1 && <wbr />}</span>;
+                      });
+                    })}
                   </p>
                 )}
                 {mode === 'listen' && <div className="flex flex-wrap items-center justify-center gap-2">
-                  <button
-                    type="button"
-                    onClick={playWord}
-                    disabled={speechStatus === 'loading'}
-                  className="inline-flex min-h-10 items-center gap-2 rounded-full border border-[var(--color-border)] bg-[var(--color-surface)] px-3 py-1.5 text-sm text-[var(--color-text)] hover:border-[var(--color-primary)] disabled:opacity-60"
-                  >
-                    <IconLabel
-                      icon={speechStatus === 'loading' ? '⏳' : speechStatus === 'speaking' ? '⏹️' : '🔊'}
-                      label={speechStatus === 'loading' ? 'Naglo-load...' : speechStatus === 'speaking' ? 'Ihinto' : 'Basahin nang Malakas'}
-                    />
-                  </button>
+                  <ReadingListenButton status={speechStatus} onClick={playWord}/>
                 <SlowTTSButton text={current.word} />
                 </div>}
               </div>

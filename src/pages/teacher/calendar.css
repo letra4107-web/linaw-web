@@ -1,0 +1,100 @@
+.teacher-calendar { --calendar-ink:#24164f; --calendar-muted:#6f6684; --calendar-line:#e6def2; display:grid; min-width:0; gap:20px; color:var(--calendar-ink); }
+.teacher-calendar :is(h1,h2,h3,p) { margin:0; }
+.teacher-calendar :is(button,input,select,textarea) { font:inherit; }
+.teacher-calendar button { display:inline-flex; min-height:44px; align-items:center; justify-content:center; gap:8px; border:1px solid #d9cbed; border-radius:12px; padding:10px 14px; background:#f7f2ff; color:#5d3c98; font-weight:700; cursor:pointer; }
+.teacher-calendar button:disabled { cursor:not-allowed; opacity:.5; }
+.teacher-calendar :is(button,input,select,textarea):focus-visible { outline:3px solid #9365da; outline-offset:3px; }
+.teacher-calendar button svg { width:19px; height:19px; flex-shrink:0; }
+.teacher-calendar .teacher-calendar-primary { border-color:#7145c4; background:linear-gradient(110deg,#8251dc,#693ab8); color:#fff; box-shadow:0 4px 10px #7348bb20; }
+.teacher-calendar .teacher-calendar-icon { width:44px; padding:9px; }
+.teacher-calendar label { display:flex; min-width:0; flex-direction:column; gap:7px; font-size:13px; font-weight:700; }
+.teacher-calendar :is(input,select,textarea) { width:100%; min-width:0; min-height:46px; border:1px solid #cab8e2; border-radius:11px; padding:10px 12px; background:var(--color-surface,#fff); color:var(--calendar-ink); }
+.teacher-calendar-hero { position:relative; isolation:isolate; overflow:hidden; background:#f5efff; }
+.teacher-calendar-background { position:absolute; inset:0; z-index:-2; width:100%; height:100%; object-fit:cover; }
+.teacher-calendar-hero::before { content:''; position:absolute; inset:0; z-index:-1; background:linear-gradient(95deg,#fbf8fff7,#fbf8ffec 40%,#fbf8ff22 80%); }
+.teacher-calendar-hero-copy { position:relative; z-index:1; }
+.teacher-calendar-hero-copy > p:first-child { color:#7653ae; }
+.teacher-calendar-hero-copy > p:last-child { color:#62537c; }
+.teacher-calendar-hero h1 svg { display:inline-block; width:32px; height:32px; margin-left:8px; vertical-align:middle; color:#8756cd; }
+.teacher-calendar-guide { position:absolute; bottom:0; right:12%; width:27%; height:95%; object-fit:contain; object-position:bottom; }
+.teacher-calendar-hero-note { position:absolute; right:22px; bottom:20px; display:flex; align-items:center; gap:7px; border-radius:12px; padding:10px 13px; background:#fff7dd; color:#735724; font-size:12px; font-weight:700; }
+.teacher-calendar-hero-note svg { width:17px; height:17px; }
+.teacher-calendar-toolbar { display:flex; min-width:0; flex-wrap:wrap; align-items:end; gap:16px; border:1px solid var(--calendar-line); border-radius:18px; padding:18px; background:var(--color-surface,#fff); }
+.teacher-calendar-toolbar > label:first-child { flex:1; min-width:180px; }
+.teacher-calendar-toolbar > label:nth-child(2) { flex:0 1 210px; }
+.teacher-calendar-toolbar > button { min-height:46px; }
+.teacher-calendar-workspace { display:grid; min-width:0; grid-template-columns:minmax(0,1.75fr) minmax(270px,1fr); align-items:start; gap:18px; }
+.teacher-calendar-month,.teacher-calendar-agenda { min-width:0; overflow:hidden; border:1px solid var(--calendar-line); border-radius:22px; background:var(--color-surface,#fff); box-shadow:0 4px 16px #53397706; }
+.teacher-calendar-month-heading { display:flex; min-width:0; align-items:center; justify-content:space-between; gap:12px; padding:20px; }
+.teacher-calendar-month-heading p,.teacher-calendar-agenda header p { margin-bottom:5px; color:var(--calendar-muted); font-size:10px; font-weight:800; letter-spacing:.06em; }
+.teacher-calendar-month-heading h2 { font-size:21px; font-weight:800; line-height:1.3; }
+.teacher-calendar-navigation { display:flex; align-items:center; gap:5px; flex-shrink:0; }
+.teacher-calendar-navigation button { min-height:38px; padding:7px 10px; font-size:12px; }
+.teacher-calendar-navigation .teacher-calendar-icon { width:36px; }
+.teacher-calendar-weekdays,.teacher-calendar-days { display:grid; grid-template-columns:repeat(7,minmax(0,1fr)); }
+.teacher-calendar-weekdays { border-block:1px solid var(--calendar-line); background:#f7f4fc; }
+.teacher-calendar-weekdays span { padding:12px 2px; color:#76628e; text-align:center; font-size:12px; font-weight:700; }
+.teacher-calendar .teacher-calendar-day { position:relative; display:flex; min-width:0; min-height:100px; flex-direction:column; align-items:stretch; justify-content:start; gap:6px; overflow:hidden; border:0; border-right:1px solid var(--calendar-line); border-bottom:1px solid var(--calendar-line); border-radius:0; padding:8px 5px; background:transparent; color:var(--calendar-ink); text-align:left; font-size:12px; }
+.teacher-calendar-day:nth-child(7n) { border-right:0; }
+.teacher-calendar .teacher-calendar-day.outside { background:#faf8fc; color:#a89db6; }
+.teacher-calendar .teacher-calendar-day.selected { z-index:1; background:#f2eaff; box-shadow:inset 0 0 0 2px #8652ce; }
+.teacher-calendar-day-number { display:grid; width:27px; height:27px; place-items:center; border-radius:50%; font-weight:700; }
+.teacher-calendar-day.today .teacher-calendar-day-number { background:#7144c2; color:#fff; }
+.teacher-calendar-day-events { display:grid; min-width:0; gap:4px; }
+.teacher-calendar-event { display:block; min-width:0; overflow:hidden; border-radius:5px; padding:4px; background:#ede5fb; color:#674394; font-size:10px; line-height:1.25; text-overflow:ellipsis; white-space:nowrap; }
+.teacher-calendar-event.practice { background:#ddf6ec; color:#207254; }
+.teacher-calendar-event.reminder { background:#fff1cd; color:#836124; }
+.teacher-calendar-event.appointment { background:#e3efff; color:#3e6593; }
+.teacher-calendar-day-events > small { font-size:10px; color:var(--calendar-muted); }
+.teacher-calendar-day-count { display:none; }
+.teacher-calendar-month-footer { display:flex; flex-wrap:wrap; align-items:center; gap:10px 14px; padding:16px; }
+.teacher-calendar-month-footer > span { display:inline-flex; align-items:center; gap:5px; font-size:11px; color:var(--calendar-muted); }
+.teacher-calendar-month-footer i { width:8px; height:8px; border-radius:50%; background:#9363ce; }
+.teacher-calendar-month-footer i.practice { background:#45af85; }.teacher-calendar-month-footer i.reminder { background:#e7b342; }.teacher-calendar-month-footer i.appointment { background:#5e9cdd; }
+.teacher-calendar-month-footer p { width:100%; color:var(--calendar-muted); font-size:12px; }
+.teacher-calendar-agenda { padding:20px; }
+.teacher-calendar-agenda > header { display:flex; align-items:center; gap:12px; padding-bottom:18px; border-bottom:1px solid var(--calendar-line); }
+.teacher-calendar-agenda-icon { display:grid; width:45px; height:45px; flex-shrink:0; place-items:center; border-radius:14px; background:#eee4fc; color:#7e4abd; }
+.teacher-calendar-agenda header > div { min-width:0; flex:1; }
+.teacher-calendar-agenda h2 { font-size:20px; font-weight:800; }
+.teacher-calendar-agenda header small { color:var(--calendar-muted); font-size:11px; }
+.teacher-calendar-agenda header b { display:grid; width:30px; height:30px; flex-shrink:0; place-items:center; border-radius:50%; background:#f0e8fb; color:#7145a2; font-size:12px; }
+.teacher-calendar-list { display:grid; gap:12px; padding-top:18px; }
+.teacher-calendar-list article { display:grid; min-width:0; gap:8px; border:1px solid var(--calendar-line); border-left:4px solid #9865cd; border-radius:13px; padding:14px; overflow-wrap:anywhere; }
+.teacher-calendar-list article.practice { border-left-color:#45af85; }.teacher-calendar-list article.reminder { border-left-color:#e7b342; }.teacher-calendar-list article.appointment { border-left-color:#5e9cdd; }
+.teacher-calendar-type { color:#7a4c9f; font-size:10px; font-weight:800; }
+.teacher-calendar-list h3 { font-size:15px; font-weight:800; line-height:1.4; }
+.teacher-calendar-list :is(time,.teacher-calendar-student) { display:flex; align-items:center; gap:6px; color:var(--calendar-muted); font-size:12px; }
+.teacher-calendar-list :is(time,.teacher-calendar-student) svg { width:15px; height:15px; flex-shrink:0; }
+.teacher-calendar-list p { font-size:13px; line-height:1.55; }
+.teacher-calendar-list small { color:var(--calendar-muted); font-size:10px; }
+.teacher-calendar-list footer { display:flex; flex-wrap:wrap; gap:7px; margin-top:3px; }
+.teacher-calendar-list footer button { min-height:36px; padding:7px 10px; font-size:11px; }
+.teacher-calendar .teacher-calendar-cancel { border-color:#edcfda; background:#fff1f5; color:#ab3b62; }
+.teacher-calendar-empty { display:flex; min-height:260px; flex-direction:column; align-items:center; justify-content:center; gap:12px; padding:30px 8px; text-align:center; }
+.teacher-calendar-empty > svg { width:54px; height:54px; color:#b89bdc; }
+.teacher-calendar-empty h3 { font-size:15px; font-weight:700; }.teacher-calendar-empty p { color:var(--calendar-muted); font-size:13px; line-height:1.6; }.teacher-calendar-empty button { font-size:12px; }
+.teacher-calendar-parent-note { margin-top:18px !important; border-radius:12px; padding:12px; background:#f7f3fc; color:var(--calendar-muted); font-size:12px; line-height:1.6; }
+.teacher-calendar-error { display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:12px; border:1px solid #ecc2d2; border-radius:14px; padding:16px; background:#fff3f7; color:#9f335a; }
+.teacher-calendar-notice { border:1px solid var(--calendar-line); border-radius:14px; padding:16px; background:#fff7df; color:#755c29; font-size:13px; line-height:1.6; }
+.teacher-calendar-dialog { width:min(680px,calc(100vw - 32px)); max-height:calc(100dvh - 32px); margin:auto; overflow:auto; overscroll-behavior:contain; border:1px solid var(--calendar-line); border-radius:22px; padding:0; background:var(--color-surface,#fff); color:var(--calendar-ink); box-shadow:0 20px 70px #28123940; }
+.teacher-calendar-dialog::backdrop { background:#24163f70; backdrop-filter:blur(3px); }
+.teacher-calendar-form { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:18px; padding:26px; }
+.teacher-calendar-form > header,.teacher-calendar-form > .full { grid-column:1/-1; }
+.teacher-calendar-form > header { display:flex; align-items:center; justify-content:space-between; gap:12px; padding-bottom:14px; border-bottom:1px solid var(--calendar-line); }
+.teacher-calendar-form > header p { color:var(--calendar-muted); font-size:10px; font-weight:800; letter-spacing:.06em; }.teacher-calendar-form h2 { margin-top:5px; font-size:22px; font-weight:800; }
+.teacher-calendar-form-note { color:var(--calendar-muted); font-size:12px; line-height:1.6; }
+.teacher-calendar-form > footer { display:flex; flex-wrap:wrap; justify-content:flex-end; gap:10px; border-top:1px solid var(--calendar-line); padding-top:16px; }
+.teacher-calendar [role=alert] { color:#a63359; font-size:13px; line-height:1.6; }
+@media(max-width:1199px) { .teacher-calendar-workspace { grid-template-columns:minmax(0,1fr); }.teacher-calendar-agenda { width:100%; }.teacher-calendar-list { grid-template-columns:repeat(2,minmax(0,1fr)); } }
+@media(max-width:767px) { .teacher-calendar-guide { right:0; width:42%; opacity:.16; }.teacher-calendar-hero-note { display:none; }.teacher-calendar-toolbar { gap:14px; padding:16px; }.teacher-calendar-toolbar > label:first-child { flex-basis:100%; }.teacher-calendar-toolbar > label:nth-child(2) { flex:1; }.teacher-calendar-toolbar > button { width:100%; }.teacher-calendar-month-heading { flex-wrap:wrap; padding:16px; }.teacher-calendar-month-heading h2 { font-size:19px; }.teacher-calendar-navigation { margin-left:auto; }.teacher-calendar .teacher-calendar-day { min-height:67px; align-items:center; gap:5px; padding:7px 2px; }.teacher-calendar-day-events { display:none; }.teacher-calendar-day-count { display:grid; min-width:17px; height:17px; place-items:center; border-radius:6px; padding:0 4px; background:#dfd0f5; color:#63458a; font-size:10px; }.teacher-calendar-list { grid-template-columns:minmax(0,1fr); }.teacher-calendar-form { grid-template-columns:minmax(0,1fr); padding:20px; gap:15px; }.teacher-calendar-form > footer { flex-direction:column-reverse; }.teacher-calendar-agenda { padding:18px; } }
+:root[data-theme="dark"] .teacher-calendar { --calendar-ink:#eee5fc; --calendar-muted:#c1b1d3; --calendar-line:#57446c; }
+:root[data-theme="dark"] .teacher-calendar-hero::before { background:linear-gradient(95deg,#2c273bed,#30253bd9 50%,#30253b77); }
+:root[data-theme="dark"] .teacher-calendar-hero-copy > p { color:#d5bfef; }
+:root[data-theme="dark"] .teacher-calendar :is(.teacher-calendar-weekdays,.teacher-calendar-day.outside,.teacher-calendar-parent-note) { background:#30283f; }
+:root[data-theme="dark"] .teacher-calendar .teacher-calendar-day.selected { background:#4e356a; }
+:root[data-theme="dark"] .teacher-calendar :is(button,.teacher-calendar-agenda-icon) { border-color:#7a5b9e; background:#463157; color:#e7cffb; }
+:root[data-theme="dark"] .teacher-calendar .teacher-calendar-primary { background:#8050cf; color:#fff; }
+:root[data-theme="high-contrast"] .teacher-calendar { --calendar-ink:#fff; --calendar-muted:#fff; --calendar-line:#fff; }
+:root[data-theme="high-contrast"] .teacher-calendar :is(.teacher-calendar-hero,.teacher-calendar-toolbar,.teacher-calendar-month,.teacher-calendar-agenda,.teacher-calendar-dialog,button,input,select,textarea) { border:2px solid #fff; background:#000; color:#fff; }
+:root[data-theme="high-contrast"] .teacher-calendar .teacher-calendar-day.selected { box-shadow:inset 0 0 0 3px #ffef00; }

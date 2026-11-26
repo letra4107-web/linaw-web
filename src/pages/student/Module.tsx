@@ -19,7 +19,7 @@ import { IconLabel } from '../../components/a11y/IconLabel';
 import { ModuleLessonHeader } from '../../components/student/ModuleLessonHeader';
 import { ModuleReadingCards } from '../../components/student/ModuleReadingCards';
 import { QueryErrorNotice } from '../../components/QueryErrorNotice';
-import assessmentIllustration from '../../assets/students/module-reference/assessment-clipboard.png';
+import assessmentIllustration from '../../assets/illustrations/owl-world/owl-teacher.png';
 import { WordMeaning } from '../../components/student/WordMeaning';
 import { trackEvent } from '../../lib/analytics';
 import type { ModuleReadingItem as ModuleItem } from '../../lib/modulePresentation';
@@ -76,7 +76,7 @@ export default function Module() {
     enabled: Boolean(moduleId),
   });
 
-  const submitAttempt = useMutation({
+  const submitAttempt = useMutation({meta:{silentFeedback:true},
     mutationFn: async ({ item, transcript, moduleId: attemptModuleId }: { item: ModuleItem; transcript: string; moduleId:string }) => {
       const saved=await recordVerifiedAnswer({contentId:item.content_id,transcript,source:'practice'});
       const res={...saved.result,rewardMessage:practiceRewardMessage(saved),newlyUnlockedBadges:saved.newlyPersistedAchievementIds,levelAdvancedTo:null};

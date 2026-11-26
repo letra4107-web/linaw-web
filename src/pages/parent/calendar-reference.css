@@ -2,7 +2,7 @@
 .role-parent .calendar-reference { --cal-ink:#102b53;--cal-muted:#657d98;--cal-line:#deedf1;--cal-surface:#fff;display:flex;min-width:0;flex-direction:column;gap:14px;color:var(--cal-ink);font-family:var(--parent-font); }
 .role-parent .calendar-reference :is(h1,h2,h3,p) { margin:0; }
 .role-parent .calendar-reference :is(button,a) { text-decoration:none; }
-.role-parent .calendar-reference-hero { position:relative;display:flex;min-height:180px;align-items:center;overflow:hidden;border:1px solid #dcecee;border-radius:19px;padding:25px 27px;background:linear-gradient(90deg,#eafafbfa,#f9fcf3ec 34%,#ffffff00 64%),url('../../assets/parent/parent-bg.png') center 47% / cover;box-shadow:0 4px 17px #22757808; }
+.role-parent .calendar-reference-hero { position:relative;display:flex;min-height:180px;align-items:center;overflow:hidden;border:1px solid #dcecee;border-radius:19px;padding:25px 27px;background:linear-gradient(90deg,#eafafbfa,#f9fcf3ec 34%,#ffffff00 64%),url('../../assets/illustrations/owl-world/garden.png') center 47% / cover;box-shadow:0 4px 17px #22757808; }
 .role-parent .calendar-reference-hero > div { position:relative;width:46%;max-width:465px; }
 .role-parent .calendar-reference-hero > div > p { color:#183a60;font-size:11px;font-weight:700;letter-spacing:.02em; }
 .role-parent .calendar-hero-heading { display:flex;align-items:center;gap:12px;margin:12px 0 14px; }

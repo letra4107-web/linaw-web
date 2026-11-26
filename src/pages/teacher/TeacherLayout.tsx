@@ -2,7 +2,7 @@ import { useEffect, useId, useLayoutEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { useQuery } from '@tanstack/react-query';
 import { NavLink, Outlet, useLocation } from 'react-router-dom';
-import { Bell, LogOut, Settings, UserRound } from 'lucide-react';
+import { Bell, BookOpen, CalendarDays, ChartNoAxesColumnIncreasing, Home, LogOut, Menu, MessageSquare, PanelLeftClose, PanelLeftOpen, Settings, UserRound, UsersRound, X, type LucideIcon } from 'lucide-react';
 import { supabase } from '../../lib/supabaseClient';
 import { useAuth } from '../../lib/auth/AuthContext';
 import { softSignOut } from '../../lib/auth/softSignOut';
@@ -10,27 +10,28 @@ import { useNotifications } from '../../lib/useNotifications';
 import { cardStyle } from '../../lib/cardStyle';
 import { DashboardShell } from '../../components/DashboardShell';
 import logo from '../../assets/Logo.jpg';
-import sidebarPlants from '../../assets/teacher/Purple Sidebar Bottom Plants.png';
-import { AppIcon } from '../../components/a11y/AppIcon';
+import sidebarPlants from '../../assets/illustrations/owl-world/foliage.png';
 import { TeacherHomeArt } from './TeacherHomeArt';
 import { MessageAvatar } from '../../components/messages/MessageAvatar';
 import './home-reference.css';
 import './teacher-profile-menu.css';
+import './teacher-layout.css';
 import { useTeacherThemeSync } from '../../lib/teacher/useTeacherPreferences';
 
 const PRIMARY_TABS = [
-  { to: '/teacher', end: true, icon: '⌂', label: 'Simula' },
-  { to: '/teacher/students', icon: '♟', label: 'Mga Mag-aaral' },
-  { to: '/teacher/lessons', icon: '▤', label: 'Mga Aralin' },
-  { to: '/teacher/progress-reports', icon: '▥', label: 'Pagsusuri' },
-  { to: '/teacher/messages', icon: '✉', label: 'Mga Mensahe' },
+  { to: '/teacher', end: true, icon: Home, label: 'Simula' },
+  { to: '/teacher/students', icon: UsersRound, label: 'Mga Mag-aaral' },
+  { to: '/teacher/lessons', icon: BookOpen, label: 'Mga Aralin' },
+  { to: '/teacher/schedule', icon: CalendarDays, label: 'Kalendaryo' },
+  { to: '/teacher/progress-reports', icon: ChartNoAxesColumnIncreasing, label: 'Pagsusuri' },
+  { to: '/teacher/messages', icon: MessageSquare, label: 'Mga Mensahe' },
 ];
 
 function navClass(collapsed: boolean) {
   return ({ isActive }: { isActive: boolean }) => `group flex min-h-12 items-center gap-3 rounded-2xl border px-3 py-2.5 text-sm font-bold transition-all ${collapsed ? 'justify-center px-2' : ''} ${isActive ? 'border-white/25 bg-white text-[var(--color-brand-sage)] shadow-card' : 'border-transparent text-white/90 hover:border-white/15 hover:bg-white/15'}`;
 }
-function NavItem({ to, end, icon, label, collapsed, onNavigate }: { to: string; end?: boolean; icon: string; label: string; collapsed: boolean; onNavigate?: () => void }) {
-  return <NavLink to={to} end={end} title={label} className={navClass(collapsed)} onClick={onNavigate}><span aria-hidden="true" className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-white/15 transition-transform group-hover:scale-105"><AppIcon name={icon} className="h-5 w-5" /></span><span className={collapsed ? 'sr-only' : undefined}>{label}</span></NavLink>;
+function NavItem({ to, end, icon: Icon, label, collapsed, onNavigate }: { to: string; end?: boolean; icon: LucideIcon; label: string; collapsed: boolean; onNavigate?: () => void }) {
+  return <NavLink to={to} end={end} title={label} className={navClass(collapsed)} onClick={onNavigate}><span aria-hidden="true" className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-white/15 transition-transform group-hover:scale-105"><Icon className="h-5 w-5" /></span><span className={collapsed ? 'sr-only' : undefined}>{label}</span></NavLink>;
 }
 
 function ProfileMenu({ collapsed, mobile = false }: { collapsed: boolean; mobile?: boolean }) {
@@ -137,7 +138,7 @@ function ProfileMenu({ collapsed, mobile = false }: { collapsed: boolean; mobile
   );
 }
 
-function NavContents({ collapsed }: { collapsed: boolean }) { return <><nav aria-label="Mga bahagi ng teacher dashboard" className="flex flex-1 flex-col gap-1.5 overflow-y-auto px-3 py-4">{PRIMARY_TABS.map((tab) => <NavItem key={tab.to} {...tab} collapsed={collapsed} />)}</nav>{!collapsed && <div className="th-sidebar-scene" aria-hidden="true"><blockquote>“Bawat bata ay may kwento, at ikaw ang gumagawa nito ng mas maliwanag.”<span>♥</span></blockquote><TeacherHomeArt item={7} /></div>}<div className="border-t border-white/20 p-3"><ProfileMenu collapsed={collapsed} /></div></>; }
+function NavContents({ collapsed }: { collapsed: boolean }) { return <><div className="teacher-sidebar-scroll"><nav aria-label="Mga bahagi ng teacher dashboard" className="teacher-sidebar-nav">{PRIMARY_TABS.map((tab) => <NavItem key={tab.to} {...tab} collapsed={collapsed} />)}</nav>{!collapsed && <div className="th-sidebar-scene" aria-hidden="true"><blockquote>“Bawat bata ay may kwento, at ikaw ang gumagawa nito ng mas maliwanag.”<span>♥</span></blockquote><TeacherHomeArt item={7} /></div>}</div><div className="teacher-sidebar-account border-t border-white/20 p-3"><ProfileMenu collapsed={collapsed} /></div></>; }
 
 export default function TeacherLayout() {
   useTeacherThemeSync();
@@ -159,11 +160,11 @@ export default function TeacherLayout() {
     <DashboardShell roleLabel="Guro" hideHeader roleTheme="teacher">
       <div className="flex min-h-screen min-w-0">
         <aside className={`dashboard-sidebar teacher-sidebar-art ${collapsed ? 'is-collapsed' : ''} !fixed !inset-y-0 !left-0 z-50 hidden !h-[100dvh] shrink-0 flex-col border-r border-white/15 bg-[var(--color-primary-hover)] transition-[width] duration-300 lg:flex ${collapsed ? 'w-[4.75rem]' : 'w-60'}`}><img src={sidebarPlants} alt="" aria-hidden="true" />
-          <div className={`flex h-16 items-center gap-2 border-b border-white/20 px-3 ${collapsed ? 'justify-center' : ''}`}><button type="button" onClick={() => setCollapsed((value) => !value)} className="flex min-w-0 items-center gap-2 rounded-xl p-1 text-white hover:bg-white/10"><img src={logo} alt="LinawLetra" className="h-10 w-10 shrink-0 rounded-xl object-cover" />{!collapsed && <span className="min-w-0 text-left"><span className="block truncate text-sm font-bold">LinawLetra</span><span className="block truncate text-xs text-white/65">Tanggapan ng Guro</span></span>}</button></div>
+          <div className={`teacher-sidebar-brand flex h-16 items-center gap-2 border-b border-white/20 px-3 ${collapsed ? 'justify-center' : ''}`}><button type="button" aria-label={collapsed ? 'Palawakin ang sidebar' : 'Paliitin ang sidebar'} onClick={() => setCollapsed((value) => !value)} className="flex min-w-0 items-center gap-2 rounded-xl p-1 text-white hover:bg-white/10"><img src={logo} alt="LinawLetra" className="h-10 w-10 shrink-0 rounded-xl object-cover" />{!collapsed && <span className="min-w-0 text-left"><span className="block truncate text-sm font-bold">LinawLetra</span><span className="block truncate text-xs text-white/65">Tanggapan ng Guro</span></span>}{collapsed ? <PanelLeftOpen aria-hidden="true" className="teacher-sidebar-toggle" /> : <PanelLeftClose aria-hidden="true" className="teacher-sidebar-toggle" />}</button></div>
           <NavContents collapsed={collapsed} />
         </aside>
         <div className="flex min-w-0 flex-1 flex-col">
-          <header className="sticky top-0 z-40 flex h-16 items-center justify-between border-b border-[var(--color-border)] bg-[var(--color-surface)]/95 px-4 shadow-sm backdrop-blur lg:hidden"><div className="flex items-center gap-2"><img src={logo} alt="LinawLetra" className="h-10 w-10 rounded-xl object-cover" /><span className="font-bold text-[var(--color-brand-sage)]">Tanggapan ng Guro</span></div><div className="flex items-center gap-2"><ProfileMenu collapsed mobile /><button type="button" onClick={() => setMobileOpen((value) => !value)} aria-expanded={mobileOpen} className="flex h-12 min-w-12 items-center justify-center rounded-2xl border border-[var(--color-border)] bg-white/75"><AppIcon name="☰" /><span className="sr-only">Menu</span></button></div></header>
+          <header className="sticky top-0 z-40 flex h-16 items-center justify-between border-b border-[var(--color-border)] bg-[var(--color-surface)]/95 px-4 shadow-sm backdrop-blur lg:hidden"><div className="flex items-center gap-2"><img src={logo} alt="LinawLetra" className="h-10 w-10 rounded-xl object-cover" /><span className="font-bold text-[var(--color-brand-sage)]">Tanggapan ng Guro</span></div><div className="flex items-center gap-2"><ProfileMenu collapsed mobile /><button type="button" onClick={() => setMobileOpen((value) => !value)} aria-expanded={mobileOpen} className="flex h-12 min-w-12 items-center justify-center rounded-2xl border border-[var(--color-border)] bg-white/75">{mobileOpen ? <X aria-hidden="true" /> : <Menu aria-hidden="true" />}<span className="sr-only">Menu</span></button></div></header>
           {mobileOpen && <div className="sticky top-16 z-30 border-b border-white/15 bg-[var(--color-primary-hover)] p-3 shadow-card lg:hidden"><nav className="grid grid-cols-2 gap-2 sm:grid-cols-3">{PRIMARY_TABS.map((tab) => <NavItem key={tab.to} {...tab} collapsed={false} onNavigate={() => setMobileOpen(false)} />)}</nav></div>}
           <main className={`teacher-workspace ${collapsed ? 'th-workspace-collapsed' : ''} w-full min-w-0 flex-1 overflow-x-hidden px-4 py-5 sm:px-6 sm:py-7 lg:pr-6 lg:py-6 ${collapsed ? 'lg:pl-[6.25rem]' : 'lg:pl-[16.5rem]'} ${isHome ? `teacher-home-workspace ${collapsed ? 'is-collapsed' : ''}` : ''}`}><Outlet /></main>
         </div>

@@ -5,7 +5,7 @@ import { BookOpen, ChartNoAxesColumnIncreasing, CheckCircle2, ClipboardCheck, Fi
 import { api } from '../../lib/api';
 import { AdminHero, AdminStats, Directory, EmptyState, PanelHeading, Pagination, StatusBadge, initials, navigateAdminTabs } from './AdminPrimitives';
 import type { MonitoredActivity, MonitoredUser } from './RoleMonitoring';
-import teacherArt from '../../assets/teacher/Teacher Illustration.png';
+import teacherArt from '../../assets/illustrations/role-themes/teacher-guide.png';
 
 type Material = { id: string; title?: string; grade_level?: number; level?: string; created_at: string };
 type Assignment = { id: string; student_id?: string; status?: string; assigned_at?: string };

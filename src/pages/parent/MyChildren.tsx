@@ -1,4 +1,5 @@
 import { rememberChildCredential, credentialEmailNotice, type TemporaryChildCredential } from '../../lib/parentCredentials';
+import {hasDuplicateChildEnrollment,normalizeChildEnrollmentName} from '../../lib/childEnrollment';
 import {ChildDetailsForm} from './ChildDetailsForm';
 import { tagalogError } from '../../lib/validationMessages';
 import { Fragment, useEffect, useRef, useState, type ReactNode } from 'react';
@@ -11,12 +12,12 @@ import { useAuth } from '../../lib/auth/AuthContext';
 import { Toggle } from '../../components/a11y/Toggle';
 import type { ReadingProfile } from '../../components/ReadingInsightsPanel';
 import { paginateModules } from './parentModulePagination';
-import parentBackground from '../../assets/parent/children-family-garden.png';
-import childArtwork from '../../assets/parent/current.png';
-import familyArtwork from '../../assets/parent/home-sidebar-reading.png';
+import parentBackground from '../../assets/illustrations/role-themes/family-banner.png';
+import childArtwork from '../../assets/illustrations/role-themes/young-reader.png';
+import familyArtwork from '../../assets/illustrations/role-themes/parent-family.png';
 import { ParentHomeArtwork } from './ParentHomeArtwork';
-import noEnrolledChildArt from '../../assets/parent/no enrolled child.png';
-import noActivitiesArt from '../../assets/parent/no activities.png';
+import noEnrolledChildArt from '../../assets/illustrations/role-themes/parent-family.png';
+import noActivitiesArt from '../../assets/illustrations/owl-world/clock-calendar.png';
 import './children-reference.css';
 import './children-overview-reference.css';
 
@@ -48,7 +49,7 @@ function CardHeading({ icon, title, href }: { icon: ReactNode; title: string; hr
 }
 function ProgressBar({ value }: { value: number }) { return <span className="kid-progress-track"><span style={{ width: `${value}%` }} /></span>; }
 
-export function EnrollModal({ open, onClose, name, setName, grade, setGrade, onSubmit, pending, error }: { open: boolean; onClose: () => void; name: string; setName: (value: string) => void; grade: string; setGrade: (value: string) => void; onSubmit: () => void; pending: boolean; error?: string | null }) {
+export function EnrollModal({ open, onClose, name, setName, grade, setGrade, onSubmit, pending, error,duplicate=false,validationPending=false }: { open: boolean; onClose: () => void; name: string; setName: (value: string) => void; grade: string; setGrade: (value: string) => void; onSubmit: () => void; pending: boolean; error?: string | null;duplicate?:boolean;validationPending?:boolean }) {
   const [step, setStep] = useState(1);
   const dialogRef = useRef<HTMLElement>(null);
   const closeRef = useRef(onClose);
@@ -78,12 +79,13 @@ export function EnrollModal({ open, onClose, name, setName, grade, setGrade, onS
       <button className="kid-modal-close" type="button" onClick={onClose} aria-label="Isara" disabled={pending}><X size={21} /></button>
       <header><span><UsersRound size={27} /></span><div><h2 id="kid-enroll-title">I-enroll ang Anak</h2><p>Simulan ang kanyang paglalakbay sa pagbasa.</p></div></header>
       <ol className="kid-enroll-steps">{['Impormasyon', 'Baitang', 'Kumpirmasyon'].map((label, index) => <li className={step === index + 1 ? 'active' : step > index + 1 ? 'done' : ''} key={label}><b>{step > index + 1 ? <CheckCircle2 size={17} /> : index + 1}</b>{label}</li>)}</ol>
-      <form onSubmit={(event) => { event.preventDefault(); if (pending || !name.trim()) return; if (step < 3) setStep(step + 1); else onSubmit(); }}>
+      <form onSubmit={(event) => { event.preventDefault(); if (pending || validationPending || !name.trim() || duplicate) return; if (step < 3) setStep(step + 1); else onSubmit(); }}>
         <div className="kid-enroll-content"><div>
-          {step === 1 ? <label>Buong Pangalan ng Anak<input autoFocus value={name} onChange={(event) => setName(event.target.value)} placeholder="Hal. Juan Dela Cruz" required /></label> : step === 2 ? <label>Baitang<select autoFocus value={grade} onChange={(event) => setGrade(event.target.value)}>{[1, 2, 3, 4, 5, 6].map((item) => <option key={item} value={item}>Grade {item}</option>)}</select><small>Magsisimula siya sa Beginner reading level.</small></label> : <div className="kid-enroll-confirm"><ShieldCheck size={30} /><h3>{name}</h3><p>Grade {grade} · Beginner</p><p>Gagawa ng student account at temporary password para sa iyong anak.</p></div>}
+          {step === 1 ? <label>Buong Pangalan ng Anak<input autoFocus value={name} maxLength={100} minLength={2} onChange={(event) => setName(event.target.value)} placeholder="Hal. Juan Dela Cruz" required /></label> : step === 2 ? <label>Baitang<select autoFocus value={grade} onChange={(event) => setGrade(event.target.value)}>{[1, 2, 3, 4, 5, 6].map((item) => <option key={item} value={item}>Grade {item}</option>)}</select><small>Magsisimula siya sa Beginner reading level.</small></label> : <div className="kid-enroll-confirm"><ShieldCheck size={30} /><h3>{name}</h3><p>Grade {grade} · Beginner</p><p>Gagawa ng student account at temporary password para sa iyong anak.</p></div>}
         </div><aside><img src={noEnrolledChildArt} alt="" /><strong>Sama-sama sa bawat hakbang.</strong><p>May sariling reading activities, progreso, at reading support ang iyong anak.</p></aside></div>
-        {error && <p className="kid-enroll-error" role="alert">{error}</p>}
-        <footer><button type="button" onClick={() => step > 1 ? setStep(step - 1) : onClose()} disabled={pending}>{step > 1 ? 'Bumalik' : 'Kanselahin'}</button><button type="submit" className="kid-primary-button" disabled={pending || !name.trim()}>{pending ? 'Ini-enroll...' : step < 3 ? 'Susunod' : 'I-enroll ang Anak'}<ArrowRight size={16} /></button></footer>
+        {(duplicate||error) && <p className="kid-enroll-error" role="alert">{duplicate?`Student already exists. Naka-enroll na ang anak na ito sa Grade ${grade}.`:error}</p>}
+        {validationPending&&<p className="kid-enroll-error" role="status">Kinukuha muna ang kasalukuyang enrollment records.</p>}
+        <footer><button type="button" onClick={() => step > 1 ? setStep(step - 1) : onClose()} disabled={pending}>{step > 1 ? 'Bumalik' : 'Kanselahin'}</button><button type="submit" className="kid-primary-button" disabled={pending || validationPending || !name.trim() || duplicate}>{pending ? 'Ini-enroll...' : step < 3 ? 'Susunod' : 'I-enroll ang Anak'}<ArrowRight size={16} /></button></footer>
       </form>
     </section>
   </div>;
@@ -127,7 +129,7 @@ export default function MyChildren() {
     queryFn: () => api<{ children: CredentialSecurity[] }>('/parent/children/credential-security', { auth: true }),
     enabled: Boolean(user),
   });
-  const enrollChild = useMutation({ meta: { saveFeedback: 'Na-save ang mga pagbabago.' },
+  const enrollChild = useMutation({ meta: { saveFeedback: 'Matagumpay na nai-enroll ang iyong anak.' },
     mutationFn: (details: { childName: string; gradeLevel: number }) => api<{ success: boolean; username: string; temporaryPassword: string; level: string; credentialsEmailSent?: boolean }>('/parent/children', { method: 'POST', auth: true, body: details }),
     onSuccess: (result, details) => {
       setSuccessMsg(`Nai-enroll si ${details.childName} bilang ${result.username} (${result.level} level).`);
@@ -143,16 +145,18 @@ export default function MyChildren() {
   });
   const submitEnrollment = () => {
     if (enrollRequestPending.current || enrollChild.isPending || !childName.trim()) return;
+    if(!children||isLoading||childrenError){setError('Hindi masuri ang enrollment records. I-refresh ang listahan at subukan muli.');return;}
+    if(hasDuplicateChildEnrollment(children,childName,Number(gradeLevel))){setError('Student already exists. Naka-enroll na ang anak na ito sa napiling baitang.');return;}
     enrollRequestPending.current = true;
     setError(null);
-    enrollChild.mutate({ childName: childName.trim(), gradeLevel: Number(gradeLevel) });
+    enrollChild.mutate({ childName: normalizeChildEnrollmentName(childName), gradeLevel: Number(gradeLevel) });
   };
   const { data: accessSettings, isLoading: accessLoading, isFetching: accessFetching, error: accessError, refetch: refetchAccess } = useQuery({
     queryKey: ['child-accessibility', accessOpenId],
     queryFn: () => api<{ settings: StudentAccessibility }>(`/parent/children/${accessOpenId}/settings`, { auth: true }),
     enabled: Boolean(accessOpenId),
   });
-  const updateAccess = useMutation({ meta: { saveFeedback: 'Na-save ang mga pagbabago.' },
+  const updateAccess = useMutation({ meta:{saveFeedback:"Na-save ang reading support."},
     mutationFn: ({ childId: targetChildId, patch }: { childId: string; patch: Partial<StudentAccessibility> }) => api(`/parent/children/${targetChildId}/settings`, { method: 'PATCH', auth: true, body: patch }),
     onSuccess: (_result, { childId: targetChildId }) => queryClient.invalidateQueries({ queryKey: ['child-accessibility', targetChildId] }),
     onError: (err: Error) => setError(tagalogError(err)),
@@ -164,7 +168,7 @@ export default function MyChildren() {
     setError(null);
     updateAccess.mutate({ childId: targetChildId, patch });
   };
-  const resetPassword = useMutation({ meta: { saveFeedback: 'Na-save ang mga pagbabago.' },
+  const resetPassword = useMutation({ meta:{saveFeedback:"Nagawa na ang bagong pansamantalang password."},
     mutationFn: (childId: string) => api<{ username: string; temporaryPassword: string; credentialsEmailSent?: boolean }>(`/parent/children/${childId}/reset-password`, { method: 'POST', auth: true }),
     onSuccess: (result, targetId) => { setTemporaryCredentials(current => rememberChildCredential(current, { username: result.username, password: result.temporaryPassword, childName: children?.find(child => child.id === targetId)?.name || 'Mag-aaral', emailSent: result.credentialsEmailSent })); setError(null); queryClient.invalidateQueries({ queryKey: ['parent-credential-security'] }); },
     onError: (err: Error) => setError(tagalogError(err)),
@@ -280,6 +284,6 @@ export default function MyChildren() {
         </div>
       </div> : <section className="kid-start-panel kid-panel"><img src={noEnrolledChildArt} alt="" /><h2>{isLoading ? 'Kinukuha ang mga account...' : 'Simulan ang paglalakbay ng iyong anak'}</h2><p>Mag-enroll ng anak upang makita ang kanyang mga modyul, gawain, at progreso sa pagbasa.</p><button type="button" className="kid-primary-button" onClick={() => setShowEnrollModal(true)}><Plus size={18} />Magdagdag ng Anak</button></section>}
     </div>
-    <EnrollModal open={showEnrollModal} onClose={() => setShowEnrollModal(false)} name={childName} setName={setChildName} grade={gradeLevel} setGrade={setGradeLevel} pending={enrollChild.isPending} error={error} onSubmit={submitEnrollment} />
+    <EnrollModal open={showEnrollModal} onClose={() => setShowEnrollModal(false)} name={childName} setName={value=>{setChildName(value);setError(null);}} grade={gradeLevel} setGrade={value=>{setGradeLevel(value);setError(null);}} pending={enrollChild.isPending} error={error} duplicate={hasDuplicateChildEnrollment(children||[],childName,Number(gradeLevel))} validationPending={isLoading} onSubmit={submitEnrollment} />
   </div>;
 }

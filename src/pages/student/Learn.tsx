@@ -13,10 +13,11 @@ import { QueryErrorNotice } from '../../components/QueryErrorNotice';
 import { IconLabel } from '../../components/a11y/IconLabel';
 import { cardStyle, CARD_COLORS } from '../../lib/cardStyle';
 import { compactModuleDescription, groupLearnModules, learnModuleArt, learnModulePercent, type LearnModule } from '../../lib/learnPresentation';
-import lessonBooks from '../../assets/students/home/lesson-books.png';
-import alphabetBlocks from '../../assets/students/learn-reference/alphabet-blocks.png';
-import readingStar from '../../assets/badges/Aking Unang Tagumpay.png';
-import tagalogModuleIcons from '../../assets/students/learn-reference/tagalog-module-icons.png';
+import lessonBooks from '../../assets/illustrations/owl-world/books.png';
+import alphabetBlocks from '../../assets/illustrations/owl-world/books.png';
+import readingStar from '../../assets/illustrations/owl-world/owl-celebrating.png';
+import tagalogModuleIcons from '../../assets/illustrations/owl-world/lesson-learn.png';
+import { SpriteArtwork } from '../../components/illustrations/SpriteArtwork';
 import './learn-reference.css';
 import './learn-modules.css';
 
@@ -35,7 +36,7 @@ function ModulePicture({ module, alphabet }: { module: LearnModule; alphabet: bo
   return <div className={`learn-ref-module-art learn-ref-art-${art.color}`} aria-hidden={alphabet || !art.exampleWord ? true : undefined}>
     {alphabet || !art.exampleWord ? <img src={alphabet ? alphabetBlocks : readingStar} alt="" /> : <>
       <span className="learn-ref-example-picture">
-        <svg className="learn-ref-art-emoji" data-sprite={art.sprite} viewBox={art.pictureViewBox ?? undefined} preserveAspectRatio="xMidYMid meet" aria-hidden="true" focusable="false"><image href={tagalogModuleIcons} width="1619" height="972" /></svg>
+        <SpriteArtwork className="learn-ref-art-emoji" source={tagalogModuleIcons} columns={5} rows={3} index={art.sprite ?? 0} />
         <span className="learn-ref-example-word"><span className="sr-only">Halimbawa: </span>{art.exampleWord}</span>
       </span>
       <strong aria-hidden="true">{art.syllable}</strong>

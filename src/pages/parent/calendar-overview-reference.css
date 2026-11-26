@@ -45,7 +45,7 @@
 .role-parent .calendar-legend i { width:27px; height:27px; }
 .role-parent .calendar-legend svg { width:18px; height:18px; }
 .role-parent .calendar-details { position:relative; overflow:hidden; min-height:236px; }
-.calendar-details::after { position:absolute; right:0; bottom:0; width:70px; height:55px; background:url('../../assets/admin_design/sidebar-foliage-right.png') right bottom / 70px auto no-repeat; content:''; opacity:.55; pointer-events:none; }
+.calendar-details::after { position:absolute; right:0; bottom:0; width:70px; height:55px; background:url('../../assets/illustrations/owl-world/foliage.png') right bottom / 70px auto no-repeat; content:''; opacity:.55; pointer-events:none; }
 .role-parent .calendar-details-heading { min-height:35px; }
 .role-parent .calendar-details-heading h2 { font-size:1.2em; }
 .role-parent .calendar-details-heading > span { width:36px; height:36px; background:#ddf3ff; }

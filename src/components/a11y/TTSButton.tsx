@@ -16,6 +16,7 @@ interface TTSButtonProps {
   publicAccess?: boolean;
   /** Supplies the target when a compact lesson button hides its visible label. */
   ariaLabel?: string;
+  label?: string;
 }
 
 // Cache decoded audio per spoken text+rate so repeat plays (e.g. re-reading the same word)
@@ -33,7 +34,7 @@ function base64ToObjectUrl(base64: string): string {
 
 /** Reads `text` aloud through the server-side Filipino Cloud TTS voice. Acts as a toggle --
  *  clicking again while speaking stops playback instead of restarting it. */
-export function TTSButton({ text, lang = 'fil-PH', rate: requestedRate, className, publicAccess = false, ariaLabel }: TTSButtonProps) {
+export function TTSButton({ text, lang = 'fil-PH', rate: requestedRate, className, publicAccess = false, ariaLabel, label = 'Basahin nang malakas' }: TTSButtonProps) {
   const [status, setStatus] = useState<'idle' | 'loading' | 'speaking'>('idle');
   const [error, setError] = useState('');
   const audioRef = useRef<HTMLAudioElement | null>(null);
@@ -159,7 +160,7 @@ export function TTSButton({ text, lang = 'fil-PH', rate: requestedRate, classNam
     >
       <IconLabel
         icon={status === 'loading' ? '⏳' : status === 'speaking' ? '⏹️' : '🔈'}
-        label={status === 'loading' ? 'Naglo-load...' : status === 'speaking' ? 'Ihinto' : 'Basahin nang malakas'}
+        label={status === 'loading' ? 'Naglo-load...' : status === 'speaking' ? 'Ihinto' : label}
       />
     </button>{error && <span role="alert" className="text-sm text-[var(--color-danger)]">{error}</span>}</>
   );

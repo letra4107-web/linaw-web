@@ -50,7 +50,7 @@ function SavedProfileAvatar({ profile, busy }: { profile: SavedAuthProfile; busy
   if (busy) return <ButtonSpinner />;
   return url && failedUrl !== url
     ? <img src={url} alt={`Profile photo ni ${profile.displayName}`} className="h-full w-full object-cover" onError={() => setFailedUrl(url)} />
-    : <>{initialsFor(profile.displayName)}</>;
+    : <span>{initialsFor(profile.displayName)}</span>;
 }
 
 function ProfilePicker({
@@ -155,6 +155,7 @@ export default function Login() {
     if (!cleanEmail) errors.email = 'Kailangan ang email.';
     else if (!isValidEmail(cleanEmail)) errors.email = "Hindi wasto ang email address.";
     if (!password) errors.password = 'Kailangan ang password.';
+    else if (/\s/.test(password)) errors.password = 'Hindi maaaring may espasyo ang password.';
     return errors;
   };
 
@@ -343,7 +344,7 @@ export default function Login() {
         <FieldError message={error ?? undefined} />
         <button type="submit" disabled={submitting} className={`${primaryButtonClass} min-h-14 rounded-3xl py-3.5 text-[17px]`}>
           {submitting && <ButtonSpinner />}
-          {submitting ? 'Naglo-login...' : 'Mag-login'}
+          <span>{submitting ? 'Naglo-login...' : 'Mag-login'}</span>
         </button>
       </form>
       )}

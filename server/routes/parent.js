@@ -1,8 +1,10 @@
+const {validOptionalChildBirthDate}=require('../lib/childBirthDate');
 const express = require('express');
 const bcrypt = require('bcryptjs');
 const { temporaryPassword } = require('../lib/temporaryPassword');
 const { supabaseAdmin } = require('../config/supabase');
 const { sendMail } = require('../config/mailer');
+const { childEnrollmentEmail, passwordResetEmail } = require('../lib/emailTemplates');
 const { requireAuth, requireRole } = require('../middleware/auth');
 const { buildReadingProfile } = require('../services/readingInsights');
 const { loadCompletedContentIds } = require('../services/readingProfileData');
@@ -12,6 +14,8 @@ const { credentialLimiter } = require('../lib/rateLimiters');
 const { safeCredentialStatus } = require('../services/credentialSecurity');
 const { createMaterialAccessService } = require('../services/materialAccess');
 const { createMessageProfilePhotoService } = require('../services/messageProfilePhotos');
+const {normalizeChildName,enrollmentNameKey,childEnrollmentExists,isDuplicateChildEnrollment,duplicateChildMessage}=require('../services/childEnrollment');
+const pendingEnrollments=new Set();
 
 const router = express.Router();
 router.use(requireAuth, requireRole('parent'));
@@ -35,8 +39,6 @@ const difficultyFromGrade = (gradeLevel) => {
   if (gradeLevel <= 4) return 'Intermediate';
   return 'Advanced';
 };
-
-const escapeIlikePattern = (value) => String(value || '').replace(/[\\%_]/g, (match) => `\\${match}`);
 
 const makeStudentUsernameBase = (name) => {
   const parts = String(name || '')
@@ -129,8 +131,8 @@ router.patch('/children/:id',validateUuidParam('id'),async(req,res)=>{
     const child=await authorization.parentChild(req.user.id,req.params.id);
     if(!child)return res.status(404).json({error:'Hindi makita ang anak sa account na ito.'});
     const {name,gradeLevel,dateOfBirth,revision}=req.body||{};
-    if(typeof name!=='string'||name.trim().length<2||name.trim().length>100||!Number.isInteger(gradeLevel)||gradeLevel<1||gradeLevel>6||!Number.isInteger(revision)||revision<0||typeof dateOfBirth!=='string'||!/^\d{4}-\d{2}-\d{2}$/.test(dateOfBirth)||!Number.isFinite(Date.parse(dateOfBirth))||new Date(dateOfBirth).toISOString().slice(0,10)!==dateOfBirth||dateOfBirth<'1900-01-01'||dateOfBirth>new Date(Date.now()+8*3600000).toISOString().slice(0,10))return res.status(400).json({error:'Ilagay ang buong pangalan, baitang at wastong petsa ng kapanganakan.'});
-    const {data,error}=await supabaseAdmin.rpc('update_parent_child_profile',{p_parent_id:req.user.id,p_child_id:child.id,p_name:name.trim(),p_grade:gradeLevel,p_birth_date:dateOfBirth,p_revision:revision});
+    if(typeof name!=='string'||name.trim().length<2||name.trim().length>100||!Number.isInteger(gradeLevel)||gradeLevel<1||gradeLevel>6||!Number.isInteger(revision)||revision<0||!validOptionalChildBirthDate(dateOfBirth))return res.status(400).json({error:'Ilagay ang buong pangalan at baitang. Opsyonal ang birthday; dapat 7 taong gulang pataas kapag nilagyan.'});
+    const {data,error}=await supabaseAdmin.rpc('update_parent_child_profile',{p_parent_id:req.user.id,p_child_id:child.id,p_name:name.trim(),p_grade:gradeLevel,p_birth_date:dateOfBirth||null,p_revision:revision});
     if(error){if(error.code==='PT409')return res.status(409).json({error:'Nagbago na ang detalye. I-refresh bago mag-save.'});throw error;}
     return res.json({success:true,child:data});
   }catch(error){console.error('[parent child profile]',{code:error?.code});return res.status(503).json({error:'Hindi na-save ang detalye. Subukan muli.'});}
@@ -139,28 +141,23 @@ router.patch('/children/:id',validateUuidParam('id'),async(req,res)=>{
 // POST /parent/children  { childName, gradeLevel }
 router.post('/children', async (req, res) => {
   let createdAuthUid = null;
+  let enrollmentKey=null;
   try {
     const parentId = req.user.id;
     const parentEmail = req.user.email;
     const { childName, gradeLevel } = req.body || {};
-    const cleanName = String(childName || '').trim();
+    const cleanName = normalizeChildName(childName);
     const finalGradeLevel = Number(gradeLevel);
 
     if (!parentEmail || typeof childName !== 'string' || cleanName.length < 2 || cleanName.length > 100 || !isGrade(gradeLevel)) {
       return res.status(400).json({ error: "Kailangan ang pangalan at baitang mula 1 hanggang 6." });
     }
 
-    const { data: existingEnrollment, error: existingErr } = await supabaseAdmin
-      .from('children')
-      .select('id')
-      .eq('parent_id', parentId)
-      .eq('grade_level', finalGradeLevel)
-      .ilike('name', escapeIlikePattern(cleanName))
-      .limit(1)
-      .maybeSingle();
-    if (existingErr) throw existingErr;
-    if (existingEnrollment) {
-      return res.status(409).json({ error: 'Naka-enroll na ang mag-aaral na ito sa grade level na ito.' });
+    const key=JSON.stringify([parentId,finalGradeLevel,enrollmentNameKey(cleanName)]);
+    if(pendingEnrollments.has(key))return res.status(409).json({success:false,code:'ENROLLMENT_IN_PROGRESS',error:'Ini-enroll na ang anak na ito. Hintaying matapos ang kasalukuyang kahilingan.'});
+    pendingEnrollments.add(key);enrollmentKey=key;
+    if (await childEnrollmentExists(supabaseAdmin,parentId,cleanName,finalGradeLevel)) {
+      return res.status(409).json({success:false,code:'STUDENT_ALREADY_EXISTS',message:duplicateChildMessage,error:duplicateChildMessage});
     }
 
     // Every learner begins with the foundation path. Higher difficulties are
@@ -244,7 +241,8 @@ router.post('/children', async (req, res) => {
     let credentialsEmailSent = false;
     await sendMail({
       to: parentEmail,
-      subject: `LinawLetra — Login ni ${cleanName}`,
+      subject: `LinawLetra - Login details ni ${cleanName}`,
+      html: childEnrollmentEmail({ childName: cleanName, gradeLevel: finalGradeLevel, readingLevel: level, username: authEmail, password }),
       text: `Magandang araw!\n\nNaka-enroll na si ${cleanName} sa LinawLetra (Grade ${finalGradeLevel}, ${level} na reading level).\n\nUsername: ${authEmail}\nPassword: ${password}\n\nItago ang detalyeng ito.`,
     }).then(() => { credentialsEmailSent = true; }).catch((mailError) => console.error('[parent child enrollment email]', { code: mailError?.code }));
     if (credentialsEmailSent) {
@@ -275,7 +273,10 @@ router.post('/children', async (req, res) => {
         }
       }
     }
+    if(isDuplicateChildEnrollment(err))return res.status(409).json({success:false,code:'STUDENT_ALREADY_EXISTS',message:duplicateChildMessage,error:duplicateChildMessage});
     res.status(500).json({ error: 'Hindi na-enroll ang bata.' });
+  } finally {
+    if(enrollmentKey)pendingEnrollments.delete(enrollmentKey);
   }
 });
 
@@ -486,6 +487,7 @@ router.post('/children/:id/reset-password', validateUuidParam('id'), credentialL
       await sendMail({
         to: req.user.email,
         subject: `LinawLetra — Bagong password ni ${child.name}`,
+        html: passwordResetEmail({ childName: child.name, username: child.username, password }),
         text: `Na-reset ang password ni ${child.name}.\n\nUsername: ${child.username}\nTemporary password: ${password}\n\nMag-login at palitan ito. Hindi mai-retrieve ng LinawLetra ang lumang password.`,
       }).then(() => { credentialsEmailSent = true; }).catch((mailError) => console.error('[parent child reset email]', { code: mailError?.code }));
       if (credentialsEmailSent) {

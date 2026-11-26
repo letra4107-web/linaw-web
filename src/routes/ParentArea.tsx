@@ -1,4 +1,5 @@
 import { lazy, Suspense } from 'react';
+import { loadRoute } from '../lib/loadRoute';
 import { Route, Routes } from 'react-router-dom';
 import { ProtectedRoute } from '../components/ProtectedRoute';
 import ParentLayout from '../pages/parent/ParentLayout';
@@ -12,7 +13,7 @@ import AppSettings from '../pages/parent/AppSettings';
 import Materials from '../pages/parent/Materials';
 import NotFound from '../pages/NotFound';
 
-const ProgressReport = lazy(() => import('../pages/parent/ProgressReference'));
+const ProgressReport = lazy(() => loadRoute(() => import('../pages/parent/ProgressReference')));
 
 export default function ParentArea() {
   return <Routes><Route element={<ProtectedRoute role="parent"><ParentLayout /></ProtectedRoute>}>

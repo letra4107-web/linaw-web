@@ -7,8 +7,8 @@ import { teacherNoticeDateMatches, teacherNoticePresentation, teacherNoticeText 
 import type { TeacherNoticeGroup } from '../../lib/teacher/notificationPresentation';
 import { QueryErrorNotice } from '../../components/QueryErrorNotice';
 import { ProfileDialog } from './TeacherProfileSecurity';
-import teacherHeroBackground from '../../assets/teacher/Teacher Home Hero Banner Background.png';
-import teacherIllustration from '../../assets/teacher/Teacher Illustration.png';
+import teacherHeroBackground from '../../assets/illustrations/owl-world/classroom-banner.png';
+import teacherIllustration from '../../assets/illustrations/role-themes/teacher-guide.png';
 import './profile-reference.css';
 import './notifications-reference.css';
 
@@ -31,7 +31,7 @@ export default function TeacherNotifications(){
   const count=(value:number)=>isLoading?'…':error?'—':value;
   function read(row:NotificationRow){if(row.is_read||busy)return;markAllAsRead.reset();setLastAction('one');setLastReadId(row.id);markAsRead.mutate(row.id);}
   function view(row:NotificationRow){setDetailId(row.id);read(row);}
-  function readAll(){if(busy)return;markAsRead.reset();setLastAction('all');markAllAsRead.mutate();}
+  function readAll(){if(busy||isLoading||error||!unreadCount)return;markAsRead.reset();setLastAction('all');markAllAsRead.mutate();}
   function reset(){setFilter('all');setSearch('');setPeriod('all');setType('all');}
   return <div className="teacher-notifications-design">
     <header className="tn-hero"><img className="tn-background" src={teacherHeroBackground} alt="" aria-hidden/><div className="tn-hero-copy"><p>ACCOUNT NG GURO</p><h1>Mga Abiso <span className="tn-hero-bell"><Bell aria-hidden/><i/><i/><i/></span></h1><p>Mahahalagang update sa iyong pagtuturo at account,<br className="tn-wide-break"/> sa isang lugar.</p></div><img className="tn-teacher" src={teacherIllustration} alt="" aria-hidden/><blockquote>Patuloy na<br/> magbigay ng mas<br/> maliwanag na<br/> kinabukasan para<br/> sa bawat bata. <Heart aria-hidden/><Bell aria-hidden/></blockquote></header>

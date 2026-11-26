@@ -1,0 +1,143 @@
+/* Keep interaction states paired: a light label always needs a dark surface.
+   These selectors also cover menus rendered in role-scoped portals. */
+:root[data-theme="dark"] body :is(.role-parent,.role-teacher,.role-student,.role-admin) {
+  --card-tint-base:var(--color-surface);
+  --card-border-base:var(--color-border);
+}
+:root[data-theme="dark"] body :is(.role-parent,.role-teacher,.role-student,.role-admin) [role="menu"] {
+  background:#1c2d36 !important;
+  border-color:#50636f !important;
+  color:#e7f0f5 !important;
+}
+:root[data-theme="dark"] body :is(.role-parent,.role-teacher,.role-student,.role-admin) [role="menu"] [role="menuitem"] {
+  background:transparent !important;
+  color:#e7f0f5 !important;
+}
+:root[data-theme="dark"] body :is(.role-parent,.role-teacher,.role-student,.role-admin) [role="menu"] [role="menuitem"]:is(:hover,:focus-visible,[aria-current="page"]) {
+  background:#344e60 !important;
+  color:#f1f7fc !important;
+  box-shadow:none !important;
+}
+:root[data-theme="dark"] body :is(.role-parent,.role-teacher,.role-student,.role-admin) [role="menu"] button[role="menuitem"] {
+  color:#ffb4ab !important;
+}
+:root[data-theme="dark"] body :is(.role-parent,.role-teacher,.role-student,.role-admin) [role="menu"] [role="menuitem"]:focus-visible {
+  outline:2px solid #9edbf5;
+  outline-offset:2px;
+}
+
+:root[data-theme="dark"] body [role="menu"] :is(.student-profile-popover-header,.teacher-profile-summary) {
+  background:#243943 !important;
+  color:#e7f0f5 !important;
+}
+:root[data-theme="dark"] body [role="menu"] p { color:#e7f0f5 !important; }
+:root[data-theme="dark"] body [role="menu"] :is(.student-profile-popover-email,.teacher-profile-email) { color:#bfd0dd !important; }
+:root[data-theme="dark"] body :is(.student-badge-summary > header,.student-badge-dialog > header) > button {
+  background:#2b4357;
+  border-color:#718ca4;
+  color:#e7f0f5 !important;
+}
+
+/* Parent report links, encouragement notes, and materials. */
+:root[data-theme="dark"] body .role-parent .children-portal :is(.kid-hero-note,.kid-quote blockquote) { color:#e7f0f5 !important; }
+:root[data-theme="dark"] body .role-parent .children-portal .kid-hero-copy :is(h1,p) { color:#e7f0f5 !important; }
+:root[data-theme="dark"] body .role-parent .calendar-reference-hero > div > p { background:#284a48; color:#e7f0f5 !important; }
+:root[data-theme="dark"] body .role-parent :is(.ref-learning-inner a,.progress-ref-tabs button.active) { background:#09675f; color:#fff; }
+:root[data-theme="dark"] body .role-parent :is(.calendar-view-toggle button.active,.account-primary) { background:#09675f; color:#fff; }
+:root[data-theme="dark"] body .role-parent :is(.calendar-details-filter button,.calendar-upcoming-empty button,.calendar-no-data button) { color:#9cddcd !important; }
+:root[data-theme="dark"] body .role-parent .materials-empty p { color:#bfd0dd; }
+:root[data-theme="dark"] body .role-parent .materials-child-picker i { background:#344e60; color:#e7f0f5; }
+:root[data-theme="dark"] body .role-parent .materials-hero::before { content:''; position:absolute; inset:0; background:linear-gradient(90deg,#142b38f5,#142b38df 48%,#142b3866 80%); pointer-events:none; }
+:root[data-theme="dark"] body .role-parent .materials-hero aside { z-index:1; }
+
+/* Teacher banners retain their artwork with a matching dark base and labels. */
+:root[data-theme="dark"] body .role-teacher .teacher-workspace :is(.th-hero,.ts-hero,.tl-hero,.tr-hero,.tm-hero,.tn-hero,.tp-hero,.tsg-hero,.teacher-calendar-hero) { background-color:#202b3c !important; }
+:root[data-theme="dark"] body .role-teacher .th-welcome h1 > span { color:#d4baff; }
+:root[data-theme="dark"] body .role-teacher .teacher-profile-trigger span[class*="text-white/65"] { color:#e6ddf8; }
+:root[data-theme="dark"] body .role-teacher :is(.hw-tabs button,.tn-state a,.teacher-calendar-type) { color:#d4baff !important; }
+:root[data-theme="dark"] body .role-teacher .hw-tabs button[aria-pressed="true"] { background:#533294; color:#fff !important; }
+:root[data-theme="dark"] body .role-teacher .tr-highlight-list em { color:#f1d49e; }
+:root[data-theme="dark"] body .role-teacher :is(.tp-field,.tp-form-row,.tp-password-field,.teacher-profile-form) em { color:#ffb4ab; }
+
+/* Admin tables and secondary actions must not inherit their daytime inks. */
+:root[data-theme="dark"] body .role-admin .admin-reference-hero { background-color:#123f7a; }
+:root[data-theme="dark"] body .role-admin :is(.admin-chart-eyebrow,.admin-analytics-student-link) { color:#a9d6ff; }
+:root[data-theme="dark"] body .role-admin :is(.admin-credential-details,.admin-credential-footer,.admin-pagination,.sections-list > footer) { color:#bfd0ea; }
+:root[data-theme="dark"] body .role-admin :is(.admin-reference-tabs button,.sections-create label) { color:#e7f0f5; }
+:root[data-theme="dark"] body .role-admin :is(.admin-reference-tabs button,.admin-student-tools button,.admin-assignment-summary > section:last-child,.admin-recipient-choices label) {
+  background:#243d5c !important;
+  border-color:#526e91;
+  color:#e7f0f5;
+}
+:root[data-theme="dark"] body .role-admin .admin-reference-tabs button:is(.is-active,[aria-selected="true"],[aria-pressed="true"]) { background:#285c91 !important; color:#fff; }
+:root[data-theme="dark"] body .role-admin .admin-console main.admin-reference-main :is(td,td[class*="text-[var(--color-text-muted)]"],.audit-empty) { color:#dcecff !important; }
+:root[data-theme="dark"] body .role-admin .user-role-admin { color:#176146; }
+:root[data-theme="dark"] body .role-admin .user-role-parent { color:#794600; }
+:root[data-theme="dark"] body .role-admin span[class*="text-[var(--color-success)]"] { color:#13653b; }
+:root[data-theme="dark"] body .role-admin button[class*="text-[var(--color-danger)]"] { color:#ffb4ab; }
+:root[data-theme="dark"] body .role-admin .analytics-enrollment-legend > span { color:#bfd0ea; }
+:root[data-theme="dark"] body .role-admin :is(.sections-create,.admin-profile-form) em { color:#ffb4ab; }
+:root[data-theme="dark"] body .role-admin .admin-profile-account-badge { background:#234f80 !important; }
+:root[data-theme="dark"] body .role-admin .admin-activity-feed article { background:#243d5c; color:#e7f0f5; }
+:root[data-theme="dark"] body .role-admin .admin-activity-feed time { background:#304b6a; color:#d9e8ff; }
+:root[data-theme="dark"] body .role-admin .admin-new-accounts article { background:#243d5c; }
+:root[data-theme="dark"] body .role-admin .admin-new-accounts time { background:#304b6a; color:#d9e8ff; }
+:root[data-theme="dark"] body .role-admin .analytics-distribution::before { background:#1b2c49; }
+:root[data-theme="dark"] body .role-admin .sections-create button[type="submit"] { background:#165ba2; color:#fff; }
+:root[data-theme="dark"] body .role-admin .admin-sections-reference .sections-create footer button + button { background:#165ba2; color:#fff; }
+:root[data-theme="dark"] body .role-admin .admin-notification-form em { color:#ffb4ab; }
+:root[data-theme="dark"] body .role-admin .admin-error { background:#49333b; border-color:#b9808d; color:#ffd1dc !important; }
+:root[data-theme="dark"] body .role-admin .admin-quick-actions a { background:linear-gradient(110deg,#1458a8,#16427b); }
+:root[data-theme="dark"] body .role-admin .admin-quick-actions a:nth-child(2) { background:linear-gradient(110deg,#774017,#864712); }
+:root[data-theme="dark"] body .role-admin .admin-quick-actions a:nth-child(3) { background:linear-gradient(110deg,#16634f,#145b55); }
+:root[data-theme="dark"] body .role-admin :is(.admin-person-avatar,.admin-outline-button) { background:#304b6a; color:#dcecff; }
+:root[data-theme="dark"] body .role-admin .user-management-reference article > dl { background:#223956; }
+
+/* Student headings and progress labels sit on matching night surfaces. */
+:root[data-theme="dark"] body .role-student {
+  --color-bg:#1c2233; --color-surface:#242a3c; --color-text:#eee9fa;
+  --color-text-muted:#c7bddb; --color-border:#5b5270;
+  --color-primary:#7150bb; --color-primary-hover:#61409c; --color-primary-soft:#3d3157;
+  background:var(--color-bg); color:var(--color-text);
+}
+:root[data-theme="dark"] body .role-student .student-home-reference {
+  --home-ink:#eee9fa; --home-muted:#c7bddb; --home-panel:#242a3c;
+}
+:root[data-theme="dark"] body .role-student :is(.home-panel,.home-number-card) { background:#242a3c; border-color:#5b5270; color:#eee9fa; }
+:root[data-theme="dark"] body .role-student :is(.home-number-card h2,.home-number-card strong,.home-reminder-card li) { color:#eee9fa; }
+:root[data-theme="dark"] body .role-student .student-sidebar-profile-trigger { background:#2d3549; border-color:#5b5270; color:#eee9fa; }
+:root[data-theme="dark"] body .role-student .student-sidebar-profile-trigger > span:nth-child(2) > span:first-child { color:#eee9fa; }
+:root[data-theme="dark"] body .role-student .student-sidebar-profile-trigger > span:nth-child(2) > span:last-child { color:#c7bddb; }
+:root[data-theme="dark"] body .role-student .student-sidebar-profile-trigger > span:first-child { background:#7150bb; color:#fff; }
+:root[data-theme="dark"] body .role-student .student-sidebar-nav-item[aria-current="page"] { background:#3e365b !important; color:#f1eaff !important; }
+:root[data-theme="dark"] body .role-student .profile-numbers-heading { background:#24202f; }
+:root[data-theme="dark"] body .role-student .profile-badges-heading a { color:#d4baff; }
+:root[data-theme="dark"] body .role-student .module-lesson-progress > strong { color:#172d43; text-shadow:none; }
+:root[data-theme="dark"] body .role-student .practice-reference-hero p { color:#fff; }
+:root[data-theme="dark"] body .role-student .practice-reference-tabs button[aria-pressed="true"] { background:#60429a !important; color:#fff !important; }
+:root[data-theme="dark"] body .role-student .student-mobile-header :is(a,button) { background:#2d3549; border-color:#5b5270; color:#eee9fa; }
+:root[data-theme="dark"] body .role-student .student-mobile-header a > span { color:#d4baff; }
+:root[data-theme="dark"] body .role-student .student-mobile-header span[class*="text-[var(--color-primary)]"] { color:#d4baff !important; }
+:root[data-theme="dark"] body .role-student .home-number-card small { color:#c7bddb; }
+:root[data-theme="dark"] body .role-student .home-word-placeholder :is(h2,p) { background:#242a3cf2; color:#eee9fa; }
+:root[data-theme="dark"] body .role-student :is(.learn-course-guide p,.assessment-back-link) { color:#d4baff; }
+:root[data-theme="dark"] body .role-student :is(.learn-ref-start,.profile-edit-button) { background:#60429a; color:#fff; }
+:root[data-theme="dark"] body .role-student :is(.practice-reference-card,.practice-reference-meaning,.practice-reference-word > div) { background:#262d40 !important; color:#eee9fa; }
+:root[data-theme="dark"] body .role-student .practice-reference-word { background:#262d40 !important; }
+:root[data-theme="dark"] body .role-student .practice-reference-word p { color:#e5dcff !important; }
+:root[data-theme="dark"] body .role-student .practice-reference-word > span { background:#463860 !important; color:#eee9fa !important; }
+:root[data-theme="dark"] body .role-student .practice-reference-progress { color:#d4baff; }
+:root[data-theme="dark"] body .role-student .practice-reference-progress > span { background:#3d3157; color:#eee9fa; }
+:root[data-theme="dark"] body .role-student .practice-reference-meaning > p:first-child { color:#d4baff !important; }
+:root[data-theme="dark"] body .role-student section[aria-label^="Kahulugan ng"] { background:#262d40; color:#eee9fa; }
+:root[data-theme="dark"] body .role-student section[aria-label^="Kahulugan ng"] > p:first-child { color:#d4baff; }
+:root[data-theme="dark"] body .role-student .practice-reference-content button[class*="bg-white"] { background:#3d3157; color:#eee9fa; }
+:root[data-theme="dark"] body .role-student .practice-reference-listen .practice-reference-content > button { background:#60429a !important; color:#fff; }
+:root[data-theme="dark"] body .role-student .syllable-karaoke__chip { background:#42335f !important; color:#f4edff !important; box-shadow:inset 0 0 0 2px #8b78b0 !important; }
+:root[data-theme="dark"] body .role-student .syllable-karaoke__chip[data-active="true"] { background:#60429a !important; color:#fff !important; }
+:root[data-theme="dark"] body .role-student .syllable-karaoke__chip[data-difficult="true"]:not([data-active]) { background:#554627 !important; color:#ffe9a8 !important; }
+
+/* Auth screens keep their cream panels, with legible secondary copy. */
+:root[data-theme="dark"] body :is(.verify-email-heading > p,.verify-email-resend,.verify-email-resend button,.verify-email-main > p,.auth-shell-footer) { color:#5b5169; }
+:root[data-theme="dark"] body .verify-email-submit { background:#60429a; color:#fff; }
+:root[data-theme="dark"] body .verify-email-help p { color:#5b5169; }

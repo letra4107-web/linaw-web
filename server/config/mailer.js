@@ -1,10 +1,17 @@
 const nodemailer = require('nodemailer');
 const brevoKey = String(process.env.BREVO_API_KEY || '').trim();
-const smtpConfigured = Boolean(brevoKey || (process.env.SMTP_HOST && process.env.SMTP_USER && process.env.SMTP_PASS));
-const transporter = !brevoKey && smtpConfigured ? nodemailer.createTransport({host:process.env.SMTP_HOST,port:Number(process.env.SMTP_PORT || 587),secure:process.env.SMTP_SECURE === 'true' || Number(process.env.SMTP_PORT) === 465,auth:{user:process.env.SMTP_USER,pass:process.env.SMTP_PASS},connectionTimeout:8000,greetingTimeout:8000,socketTimeout:12000}) : null;
+const gmailUser = String(process.env.GMAIL_USER || '').trim();
+const gmailAppPassword = String(process.env.GMAIL_APP_PASSWORD || '').replace(/\s/g, '');
+const gmailConfigured = Boolean(gmailUser && gmailAppPassword);
+const smtpUser = gmailConfigured ? gmailUser : process.env.SMTP_USER;
+const smtpPass = gmailConfigured ? gmailAppPassword : process.env.SMTP_PASS;
+const smtpHost = gmailConfigured ? 'smtp.gmail.com' : process.env.SMTP_HOST;
+const smtpPort = gmailConfigured ? 465 : Number(process.env.SMTP_PORT || 587);
+const smtpConfigured = Boolean(brevoKey || (smtpHost && smtpUser && smtpPass));
+const transporter = !brevoKey && smtpConfigured ? nodemailer.createTransport({host:smtpHost,port:smtpPort,secure:gmailConfigured || process.env.SMTP_SECURE === 'true' || (!process.env.SMTP_SECURE && smtpPort === 465),auth:{user:smtpUser,pass:smtpPass},connectionTimeout:8000,greetingTimeout:8000,socketTimeout:12000}) : null;
 async function sendMail({to,subject,html,text}) {
  if (!smtpConfigured) throw Object.assign(new Error('Hindi pa handa ang serbisyo ng email. Makipag-ugnayan sa administrator.'),{code:'MAIL_UNAVAILABLE'});
- const from=process.env.EMAIL_FROM || process.env.SMTP_FROM || 'LinawLetra <no-reply@linawletra.app>';
+ const from=gmailConfigured ? (process.env.GMAIL_FROM || `LinawLetra <${gmailUser}>`) : (process.env.EMAIL_FROM || process.env.SMTP_FROM || 'LinawLetra <no-reply@linawletra.app>');
  try {
   if (brevoKey) {
    const match=from.match(/^(.*?)<([^>]+)>$/);

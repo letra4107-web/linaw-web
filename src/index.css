@@ -494,7 +494,7 @@
 .student-home-primary-action:hover { background: #8679c6; }
 .student-home-dashboard p:not([class*='tracking-']) { letter-spacing: .03em; line-height: 1.6; }
 
-.student-word-practice { background-image: url('./assets/students/backgrounds/word-practice-background-v2.png'); background-position: center; background-size: cover; background-repeat: no-repeat; border-color: rgba(235,188,82,.35); box-shadow: 0 10px 30px rgba(82, 67, 115, .08); }
+.student-word-practice { background-image: url('./assets/illustrations/owl-world/garden.png'); background-position: center; background-size: cover; background-repeat: no-repeat; border-color: rgba(235,188,82,.35); box-shadow: 0 10px 30px rgba(82, 67, 115, .08); }
 .student-word-practice h2 { color: #fff; }
 .student-word-practice-header { background: linear-gradient(90deg, rgba(71,190,222,.84), rgba(100,198,222,.68)); border-bottom: 1px solid rgba(255,255,255,.4); }
 .student-word-practice-header p { color: rgba(255,255,255,.94) !important; }

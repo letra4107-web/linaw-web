@@ -60,7 +60,7 @@ body[data-font="comic"] .role-parent { --parent-font: "Comic Sans MS", "Comic Sa
   inset: auto 0 0;
   height: 290px;
   border-radius: inherit;
-  background: url('../../assets/admin_design/sidebar-foliage-left.png') left bottom / auto 290px no-repeat;
+  background: url('../../assets/illustrations/owl-world/foliage.png') left bottom / auto 290px no-repeat;
   content: '';
   opacity: .85;
   pointer-events: none;

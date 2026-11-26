@@ -28,7 +28,7 @@ export function useMessageReactions(targets: ReactionTarget[]) {
       return { available: true, rows: results.flatMap((result) => result.data ?? []) as ReactionRow[] };
     },
   });
-  const mutation = useMutation({
+  const mutation = useMutation({meta:{silentFeedback:true},
     mutationFn: async ({ target, emoji }: { target: ReactionTarget; emoji: string | null }) => {
       const { error } = await supabase.rpc('set_message_reaction', { p_kind: target.kind, p_message_id: target.id, p_emoji: emoji });
       if (error) throw error;

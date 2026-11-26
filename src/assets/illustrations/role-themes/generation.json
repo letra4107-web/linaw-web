@@ -1,0 +1,76 @@
+{
+  "mode": "built-in image_gen",
+  "style": "Distinct 2D role themes: parent family guidance, teacher classroom teaching, admin school management. Student keeps the owl.",
+  "assets": [
+    {
+      "name": "parent-family",
+      "prompt": "Polished HD TWO-DIMENSIONAL storybook illustration, clean intentional hand-inked outlines, simple cel shading, matte colors and a very subtle paper texture. Charming Filipino children's workbook art. No 3D/plastic rendering, no photorealism, no volumetric glow, no blur, no oversized glittery eyes. Natural hands and complete coherent silhouettes. No lettering, logos or watermarks. NO OWLS OR ANIMAL MASCOTS anywhere. First reference is only the parent-and-child COMPOSITION and human identities (mother long brown hair, teal cardigan, little boy dark hair cream/teal shirt). Second reference is the TWO-DIMENSIONAL drawing style only, ignore its owl. Transparent full-group cutout: smiling Filipino mother and young son holding ONE open teal reading book together, warm supportive home-learning scene, green leaves and two daisies at bottom. Tall 2:3 portrait composition for narrow dashboard sidebar, heads in upper half, book lower half, all heads/hands fully inside canvas with generous 9% clear margins. Mother behind left, son lower right. No rectangular backdrop, no cast background shadow.",
+      "transparent": true,
+      "file": "parent-family.png",
+      "width": 1024,
+      "height": 1536
+    },
+    {
+      "name": "teacher-guide",
+      "prompt": "Polished HD TWO-DIMENSIONAL storybook illustration, clean intentional hand-inked outlines, simple cel shading, matte colors and a very subtle paper texture. Charming Filipino children's workbook art. No 3D/plastic rendering, no photorealism, no volumetric glow, no blur, no oversized glittery eyes. Natural hands and complete coherent silhouettes. No lettering, logos or watermarks. NO OWLS OR ANIMAL MASCOTS anywhere. Use the second reference ONLY for the 2D rendering style, ignore its owl. Full-body approachable Filipino female elementary school TEACHER, shoulder-length dark brown hair, modest lavender blouse and navy trousers, brown flats, holding a violet lesson folder in one hand and gently presenting with the other. Human adult proportions, warm natural expression, medium brown skin, small simple eyes. Simple small cream clipboard tucked with folder, absolutely no letters. Transparent background isolated complete standing figure, square canvas, generous 10% margins. Distinct educator theme, no children and no owls.",
+      "transparent": true,
+      "file": "teacher-guide.png",
+      "width": 1254,
+      "height": 1254
+    },
+    {
+      "name": "family-banner",
+      "transparent": false,
+      "prompt": "undefined Very WIDE 3:1 horizontal website banner. Parent portal FAMILY READING GARDEN theme in teal, soft coral, green and warm cream. A Filipino mother long brown hair teal cardigan and smiling little boy dark swept hair cream school shirt, reading an open teal book together in a quiet home garden. Two humans grouped at center-right around 63% width; heads and book within central 70% of height so suitable for a shallow dashboard banner. Pale cream/sky left 42% left empty for HTML greeting. A small home verandah and plants at right, gentle teal foliage and daisies along bottom. No rainbow, school characters, owl or mascot. Clear elegant 2D illustration, not busy, no writing.",
+      "file": "family-banner.png",
+      "width": 2172,
+      "height": 724
+    },
+    {
+      "name": "young-reader",
+      "transparent": true,
+      "prompt": "undefined Single smiling Filipino elementary-school BOY, dark swept brown hair, cream school shirt with teal backpack straps, sitting cross-legged reading an open teal book. Full figure, two hands holding ONE book, two legs, simple natural brown eyes. Transparent isolated character, generous 12% margins. Square composition. Teal/coral/cream family portal palette. No animals.",
+      "file": "young-reader.png",
+      "width": 1254,
+      "height": 1254
+    },
+    {
+      "name": "family-icons",
+      "columns": 2,
+      "rows": 2,
+      "transparent": true,
+      "prompt": "undefined Teal/coral/gold PARENT dashboard decoration set.  Transparent SPRITE SHEET, exactly 2 columns by 2 rows in strict ROW-MAJOR order. Each listed subject is completely centered in its OWN equal square cell, within the central 65% of that cell, generous transparent gutter all around, no touching cells, no background, no dividing lines, labels or numbers. 1. circular head-and-shoulders portrait of a smiling Filipino schoolboy, short brown hair, cream and teal shirt, pale mint circle; 2. circular head-and-shoulders portrait of a smiling Filipino schoolgirl, shoulder-length brown hair, coral hairclip and cream shirt, pale peach circle; 3. gold and teal freestanding hourglass with clear glass and yellow sand; 4. gold star medal with coral ribbon tails.",
+      "file": "family-icons.png",
+      "width": 1261,
+      "height": 1247
+    },
+    {
+      "name": "educator-icons",
+      "columns": 4,
+      "rows": 2,
+      "transparent": true,
+      "prompt": "undefined Violet, blue, amber CLASSROOM TEACHING dashboard illustration set.  Transparent SPRITE SHEET, exactly 4 columns by 2 rows in strict ROW-MAJOR order. Each listed subject is completely centered in its OWN equal square cell, within the central 65% of that cell, generous transparent gutter all around, no touching cells, no background, no dividing lines, labels or numbers. 1. two Filipino elementary school children, boy and girl, holding school books together; 2. neat stack of colorful school books; 3. gold star trophy; 4. violet clipboard with blank checkboxes and a yellow pencil; 5. Filipino boy sitting reading an open blue book; 6. Filipino female schoolteacher wearing lavender, beside a round blue clock; 7. three Filipino schoolchildren thoughtfully discussing with small EMPTY speech bubbles overhead; 8. open book on a stack of violet and blue books.",
+      "file": "educator-icons.png",
+      "width": 1774,
+      "height": 887
+    },
+    {
+      "name": "progress-icons",
+      "columns": 3,
+      "rows": 1,
+      "transparent": true,
+      "prompt": "undefined Blue/violet/gold school progress illustration set.  Transparent SPRITE SHEET, exactly 3 columns by 1 rows in strict ROW-MAJOR order. Each listed subject is completely centered in its OWN equal square cell, within the central 65% of that cell, generous transparent gutter all around, no touching cells, no background, no dividing lines, labels or numbers. 1. violet clipboard with a simple green rising bar chart and no letters; 2. gold star medal with violet and blue ribbons; 3. Filipino elementary schoolgirl quietly sitting and reading an open blue book.",
+      "file": "progress-icons.png",
+      "width": 2172,
+      "height": 724
+    },
+    {
+      "name": "school-management",
+      "transparent": true,
+      "prompt": "undefined ADMINISTRATION dashboard emblem, NO people and NO animals: a tidy stack of royal blue and warm cream school books supporting a navy graduation cap with small gold tassel, a simple small blue shield with gold check mark leaning at front, and one amber pencil. Professional friendly school-management theme. Strong clean readable 2D forms, subtle cel shadows, restrained royal blue/gold palette. Complete isolated still life on true transparent background. Square canvas, composition tall enough for a sidebar decoration, 12% margins.",
+      "file": "school-management.png",
+      "width": 1199,
+      "height": 1312
+    }
+  ]
+}

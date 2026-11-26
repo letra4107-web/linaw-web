@@ -1,7 +1,8 @@
 /* oxlint-disable react/only-export-components -- shared auth form API intentionally colocated */
 import { useState, type InputHTMLAttributes, type ReactNode } from 'react';
 import { Link } from 'react-router-dom';
-import leftImage from '../../assets/left.png';
+import leftImage from '../../assets/illustrations/owl-world/auth-reading-scene.png';
+import mobileImage from '../../assets/illustrations/owl-world/student-banner.png';
 import { cardStyle } from '../../lib/cardStyle';
 import { AppIcon } from '../a11y/AppIcon';
 import logo from '../../assets/Logo.jpg';
@@ -35,7 +36,7 @@ export function AuthShell({
   return (
     <div className={`auth-shell auth-shell-${variant} min-h-screen text-[var(--color-text)] lg:flex`}>
       <div className="auth-shell-illustration relative hidden overflow-hidden text-white lg:flex lg:w-1/2 lg:flex-col">
-        <img src={leftImage} alt="" aria-hidden="true" className="absolute inset-0 h-full w-full object-cover object-center" />
+        <img src={leftImage} alt="" aria-hidden="true" className="absolute inset-0 h-full w-full object-cover" style={{ objectPosition: '25% center' }} />
         <div
           className="absolute inset-0 bg-transparent"
           aria-hidden="true"
@@ -63,7 +64,7 @@ export function AuthShell({
               <img src={logo} alt="LinawLetra" className="h-12 w-auto rounded-lg" />
             </Link>
           </header>
-          {(variant === 'login' || variant === 'signup') && <div className="auth-shell-mobile-scene lg:hidden"><img src={leftImage} alt="" aria-hidden="true" /></div>}
+          {(variant === 'login' || variant === 'signup') && <div className="auth-shell-mobile-scene lg:hidden"><img src={mobileImage} alt="" aria-hidden="true" /></div>}
           <main className={`auth-shell-main mx-auto flex w-full ${maxWidthClassName} flex-1 flex-col justify-center gap-6 px-6 py-12`}>
             <div className="text-center">
               {eyebrow && <p className="auth-shell-eyebrow mx-auto mb-4 w-fit rounded-full px-5 py-2 text-sm font-extrabold tracking-[0.08em] uppercase">{eyebrow}</p>}
@@ -162,7 +163,9 @@ interface PasswordInputProps {
 
 export function PasswordInput({ id, value, onChange, autoComplete, placeholder, icon = '🔒', invalid, className, 'aria-describedby': describedBy }: PasswordInputProps) {
   const [visible, setVisible] = useState(false);
+  const [spaceError, setSpaceError] = useState(false);
   return (
+    <>
     <div className="relative">
       <span
         className="pointer-events-none absolute top-1/2 left-5 -translate-y-1/2 text-lg text-[var(--color-text-muted)]"
@@ -175,9 +178,16 @@ export function PasswordInput({ id, value, onChange, autoComplete, placeholder, 
         type={visible ? 'text' : 'password'}
         required
         value={value}
-        onChange={(e) => onChange(e.target.value)}
-        aria-invalid={invalid || undefined}
-        aria-describedby={describedBy}
+        onChange={(e) => {
+          const hasSpace = /\s/.test(e.target.value);
+          setSpaceError(hasSpace);
+          if (!hasSpace) onChange(e.target.value);
+        }}
+        onKeyDown={(e) => {
+          if (e.key === ' ') { e.preventDefault(); setSpaceError(true); }
+        }}
+        aria-invalid={invalid || spaceError || undefined}
+        aria-describedby={[describedBy, spaceError ? `${id}-space-error` : undefined].filter(Boolean).join(' ') || undefined}
         className={`${inputClass} pl-13 pr-14 ${invalid ? invalidBorderClass : ''} ${className ?? ''}`}
         autoComplete={autoComplete}
         placeholder={placeholder}
@@ -191,6 +201,8 @@ export function PasswordInput({ id, value, onChange, autoComplete, placeholder, 
         <AppIcon name={visible ? '🙈' : '👁️'} className="h-5 w-5" />
       </button>
     </div>
+    {spaceError && <p id={`${id}-space-error`} role="alert" className="mt-2 text-sm text-[var(--color-danger)]">Hindi maaaring may espasyo ang password.</p>}
+    </>
   );
 }
 

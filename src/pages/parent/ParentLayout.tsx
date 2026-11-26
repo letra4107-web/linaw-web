@@ -9,7 +9,7 @@ import { useNotifications } from '../../lib/useNotifications';
 import { useAccessibility, type ThemeMode } from '../../lib/a11y/AccessibilityContext';
 import { DashboardShell } from '../../components/DashboardShell';
 import logo from '../../assets/Logo.jpg';
-import familySidebarArt from '../../assets/parent/home-sidebar-reading.png';
+import familySidebarArt from '../../assets/illustrations/role-themes/parent-family.png';
 import { AppIcon } from '../../components/a11y/AppIcon';
 import { enableParentEnglish } from './parentTranslations';
 import './parent-theme.css';

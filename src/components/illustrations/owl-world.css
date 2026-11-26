@@ -1,0 +1,7 @@
+.achievement-art { display:block; width:8rem; height:8rem; max-width:100%; object-fit:contain; flex-shrink:0; }
+.achievement-art.badge-toast-art { width:2.5rem; height:2.5rem; }
+.profile-badge-emblem > .achievement-art { position:relative; z-index:1; width:4.1rem; height:4.1rem; }
+.progress-ref-badge-catalog .achievement-art { width:3.5rem; height:3.5rem; }
+.progress-badge-row .achievement-art { width:2.5rem; height:2.5rem; }
+/* A printed card remains real HTML, independent of the decorative scenery. */
+.assessment-hero-card-print { border:3px solid #bd8b46; border-radius:12px; background:#fffbee; box-shadow:0 3px 0 #8d653b33; padding:.3rem; }

@@ -5,7 +5,7 @@ import { IconLabel } from '../components/a11y/IconLabel';
 import { ScrollReveal } from '../components/ScrollReveal';
 import { useAccessibility } from '../lib/a11y/AccessibilityContext';
 import logo from '../assets/Logo.jpg';
-import mascot from '../assets/students/mascot/owl-mascot.png';
+import mascot from '../assets/illustrations/owl-world/owl-mascot.png';
 
 const NAV_LINKS = [
   { label: 'Bahay', href: '/' }, { label: 'Tungkol sa Amin', href: '#phonological-dyslexia' },

@@ -1,3 +1,4 @@
+import {Toggle as SwitchControl} from '../../components/a11y/Toggle';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useMutation, useQuery } from '@tanstack/react-query';
@@ -11,8 +12,8 @@ import { softSignOut } from '../../lib/auth/softSignOut';
 import { loadTeacherParentReplies } from '../../lib/messages/teacherMessages';
 import { QueryErrorNotice } from '../../components/QueryErrorNotice';
 import { ProfileDialog, TeacherProfileSecurity } from './TeacherProfileSecurity';
-import classroom from '../../assets/teacher/Teacher Home Hero Banner Background.png';
-import teacher from '../../assets/teacher/Teacher Illustration.png';
+import classroom from '../../assets/illustrations/owl-world/classroom-banner.png';
+import teacher from '../../assets/illustrations/role-themes/teacher-guide.png';
 import './profile-reference.css';
 import './settings-reference.css';
 
@@ -34,7 +35,7 @@ export default function Settings() {
     setNotice(persisted?'Na-save ang tema para sa account na ito sa browser na ito.':'Nagamit ang tema para sa session na ito. Hindi available ang browser storage.');
   }
   function toggleNotice(category:TeacherNoticeCategory) {const persisted=update({notices:{[category]:preferences.notices?.[category]===false}});setNotice(persisted?'Na-save ang preference sa pag-display ng mga abiso.':'Nagamit ang preference para sa session na ito.');}
-  const download=useMutation({ meta: { saveFeedback: 'Na-save ang mga pagbabago.' },mutationFn:async()=>{
+  const download=useMutation({ meta:{saveFeedback:"Na-download ang iyong account data."},mutationFn:async()=>{
     if(profile.error)throw new Error('Hindi makuha ang profile.');
     const results=await Promise.all([supabase.from('lessons').select('id, title, description').eq('teacher_id',user!.id),supabase.from('teacher_messages').select('id, parent_id, child_id, message, read, created_at').eq('teacher_id',user!.id)]);
     if(results.some(result=>result.error))throw new Error('Hindi makuha ang data.');
@@ -42,7 +43,7 @@ export default function Settings() {
     const content=JSON.stringify({exported_at:new Date().toISOString(),account:{id:user!.id,name:identity?.displayName,email:user!.email,role:'teacher'},profile:profile.data??null,preferences,lessons:results[0].data,messages:results[1].data,replies},null,2);
     const url=URL.createObjectURL(new Blob([content],{type:'application/json'})),anchor=document.createElement('a');anchor.href=url;anchor.download='linawletra-teacher-account.json';document.body.append(anchor);anchor.click();anchor.remove();window.setTimeout(()=>URL.revokeObjectURL(url),1000);
   },onSuccess:()=>setDownloadNotice('Na-download ang iyong account data.'),onError:()=>setDownloadNotice('Hindi ma-download ang data. Subukan muli.')});
-  const logout=useMutation({ meta: { saveFeedback: 'Na-save ang mga pagbabago.' },mutationFn:()=>softSignOut({userId:user!.id,role:'teacher',displayName:identity?.displayName??'Guro',email:user?.email??''})});
+  const logout=useMutation({ meta:{saveFeedback:"Matagumpay kang naka-log out."},mutationFn:()=>softSignOut({userId:user!.id,role:'teacher',displayName:identity?.displayName??'Guro',email:user?.email??''})});
 
   return <div className="teacher-settings-design">
     <header className="tsg-hero"><img className="tsg-background" src={classroom} alt="" aria-hidden/><div className="tsg-hero-copy"><p>MGA SETTING</p><h1>Mga Setting <GearIcon aria-hidden/></h1><p>Pamahalaan ang iyong account at mga kagustuhan<br className="tsg-wide-break"/> sa LinawLetra.</p></div><img className="tsg-teacher" src={teacher} alt="" aria-hidden/><blockquote>I-customize ang iyong<br/> karanasan para mas<br/> maging produktibo at<br/> komportable sa<br/> pagtuturo. <Heart aria-hidden/></blockquote></header>
@@ -53,7 +54,7 @@ export default function Settings() {
     </div>
     {notice&&<p className="tsg-status" role="status">{notice}</p>}
     <div className="tsg-bottom-grid">
-      <section className="tsg-card tsg-notifications"><header className="tsg-heading"><span className="tsg-icon gold"><Bell aria-hidden/></span><div><h2><Link to="/teacher/notifications" className="tsg-notice-title-link" aria-label="Tingnan ang Mga Abiso">Mga Abiso <ChevronRight aria-hidden/></Link></h2><p>Piliin ang mga abisong ipapakita sa browser na ito.</p></div></header><div className="tsg-notice-options">{notices.map(({id,label,description,tone,Icon})=><div className="tsg-notice-row" key={id}><span className={`tsg-icon ${tone}`}><Icon aria-hidden/></span><div><b>{label}</b><small>{description}</small></div><button type="button" className="tsg-switch" role="switch" aria-checked={preferences.notices?.[id]!==false} aria-label={label} onClick={()=>toggleNotice(id)}><i/></button></div>)}</div></section>
+      <section className="tsg-card tsg-notifications"><header className="tsg-heading"><span className="tsg-icon gold"><Bell aria-hidden/></span><div><h2><Link to="/teacher/notifications" className="tsg-notice-title-link" aria-label="Tingnan ang Mga Abiso">Mga Abiso <ChevronRight aria-hidden/></Link></h2><p>Piliin ang mga abisong ipapakita sa browser na ito.</p></div></header><div className="tsg-notice-options">{notices.map(({id,label,description,tone,Icon})=><div className="tsg-notice-row" key={id}><span className={`tsg-icon ${tone}`}><Icon aria-hidden/></span><div><b>{label}</b><small>{description}</small></div><SwitchControl label={label} on={preferences.notices?.[id]!==false} onClick={()=>toggleNotice(id)}/></div>)}</div></section>
       <TeacherProfileSecurity title="Privacy at Seguridad" description="Pamahalaan ang seguridad ng iyong account." passwordAction={<Link to="/teacher/profile#change-password" className="tsg-security-password"><span className="tp-action-icon blue"><LockKeyhole aria-hidden/></span><span><b>Baguhin ang Password</b><small>Magtakda ng bagong password para sa mas ligtas na account.</small></span><ChevronRight aria-hidden/></Link>}/>
       <section className="tsg-card tsg-data"><header className="tsg-heading"><span className="tsg-icon blue"><Database aria-hidden/></span><div><h2>Pamamahala ng Data</h2><p>Kontrolin ang iyong impormasyon.</p></div></header><button type="button" className="tsg-action" disabled={download.isPending||profile.isLoading} onClick={()=>{setDownloadNotice('');download.mutate();}}><span className="tsg-icon blue"><Download aria-hidden/></span><span><b>{download.isPending?'Dina-download…':'I-download ang Aking Data'}</b><small>Kumuha ng kopya ng iyong account data.</small></span><ChevronRight aria-hidden/></button><button type="button" className="tsg-action danger" disabled={logout.isPending} onClick={()=>logout.mutate()}><span className="tsg-icon pink"><LogOut aria-hidden/></span><span><b>{logout.isPending?'Nagla-log out…':'Mag-log Out'}</b><small>Lumabas sa account sa browser na ito.</small></span><ChevronRight aria-hidden/></button>{downloadNotice&&<p className="tsg-inline-status" role="status">{downloadNotice}</p>}{logout.error&&<p className="tsg-inline-status" role="alert">Hindi makapag-log out. Subukan muli.</p>}</section>
     </div>

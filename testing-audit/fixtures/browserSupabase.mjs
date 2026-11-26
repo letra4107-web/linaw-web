@@ -38,8 +38,30 @@ function from(table) {
   return proxy;
 }
 const channel = () => ({ on() { return this; }, subscribe() { return this; }, unsubscribe() {} });
+let calendarSeeded = false;
+async function calendarRpc(name, params = {}) {
+  model.calls.push({ kind: 'rpc', name, params });
+  if (globalThis.__QA_CALENDAR_FAILURE__ === (name === 'get_teacher_calendar' ? 'load' : 'save')) return { data: null, error: { message: 'Hindi na-save ang iskedyul.' } };
+  if (!calendarSeeded) {
+    calendarSeeded = true;
+    const date = new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Manila' }).format(new Date());
+    model.tables.scheduled_activities = [
+      { id: 'calendar-teacher', child_id: ids.child, title: 'Pagbasa kasama ang guro', scheduled_date: date, start_time: '09:00:00', end_time: '09:30:00', description: 'Maikling pagsasanay sa pagbasa.', activity_type: 'reading_lesson', status: 'scheduled', created_by: 'teacher', created_by_auth_uid: ids.teacher, revision: 1 },
+      { id: 'calendar-parent', child_id: ids.child, title: 'Paalala mula sa magulang', scheduled_date: date, start_time: null, end_time: null, description: null, activity_type: 'reminder', status: 'scheduled', created_by: 'parent', created_by_auth_uid: ids.parent, revision: 1 },
+    ];
+  }
+  if (name === 'get_teacher_calendar') return { data: { students: model.tables.children, activities: model.tables.scheduled_activities }, error: null };
+  if (name === 'save_teacher_calendar') {
+    const existing = model.tables.scheduled_activities.find(item => item.id === params.p_id);
+    const item = { id: params.p_id, child_id: params.p_child, title: params.p_title, scheduled_date: params.p_date, start_time: params.p_start, end_time: params.p_end, description: params.p_description, activity_type: params.p_type, status: 'scheduled', created_by: 'teacher', created_by_auth_uid: ids.teacher, revision: (existing?.revision ?? 0) + 1 };
+    model.tables.scheduled_activities = model.tables.scheduled_activities.filter(row => row.id !== item.id).concat(item);
+    return { data: item, error: null };
+  }
+  if (name === 'delete_teacher_calendar') { model.tables.scheduled_activities = model.tables.scheduled_activities.filter(item => item.id !== params.p_id); return { data: null, error: null }; }
+  return { data: null, error: { message: 'Unsupported isolated RPC: ' + name } };
+}
 export const supabase = {
-  from, channel, removeChannel: async () => {},
+  from, channel, rpc: calendarRpc, removeChannel: async () => {},
   auth: {
     getSession: async () => ({ data: { session }, error: null }),
     getUser: async () => ({ data: { user: session?.user || null }, error: null }),

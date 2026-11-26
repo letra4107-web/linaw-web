@@ -1,0 +1,401 @@
+{
+  "mode": "built-in image_gen",
+  "style": "Colorful 2D cartoon schoolbook art based on the supplied reference; purple owl mascot",
+  "assets": [
+    {
+      "name": "owl-mascot",
+      "prompt": "Use the supplied children's outdoor cartoon picture ONLY as the art-style reference: bright cheerful 2D illustrated schoolbook art, clean confident outlines, simple readable shapes with layered hand-painted color, rich greens/turquoise/purple/yellow, soft intentional cartoon shadows, polished HD raster edges and small details. Create the MASTER MASCOT for a Filipino children's reading app. A friendly PURPLE CARTOON OWL with cream face/belly, warm amber eyes, little golden beak and feet, two tidy ear tufts. Full body standing, one wing holding a plain blue school book, the other wing greeting. Exactly TWO wings, TWO feet. Happy approachable small smile. Thoughtful charming designed shapes, not crude geometric SVG. Like professionally illustrated children's workbook characters in the reference, NOT 3D/Pixar, NOT glossy plastic, NOT realistic feathers, NOT hyper-detailed fur, NOT glitter, NOT neon glow, NOT excessive eye reflections. No people, rainbows, sun, umbrellas or copied scenery in this asset; only the owl. Do not copy the reference's characters. Keep 8% margin around complete silhouette. Transparent background, no shadow rectangle, no text, no labels, no logos, no watermark. Final HD, square composition.",
+      "transparent": true,
+      "file": "owl-mascot.png",
+      "width": 1254,
+      "height": 1254
+    },
+    {
+      "name": "owl-listening",
+      "transparent": true,
+      "prompt": "Use the supplied purple owl ONLY as the shared mascot identity and 2D hand-illustrated rendering reference. Match a cheerful colorful children's schoolbook cartoon world: clear intentional outlines, readable playful shapes, bright turquoise sky, grass green, purple, golden yellow and red accents, layered matte color and light hand-painted texture. Professional HD raster illustration. No realistic photography, no plastic 3D/Pixar rendering, no fur micro-detail, no neon glow, no excessive shiny eyes, no fake letters, no logos or watermark. Owl always purple with cream face/belly, amber eyes, little golden beak and feet, two wings and two feet. Single full-body mascot owl wearing simple violet over-ear headphones, eyes peacefully closed with a happy smile, wings resting naturally. No book and no extra wing. Transparent isolated cutout with generous margins.",
+      "file": "owl-listening.png",
+      "width": 1254,
+      "height": 1254
+    },
+    {
+      "name": "owl-teacher",
+      "transparent": true,
+      "prompt": "Use the supplied purple owl ONLY as the shared mascot identity and 2D hand-illustrated rendering reference. Match a cheerful colorful children's schoolbook cartoon world: clear intentional outlines, readable playful shapes, bright turquoise sky, grass green, purple, golden yellow and red accents, layered matte color and light hand-painted texture. Professional HD raster illustration. No realistic photography, no plastic 3D/Pixar rendering, no fur micro-detail, no neon glow, no excessive shiny eyes, no fake letters, no logos or watermark. Owl always purple with cream face/belly, amber eyes, little golden beak and feet, two wings and two feet. Single full-body mascot owl acting as a friendly teacher, small round glasses, one wing holding a plain violet clipboard and other wing gesturing invitingly. Transparent isolated cutout with generous margins.",
+      "file": "owl-teacher.png",
+      "width": 1254,
+      "height": 1254
+    },
+    {
+      "name": "owl-family",
+      "transparent": true,
+      "prompt": "Use the supplied purple owl ONLY as the shared mascot identity and 2D hand-illustrated rendering reference. Match a cheerful colorful children's schoolbook cartoon world: clear intentional outlines, readable playful shapes, bright turquoise sky, grass green, purple, golden yellow and red accents, layered matte color and light hand-painted texture. Professional HD raster illustration. No realistic photography, no plastic 3D/Pixar rendering, no fur micro-detail, no neon glow, no excessive shiny eyes, no fake letters, no logos or watermark. Owl always purple with cream face/belly, amber eyes, little golden beak and feet, two wings and two feet. A warm family group of three cartoon purple owls: one larger parent owl reading an open blue picture book with two smaller child owls beside it, all seated close together smiling. Exactly three owls, no humans. Individual eye and wing construction clean. Transparent cutout with generous margins.",
+      "file": "owl-family.png",
+      "width": 1536,
+      "height": 1024
+    },
+    {
+      "name": "owl-celebrating",
+      "transparent": true,
+      "prompt": "Use the supplied purple owl ONLY as the shared mascot identity and 2D hand-illustrated rendering reference. Match a cheerful colorful children's schoolbook cartoon world: clear intentional outlines, readable playful shapes, bright turquoise sky, grass green, purple, golden yellow and red accents, layered matte color and light hand-painted texture. Professional HD raster illustration. No realistic photography, no plastic 3D/Pixar rendering, no fur micro-detail, no neon glow, no excessive shiny eyes, no fake letters, no logos or watermark. Owl always purple with cream face/belly, amber eyes, little golden beak and feet, two wings and two feet. Single full-body mascot owl proudly holding a small gold star trophy in one wing, other wing raised in a friendly celebration, a few simple colorful paper confetti pieces. Transparent cutout with generous margins.",
+      "file": "owl-celebrating.png",
+      "width": 1254,
+      "height": 1254
+    },
+    {
+      "name": "owl-laptop",
+      "transparent": true,
+      "prompt": "Use the supplied purple owl ONLY as the shared mascot identity and 2D hand-illustrated rendering reference. Match a cheerful colorful children's schoolbook cartoon world: clear intentional outlines, readable playful shapes, bright turquoise sky, grass green, purple, golden yellow and red accents, layered matte color and light hand-painted texture. Professional HD raster illustration. No realistic photography, no plastic 3D/Pixar rendering, no fur micro-detail, no neon glow, no excessive shiny eyes, no fake letters, no logos or watermark. Owl always purple with cream face/belly, amber eyes, little golden beak and feet, two wings and two feet. Single purple mascot owl seated behind a plain small blue laptop, friendly attentive expression; a plain white envelope with a violet seal beside it. Show whole owl body and laptop without cropping. Transparent isolated cutout.",
+      "file": "owl-laptop.png",
+      "width": 1254,
+      "height": 1254
+    },
+    {
+      "name": "books",
+      "transparent": true,
+      "prompt": "Use the supplied purple owl ONLY as the shared mascot identity and 2D hand-illustrated rendering reference. Match a cheerful colorful children's schoolbook cartoon world: clear intentional outlines, readable playful shapes, bright turquoise sky, grass green, purple, golden yellow and red accents, layered matte color and light hand-painted texture. Professional HD raster illustration. No realistic photography, no plastic 3D/Pixar rendering, no fur micro-detail, no neon glow, no excessive shiny eyes, no fake letters, no logos or watermark. Owl always purple with cream face/belly, amber eyes, little golden beak and feet, two wings and two feet. An appealing neat stack of three school books with purple, blue and golden yellow covers, one open book on top, and a yellow pencil alongside. 2D illustrated objects matching the owl's world. No owl in this small decorative asset. Transparent cutout, no letters or writing.",
+      "file": "books.png",
+      "width": 1536,
+      "height": 1024
+    },
+    {
+      "name": "clock-calendar",
+      "transparent": true,
+      "prompt": "Use the supplied purple owl ONLY as the shared mascot identity and 2D hand-illustrated rendering reference. Match a cheerful colorful children's schoolbook cartoon world: clear intentional outlines, readable playful shapes, bright turquoise sky, grass green, purple, golden yellow and red accents, layered matte color and light hand-painted texture. Professional HD raster illustration. No realistic photography, no plastic 3D/Pixar rendering, no fur micro-detail, no neon glow, no excessive shiny eyes, no fake letters, no logos or watermark. Owl always purple with cream face/belly, amber eyes, little golden beak and feet, two wings and two feet. A readable cheerful purple round alarm clock beside a small blank cream calendar with a simple grid of colored squares but no numbers or text, a yellow pencil resting nearby. Believable two clock hands. No owl. Transparent cutout.",
+      "file": "clock-calendar.png",
+      "width": 1536,
+      "height": 1024
+    },
+    {
+      "name": "foliage",
+      "transparent": true,
+      "prompt": "Use the supplied purple owl ONLY as the shared mascot identity and 2D hand-illustrated rendering reference. Match a cheerful colorful children's schoolbook cartoon world: clear intentional outlines, readable playful shapes, bright turquoise sky, grass green, purple, golden yellow and red accents, layered matte color and light hand-painted texture. Professional HD raster illustration. No realistic photography, no plastic 3D/Pixar rendering, no fur micro-detail, no neon glow, no excessive shiny eyes, no fake letters, no logos or watermark. Owl always purple with cream face/belly, amber eyes, little golden beak and feet, two wings and two feet. A horizontal cluster of bright leafy green children's cartoon shrubs, three small yellow and pink flowers, grass tufts, a few large clean leaves. A border decoration with transparent space above and to both sides, no scene, no characters. Rounded shapes with deliberate two-tone leaf shading.",
+      "file": "foliage.png",
+      "width": 1922,
+      "height": 818,
+      "revisionPrompt": "Keep the same bright HD 2D cartoon plants and flowers style. REMOVE THE OWL AND THE BOOK ENTIRELY. This is only a border-decoration asset: a horizontal cluster of clean green leaves, a few simple yellow and red flowers and grass, at the bottom center. Absolutely NO characters, no animals, no owl silhouettes, no book, no sky, no letters. Transparent background above and around the plants. Complete cluster visible with 12% transparent margins. Do not add other objects."
+    },
+    {
+      "name": "garden",
+      "transparent": false,
+      "prompt": "Use the supplied purple owl ONLY as the shared mascot identity and 2D hand-illustrated rendering reference. Match a cheerful colorful children's schoolbook cartoon world: clear intentional outlines, readable playful shapes, bright turquoise sky, grass green, purple, golden yellow and red accents, layered matte color and light hand-painted texture. Professional HD raster illustration. No realistic photography, no plastic 3D/Pixar rendering, no fur micro-detail, no neon glow, no excessive shiny eyes, no fake letters, no logos or watermark. Owl always purple with cream face/belly, amber eyes, little golden beak and feet, two wings and two feet. Wide panoramic 3:1 landscape background. A bright friendly children's cartoon school garden with rolling grassy hills, trees framing the far sides, a soft rainbow curving along the upper distant sky, small fluffy white clouds and a cheerful golden sun at upper right. A winding simple path across the hills, tiny flowers confined to the bottom border. Center-left and middle area pale and calm to receive HTML content. No characters, no built-in signs, no words, no labels. HD readable 2D schoolbook scenery like a children's workbook illustration.",
+      "file": "garden.png",
+      "width": 2172,
+      "height": 724,
+      "revisionPrompt": "Remove the owl and its blue book entirely from the left side, replacing that space with continuous natural cartoon green grass. Preserve the entire bright HD 2D cartoon garden scenery: the rainbow, turquoise sky, clouds, sun, framing trees, rolling green hills, winding path and flowers. There must be NO characters anywhere. Leave the center-left clean and calm for HTML text. Keep the wide 3:1 composition. No text, no logos."
+    },
+    {
+      "name": "student-banner",
+      "transparent": false,
+      "prompt": "Use the supplied purple owl ONLY as the shared mascot identity and 2D hand-illustrated rendering reference. Match a cheerful colorful children's schoolbook cartoon world: clear intentional outlines, readable playful shapes, bright turquoise sky, grass green, purple, golden yellow and red accents, layered matte color and light hand-painted texture. Professional HD raster illustration. No realistic photography, no plastic 3D/Pixar rendering, no fur micro-detail, no neon glow, no excessive shiny eyes, no fake letters, no logos or watermark. Owl always purple with cream face/belly, amber eyes, little golden beak and feet, two wings and two feet. Wide panoramic website banner, 3:1. Colorful children's 2D cartoon school garden, turquoise sky, soft rainbow high in background, sunny green hill, a few clean trees and flowers framing edges. The purple owl mascot sits on the grass reading a plain blue open book, positioned around 65% across canvas. Keep left 45% very pale and uncluttered for HTML titles. Keep far-right 20% calm grass and sky for an HTML letter board. No built-in flashcards, no signs, no printed text, no extra characters.",
+      "file": "student-banner.png",
+      "width": 2172,
+      "height": 724
+    },
+    {
+      "name": "family-banner",
+      "transparent": false,
+      "prompt": "Use the supplied purple owl ONLY as the shared mascot identity and 2D hand-illustrated rendering reference. Match a cheerful colorful children's schoolbook cartoon world: clear intentional outlines, readable playful shapes, bright turquoise sky, grass green, purple, golden yellow and red accents, layered matte color and light hand-painted texture. Professional HD raster illustration. No realistic photography, no plastic 3D/Pixar rendering, no fur micro-detail, no neon glow, no excessive shiny eyes, no fake letters, no logos or watermark. Owl always purple with cream face/belly, amber eyes, little golden beak and feet, two wings and two feet. Wide panoramic website banner, 3:1. Friendly children's 2D cartoon garden, soft rainbow, green trees, yellow flowers, turquoise sky. On the right half a parent purple owl reads a blue open book to two little purple owls, sitting together under a tree. Keep left 48% pale and very calm with low detail for HTML headings. No human characters, no text, no signs.",
+      "file": "family-banner.png",
+      "width": 2172,
+      "height": 724
+    },
+    {
+      "name": "classroom-banner",
+      "transparent": false,
+      "prompt": "Use the supplied purple owl ONLY as the shared mascot identity and 2D hand-illustrated rendering reference. Match a cheerful colorful children's schoolbook cartoon world: clear intentional outlines, readable playful shapes, bright turquoise sky, grass green, purple, golden yellow and red accents, layered matte color and light hand-painted texture. Professional HD raster illustration. No realistic photography, no plastic 3D/Pixar rendering, no fur micro-detail, no neon glow, no excessive shiny eyes, no fake letters, no logos or watermark. Owl always purple with cream face/belly, amber eyes, little golden beak and feet, two wings and two feet. Wide panoramic website banner, 3:1. A cheerful 2D illustrated classroom with pale cream walls, a window looking out onto green trees, a low bookshelf with blue purple and yellow books, and a blank green chalkboard on far right. A purple owl teacher wearing simple glasses holding a violet clipboard stands around 65% across. Left 48% pale and very uncluttered for HTML headings. No writing on board, no text, no numbers.",
+      "file": "classroom-banner.png",
+      "width": 2172,
+      "height": 724,
+      "revisionPrompt": "Remove the purple owl teacher entirely. Replace that area with the continuous classroom floor and pale cream wall. Preserve the same bright HD 2D cartoon classroom, window and green trees, bookshelf, blank green board at right, pale empty wall on the left. Absolutely no characters or animals. An owl will be added separately by the website. Keep 3:1 panoramic composition, no text or numbers."
+    },
+    {
+      "name": "school-banner",
+      "transparent": false,
+      "prompt": "Use the supplied purple owl ONLY as the shared mascot identity and 2D hand-illustrated rendering reference. Match a cheerful colorful children's schoolbook cartoon world: clear intentional outlines, readable playful shapes, bright turquoise sky, grass green, purple, golden yellow and red accents, layered matte color and light hand-painted texture. Professional HD raster illustration. No realistic photography, no plastic 3D/Pixar rendering, no fur micro-detail, no neon glow, no excessive shiny eyes, no fake letters, no logos or watermark. Owl always purple with cream face/belly, amber eyes, little golden beak and feet, two wings and two feet. Wide panoramic website banner, 3:1. A friendly modest Filipino elementary school building at far right, with orange roof, cream walls, blue windows and a plain blank sign, green grass, leafy trees, a rainbow far in the turquoise sky. Left half pale uncluttered sky and lawn to receive UI headings and owl overlays. No owl or other characters in this particular background. No lettering, no logos, no flags, no text.",
+      "file": "school-banner.png",
+      "width": 2172,
+      "height": 724
+    },
+    {
+      "name": "lesson-a",
+      "columns": 5,
+      "rows": 4,
+      "prompt": "Match the provided purple owl's bright HAND-ILLUSTRATED 2D CHILDREN'S CARTOON style, professional HD raster, crisp intentional outlines, cheerful purple/blue/yellow/green/red palette, simple layered matte shading with subtle texture. Not 3D, not plastic, not photo-real, not emoji, no artificial glow, no giant glossy eyes. Teaching objects must retain their real semantic identity: do NOT turn any person, animal or object in a learning sheet into an owl unless an owl is explicitly named. Create ONE transparent educational illustration SPRITE SHEET, exactly 5 columns by 4 rows, 20 separate equally sized square cells. STRICT ROW-MAJOR ORDER below. Each object/group centered inside its OWN cell, within central 68% of its cell, at least 16% transparent gutter on ALL sides. Grid aligned precisely to equal divisions of full canvas. No clipping, no objects crossing cells, no lines between cells, no cell background, no lettering or numbers, no labels, no watermark. Aspect ratio 5:4. Draw only these cells, one cell per listed item: 1. Filipino schoolboy standing (bata); 2. white duck (bibe); 3. clear blue refillable water bottle (bote); 4. cut green young coconut (buko); 5. friendly small brown dog (aso); 6. blue and yellow fish (isda); 7. round clock with two hands (orasan); 8. passenger airplane (eroplano); 9. bunch of purple grapes (ubas); 10. small gray mouse (daga); 11. open tin can (de-lata); 12. Filipino child pointing at own chest, wearing blue shirt (dibdib); 13. two domino tiles with dots (domino); 14. woven hammock on a wooden stand (duyan); 15. one red shrimp (hipon); 16. wedge of yellow cheese (keso); 17. open blue book (libro); 18. one red balloon (lobo); 19. small mound of brown soil (lupa); 20. small wooden table with four legs (mesa).",
+      "transparent": true,
+      "items": [
+        "Filipino schoolboy standing (bata)",
+        "white duck (bibe)",
+        "clear blue refillable water bottle (bote)",
+        "cut green young coconut (buko)",
+        "friendly small brown dog (aso)",
+        "blue and yellow fish (isda)",
+        "round clock with two hands (orasan)",
+        "passenger airplane (eroplano)",
+        "bunch of purple grapes (ubas)",
+        "small gray mouse (daga)",
+        "open tin can (de-lata)",
+        "Filipino child pointing at own chest, wearing blue shirt (dibdib)",
+        "two domino tiles with dots (domino)",
+        "woven hammock on a wooden stand (duyan)",
+        "one red shrimp (hipon)",
+        "wedge of yellow cheese (keso)",
+        "open blue book (libro)",
+        "one red balloon (lobo)",
+        "small mound of brown soil (lupa)",
+        "small wooden table with four legs (mesa)"
+      ],
+      "file": "lesson-a.png",
+      "width": 1402,
+      "height": 1122
+    },
+    {
+      "name": "lesson-b",
+      "columns": 5,
+      "rows": 4,
+      "prompt": "Match the provided purple owl's bright HAND-ILLUSTRATED 2D CHILDREN'S CARTOON style, professional HD raster, crisp intentional outlines, cheerful purple/blue/yellow/green/red palette, simple layered matte shading with subtle texture. Not 3D, not plastic, not photo-real, not emoji, no artificial glow, no giant glossy eyes. Teaching objects must retain their real semantic identity: do NOT turn any person, animal or object in a learning sheet into an owl unless an owl is explicitly named. Create ONE transparent educational illustration SPRITE SHEET, exactly 5 columns by 4 rows, 20 separate equally sized square cells. STRICT ROW-MAJOR ORDER below. Each object/group centered inside its OWN cell, within central 68% of its cell, at least 16% transparent gutter on ALL sides. Grid aligned precisely to equal divisions of full canvas. No clipping, no objects crossing cells, no lines between cells, no cell background, no lettering or numbers, no labels, no watermark. Aspect ratio 5:4. Draw only these cells, one cell per listed item: 1. friendly cat (pusa); 2. whole brown coconut with small cut piece (niyog); 3. clean white tooth (ngipin); 4. close-up friendly pig snout (nguso); 5. green pear (peras); 6. pineapple (pinya); 7. red rose (rosas); 8. wristwatch (relo); 9. wooden chair (silya); 10. golden key (susi); 11. folded colorful fabric (tela); 12. small bridge (tulay); 13. ice cubes (yelo); 14. round yoyo with string (yoyo); 15. bowl of noodle soup (sopas); 16. small bamboo nipa hut (kubo); 17. small neighborhood shop with blank awning and no text (tindahan); 18. clear drinking glass (baso); 19. red and blue toy ball (bola); 20. friendly brown bear (oso).",
+      "transparent": true,
+      "items": [
+        "friendly cat (pusa)",
+        "whole brown coconut with small cut piece (niyog)",
+        "clean white tooth (ngipin)",
+        "close-up friendly pig snout (nguso)",
+        "green pear (peras)",
+        "pineapple (pinya)",
+        "red rose (rosas)",
+        "wristwatch (relo)",
+        "wooden chair (silya)",
+        "golden key (susi)",
+        "folded colorful fabric (tela)",
+        "small bridge (tulay)",
+        "ice cubes (yelo)",
+        "round yoyo with string (yoyo)",
+        "bowl of noodle soup (sopas)",
+        "small bamboo nipa hut (kubo)",
+        "small neighborhood shop with blank awning and no text (tindahan)",
+        "clear drinking glass (baso)",
+        "red and blue toy ball (bola)",
+        "friendly brown bear (oso)"
+      ],
+      "file": "lesson-b.png",
+      "width": 1402,
+      "height": 1122
+    },
+    {
+      "name": "lesson-c",
+      "columns": 4,
+      "rows": 4,
+      "prompt": "Match the provided purple owl's bright HAND-ILLUSTRATED 2D CHILDREN'S CARTOON style, professional HD raster, crisp intentional outlines, cheerful purple/blue/yellow/green/red palette, simple layered matte shading with subtle texture. Not 3D, not plastic, not photo-real, not emoji, no artificial glow, no giant glossy eyes. Teaching objects must retain their real semantic identity: do NOT turn any person, animal or object in a learning sheet into an owl unless an owl is explicitly named. Create ONE transparent educational illustration SPRITE SHEET, exactly 4 columns by 4 rows, 16 separate equally sized square cells. STRICT ROW-MAJOR ORDER below. Each object/group centered inside its OWN cell, within central 68% of its cell, at least 16% transparent gutter on ALL sides. Grid aligned precisely to equal divisions of full canvas. No clipping, no objects crossing cells, no lines between cells, no cell background, no lettering or numbers, no labels, no watermark. Aspect ratio 4:4. Draw only these cells, one cell per listed item: 1. wooden dish-drying rack with plates (banggera); 2. acoustic guitar (gitara); 3. one tan rubber band (goma); 4. black car tire (gulong); 5. helicopter (helikopter); 6. three colored glass marbles (holen); 7. two human hands washing with soap under a tap (hugas); 8. two clearly visible eyebrows above normal eyes (kilay); 9. small blue car (kotse); 10. friendly lion (leon); 11. handheld microphone (mikropono); 12. motorcycle (motor); 13. friendly human face with all normal facial features (mukha); 14. small market stall with blank awning (negosyo); 15. one music note symbol (nota); 16. human cheek with a clearly visible small brown mole (nunal).",
+      "transparent": true,
+      "items": [
+        "wooden dish-drying rack with plates (banggera)",
+        "acoustic guitar (gitara)",
+        "one tan rubber band (goma)",
+        "black car tire (gulong)",
+        "helicopter (helikopter)",
+        "three colored glass marbles (holen)",
+        "two human hands washing with soap under a tap (hugas)",
+        "two clearly visible eyebrows above normal eyes (kilay)",
+        "small blue car (kotse)",
+        "friendly lion (leon)",
+        "handheld microphone (mikropono)",
+        "motorcycle (motor)",
+        "friendly human face with all normal facial features (mukha)",
+        "small market stall with blank awning (negosyo)",
+        "one music note symbol (nota)",
+        "human cheek with a clearly visible small brown mole (nunal)"
+      ],
+      "file": "lesson-c.png",
+      "width": 1254,
+      "height": 1254
+    },
+    {
+      "name": "lesson-d",
+      "columns": 4,
+      "rows": 4,
+      "prompt": "Match the provided purple owl's bright HAND-ILLUSTRATED 2D CHILDREN'S CARTOON style, professional HD raster, crisp intentional outlines, cheerful purple/blue/yellow/green/red palette, simple layered matte shading with subtle texture. Not 3D, not plastic, not photo-real, not emoji, no artificial glow, no giant glossy eyes. Teaching objects must retain their real semantic identity: do NOT turn any person, animal or object in a learning sheet into an owl unless an owl is explicitly named. Create ONE transparent educational illustration SPRITE SHEET, exactly 4 columns by 4 rows, 16 separate equally sized square cells. STRICT ROW-MAJOR ORDER below. Each object/group centered inside its OWN cell, within central 68% of its cell, at least 16% transparent gutter on ALL sides. Grid aligned precisely to equal divisions of full canvas. No clipping, no objects crossing cells, no lines between cells, no cell background, no lettering or numbers, no labels, no watermark. Aspect ratio 4:4. Draw only these cells, one cell per listed item: 1. simple clean friendly diagram of human skull, not scary (bungo); 2. blue collared polo shirt (polo); 3. railway tracks (riles); 4. green mountain peak (rurok); 5. postage stamp with a small flower and perforated edges but no text (selyo); 6. friendly bull (toro); 7. open storybook showing simple little house and tree pictures, no text (kuwento); 8. two human faces talking with empty speech bubbles (wika); 9. rocky cave entrance (yungib); 10. one purple speech bubble with a simple single sound wave icon and no letters; 11. one blue speech bubble with a simple sound wave icon and no letters; 12. one green speech bubble with a simple sound wave icon and no letters; 13. one orange speech bubble with a simple sound wave icon and no letters; 14. friendly Filipino grandmother (lola); 15. green leafy tree (puno); 16. cheerful yellow sun (araw).",
+      "transparent": true,
+      "items": [
+        "simple clean friendly diagram of human skull, not scary (bungo)",
+        "blue collared polo shirt (polo)",
+        "railway tracks (riles)",
+        "green mountain peak (rurok)",
+        "postage stamp with a small flower and perforated edges but no text (selyo)",
+        "friendly bull (toro)",
+        "open storybook showing simple little house and tree pictures, no text (kuwento)",
+        "two human faces talking with empty speech bubbles (wika)",
+        "rocky cave entrance (yungib)",
+        "one purple speech bubble with a simple single sound wave icon and no letters",
+        "one blue speech bubble with a simple sound wave icon and no letters",
+        "one green speech bubble with a simple sound wave icon and no letters",
+        "one orange speech bubble with a simple sound wave icon and no letters",
+        "friendly Filipino grandmother (lola)",
+        "green leafy tree (puno)",
+        "cheerful yellow sun (araw)"
+      ],
+      "file": "lesson-d.png",
+      "width": 1254,
+      "height": 1254
+    },
+    {
+      "name": "lesson-e",
+      "columns": 3,
+      "rows": 3,
+      "prompt": "Match the provided purple owl's bright HAND-ILLUSTRATED 2D CHILDREN'S CARTOON style, professional HD raster, crisp intentional outlines, cheerful purple/blue/yellow/green/red palette, simple layered matte shading with subtle texture. Not 3D, not plastic, not photo-real, not emoji, no artificial glow, no giant glossy eyes. Teaching objects must retain their real semantic identity: do NOT turn any person, animal or object in a learning sheet into an owl unless an owl is explicitly named. Create ONE transparent educational illustration SPRITE SHEET, exactly 3 columns by 3 rows, 9 separate equally sized square cells. STRICT ROW-MAJOR ORDER below. Each object/group centered inside its OWN cell, within central 68% of its cell, at least 16% transparent gutter on ALL sides. Grid aligned precisely to equal divisions of full canvas. No clipping, no objects crossing cells, no lines between cells, no cell background, no lettering or numbers, no labels, no watermark. Aspect ratio 3:3. Draw only these cells, one cell per listed item: 1. white paint circle with light gray outline (puti); 2. red paint circle (pula); 3. moon and small stars in a compact night-sky vignette (gabi); 4. Filipino child laughing (tawa); 5. Filipino child speaking with one empty speech bubble (sabi); 6. one gray rock (bato); 7. Filipino schoolteacher holding a book (guro); 8. Filipino child visibly pulling a rope with both hands (hila); 9. Filipino child with a clear gentle smile (ngiti).",
+      "transparent": true,
+      "items": [
+        "white paint circle with light gray outline (puti)",
+        "red paint circle (pula)",
+        "moon and small stars in a compact night-sky vignette (gabi)",
+        "Filipino child laughing (tawa)",
+        "Filipino child speaking with one empty speech bubble (sabi)",
+        "one gray rock (bato)",
+        "Filipino schoolteacher holding a book (guro)",
+        "Filipino child visibly pulling a rope with both hands (hila)",
+        "Filipino child with a clear gentle smile (ngiti)"
+      ],
+      "file": "lesson-e.png",
+      "width": 1254,
+      "height": 1254
+    },
+    {
+      "name": "lesson-f",
+      "columns": 3,
+      "rows": 3,
+      "prompt": "Match the provided purple owl's bright HAND-ILLUSTRATED 2D CHILDREN'S CARTOON style, professional HD raster, crisp intentional outlines, cheerful purple/blue/yellow/green/red palette, simple layered matte shading with subtle texture. Not 3D, not plastic, not photo-real, not emoji, no artificial glow, no giant glossy eyes. Teaching objects must retain their real semantic identity: do NOT turn any person, animal or object in a learning sheet into an owl unless an owl is explicitly named. Create ONE transparent educational illustration SPRITE SHEET, exactly 3 columns by 3 rows, 9 separate equally sized square cells. STRICT ROW-MAJOR ORDER below. Each object/group centered inside its OWN cell, within central 68% of its cell, at least 16% transparent gutter on ALL sides. Grid aligned precisely to equal divisions of full canvas. No clipping, no objects crossing cells, no lines between cells, no cell background, no lettering or numbers, no labels, no watermark. Aspect ratio 3:3. Draw only these cells, one cell per listed item: 1. empty woven basket showing nothing inside (wala); 2. one clean brand-new blue book with one small sparkle (bago); 3. one visibly worn old brown book with frayed corners (luma); 4. Filipino child playing with a ball (laro); 5. Filipino child tasting a spoon of soup (lasa); 6. a group of many colorful marbles (dami); 7. a kind adult caregiver beside a small Filipino child (yaya); 8. a happy Filipino child (masaya); 9. small kitchen counter with stove and pot (kusina).",
+      "transparent": true,
+      "items": [
+        "empty woven basket showing nothing inside (wala)",
+        "one clean brand-new blue book with one small sparkle (bago)",
+        "one visibly worn old brown book with frayed corners (luma)",
+        "Filipino child playing with a ball (laro)",
+        "Filipino child tasting a spoon of soup (lasa)",
+        "a group of many colorful marbles (dami)",
+        "a kind adult caregiver beside a small Filipino child (yaya)",
+        "a happy Filipino child (masaya)",
+        "small kitchen counter with stove and pot (kusina)"
+      ],
+      "file": "lesson-f.png",
+      "width": 1254,
+      "height": 1254
+    },
+    {
+      "name": "lesson-learn",
+      "columns": 5,
+      "rows": 3,
+      "prompt": "Match the provided purple owl's bright HAND-ILLUSTRATED 2D CHILDREN'S CARTOON style, professional HD raster, crisp intentional outlines, cheerful purple/blue/yellow/green/red palette, simple layered matte shading with subtle texture. Not 3D, not plastic, not photo-real, not emoji, no artificial glow, no giant glossy eyes. Teaching objects must retain their real semantic identity: do NOT turn any person, animal or object in a learning sheet into an owl unless an owl is explicitly named. Create ONE transparent educational illustration SPRITE SHEET, exactly 5 columns by 3 rows, 15 separate equally sized square cells. STRICT ROW-MAJOR ORDER below. Each object/group centered inside its OWN cell, within central 68% of its cell, at least 16% transparent gutter on ALL sides. Grid aligned precisely to equal divisions of full canvas. No clipping, no objects crossing cells, no lines between cells, no cell background, no lettering or numbers, no labels, no watermark. Aspect ratio 5:3. Draw only these cells, one cell per listed item: 1. small house (bahay); 2. one green leaf (dahon); 3. clear glass of white milk (gatas); 4. potted green plant (halaman); 5. open human hand showing exactly five fingers (kamay); 6. yellow pencil (lapis); 7. one normal human eye with brown iris, not disembodied creepy makeup (mata); 8. kind Filipino mother with small child (nanay); 9. small calendar with blank colored squares, no numbers (ngayon); 10. colorful umbrella (payong); 11. portable radio (radyo); 12. bunch of yellow bananas (saging); 13. small blue teacup (tasa); 14. traditional Filipino broom (walis); 15. small treasure chest with gold coins (yaman).",
+      "transparent": true,
+      "items": [
+        "small house (bahay)",
+        "one green leaf (dahon)",
+        "clear glass of white milk (gatas)",
+        "potted green plant (halaman)",
+        "open human hand showing exactly five fingers (kamay)",
+        "yellow pencil (lapis)",
+        "one normal human eye with brown iris, not disembodied creepy makeup (mata)",
+        "kind Filipino mother with small child (nanay)",
+        "small calendar with blank colored squares, no numbers (ngayon)",
+        "colorful umbrella (payong)",
+        "portable radio (radyo)",
+        "bunch of yellow bananas (saging)",
+        "small blue teacup (tasa)",
+        "traditional Filipino broom (walis)",
+        "small treasure chest with gold coins (yaman)"
+      ],
+      "file": "lesson-learn.png",
+      "width": 1619,
+      "height": 971
+    },
+    {
+      "name": "badges",
+      "columns": 4,
+      "rows": 5,
+      "prompt": "Match the provided purple owl's bright HAND-ILLUSTRATED 2D CHILDREN'S CARTOON style, professional HD raster, crisp intentional outlines, cheerful purple/blue/yellow/green/red palette, simple layered matte shading with subtle texture. Not 3D, not plastic, not photo-real, not emoji, no artificial glow, no giant glossy eyes. Teaching objects must retain their real semantic identity: do NOT turn any person, animal or object in a learning sheet into an owl unless an owl is explicitly named. Create ONE transparent educational illustration SPRITE SHEET, exactly 4 columns by 5 rows, 20 separate equally sized square cells. STRICT ROW-MAJOR ORDER below. Each object/group centered inside its OWN cell, within central 68% of its cell, at least 16% transparent gutter on ALL sides. Grid aligned precisely to equal divisions of full canvas. No clipping, no objects crossing cells, no lines between cells, no cell background, no lettering or numbers, no labels, no watermark. Aspect ratio 4:5. Draw only these cells, one cell per listed item: 1. gold medal with tiny first footsteps and star; 2. gold medal with open blue book; 3. gold medal with stack of books; 4. gold star trophy on purple base; 5. gold owl medallion; 6. microphone badge with one yellow star; 7. microphone badge with blue sound waves; 8. microphone badge with green checkmark; 9. microphone badge with purple ribbon; 10. microphone champion trophy; 11. sunrise badge; 12. orange flame badge; 13. weekly calendar badge with one star and no numbers; 14. gold calendar badge with many small stars and no numbers; 15. purple shield with gold heart; 16. brave smiling purple owl shield; 17. lightbulb badge with little purple owl; 18. three rising green bars with a star; 19. large gold star on blue and purple ribbon; 20. purple owl wearing a little gold crown.",
+      "transparent": true,
+      "items": [
+        "gold medal with tiny first footsteps and star",
+        "gold medal with open blue book",
+        "gold medal with stack of books",
+        "gold star trophy on purple base",
+        "gold owl medallion",
+        "microphone badge with one yellow star",
+        "microphone badge with blue sound waves",
+        "microphone badge with green checkmark",
+        "microphone badge with purple ribbon",
+        "microphone champion trophy",
+        "sunrise badge",
+        "orange flame badge",
+        "weekly calendar badge with one star and no numbers",
+        "gold calendar badge with many small stars and no numbers",
+        "purple shield with gold heart",
+        "brave smiling purple owl shield",
+        "lightbulb badge with little purple owl",
+        "three rising green bars with a star",
+        "large gold star on blue and purple ribbon",
+        "purple owl wearing a little gold crown"
+      ],
+      "file": "badges.png",
+      "width": 1122,
+      "height": 1402
+    },
+    {
+      "name": "parent-icons",
+      "columns": 2,
+      "rows": 2,
+      "prompt": "Match the provided purple owl's bright HAND-ILLUSTRATED 2D CHILDREN'S CARTOON style, professional HD raster, crisp intentional outlines, cheerful purple/blue/yellow/green/red palette, simple layered matte shading with subtle texture. Not 3D, not plastic, not photo-real, not emoji, no artificial glow, no giant glossy eyes. Teaching objects must retain their real semantic identity: do NOT turn any person, animal or object in a learning sheet into an owl unless an owl is explicitly named. Create ONE transparent educational illustration SPRITE SHEET, exactly 2 columns by 2 rows, 4 separate equally sized square cells. STRICT ROW-MAJOR ORDER below. Each object/group centered inside its OWN cell, within central 68% of its cell, at least 16% transparent gutter on ALL sides. Grid aligned precisely to equal divisions of full canvas. No clipping, no objects crossing cells, no lines between cells, no cell background, no lettering or numbers, no labels, no watermark. Aspect ratio 2:2. Draw only these cells, one cell per listed item: 1. front portrait of purple owl with blue neckerchief, head and upper body; 2. front portrait of lilac owl with small pink bow, head and upper body; 3. purple and gold hourglass; 4. gold star medal with purple ribbon.",
+      "transparent": true,
+      "items": [
+        "front portrait of purple owl with blue neckerchief, head and upper body",
+        "front portrait of lilac owl with small pink bow, head and upper body",
+        "purple and gold hourglass",
+        "gold star medal with purple ribbon"
+      ],
+      "file": "parent-icons.png",
+      "width": 1254,
+      "height": 1254
+    },
+    {
+      "name": "teacher-icons",
+      "columns": 4,
+      "rows": 2,
+      "prompt": "Match the provided purple owl's bright HAND-ILLUSTRATED 2D CHILDREN'S CARTOON style, professional HD raster, crisp intentional outlines, cheerful purple/blue/yellow/green/red palette, simple layered matte shading with subtle texture. Not 3D, not plastic, not photo-real, not emoji, no artificial glow, no giant glossy eyes. Teaching objects must retain their real semantic identity: do NOT turn any person, animal or object in a learning sheet into an owl unless an owl is explicitly named. Create ONE transparent educational illustration SPRITE SHEET, exactly 4 columns by 2 rows, 8 separate equally sized square cells. STRICT ROW-MAJOR ORDER below. Each object/group centered inside its OWN cell, within central 68% of its cell, at least 16% transparent gutter on ALL sides. Grid aligned precisely to equal divisions of full canvas. No clipping, no objects crossing cells, no lines between cells, no cell background, no lettering or numbers, no labels, no watermark. Aspect ratio 4:2. Draw only these cells, one cell per listed item: 1. two little purple owls holding school books together; 2. stack of colorful school books; 3. gold star trophy; 4. violet clipboard with blank checkboxes and yellow pencil; 5. purple owl reading an open blue book; 6. purple owl beside a round purple clock; 7. three purple owls thinking together, with small empty speech bubbles; 8. open book on a stack of purple and blue books.",
+      "transparent": true,
+      "items": [
+        "two little purple owls holding school books together",
+        "stack of colorful school books",
+        "gold star trophy",
+        "violet clipboard with blank checkboxes and yellow pencil",
+        "purple owl reading an open blue book",
+        "purple owl beside a round purple clock",
+        "three purple owls thinking together, with small empty speech bubbles",
+        "open book on a stack of purple and blue books"
+      ],
+      "file": "teacher-icons.png",
+      "width": 1774,
+      "height": 887
+    },
+    {
+      "name": "report-icons",
+      "columns": 3,
+      "rows": 1,
+      "prompt": "Match the provided purple owl's bright HAND-ILLUSTRATED 2D CHILDREN'S CARTOON style, professional HD raster, crisp intentional outlines, cheerful purple/blue/yellow/green/red palette, simple layered matte shading with subtle texture. Not 3D, not plastic, not photo-real, not emoji, no artificial glow, no giant glossy eyes. Teaching objects must retain their real semantic identity: do NOT turn any person, animal or object in a learning sheet into an owl unless an owl is explicitly named. Create ONE transparent educational illustration SPRITE SHEET, exactly 3 columns by 1 rows, 3 separate equally sized square cells. STRICT ROW-MAJOR ORDER below. Each object/group centered inside its OWN cell, within central 68% of its cell, at least 16% transparent gutter on ALL sides. Grid aligned precisely to equal divisions of full canvas. No clipping, no objects crossing cells, no lines between cells, no cell background, no lettering or numbers, no labels, no watermark. Aspect ratio 3:1. Draw only these cells, one cell per listed item: 1. violet clipboard with a simple green rising bar chart, no writing; 2. gold star medal with violet and blue ribbons; 3. purple owl quietly reading an open blue book.",
+      "transparent": true,
+      "items": [
+        "violet clipboard with a simple green rising bar chart, no writing",
+        "gold star medal with violet and blue ribbons",
+        "purple owl quietly reading an open blue book"
+      ],
+      "file": "report-icons.png",
+      "width": 2172,
+      "height": 724
+    },
+    {
+      "name": "auth-reading-scene",
+      "file": "auth-reading-scene.png",
+      "prompt": "Create a NEW dedicated login illustration for a Filipino children's reading app. First reference is the OLD LOGIN SCENE and is the COMPOSITION / CONTENT reference: a friendly purple owl on a short stack of school books, a Filipino elementary-school boy sitting beside it reading a purple book, a large tree framing the upper left, flowers and a winding garden path to a small school in the distance, blue sky and gentle warm morning light. Restore that welcoming storybook scene instead of an oversized close-up owl or rainbow banner. Second reference is only the PURPLE OWL IDENTITY reference: purple body, cream face and belly, amber eyes, golden beak/feet. Render the ENTIRE scene as polished HD TWO-DIMENSIONAL CHILDREN'S BOOK ILLUSTRATION: confident clean hand-inked outlines, intentional flat color areas with just one or two simple cel-shading tones, matte colors, clean silhouettes, restrained subtle paper texture. No 3D rendering, no glossy plastic, no volumetric glow, no depth-of-field blur, no photorealistic fur/feathers, no excessive specular eye highlights, no painterly airbrushed gradients. Natural charming proportions and tidy coherent linework. Maintain rich but gentle green, sky blue, purple and warm yellow palette. Not a generic giant owl portrait. SQUARE artwork designed for a tall website side panel: put both FULL characters together in the CENTRAL 55% of the width, from about 43% to 84% of image height, with generous scenery margins. Owl to the child's left; both complete and clearly visible, owl with exactly two wings and two feet, boy with natural two hands holding a book and two legs. Large tree trunk along left margin, leafy branches overhead, open sky upper center/right, small school far right midground. Keep top-left area calm for an HTML logo overlay. No rainbow, no lettering, no logos, no watermark, no UI, no frame. Square high-resolution final illustration with clear readable forms at website sizes.",
+      "transparent": false,
+      "width": 1254,
+      "height": 1254
+    }
+  ]
+}

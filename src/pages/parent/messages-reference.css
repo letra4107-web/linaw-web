@@ -60,7 +60,7 @@
 .messages-chat-search { position:relative; z-index:1; display:flex; align-items:center; gap:10px; border-bottom:1px solid var(--messages-border); padding:10px 24px; background:var(--messages-surface); }
 .messages-chat-search input { min-width:0; flex:1; border:1px solid var(--messages-border); border-radius:8px; background:var(--messages-surface); padding:7px 10px; color:var(--messages-ink); font-size:.9em; }
 .messages-chat-search button { display:grid; place-items:center; border:0; background:transparent; color:var(--messages-ink); padding:7px; }
-.messages-conversation::before { position:absolute; z-index:0; inset:auto 0 86px; height:95px; background:url('../../assets/admin_design/sidebar-foliage-left.png') left bottom / auto 95px no-repeat; content:''; pointer-events:none; }
+.messages-conversation::before { position:absolute; z-index:0; inset:auto 0 86px; height:95px; background:url('../../assets/illustrations/owl-world/foliage.png') left bottom / auto 95px no-repeat; content:''; pointer-events:none; }
 .role-parent .parent-messages-reference .messages-chat-art { position:absolute; z-index:0; right:0; bottom:86px; display:block; width:auto; height:225px; max-width:37%; object-fit:contain; object-position:right bottom; pointer-events:none; }
 .messages-chat { position:relative; z-index:1; display:flex; min-height:0; flex:1; flex-direction:column; gap:24px; overflow-y:auto; overscroll-behavior:contain; scrollbar-width:thin; padding:16px 27px 34px; }
 .messages-date-divider { display:flex; align-items:center; gap:14px; color:var(--messages-muted); font-size:.85em; }

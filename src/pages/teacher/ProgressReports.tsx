@@ -9,8 +9,8 @@ import { buildReportRows, reportCohort, reportDistribution, reportGraph, startOf
 import type { ReportProgress, ReportRoster, ReportSession } from '../../lib/teacher/reportSummary';
 import { TeacherStudentDetails } from './TeacherStudentDetails';
 import { ReportArtwork, ReportPortrait } from './ReportArtwork';
-import classroom from '../../assets/teacher/Teacher Home Hero Banner Background.png';
-import teacher from '../../assets/teacher/Teacher Illustration.png';
+import classroom from '../../assets/illustrations/owl-world/classroom-banner.png';
+import teacher from '../../assets/illustrations/role-themes/teacher-guide.png';
 import './students-reference.css';
 import './progress-reference.css';
 
@@ -92,7 +92,7 @@ export default function ProgressReports() {
   ];
 
   return <div className="teacher-progress-design">
-    <header className="tr-hero"><img className="tr-hero-background" src={classroom} alt="" aria-hidden="true" /><div className="tr-hero-copy"><p>ULAT NG PAG-UNLAD</p><h1>Mas Maliwanag na<br /><span>Pag-unlad <BarChart3 aria-hidden /></span></h1><p>Subaybayan ang progreso ng bawat mag-aaral at<br className="tr-wide-break" /> tukuyin ang mga lugar na kailangan ng suporta.</p></div><img className="tr-hero-teacher" src={teacher} alt="" aria-hidden="true" /><blockquote>“Mas maunlad<br /> na mag-aaral,<br /> mas makabuluhang<br /> kinabukasan.”<Heart aria-hidden /><Lightbulb aria-hidden /></blockquote></header>
+    <header className="tr-hero"><img className="tr-hero-background" src={classroom} alt="" aria-hidden="true" /><div className="tr-hero-copy"><p>ULAT NG PAG-UNLAD</p><h1>Pagsusuri <BarChart3 aria-hidden /></h1><p>Subaybayan ang progreso ng bawat mag-aaral at<br className="tr-wide-break" /> tukuyin ang mga lugar na kailangan ng suporta.</p></div><img className="tr-hero-teacher" src={teacher} alt="" aria-hidden="true" /><blockquote>“Mas maunlad<br /> na mag-aaral,<br /> mas makabuluhang<br /> kinabukasan.”<Heart aria-hidden /><Lightbulb aria-hidden /></blockquote></header>
     <QueryErrorNotice error={dataError || recent.error} onRetry={() => { void roster.refetch(); if (studentIds.length) { void progress.refetch(); void recent.refetch(); } }} />
     <section className="tr-metrics" aria-label="Buod ng pag-unlad">{metrics.map(({ Icon, label, count, detail, tone, next }, index) => <button type="button" className={`tr-metric ${tone}`} key={label} disabled={pending || Boolean(dataError)} onClick={() => changeView(next)}><span className="tr-metric-icon"><Icon aria-hidden /></span><span><b>{count}</b><strong>{label}</strong><small>{detail}</small></span>{index === 0 ? <UsersRound className="tr-metric-decor" aria-hidden /> : index === 2 ? <Target className="tr-metric-decor" aria-hidden /> : <ReportArtwork item={2} className="tr-metric-reader" />}</button>)}</section>
     <section className="tr-charts">

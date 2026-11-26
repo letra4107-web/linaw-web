@@ -10,7 +10,7 @@ export default function AdminArchived() {
   const client = useQueryClient();
   const [page, setPage] = useState(1), [role, setRole] = useState(''), [date, setDate] = useState('all'), [sort, setSort] = useState('newest');
   const query = useQuery({ queryKey: ['admin-users-archived'], queryFn: () => api<{ users: ArchivedRow[] }>('/admin/users/archived', { auth: true }) });
-  const restore = useMutation({ mutationFn: (id: string) => api(`/admin/users/${id}/restore`, { method: 'POST', auth: true }), onSuccess: () => { void client.invalidateQueries({ queryKey: ['admin-users-archived'] }); void client.invalidateQueries({ queryKey: ['admin-users'] }); } });
+  const restore = useMutation({ meta: {saveFeedback:"Na-restore ang account."}, mutationFn: (id: string) => api(`/admin/users/${id}/restore`, { method: 'POST', auth: true }), onSuccess: () => { void client.invalidateQueries({ queryKey: ['admin-users-archived'] }); void client.invalidateQueries({ queryKey: ['admin-users'] }); } });
   const all = query.data?.users || [];
   const rows = all.filter(user => (!role || user.role === role) && (date === 'all' || Boolean(user.archived_at && new Date(user.archived_at).getTime() >= Date.now() - Number(date) * 86400000))).sort((a, b) => sort === 'name' ? (a.name || a.email).localeCompare(b.name || b.email) : (sort === 'oldest' ? 1 : -1) * (a.archived_at || '').localeCompare(b.archived_at || ''));
   const pages = Math.max(1, Math.ceil(rows.length / 10));

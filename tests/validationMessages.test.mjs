@@ -3,6 +3,11 @@ import assert from 'node:assert/strict';
 import { loadTs } from './helpers/load-ts.mjs';
 const { tagalogError } = loadTs('src/lib/validationMessages.ts');
 
+test('duplicate student feedback keeps the required enrollment message through repeated formatting', () => {
+  assert.equal(tagalogError({code:'STUDENT_ALREADY_EXISTS',message:'Conflict'}), 'Student already exists');
+  assert.equal(tagalogError(new Error(tagalogError('Student already exists'))), 'Student already exists');
+});
+
 test('authentication validation uses error codes and provides actionable Tagalog feedback', () => {
   const cases = [
     ['invalid_credentials', 'Mali ang email o password'],

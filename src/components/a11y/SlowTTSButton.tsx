@@ -5,7 +5,7 @@ import { needsSlowFilipinoPronunciation } from '../../lib/filipinoSyllables';
 import { playTtsSequence } from '../../lib/ttsPlayer';
 import { IconLabel } from './IconLabel';
 
-export function SlowTTSButton({ text }: { text: string }) {
+export function SlowTTSButton({ text, label = 'Bigkasin nang mabagal' }: { text: string; label?: string }) {
   const [playing, setPlaying] = useState(false);
   const [error, setError] = useState('');
   const controller = useRef<AbortController | null>(null);
@@ -23,6 +23,6 @@ export function SlowTTSButton({ text }: { text: string }) {
     catch (error) { if (!request.signal.aborted) setError(error instanceof Error ? tagalogError(error) : 'Hindi tumugtog ang tunog. Subukan muli.'); }
     finally { if (!request.signal.aborted) { controller.current = null; setPlaying(false); } }
   }} className="inline-flex min-h-11 items-center gap-2 rounded-full border border-[var(--color-border)] bg-white/70 px-3 py-1.5 text-sm hover:border-[var(--color-primary)] disabled:opacity-60">
-    <IconLabel icon="🐢" label={playing ? 'Binibigkas nang mabagal...' : 'Bigkasin nang mabagal'} />
+    <IconLabel icon="🐢" label={playing ? 'Binibigkas nang mabagal...' : label} />
   </button>{error && <span role="alert" className="text-sm text-[var(--color-danger)]">{error}</span>}</>;
 }

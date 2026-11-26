@@ -1,0 +1,77 @@
+/* One workspace grid and header rhythm for every Teacher destination. */
+.role-teacher { --teacher-sidebar-width:240px; --teacher-page-gutter:24px; }
+.role-teacher:has(.teacher-sidebar-art.is-collapsed) { --teacher-sidebar-width:76px; }
+.role-teacher .teacher-workspace.teacher-workspace {
+  min-width:0; margin-left:0; width:100%; flex:1 0 auto; padding:var(--teacher-page-gutter) !important;
+  background:var(--color-bg);
+}
+.role-teacher .teacher-home-design { min-height:0; background:transparent; }
+@media(min-width:1024px) {
+  .role-teacher .teacher-workspace.teacher-workspace {
+    margin-left:var(--teacher-sidebar-width); width:calc(100% - var(--teacher-sidebar-width));
+  }
+}
+.role-teacher .teacher-sidebar-art.dashboard-sidebar { overflow:hidden; }
+.role-teacher .teacher-sidebar-art > .teacher-sidebar-brand { flex:0 0 80px; min-height:80px; padding-inline:12px; }
+.teacher-sidebar-brand > button { width:100%; min-height:52px; }
+.teacher-sidebar-toggle { width:18px; height:18px; margin-left:auto; flex-shrink:0; opacity:.8; }
+.teacher-sidebar-art.is-collapsed .teacher-sidebar-toggle { display:none; }
+.role-teacher .teacher-sidebar-scroll {
+  display:flex; flex:1 1 auto; min-height:0; flex-direction:column;
+  overflow-y:auto; overflow-x:hidden; overscroll-behavior:contain; scrollbar-width:thin;
+  scrollbar-color:#d8c7ff70 transparent;
+}
+.role-teacher .teacher-sidebar-nav { display:flex; flex:0 0 auto; flex-direction:column; gap:6px; padding:12px; }
+.teacher-sidebar-nav > a { min-height:52px; }
+.teacher-sidebar-nav > a > span:last-child { min-width:0; overflow-wrap:anywhere; }
+.role-teacher .teacher-sidebar-art .th-sidebar-scene {
+  flex:0 0 auto; min-height:0; overflow:visible; margin-top:auto; gap:8px; padding:8px 0 4px;
+}
+.role-teacher .th-sidebar-scene blockquote { transform:none; margin:8px 12px 0; padding:14px; font-size:13px; }
+.role-teacher .teacher-sidebar-art .th-sidebar-scene > .th-art { flex:0 0 110px; height:110px; width:170px; max-width:100%; margin:0 auto; }
+.role-teacher .teacher-sidebar-art > .teacher-sidebar-account { flex:0 0 auto; margin-top:0; padding:10px 12px 12px; background:#5539a7e8; }
+.role-teacher .teacher-sidebar-art > .teacher-sidebar-account > div > button { min-height:62px; }
+.role-teacher .teacher-sidebar-art.is-collapsed .teacher-sidebar-nav { padding-inline:9px; }
+.role-teacher .teacher-sidebar-art.is-collapsed .teacher-sidebar-nav a { padding-inline:0; gap:0; }
+.role-teacher .teacher-sidebar-art.is-collapsed > .teacher-sidebar-account { padding-inline:8px; }
+.role-teacher .teacher-sidebar-art.is-collapsed .teacher-profile-trigger { padding:6px; }
+.role-teacher .teacher-sidebar-art.is-collapsed .teacher-profile-trigger > :first-child { width:40px; height:40px; }
+.role-teacher .teacher-workspace :is(.th-hero,.ts-hero,.tl-hero,.tr-hero,.tm-hero,.tn-hero,.tp-hero,.tsg-hero,.teacher-calendar-hero) {
+  min-height:236px; border:1px solid var(--color-border); border-radius:24px; margin:0;
+}
+.role-teacher .teacher-workspace :is(.th-welcome,.ts-hero-copy,.tl-hero-copy,.tr-hero-copy,.tm-hero-copy,.tn-hero-copy,.tp-hero-copy,.tsg-hero-copy,.teacher-calendar-hero-copy) {
+  padding:28px 32px; width:55%; min-width:0;
+}
+.role-teacher .teacher-workspace :is(.ts-hero,.tl-hero,.tr-hero,.tm-hero,.tn-hero,.tp-hero,.tsg-hero,.teacher-calendar-hero) h1 {
+  margin:8px 0 12px; font-size:clamp(1.8rem,2.6vw,2.65rem); font-weight:800; line-height:1.2; letter-spacing:normal;
+}
+.role-teacher .teacher-workspace :is(.ts-hero-copy,.tl-hero-copy,.tr-hero-copy,.tm-hero-copy,.tn-hero-copy,.tp-hero-copy,.tsg-hero-copy,.teacher-calendar-hero-copy) > p:first-child {
+  margin:0; font-size:12px; font-weight:800; line-height:1.5; letter-spacing:.06em;
+}
+.role-teacher .teacher-workspace :is(.ts-hero-copy,.tl-hero-copy,.tr-hero-copy,.tm-hero-copy,.tn-hero-copy,.tp-hero-copy,.tsg-hero-copy,.teacher-calendar-hero-copy) > p:last-child {
+  margin:0; max-width:34rem; font-size:14px; line-height:1.6;
+}
+.role-teacher .teacher-workspace :is(.ts-hero,.tl-hero,.tr-hero,.tm-hero,.tn-hero,.tp-hero,.tsg-hero) h1 svg { width:32px; height:32px; }
+.role-teacher .teacher-workspace .th-body { padding:18px 0 0; }
+.role-teacher .teacher-workspace .tp-left { margin-top:0; }
+.role-teacher .th-metric > div { padding-bottom:42px; }
+.role-teacher .th-metric .th-art { width:48px; height:48px; right:10px; bottom:8px; }
+.role-teacher .th-metric h2 { font-size:12px; }
+.role-teacher .th-metric p { font-size:11px; }
+@media(max-width:1199px) and (min-width:1024px) {
+  .role-teacher .teacher-workspace :is(.th-hero-note,.ts-hero blockquote,.tl-hero blockquote,.tl-hero > aside,.tr-hero blockquote,.tm-hero blockquote,.tn-hero blockquote,.tp-hero blockquote,.tsg-hero blockquote) { display:none; }
+  .role-teacher .teacher-workspace :is(.ts-hero-copy,.tl-hero-copy,.tr-hero-copy,.tm-hero-copy,.tn-hero-copy,.tp-hero-copy,.tsg-hero-copy) { width:72%; }
+}
+@media(max-width:767px) {
+  .role-teacher { --teacher-page-gutter:16px; }
+  .role-teacher .teacher-workspace :is(.th-hero,.ts-hero,.tl-hero,.tr-hero,.tm-hero,.tn-hero,.tp-hero,.tsg-hero,.teacher-calendar-hero) { min-height:210px; border-radius:20px; }
+  .role-teacher .teacher-workspace :is(.ts-hero-copy,.tl-hero-copy,.tr-hero-copy,.tm-hero-copy,.tn-hero-copy,.tp-hero-copy,.tsg-hero-copy,.teacher-calendar-hero-copy) { padding:24px; width:100%; }
+  .role-teacher .teacher-workspace :is(.ts-hero,.tl-hero,.tr-hero,.tm-hero,.tn-hero,.tp-hero,.tsg-hero,.teacher-calendar-hero) h1 { font-size:1.85rem; }
+  .role-teacher .teacher-workspace :is(.ts-hero-copy,.tl-hero-copy,.tr-hero-copy,.tm-hero-copy,.tn-hero-copy,.tp-hero-copy,.tsg-hero-copy,.teacher-calendar-hero-copy) > p:last-child { max-width:30rem; font-size:13px; }
+  .role-teacher .teacher-workspace .th-welcome { padding:76px 24px 24px; width:100%; }
+  .role-teacher .teacher-workspace .th-date { margin:0 16px 16px; }
+  .role-teacher .teacher-workspace .th-date > p { position:static; max-width:none; margin:10px 0 0; border-top:1px solid #ded8ee; padding-top:10px; padding-right:20px; font-size:12px; }
+  .role-teacher .teacher-workspace .th-date-leaf { bottom:8px; }
+}
+@media(max-height:820px) { .role-teacher .teacher-sidebar-art .th-sidebar-scene { display:none; } }
+@media(prefers-reduced-motion:reduce) { .role-teacher .teacher-sidebar-art { transition:none; } }

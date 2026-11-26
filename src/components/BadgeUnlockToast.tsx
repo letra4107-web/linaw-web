@@ -1,3 +1,4 @@
+import { AchievementArtwork } from './student/AchievementArtwork';
 import { useEffect } from 'react';
 import { PartyPopper } from 'lucide-react';
 import { findBadge } from '../lib/badges';
@@ -31,7 +32,7 @@ export function BadgeUnlockToast({ badgeIds, onDismiss }: BadgeUnlockToastProps)
             className="flex items-center gap-3 rounded-full bg-white px-4 py-2.5 shadow-raised"
             style={{ border: '2px solid var(--color-brand-sun)' }}
           >
-            <img src={badge.image} alt="" className="h-10 w-10 object-contain" />
+            <AchievementArtwork badge={badge} className="badge-toast-art" />
             <div className="text-left">
               <p className="text-xs font-semibold text-[var(--color-text-muted)]">Bagong Badge!</p>
               <p className="text-sm font-bold">{badge.title}</p>

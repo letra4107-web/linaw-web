@@ -9,8 +9,8 @@ import { DashboardShell } from '../../components/DashboardShell';
 import { IconLabel } from '../../components/a11y/IconLabel';
 import { softSignOut } from '../../lib/auth/softSignOut';
 import logo from '../../assets/Logo.jpg';
-import sidebarBackground from '../../assets/students/backgrounds/sidebar-background.png';
-import owlMascot from '../../assets/students/mascot/owl-mascot.png';
+import sidebarBackground from '../../assets/illustrations/owl-world/garden.png';
+import owlMascot from '../../assets/illustrations/owl-world/owl-mascot.png';
 import './student-dashboard.css';
 import './student-sidebar.css';
 
@@ -280,7 +280,7 @@ export default function StudentLayout() {
         <aside
           data-collapsed={collapsed}
           className={`student-sidebar dashboard-sidebar sticky top-0 hidden h-screen shrink-0 flex-col border-r border-white/35 transition-[width] duration-300 lg:flex ${collapsed ? 'w-[4.75rem]' : 'w-56'}`}
-          style={{ backgroundImage: `linear-gradient(180deg, rgba(82,98,183,.96) 0%, rgba(99,105,188,.94) 38%, rgba(146,142,219,.62) 65%, rgba(183,166,223,.52) 76%, rgba(213,190,227,.32) 100%), url(${sidebarBackground})` }}
+          style={{ backgroundImage: `linear-gradient(180deg, rgba(82,98,183,.96) 0%, rgba(99,105,188,.94) 38%, rgba(146,142,219,.62) 65%, rgba(183,166,223,.52) 76%, rgba(213,190,227,.32) 100%), url("${sidebarBackground}")` }}
         >
           <div className={`student-sidebar-logo-header flex h-16 items-center gap-2 border-b border-white/20 px-3 ${collapsed ? 'justify-center' : ''}`}>
             <button type="button" onClick={() => setCollapsed((value) => !value)} aria-label={collapsed ? 'Palawakin ang sidebar' : 'Paliitin ang sidebar'} aria-expanded={!collapsed} aria-controls="student-desktop-navigation" title={collapsed ? 'Palawakin ang sidebar' : 'Paliitin ang sidebar'} className="student-sidebar-logo-button flex min-w-0 items-center gap-2 rounded-xl p-1 text-[var(--color-text)] transition-colors hover:bg-[#FFF9EE]/60">
@@ -307,7 +307,7 @@ export default function StudentLayout() {
           </header>
 
           {mobileOpen && (
-            <div id="student-mobile-nav" className="student-mobile-nav sticky top-16 z-30 border-b border-white/35 shadow-card lg:hidden" style={{ backgroundImage: `linear-gradient(180deg, rgba(101,122,203,.78) 0%, rgba(120,134,213,.70) 28%, rgba(146,142,219,.62) 55%, rgba(183,166,223,.52) 76%, rgba(213,190,227,.32) 100%), url(${sidebarBackground})` }}>
+            <div id="student-mobile-nav" className="student-mobile-nav sticky top-16 z-30 border-b border-white/35 shadow-card lg:hidden" style={{ backgroundImage: `linear-gradient(180deg, rgba(101,122,203,.78) 0%, rgba(120,134,213,.70) 28%, rgba(146,142,219,.62) 55%, rgba(183,166,223,.52) 76%, rgba(213,190,227,.32) 100%), url("${sidebarBackground}")` }}>
               <nav aria-label="Mga bahagi ng student dashboard" className="grid grid-cols-3 gap-2 p-3">
                 {PRIMARY_TABS.map((tab) => (
                   <NavItem key={tab.to} to={tab.to} end={tab.end} icon={tab.icon} label={tab.label} collapsed={false} onNavigate={() => setMobileOpen(false)} />

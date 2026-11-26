@@ -71,18 +71,27 @@ export function useNotifications() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user?.id]);
 
-  const markAsRead = useMutation({
+  const markAsRead = useMutation({meta:{silentFeedback:true},
     mutationFn: async (id: string) => {
       await api(`/notifications/${id}/read`, { method: 'POST', auth: true });
     },
     onSuccess: () => queryClient.invalidateQueries({ queryKey }),
   });
 
-  const markAllAsRead = useMutation({
+  const markAllAsRead = useMutation({meta:{saveFeedback:"Namarkahan na bilang nabasa ang lahat ng abiso."},
+    onMutate: async () => {
+      await queryClient.cancelQueries({ queryKey });
+      const previous = queryClient.getQueryData<NotificationRow[]>(queryKey);
+      queryClient.setQueryData<NotificationRow[]>(queryKey, rows => rows?.map(row => ({ ...row, is_read: true, read: true })));
+      return { previous };
+    },
     mutationFn: async () => {
       await api('/notifications/read-all', { method: 'POST', auth: true });
     },
-    onSuccess: () => queryClient.invalidateQueries({ queryKey }),
+    onError: (_error, _variables, context) => {
+      if (context?.previous) queryClient.setQueryData(queryKey, context.previous);
+    },
+    onSettled: () => { void queryClient.invalidateQueries({ queryKey }); },
   });
 
   const notifications = parent ? (data ?? []).filter((row) => showParentInAppNotice(row, preferences)) : identity?.role==='teacher' ? (data ?? []).filter(row=>showTeacherInAppNotice(row,teacherPreferences.notices)) : data ?? [];

@@ -4,7 +4,11 @@ const DEFAULT_ERROR = 'Hindi makumpleto ang kahilingan. Suriin ang mga inilagay 
 export function tagalogError(error: unknown, fallback = DEFAULT_ERROR): string {
   const message = typeof error === 'string' ? error : error && typeof error === 'object' && 'message' in error ? String(error.message) : '';
   const code = error && typeof error === 'object' && 'code' in error ? String(error.code) : '';
+  if (code === 'STUDENT_ALREADY_EXISTS' || message.trim() === 'Student already exists') return 'Student already exists';
   if (code === 'session_not_found' || /authentication required|not authenticated/i.test(message)) return 'Mag-login muna upang magpatuloy.';
+  if (code === 'user_not_found') return 'Walang account na tumutugma sa email na ito. Suriin ang email.';
+  if (code === 'invalid_password' || /incorrect current password|current password is incorrect/i.test(message)) return 'Mali ang kasalukuyang password. Subukan muli.';
+  if (code === 'user_banned' || code === 'account_disabled') return 'Naka-disable ang account na ito. Makipag-ugnayan sa tagapangasiwa.';
   if (/invalid_credentials|invalid_grant/.test(code) || /invalid login credentials|invalid credentials|email or password is incorrect/i.test(message)) return 'Mali ang email o password. Subukan muli.';
   if (code === 'email_not_confirmed' || /email not confirmed/i.test(message)) return 'Kumpirmahin muna ang iyong email bago mag-login.';
   if (/user_already_exists|email_exists/.test(code) || /already (?:been )?registered|already exists|already in use/i.test(message)) return 'May account nang gumagamit ng email na ito. Gumamit ng ibang email o mag-login.';

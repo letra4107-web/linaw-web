@@ -1,15 +1,15 @@
 import { useEffect, useRef, type CSSProperties, type KeyboardEvent, type ReactNode } from 'react';
 import { createPortal } from 'react-dom';
 import { ArrowLeft, ArrowRight, BookOpen, Check, ChevronRight, UsersRound, X } from 'lucide-react';
-import scene from '../../assets/admin_design/linawletra-school-banner.png';
-import mascot from '../../assets/admin_design/admin-graduate-owl.png';
+import scene from '../../assets/illustrations/owl-world/school-banner.png';
+import emblem from '../../assets/illustrations/role-themes/school-management.png';
 
-export { mascot as adminOwl };
+export { emblem as adminEmblem };
 export function AdminHero({ title, description, icon, eyebrow, home = false, children }: { title: string; description: string; icon?: ReactNode; eyebrow?: string; home?: boolean; children?: ReactNode }) {
   return <header className={`admin-reference-hero ${home ? 'is-home' : ''}`}>
     <img className="admin-reference-hero__scene" src={scene} alt="" />
     <div className="admin-reference-hero__blue" />
-    <img className="admin-reference-hero__owl" src={mascot} alt="" />
+    <img className="admin-reference-hero__emblem" src={emblem} alt="" />
     <div className="admin-reference-hero__copy">{eyebrow && <p>{eyebrow}</p>}{home && <p className="admin-greeting">Good morning,</p>}<h1>{icon}{title}{home && <span className="admin-wave" aria-hidden="true">✋</span>}</h1><span>{description}</span>{children}</div>
     <svg className="admin-hero-wave" viewBox="0 0 1200 70" preserveAspectRatio="none" aria-hidden="true"><path fill="#ffbf00" d="M0 8C140 130 280-50 440 35S700 65 840 38S1060 66 1200 4V70H0Z"/><path fill="#ffde22" d="M0 27C140 136 280-26 440 49S700 72 840 49S1060 77 1200 20V70H0Z"/><path fill="#00a883" d="M190 70C310 15 370 49 460 70ZM920 70C1020 12 1110 62 1200 49V70Z"/></svg>
   </header>;
@@ -40,6 +40,8 @@ export function AdminModal({ title, onClose, children }: { title: string; onClos
     document.body.style.overflow = 'hidden';
     dialog.current?.focus();
     const keydown = (event: globalThis.KeyboardEvent) => {
+      const topDialog=document.querySelector('dialog[open]');
+      if(topDialog&&!dialog.current?.contains(topDialog))return;
       if (event.key === 'Escape') { event.preventDefault(); close.current(); }
       if (event.key !== 'Tab') return;
       const controls = Array.from(dialog.current?.querySelectorAll<HTMLElement>('button:not(:disabled),input:not(:disabled),textarea:not(:disabled),select:not(:disabled),a[href]') || []).filter(element => element.getClientRects().length);

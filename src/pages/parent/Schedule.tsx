@@ -6,11 +6,11 @@ import { Link, useSearchParams } from 'react-router-dom';
 import { api } from '../../lib/api';
 import { supabase } from '../../lib/supabaseClient';
 import { useAuth } from '../../lib/auth/AuthContext';
-import noActivitiesArt from '../../assets/parent/no activities.png';
-import scheduleMotivationArt from '../../assets/students/profile/waving-student.png';
-import calendarBanner from '../../assets/parent/calendar-family-planner.png';
+import noActivitiesArt from '../../assets/illustrations/owl-world/clock-calendar.png';
+import scheduleMotivationArt from '../../assets/illustrations/role-themes/young-reader.png';
+import calendarBanner from '../../assets/illustrations/role-themes/family-banner.png';
 import { ParentHomeArtwork } from './ParentHomeArtwork';
-import reminderFoliage from '../../assets/admin_design/sidebar-foliage-left.png';
+import reminderFoliage from '../../assets/illustrations/owl-world/foliage.png';
 import './calendar-reference.css';
 import './calendar-overview-reference.css';
 
@@ -107,7 +107,7 @@ export default function Schedule() {
           return {id:item.id,child_id:item.student_id,title:item.title,description:item.description,scheduled_date:local.slice(0,10),start_time:local.slice(11,16),end_time:null,activity_type:'reminder',status:item.status==='completed'?'completed':'scheduled',read_only:true,created_by:'teacher'} as Activity;
         });
       }));
-      return [...(data as Activity[]),...deadlines.flat()].sort((a,b)=>(a.scheduled_date+(a.start_time??'')).localeCompare(b.scheduled_date+(b.start_time??'')));
+      return [...(data as Activity[]).map(item=>({...item,read_only:item.created_by!=='parent'})),...deadlines.flat()].sort((a,b)=>(a.scheduled_date+(a.start_time??'')).localeCompare(b.scheduled_date+(b.start_time??'')));
     },
     enabled: Boolean(user) && childrenQuery.isSuccess,
   });
@@ -152,6 +152,8 @@ export default function Schedule() {
     onSettled: () => { updatePendingRef.current = false; },
   });
   const mutationPending = save.isPending || update.isPending;
+  const editingActivity=scheduleQuery.data?.find(item=>item.id===editingId);
+  const formChanged=!editingId?!!form.title.trim():!!editingActivity&&(form.title.trim()!==editingActivity.title.trim()||form.description.trim()!==(editingActivity.description||'').trim()||form.activity_type!==editingActivity.activity_type||form.scheduled_date!==editingActivity.scheduled_date||form.start_time!==(editingActivity.start_time||'').slice(0,5)||form.end_time!==(editingActivity.end_time||'').slice(0,5));
 
   const today = toKey(new Date());
   const days = dateRange(anchor, mode);
@@ -214,7 +216,7 @@ export default function Schedule() {
     setShowForm(false);
   }
   function submitForm() {
-    if (savePendingRef.current || updatePendingRef.current) return;
+    if (!formChanged||!form.title.trim()||savePendingRef.current || updatePendingRef.current) return;
     savePendingRef.current = true;
     setSavedNotice('');
     save.mutate({ childId: activeChildId, authUid: user?.id ?? '', form: Object.freeze({ ...form }), editingId });
@@ -266,7 +268,7 @@ export default function Schedule() {
             <label>Oras ng Pagtatapos<input type="time" disabled={mutationPending} value={form.end_time} onChange={(event) => setForm({ ...form, end_time: event.target.value })} /></label>
             <label className="calendar-description-field">Mga Detalye <small>(opsyonal)</small><textarea maxLength={1000} rows={2} disabled={mutationPending} value={form.description} onChange={(event) => setForm({ ...form, description: event.target.value })} /></label>
             {save.error && <p className="calendar-error" role="alert">{tagalogError(save.error)}</p>}
-            <div className="calendar-form-actions"><button type="button" disabled={mutationPending} onClick={closeForm}>Kanselahin</button><button type="submit" disabled={mutationPending}>{save.isPending ? 'Sine-save…' : 'I-save ang Aktibidad'}</button></div>
+            <div className="calendar-form-actions"><button type="button" disabled={mutationPending} onClick={closeForm}>Kanselahin</button><button type="submit" disabled={mutationPending||!formChanged||!form.title.trim()}>{save.isPending ? 'Sine-save…' : 'I-save ang Aktibidad'}</button></div>
           </form>}
           <div className="calendar-details-filter"><span>{selectedDate ? formatDate(selectedDate, { weekday: 'long', month: 'short', day: 'numeric', year: 'numeric' }) : mode === 'Buwan' ? dateLabel : `Mga aktibidad sa ${mode.toLowerCase()}`}</span>{selectedDate && <button type="button" onClick={() => { setSelectedDate(null); setDetailId(null); }}>Buong {mode.toLowerCase()} <X size={12} /></button>}</div>
           {savedNotice && <p className="calendar-saved" role="status">{savedNotice}</p>}
@@ -277,7 +279,7 @@ export default function Schedule() {
               {!displayedActivities.length && <tr><td colSpan={6}><div className="calendar-no-data"><img src={noActivitiesArt} alt="" /><div><strong>{scheduleQuery.isLoading || childrenQuery.isLoading ? 'Kinukuha ang iyong iskedyul…' : activeChildId ? 'May puwang para sa bagong pagkatuto.' : 'Simulan ang reading journey.'}</strong><p>{activeChildId ? 'Wala pang aktibidad sa panahong ito. Magdagdag ng maikling oras para sa pagbasa o practice.' : 'Mag-enroll muna ng anak upang gumawa ng kanyang iskedyul.'}</p>{activeChildId ? <button type="button" disabled={mutationPending} onClick={openForm}>Magplano ng aktibidad <Plus size={14} /></button> : <Link to="/parent/children?enroll=1">Magdagdag ng Anak <ChevronRight size={14} /></Link>}</div></div></td></tr>}
             </tbody></table>
           </div>
-          {detail && <div className="calendar-activity-detail"><button type="button" aria-label="Isara ang detalye" onClick={() => setDetailId(null)}><X size={17} /></button><h3>{detail.title}</h3>{detail.created_by==='parent'&&!detail.read_only&&<button type="button" onClick={()=>{setEditingId(detail.id);setForm({activity_type:detail.activity_type,title:detail.title,description:detail.description??'',scheduled_date:detail.scheduled_date,start_time:detail.start_time??'',end_time:detail.end_time??''});setShowForm(true);}}>I-edit ang Aktibidad</button>}{detail.read_only&&<p>Deadline mula sa guro · Oras sa Pilipinas</p>}<p><CalendarDays size={15} />{formatDate(detail.scheduled_date)}<Clock3 size={15} />{activityTime(detail)}</p>{detail.description && <p>{detail.description}</p>}</div>}
+          {detail && <div className="calendar-activity-detail"><button type="button" aria-label="Isara ang detalye" onClick={() => setDetailId(null)}><X size={17} /></button><h3>{detail.title}</h3>{detail.created_by==='parent'&&!detail.read_only&&<button type="button" onClick={()=>{setEditingId(detail.id);setForm({activity_type:detail.activity_type,title:detail.title,description:detail.description??'',scheduled_date:detail.scheduled_date,start_time:detail.start_time??'',end_time:detail.end_time??''});setShowForm(true);}}>I-edit ang Aktibidad</button>}{detail.read_only&&<p>Iskedyul / deadline mula sa guro · Oras sa Pilipinas</p>}<p><CalendarDays size={15} />{formatDate(detail.scheduled_date)}<Clock3 size={15} />{activityTime(detail)}</p>{detail.description && <p>{detail.description}</p>}</div>}
         </section>
       </div>
       <aside className="calendar-reference-side">

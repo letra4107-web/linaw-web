@@ -15,7 +15,7 @@ body[data-font="default"] .student-home-reference, body[data-font="default"] .st
 .home-purple-button { display: inline-flex; min-height: 2.9rem; align-items: center; justify-content: center; gap: .65rem; border: 1px solid #8861e5; border-radius: 99px; padding: .65rem 1.15rem; background: linear-gradient(145deg,#8052e5,#6536cb); color: #fff; font-weight: 700; box-shadow: 0 4px 8px #7844cf25, inset 0 1px 2px #ffffff45; text-decoration: none; transition: transform 150ms, box-shadow 150ms; }
 .home-purple-button:hover { transform: translateY(-2px); box-shadow: 0 6px 12px #7844cf35; }
 .home-purple-button:disabled { opacity: .65; cursor: wait; }
-.home-welcome { position: relative; display: flex; min-height: 16.95rem; align-items: center; border: 1px solid #d3e9b8; border-radius: 1.45rem; background: url('../../assets/students/home/welcome-schoolyard.png') center / cover; box-shadow: 0 4px 10px #5e73590a; }
+.home-welcome { position: relative; display: flex; min-height: 16.95rem; align-items: center; border: 1px solid #d3e9b8; border-radius: 1.45rem; background: url('../../assets/illustrations/owl-world/student-banner.png') center / cover; box-shadow: 0 4px 10px #5e73590a; }
 .home-welcome-copy { position: relative; z-index: 1; width: 48%; margin-left: 19.5%; padding: 1.25rem 0; }
 .home-welcome-copy > p { padding-left: .15rem; color: #21125c; font-size: 1.85em; font-weight: 700; line-height: 1.25; text-shadow: 0 1px 3px #fff; }
 .home-welcome-copy h1 { color: #3d189b; font-size: clamp(2rem,4.15vw,3.1rem); line-height: 1.2; font-weight: 900; letter-spacing: -.02em; text-shadow: 0 2px 2px #ffffffbc; }
@@ -44,7 +44,7 @@ body[data-font="default"] .student-home-reference, body[data-font="default"] .st
 .home-tone-sky .home-number-icon svg { color:#1398ed; fill:#81d5ff; }
 .home-tone-mint { --home-stat-bg:#edfbed; --home-stat-border:#d6efd7; --home-stat-circle:#cef4cc; --home-stat-color:#167831; }
 .home-tone-mint .home-number-icon svg { color:#159c34; }
-.home-word-card { position: relative; min-width: 0; min-height: 21.4rem; overflow: hidden; border: 1px solid #d3e6b4; border-radius: 1.4rem; padding: .15rem 1.1rem .5rem; background: url('../../assets/students/home/word-woodland.png') center / cover; box-shadow: 0 4px 10px #6d6e3608; }
+.home-word-card { position: relative; min-width: 0; min-height: 21.4rem; overflow: hidden; border: 1px solid #d3e6b4; border-radius: 1.4rem; padding: .15rem 1.1rem .5rem; background: url('../../assets/illustrations/owl-world/garden.png') center / cover; box-shadow: 0 4px 10px #6d6e3608; }
 .home-word-heading { position: relative; z-index: 1; display: flex; align-items: center; gap: .65rem; padding: .2rem .3rem; }
 .home-word-heading > div { padding: .05rem .25rem; border-radius: .7rem; background: #effdffb3; }
 .home-word-heading h2 { color: #201260; font-size: 1.65em; }

@@ -20,7 +20,7 @@ export function loadTs(relative, overrides = {}, globals = {}, { transformSource
   const module = { exports: {} };
   vm.runInNewContext(source, { module, exports: module.exports, console, ...globals, require(name) {
     if (Object.hasOwn(overrides, name)) return overrides[name];
-    if (/\.(png|jpg|css)$/.test(name)) return 'test-asset';
+    if (/\.(png|jpg|svg|css)$/.test(name)) return 'test-asset';
     return actualRequire(name);
   } }, { filename: executedFilename });
   return module.exports;

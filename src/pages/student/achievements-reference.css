@@ -86,3 +86,24 @@ html:is([data-theme="dark"],[data-theme="high-contrast"]) .student-achievements-
 @media(prefers-reduced-motion:reduce) { .student-achievements-reference * { transition:none!important; animation:none!important; } }
 
 .achievement-card.is-locked .achievement-art{filter:grayscale(1);opacity:.5}.achievement-card.is-locked{background:#f0f1f3;color:#59616e}.achievement-card.is-locked .achievement-xp{background:#e1e4e9;color:#59616e}
+
+.achievements-summary { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:1rem; }
+.achievements-summary button { display:flex; min-width:0; flex-direction:column; align-items:center; gap:.5rem; padding:1.2rem .75rem; border:2px solid #d6c5f5; border-radius:1.2rem; background:#fff; color:#51398d; font:inherit; text-align:center; cursor:pointer; }
+.achievements-summary strong { display:block; font-size:1.4rem; }
+.achievements-summary small { font-size:.85rem; }
+.achievements-summary button:hover { background:#f1e9ff; }
+.achievement-detail-button, .achievement-dialog-back { display:inline-flex; min-height:48px; align-items:center; justify-content:center; border:0; border-radius:14px; padding:.7rem 1rem; background:#6943bc; color:#fff; font:inherit; font-weight:700; cursor:pointer; }
+.achievement-detail-button { width:100%; margin-top:.8rem; }
+.achievement-dialog { position:fixed; inset:0; width:min(92vw,36rem); max-height:85dvh; margin:auto; padding:1.5rem; overflow:auto; border:2px solid #b89bdc; border-radius:1.5rem; background:#fffdf6; color:#382754; box-shadow:0 24px 80px #26104b44; }
+.achievement-dialog::backdrop { background:#20143999; }
+.achievement-dialog h2 { margin:1rem 0!important; font-size:1.5rem; font-weight:800; }
+.achievement-dialog p { margin:.8rem 0!important; line-height:1.7; }
+.achievement-dialog .achievement-art { width:9rem; height:9rem; margin:auto; }
+.achievement-dialog ul { padding-left:1.5rem; list-style:disc; line-height:2; }
+.achievement-dialog a { display:inline-flex; min-height:44px; align-items:center; color:#57339b; text-decoration:underline; }
+.student-achievements-reference button:focus-visible { outline:3px solid #d4971b; outline-offset:4px; }
+.achievements-summary button:disabled { opacity:.6; cursor:default; }
+@media(max-width:850px) { .achievements-summary { grid-template-columns:repeat(2,minmax(0,1fr)); } }
+
+.achievement-emblem-button { display:block; width:100%; border:0; padding:0; background:transparent; cursor:pointer; }
+.achievement-emblem-button .achievement-art { margin-inline:auto; }

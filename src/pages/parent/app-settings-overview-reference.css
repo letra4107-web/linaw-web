@@ -83,7 +83,7 @@
 .ap-theme-check { position:absolute; top:11px; right:9px; display:grid; width:26px; height:26px; place-items:center; border:2px solid #fff; border-radius:50%; background:#00a08b; color:#fff; }
 .ap-theme-check svg { width:18px; height:18px; }
 .ap-language { overflow:hidden; }
-.ap-language::after,.ap-data::after,.ap-security::after { position:absolute; z-index:0; top:0; right:0; width:105px; height:95px; background:url('../../assets/admin_design/sidebar-foliage-left.png') right top / 110px auto no-repeat; opacity:.18; content:''; pointer-events:none; }
+.ap-language::after,.ap-data::after,.ap-security::after { position:absolute; z-index:0; top:0; right:0; width:105px; height:95px; background:url('../../assets/illustrations/owl-world/foliage.png') right top / 110px auto no-repeat; opacity:.18; content:''; pointer-events:none; }
 .ap-language-select { position:relative; z-index:1; display:flex; align-items:center; gap:10px; margin-top:13px; border:1px solid var(--ap-line); border-radius:14px; background:var(--ap-surface); padding:10px 13px; }
 .ap-language-flag { width:24px; height:24px; flex-shrink:0; overflow:hidden; border-radius:50%; }
 .ap-language-select select { min-width:0; width:100%; border:0; appearance:none; background:transparent; padding-right:18px; color:var(--ap-ink); font-size:.95em; font-weight:700; cursor:pointer; }
@@ -202,3 +202,5 @@ body[data-font="dyslexic"] .parent-app-preferences .ap-outline { white-space:nor
 :root[data-theme="high-contrast"] .parent-app-preferences .ap-theme-card { border-color:#000; color:#000; }
 :root[data-theme="high-contrast"] .parent-app-preferences .ap-switch { outline:1px solid #000; }
 @media (prefers-reduced-motion:reduce) { .parent-app-preferences *, .parent-app-preferences *::before { transition:none !important; animation:none !important; scroll-behavior:auto !important; } }
+
+.ap-theme-card:disabled{cursor:default}.ap-theme-card.selected:disabled{opacity:1}.ap-theme-card:disabled:not(.selected){opacity:.6}

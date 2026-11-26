@@ -1,7 +1,9 @@
+import {showFormFeedback} from '../../lib/formFeedback';
 import { tagalogError } from '../../lib/validationMessages';
 import { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { supabase } from '../../lib/supabaseClient';
+import { api } from '../../lib/api';
+import { Link } from 'react-router-dom';
 import {
   AuthShell,
   ButtonSpinner,
@@ -30,10 +32,11 @@ export default function ResetPassword() {
       setError('Ilagay ang email na ginamit sa pag-reset.');
       return;
     }
-    if (code.length < 6) {
+    if (!/^(?:\d{6}|\d{8})$/.test(code)) {
       setError("Ilagay ang code sa pagpapatunay mula sa email.");
       return;
     }
+    if (/\s/.test(password)) { setError('Hindi maaaring may espasyo ang password.'); return; }
     if (password.length < 8 || !/[A-Z]/.test(password) || !/[0-9]/.test(password)) {
       setError("Kailangang may hindi bababa sa 8 karakter, malaking letra, at numero ang password.");
       return;
@@ -45,14 +48,8 @@ export default function ResetPassword() {
     setError(null);
     setSubmitting(true);
     try {
-      const { error: verifyError } = await supabase.auth.verifyOtp({
-        email: cleanEmail,
-        token: code,
-        type: 'recovery',
-      });
-      if (verifyError) throw verifyError;
-      const { error: updateError } = await supabase.auth.updateUser({ password });
-      if (updateError) throw updateError;
+      await api('/auth/complete-password-reset',{method:'POST',body:{email:cleanEmail,code,password}});
+      showFormFeedback('Matagumpay na napalitan ang iyong password. Mag-login gamit ang bagong password.');
       navigate('/login', { replace: true });
     } catch (err) {
       setError(err instanceof Error ? tagalogError(err) : 'Hindi na-reset ang password. Humiling ulit ng code.');
@@ -70,7 +67,7 @@ export default function ResetPassword() {
       <form onSubmit={onSubmit} className="flex flex-col gap-4" noValidate>
         <div>
           <label htmlFor="email" className="mb-2 block text-base font-medium">Email</label>
-          <IconInput id="email" icon="âœ‰ï¸" type="email" required value={email} onChange={(event) => { setEmail(event.target.value); setError(null); }} autoComplete="email" />
+          <IconInput id="email" icon="✉" type="email" required value={email} onChange={(event) => { setEmail(event.target.value); setError(null); }} autoComplete="email" />
         </div>
         <div>
           <label htmlFor="code" className="mb-2 block text-base font-medium">Verification code</label>
@@ -96,10 +93,11 @@ export default function ResetPassword() {
             autoComplete="new-password"
           />
         </div>
+        <p>Para sa student username, tingnan ang inbox ng naka-link na magulang. <Link to="/forgot-password">Humiling ulit ng code</Link></p>
         <FieldError message={error ?? undefined} />
         <button type="submit" disabled={submitting} className={primaryButtonClass}>
           {submitting && <ButtonSpinner />}
-          {submitting ? 'Sine-save...' : 'I-save ang password'}
+          <span>{submitting ? 'Sine-save...' : 'I-save ang password'}</span>
         </button>
       </form>
     </AuthShell>

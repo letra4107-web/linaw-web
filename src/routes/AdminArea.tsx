@@ -1,4 +1,5 @@
 import { lazy, Suspense } from 'react';
+import { loadRoute } from '../lib/loadRoute';
 import { Route, Routes } from 'react-router-dom';
 import { ProtectedRoute } from '../components/ProtectedRoute';
 import AdminLayout from '../pages/admin/AdminLayout';
@@ -14,7 +15,7 @@ import RoleMonitoring from '../pages/admin/RoleMonitoring';
 import Sections from '../pages/admin/Sections';
 import NotFound from '../pages/NotFound';
 
-const Analytics = lazy(() => import('../pages/admin/Analytics'));
+const Analytics = lazy(() => loadRoute(() => import('../pages/admin/Analytics')));
 
 export default function AdminArea() {
   return <Routes><Route element={<ProtectedRoute role="admin"><AdminLayout /></ProtectedRoute>}>

@@ -114,7 +114,7 @@ body[data-font='default'] .assessment-result h2 { font-family:'Assessment Baloo'
 .assessment-result .assessment-primary { margin-top:5px; }
 .assessment-spinner { animation:assessment-spin 1.3s linear infinite; }
 @keyframes assessment-spin { to { transform:rotate(360deg); } }
-.assessment-garden-corners { position:absolute; z-index:0; right:-60px; bottom:-52px; left:-85px; height:240px; background:url('../../assets/students/assessment-reference/garden-corners.png') center bottom/100% auto no-repeat; pointer-events:none; }
+.assessment-garden-corners { position:absolute; z-index:0; right:-60px; bottom:-52px; left:-85px; height:240px; background:url('../../assets/illustrations/owl-world/foliage.png') center bottom/100% auto no-repeat; pointer-events:none; }
 
 @media(min-width:1550px) { .assessment-hero { min-height:225px; } .assessment-hero-copy { min-height:225px; } }
 @media(max-width:1199px) { .role-student:has(.student-assessment-reference) .student-main-content { padding:1rem 1.5rem 3rem; } .assessment-hero-copy { padding-left:5%; width:48%; } .assessment-hero h1 { font-size:2.85em; } .assessment-cloud { width:130px; opacity:.55; } .assessment-choices { gap:13px; } .assessment-choice > span { font-size:5.7em; } }

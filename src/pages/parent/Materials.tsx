@@ -5,8 +5,8 @@ import { BookOpen, CheckCircle2, ChevronDown, Download, FileText, Heart, Lightbu
 import { Link, useSearchParams } from 'react-router-dom';
 import { api } from '../../lib/api';
 import { useAuth } from '../../lib/auth/AuthContext';
-import parentBackground from '../../assets/parent/parent-bg.png';
-import readingArt from '../../assets/parent/reading.png';
+import parentBackground from '../../assets/illustrations/owl-world/garden.png';
+import readingArt from '../../assets/illustrations/role-themes/parent-family.png';
 import './materials-reference.css';
 
 interface Child { id: string; name: string; grade_level: number; }

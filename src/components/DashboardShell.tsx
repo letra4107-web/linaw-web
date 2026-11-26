@@ -1,4 +1,5 @@
-import type { ReactNode } from 'react';
+import { useLayoutEffect, useRef, type ReactNode } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { signOutWithAudit } from '../lib/auth/authEvents';
 import { useAuth } from '../lib/auth/AuthContext';
 import logo from '../assets/Logo.jpg';
@@ -29,7 +30,40 @@ export function DashboardShell({
   bgImage,
   roleTheme,
 }: DashboardShellProps) {
-  const { identity } = useAuth();
+  const { identity, user } = useAuth();
+  const location = useLocation();
+  const navigate = useNavigate();
+  const didResume = useRef(false);
+
+  // Keep each signed-in role at its last dashboard page after a reload. The
+  // current location is still saved normally as the user navigates.
+  useLayoutEffect(() => {
+    if (!roleTheme || !user?.id) return;
+    const root = `/${roleTheme}`;
+    const key = `linaw-dashboard-last-page:${user.id}:${roleTheme}`;
+    const current = `${location.pathname}${location.search}${location.hash}`;
+
+    if (!didResume.current) {
+      didResume.current = true;
+      if (location.pathname === root) {
+        try {
+          const saved = sessionStorage.getItem(key);
+          if (saved?.startsWith(`${root}/`)) {
+            navigate(saved, { replace: true });
+            return;
+          }
+        } catch {
+          // Keep dashboard navigation usable when browser storage is disabled.
+        }
+      }
+    }
+
+    try {
+      sessionStorage.setItem(key, current);
+    } catch {
+      // Route state remains in the URL even when browser storage is disabled.
+    }
+  }, [location.hash, location.pathname, location.search, navigate, roleTheme, user?.id]);
 
   const bgStyle = bgImage
     ? { backgroundImage: `url(${bgImage})`, backgroundRepeat: 'repeat', backgroundSize: '600px auto' }
