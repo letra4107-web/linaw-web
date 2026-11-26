@@ -10,6 +10,10 @@ site="${SITE_URL%/}"
 probe_name="linaw-deploy-probe-${GITHUB_SHA:-manual}-${RANDOM}.txt"
 probe_value="${GITHUB_SHA:-manual}-${RANDOM}-${RANDOM}"
 probe_file="${RUNNER_TEMP:-/tmp}/${probe_name}"
+if [[ ! "$probe_file" =~ ^[A-Za-z0-9_./-]+$ ]]; then
+  echo 'The temporary probe path must contain only FTP-safe path characters.' >&2
+  exit 1
+fi
 printf '%s' "$probe_value" > "$probe_file"
 
 # Each transfer can reconnect independently instead of restarting the build upload.
@@ -31,7 +35,7 @@ ftp_commands() {
 cleanup() {
   # Delete only this deployment's uniquely named probe, never website files.
   for candidate in . public_html; do
-    ftp_commands "set net:timeout 5; set net:max-retries 1; cd \"$candidate\"; rm \"$probe_name\";" >/dev/null 2>&1 || true
+    ftp_commands "set net:timeout 5; set net:max-retries 1; cd $candidate; rm $probe_name;" >/dev/null 2>&1 || true
   done
   rm -f -- "$probe_file"
 }
@@ -41,7 +45,7 @@ trap cleanup EXIT
 # existing folder is public rather than creating another public_html directory.
 destination=''
 for candidate in . public_html; do
-  if ftp_commands "cd \"$candidate\"; put \"$probe_file\" -o \"$probe_name\";"; then
+  if ftp_commands "cd $candidate; put $probe_file -o $probe_name;"; then
     for attempt in 1 2 3; do
       if actual="$(curl --fail --silent --max-time 15 "$site/$probe_name?check=$attempt")" && [[ "$actual" == "$probe_value" ]]; then
         destination="$candidate"
@@ -63,7 +67,7 @@ echo "Verified public FTP directory: $destination"
 # hashed assets and Hostinger-owned files; publish the entry page only at the end.
 for attempt in 1 2 3; do
   if ftp_commands "
-    cd \"$destination\";
+    cd $destination;
     mirror --reverse --continue --parallel=1 --no-perms --verbose=1 --exclude-glob index.html --exclude-glob .ftp-deploy-sync-state.json dist .;
     put dist/index.html -o index.html;
   "; then
